@@ -941,6 +941,34 @@
     body.theme-day #creator-debug-panel p {
       color: #475569 !important;
     }
+    body.theme-day #user-suspended-banner {
+      background-color: #E11D48 !important;
+      color: #FFFFFF !important;
+    }
+    body.theme-day #settings-feedback-card {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+    }
+    body.theme-day #settings-feedback-card h4 {
+      color: #0F172A !important;
+    }
+    body.theme-day #settings-feedback-card p {
+      color: #64748B !important;
+    }
+    body.theme-day .admin-subcard {
+      background-color: #F8FAFC !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.theme-day .admin-subcard strong,
+    body.theme-day .admin-subcard span.text-white {
+      color: #0F172A !important;
+    }
+    body.theme-day .admin-subcard div.bg-slate-950\/70 {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #1E293B !important;
+    }
 
     @media print {
       body { background: white !important; color: black !important; padding: 0 !important; }
@@ -980,6 +1008,17 @@
         <i data-lucide="wifi" class="w-3.5 h-3.5 text-slate-300"></i>
         <i data-lucide="battery" class="w-4 h-4 text-slate-300"></i>
       </div>
+    </div>
+
+    <!-- Suspended User Alert Banner (NO EMOJIS) -->
+    <div id="user-suspended-banner" class="hidden bg-rose-600 text-white px-3 py-2 text-xs font-bold flex items-center justify-between z-40 border-b border-rose-700">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <i data-lucide="shield-alert" class="w-4 h-4 shrink-0 text-white"></i>
+        <span class="truncate">서비스 이용 제한 상태 (본인 확인 및 관리자 문의 필요)</span>
+      </div>
+      <button onclick="alert('[이용 제한 안내]\n관리자에 의해 서비스 이용이 제한되었습니다.\n문의: 리드매스 관리자')" class="bg-rose-800 hover:bg-rose-900 text-white text-[10px] px-2 py-0.5 rounded font-extrabold shrink-0">
+        상세 보기
+      </button>
     </div>
 
     <!-- MAIN SCREEN VIEWS CONTAINER -->
@@ -1638,8 +1677,27 @@
           </div>
         </div>
 
+        <!-- Student Feedback & Problem Report Section (NO EMOJIS) -->
+        <div id="settings-feedback-card" class="rounded-xl p-3.5 bg-slate-900 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-black text-white">건의사항 및 문제 신고</h4>
+                <p class="text-[10px] text-slate-400">풀이 오류 신고 및 개선 제안</p>
+              </div>
+            </div>
+            <button onclick="openFeedbackModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs flex items-center gap-1 shadow-sm transition">
+              <i data-lucide="send" class="w-3 h-3"></i>
+              <span>의견 접수</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Creator (Admin) Secret Debug Panel -->
-        <div id="creator-debug-panel" class="hidden bg-slate-950 border-2 border-indigo-500/60 rounded-xl p-3.5 space-y-2.5">
+        <div id="creator-debug-panel" class="hidden bg-slate-950 border-2 border-indigo-500/60 rounded-xl p-3.5 space-y-3.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-indigo-300 flex items-center gap-1.5">
               <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400"></i> 제작자(Admin) 전용 관리 패널
@@ -1647,8 +1705,9 @@
             <span class="text-[9px] bg-indigo-900/80 text-indigo-200 px-1.5 py-0.5 rounded font-bold">비공개 권한</span>
           </div>
           <p class="text-[10px] text-slate-400 leading-tight">
-            프로그램 제작자 전용 디버그 패널입니다. 상단 로고(ReadMath) 3회 클릭 후 비밀번호 인증으로 활성화되었습니다.
+            대표 관리자 전용 통제 센터입니다. 가입 학생 정보 관리, 부정 가입자 이용 제한(차단), 학생 건의사항 접수함을 통합 관리합니다.
           </p>
+
           <div class="grid grid-cols-2 gap-2">
             <button onclick="setUserRole('student')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1 shadow-sm">
               <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> 학생 모드로 보기
@@ -1657,7 +1716,71 @@
               <i data-lucide="book-open" class="w-3.5 h-3.5"></i> 선생님 모드로 보기
             </button>
           </div>
-          <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
+
+          <!-- SECTION 1: Registered Students & Access Control -->
+          <div class="border-t border-slate-800 pt-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span class="text-xs font-extrabold text-white">가입 학생 관리 및 이용 권한 통제</span>
+              </div>
+              <span id="admin-user-count-badge" class="text-[10px] text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded font-bold">
+                총 0명
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-400">
+              * 개인정보 미확인 또는 부정 이용자는 즉시 [이용 제한]으로 서비스 접근을 차단할 수 있습니다.
+            </p>
+
+            <!-- Student List Container -->
+            <div id="admin-user-list-container" class="space-y-2 max-h-60 overflow-y-auto pr-0.5">
+              <!-- Rendered via renderAdminUserList() -->
+            </div>
+
+            <!-- Manual Add Student Form -->
+            <div class="admin-subcard bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 space-y-2 text-xs">
+              <span class="text-[11px] font-bold text-indigo-300 block">신규 학생 수동 등록</span>
+              <div class="grid grid-cols-2 gap-1.5">
+                <input type="text" id="admin-add-name" placeholder="학생 성명" class="bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-white placeholder-slate-500" />
+                <input type="text" id="admin-add-school" placeholder="소속 학교" class="bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-white placeholder-slate-500" />
+              </div>
+              <div class="grid grid-cols-2 gap-1.5">
+                <select id="admin-add-grade" class="bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-white">
+                  <option value="초1">초1</option><option value="초2">초2</option><option value="초3">초3</option>
+                  <option value="초4">초4</option><option value="초5">초5</option><option value="초6">초6</option>
+                  <option value="중1">중1</option><option value="중2">중2</option><option value="중3">중3</option>
+                  <option value="고1" selected>고1</option><option value="고2">고2</option><option value="고3/N수">고3/N수</option>
+                </select>
+                <input type="tel" id="admin-add-phone" placeholder="010-0000-0000" class="bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-white placeholder-slate-500" />
+              </div>
+              <button onclick="adminAddStudentManual()" class="w-full bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold py-1.5 rounded text-xs flex items-center justify-center gap-1 transition">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> 학생 등록 추가
+              </button>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Student Feedback & Reports Inbox -->
+          <div class="border-t border-slate-800 pt-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="inbox" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span class="text-xs font-extrabold text-white">학생 건의사항 및 문제 신고 접수함</span>
+              </div>
+              <span id="admin-feedback-count-badge" class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded font-bold">
+                접수 0건
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-400">
+              * 학생들이 제출한 문제 오류 및 개선 아이디어를 확인하고 처리 상태를 관리합니다.
+            </p>
+
+            <!-- Feedback List Container -->
+            <div id="admin-feedback-list-container" class="space-y-2 max-h-56 overflow-y-auto pr-0.5">
+              <!-- Rendered via renderAdminFeedbackList() -->
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
             <button onclick="loadSampleDataForCreator()" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold py-1.5 rounded-lg text-[11px] flex items-center justify-center gap-1">
               <i data-lucide="database" class="w-3 h-3"></i> 샘플 문제 채우기
             </button>
@@ -1934,26 +2057,39 @@
         <div id="login-content-student" class="space-y-3">
           <p class="text-xs text-slate-300">혼자서도 막힘없는 1:1 시각적 수학 공부 &amp; 오답노트 보관</p>
           <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 이름 / 닉네임:</label>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 성명 (실명):</label>
             <input type="text" id="student-signup-name" value="김리드" placeholder="예: 김민준" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">내 학년 선택:</label>
-            <select id="student-signup-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
-              <option value="초1">초등학교 1학년</option>
-              <option value="초2">초등학교 2학년</option>
-              <option value="초3">초등학교 3학년</option>
-              <option value="초4">초등학교 4학년</option>
-              <option value="초5">초등학교 5학년</option>
-              <option value="초6">초등학교 6학년</option>
-              <option value="중1">중학교 1학년</option>
-              <option value="중2">중학교 2학년</option>
-              <option value="중3">중학교 3학년</option>
-              <option value="고1" selected>고등학교 1학년</option>
-              <option value="고2">고등학교 2학년</option>
-              <option value="고3/N수">고3 / N수</option>
-            </select>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">소속 학교명:</label>
+            <input type="text" id="student-signup-school" value="대치중학교" placeholder="예: 대치중학교, 연세고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
           </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">내 학년 선택:</label>
+              <select id="student-signup-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                <option value="초1">초등학교 1학년</option>
+                <option value="초2">초등학교 2학년</option>
+                <option value="초3">초등학교 3학년</option>
+                <option value="초4">초등학교 4학년</option>
+                <option value="초5">초등학교 5학년</option>
+                <option value="초6">초등학교 6학년</option>
+                <option value="중1">중학교 1학년</option>
+                <option value="중2">중학교 2학년</option>
+                <option value="중3">중학교 3학년</option>
+                <option value="고1" selected>고등학교 1학년</option>
+                <option value="고2">고등학교 2학년</option>
+                <option value="고3/N수">고3 / N수</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">휴대폰 번호:</label>
+              <input type="tel" id="student-signup-phone" value="010-1234-5678" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">
+            * 입력하신 정보는 본인 확인 및 학습 이력 관리 목적으로만 사용되며, 허위 정보 기재 시 관리자에 의해 이용이 제한될 수 있습니다.
+          </p>
           <button onclick="studentSignupSuccess()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
             <i data-lucide="check-circle" class="w-4 h-4"></i> 학생 회원으로 무료 시작하기
           </button>
@@ -2452,6 +2588,65 @@
       </div>
     </div>
 
+    <!-- ================= MODAL: STUDENT FEEDBACK & BUG REPORT ================= -->
+    <div id="modal-feedback" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col justify-end">
+      <div class="bg-slate-900 border-t border-slate-700 rounded-t-3xl p-5 space-y-3.5 max-h-[92%] overflow-y-auto">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-extrabold text-white">건의사항 및 문제 신고</h3>
+              <p class="text-[10px] text-slate-400">더 정확하고 유익한 리드매스를 위한 소중한 의견</p>
+            </div>
+          </div>
+          <button onclick="closeModal('feedback')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">신고 및 건의 유형:</label>
+            <select id="feedback-category" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+              <option value="풀이 및 도식 오류 신고">풀이 및 도식(그래프/도형) 오류 신고</option>
+              <option value="기능 개선 및 제안">기능 개선 및 새로운 아이디어 제안</option>
+              <option value="불편 사항 및 버그">앱 사용 중 불편 사항 및 버그</option>
+              <option value="기타 의견">기타 일반 문의 및 응원</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">작성자 학생 성명:</label>
+              <input type="text" id="feedback-student-name" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="학생 성명" />
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">소속 학교 / 학년:</label>
+              <input type="text" id="feedback-student-school" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="학교명 및 학년" />
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">연락처 (휴대폰 번호):</label>
+            <input type="tel" id="feedback-student-phone" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="010-0000-0000" />
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">상세 내용:</label>
+            <textarea id="feedback-content" rows="4" placeholder="어떤 문제나 건의사항이 있으신가요? 구체적으로 적어주시면 연구팀에서 검토 후 신속하게 반영하겠습니다." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+          </div>
+
+          <p class="text-[10px] text-slate-400 leading-tight">
+            * 접수된 건의사항은 리드매스 관리자 페이지에 실시간 등록되어 검토되며, 오류 수정 시 우선 반영됩니다.
+          </p>
+
+          <button onclick="submitStudentFeedback()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
+            <i data-lucide="send" class="w-4 h-4"></i> 건의사항 제출하기
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- JavaScript Logic (Internal Backend AI Engine) -->
@@ -2471,9 +2666,23 @@
 
     let studentProfile = JSON.parse(localStorage.getItem('rootmath_student_profile') || JSON.stringify({
       name: '김리드',
+      school: '대치중학교',
       grade: '고1',
-      goal: '수능 1등급 대비'
+      phone: '010-1234-5678',
+      goal: '수능 1등급 대비',
+      isSuspended: false
     }));
+
+    let registeredUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || JSON.stringify([
+      { id: 'user_1', name: '김리드', school: '대치중학교', grade: '고1', phone: '010-1234-5678', isSuspended: false, joinedAt: '2026-10-01' },
+      { id: 'user_2', name: '박서준', school: '연세고등학교', grade: '고2', phone: '010-8765-4321', isSuspended: false, joinedAt: '2026-10-03' },
+      { id: 'user_3', name: '이채원', school: '휘문중학교', grade: '중3', phone: '010-3456-7890', isSuspended: false, joinedAt: '2026-10-04' }
+    ]));
+
+    let studentFeedbacks = JSON.parse(localStorage.getItem('readmath_feedbacks') || JSON.stringify([
+      { id: 'fb_1', category: '풀이 및 도식 오류 신고', name: '김리드', school: '대치중학교', grade: '고1', phone: '010-1234-5678', content: '고1 이차함수 문제에서 축의 방정식이 x=3일 때 대칭성 시각화가 너무 좋습니다. 다만 그래프 모눈종이 확대 축소 기능이 있으면 더 좋겠습니다.', createdAt: '2026-10-05 14:20', isReviewed: false },
+      { id: 'fb_2', category: '기능 개선 및 제안', name: '박서준', school: '연세고등학교', grade: '고2', phone: '010-8765-4321', content: '오답노트에 적힌 문제를 PDF로 한 번에 다운로드받을 수 있는 기능이 생기면 시험 직전에 복습하기 편할 것 같습니다.', createdAt: '2026-10-06 09:15', isReviewed: true }
+    ]));
 
     let teacherProfile = JSON.parse(localStorage.getItem('rootmath_teacher_profile') || JSON.stringify({
       name: '박지훈',
@@ -3843,6 +4052,9 @@
       renderHistoryList();
       updateReportView();
       renderTeacherStudentList();
+      updateSuspendedBanner();
+      renderAdminUserList();
+      renderAdminFeedbackList();
       openHistoryProblem(1, false);
       renderMathElements();
     });
@@ -3988,6 +4200,10 @@
     }
 
     function openSampleProblemPreview(sampleId) {
+      if (isCurrentUserSuspended()) {
+        alert('[이용 제한 안내]\n\n관리자에 의해 서비스 이용이 제한된 계정입니다.\n문의: 리드매스 관리자');
+        return;
+      }
       if (!sampleId) sampleId = getSampleProblemIdForGrade(currentGrade);
       isViewingSample = true;
       openHistoryProblem(sampleId);
@@ -4045,10 +4261,18 @@
 
     // ================= REAL IMAGE UPLOAD & CROP =================
     function triggerImagePicker() {
+      if (isCurrentUserSuspended()) {
+        alert('[이용 제한 안내]\n\n관리자에 의해 서비스 이용이 제한된 계정입니다.\n문제 사진 업로드 및 분석이 차단되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
       document.getElementById('real-image-file').click();
     }
 
     function handleImageFileSelected(e) {
+      if (isCurrentUserSuspended()) {
+        alert('[이용 제한 안내]\n\n관리자에 의해 서비스 이용이 제한된 계정입니다.\n문제 사진 업로드 및 분석이 차단되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
       const file = e.target.files && e.target.files[0];
       if (!file) return;
 
@@ -4130,6 +4354,11 @@
     // ================= CONFIRM & LIVE AI VISION SOLVE =================
     async function confirmCropAndSolve() {
       closeModal('crop');
+
+      if (isCurrentUserSuspended()) {
+        alert('[이용 제한 안내]\n\n관리자에 의해 서비스 이용이 제한된 계정입니다.\n본인 확인 불가 또는 부정 이용으로 인해 문제 풀이 기능이 차단되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
 
       // Check Quota
       if (!isProMember) {
@@ -4307,6 +4536,10 @@
 
     // ================= REAL SOCRATIC AI CHAT TUTOR =================
     async function sendChatMessage(text) {
+      if (isCurrentUserSuspended()) {
+        alert('[이용 제한 안내]\n\n관리자에 의해 서비스 이용이 제한된 계정입니다.\n1:1 질의응답 기능이 차단되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
       const container = document.getElementById('chat-messages-container');
       const userBubble = `
         <div class="flex justify-end">
@@ -5231,6 +5464,8 @@
         solBtn?.classList.remove('hidden');
         adminPanel?.classList.remove('hidden');
         updateCameraHomeCards();
+        renderAdminUserList();
+        renderAdminFeedbackList();
         goToView('settings');
 
         alert('[제작자(Admin) 인증 성공]\n\n환영합니다, 프로그램 제작자님!\n설정 탭 최하단에 [제작자 전용 디버그 관리 패널]이 활성화되었습니다.\n상단 전환 버튼과 설정 탭 하단 관리 패널을 사용하실 수 있습니다.');
@@ -5359,27 +5594,391 @@
       }
     }
 
+    function isCurrentUserSuspended() {
+      if (studentProfile && studentProfile.isSuspended) {
+        return true;
+      }
+      const match = registeredUsers.find(u => (studentProfile && u.phone && u.phone === studentProfile.phone));
+      if (match && match.isSuspended) {
+        studentProfile.isSuspended = true;
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        return true;
+      }
+      return false;
+    }
+
+    function updateSuspendedBanner() {
+      const banner = document.getElementById('user-suspended-banner');
+      if (!banner) return;
+      if (isCurrentUserSuspended()) {
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
     function socialLoginSuccess(provider) {
-      closeModal('login');
-      alert(`${provider} 계정으로 로그인되었습니다.`);
+      alert(`[${provider} 간편 연동 안내]\n\n${provider} 계정 연동 정보가 확인되었습니다.\n정확한 학사 관리 및 오답노트 보관을 위해, 소속 학교명과 휴대폰 번호 입력을 완료해 주세요.`);
+      const schoolInput = document.getElementById('student-signup-school');
+      if (schoolInput) {
+        schoolInput.focus();
+      }
     }
 
     function studentSignupSuccess() {
       const nameInput = document.getElementById('student-signup-name');
+      const schoolInput = document.getElementById('student-signup-school');
       const gradeSelect = document.getElementById('student-signup-grade');
+      const phoneInput = document.getElementById('student-signup-phone');
 
-      if (nameInput && nameInput.value.trim()) {
-        studentProfile.name = nameInput.value.trim();
+      const name = nameInput ? nameInput.value.trim() : '';
+      const school = schoolInput ? schoolInput.value.trim() : '';
+      const grade = gradeSelect ? gradeSelect.value : '고1';
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+
+      if (!name) {
+        alert('학생 성명(이름)을 입력해 주세요.');
+        nameInput?.focus();
+        return;
       }
-      if (gradeSelect) {
-        studentProfile.grade = gradeSelect.value;
+      if (!school) {
+        alert('소속 학교명을 입력해 주세요. (예: 대치중학교, 연세고등학교)');
+        schoolInput?.focus();
+        return;
       }
+      const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
+      if (!phone || !phoneRegex.test(phone.replace(/\s+/g, ''))) {
+        alert('올바른 휴대폰 번호 형식을 입력해 주세요. (예: 010-1234-5678)');
+        phoneInput?.focus();
+        return;
+      }
+
+      const cleanPhone = phone.replace(/[^0-9]/g, '').replace(/^(01[016789])(\d{3,4})(\d{4})$/, '$1-$2-$3');
+
+      // Check if suspended
+      const existingUser = registeredUsers.find(u => u.phone === cleanPhone);
+      if (existingUser && existingUser.isSuspended) {
+        alert('[이용 제한 안내]\n\n해당 연락처로 등록된 계정은 관리자에 의해 이용이 제한되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
+
+      if (existingUser) {
+        existingUser.name = name;
+        existingUser.school = school;
+        existingUser.grade = grade;
+      } else {
+        registeredUsers.unshift({
+          id: 'user_' + Date.now(),
+          name: name,
+          school: school,
+          grade: grade,
+          phone: cleanPhone,
+          isSuspended: false,
+          joinedAt: new Date().toISOString().slice(0, 10)
+        });
+      }
+      localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+
+      studentProfile.name = name;
+      studentProfile.school = school;
+      studentProfile.grade = grade;
+      studentProfile.phone = cleanPhone;
+      studentProfile.isSuspended = false;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
 
-      setSchoolGrade(studentProfile.grade);
+      // Attempt Supabase insert in background
+      try {
+        if (window.fetch) {
+          fetch('https://hsrkvtmgldpanqtdphx.supabase.co/rest/v1/users', {
+            method: 'POST',
+            headers: {
+              'apikey': 'sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
+              'Authorization': 'Bearer sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              name: name,
+              school: school,
+              grade: grade,
+              phone: cleanPhone,
+              is_suspended: false
+            })
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      setSchoolGrade(grade);
       setUserRole('student');
+      updateSuspendedBanner();
+      renderAdminUserList();
       closeModal('login');
-      alert(`[학생 무료 회원가입 완료]\n\n환영합니다, ${studentProfile.name} 학생!\n[${studentProfile.grade}] 1:1 시각적 원리 튜터가 시작되었습니다.`);
+      alert(`[학생 무료 회원가입 완료]\n\n환영합니다, ${name} 학생 (${school} ${grade})!\n1:1 시각적 원리 튜터가 시작되었습니다.`);
+    }
+
+    function openFeedbackModal() {
+      const nameInput = document.getElementById('feedback-student-name');
+      const schoolInput = document.getElementById('feedback-student-school');
+      const phoneInput = document.getElementById('feedback-student-phone');
+      const contentInput = document.getElementById('feedback-content');
+
+      if (nameInput) nameInput.value = studentProfile.name || '';
+      if (schoolInput) schoolInput.value = `${studentProfile.school || ''} ${studentProfile.grade || ''}`.trim();
+      if (phoneInput) phoneInput.value = studentProfile.phone || '';
+      if (contentInput) contentInput.value = '';
+
+      openModal('feedback');
+    }
+
+    function submitStudentFeedback() {
+      const catEl = document.getElementById('feedback-category');
+      const nameEl = document.getElementById('feedback-student-name');
+      const schoolEl = document.getElementById('feedback-student-school');
+      const phoneEl = document.getElementById('feedback-student-phone');
+      const contentEl = document.getElementById('feedback-content');
+
+      const category = catEl ? catEl.value : '기타 의견';
+      const name = nameEl ? nameEl.value.trim() : (studentProfile.name || '익명 학생');
+      const school = schoolEl ? schoolEl.value.trim() : (studentProfile.school || '');
+      const phone = phoneEl ? phoneEl.value.trim() : (studentProfile.phone || '');
+      const content = contentEl ? contentEl.value.trim() : '';
+
+      if (!content) {
+        alert('건의 또는 신고하실 내용을 입력해 주세요.');
+        contentEl?.focus();
+        return;
+      }
+
+      const now = new Date();
+      const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+      const newFeedback = {
+        id: 'fb_' + Date.now(),
+        category: category,
+        name: name,
+        school: school,
+        grade: studentProfile.grade || '고1',
+        phone: phone,
+        content: content,
+        createdAt: timeStr,
+        isReviewed: false
+      };
+
+      studentFeedbacks.unshift(newFeedback);
+      localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
+
+      // Attempt Supabase insert in background
+      try {
+        if (window.fetch) {
+          fetch('https://hsrkvtmgldpanqtdphx.supabase.co/rest/v1/feedbacks', {
+            method: 'POST',
+            headers: {
+              'apikey': 'sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
+              'Authorization': 'Bearer sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              user_name: name,
+              school: school,
+              grade: studentProfile.grade || '고1',
+              phone: phone,
+              category: category,
+              content: content,
+              is_reviewed: false
+            })
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      closeModal('feedback');
+      renderAdminFeedbackList();
+      alert('[건의사항 접수 완료]\n\n소중한 의견이 정상 접수되었습니다.\n리드매스 연구팀 및 관리자가 확인 후 신속히 반영하겠습니다.');
+    }
+
+    function toggleFeedbackReviewed(feedbackId) {
+      const fb = studentFeedbacks.find(f => f.id === feedbackId);
+      if (!fb) return;
+      fb.isReviewed = !fb.isReviewed;
+      localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
+      renderAdminFeedbackList();
+    }
+
+    function deleteFeedback(feedbackId) {
+      if (!confirm('이 건의사항을 삭제하시겠습니까?')) return;
+      studentFeedbacks = studentFeedbacks.filter(f => f.id !== feedbackId);
+      localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
+      renderAdminFeedbackList();
+    }
+
+    function renderAdminFeedbackList() {
+      const container = document.getElementById('admin-feedback-list-container');
+      const badge = document.getElementById('admin-feedback-count-badge');
+      if (!container) return;
+
+      if (badge) {
+        const pendingCount = studentFeedbacks.filter(f => !f.isReviewed).length;
+        badge.innerText = `접수 ${studentFeedbacks.length}건 (대기 ${pendingCount}건)`;
+      }
+
+      if (studentFeedbacks.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-slate-500 text-center py-4 bg-slate-900/50 rounded-lg">접수된 건의사항이 없습니다.</div>';
+        return;
+      }
+
+      container.innerHTML = studentFeedbacks.map(f => `
+        <div class="admin-subcard p-2.5 rounded-xl border ${f.isReviewed ? 'bg-slate-900/60 border-slate-800' : 'bg-amber-950/20 border-amber-600/40'} space-y-1.5 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold ${f.isReviewed ? 'text-slate-400' : 'text-amber-400'} flex items-center gap-1">
+              <i data-lucide="message-square" class="w-3 h-3"></i>
+              <span>${f.category}</span>
+            </span>
+            ${f.isReviewed 
+              ? '<span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold">확인 완료</span>'
+              : '<span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-extrabold">처리 대기</span>'
+            }
+          </div>
+          <div class="text-[10.5px] text-slate-300 leading-snug bg-slate-950/70 p-2 rounded-lg border border-slate-800/80 break-words">
+            ${f.content.replace(/\n/g, '<br/>')}
+          </div>
+          <div class="flex items-center justify-between text-[9.5px] text-slate-400 pt-0.5">
+            <span>작성: <strong class="text-slate-300">${f.name}</strong> (${f.school || ''} / ${f.phone || ''})</span>
+            <span>${f.createdAt}</span>
+          </div>
+          <div class="flex gap-1.5 pt-1 border-t border-slate-800/60">
+            <button onclick="toggleFeedbackReviewed('${f.id}')" class="flex-1 py-1 rounded text-[10px] font-bold transition flex items-center justify-center gap-1 ${
+              f.isReviewed
+                ? 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                : 'bg-amber-600 hover:bg-amber-500 text-white'
+            }">
+              <i data-lucide="${f.isReviewed ? 'rotate-ccw' : 'check'}" class="w-3 h-3"></i>
+              <span>${f.isReviewed ? '대기 상태로 변경' : '확인 완료 처리'}</span>
+            </button>
+            <button onclick="deleteFeedback('${f.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-300 rounded text-[10px] transition" title="삭제">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function toggleUserSuspension(userId) {
+      const user = registeredUsers.find(u => u.id === userId);
+      if (!user) return;
+      user.isSuspended = !user.isSuspended;
+      localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+
+      if (studentProfile && studentProfile.phone === user.phone) {
+        studentProfile.isSuspended = user.isSuspended;
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        updateSuspendedBanner();
+      }
+
+      renderAdminUserList();
+
+      if (user.isSuspended) {
+        alert(`[이용 제한 조치 완료]\n\n${user.name} 학생(${user.phone})의 서비스 이용이 차단되었습니다.`);
+      } else {
+        alert(`[이용 제한 해제 완료]\n\n${user.name} 학생(${user.phone})의 정상 이용 권한이 복원되었습니다.`);
+      }
+    }
+
+    function deleteRegisteredUser(userId) {
+      const user = registeredUsers.find(u => u.id === userId);
+      if (!user) return;
+      if (!confirm(`정말로 ${user.name} 학생의 가입 정보를 영구 삭제하시겠습니까?`)) return;
+
+      registeredUsers = registeredUsers.filter(u => u.id !== userId);
+      localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+      renderAdminUserList();
+      alert(`[회원 삭제 완료]\n${user.name} 학생의 정보가 삭제되었습니다.`);
+    }
+
+    function adminAddStudentManual() {
+      const nameInput = document.getElementById('admin-add-name');
+      const schoolInput = document.getElementById('admin-add-school');
+      const gradeSelect = document.getElementById('admin-add-grade');
+      const phoneInput = document.getElementById('admin-add-phone');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const school = schoolInput ? schoolInput.value.trim() : '';
+      const grade = gradeSelect ? gradeSelect.value : '고1';
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+
+      if (!name || !school || !phone) {
+        alert('학생 성명, 학교명, 휴대폰 번호를 모두 입력해 주세요.');
+        return;
+      }
+
+      registeredUsers.unshift({
+        id: 'user_' + Date.now(),
+        name: name,
+        school: school,
+        grade: grade,
+        phone: phone,
+        isSuspended: false,
+        joinedAt: new Date().toISOString().slice(0, 10)
+      });
+      localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+
+      if (nameInput) nameInput.value = '';
+      if (schoolInput) schoolInput.value = '';
+      if (phoneInput) phoneInput.value = '';
+
+      renderAdminUserList();
+      alert(`[학생 등록 완료]\n${name} 학생이 수동 등록되었습니다.`);
+    }
+
+    function renderAdminUserList() {
+      const container = document.getElementById('admin-user-list-container');
+      const badge = document.getElementById('admin-user-count-badge');
+      if (!container) return;
+
+      if (badge) {
+        const suspendedCount = registeredUsers.filter(u => u.isSuspended).length;
+        badge.innerText = `총 ${registeredUsers.length}명 (제한 ${suspendedCount}명)`;
+      }
+
+      if (registeredUsers.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-slate-500 text-center py-4 bg-slate-900/50 rounded-lg">등록된 학생 회원이 없습니다.</div>';
+        return;
+      }
+
+      container.innerHTML = registeredUsers.map(u => `
+        <div class="admin-subcard p-2.5 rounded-xl border ${u.isSuspended ? 'bg-rose-950/30 border-rose-600/50' : 'bg-slate-900 border-slate-800'} space-y-1.5 transition">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold ${u.isSuspended ? 'text-rose-400 line-through' : 'text-white'}">${u.name}</span>
+              <span class="text-[10px] text-slate-400">${u.school || ''} • ${u.grade || ''}</span>
+            </div>
+            ${u.isSuspended 
+              ? '<span class="text-[9px] bg-rose-600 text-white font-extrabold px-1.5 py-0.5 rounded">이용 제한됨</span>'
+              : '<span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold px-1.5 py-0.5 rounded">정상 이용</span>'
+            }
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-slate-400">
+            <span>연락처: <span class="font-mono text-slate-300">${u.phone || '미등록'}</span></span>
+            <span>가입: ${u.joinedAt || '-'}</span>
+          </div>
+          <div class="flex gap-1.5 pt-1 border-t border-slate-800/80">
+            <button onclick="toggleUserSuspension('${u.id}')" class="flex-1 py-1 rounded text-[10px] font-bold transition flex items-center justify-center gap-1 ${
+              u.isSuspended 
+                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm'
+                : 'bg-rose-600 hover:bg-rose-500 text-white shadow-sm'
+            }">
+              <i data-lucide="${u.isSuspended ? 'check-circle' : 'user-x'}" class="w-3 h-3"></i>
+              <span>${u.isSuspended ? '제한 해제 (정상 복구)' : '이용 제한 (차단)'}</span>
+            </button>
+            <button onclick="deleteRegisteredUser('${u.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-300 rounded text-[10px] transition" title="회원 삭제">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
     }
 
     function setSchoolGrade(g) {

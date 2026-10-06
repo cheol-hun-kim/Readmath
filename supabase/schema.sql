@@ -18,10 +18,14 @@ END $$;
 -- 2. Users Table
 CREATE TABLE IF NOT EXISTS public.users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE,
     nickname TEXT,
-    grade TEXT NOT NULL DEFAULT '고1', -- '중1','중2','중3','고1','고2','고3','N수'
+    name TEXT NOT NULL,
+    phone TEXT,
+    school TEXT,
+    grade TEXT NOT NULL DEFAULT '고1', -- '초1' ~ '고3/N수'
     target_exam TEXT DEFAULT '수능/내신 1등급',
+    is_suspended BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -52,21 +56,39 @@ CREATE TABLE IF NOT EXISTS public.weaknesses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 5. Indexes for Fast Querying & Analytics
+-- 5. Student Feedbacks & Problem Reports Table
+CREATE TABLE IF NOT EXISTS public.feedbacks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_name TEXT NOT NULL,
+    school TEXT,
+    grade TEXT,
+    phone TEXT,
+    category TEXT NOT NULL, -- '풀이 및 도식 오류', '기능 개선 제안', '기타 문의'
+    content TEXT NOT NULL,
+    is_reviewed BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 6. Indexes for Fast Querying & Analytics
 CREATE INDEX IF NOT EXISTS idx_questions_user_id_created_at ON public.questions(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_questions_concepts_used ON public.questions USING GIN(concepts_used);
 CREATE INDEX IF NOT EXISTS idx_weaknesses_user_id_created_at ON public.weaknesses(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_weaknesses_failure_type ON public.weaknesses(user_id, failure_type);
+CREATE INDEX IF NOT EXISTS idx_feedbacks_created_at ON public.feedbacks(created_at DESC);
 
--- 6. Row Level Security (RLS)
+-- 7. Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.weaknesses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.feedbacks ENABLE ROW LEVEL SECURITY;
 
 -- Allow public / anon read/write for MVP development (or bind to auth.uid())
 CREATE POLICY "Users access own profile" ON public.users FOR ALL USING (true);
 CREATE POLICY "Users access own questions" ON public.questions FOR ALL USING (true);
 CREATE POLICY "Users access own weaknesses" ON public.weaknesses FOR ALL USING (true);
+CREATE POLICY "Public insert feedbacks" ON public.feedbacks FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public select feedbacks" ON public.feedbacks FOR SELECT USING (true);
+CREATE POLICY "Public update feedbacks" ON public.feedbacks FOR UPDATE USING (true);
 
 -- 7. Analytics View: Student Weakness Summary (Aggregation for Adaptive Alerts)
 CREATE OR REPLACE VIEW public.view_student_weakness_summary AS
