@@ -995,6 +995,21 @@
     body.theme-day #settings-friend-referral-card p {
       color: #64748B !important;
     }
+    body.theme-day #modal-account-mgmt .bg-slate-950\/80,
+    body.theme-day #modal-account-mgmt .bg-slate-900\/80 {
+      background-color: #F8FAFC !important;
+      border-color: #E2E8F0 !important;
+    }
+    body.theme-day #modal-account-mgmt span.text-white {
+      color: #0F172A !important;
+    }
+    body.theme-day #modal-account-mgmt p.text-slate-400,
+    body.theme-day #modal-account-mgmt span.text-slate-400 {
+      color: #64748B !important;
+    }
+    body.theme-day #modal-account-mgmt span.text-slate-300 {
+      color: #334155 !important;
+    }
 
     @media print {
       body { background: white !important; color: black !important; padding: 0 !important; }
@@ -1080,7 +1095,7 @@
               <i data-lucide="graduation-cap" class="w-3 h-3 text-indigo-400" id="camera-role-icon"></i>
               <span id="camera-role-text">학생</span>
             </button>
-            <button onclick="openModal('sub')" id="quota-badge-btn" class="hidden bg-indigo-950/80 hover:bg-indigo-900/80 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0">
+            <button onclick="openModal('account-mgmt')" id="quota-badge-btn" class="flex bg-indigo-950/80 hover:bg-indigo-900/80 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition" title="잔여 문제 풀이 횟수 및 계정 관리">
               <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
               <span id="quota-text">무료 3회</span>
             </button>
@@ -1572,96 +1587,17 @@
         <div id="settings-user-profile-card" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
           <div class="flex items-center justify-between gap-2">
             <span class="text-xs font-bold text-slate-300 shrink-0">내 계정 정보</span>
-            <span id="settings-role-indicator" class="text-[10px] font-bold text-indigo-400 bg-indigo-950 border border-indigo-700/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap">학생 회원</span>
+            <span id="settings-role-indicator" class="text-[10px] font-bold text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded shrink-0 whitespace-nowrap">체험 회원 (3회)</span>
           </div>
           <div class="flex items-center justify-between gap-2 pt-1">
             <div class="min-w-0 flex-1">
-              <p id="profile-display-name" class="text-sm font-extrabold text-white truncate">김리드 학생</p>
-              <p id="profile-display-sub" class="text-[11px] text-slate-400 truncate">고등학교 1학년 • 수능 1등급 대비</p>
+              <p id="profile-display-name" class="text-sm font-extrabold text-white truncate">비회원 (체험 학생)</p>
+              <p id="profile-display-sub" class="text-[11px] text-slate-400 truncate">고등학교 1학년 • 무료 3회 체험 모드</p>
             </div>
-            <button onclick="openModal('login')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shrink-0 whitespace-nowrap">
-              계정 관리
+            <button onclick="openModal('account-mgmt')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition shrink-0 whitespace-nowrap shadow-sm flex items-center gap-1">
+              <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+              <span>계정 관리</span>
             </button>
-          </div>
-        </div>
-
-        <!-- Student Pro Membership Card -->
-        <div id="settings-student-pro-card" class="bg-gradient-to-r from-indigo-950 to-purple-950 border-2 border-indigo-500/50 rounded-xl p-3.5 space-y-2">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <i data-lucide="crown" class="w-5 h-5 text-amber-400"></i>
-              <span class="text-sm font-extrabold text-white">ReadMath Pro 멤버십</span>
-            </div>
-            <span id="settings-pro-badge" class="bg-slate-800 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded">무료 플랜</span>
-          </div>
-          <p class="text-xs text-slate-300">
-            매일 3회 제한 없이 무제한 문제 풀이 및 리드 쌤과 1:1 대화를 이용하세요.
-          </p>
-          <button onclick="openModal('sub')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 rounded-xl shadow-md transition">
-            Pro 요금제 업그레이드 (7일 무료)
-          </button>
-        </div>
-
-        <!-- Teacher Connection Card for Students -->
-        <div id="settings-teacher-connect-card" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-indigo-400"></i> 담당 선생님 연결
-            </span>
-            <span id="teacher-connect-status-badge" class="text-[9.5px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold">
-              미연결
-            </span>
-          </div>
-          <p class="text-[10.5px] text-slate-400 leading-snug">
-            선생님께 부여받은 고유 코드를 등록하면, 문제 풀이 중 언제든 담당 선생님께 1:1 질문을 보내고 맞춤 보조자료를 받을 수 있습니다.
-          </p>
-          <div id="teacher-connect-input-box" class="flex gap-1.5">
-            <input type="text" id="input-teacher-connect-code" placeholder="선생님 고유 코드 (예: RM-TEACH-2026)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-            <button onclick="connectTeacherByCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
-              연결 등록
-            </button>
-          </div>
-          <div id="teacher-connected-info-box" class="hidden bg-indigo-950/40 border border-indigo-500/40 rounded-xl p-2.5 flex items-center justify-between">
-            <div class="min-w-0">
-              <span class="text-[10px] text-indigo-300 font-bold block">담당 선생님</span>
-              <p id="connected-teacher-name" class="text-xs font-extrabold text-white truncate">박지훈 선생님 (메가수학)</p>
-            </div>
-            <button onclick="disconnectTeacher()" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-300 rounded text-[10px] font-bold transition">
-              연결 해제
-            </button>
-          </div>
-        </div>
-
-        <!-- Friend Referral Card (Strategy 2: Double Reward +3 Solves) -->
-        <div id="settings-friend-referral-card" class="bg-gradient-to-r from-indigo-950/70 via-slate-900 to-indigo-950/60 border border-indigo-500/40 rounded-xl p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-              <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-400"></i> 친구 초대 더블 리워드 (+3회 무료)
-            </span>
-            <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded font-bold border border-indigo-500/30">
-              상호 충전 혜택
-            </span>
-          </div>
-          <p class="text-[10.5px] text-slate-300 leading-snug">
-            친구에게 내 초대 코드를 공유하세요. 친구가 가입하거나 등록하면 <strong>나도 +3회, 친구도 +3회</strong> 무료 풀이 횟수가 즉시 추가됩니다!
-          </p>
-          <div class="flex items-center justify-between gap-2 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-            <div>
-              <span class="text-[9px] text-slate-400 block">내 고유 초대 코드</span>
-              <span id="student-referral-code-display" class="font-mono text-xs font-black text-indigo-300 tracking-wider">RM-STU-7721</span>
-            </div>
-            <button onclick="copyStudentReferralCode()" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] rounded-lg transition flex items-center gap-1 shadow-sm">
-              <i data-lucide="copy" class="w-3 h-3"></i> 코드 복사
-            </button>
-          </div>
-          <div class="space-y-1 pt-1">
-            <span class="text-[10px] text-slate-400 block">친구에게 받은 초대 코드가 있나요?</span>
-            <div class="flex gap-1.5">
-              <input type="text" id="input-friend-referral-code" placeholder="친구 코드 (예: RM-STU-8821)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              <button onclick="redeemFriendReferralCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
-                코드 등록
-              </button>
-            </div>
           </div>
         </div>
 
@@ -2149,6 +2085,136 @@
         <button onclick="activatePro()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-indigo-600/40">
           7일 무료 체험 시작하기
         </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: ACCOUNT MANAGEMENT ================= -->
+    <div id="modal-account-mgmt" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col justify-end">
+      <div class="bg-slate-900 border-t border-slate-700 rounded-t-3xl p-5 space-y-4 max-h-[92%] overflow-y-auto">
+        <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <i data-lucide="user-check" class="w-4 h-4 text-indigo-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-extrabold text-white">내 계정 관리</h3>
+              <p class="text-[10px] text-slate-400">회원 프로필, 멤버십 이용권, 선생님 및 친구 연결</p>
+            </div>
+          </div>
+          <button onclick="closeModal('account-mgmt')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <!-- Student Profile Summary & Edit/Signup Section -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300">내 기본 프로필</span>
+            <span id="account-mgmt-status-badge" class="text-[10px] font-bold text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded">체험 학생 (비회원)</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">성명 (실명)</span>
+              <span id="account-mgmt-name" class="font-extrabold text-white">비회원 (체험 학생)</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">소속 학교</span>
+              <span id="account-mgmt-school" class="font-extrabold text-white">미등록</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">현재 학년</span>
+              <span id="account-mgmt-grade" class="font-extrabold text-white">고등학교 1학년</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">잔여 풀이 횟수</span>
+              <span id="account-mgmt-solves" class="font-extrabold text-amber-400">무료 3회</span>
+            </div>
+          </div>
+          <div class="pt-1">
+            <button onclick="closeModal('account-mgmt'); openModal('login');" id="account-mgmt-signup-btn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span id="account-mgmt-signup-btn-text">학생 회원가입 및 본인 인증</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. Student Pro Membership Card -->
+        <div id="settings-student-pro-card" class="bg-gradient-to-r from-indigo-950 to-purple-950 border-2 border-indigo-500/50 rounded-xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="crown" class="w-5 h-5 text-amber-400"></i>
+              <span class="text-sm font-extrabold text-white">ReadMath Pro 멤버십</span>
+            </div>
+            <span id="settings-pro-badge" class="bg-slate-800 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded">무료 플랜</span>
+          </div>
+          <p class="text-xs text-slate-300">
+            매일 3회 제한 없이 무제한 문제 풀이 및 리드 쌤과 1:1 대화를 이용하세요.
+          </p>
+          <button onclick="closeModal('account-mgmt'); openModal('sub');" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 rounded-xl shadow-md transition">
+            Pro 요금제 업그레이드 (7일 무료)
+          </button>
+        </div>
+
+        <!-- 2. Teacher Connection Card for Students -->
+        <div id="settings-teacher-connect-card" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="link" class="w-3.5 h-3.5 text-indigo-400"></i> 선생님 및 학원 고유 코드 등록
+            </span>
+            <span id="teacher-connect-status-badge" class="text-[9.5px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold">
+              미연결
+            </span>
+          </div>
+          <p class="text-[10.5px] text-slate-400 leading-snug">
+            선생님 또는 학원에서 부여받은 고유 코드를 등록하면, 재원생 혜택(무제한 풀이) 적용 및 1:1 질문 연결이 지원됩니다.
+          </p>
+          <div id="teacher-connect-input-box" class="flex gap-1.5">
+            <input type="text" id="input-teacher-connect-code" placeholder="선생님 또는 학원 고유 코드 입력 (예: RM-TEACH-2026)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            <button onclick="connectTeacherByCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+              연결 등록
+            </button>
+          </div>
+          <div id="teacher-connected-info-box" class="hidden bg-indigo-950/40 border border-indigo-500/40 rounded-xl p-2.5 flex items-center justify-between">
+            <div class="min-w-0">
+              <span id="connected-teacher-type-label" class="text-[10px] text-indigo-300 font-bold block">소속 학원 / 담당 선생님</span>
+              <p id="connected-teacher-name" class="text-xs font-extrabold text-white truncate">박지훈 선생님 (메가수학)</p>
+            </div>
+            <button onclick="disconnectTeacher()" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-300 rounded text-[10px] font-bold transition">
+              연결 해제
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Friend Referral Card (Strategy 2: Double Reward +3 Solves) -->
+        <div id="settings-friend-referral-card" class="bg-gradient-to-r from-indigo-950/70 via-slate-900 to-indigo-950/60 border border-indigo-500/40 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-400"></i> 친구 초대 더블 리워드 (+3회 무료)
+            </span>
+            <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded font-bold border border-indigo-500/30">
+              상호 충전 혜택
+            </span>
+          </div>
+          <p class="text-[10.5px] text-slate-300 leading-snug">
+            친구에게 내 초대 코드를 공유하세요. 친구가 가입하거나 등록하면 <strong>나도 +3회, 친구도 +3회</strong> 무료 풀이 횟수가 즉시 추가됩니다!
+          </p>
+          <div class="flex items-center justify-between gap-2 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+            <div>
+              <span class="text-[9px] text-slate-400 block">내 고유 초대 코드</span>
+              <span id="student-referral-code-display" class="font-mono text-xs font-black text-indigo-300 tracking-wider">RM-STU-7721</span>
+            </div>
+            <button onclick="copyStudentReferralCode()" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] rounded-lg transition flex items-center gap-1 shadow-sm">
+              <i data-lucide="copy" class="w-3 h-3"></i> 코드 복사
+            </button>
+          </div>
+          <div class="space-y-1 pt-1">
+            <span class="text-[10px] text-slate-400 block">친구에게 받은 초대 코드가 있나요?</span>
+            <div class="flex gap-1.5">
+              <input type="text" id="input-friend-referral-code" placeholder="친구 코드 (예: RM-STU-8821)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <button onclick="redeemFriendReferralCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+                코드 등록
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2817,8 +2883,9 @@
     let currentProblemId = 1;
     let selectedKeywordText = '이차함수 f(x) = -x² + 2ax + 1';
     let selectedFailureCategory = 'visual';
-    let isProMember = false;
-    let remainingSolves = 3;
+    let isProMember = localStorage.getItem('rootmath_is_pro') === 'true';
+    let remainingSolves = parseInt(localStorage.getItem('rootmath_user_solves') ?? '3', 10);
+    if (isNaN(remainingSolves)) remainingSolves = 3;
     let userRole = localStorage.getItem('rootmath_user_role') || 'student';
     let currentTheme = localStorage.getItem('rootmath_theme') || 'night';
     let isCreatorMode = false;
@@ -2833,9 +2900,15 @@
       email: '',
       goal: '수능 1등급 대비',
       isSuspended: false,
+      isAcademyMember: false,
       connectedTeacherCode: null,
       connectedTeacherName: null
     }));
+
+    if (studentProfile && (studentProfile.isAcademyMember || studentProfile.connectedTeacherCode === 'ILWON-2027')) {
+      isProMember = true;
+      remainingSolves = 999999;
+    }
 
     // PassMate-style email verification state
     let isEmailVerified = false;
@@ -2848,20 +2921,23 @@
 
     // Complete Mock Data Purge: clear legacy mock users and mock feedbacks from earlier versions
     try {
-      const mockCleanedKey = 'readmath_mock_cleaned_v2';
+      const mockCleanedKey = 'readmath_mock_cleaned_v3';
       if (!localStorage.getItem(mockCleanedKey)) {
         localStorage.removeItem('readmath_registered_users');
         localStorage.removeItem('readmath_feedbacks');
         registeredUsers = [];
         studentFeedbacks = [];
-        if (studentProfile && (studentProfile.name === '김리드' || studentProfile.phone === '010-1234-5678')) {
+        if (studentProfile && (!studentProfile.email || !studentProfile.phone || studentProfile.phone === '010-1234-5678')) {
           studentProfile.name = '';
           studentProfile.school = '';
           studentProfile.phone = '';
           studentProfile.email = '';
           studentProfile.isSuspended = false;
-          studentProfile.connectedTeacherCode = null;
-          studentProfile.connectedTeacherName = null;
+          if (studentProfile.connectedTeacherCode !== 'ILWON-2027') {
+            studentProfile.connectedTeacherCode = null;
+            studentProfile.connectedTeacherName = null;
+            studentProfile.isAcademyMember = false;
+          }
           localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
         }
         localStorage.setItem(mockCleanedKey, 'true');
@@ -4241,6 +4317,8 @@
       renderAdminFeedbackList();
       updateTeacherConnectionUI();
       updateStudentReferralUI();
+      updateQuotaUI();
+      updateUserProfileDisplay();
       openHistoryProblem(1, false);
       renderMathElements();
     });
@@ -4547,13 +4625,16 @@
       }
 
       // Check Quota
-      if (!isProMember) {
+      const hasUnlimitedPass = isProMember || (studentProfile && (studentProfile.isAcademyMember || studentProfile.connectedTeacherCode === 'ILWON-2027'));
+      if (!hasUnlimitedPass) {
         if (remainingSolves <= 0) {
-          openModal('sub');
+          alert('[무료 체험 횟수 소진 안내]\n\n준비된 무료 3회 문제 풀이 혜택이 모두 소진되었습니다.\n\n학원 정규 재원생은 [계정 관리]에서 학원 고유 코드를 등록하시면 무제한으로 이용하실 수 있습니다.');
+          openModal('account-mgmt');
           return;
         }
         remainingSolves--;
-        document.getElementById('quota-text').innerText = `무료 ${remainingSolves}회`;
+        localStorage.setItem('rootmath_user_solves', remainingSolves.toString());
+        updateQuotaUI();
       }
 
       // Show Loading Modal
@@ -5771,6 +5852,12 @@
     }
 
     function openModal(id) {
+      if (id === 'account-mgmt') {
+        updateUserProfileDisplay();
+        updateQuotaUI();
+        updateTeacherConnectionUI();
+        updateStudentReferralUI();
+      }
       document.getElementById('modal-' + id)?.classList.remove('hidden');
       lucide.createIcons();
     }
@@ -5779,14 +5866,48 @@
       document.getElementById('modal-' + id)?.classList.add('hidden');
     }
 
+    function updateQuotaUI() {
+      const quotaText = document.getElementById('quota-text');
+      const quotaBadge = document.getElementById('quota-badge-btn');
+      const acctSolves = document.getElementById('account-mgmt-solves');
+      
+      const isIlwon = studentProfile && (studentProfile.isAcademyMember || studentProfile.connectedTeacherCode === 'ILWON-2027');
+      let label = '';
+      if (isIlwon) {
+        label = '재원생 무제한';
+        if (quotaBadge) {
+          quotaBadge.className = 'flex bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+        }
+      } else if (isProMember) {
+        label = 'PRO 무제한';
+        if (quotaBadge) {
+          quotaBadge.className = 'flex bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+        }
+      } else {
+        label = `무료 ${remainingSolves}회`;
+        if (quotaBadge) {
+          quotaBadge.className = 'flex bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+        }
+      }
+      
+      if (quotaText) quotaText.innerText = label;
+      if (acctSolves) acctSolves.innerText = isIlwon ? '재원생 무제한' : (isProMember ? 'PRO 무제한' : `무료 ${remainingSolves}회 남음`);
+    }
+
     function activatePro() {
       isProMember = true;
-      document.getElementById('quota-text').innerText = 'PRO 무제한';
-      document.getElementById('quota-badge-btn').className = 'bg-amber-950 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1';
-      document.getElementById('settings-pro-badge').innerText = 'PRO 회원';
-      document.getElementById('settings-pro-badge').className = 'bg-amber-950 text-amber-300 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded';
+      remainingSolves = 999999;
+      localStorage.setItem('rootmath_is_pro', 'true');
+      localStorage.setItem('rootmath_user_solves', '999999');
+      updateQuotaUI();
+      updateUserProfileDisplay();
+      const settingsProBadge = document.getElementById('settings-pro-badge');
+      if (settingsProBadge) {
+        settingsProBadge.innerText = 'PRO 회원';
+        settingsProBadge.className = 'bg-amber-950 text-amber-300 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded';
+      }
       closeModal('sub');
-      alert('ReadMath Pro 7일 무료체험이 시작되었습니다! 모든 문제를 무제한으로 이용하실 수 있습니다.');
+      alert('[ReadMath Pro 활성화 완료]\n\nReadMath Pro 7일 무료체험이 시작되었습니다!\n모든 문제를 횟수 제한 없이 무제한으로 이용하실 수 있습니다.');
     }
 
     function selectModalPlan(type) {
@@ -6048,11 +6169,15 @@
       let referralMsg = '';
       if (friendCode) {
         remainingSolves += 3;
+        localStorage.setItem('rootmath_user_solves', remainingSolves.toString());
         studentProfile.redeemedFriendCode = friendCode;
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
-        updateCameraHomeCards();
         referralMsg = `\n\n[친구 초대 혜택 적용]\n친구 초대 코드(${friendCode})가 등록되어 무료 풀이 3회가 추가 지급되었습니다! (총 ${remainingSolves}회 이용 가능)`;
       }
+
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      updateCameraHomeCards();
 
       closeModal('login');
       alert(`[학생 무료 회원가입 완료]\n\n환영합니다, ${name} 학생 (${school} ${grade})!\n이메일 본인 인증이 완료되어 1:1 시각적 원리 튜터가 시작되었습니다.${referralMsg}`);
@@ -6532,36 +6657,7 @@
       }
 
       // 3. Settings View & Profile Status
-      const ind = document.getElementById('settings-role-indicator');
-      const studentCard = document.getElementById('settings-student-pro-card');
-      const teacherCard = document.getElementById('settings-teacher-pricing-card');
-      const profileName = document.getElementById('profile-display-name');
-      const profileSub = document.getElementById('profile-display-sub');
-
-      if (ind) {
-        ind.innerText = isTeacher ? '선생님 / 학원 회원' : '학생 회원';
-        ind.className = isTeacher ? 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded shrink-0' : 'text-[10px] font-bold text-indigo-400 bg-indigo-950 border border-indigo-700/40 px-2 py-0.5 rounded shrink-0';
-      }
-
-      if (profileName && profileSub) {
-        if (isTeacher) {
-          profileName.innerText = `${teacherProfile.name || '박지훈'} 선생님`;
-          profileSub.innerText = `${teacherProfile.academy || '메가수학 학원'} • ${teacherProfile.plan || '선생님 프리미엄 14일 무료 체험'}`;
-        } else {
-          profileName.innerText = `${studentProfile.name || '김리드'} 학생`;
-          profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • ${studentProfile.goal || '수능 1등급 대비'}`;
-        }
-      }
-
-      if (studentCard && teacherCard) {
-        if (isTeacher) {
-          studentCard.classList.add('hidden');
-          teacherCard.classList.remove('hidden');
-        } else {
-          studentCard.classList.remove('hidden');
-          teacherCard.classList.add('hidden');
-        }
-      }
+      updateUserProfileDisplay();
 
       // 4. Update Tab 3 (Student: 약점 리포트 vs Teacher: 학생 관리)
       const tabReport = document.getElementById('tab-report');
@@ -6593,6 +6689,97 @@
       }
 
       lucide.createIcons();
+    }
+
+    function updateUserProfileDisplay() {
+      const isTeacher = userRole === 'teacher';
+      const isIlwon = studentProfile && (studentProfile.isAcademyMember || studentProfile.connectedTeacherCode === 'ILWON-2027');
+      
+      const ind = document.getElementById('settings-role-indicator');
+      const profileName = document.getElementById('profile-display-name');
+      const profileSub = document.getElementById('profile-display-sub');
+      const studentCard = document.getElementById('settings-student-pro-card');
+      const teacherCard = document.getElementById('settings-teacher-pricing-card');
+
+      // 1. Settings Role Indicator Pill
+      if (ind) {
+        if (isTeacher) {
+          ind.innerText = '선생님 / 학원 회원';
+          ind.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+        } else if (isIlwon) {
+          ind.innerText = '일원 재원생 (무제한)';
+          ind.className = 'text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+        } else if (studentProfile && studentProfile.name) {
+          ind.innerText = '정규 학생 회원';
+          ind.className = 'text-[10px] font-bold text-indigo-400 bg-indigo-950 border border-indigo-700/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+        } else {
+          ind.innerText = '체험 회원 (3회)';
+          ind.className = 'text-[10px] font-bold text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+        }
+      }
+
+      // 2. Settings Profile Card Name & Subtitle
+      if (profileName && profileSub) {
+        if (isTeacher) {
+          profileName.innerText = `${teacherProfile.name || '박지훈'} 선생님`;
+          profileSub.innerText = `${teacherProfile.academy || '메가수학 학원'} • ${teacherProfile.plan || '선생님 프리미엄 14일 무료 체험'}`;
+        } else if (isIlwon) {
+          profileName.innerText = studentProfile.name ? `${studentProfile.name} 학생` : '일원 재원생 (인증 완료)';
+          profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • 일원 학원 무제한 패스`;
+        } else if (studentProfile && studentProfile.name) {
+          profileName.innerText = `${studentProfile.name} 학생`;
+          profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • ${studentProfile.goal || '수능 1등급 대비'}`;
+        } else {
+          profileName.innerText = '비회원 (체험 학생)';
+          profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • 무료 3회 체험 모드`;
+        }
+      }
+
+      // 3. Account Management Modal Fields
+      const acctBadge = document.getElementById('account-mgmt-status-badge');
+      const acctName = document.getElementById('account-mgmt-name');
+      const acctSchool = document.getElementById('account-mgmt-school');
+      const acctGrade = document.getElementById('account-mgmt-grade');
+      const acctSignupText = document.getElementById('account-mgmt-signup-btn-text');
+
+      if (acctBadge) {
+        if (isTeacher) {
+          acctBadge.innerText = '선생님 회원';
+          acctBadge.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded';
+        } else if (isIlwon) {
+          acctBadge.innerText = '일원 정규 재원생 (무제한)';
+          acctBadge.className = 'text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded';
+        } else if (studentProfile && studentProfile.name) {
+          acctBadge.innerText = '정규 학생 회원';
+          acctBadge.className = 'text-[10px] font-bold text-indigo-400 bg-indigo-950 border border-indigo-700/40 px-2 py-0.5 rounded';
+        } else {
+          acctBadge.innerText = '체험 학생 (비회원)';
+          acctBadge.className = 'text-[10px] font-bold text-slate-400 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded';
+        }
+      }
+
+      if (acctName) {
+        acctName.innerText = (studentProfile && studentProfile.name) ? `${studentProfile.name} 학생` : '비회원 (체험 학생)';
+      }
+      if (acctSchool) {
+        acctSchool.innerText = (studentProfile && studentProfile.school) ? studentProfile.school : '미등록 (가입 필요)';
+      }
+      if (acctGrade) {
+        acctGrade.innerText = CURRICULUM_MATRIX[currentGrade]?.title || currentGrade;
+      }
+      if (acctSignupText) {
+        acctSignupText.innerText = (studentProfile && studentProfile.name) ? '프로필 및 회원정보 수정' : '학생 회원가입 및 본인 인증';
+      }
+
+      if (studentCard && teacherCard) {
+        if (isTeacher) {
+          studentCard.classList.add('hidden');
+          teacherCard.classList.remove('hidden');
+        } else {
+          studentCard.classList.remove('hidden');
+          teacherCard.classList.add('hidden');
+        }
+      }
     }
 
     function toggleTeacherMode() {
@@ -6679,16 +6866,23 @@
       const inputBox = document.getElementById('teacher-connect-input-box');
       const infoBox = document.getElementById('teacher-connected-info-box');
       const teacherNameEl = document.getElementById('connected-teacher-name');
+      const teacherTypeLabel = document.getElementById('connected-teacher-type-label');
 
       if (!statusBadge || !inputBox || !infoBox) return;
 
       if (studentProfile && studentProfile.connectedTeacherCode) {
-        statusBadge.className = 'text-[9.5px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold';
-        statusBadge.innerText = '연결됨';
+        const isIlwon = studentProfile.connectedTeacherCode === 'ILWON-2027';
+        statusBadge.className = isIlwon
+          ? 'text-[9.5px] bg-amber-900/60 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold'
+          : 'text-[9.5px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold';
+        statusBadge.innerText = isIlwon ? '재원생 인증됨 (무제한)' : '연결됨';
         inputBox.classList.add('hidden');
         infoBox.classList.remove('hidden');
+        if (teacherTypeLabel) {
+          teacherTypeLabel.innerText = isIlwon ? '소속 학원' : '담당 선생님';
+        }
         if (teacherNameEl) {
-          teacherNameEl.innerText = studentProfile.connectedTeacherName || '박지훈 선생님 (메가수학)';
+          teacherNameEl.innerText = studentProfile.connectedTeacherName || (isIlwon ? '일원 학원 (원장님 직속)' : '박지훈 선생님 (메가수학)');
         }
       } else {
         statusBadge.className = 'text-[9.5px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold';
@@ -6703,16 +6897,37 @@
       const code = input ? input.value.trim().toUpperCase() : '';
 
       if (!code) {
-        alert('[선생님 코드 입력 필요]\n선생님께 안내받으신 고유 코드를 입력해 주세요. (예: RM-TEACH-2026)');
+        alert('[고유 코드 입력 필요]\n선생님 또는 학원에서 부여받은 고유 코드를 입력해 주세요.');
         input?.focus();
         return;
       }
 
+      if (code === 'ILWON-2027') {
+        isProMember = true;
+        remainingSolves = 999999;
+        if (!studentProfile) studentProfile = {};
+        studentProfile.isAcademyMember = true;
+        studentProfile.connectedTeacherCode = 'ILWON-2027';
+        studentProfile.connectedTeacherName = '일원 학원 (원장님 직속)';
+        localStorage.setItem('rootmath_is_pro', 'true');
+        localStorage.setItem('rootmath_user_solves', '999999');
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        updateTeacherConnectionUI();
+        updateUserProfileDisplay();
+        updateQuotaUI();
+        if (input) input.value = '';
+
+        alert('[일원 학원 재원생 인증 완료]\n\n일원 학원 정규 재원생 확인이 완료되었습니다!\n\n이제 모든 고난도 기출 킬러 문항과 1:1 대화, AI 쌍둥이 클리닉을 횟수 제한 없이 무제한으로 이용하실 수 있습니다.');
+        return;
+      }
+
       if (code === 'RM-TEACH-2026' || code.startsWith('RM-')) {
+        if (!studentProfile) studentProfile = {};
         studentProfile.connectedTeacherCode = code;
         studentProfile.connectedTeacherName = '박지훈 선생님 (메가수학)';
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
         updateTeacherConnectionUI();
+        updateUserProfileDisplay();
         if (input) input.value = '';
 
         // Auto-roster student into teacher list if not already present
@@ -6733,19 +6948,34 @@
 
         alert(`[담당 선생님 연결 완료]\n\n${studentProfile.connectedTeacherName}과 성공적으로 연결되었습니다.\n\n이제 문제 풀이 화면 하단의 [담당 선생님께 이 문제 질문 전송] 버튼을 통해 언제든 1:1 질문을 보내실 수 있습니다.`);
       } else {
-        alert('[유효하지 않은 코드]\n등록되지 않은 선생님 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요. (테스트용 코드: RM-TEACH-2026)');
+        alert('[유효하지 않은 코드]\n등록되지 않은 선생님 또는 학원 고유 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요.');
       }
     }
 
     function disconnectTeacher() {
-      if (!confirm('담당 선생님과의 연결을 해제하시겠습니까?\n해제 시 실시간 질문 전송 기능이 비활성화됩니다.')) {
+      const isIlwon = studentProfile && studentProfile.connectedTeacherCode === 'ILWON-2027';
+      const confirmMsg = isIlwon
+        ? '일원 학원 재원생 등록을 해제하시겠습니까?\n해제 시 무제한 이용 혜택이 중단되고 기본 무료 체험(3회) 모드로 전환됩니다.'
+        : '담당 선생님과의 연결을 해제하시겠습니까?\n해제 시 실시간 질문 전송 기능이 비활성화됩니다.';
+
+      if (!confirm(confirmMsg)) {
         return;
+      }
+
+      if (isIlwon) {
+        studentProfile.isAcademyMember = false;
+        isProMember = false;
+        remainingSolves = 3;
+        localStorage.setItem('rootmath_is_pro', 'false');
+        localStorage.setItem('rootmath_user_solves', '3');
       }
       studentProfile.connectedTeacherCode = null;
       studentProfile.connectedTeacherName = null;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
       updateTeacherConnectionUI();
-      alert('[선생님 연결 해제 완료]\n담당 선생님 연결이 해제되었습니다.');
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      alert('[연결 해제 완료]\n연결이 정상적으로 해제되었습니다.');
     }
 
     function copyTeacherCode() {
@@ -6841,8 +7071,10 @@
 
       if (code.startsWith('RM-STU-') || code.length >= 6) {
         remainingSolves += 3;
+        localStorage.setItem('rootmath_user_solves', remainingSolves.toString());
         studentProfile.redeemedFriendCode = code;
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        updateQuotaUI();
         updateCameraHomeCards();
         if (input) input.value = '';
 
