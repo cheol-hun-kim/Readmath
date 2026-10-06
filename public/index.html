@@ -2493,8 +2493,8 @@
                 <i data-lucide="maximize-2" class="w-4 h-4 text-indigo-400"></i>
               </div>
               <div class="min-w-0">
-                <h3 id="graph-detail-title" class="text-sm font-extrabold text-white truncate">그래프 정밀 눈금 뷰어</h3>
-                <p id="graph-detail-subtitle" class="text-[10px] text-slate-400 truncate">정밀 모눈종이 좌표 눈금 &amp; 함수별 고대비 분석</p>
+                <h3 id="graph-detail-title" class="text-sm font-extrabold text-white">그래프 정밀 눈금 뷰어</h3>
+                <p id="graph-detail-subtitle" class="text-[10px] text-slate-400">정밀 좌표 눈금 &amp; 함수별 고대비 분석</p>
               </div>
             </div>
           </div>
@@ -2520,7 +2520,7 @@
         </div>
 
         <!-- Dynamic Function Color Legend (Different Colors for Different Functions) -->
-        <div id="graph-detail-legend-bar" class="flex flex-wrap items-center gap-1.5 py-1 shrink-0">
+        <div id="graph-detail-legend-bar" class="grid grid-cols-2 gap-1.5 py-1 shrink-0 w-full">
           <!-- Dynamically populated legend pills -->
         </div>
 
@@ -6037,9 +6037,9 @@
         const shortBadge = d.badge || `도해 ${idx + 1}`;
         const subLabel = (d.title || '').replace(/^도해\s*\d+:\s*/, '').replace(/\[\d+번\]\s*/, '');
         return `
-          <button onclick="selectDiagram(${idx})" class="diagram-pill-tab text-center py-1.5 px-1 rounded-xl text-[10px] sm:text-[11px] font-bold transition flex flex-col items-center justify-center leading-tight ${isActive ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400' : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'}">
-            <span class="font-extrabold truncate w-full">${shortBadge}</span>
-            <span class="text-[9px] font-medium opacity-80 truncate w-full mt-0.5">${subLabel}</span>
+          <button onclick="selectDiagram(${idx})" class="diagram-pill-tab text-center py-1.5 px-1 rounded-xl text-[10px] sm:text-[11px] font-bold transition flex flex-col items-center justify-center leading-tight whitespace-normal ${isActive ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400' : 'bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white'}">
+            <span class="font-extrabold text-[10.5px] leading-tight">${shortBadge}</span>
+            <span class="text-[9px] font-medium opacity-85 mt-0.5 leading-tight">${subLabel}</span>
           </button>
         `;
       }).join('');
@@ -6224,7 +6224,7 @@
 
       const titleEl = document.getElementById('graph-detail-title');
       if (titleEl) {
-        titleEl.innerText = `${prob.title || '문제'} : ${target.title || '그래프 정밀 분석'}`;
+        titleEl.innerText = target.title || prob.title || '그래프 정밀 분석';
       }
 
       const viewport = document.getElementById('graph-detail-svg-viewport');
@@ -6236,12 +6236,14 @@
       const legendBar = document.getElementById('graph-detail-legend-bar');
       if (legendBar) {
         const legends = getDiagramLegendItems(currentProblemId, currentDiagramIdx, target);
-        legendBar.className = "grid grid-cols-2 sm:grid-cols-4 gap-1.5 py-1 shrink-0 w-full";
+        legendBar.className = "grid grid-cols-2 gap-1.5 py-1 shrink-0 w-full";
         legendBar.innerHTML = legends.map(item => `
-          <div class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-semibold border shadow-xs min-w-0" style="background-color: ${item.bg}; color: ${item.color}; border-color: ${item.border};">
-            <span class="w-2 h-2 rounded-full inline-block shrink-0" style="background-color: ${item.color};"></span>
-            <span class="font-bold truncate">${item.label}</span>
-            <span class="text-[9px] font-normal opacity-85 truncate">(${item.desc})</span>
+          <div class="flex flex-col justify-center px-2.5 py-1.5 rounded-xl border shadow-xs leading-tight" style="background-color: ${item.bg}; color: ${item.color}; border-color: ${item.border};">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full inline-block shrink-0" style="background-color: ${item.color};"></span>
+              <span class="font-black text-[11px] leading-tight">${item.label}</span>
+            </div>
+            <span class="text-[9.5px] font-bold opacity-90 pl-4 mt-0.5 leading-tight">${item.desc}</span>
           </div>
         `).join('');
       }
@@ -6258,9 +6260,9 @@
             const shortBadge = d.badge || `도해 ${idx + 1}`;
             const subLabel = (d.title || '').replace(/^도해\s*\d+:\s*/, '').replace(/\[\d+번\]\s*/, '');
             return `
-              <button onclick="switchDetailDiagram(${idx})" class="text-[10px] sm:text-[11px] py-1.5 px-2 rounded-xl font-bold transition flex flex-col items-center justify-center text-center leading-tight ${isActive ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'}">
-                <span class="font-extrabold truncate w-full">${shortBadge}</span>
-                <span class="text-[9px] font-medium opacity-80 truncate w-full mt-0.5">${subLabel}</span>
+              <button onclick="switchDetailDiagram(${idx})" class="whitespace-normal text-[10px] sm:text-[11px] py-1.5 px-1.5 rounded-xl font-bold transition flex flex-col items-center justify-center text-center leading-tight ${isActive ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'}">
+                <span class="font-extrabold text-[10.5px] leading-tight">${shortBadge}</span>
+                <span class="text-[9px] font-medium opacity-85 mt-0.5 leading-tight">${subLabel}</span>
               </button>
             `;
           }).join('');
