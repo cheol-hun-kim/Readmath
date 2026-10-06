@@ -4590,6 +4590,9 @@
       openHistoryProblem(1, false);
       renderMathElements();
       initDetailGraphPan();
+      if (studentProfile && studentProfile.name) {
+        restoreStudentQuestionsFromRemoteDB();
+      }
     });
 
     // Mathematical Text Sanitizer & KaTeX Auto-Wrapper (Zero-Defect Guaranteed)
@@ -5052,14 +5055,23 @@
 
         parsed.id = Date.now();
         parsed.imageUri = currentUploadedImageBase64;
+        parsed.chatMessages = [];
         PROBLEMS_DB[parsed.id] = parsed;
         liveSolveData = parsed;
+
+        userSolvedHistory.unshift(parsed);
+        localStorage.setItem('rootmath_user_history', JSON.stringify(userSolvedHistory));
+
+        // Remote Sync: Only registered students sync to Supabase! (Trial guests are kept strictly local)
+        syncQuestionToRemoteDB(parsed);
 
         updateLoadingProgress(100, '풀이 완성!');
         setTimeout(() => {
           closeModal('loading');
           openHistoryProblem(parsed.id);
           renderHistoryList();
+          updateReportView();
+          updateCameraHomeCards();
         }, 500);
 
       } catch (err) {
@@ -5067,6 +5079,103 @@
         closeModal('loading');
         alert('문제를 분석하는 중 오류가 발생했습니다.\n다시 시도해 주세요.');
       }
+    }
+
+    // ================= SUPABASE REMOTE SYNC & ISOLATION SYSTEM =================
+    // Rule:
+    // 1. Registered Student Members (studentProfile.name present): All solved problems, 4-way visual prescriptions, and 1:1 Socratic tutor dialogue are automatically synced to Supabase PostgreSQL (readmath_questions table).
+    // 2. Trial / Guest Members (Free 3 Solves): Kept strictly local (localStorage/in-memory) to protect student privacy and save database storage quota.
+    function syncQuestionToRemoteDB(prob) {
+      if (!prob) return;
+      // STRICT ISOLATION GATE: Only sync if student is registered!
+      const isRegistered = studentProfile && studentProfile.name && studentProfile.name.trim().length > 0;
+      if (!isRegistered) {
+        // Non-member trial question: STRICTLY LOCAL ONLY
+        return;
+      }
+
+      const payload = {
+        student_name: studentProfile.name.trim(),
+        student_school: studentProfile.school || '',
+        student_grade: studentProfile.grade || currentGrade || '고1',
+        student_phone: studentProfile.phone || '',
+        student_email: studentProfile.email || '',
+        problem_id: prob.id ? String(prob.id) : '',
+        problem_title: prob.title || '',
+        problem_text: prob.problem_text || '',
+        curriculum_grade: prob.curriculum_grade || currentGrade || '고1',
+        final_answer: prob.final_answer || '',
+        svg_diagram: prob.svg_diagram || '',
+        prescriptions: prob.clauses || [],
+        chat_history: prob.chatMessages || [],
+        diagnosis: prob.diagnosis || null,
+        created_at: new Date().toISOString()
+      };
+
+      try {
+        fetch('https://palin-os.onrender.com/api/readmath/questions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    async function restoreStudentQuestionsFromRemoteDB() {
+      if (!studentProfile || !studentProfile.name || !studentProfile.name.trim()) return;
+      try {
+        const resp = await fetch(`https://palin-os.onrender.com/api/readmath/questions?student_name=${encodeURIComponent(studentProfile.name.trim())}&limit=50`);
+        const data = await resp.json().catch(() => ({}));
+        if (data && data.success && Array.isArray(data.questions) && data.questions.length > 0) {
+          let updated = false;
+          data.questions.forEach(q => {
+            const probId = q.problem_id || ('remote_' + q.id);
+            if (!PROBLEMS_DB[probId]) {
+              PROBLEMS_DB[probId] = {
+                id: probId,
+                title: q.problem_title || '풀이 문제',
+                problem_text: q.problem_text || '',
+                curriculum_grade: q.curriculum_grade || currentGrade,
+                final_answer: q.final_answer || '',
+                svg_diagram: q.svg_diagram || '',
+                clauses: q.prescriptions || [],
+                chatMessages: q.chat_history || [],
+                diagnosis: q.diagnosis || null,
+                created_at: q.created_at
+              };
+              const alreadyInHistory = userSolvedHistory.some(h => String(h.id) === String(probId));
+              if (!alreadyInHistory) {
+                userSolvedHistory.push(PROBLEMS_DB[probId]);
+                updated = true;
+              }
+            }
+          });
+          if (updated) {
+            localStorage.setItem('rootmath_user_history', JSON.stringify(userSolvedHistory));
+            renderHistoryList();
+            updateReportView();
+            updateCameraHomeCards();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function syncUserToRemoteDB(profile) {
+      if (!profile || !profile.name || !profile.name.trim()) return;
+      try {
+        fetch('https://palin-os.onrender.com/api/readmath/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: profile.name.trim(),
+            school: profile.school || '',
+            grade: profile.grade || currentGrade || '고1',
+            phone: profile.phone || '',
+            email: profile.email || '',
+            is_suspended: !!profile.isSuspended
+          })
+        }).catch(() => {});
+      } catch (e) {}
     }
 
     function updateLoadingProgress(percent, text) {
@@ -5205,6 +5314,13 @@
         lucide.createIcons();
         renderMathElements();
         document.getElementById('screen-container').scrollTop = document.getElementById('screen-container').scrollHeight;
+
+        if (probData) {
+          if (!probData.chatMessages) probData.chatMessages = [];
+          probData.chatMessages.push({ role: 'user', content: text });
+          probData.chatMessages.push({ role: 'assistant', content: parsed.explanation, svg_diagram: parsed.svg_diagram, diagnosis: parsed.diagnosis });
+          syncQuestionToRemoteDB(probData);
+        }
         return;
 
       } catch (e) {
@@ -5866,6 +5982,11 @@
       updatePrescriptionDisplay();
       goToView('diagnosis');
       const catTitle = catType === 'visual' ? '그림/그래프 못 그림' : (catType === 'modeling' ? '식을 세우지 못함' : (catType === 'condition' ? '문제 조건 놓침' : '개념/공식을 모름'));
+      const prob = PROBLEMS_DB[probId];
+      if (prob) {
+        prob.diagnosis = { category: catType, category_title: catTitle, stuck_condition: clauseText };
+        syncQuestionToRemoteDB(prob);
+      }
       alert(`리드 쌤의 맞춤 원인 분석 결과가 [약점 리포트]에 등록되었습니다.\n\n막힌 조건: "${clauseText}"\n실패 원인: [${catTitle}]`);
     }
 
@@ -6739,27 +6860,18 @@
       studentProfile.isSuspended = false;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
 
-      // Attempt Supabase insert in background
-      try {
-        if (window.fetch) {
-          fetch('https://hsrkvtmgldpanqtdphx.supabase.co/rest/v1/users', {
-            method: 'POST',
-            headers: {
-              'apikey': 'sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
-              'Authorization': 'Bearer sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
-              'Content-Type': 'application/json',
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify({
-              name: name,
-              school: school,
-              grade: grade,
-              phone: cleanPhone,
-              is_suspended: false
-            })
-          }).catch(() => {});
-        }
-      } catch (e) {}
+      // Sync user profile to Supabase and restore student questions
+      syncUserToRemoteDB(studentProfile);
+      restoreStudentQuestionsFromRemoteDB();
+
+      // Auto-sync existing local history questions now that user is registered
+      if (Array.isArray(userSolvedHistory) && userSolvedHistory.length > 0) {
+        userSolvedHistory.forEach(prob => {
+          if (prob && prob.id && prob.problem_text) {
+            syncQuestionToRemoteDB(prob);
+          }
+        });
+      }
 
       isEmailVerified = false;
       setSchoolGrade(grade);
@@ -6838,28 +6950,18 @@
       studentFeedbacks.unshift(newFeedback);
       localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
 
-      // Attempt Supabase insert in background
+      // Sync feedback to Supabase in background
       try {
-        if (window.fetch) {
-          fetch('https://hsrkvtmgldpanqtdphx.supabase.co/rest/v1/feedbacks', {
-            method: 'POST',
-            headers: {
-              'apikey': 'sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
-              'Authorization': 'Bearer sb_publishable_hTvnrRjphoHPwIuDAg1NFQ_5f6VjTlz',
-              'Content-Type': 'application/json',
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify({
-              user_name: name,
-              school: school,
-              grade: studentProfile.grade || '고1',
-              phone: phone,
-              category: category,
-              content: content,
-              is_reviewed: false
-            })
-          }).catch(() => {});
-        }
+        fetch('https://palin-os.onrender.com/api/readmath/feedbacks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_name: name,
+            student_school: school,
+            student_phone: phone,
+            content: `[${category}] ${content}`
+          })
+        }).catch(() => {});
       } catch (e) {}
 
       closeModal('feedback');

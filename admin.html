@@ -249,6 +249,11 @@
         <i data-lucide="database" class="w-4 h-4"></i>
         <span>4. 시스템 진단 & 데이터 초기화</span>
       </button>
+      <button onclick="switchTab('questions')" id="tab-btn-questions" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition shrink-0">
+        <i data-lucide="help-circle" class="w-4 h-4"></i>
+        <span>5. 정규 학생 질문 실시간 관제</span>
+        <span id="tab-badge-questions" class="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 font-bold hidden">0</span>
+      </button>
     </div>
 
     <!-- ================= TAB 1: STUDENT MANAGEMENT & ACCESS CONTROL ================= -->
@@ -507,6 +512,38 @@
       </div>
     </section>
 
+    <!-- ================= TAB 5: REGULAR STUDENT QUESTIONS (SUPABASE REMOTE DB) ================= -->
+    <section id="view-tab-questions" class="hidden space-y-4">
+      <div class="cockpit-card bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-black text-white flex items-center gap-2">
+              <i data-lucide="help-circle" class="w-4 h-4 text-indigo-400"></i>
+              정규 학생 질문 실시간 관제 센터 (Supabase 원격 동기화)
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">
+              이메일 본인 인증을 완료한 정규 학생 회원의 질문과 1:1 대화, 약점 진단 내역이 실시간으로 집계됩니다. (체험 회원 3회 질문은 정책상 DB 저장 제외)
+            </p>
+          </div>
+          <button onclick="fetchRemoteQuestions()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 shadow">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>실시간 새로고침</span>
+          </button>
+        </div>
+
+        <div class="bg-indigo-950/40 border border-indigo-500/40 rounded-xl p-3 text-xs text-indigo-200 flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400 shrink-0"></i>
+          <span>
+            <strong>데이터 분리 및 보안 정책:</strong> 비회원(체험 3회)의 질문 데이터는 DB 저장소 보호 및 보안을 위해 로컬에만 일회성으로 유지되며, <strong>정규 인증 학생</strong>의 질문만 영구 저장되어 원격 관제됩니다.
+          </span>
+        </div>
+
+        <div id="remote-questions-container" class="space-y-3">
+          <!-- Rendered via renderRemoteQuestions() -->
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ================= ADD STUDENT MODAL ================= -->
@@ -679,7 +716,7 @@
     // ================= TABS SWITCHING =================
     function switchTab(tab) {
       activeTab = tab;
-      const tabs = ['students', 'feedbacks', 'academy', 'system'];
+      const tabs = ['students', 'feedbacks', 'academy', 'system', 'questions'];
       tabs.forEach(t => {
         const view = document.getElementById(`view-tab-${t}`);
         const btn = document.getElementById(`tab-btn-${t}`);
@@ -693,6 +730,103 @@
           btn?.classList.add('text-slate-400', 'hover:bg-slate-800');
         }
       });
+      if (tab === 'questions') {
+        fetchRemoteQuestions();
+      }
+      lucide.createIcons();
+    }
+
+    let remoteQuestions = [];
+
+    async function fetchRemoteQuestions() {
+      const container = document.getElementById('remote-questions-container');
+      if (container && remoteQuestions.length === 0) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-slate-400 text-xs">
+            <i data-lucide="loader" class="w-5 h-5 mx-auto mb-2 animate-spin text-indigo-400"></i>
+            Supabase 원격 데이터베이스에서 정규 학생 질문을 동기화하고 있습니다...
+          </div>
+        `;
+        lucide.createIcons();
+      }
+
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/readmath/questions?limit=50');
+        const data = await resp.json().catch(() => ({}));
+        if (data && data.success && Array.isArray(data.questions)) {
+          remoteQuestions = data.questions;
+          const badge = document.getElementById('tab-badge-questions');
+          if (badge) {
+            badge.innerText = remoteQuestions.length;
+            badge.classList.remove('hidden');
+          }
+          renderRemoteQuestions();
+        } else {
+          renderRemoteQuestions();
+        }
+      } catch (e) {
+        renderRemoteQuestions();
+      }
+    }
+
+    function renderRemoteQuestions() {
+      const container = document.getElementById('remote-questions-container');
+      if (!container) return;
+
+      if (!remoteQuestions || remoteQuestions.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-slate-500 bg-slate-950/60 rounded-2xl border border-slate-800">
+            <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-slate-600"></i>
+            <p class="text-xs font-bold text-slate-400">아직 원격 동기화된 정규 학생 질문이 없습니다.</p>
+            <p class="text-[11px] text-slate-500 mt-1">정규 학생 회원이 문제를 질문하면 이곳에 실시간으로 집계됩니다.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = remoteQuestions.map(q => {
+        const diag = q.diagnosis;
+        const diagBadge = diag ? `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">오답 원인: ${diag.category_title || diag.category || '진단 완료'}</span>` : '';
+        const chats = Array.isArray(q.chat_history) ? q.chat_history : [];
+
+        return `
+          <div class="bg-slate-950 border border-slate-800 hover:border-indigo-500/40 rounded-2xl p-4 space-y-3 transition">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold text-xs">
+                  ${(q.student_name || '학')[0]}
+                </span>
+                <div>
+                  <span class="font-extrabold text-sm text-white">${q.student_name} 학생</span>
+                  <span class="text-xs text-slate-400 ml-1">(${q.student_school || '학교 미등록'} • ${q.student_grade || q.curriculum_grade || '고1'})</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                ${diagBadge}
+                <span class="text-[10px] font-mono text-slate-500">${q.created_at ? q.created_at.slice(0, 16).replace('T', ' ') : ''}</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-1.5 py-0.5 rounded">${q.curriculum_grade || '공통수학'}</span>
+                <h4 class="text-xs font-bold text-white">${q.problem_title || '질문 문제'}</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60">
+                ${q.problem_text || '문제 내용'}
+              </p>
+            </div>
+
+            ${q.final_answer ? `
+              <div class="text-xs text-slate-400 bg-slate-900/40 p-2 rounded-lg flex items-center justify-between">
+                <span>최종 정답: <strong class="text-indigo-300 font-mono">${q.final_answer}</strong></span>
+                <span class="text-[10px] text-slate-500">1:1 대화: ${chats.length}턴</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
       lucide.createIcons();
     }
 
