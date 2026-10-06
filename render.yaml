@@ -18,6 +18,18 @@ services:
         source: /assets/*
         destination: /assets/*
       - type: rewrite
+        source: /sw.js
+        destination: /sw.js
+      - type: rewrite
+        source: /manifest.json
+        destination: /manifest.json
+      - type: rewrite
+        source: /icon-*.png
+        destination: /icon-*.png
+      - type: rewrite
+        source: /admin
+        destination: /admin.html
+      - type: rewrite
         source: /privacy
         destination: /privacy.html
       - type: rewrite

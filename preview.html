@@ -3231,7 +3231,7 @@
         </div>
 
         <!-- Android Guide -->
-        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
+        <div id="pwa-guide-android-box" class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2.5 transition">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
               <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-400"></i>
@@ -3239,11 +3239,24 @@
             </span>
             <span class="text-[9px] bg-indigo-950 text-indigo-300 border border-indigo-800/50 px-2 py-0.5 rounded font-extrabold">간편 설치</span>
           </div>
-          <ol class="text-[11px] text-slate-300 space-y-1.5 list-decimal pl-4 leading-relaxed">
-            <li>아래 <strong class="text-white">[지금 바로가기 추가하기]</strong> 버튼을 터치합니다.</li>
-            <li>설치 팝업이 뜨지 않는 경우, 브라우저 메뉴(점 3개 또는 줄 3개)를 누릅니다.</li>
-            <li><strong class="text-indigo-300">[홈 화면에 추가]</strong> 또는 <strong class="text-indigo-300">[앱 설치]</strong>를 선택하면 바탕화면에 생성됩니다.</li>
-          </ol>
+          
+          <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-2.5 space-y-1 text-[11px]">
+            <div class="font-extrabold text-indigo-300">
+              방법 1. 경고 없이 1초 추가 (가장 추천)
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              브라우저 메뉴(하단 <strong class="text-white">[줄 3개]</strong> 또는 상단 <strong class="text-white">[더보기 ⋮]</strong>) 터치 -> <strong class="text-amber-300">[현재 페이지 추가]</strong> -> <strong class="text-white">[홈 화면]</strong>을 누르시면 보안 경고 없이 바탕화면에 즉시 설치됩니다.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/80 border border-slate-700/60 rounded-xl p-2.5 space-y-1 text-[11px]">
+            <div class="font-extrabold text-slate-300">
+              방법 2. '앱 설치' 시 Play 프로텍트 경고가 뜰 때
+            </div>
+            <p class="text-slate-400 leading-relaxed">
+              안드로이드 14+ 최신 보안 정책으로 인해 비스토어 앱 차단 경고가 뜰 수 있습니다. 경고창 하단의 <strong class="text-amber-300">[세부정보 더보기 ∨]</strong>를 누른 후 <strong class="text-white">[무시하고 설치 (안전하지 않음)]</strong>을 누르시면 정상 설치됩니다.
+            </p>
+          </div>
         </div>
 
         <!-- iPhone Safari Guide -->
@@ -3275,6 +3288,8 @@
             주소창 우측의 [설치] 아이콘을 클릭하거나 브라우저 설정 메뉴에서 [ReadMath 설치]를 누르면 PC 앱으로 바로 실행됩니다.
           </p>
         </div>
+
+        <div id="pwa-action-feedback" class="hidden bg-indigo-950/90 border border-indigo-500/50 text-indigo-200 text-[11px] p-3 rounded-xl font-bold leading-relaxed text-center shadow-lg"></div>
 
         <div class="space-y-2 pt-1">
           <button onclick="triggerPwaInstall()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition active:scale-98">
@@ -6759,6 +6774,14 @@
     // ================= PWA HOME SCREEN SHORTCUT & INSTALLATION ENGINE =================
     let deferredPrompt = null;
 
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then((reg) => console.log('[ReadMath SW] Registered with scope:', reg.scope))
+          .catch((err) => console.log('[ReadMath SW] Registration failed:', err));
+      });
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -6779,11 +6802,23 @@
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
             console.log('[ReadMath PWA] User accepted install');
+            closePwaGuideModal();
           }
           deferredPrompt = null;
         });
       } else {
         openPwaGuideModal();
+        const feedback = document.getElementById('pwa-action-feedback');
+        if (feedback) {
+          feedback.classList.remove('hidden');
+          feedback.innerText = '브라우저 메뉴(하단 줄 3개 또는 상단 더보기)를 터치하신 후 [현재 페이지 추가] -> [홈 화면]을 누르시면 보안 경고 없이 바탕화면에 즉시 추가됩니다.';
+        }
+        const box = document.getElementById('pwa-guide-android-box');
+        if (box) {
+          box.classList.add('ring-2', 'ring-indigo-400');
+          box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          setTimeout(() => box.classList.remove('ring-2', 'ring-indigo-400'), 2500);
+        }
       }
     }
 
@@ -6792,6 +6827,10 @@
     }
 
     function closePwaGuideModal() {
+      const feedback = document.getElementById('pwa-action-feedback');
+      if (feedback) {
+        feedback.classList.add('hidden');
+      }
       closeModal('pwa-guide');
     }
 
