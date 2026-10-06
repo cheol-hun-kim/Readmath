@@ -1165,6 +1165,11 @@
     body.theme-day #modal-account-mgmt span.text-slate-300 {
       color: #334155 !important;
     }
+    body.theme-day #settings-header-auth-btn.bg-slate-800 {
+      background-color: #EEF2FF !important;
+      border-color: #C7D2FE !important;
+      color: #4338CA !important;
+    }
 
     @media print {
       body { background: white !important; color: black !important; padding: 0 !important; }
@@ -1720,8 +1725,9 @@
             <h2 class="text-lg font-black text-white">설정 및 학년 관리</h2>
             <p class="text-xs text-slate-400">내 학년과 학습 목표를 관리하세요</p>
           </div>
-          <button onclick="openModal('login')" class="bg-indigo-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
-            로그인
+          <button id="settings-header-auth-btn" onclick="handleSettingsHeaderAuthClick()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs">
+            <i data-lucide="log-in" class="w-3.5 h-3.5" id="settings-header-auth-icon"></i>
+            <span id="settings-header-auth-text">로그인</span>
           </button>
         </div>
 
@@ -2303,10 +2309,14 @@
               <span id="account-mgmt-solves" class="font-extrabold text-amber-400">무료 3회</span>
             </div>
           </div>
-          <div class="pt-1">
-            <button onclick="closeModal('account-mgmt'); openModal('login');" id="account-mgmt-signup-btn" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
+          <div class="pt-1 flex gap-2">
+            <button onclick="closeModal('account-mgmt'); openModal('login');" id="account-mgmt-signup-btn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
               <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
               <span id="account-mgmt-signup-btn-text">학생 회원가입 및 본인 인증</span>
+            </button>
+            <button onclick="logoutStudent()" id="account-mgmt-logout-btn" class="hidden px-3 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-xs font-bold py-2 rounded-xl border border-rose-800/50 transition flex items-center justify-center gap-1 shrink-0">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>로그아웃</span>
             </button>
           </div>
         </div>
@@ -6237,7 +6247,7 @@
           window.open('admin.html', '_blank');
         } catch (e) {}
 
-        alert('[제작자(Admin) 인증 성공]\n\n환영합니다, 대표 관리자님!\nPassMate와 동일하게 별도의 관리자 통합 관제실(admin.html)이 새 창에서 실행되었습니다.\n설정 탭의 [관리자 전용 관제실 열기] 버튼을 통해서도 언제든 다시 접속하실 수 있습니다.');
+        alert('[제작자(Admin) 인증 성공]\n\n환영합니다, 대표 관리자님!\n안전한 별도의 관리자 통합 관제실(admin.html)이 새 창에서 실행되었습니다.\n설정 탭의 [관리자 전용 관제실 열기] 버튼을 통해서도 언제든 다시 접속하실 수 있습니다.');
       } else {
         alert('비밀번호가 올바르지 않습니다.\n제작자 전용 보안 비밀번호를 다시 확인해주세요.');
         if (pwdInput) {
@@ -6477,10 +6487,9 @@
       emailVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
       isEmailVerified = false;
 
-      // Cascading endpoints for maximum cloud and local resilience
+      // Dedicated ReadMath Cloud and Local SMTP endpoints (100% pure ReadMath branding)
       const endpoints = [
         'https://palin-os.onrender.com/api/readmath/send-email-otp',
-        'https://palin-os.onrender.com/api/auth/send-email-otp',
         (window.location.protocol === 'file:') ? 'http://127.0.0.1:8765/api/send-email-otp' : '/api/send-email-otp'
       ];
 
@@ -7336,6 +7345,73 @@
           teacherCard.classList.add('hidden');
         }
       }
+
+      // 4. Settings View Top Header Auth Button
+      const headerAuthBtn = document.getElementById('settings-header-auth-btn');
+      const headerAuthText = document.getElementById('settings-header-auth-text');
+      const headerAuthIcon = document.getElementById('settings-header-auth-icon');
+      const logoutBtn = document.getElementById('account-mgmt-logout-btn');
+
+      if (headerAuthBtn && headerAuthText) {
+        if (isTeacher) {
+          headerAuthText.innerText = `${teacherProfile.name || '박지훈'} 선생님`;
+          if (headerAuthIcon) headerAuthIcon.setAttribute('data-lucide', 'user-check');
+          headerAuthBtn.className = 'bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-600/40 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs';
+        } else if (studentProfile && studentProfile.name) {
+          headerAuthText.innerText = `${studentProfile.name} 학생`;
+          if (headerAuthIcon) headerAuthIcon.setAttribute('data-lucide', 'user');
+          headerAuthBtn.className = 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-500/40 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs';
+        } else {
+          headerAuthText.innerText = '로그인';
+          if (headerAuthIcon) headerAuthIcon.setAttribute('data-lucide', 'log-in');
+          headerAuthBtn.className = 'bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs';
+        }
+        if (window.lucide) {
+          try { window.lucide.createIcons(); } catch (e) {}
+        }
+      }
+
+      if (logoutBtn) {
+        if (studentProfile && studentProfile.name) {
+          logoutBtn.classList.remove('hidden');
+        } else {
+          logoutBtn.classList.add('hidden');
+        }
+      }
+    }
+
+    function handleSettingsHeaderAuthClick() {
+      if ((studentProfile && studentProfile.name) || userRole === 'teacher') {
+        openModal('account-mgmt');
+      } else {
+        openModal('login');
+      }
+    }
+
+    function logoutStudent() {
+      if (!confirm('로그아웃 하시겠습니까?\n체험 모드로 전환됩니다.')) return;
+      studentProfile = {
+        name: '',
+        school: '',
+        grade: '고1',
+        phone: '',
+        email: '',
+        isSuspended: false,
+        isAcademyMember: false,
+        connectedTeacherCode: null,
+        connectedTeacherName: null,
+        myReferralCode: 'RM-STU-7721'
+      };
+      localStorage.removeItem('rootmath_student_profile');
+      isProMember = false;
+      remainingSolves = 3;
+      localStorage.setItem('rootmath_is_pro', 'false');
+      localStorage.setItem('rootmath_user_solves', '3');
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      updateTeacherConnectionUI();
+      closeModal('account-mgmt');
+      alert('[로그아웃 완료]\n정상적으로 로그아웃되었습니다.');
     }
 
     function toggleTeacherMode() {
