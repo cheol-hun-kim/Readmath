@@ -1186,6 +1186,45 @@
       color: #4338CA !important;
     }
 
+    /* Header action & badge chip height normalization */
+    #phone-theme-toggle-btn,
+    #camera-pwa-install-btn,
+    #camera-role-btn,
+    #quota-badge-btn,
+    #current-grade-badge {
+      height: 26px !important;
+      min-height: 26px !important;
+      max-height: 26px !important;
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
+      vertical-align: middle !important;
+    }
+    #camera-pwa-install-btn {
+      width: 26px !important;
+      min-width: 26px !important;
+      max-width: 26px !important;
+      padding: 0 !important;
+    }
+    #phone-theme-toggle-btn {
+      width: 26px !important;
+      min-width: 26px !important;
+      max-width: 26px !important;
+      padding: 0 !important;
+    }
+    #camera-pwa-install-btn svg,
+    #camera-pwa-install-btn i {
+      width: 12px !important;
+      height: 12px !important;
+    }
+    #phone-theme-toggle-btn svg,
+    #phone-theme-toggle-btn i {
+      width: 13px !important;
+      height: 13px !important;
+    }
+
     @media print {
       body { background: white !important; color: black !important; padding: 0 !important; }
       body > *:not(#printable-exam-area) { display: none !important; }
@@ -1251,21 +1290,21 @@
           
           <!-- Action, Role & Grade Chips (Clean Educational Interface) -->
           <div class="flex items-center gap-1 shrink-0 whitespace-nowrap">
-            <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
+            <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
               <i data-lucide="sun" class="w-3.5 h-3.5"></i>
             </button>
-            <button onclick="triggerPwaInstall()" id="camera-pwa-install-btn" class="flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 transition shrink-0 shadow-xs" title="스마트폰 바탕화면에 앱 바로가기 설치">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <button onclick="triggerPwaInstall()" id="camera-pwa-install-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 transition shrink-0 shadow-xs" title="스마트폰 바탕화면에 앱 바로가기 설치">
+              <i data-lucide="download" class="w-3 h-3"></i>
             </button>
-            <button onclick="toggleTeacherMode()" id="camera-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="학생/선생님 모드 전환">
+            <button onclick="toggleTeacherMode()" id="camera-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 h-[26px] rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none" title="학생/선생님 모드 전환">
               <i data-lucide="graduation-cap" class="w-3 h-3 text-indigo-400 shrink-0" id="camera-role-icon"></i>
               <span id="camera-role-text">학생</span>
             </button>
-            <button onclick="openModal('account-mgmt')" id="quota-badge-btn" class="flex bg-indigo-950/80 hover:bg-indigo-900/80 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition whitespace-nowrap shadow-xs" title="잔여 문제 풀이 횟수 및 계정 관리">
+            <button onclick="openModal('account-mgmt')" id="quota-badge-btn" class="flex h-[26px] bg-indigo-950/80 hover:bg-indigo-900/80 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none" title="잔여 문제 풀이 횟수 및 계정 관리">
               <i data-lucide="zap" class="w-3 h-3 text-amber-400 shrink-0"></i>
               <span id="quota-text">무료 3회</span>
             </button>
-            <button onclick="openGradeModal()" id="current-grade-badge" class="bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-[10.5px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs" title="학년 선택 및 교육과정 확인">
+            <button onclick="openGradeModal()" id="current-grade-badge" class="flex h-[26px] bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-[10.5px] font-bold px-2 rounded-lg flex items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none" title="학년 선택 및 교육과정 확인">
               <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-indigo-400 shrink-0"></i>
               <span id="current-grade-badge-text">고1</span>
               <i data-lucide="chevron-down" class="w-2.5 h-2.5 text-slate-400 shrink-0"></i>
@@ -6767,17 +6806,17 @@
       if (isIlwon) {
         label = '재원생 무제한';
         if (quotaBadge) {
-          quotaBadge.className = 'flex bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
         }
       } else if (isProMember) {
         label = 'PRO 무제한';
         if (quotaBadge) {
-          quotaBadge.className = 'flex bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
         }
       } else {
         label = `무료 ${remainingSolves}회`;
         if (quotaBadge) {
-          quotaBadge.className = 'flex bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-1.5 py-1 rounded-lg items-center gap-0.5 shrink-0 transition';
+          quotaBadge.className = 'flex h-[26px] bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
         }
       }
       
@@ -7489,7 +7528,7 @@
         if (phoneThemeBtn) {
           phoneThemeBtn.innerHTML = '<i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-600"></i>';
           phoneThemeBtn.title = '나이트모드로 전환';
-          phoneThemeBtn.className = 'flex items-center justify-center w-6 h-6 rounded-full bg-slate-200 hover:bg-slate-300 text-indigo-600 transition';
+          phoneThemeBtn.className = 'flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-200 hover:bg-slate-300 text-indigo-600 transition shrink-0 shadow-xs';
         }
 
         if (settingsThemeIndicator) {
@@ -7512,7 +7551,7 @@
         if (phoneThemeBtn) {
           phoneThemeBtn.innerHTML = '<i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>';
           phoneThemeBtn.title = '데이모드로 전환';
-          phoneThemeBtn.className = 'flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 transition';
+          phoneThemeBtn.className = 'flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 transition shrink-0 shadow-xs';
         }
 
         if (settingsThemeIndicator) {
@@ -7549,7 +7588,7 @@
           <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-indigo-400 shrink-0'}" id="camera-role-icon"></i>
           <span id="camera-role-text">${isTeacher ? '선생님' : '학생'}</span>
         `;
-        const baseCam = 'text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none';
+        const baseCam = 'h-[26px] text-[10px] font-bold px-2 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none';
         const roleCam = isTeacher 
           ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
           : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
