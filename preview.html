@@ -1188,8 +1188,6 @@
 
     /* Header action & badge chip height normalization */
     #phone-theme-toggle-btn,
-    #camera-pwa-install-btn,
-    #camera-role-btn,
     #quota-badge-btn,
     #current-grade-badge {
       height: 26px !important;
@@ -1202,22 +1200,24 @@
       line-height: 1 !important;
       vertical-align: middle !important;
     }
-    #camera-pwa-install-btn {
-      width: 26px !important;
-      min-width: 26px !important;
-      max-width: 26px !important;
-      padding: 0 !important;
+    #camera-role-btn,
+    #solution-role-btn {
+      height: 26px !important;
+      min-height: 26px !important;
+      max-height: 26px !important;
+      box-sizing: border-box !important;
+      line-height: 1 !important;
+      vertical-align: middle !important;
+    }
+    #camera-role-btn.hidden,
+    #solution-role-btn.hidden {
+      display: none !important;
     }
     #phone-theme-toggle-btn {
       width: 26px !important;
       min-width: 26px !important;
       max-width: 26px !important;
       padding: 0 !important;
-    }
-    #camera-pwa-install-btn svg,
-    #camera-pwa-install-btn i {
-      width: 12px !important;
-      height: 12px !important;
     }
     #phone-theme-toggle-btn svg,
     #phone-theme-toggle-btn i {
@@ -1291,9 +1291,6 @@
           <div class="flex items-center gap-1 shrink-0 whitespace-nowrap">
             <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
               <i data-lucide="sun" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="triggerPwaInstall()" id="camera-pwa-install-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 transition shrink-0 shadow-xs" title="스마트폰 바탕화면에 앱 바로가기 설치">
-              <i data-lucide="download" class="w-3 h-3"></i>
             </button>
             <button onclick="toggleTeacherMode()" id="camera-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 h-[26px] rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none" title="학생/선생님 모드 전환">
               <i data-lucide="graduation-cap" class="w-3 h-3 text-indigo-400 shrink-0" id="camera-role-icon"></i>
@@ -1792,7 +1789,7 @@
         </div>
 
         <!-- Phone Home Screen App Shortcut Installation Card -->
-        <div class="bg-gradient-to-r from-indigo-950/90 via-slate-900 to-indigo-950/90 border border-indigo-500/40 rounded-xl p-3.5 space-y-2.5 shadow-md">
+        <div id="settings-pwa-shortcut-card" class="bg-gradient-to-r from-indigo-950/90 via-slate-900 to-indigo-950/90 border border-indigo-500/40 rounded-xl p-3.5 space-y-2.5 shadow-md">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
               <div class="w-7 h-7 rounded-lg bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shrink-0">
@@ -3314,11 +3311,12 @@
     let isProMember = localStorage.getItem('rootmath_is_pro') === 'true';
     let remainingSolves = parseInt(localStorage.getItem('rootmath_user_solves') ?? '3', 10);
     if (isNaN(remainingSolves)) remainingSolves = 3;
-    let userRole = localStorage.getItem('rootmath_user_role') || 'student';
-    let currentTheme = localStorage.getItem('rootmath_theme') || 'night';
     let isCreatorMode = false;
     let isViewingSample = false;
     try { localStorage.removeItem('rootmath_creator_mode'); } catch (e) {}
+    try { localStorage.removeItem('rootmath_user_role'); } catch (e) {}
+    let userRole = 'student';
+    let currentTheme = localStorage.getItem('rootmath_theme') || 'night';
 
     let studentProfile = JSON.parse(localStorage.getItem('rootmath_student_profile') || JSON.stringify({
       name: '',
@@ -3373,10 +3371,10 @@
     } catch (e) {}
 
     let teacherProfile = JSON.parse(localStorage.getItem('rootmath_teacher_profile') || JSON.stringify({
-      name: '박지훈',
-      academy: '메가수학 전문학원',
+      name: '선생님',
+      academy: '',
       type: 'academy',
-      plan: '선생님 프리미엄 (14일 무료 체험)'
+      plan: '선생님 전용'
     }));
 
     let teacherStudents = JSON.parse(localStorage.getItem('rootmath_teacher_students') || '[]');
@@ -6785,10 +6783,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const cameraBtn = document.getElementById('camera-pwa-install-btn');
-      if (cameraBtn) {
-        cameraBtn.classList.remove('hidden');
-      }
     });
 
     window.addEventListener('appinstalled', () => {
@@ -7614,37 +7608,58 @@
 
     // ================= TEACHER / STUDENT PERSONA CONTROLLER =================
     function setUserRole(role) {
+      if (!isCreatorMode && role === 'teacher') {
+        role = 'student';
+      }
       userRole = role;
-      localStorage.setItem('rootmath_user_role', role);
-
-      const isTeacher = role === 'teacher';
-
-      // 1. Camera Header Role Button
-      const camBtn = document.getElementById('camera-role-btn');
-      if (camBtn) {
-        camBtn.innerHTML = `
-          <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-indigo-400 shrink-0'}" id="camera-role-icon"></i>
-          <span id="camera-role-text">${isTeacher ? '선생님' : '학생'}</span>
-        `;
-        const baseCam = 'h-[26px] text-[10px] font-bold px-2 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none';
-        const roleCam = isTeacher 
-          ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
-          : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
-        camBtn.className = `${baseCam} ${roleCam} ${isCreatorMode ? '' : 'hidden'}`;
+      if (isCreatorMode) {
+        localStorage.setItem('rootmath_user_role', role);
+      } else {
+        try { localStorage.removeItem('rootmath_user_role'); } catch (e) {}
       }
 
-      // 2. Solution Top Nav Role Button
+      const isTeacher = userRole === 'teacher';
+
+      // 1. Camera Header Role Button (Strictly restricted to Creator Mode)
+      const camBtn = document.getElementById('camera-role-btn');
+      if (camBtn) {
+        if (!isCreatorMode) {
+          camBtn.classList.add('hidden');
+          camBtn.style.setProperty('display', 'none', 'important');
+        } else {
+          camBtn.classList.remove('hidden');
+          camBtn.style.setProperty('display', 'inline-flex', 'important');
+          camBtn.innerHTML = `
+            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-indigo-400 shrink-0'}" id="camera-role-icon"></i>
+            <span id="camera-role-text">${isTeacher ? '선생님' : '학생'}</span>
+          `;
+          const baseCam = 'h-[26px] text-[10px] font-bold px-2 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none';
+          const roleCam = isTeacher 
+            ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
+            : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
+          camBtn.className = `${baseCam} ${roleCam}`;
+        }
+      }
+
+      // 2. Solution Top Nav Role Button (Strictly restricted to Creator Mode)
       const solBtn = document.getElementById('solution-role-btn');
       if (solBtn) {
-        solBtn.innerHTML = `
-          <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-indigo-400 shrink-0'}" id="solution-role-icon"></i>
-          <span id="solution-role-text">${isTeacher ? '선생님' : '학생'}</span>
-        `;
-        const baseSol = 'text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none';
-        const roleSol = isTeacher
-          ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
-          : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
-        solBtn.className = `${baseSol} ${roleSol} ${isCreatorMode ? '' : 'hidden'}`;
+        if (!isCreatorMode) {
+          solBtn.classList.add('hidden');
+          solBtn.style.setProperty('display', 'none', 'important');
+        } else {
+          solBtn.classList.remove('hidden');
+          solBtn.style.setProperty('display', 'inline-flex', 'important');
+          solBtn.innerHTML = `
+            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-indigo-400 shrink-0'}" id="solution-role-icon"></i>
+            <span id="solution-role-text">${isTeacher ? '선생님' : '학생'}</span>
+          `;
+          const baseSol = 'text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none';
+          const roleSol = isTeacher
+            ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
+            : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
+          solBtn.className = `${baseSol} ${roleSol}`;
+        }
       }
 
       // 3. Settings View & Profile Status
@@ -7841,6 +7856,10 @@
     }
 
     function toggleTeacherMode() {
+      if (!isCreatorMode) {
+        openAdminAuthModal();
+        return;
+      }
       const nextRole = userRole === 'teacher' ? 'student' : 'teacher';
       setUserRole(nextRole);
       if (nextRole === 'teacher') {
