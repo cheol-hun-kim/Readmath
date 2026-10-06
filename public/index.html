@@ -1260,8 +1260,8 @@
               <span>상세 도식 및 그래프 설명</span>
             </span>
             <div class="flex items-center gap-1.5">
-              <button onclick="toggleDiagramZoom()" id="diagram-zoom-btn" class="text-[10px] text-indigo-300 font-bold bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/30 flex items-center gap-1 hover:text-white transition">
-                <i data-lucide="maximize-2" class="w-3 h-3"></i> 크게 보기
+              <button onclick="openGraphDetailModal()" id="diagram-zoom-btn" class="text-[10px] text-indigo-300 font-bold bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/30 flex items-center gap-1 hover:text-white transition shadow-sm" title="정밀 모눈종이 눈금 및 고대비 확대 화면으로 보기">
+                <i data-lucide="zoom-in" class="w-3 h-3"></i> 그래프 자세히 보기
               </button>
               <span id="diagram-badge-text" class="text-[10px] text-blue-300 font-semibold bg-blue-950/80 px-2 py-0.5 rounded border border-blue-500/30">직관적 이해</span>
             </div>
@@ -1272,9 +1272,12 @@
             <!-- Dynamic Diagram Pill Tabs -->
           </div>
 
-          <!-- Large High-Resolution SVG Canvas -->
-          <div id="solution-svg-container" class="bg-[#090D16] border border-slate-800/80 rounded-xl p-2.5 overflow-hidden flex items-center justify-center min-h-[250px] transition-all duration-300">
+          <!-- Large High-Resolution SVG Canvas (Clickable to Inspect) -->
+          <div id="solution-svg-container" onclick="openGraphDetailModal()" class="group relative bg-[#090D16] border border-slate-800/80 rounded-xl p-2.5 overflow-hidden flex items-center justify-center min-h-[250px] transition-all duration-300 cursor-pointer hover:border-indigo-500/60" title="클릭하여 모눈종이 눈금 화면에서 자세히 확대 보기">
             <!-- Dynamic SVG Graphic Inserted Here -->
+            <div class="absolute bottom-2 right-2 opacity-80 group-hover:opacity-100 transition-opacity bg-slate-900/90 text-indigo-300 border border-indigo-500/40 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 pointer-events-none shadow">
+              <i data-lucide="zoom-in" class="w-3 h-3"></i> 탭하여 정밀 눈금 보기
+            </div>
           </div>
           <p id="solution-svg-caption" class="text-[11px] text-slate-300 text-center leading-relaxed font-medium">
             수식을 그래프로 그려보면 문제가 요구하는 핵심 조건을 쉽게 찾을 수 있습니다.
@@ -2226,6 +2229,89 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: GRAPH DETAIL & FULLSCREEN GRID VIEWER ================= -->
+    <div id="modal-graph-detail" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col justify-end">
+      <div class="bg-slate-900 border-t border-slate-700 rounded-t-3xl p-4 space-y-3 max-h-[96%] flex flex-col h-[94%]">
+        
+        <!-- Header with Title & Zoom Controls -->
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 shrink-0">
+          <div class="min-w-0 flex-1 pr-2">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
+                <i data-lucide="maximize-2" class="w-4 h-4 text-indigo-400"></i>
+              </div>
+              <div class="min-w-0">
+                <h3 id="graph-detail-title" class="text-sm font-extrabold text-white truncate">그래프 정밀 눈금 뷰어</h3>
+                <p id="graph-detail-subtitle" class="text-[10px] text-slate-400 truncate">정밀 모눈종이 좌표 눈금 &amp; 함수별 고대비 분석</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zoom & Control Toolbar -->
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="zoomDetailGraph(-0.25)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center text-xs font-bold transition border border-slate-700" title="축소">
+              <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+            </button>
+            <span id="graph-detail-zoom-label" class="text-[10.5px] font-mono font-bold text-indigo-300 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800 min-w-[48px] text-center">
+              100%
+            </span>
+            <button onclick="zoomDetailGraph(0.25)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center text-xs font-bold transition border border-slate-700" title="확대">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="resetDetailGraphZoom()" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold transition border border-slate-700" title="원위치 리셋">
+              원위치
+            </button>
+            <button onclick="closeModal('graph-detail')" class="p-1 text-slate-400 hover:text-white ml-1">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Function Color Legend (Different Colors for Different Functions) -->
+        <div id="graph-detail-legend-bar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 shrink-0">
+          <!-- Dynamically populated legend pills -->
+        </div>
+
+        <!-- Crisp White Engineering Grid Canvas Area -->
+        <div id="graph-detail-canvas-wrapper" class="relative flex-1 bg-white rounded-2xl overflow-hidden border-2 border-slate-300 shadow-inner select-none cursor-grab active:cursor-grabbing">
+          <!-- Engineering Millimeter Grid Overlay -->
+          <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;"></div>
+
+          <!-- Coordinate Axis Center Guide Labels -->
+          <div class="absolute top-2 left-2 pointer-events-none bg-white/90 backdrop-blur-sm border border-slate-300/80 px-2 py-0.5 rounded text-[9.5px] font-mono font-bold text-slate-600 shadow-sm">
+            격자 눈금: 1칸 = 10px / 5칸 = 50px
+          </div>
+
+          <!-- Scalable & Pannable SVG Viewport -->
+          <div id="graph-detail-svg-viewport" class="w-full h-full flex items-center justify-center transition-transform duration-75 origin-center">
+            <!-- Dynamic SVG injected with white-canvas styling -->
+          </div>
+
+          <!-- Floating Drag & Pinch Hint -->
+          <div class="absolute bottom-2 right-2 pointer-events-none bg-slate-900/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-[9.5px] font-medium shadow-sm flex items-center gap-1">
+            <i data-lucide="move" class="w-3 h-3 text-indigo-400"></i> 드래그하여 이동 / +/- 로 확대
+          </div>
+        </div>
+
+        <!-- Bottom Diagram Caption & Sub-diagram Switcher -->
+        <div class="shrink-0 space-y-2 pt-0.5">
+          <!-- Multi-diagram Switcher (if problem has multiple diagrams) -->
+          <div id="graph-detail-switcher" class="flex gap-1.5 overflow-x-auto no-scrollbar">
+            <!-- Sub-diagram pills -->
+          </div>
+
+          <!-- Math Explanation Caption -->
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-[11px] text-slate-200 leading-relaxed font-medium">
+            <span class="text-indigo-400 font-bold block mb-0.5">그래프 핵심 독해 포인트:</span>
+            <p id="graph-detail-caption-text">
+              <!-- Math caption with KaTeX -->
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -4332,6 +4418,7 @@
       updateUserProfileDisplay();
       openHistoryProblem(1, false);
       renderMathElements();
+      initDetailGraphPan();
     });
 
     // Mathematical Text Sanitizer & KaTeX Auto-Wrapper (Zero-Defect Guaranteed)
@@ -5176,20 +5263,254 @@
       renderMathElements();
     }
 
-    function toggleDiagramZoom() {
-      const container = document.getElementById('solution-svg-container');
-      const btn = document.getElementById('diagram-zoom-btn');
-      isDiagramZoomed = !isDiagramZoomed;
-      if (isDiagramZoomed) {
-        container.classList.remove('min-h-[250px]');
-        container.classList.add('min-h-[420px]');
-        btn.innerHTML = `<i data-lucide="minimize-2" class="w-3 h-3"></i> 원래 크기`;
-      } else {
-        container.classList.remove('min-h-[420px]');
-        container.classList.add('min-h-[250px]');
-        btn.innerHTML = `<i data-lucide="maximize-2" class="w-3 h-3"></i> 크게 보기`;
+    // ================= GRAPH DETAIL FULLSCREEN WHITE GRID VIEWER =================
+    let detailGraphZoom = 1.0;
+    let detailGraphPanX = 0;
+    let detailGraphPanY = 0;
+    let isDetailGraphDragging = false;
+    let detailGraphDragStartX = 0;
+    let detailGraphDragStartY = 0;
+
+    function openGraphDetailModal(diagramIdx = null) {
+      if (diagramIdx !== null && typeof diagramIdx === 'number') {
+        currentDiagramIdx = diagramIdx;
       }
+      detailGraphZoom = 1.0;
+      detailGraphPanX = 0;
+      detailGraphPanY = 0;
+      openModal('graph-detail');
+      renderDetailGraph();
+    }
+
+    function convertSvgForWhiteCanvas(svgStr) {
+      if (!svgStr) return '';
+      let s = svgStr;
+      // 1. Remove dark background rects so millimeter engineering grid shines through
+      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#090D16"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#050811"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#0A0E17"[^>]*\/>/gi, '');
+
+      // 2. Axes and ticks
+      s = s.replace(/stroke="#64748B"/gi, 'stroke="#1E293B"');
+      s = s.replace(/fill="#64748B"/gi, 'fill="#1E293B"');
+      s = s.replace(/stroke="#1E293B"/gi, 'stroke="#E2E8F0"');
+
+      // 3. Text labels for high readability on white canvas
+      s = s.replace(/fill="#94A3B8"/gi, 'fill="#1E293B"');
+      s = s.replace(/fill="#CBD5E1"/gi, 'fill="#0F172A"');
+      s = s.replace(/fill="#F1F5F9"/gi, 'fill="#0F172A"');
+      s = s.replace(/fill="#F8FAFC"/gi, 'fill="#0F172A"');
+      s = s.replace(/fill="#E2E8F0"/gi, 'fill="#0F172A"');
+      s = s.replace(/fill="#FCA5A5"/gi, 'fill="#991B1B"');
+      s = s.replace(/fill="#C7D2FE"/gi, 'fill="#1E1B4B"');
+      s = s.replace(/fill="#A5B4FC"/gi, 'fill="#312E81"');
+      s = s.replace(/fill="#FDE047"/gi, 'fill="#854D0E"');
+      s = s.replace(/fill="#A7F3D0"/gi, 'fill="#064E3B"');
+      s = s.replace(/fill="#6EE7B7"/gi, 'fill="#065F46"');
+
+      // 4. Function curves: Distinct high-contrast colors
+      s = s.replace(/stroke="#38BDF8"/gi, 'stroke="#1D4ED8"');
+      s = s.replace(/stroke="#60A5FA"/gi, 'stroke="#2563EB"');
+      s = s.replace(/fill="#38BDF8"/gi, 'fill="#1D4ED8"');
+      s = s.replace(/stroke="#10B981"/gi, 'stroke="#047857"');
+      s = s.replace(/stroke="#34D399"/gi, 'stroke="#059669"');
+      s = s.replace(/stroke="#A855F7"/gi, 'stroke="#6D28D9"');
+      s = s.replace(/stroke="#818CF8"/gi, 'stroke="#4338CA"');
+      s = s.replace(/stroke="#6366F1"/gi, 'stroke="#4F46E5"');
+
+      // 5. Pastel callout containers
+      s = s.replace(/fill="#1E1B4B"/gi, 'fill="#EEF2FF"');
+      s = s.replace(/fill="#064E3B"/gi, 'fill="#ECFDF5"');
+      s = s.replace(/fill="#7F1D1D"/gi, 'fill="#FEF2F2"');
+      s = s.replace(/fill="#312E81"/gi, 'fill="#E0E7FF"');
+
+      return s;
+    }
+
+    function getDiagramLegendItems(probId, diagIdx, target) {
+      const p = PROBLEMS_DB[probId] || PROBLEMS_DB[1];
+      if (probId === 1 || probId === '1') {
+        return [
+          { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE', label: '곡선 y = f(x)', desc: '이차함수 포물선' },
+          { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '목표 y = 5', desc: '최댓값 조건선' },
+          { color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: '대칭축 x = a', desc: '경우별 축 위치' },
+          { color: '#2563EB', bg: '#F0F9FF', border: '#BAE6FD', label: '구간 [0, 2]', desc: '관찰 정의역' }
+        ];
+      }
+      if (probId === 10 || probId === '10' || probId === 3 || probId === '3') {
+        if (diagIdx === 1) {
+          return [
+            { color: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE', label: '직선 PQ', desc: 'y = -√2x + 1' },
+            { color: '#047857', bg: '#ECFDF5', border: '#A7F3D0', label: '길이 함수 L(x)', desc: '선분 ST 거리식' },
+            { color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: '선분 ST', desc: '수직 평행선분' },
+            { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '극댓점 (최댓값)', desc: 'x = √6/3' }
+          ];
+        } else if (diagIdx === 2) {
+          return [
+            { color: '#1E293B', bg: '#F8FAFC', border: '#CBD5E1', label: '수평면 α', desc: '기준 수평면' },
+            { color: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: '경사면 β', desc: '각 φ 경사면' },
+            { color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: '교선 l', desc: '두 평면 교선' },
+            { color: '#047857', bg: '#ECFDF5', border: '#A7F3D0', label: '정사영 타원 S\'', desc: 'S · cos φ' }
+          ];
+        } else {
+          return [
+            { color: '#1E293B', bg: '#F8FAFC', border: '#CBD5E1', label: '반원 C', desc: '반원 기하' },
+            { color: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: '동경 OM', desc: '중심 벡터' },
+            { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '수선의 발 H', desc: '접점 r = 1/2' },
+            { color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: '각도 θ + π/6', desc: '동경 회전각' }
+          ];
+        }
+      }
+      return [
+        { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE', label: '주 함수 f(x)', desc: '핵심 곡선' },
+        { color: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: '접선 / 보조함수', desc: '기준선' },
+        { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '임계점 / 극값', desc: '결정 조건' },
+        { color: '#047857', bg: '#ECFDF5', border: '#A7F3D0', label: '영역 / 구간', desc: '해의 범위' }
+      ];
+    }
+
+    function renderDetailGraph() {
+      const prob = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      const diagrams = prob.diagrams || [];
+      const target = diagrams[currentDiagramIdx] || {
+        svg: prob.svg_diagram || '',
+        caption: '수식을 정밀 모눈종이 좌표 위에 도해하여 조건의 기하학적 의미를 직관적으로 분석합니다.',
+        title: '그래프 도해',
+        badge: '직관적 도해'
+      };
+
+      const titleEl = document.getElementById('graph-detail-title');
+      if (titleEl) {
+        titleEl.innerText = `${prob.title || '문제'} : ${target.title || '그래프 정밀 분석'}`;
+      }
+
+      const viewport = document.getElementById('graph-detail-svg-viewport');
+      if (viewport) {
+        viewport.innerHTML = convertSvgForWhiteCanvas(target.svg);
+      }
+      applyDetailGraphTransform();
+
+      const legendBar = document.getElementById('graph-detail-legend-bar');
+      if (legendBar) {
+        const legends = getDiagramLegendItems(currentProblemId, currentDiagramIdx, target);
+        legendBar.innerHTML = legends.map(item => `
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10.5px] font-bold shrink-0 border shadow-xs" style="background-color: ${item.bg}; color: ${item.color}; border-color: ${item.border};">
+            <span class="w-2.5 h-2.5 rounded-full inline-block shrink-0 shadow-xs" style="background-color: ${item.color};"></span>
+            <span>${item.label}</span>
+            <span class="text-[9.5px] font-normal opacity-80">(${item.desc})</span>
+          </div>
+        `).join('');
+      }
+
+      const switcher = document.getElementById('graph-detail-switcher');
+      if (switcher) {
+        if (diagrams.length > 1) {
+          switcher.classList.remove('hidden');
+          switcher.innerHTML = diagrams.map((d, idx) => {
+            const isActive = idx === currentDiagramIdx;
+            return `
+              <button onclick="switchDetailDiagram(${idx})" class="text-[11px] px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1 shrink-0 ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'}">
+                <span>${d.title || `도해 ${idx + 1}`}</span>
+              </button>
+            `;
+          }).join('');
+        } else {
+          switcher.classList.add('hidden');
+        }
+      }
+
+      const captionEl = document.getElementById('graph-detail-caption-text');
+      if (captionEl) {
+        captionEl.innerHTML = autoFormatMathText(target.caption || '좌표평면 위에서 함수의 개형과 교점, 접선의 기울기를 정밀하게 관찰하세요.');
+      }
+
+      renderMathElements();
       lucide.createIcons();
+    }
+
+    function switchDetailDiagram(idx) {
+      currentDiagramIdx = idx;
+      detailGraphZoom = 1.0;
+      detailGraphPanX = 0;
+      detailGraphPanY = 0;
+      renderDetailGraph();
+      selectDiagram(idx);
+    }
+
+    function zoomDetailGraph(delta) {
+      detailGraphZoom = Math.min(3.0, Math.max(0.75, Math.round((detailGraphZoom + delta) * 100) / 100));
+      applyDetailGraphTransform();
+    }
+
+    function resetDetailGraphZoom() {
+      detailGraphZoom = 1.0;
+      detailGraphPanX = 0;
+      detailGraphPanY = 0;
+      applyDetailGraphTransform();
+    }
+
+    function applyDetailGraphTransform() {
+      const viewport = document.getElementById('graph-detail-svg-viewport');
+      const label = document.getElementById('graph-detail-zoom-label');
+      if (viewport) {
+        viewport.style.transform = `translate(${detailGraphPanX}px, ${detailGraphPanY}px) scale(${detailGraphZoom})`;
+      }
+      if (label) {
+        label.innerText = `${Math.round(detailGraphZoom * 100)}%`;
+      }
+    }
+
+    function initDetailGraphPan() {
+      const wrapper = document.getElementById('graph-detail-canvas-wrapper');
+      if (!wrapper) return;
+
+      wrapper.addEventListener('mousedown', (e) => {
+        isDetailGraphDragging = true;
+        detailGraphDragStartX = e.clientX - detailGraphPanX;
+        detailGraphDragStartY = e.clientY - detailGraphPanY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDetailGraphDragging) return;
+        detailGraphPanX = e.clientX - detailGraphDragStartX;
+        detailGraphPanY = e.clientY - detailGraphDragStartY;
+        applyDetailGraphTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDetailGraphDragging = false;
+      });
+
+      wrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDetailGraphDragging = true;
+          detailGraphDragStartX = e.touches[0].clientX - detailGraphPanX;
+          detailGraphDragStartY = e.touches[0].clientY - detailGraphPanY;
+        }
+      }, { passive: true });
+
+      wrapper.addEventListener('touchmove', (e) => {
+        if (isDetailGraphDragging && e.touches.length === 1) {
+          detailGraphPanX = e.touches[0].clientX - detailGraphDragStartX;
+          detailGraphPanY = e.touches[0].clientY - detailGraphDragStartY;
+          applyDetailGraphTransform();
+        }
+      }, { passive: true });
+
+      wrapper.addEventListener('touchend', () => {
+        isDetailGraphDragging = false;
+      });
+
+      wrapper.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.15 : -0.15;
+        zoomDetailGraph(delta);
+      }, { passive: false });
+    }
+
+    // Fallback alias for legacy calls
+    function toggleDiagramZoom() {
+      openGraphDetailModal();
     }
 
     // ================= DYNAMIC PROBLEM VIEW RENDERER =================
