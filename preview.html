@@ -19,7 +19,7 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .phone-mockup {
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 12px #1e293b, 0 0 0 14px #334155;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     .katex { font-size: 1.05em; color: #E0E7FF !important; }
     @keyframes pulse-slow {
@@ -98,7 +98,7 @@
     body.theme-day .phone-mockup {
       background-color: #FFFFFF !important;
       border-color: #CBD5E1 !important;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.12), 0 0 0 12px #E2E8F0, 0 0 0 14px #CBD5E1 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
     }
     body.theme-day #screen-container {
       background-color: #F8FAFC !important;
@@ -1191,28 +1191,13 @@
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-start p-0 overflow-x-hidden">
 
   <!-- Hidden File Input for Real Math Problem Upload -->
   <input type="file" id="real-image-file" accept="image/*" class="hidden" onchange="handleImageFileSelected(event)" />
 
-  <!-- Interactive Mobile Device Frame (Full Edge-to-Edge on Mobile, Centered Preview on Desktop) -->
-  <div class="phone-mockup w-full max-w-[420px] h-[100dvh] sm:h-[844px] sm:max-h-[92vh] sm:rounded-[44px] bg-slate-900 overflow-hidden flex flex-col relative sm:border sm:border-slate-800">
-    
-    <!-- Top Status Bar -->
-    <div class="bg-slate-950 pt-3 px-6 pb-2 flex justify-between items-center text-xs text-slate-400 z-50">
-      <div class="flex items-center gap-2">
-        <span class="font-bold text-slate-200" id="live-clock">14:05</span>
-        <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 transition" title="데이/나이트 모드 전환">
-          <i data-lucide="sun" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-      <div class="w-20 h-4 bg-slate-900 rounded-full border border-slate-800"></div>
-      <div class="flex items-center gap-1.5">
-        <i data-lucide="wifi" class="w-3.5 h-3.5 text-slate-300"></i>
-        <i data-lucide="battery" class="w-4 h-4 text-slate-300"></i>
-      </div>
-    </div>
+  <!-- Modern Responsive App Container (100% Full Edge-to-Edge on Mobile, Centered Web Layout on Desktop) -->
+  <div class="phone-mockup w-full max-w-[460px] min-h-[100dvh] h-[100dvh] bg-slate-900 flex flex-col relative sm:border sm:border-slate-800 sm:rounded-2xl sm:my-auto sm:h-[94vh] overflow-hidden">
 
     <!-- Suspended User Alert Banner (NO EMOJIS) -->
     <div id="user-suspended-banner" class="hidden bg-rose-600 text-white px-3 py-2 text-xs font-bold flex items-center justify-between z-40 border-b border-rose-700">
@@ -1252,8 +1237,14 @@
             </div>
           </div>
           
-          <!-- Role & Grade Chips (Clean Educational Interface) -->
+          <!-- Action, Role & Grade Chips (Clean Educational Interface) -->
           <div class="flex items-center gap-1 shrink-0 whitespace-nowrap">
+            <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
+              <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="triggerPwaInstall()" id="camera-pwa-install-btn" class="flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 transition shrink-0 shadow-xs" title="스마트폰 바탕화면에 앱 바로가기 설치">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            </button>
             <button onclick="toggleTeacherMode()" id="camera-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="학생/선생님 모드 전환">
               <i data-lucide="graduation-cap" class="w-3 h-3 text-indigo-400 shrink-0" id="camera-role-icon"></i>
               <span id="camera-role-text">학생</span>
@@ -1746,6 +1737,32 @@
             </button>
             <button onclick="setTheme('night')" id="btn-theme-night" class="py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 bg-indigo-600 text-white shadow-md">
               <span>나이트모드 (다크)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Phone Home Screen App Shortcut Installation Card -->
+        <div class="bg-gradient-to-r from-indigo-950/90 via-slate-900 to-indigo-950/90 border border-indigo-500/40 rounded-xl p-3.5 space-y-2.5 shadow-md">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shrink-0">
+                <i data-lucide="smartphone" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <p class="text-xs font-black text-white">스마트폰 바탕화면 바로가기</p>
+                <p class="text-[10px] text-slate-400">앱스토어 설치 없이 홈 화면에서 단독 앱처럼 바로 실행</p>
+              </div>
+            </div>
+            <span class="text-[9px] font-extrabold text-cyan-300 bg-cyan-950/80 border border-cyan-700/50 px-2 py-0.5 rounded-full shrink-0">PWA 지원</span>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <button onclick="triggerPwaInstall()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition shadow-sm active:scale-98">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>홈 화면에 바로가기 추가</span>
+            </button>
+            <button onclick="openPwaGuideModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold py-2.5 px-3 rounded-lg transition flex items-center justify-center gap-1 active:scale-98">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+              <span>설치 가이드</span>
             </button>
           </div>
         </div>
@@ -3140,6 +3157,81 @@
 
           <button onclick="submitStudentFeedback()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
             <i data-lucide="send" class="w-4 h-4"></i> 건의사항 제출하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: PWA HOME SCREEN SHORTCUT GUIDE (NO EMOJIS) ================= -->
+    <div id="modal-pwa-guide" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col justify-end p-4">
+      <div class="bg-slate-900 border border-indigo-500/40 rounded-3xl p-5 space-y-4 max-h-[90%] overflow-y-auto shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
+              <i data-lucide="smartphone" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-black text-white">스마트폰 바탕화면 바로가기 안내</h3>
+              <p class="text-[10px] text-slate-400">앱스토어 없이 홈 화면에서 전체화면 앱으로 사용하세요</p>
+            </div>
+          </div>
+          <button onclick="closePwaGuideModal()" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Android Guide -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-400"></i>
+              안드로이드 (삼성 인터넷 / 크롬)
+            </span>
+            <span class="text-[9px] bg-indigo-950 text-indigo-300 border border-indigo-800/50 px-2 py-0.5 rounded font-extrabold">간편 설치</span>
+          </div>
+          <ol class="text-[11px] text-slate-300 space-y-1.5 list-decimal pl-4 leading-relaxed">
+            <li>아래 <strong class="text-white">[지금 바로가기 추가하기]</strong> 버튼을 터치합니다.</li>
+            <li>설치 팝업이 뜨지 않는 경우, 브라우저 메뉴(점 3개 또는 줄 3개)를 누릅니다.</li>
+            <li><strong class="text-indigo-300">[홈 화면에 추가]</strong> 또는 <strong class="text-indigo-300">[앱 설치]</strong>를 선택하면 바탕화면에 생성됩니다.</li>
+          </ol>
+        </div>
+
+        <!-- iPhone Safari Guide -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="share" class="w-3.5 h-3.5 text-amber-400"></i>
+              아이폰 (사파리 Safari)
+            </span>
+            <span class="text-[9px] bg-amber-950 text-amber-300 border border-amber-800/50 px-2 py-0.5 rounded font-extrabold">3단계 추가</span>
+          </div>
+          <ol class="text-[11px] text-slate-300 space-y-1.5 list-decimal pl-4 leading-relaxed">
+            <li>사파리 하단 중앙의 <strong class="text-amber-300">[공유 버튼(네모 위 화살표)]</strong>을 누릅니다.</li>
+            <li>나타난 메뉴를 아래로 스크롤하여 <strong class="text-amber-300">[홈 화면에 추가]</strong>를 누릅니다.</li>
+            <li>우측 상단의 <strong class="text-white">[추가]</strong>를 누르면 바탕화면에 ReadMath 앱이 생성됩니다.</li>
+          </ol>
+        </div>
+
+        <!-- PC Guide -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+              <i data-lucide="monitor" class="w-3.5 h-3.5 text-emerald-400"></i>
+              PC (크롬 / 엣지 브라우저)
+            </span>
+            <span class="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-800/50 px-2 py-0.5 rounded font-extrabold">데스크톱 앱</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            주소창 우측의 [설치] 아이콘을 클릭하거나 브라우저 설정 메뉴에서 [ReadMath 설치]를 누르면 PC 앱으로 바로 실행됩니다.
+          </p>
+        </div>
+
+        <div class="space-y-2 pt-1">
+          <button onclick="triggerPwaInstall()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition active:scale-98">
+            <i data-lucide="download" class="w-4 h-4"></i> 지금 홈 화면에 바로가기 추가하기
+          </button>
+          <button onclick="closePwaGuideModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition">
+            창 닫기
           </button>
         </div>
       </div>
@@ -6543,6 +6635,45 @@
 
     function closeModal(id) {
       document.getElementById('modal-' + id)?.classList.add('hidden');
+    }
+
+    // ================= PWA HOME SCREEN SHORTCUT & INSTALLATION ENGINE =================
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const cameraBtn = document.getElementById('camera-pwa-install-btn');
+      if (cameraBtn) {
+        cameraBtn.classList.remove('hidden');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      console.log('[ReadMath PWA] App installed successfully');
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('[ReadMath PWA] User accepted install');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        openPwaGuideModal();
+      }
+    }
+
+    function openPwaGuideModal() {
+      openModal('pwa-guide');
+    }
+
+    function closePwaGuideModal() {
+      closeModal('pwa-guide');
     }
 
     function updateQuotaUI() {
