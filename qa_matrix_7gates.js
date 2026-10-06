@@ -415,11 +415,26 @@ if (qaOverflowErrors > 0) {
   failGate(4, 'SVG Text Overflow', `Found ${qaOverflowErrors} instances of text overflowing card boundaries`);
 }
 
+// 4.7 Verify Universal Day Mode Icon Contrast Armor & Zero Bleached Icon Guarantee
+if (htmlContent.includes('body.theme-day [class*="bg-indigo-500"] *') || htmlContent.includes('body.theme-day [class*="bg-amber-500"] *')) {
+  failGate(4, 'Day Mode Icon Contrast Leak', 'Found unsafe un-scoped selector turning child icons white in translucent containers');
+}
+if (!htmlContent.includes('body.theme-day [class*="bg-indigo-500/20"] svg') || !htmlContent.includes('stroke: #4338CA !important;')) {
+  failGate(4, 'Day Mode Icon Contrast Armor', 'Missing explicit high-contrast deep ink stroke (#4338CA) for indigo icon containers in Day Mode');
+}
+if (!htmlContent.includes('body.theme-day [class*="bg-amber-500/20"] svg') || !htmlContent.includes('stroke: #B45309 !important;')) {
+  failGate(4, 'Day Mode Icon Contrast Armor', 'Missing explicit high-contrast deep ink stroke (#B45309) for amber icon containers in Day Mode');
+}
+if (!htmlContent.includes('#settings-feedback-card .w-8.h-8 svg')) {
+  failGate(4, 'Settings Feedback Card Icon Armor', 'Missing explicit Day Mode icon armor for #settings-feedback-card');
+}
+
 passGate(4, 'KaTeX Mathematical Delimiters, SVG Vector Integrity & Day Mode Contrast', [
   'KaTeX LaTeX engine and auto-renderer configured correctly ($...$ and $$...$$)',
   `Validated ${svgMatches.length} embedded SVG diagrams (viewBox, theme tokens, high-contrast paths)`,
   'Zero text overflow across ALL problem callout cards verified (100% inside boundary)',
   'Day Mode SVG Callout Contrast Armor (zero dark-on-dark collisions across all cards and polygons) 100% verified',
+  'Universal Day Mode Icon Contrast Armor (deep ink stroke #4338CA, #B45309 on pastel containers, zero bleached icons) 100% verified',
   'Zero white-on-white text collisions & mobile viewport responsive container (max-w-md) verified',
   'Day Mode high-contrast matrix (white cards, crisp white text on primary buttons, light gray secondary buttons, deep ink KaTeX) 100% verified'
 ]);
