@@ -2509,7 +2509,7 @@
         </div>
 
         <!-- Dynamic Function Color Legend (Different Colors for Different Functions) -->
-        <div id="graph-detail-legend-bar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 shrink-0">
+        <div id="graph-detail-legend-bar" class="flex flex-wrap items-center gap-1.5 py-1 shrink-0">
           <!-- Dynamically populated legend pills -->
         </div>
 
@@ -2524,7 +2524,7 @@
           </div>
 
           <!-- Scalable & Pannable SVG Viewport -->
-          <div id="graph-detail-svg-viewport" class="w-full h-full flex items-center justify-center transition-transform duration-75 origin-center">
+          <div id="graph-detail-svg-viewport" class="w-full h-full flex items-center justify-center origin-center">
             <!-- Dynamic SVG injected with white-canvas styling -->
           </div>
 
@@ -2537,7 +2537,7 @@
         <!-- Bottom Diagram Caption & Sub-diagram Switcher -->
         <div class="shrink-0 space-y-2 pt-0.5">
           <!-- Multi-diagram Switcher (if problem has multiple diagrams) -->
-          <div id="graph-detail-switcher" class="flex gap-1.5 overflow-x-auto no-scrollbar">
+          <div id="graph-detail-switcher" class="grid grid-cols-3 gap-1.5 w-full">
             <!-- Sub-diagram pills -->
           </div>
 
@@ -4033,7 +4033,7 @@
           {
             sub_id: 1,
             sub_title: "1번 문항",
-            question_text: "1. 제시문 <가>에서 주어진 각의 크기 θ에 대하여, cosθ와 sinθ의 값을 구하시오.",
+            question_text: "1. 제시문 <가>에서 주어진 각의 크기 $\\theta$에 대하여, $\\cos\\theta$와 $\\sin\\theta$의 값을 구하시오.",
             solution_steps: [
               {
                 step_number: 1,
@@ -4049,13 +4049,13 @@
               },
               {
                 step_number: 3,
-                title: "삼각함수의 덧셈정리로 cos θ, sin θ 계산",
+                title: "삼각함수의 덧셈정리로 $\\cos\\theta$, $\\sin\\theta$ 계산",
                 content: "$0 < \\theta < \\frac{\\pi}{2}$이므로 $\\cos\\left(\\theta + \\frac{\\pi}{6}\\right) = \\sqrt{1 - \\frac{3}{9}} = \\frac{\\sqrt{6}}{3}$입니다.<br/>각의 차 공식 $\\theta = \\left(\\theta + \\frac{\\pi}{6}\\right) - \\frac{\\pi}{6}$를 적용합니다.",
                 formula: "\\cos\\theta = \\cos\\left(\\left(\\theta+\\frac{\\pi}{6}\\right)-\\frac{\\pi}{6}\\right) = \\frac{\\sqrt{6}}{3}\\cdot\\frac{\\sqrt{3}}{2} + \\frac{\\sqrt{3}}{3}\\cdot\\frac{1}{2} = \\frac{3\\sqrt{2}+\\sqrt{3}}{6}"
               },
               {
                 step_number: 4,
-                title: "sin θ 값 계산",
+                title: "$\\sin\\theta$ 값 계산",
                 content: "마찬가지로 사인 덧셈정리를 적용하여 계산합니다.",
                 formula: "\\sin\\theta = \\sin\\left(\\left(\\theta+\\frac{\\pi}{6}\\right)-\\frac{\\pi}{6}\\right) = \\frac{\\sqrt{3}}{3}\\cdot\\frac{\\sqrt{3}}{2} - \\frac{\\sqrt{6}}{3}\\cdot\\frac{1}{2} = \\frac{3-\\sqrt{6}}{6}"
               }
@@ -4123,8 +4123,8 @@
             trap: "접점 H의 좌표를 직접 구하려다 계산이 복잡해지는 실수.",
             prescriptions: {
               visual: "반원의 중심 M에서 x축(선분 AB)에 수선의 발을 내려 높이가 정확히 반지름 1/2임을 직각삼각형으로 도해하세요.",
-              modeling: "중심 M의 y좌표 식 OM * sin(θ+π/6) = 1/2 이라는 단 1줄의 핵심 방정식을 세우세요.",
-              condition: "각의 범위 0 < θ < π/2 이므로 삼각비의 부호가 모두 양수(제1사분면)임을 확인하세요.",
+              modeling: "중심 $M$의 $y$좌표 식 $\\overline{OM} \\sin(\\theta+\\frac{\\pi}{6}) = \\frac{1}{2}$ 이라는 단 1줄의 핵심 방정식을 세우세요.",
+              condition: "각의 범위 $0 < \\theta < \\frac{\\pi}{2}$ 이므로 삼각비의 부호가 모두 양수(제1사분면)임을 확인하세요.",
               concept: "원의 접선 성질(중심과 접점을 이은 선분은 접선과 수직) 및 삼각함수의 정의를 복습하세요."
             }
           },
@@ -4144,7 +4144,7 @@
         solution_steps: [
           {
             step_number: 1,
-            title: "1번 문항: 삼각함수 덧셈정리로 cos θ, sin θ 계산",
+            title: "1번 문항: 삼각함수 덧셈정리로 $\\cos\\theta$, $\\sin\\theta$ 계산",
             content: "중심 M의 y좌표 접선 조건과 각의 차 공식을 적용합니다.",
             formula: "\\cos\\theta = \\frac{3\\sqrt{2}+\\sqrt{3}}{6}, \\; \\sin\\theta = \\frac{3-\\sqrt{6}}{6}"
           },
@@ -4167,7 +4167,7 @@
           steps: [
             { stage: "1단계 [관찰 발문]", prompt: "1번 문항에서 반원이 선분 AB에 '접한다'고 했지? 원과 접선이 나오면 가장 먼저 그어야 하는 필수 보조선이 뭘까?", goal: "원의 중심 M에서 접점 H로 수선의 발을 내리는 보조선 떠올리기" },
             { stage: "2단계 [유도 발문]", prompt: "중심 M에서 수선의 발을 내리면 그 선분의 길이가 뭐가 되지? 바로 반원의 반지름 $\\frac{1}{2}$과 같아지지!", goal: "직각삼각형 OMH의 높이가 $\\frac{1}{2}$임을 직관적으로 도해" },
-            { stage: "3단계 [도출 발문]", prompt: "그럼 직각삼각형 $OMH$에서 $\\sin(\\theta+\\frac{\\pi}{6}) = \\frac{1}{2}$ 방정식을 세우고, 삼각함수 덧셈정리를 전개해볼까?", goal: "소문항 1번 정답을 학생 스스로 유도하게 함" }
+            { stage: "3단계 [도출 발문]", prompt: "그럼 직각삼각형 $OMH$에서 $\\sin\\left(\\theta+\\frac{\\pi}{6}\\right) = \\frac{1}{\\sqrt{3}}$ 방정식을 세우고, 삼각함수 덧셈정리를 전개해볼까?", goal: "소문항 1번 정답을 학생 스스로 유도하게 함" }
           ]
         },
         diagrams: [
@@ -4175,32 +4175,52 @@
             id: "p3_d1",
             title: "도해 1: [1번] 반원 접선 기하",
             badge: "1번 소문항 도해",
-            caption: "반원의 중심 $M$에서 $x$축(선분 $AB$)에 내린 수선의 발 $H$까지의 길이는 반지름 $1/2$입니다. 직각삼각형 $OMH$에서 $\\sin\\left(\\theta+\\frac{\\pi}{6}\\right) = \\frac{1}{2}$임을 직관적으로 도해합니다.",
+            caption: "반원의 중심 $M$에서 $x$축(선분 $AB$)에 내린 수선의 발 $H$까지의 길이는 반지름 $1/2$입니다. 직각삼각형 $OMH$에서 $\\sin\\left(\\theta+\\frac{\\pi}{6}\\right) = \\frac{1}{\\sqrt{3}}$임을 직관적으로 도해합니다.",
             svg: `
               <svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                 <rect width="420" height="250" fill="#090D16" rx="10"/>
                 <text x="210" y="22" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[소문항 1] 반원 내부 접선 &amp; 직각삼각형 도해</text>
-                <line x1="30" y1="190" x2="390" y2="190" stroke="#64748B" stroke-width="1.8"/>
+                <!-- Main Axis AB -->
+                <line x1="20" y1="190" x2="390" y2="190" stroke="#64748B" stroke-width="1.5"/>
                 <polygon points="390,187 398,190 390,193" fill="#64748B"/>
-                <text x="390" y="205" fill="#94A3B8" font-size="10">x (선분 AB)</text>
-                <circle cx="130" cy="190" r="4" fill="#94A3B8"/>
-                <text x="122" y="205" fill="#CBD5E1" font-size="11" font-weight="bold">O</text>
-                <path d="M 50 190 A 140 140 0 0 1 330 190" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3"/>
-                <line x1="130" y1="190" x2="225" y2="135" stroke="#A855F7" stroke-width="2.2"/>
-                <circle cx="225" cy="135" r="4.5" fill="#F59E0B"/>
-                <text x="232" y="130" fill="#FBBF24" font-size="11" font-weight="bold">M (중심)</text>
-                <path d="M 170 135 A 55 55 0 0 1 280 135" fill="none" stroke="#06B6D4" stroke-width="2.5"/>
-                <line x1="225" y1="135" x2="225" y2="190" stroke="#EF4444" stroke-width="2" stroke-dasharray="3"/>
-                <circle cx="225" cy="190" r="4" fill="#EF4444"/>
-                <text x="220" y="205" fill="#F87171" font-size="11" font-weight="bold">H (접점)</text>
-                <rect x="225" y="178" width="10" height="12" fill="none" stroke="#EF4444" stroke-width="1.2"/>
-                <text x="232" y="165" fill="#EF4444" font-size="10" font-weight="bold">r = 1/2</text>
-                <path d="M 160 190 A 30 30 0 0 0 156 175" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
-                <text x="165" y="180" fill="#FBBF24" font-size="9" font-weight="bold">θ + π/6</text>
-                <rect x="20" y="40" width="190" height="60" rx="8" fill="#1E1B4B" fill-opacity="0.85" stroke="#818CF8" stroke-width="1"/>
-                <text x="30" y="58" fill="#C7D2FE" font-size="10" font-weight="bold">직각삼각형 OMH 기하 관계:</text>
-                <text x="30" y="73" fill="#A5B4FC" font-size="9.5">sin(θ + π/6) = MH / OM = 1/2</text>
-                <text x="30" y="88" fill="#FDE047" font-size="9.5" font-weight="bold">∴ 덧셈정리로 cosθ, sinθ 도출</text>
+                <text x="385" y="182" fill="#94A3B8" font-size="9.5" font-weight="bold" text-anchor="end">x축 (선분 AB)</text>
+                <!-- Outer Semicircle: Center O(160, 190), Radius R=130 -->
+                <path d="M 30 190 A 130 130 0 0 1 290 190" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3"/>
+                <circle cx="30" cy="190" r="3.5" fill="#94A3B8"/>
+                <text x="30" y="206" fill="#CBD5E1" font-size="10" font-weight="bold" text-anchor="middle">A (-1)</text>
+                <circle cx="290" cy="190" r="3.5" fill="#94A3B8"/>
+                <text x="290" y="206" fill="#CBD5E1" font-size="10" font-weight="bold" text-anchor="middle">B (1)</text>
+                <!-- Origin O at Center (160, 190) -->
+                <circle cx="160" cy="190" r="4.5" fill="#E2E8F0" stroke="#6366F1" stroke-width="1.5"/>
+                <text x="160" y="206" fill="#CBD5E1" font-size="11" font-weight="bold" text-anchor="middle">O</text>
+                <!-- Hypotenuse OM (Purple) -->
+                <line x1="160" y1="190" x2="252" y2="125" stroke="#A855F7" stroke-width="2.5"/>
+                <circle cx="252" cy="125" r="4.5" fill="#F59E0B"/>
+                <text x="245" y="115" fill="#FBBF24" font-size="11" font-weight="bold" text-anchor="end">M (중심)</text>
+                <!-- Chord PQ (Diameter of inner semicircle, length 130) -->
+                <line x1="215" y1="72" x2="290" y2="178" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="2"/>
+                <circle cx="215" cy="72" r="3.5" fill="#38BDF8"/>
+                <text x="208" y="68" fill="#7DD3FC" font-size="10" font-weight="bold">P</text>
+                <circle cx="290" cy="178" r="3.5" fill="#38BDF8"/>
+                <text x="298" y="182" fill="#7DD3FC" font-size="10" font-weight="bold">Q</text>
+                <!-- Inner Semicircle (Cyan) with Diameter PQ, radius 65, tangent to AB at H(252, 190) -->
+                <path d="M 215 72 A 65 65 0 0 0 290 178" fill="none" stroke="#06B6D4" stroke-width="2.5"/>
+                <!-- Perpendicular MH (Red dashed) to x-axis at H(252, 190) -->
+                <line x1="252" y1="125" x2="252" y2="190" stroke="#EF4444" stroke-width="2" stroke-dasharray="3"/>
+                <circle cx="252" cy="190" r="4" fill="#EF4444"/>
+                <text x="252" y="206" fill="#F87171" font-size="11" font-weight="bold" text-anchor="middle">H (접점)</text>
+                <!-- Right Angle Symbol at H -->
+                <rect x="242" y="180" width="10" height="10" fill="none" stroke="#EF4444" stroke-width="1.2"/>
+                <text x="258" y="160" fill="#EF4444" font-size="9.5" font-weight="bold">r = 1/2</text>
+                <!-- Angle arc for theta + pi/6 -->
+                <path d="M 190 190 A 30 30 0 0 0 185 173" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+                <text x="194" y="178" fill="#FBBF24" font-size="9" font-weight="bold">θ + π/6</text>
+                <!-- Formula Callout Box -->
+                <rect x="16" y="38" width="180" height="62" rx="8" fill="#1E1B4B" fill-opacity="0.9" stroke="#818CF8" stroke-width="1"/>
+                <text x="25" y="55" fill="#C7D2FE" font-size="9.5" font-weight="bold">직각삼각형 OMH 기하 관계:</text>
+                <text x="25" y="71" fill="#A5B4FC" font-size="9">sin(θ + π/6) = MH / OM</text>
+                <text x="25" y="84" fill="#38BDF8" font-size="9">= (1/2) / (√3/2) = 1/√3</text>
+                <text x="25" y="94" fill="#FDE047" font-size="8.5" font-weight="bold">∴ 덧셈정리로 cosθ, sinθ 도출</text>
               </svg>
             `
           },
@@ -4275,32 +4295,52 @@
           <svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
             <rect width="420" height="250" fill="#090D16" rx="10"/>
             <text x="210" y="22" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[소문항 1] 반원 내부 접선 &amp; 직각삼각형 도해</text>
-            <line x1="30" y1="190" x2="390" y2="190" stroke="#64748B" stroke-width="1.8"/>
+            <!-- Main Axis AB -->
+            <line x1="20" y1="190" x2="390" y2="190" stroke="#64748B" stroke-width="1.5"/>
             <polygon points="390,187 398,190 390,193" fill="#64748B"/>
-            <text x="390" y="205" fill="#94A3B8" font-size="10">x (선분 AB)</text>
-            <circle cx="130" cy="190" r="4" fill="#94A3B8"/>
-            <text x="122" y="205" fill="#CBD5E1" font-size="11" font-weight="bold">O</text>
-            <path d="M 50 190 A 140 140 0 0 1 330 190" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3"/>
-            <line x1="130" y1="190" x2="225" y2="135" stroke="#A855F7" stroke-width="2.2"/>
-            <circle cx="225" cy="135" r="4.5" fill="#F59E0B"/>
-            <text x="232" y="130" fill="#FBBF24" font-size="11" font-weight="bold">M (중심)</text>
-            <path d="M 170 135 A 55 55 0 0 1 280 135" fill="none" stroke="#06B6D4" stroke-width="2.5"/>
-            <line x1="225" y1="135" x2="225" y2="190" stroke="#EF4444" stroke-width="2" stroke-dasharray="3"/>
-            <circle cx="225" cy="190" r="4" fill="#EF4444"/>
-            <text x="220" y="205" fill="#F87171" font-size="11" font-weight="bold">H (접점)</text>
-            <rect x="225" y="178" width="10" height="12" fill="none" stroke="#EF4444" stroke-width="1.2"/>
-            <text x="232" y="165" fill="#EF4444" font-size="10" font-weight="bold">r = 1/2</text>
-            <path d="M 160 190 A 30 30 0 0 0 156 175" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
-            <text x="165" y="180" fill="#FBBF24" font-size="9" font-weight="bold">θ + π/6</text>
-            <rect x="20" y="40" width="190" height="60" rx="8" fill="#1E1B4B" fill-opacity="0.85" stroke="#818CF8" stroke-width="1"/>
-            <text x="30" y="58" fill="#C7D2FE" font-size="10" font-weight="bold">직각삼각형 OMH 기하 관계:</text>
-            <text x="30" y="73" fill="#A5B4FC" font-size="9.5">sin(θ + π/6) = MH / OM = 1/2</text>
-            <text x="30" y="88" fill="#FDE047" font-size="9.5" font-weight="bold">∴ 덧셈정리로 cosθ, sinθ 도출</text>
+            <text x="385" y="182" fill="#94A3B8" font-size="9.5" font-weight="bold" text-anchor="end">x축 (선분 AB)</text>
+            <!-- Outer Semicircle: Center O(160, 190), Radius R=130 -->
+            <path d="M 30 190 A 130 130 0 0 1 290 190" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3"/>
+            <circle cx="30" cy="190" r="3.5" fill="#94A3B8"/>
+            <text x="30" y="206" fill="#CBD5E1" font-size="10" font-weight="bold" text-anchor="middle">A (-1)</text>
+            <circle cx="290" cy="190" r="3.5" fill="#94A3B8"/>
+            <text x="290" y="206" fill="#CBD5E1" font-size="10" font-weight="bold" text-anchor="middle">B (1)</text>
+            <!-- Origin O at Center (160, 190) -->
+            <circle cx="160" cy="190" r="4.5" fill="#E2E8F0" stroke="#6366F1" stroke-width="1.5"/>
+            <text x="160" y="206" fill="#CBD5E1" font-size="11" font-weight="bold" text-anchor="middle">O</text>
+            <!-- Hypotenuse OM (Purple) -->
+            <line x1="160" y1="190" x2="252" y2="125" stroke="#A855F7" stroke-width="2.5"/>
+            <circle cx="252" cy="125" r="4.5" fill="#F59E0B"/>
+            <text x="245" y="115" fill="#FBBF24" font-size="11" font-weight="bold" text-anchor="end">M (중심)</text>
+            <!-- Chord PQ (Diameter of inner semicircle, length 130) -->
+            <line x1="215" y1="72" x2="290" y2="178" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="2"/>
+            <circle cx="215" cy="72" r="3.5" fill="#38BDF8"/>
+            <text x="208" y="68" fill="#7DD3FC" font-size="10" font-weight="bold">P</text>
+            <circle cx="290" cy="178" r="3.5" fill="#38BDF8"/>
+            <text x="298" y="182" fill="#7DD3FC" font-size="10" font-weight="bold">Q</text>
+            <!-- Inner Semicircle (Cyan) with Diameter PQ, radius 65, tangent to AB at H(252, 190) -->
+            <path d="M 215 72 A 65 65 0 0 0 290 178" fill="none" stroke="#06B6D4" stroke-width="2.5"/>
+            <!-- Perpendicular MH (Red dashed) to x-axis at H(252, 190) -->
+            <line x1="252" y1="125" x2="252" y2="190" stroke="#EF4444" stroke-width="2" stroke-dasharray="3"/>
+            <circle cx="252" cy="190" r="4" fill="#EF4444"/>
+            <text x="252" y="206" fill="#F87171" font-size="11" font-weight="bold" text-anchor="middle">H (접점)</text>
+            <!-- Right Angle Symbol at H -->
+            <rect x="242" y="180" width="10" height="10" fill="none" stroke="#EF4444" stroke-width="1.2"/>
+            <text x="258" y="160" fill="#EF4444" font-size="9.5" font-weight="bold">r = 1/2</text>
+            <!-- Angle arc for theta + pi/6 -->
+            <path d="M 190 190 A 30 30 0 0 0 185 173" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+            <text x="194" y="178" fill="#FBBF24" font-size="9" font-weight="bold">θ + π/6</text>
+            <!-- Formula Callout Box -->
+            <rect x="16" y="38" width="180" height="62" rx="8" fill="#1E1B4B" fill-opacity="0.9" stroke="#818CF8" stroke-width="1"/>
+            <text x="25" y="55" fill="#C7D2FE" font-size="9.5" font-weight="bold">직각삼각형 OMH 기하 관계:</text>
+            <text x="25" y="71" fill="#A5B4FC" font-size="9">sin(θ + π/6) = MH / OM</text>
+            <text x="25" y="84" fill="#38BDF8" font-size="9">= (1/2) / (√3/2) = 1/√3</text>
+            <text x="25" y="94" fill="#FDE047" font-size="8.5" font-weight="bold">∴ 덧셈정리로 cosθ, sinθ 도출</text>
           </svg>
         `,
         welcomeMsg: "리드 쌤입니다! 대입 수리논술 세트 문항이네요. 제시문 <가>, <나>와 소문항 1번, 2번, 3번을 모두 완벽히 분석했습니다. 어떤 소문항부터 살펴볼까요?",
         quickPrompts: [
-          "1번 소문항의 cos θ, sin θ 유도 과정을 더 쉽게 설명해주세요",
+          "1번 소문항의 $\\cos\\theta$, $\\sin\\theta$ 유도 과정을 더 쉽게 설명해주세요",
           "2번 소문항의 ST 최댓값 식 세우기를 알려주세요",
           "3번 소문항의 정사영 넓이 공식을 설명해주세요"
         ],
@@ -4750,10 +4790,35 @@
       }
     });
 
-    // Mathematical Text Sanitizer & KaTeX Auto-Wrapper (Zero-Defect Guaranteed)
+    // Mathematical Text Sanitizer & Multi-Pass LaTeX Auto-Wrapper (Zero-Defect Guaranteed)
     function autoFormatMathText(text) {
       if (!text || typeof text !== 'string') return text || '';
       let str = text.trim();
+
+      function tokenizeMath(s) {
+        const tokens = [];
+        let inDollar = false;
+        let current = '';
+        for (let i = 0; i < s.length; i++) {
+          if (s[i] === '$') {
+            tokens.push({ text: current, isMath: inDollar });
+            current = '';
+            inDollar = !inDollar;
+          } else {
+            current += s[i];
+          }
+        }
+        tokens.push({ text: current, isMath: inDollar });
+        return tokens;
+      }
+
+      function replaceOutsideMath(s, regex, replacer) {
+        const tokens = tokenizeMath(s);
+        return tokens.map(token => {
+          if (token.isMath) return '$' + token.text + '$';
+          return token.text.replace(regex, replacer);
+        }).join('');
+      }
       
       // 0. Sanitize LaTeX font modifier artifacts (\mathrm, \mathbf, \mathit, or raw mathrmPOQ / \mathrm{POQ})
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
@@ -4797,37 +4862,40 @@
         }
       }
 
-      // Auto-wrap standalone LaTeX commands with braces outside $...$: e.g. \overline{AB}, \frac{a}{b}, \sqrt{3}, \angle POQ
-      str = str.replace(/(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
-      str = str.replace(/(\\angle\s+[a-zA-Z0-9^_{}]+)/g, ' $$$1$$ ');
-
-      // 5. Cleanly wrap standalone math symbols outside $...$ without corrupting nested braces
-      const tokens = [];
-      let inDollar = false;
-      let current = '';
-
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === '$') {
-          tokens.push({ text: current, isMath: inDollar });
-          current = '';
-          inDollar = !inDollar;
-        } else {
-          current += str[i];
+      // 5. Multi-pass safe replacement STRICTLY OUTSIDE existing math ($...$ blocks are NEVER corrupted)
+      // Step A: Multi-term complex naked formulas outside $: e.g. \sin\left(\theta+ \frac{\pi}{6}\right) = \frac{1}{\sqrt{3}}
+      str = replaceOutsideMath(str, /(\\(?:sin|cos|tan|log|ln|lim|sum|int)\s*(?:\\left\(|\()[^\n\r가-힣$]+?(?:\\right\)|\))[^\n\r가-힣$]*)/g, (match) => {
+        let trimmed = match.trim();
+        let trailingPunct = '';
+        if (/[.,]$/.test(trimmed)) {
+          trailingPunct = trimmed.slice(-1);
+          trimmed = trimmed.slice(0, -1).trim();
         }
-      }
-      tokens.push({ text: current, isMath: inDollar });
+        return ' $' + trimmed + '$ ' + trailingPunct;
+      });
 
-      const processed = tokens.map(token => {
-        if (token.isMath) {
-          return '$' + token.text + '$';
-        }
-        let t = token.text;
-        t = t.replace(/\\(neq|ne|le|ge|in|notin|pm|times|approx|alpha|beta|theta|phi|pi)\b/g, ' $\\$1$ ');
-        t = t.replace(/\b([a-zA-Z]_[0-9a-zA-Z{}]*)\b/g, ' $$1$ ');
-        return t;
-      }).join('');
+      // Step B: Standalone LaTeX commands with braces outside $: e.g. \overline{AB}, \frac{a}{b}, \sqrt{3}, \angle POQ
+      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
+      str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, ' $$$1$$ ');
 
-      return processed.replace(/\${3,}/g, '$$').replace(/\$\s*\$/g, ' ');
+      // Step C: Standalone Greek letters / symbols outside $
+      str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|times|approx|alpha|beta|gamma|delta|theta|lambda|mu|pi|rho|sigma|tau|phi|omega)\b/g, ' $\\$1$ ');
+
+      // Step D: Pure English words or Unicode symbols for Greek letters outside $ (User feedback: zero exposed theta or raw symbols)
+      str = replaceOutsideMath(str, /\b(cos|sin|tan)\s*(?:\\?theta|θ)\b/gi, ' $\\$1\\theta$ ');
+      str = replaceOutsideMath(str, /\btheta\b/gi, ' $\\theta$ ');
+      str = replaceOutsideMath(str, /\balpha\b/gi, ' $\\alpha$ ');
+      str = replaceOutsideMath(str, /\bbeta\b/gi, ' $\\beta$ ');
+      str = replaceOutsideMath(str, /θ/g, ' $\\theta$ ');
+      str = replaceOutsideMath(str, /α/g, ' $\\alpha$ ');
+      str = replaceOutsideMath(str, /β/g, ' $\\beta$ ');
+      str = replaceOutsideMath(str, /π/g, ' $\\pi$ ');
+      str = replaceOutsideMath(str, /ϕ|φ/g, ' $\\phi$ ');
+
+      // Step E: Subscripted variables outside $: e.g. a_1, x_M
+      str = replaceOutsideMath(str, /\b([a-zA-Z]_[0-9a-zA-Z{}]*)\b/g, ' $$1$ ');
+
+      return str.replace(/\${3,}/g, '$$').replace(/\$\s*\$/g, ' ');
     }
 
     // Plain Text Math Formatter & Snippet Cleaner (Strips LaTeX delimiters & symbols for clean UI display)
@@ -5777,36 +5845,42 @@
       s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#0A0E17"[^>]*\/>/gi, '');
 
       // 2. Axes and ticks
-      s = s.replace(/stroke="#64748B"/gi, 'stroke="#1E293B"');
-      s = s.replace(/fill="#64748B"/gi, 'fill="#1E293B"');
-      s = s.replace(/stroke="#1E293B"/gi, 'stroke="#E2E8F0"');
+      s = s.replace(/stroke="#64748B"/gi, 'stroke="#334155"');
+      s = s.replace(/fill="#64748B"/gi, 'fill="#334155"');
 
       // 3. Text labels for high readability on white canvas
-      s = s.replace(/fill="#94A3B8"/gi, 'fill="#1E293B"');
+      s = s.replace(/fill="#94A3B8"/gi, 'fill="#334155"');
       s = s.replace(/fill="#CBD5E1"/gi, 'fill="#0F172A"');
       s = s.replace(/fill="#F1F5F9"/gi, 'fill="#0F172A"');
       s = s.replace(/fill="#F8FAFC"/gi, 'fill="#0F172A"');
-      s = s.replace(/fill="#E2E8F0"/gi, 'fill="#0F172A"');
+      s = s.replace(/fill="#E2E8F0"/gi, 'fill="#FFFFFF"');
+      s = s.replace(/fill="#7DD3FC"/gi, 'fill="#0284C7"');
+      s = s.replace(/fill="#BAE6FD"/gi, 'fill="#0369A1"');
       s = s.replace(/fill="#FCA5A5"/gi, 'fill="#991B1B"');
-      s = s.replace(/fill="#C7D2FE"/gi, 'fill="#1E1B4B"');
-      s = s.replace(/fill="#A5B4FC"/gi, 'fill="#312E81"');
-      s = s.replace(/fill="#FDE047"/gi, 'fill="#854D0E"');
+      s = s.replace(/fill="#C7D2FE"/gi, 'fill="#312E81"');
+      s = s.replace(/fill="#A5B4FC"/gi, 'fill="#4338CA"');
+      s = s.replace(/fill="#FBBF24"/gi, 'fill="#B45309"');
+      s = s.replace(/fill="#FDE047"/gi, 'fill="#92400E"');
       s = s.replace(/fill="#A7F3D0"/gi, 'fill="#064E3B"');
       s = s.replace(/fill="#6EE7B7"/gi, 'fill="#065F46"');
+      s = s.replace(/fill="#F87171"/gi, 'fill="#B91C1C"');
+      s = s.replace(/fill="#EF4444"/gi, 'fill="#DC2626"');
 
       // 4. Function curves: Distinct high-contrast colors
-      s = s.replace(/stroke="#38BDF8"/gi, 'stroke="#1D4ED8"');
+      s = s.replace(/stroke="#38BDF8"/gi, 'stroke="#0284C7"');
       s = s.replace(/stroke="#60A5FA"/gi, 'stroke="#2563EB"');
-      s = s.replace(/fill="#38BDF8"/gi, 'fill="#1D4ED8"');
+      s = s.replace(/fill="#38BDF8"/gi, 'fill="#0284C7"');
+      s = s.replace(/stroke="#06B6D4"/gi, 'stroke="#0891B2"');
       s = s.replace(/stroke="#10B981"/gi, 'stroke="#047857"');
       s = s.replace(/stroke="#34D399"/gi, 'stroke="#059669"');
-      s = s.replace(/stroke="#A855F7"/gi, 'stroke="#6D28D9"');
+      s = s.replace(/stroke="#A855F7"/gi, 'stroke="#7E22CE"');
       s = s.replace(/stroke="#818CF8"/gi, 'stroke="#4338CA"');
       s = s.replace(/stroke="#6366F1"/gi, 'stroke="#4F46E5"');
+      s = s.replace(/stroke="#FBBF24"/gi, 'stroke="#D97706"');
 
       // 5. Pastel callout containers
-      s = s.replace(/fill="#1E1B4B"/gi, 'fill="#EEF2FF" stroke="#4F46E5"');
-      s = s.replace(/fill="#312E81"/gi, 'fill="#EEF2FF" stroke="#6366F1"');
+      s = s.replace(/fill="#1E1B4B"/gi, 'fill="#EEF2FF" stroke="#6366F1"');
+      s = s.replace(/fill="#312E81"/gi, 'fill="#EEF2FF" stroke="#4F46E5"');
       s = s.replace(/fill="#064E3B"/gi, 'fill="#ECFDF5" stroke="#059669"');
       s = s.replace(/fill="#0C4A6E"/gi, 'fill="#F0F9FF" stroke="#0284C7"');
       s = s.replace(/fill="#1E293B"/gi, 'fill="#F8FAFC" stroke="#64748B"');
@@ -5844,10 +5918,10 @@
           ];
         } else {
           return [
-            { color: '#1E293B', bg: '#F8FAFC', border: '#CBD5E1', label: '반원 C', desc: '반원 기하' },
-            { color: '#6D28D9', bg: '#F5F3FF', border: '#DDD6FE', label: '동경 OM', desc: '중심 벡터' },
-            { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '수선의 발 H', desc: '접점 r = 1/2' },
-            { color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', label: '각도 θ + π/6', desc: '동경 회전각' }
+            { color: '#0891B2', bg: '#ECFEFF', border: '#A5F3FC', label: '내부 반원 C', desc: '접반원 r = 1/2' },
+            { color: '#7E22CE', bg: '#F5F3FF', border: '#DDD6FE', label: '동경 OM', desc: '중심 선분' },
+            { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA', label: '수선의 발 H', desc: '접점 (x축 접)' },
+            { color: '#D97706', bg: '#FFFBEB', border: '#FDE68A', label: '각 θ + π/6', desc: '동경 편각' }
           ];
         }
       }
@@ -5883,11 +5957,12 @@
       const legendBar = document.getElementById('graph-detail-legend-bar');
       if (legendBar) {
         const legends = getDiagramLegendItems(currentProblemId, currentDiagramIdx, target);
+        legendBar.className = "flex flex-wrap items-center gap-1.5 py-1 shrink-0";
         legendBar.innerHTML = legends.map(item => `
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10.5px] font-bold shrink-0 border shadow-xs" style="background-color: ${item.bg}; color: ${item.color}; border-color: ${item.border};">
-            <span class="w-2.5 h-2.5 rounded-full inline-block shrink-0 shadow-xs" style="background-color: ${item.color};"></span>
-            <span>${item.label}</span>
-            <span class="text-[9.5px] font-normal opacity-80">(${item.desc})</span>
+          <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold border shadow-xs" style="background-color: ${item.bg}; color: ${item.color}; border-color: ${item.border};">
+            <span class="w-2 h-2 rounded-full inline-block shrink-0" style="background-color: ${item.color};"></span>
+            <span class="font-bold">${item.label}</span>
+            <span class="text-[9px] font-normal opacity-85">(${item.desc})</span>
           </div>
         `).join('');
       }
@@ -5896,11 +5971,15 @@
       if (switcher) {
         if (diagrams.length > 1) {
           switcher.classList.remove('hidden');
+          switcher.className = `grid grid-cols-${Math.min(diagrams.length, 3)} gap-1.5 w-full`;
           switcher.innerHTML = diagrams.map((d, idx) => {
             const isActive = idx === currentDiagramIdx;
+            const shortBadge = d.badge || `도해 ${idx + 1}`;
+            const subLabel = (d.title || '').replace(/^도해\s*\d+:\s*/, '').replace(/\[\d+번\]\s*/, '');
             return `
-              <button onclick="switchDetailDiagram(${idx})" class="text-[11px] px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1 shrink-0 ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'}">
-                <span>${d.title || `도해 ${idx + 1}`}</span>
+              <button onclick="switchDetailDiagram(${idx})" class="text-[10px] sm:text-[11px] py-1.5 px-2 rounded-xl font-bold transition flex flex-col items-center justify-center text-center leading-tight ${isActive ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'}">
+                <span class="font-extrabold">${shortBadge}</span>
+                <span class="text-[9px] font-medium opacity-85 truncate max-w-full">${subLabel}</span>
               </button>
             `;
           }).join('');
@@ -5943,6 +6022,7 @@
       const viewport = document.getElementById('graph-detail-svg-viewport');
       const label = document.getElementById('graph-detail-zoom-label');
       if (viewport) {
+        viewport.style.transition = isDetailGraphDragging ? 'none' : 'transform 0.15s ease-out';
         viewport.style.transform = `translate(${detailGraphPanX}px, ${detailGraphPanY}px) scale(${detailGraphZoom})`;
       }
       if (label) {
