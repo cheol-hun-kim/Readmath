@@ -969,6 +969,25 @@
       border-color: #E2E8F0 !important;
       color: #1E293B !important;
     }
+    body.theme-day #settings-teacher-connect-card {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+    }
+    body.theme-day #settings-teacher-connect-card p {
+      color: #64748B !important;
+    }
+    body.theme-day #email-verification-box {
+      background-color: #F8FAFC !important;
+      border-color: #CBD5E1 !important;
+    }
+    body.theme-day #email-verification-box p {
+      color: #64748B !important;
+    }
+    body.theme-day #email-verified-badge {
+      background-color: #DCFCE7 !important;
+      border-color: #86EFAC !important;
+      color: #15803D !important;
+    }
 
     @media print {
       body { background: white !important; color: black !important; padding: 0 !important; }
@@ -1307,13 +1326,19 @@
           </div>
         </div>
 
-        <!-- Bottom Actions (Decomposition & Chat) -->
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="goToView('diagnosis')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition">
-            <i data-lucide="search" class="w-4 h-4"></i> 오답 원인 분석
-          </button>
-          <button onclick="goToView('chat')" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-600/40 font-bold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition">
-            <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i> 리드 쌤과 1:1 대화
+        <!-- Bottom Actions (Decomposition, Chat & Teacher Question) -->
+        <div class="space-y-2 pt-1">
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="goToView('diagnosis')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition">
+              <i data-lucide="search" class="w-4 h-4"></i> 오답 원인 분석
+            </button>
+            <button onclick="goToView('chat')" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-600/40 font-bold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition">
+              <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i> 리드 쌤과 1:1 대화
+            </button>
+          </div>
+          <button onclick="sendQuestionToTeacher()" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="send" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>담당 선생님께 이 문제 질문 전송</span>
           </button>
         </div>
       </div>
@@ -1557,6 +1582,36 @@
           <button onclick="openModal('sub')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 rounded-xl shadow-md transition">
             Pro 요금제 업그레이드 (7일 무료)
           </button>
+        </div>
+
+        <!-- Teacher Connection Card for Students -->
+        <div id="settings-teacher-connect-card" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="link" class="w-3.5 h-3.5 text-indigo-400"></i> 담당 선생님 연결
+            </span>
+            <span id="teacher-connect-status-badge" class="text-[9.5px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold">
+              미연결
+            </span>
+          </div>
+          <p class="text-[10.5px] text-slate-400 leading-snug">
+            선생님께 부여받은 고유 코드를 등록하면, 문제 풀이 중 언제든 담당 선생님께 1:1 질문을 보내고 맞춤 보조자료를 받을 수 있습니다.
+          </p>
+          <div id="teacher-connect-input-box" class="flex gap-1.5">
+            <input type="text" id="input-teacher-connect-code" placeholder="선생님 고유 코드 (예: RM-TEACH-2026)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            <button onclick="connectTeacherByCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+              연결 등록
+            </button>
+          </div>
+          <div id="teacher-connected-info-box" class="hidden bg-indigo-950/40 border border-indigo-500/40 rounded-xl p-2.5 flex items-center justify-between">
+            <div class="min-w-0">
+              <span class="text-[10px] text-indigo-300 font-bold block">담당 선생님</span>
+              <p id="connected-teacher-name" class="text-xs font-extrabold text-white truncate">박지훈 선생님 (메가수학)</p>
+            </div>
+            <button onclick="disconnectTeacher()" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-rose-300 rounded text-[10px] font-bold transition">
+              연결 해제
+            </button>
+          </div>
         </div>
 
         <!-- Teacher Membership & Pricing Card -->
@@ -1820,6 +1875,25 @@
           </button>
         </div>
 
+        <!-- Teacher Code Banner (For Student Invitations & Viral Referral) -->
+        <div class="bg-gradient-to-r from-amber-950/70 to-slate-900 border border-amber-500/40 rounded-xl p-3 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-amber-300 flex items-center gap-1">
+              <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i> 내 선생님 고유 초대 코드
+            </span>
+            <span class="text-[9px] bg-amber-900/60 text-amber-200 px-1.5 py-0.5 rounded font-bold">학생 자동 연결용</span>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <span id="teacher-unique-code-display" class="font-mono text-xs font-black text-white bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 tracking-wider">RM-TEACH-2026</span>
+            <button onclick="copyTeacherCode()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] rounded-lg transition flex items-center gap-1 shadow-sm">
+              <i data-lucide="copy" class="w-3 h-3"></i> 코드 복사
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">
+            * 학생이 이 코드를 등록하면 교무실에 자동 등록되며, 모르는 문제를 실시간으로 선생님께 직접 전송할 수 있습니다.
+          </p>
+        </div>
+
         <!-- Section 1: Student Roster -->
         <div id="teacher-sec-roster" class="space-y-3">
           <div class="flex items-center justify-between">
@@ -2056,13 +2130,45 @@
         <!-- Tab Content 1: Student -->
         <div id="login-content-student" class="space-y-3">
           <p class="text-xs text-slate-300">혼자서도 막힘없는 1:1 시각적 수학 공부 &amp; 오답노트 보관</p>
+          
+          <!-- Email Verification (PassMate Style) -->
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 이메일 (본인 인증용):</label>
+            <div class="flex gap-1.5">
+              <input type="email" id="student-signup-email" placeholder="example@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <button type="button" onclick="sendEmailVerificationCode()" id="btn-send-email-code" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+                인증번호 발송
+              </button>
+            </div>
+          </div>
+
+          <!-- Email Verification Code Box (Visible upon sending code) -->
+          <div id="email-verification-box" class="hidden bg-slate-950/70 border border-indigo-500/40 rounded-xl p-2.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-indigo-300">인증번호 6자리 입력</span>
+              <span id="email-timer-display" class="font-mono text-xs font-bold text-rose-400">03:00</span>
+            </div>
+            <div class="flex gap-1.5">
+              <input type="text" id="student-email-code" maxlength="6" placeholder="인증번호 6자리" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs font-mono tracking-widest text-center text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <button type="button" onclick="verifyEmailCode()" class="px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap">
+                인증 확인
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-400 leading-snug">* 입력하신 이메일로 6자리 인증번호가 발송되었습니다. 3분 이내에 입력해 주세요.</p>
+          </div>
+
+          <!-- Email Verified Badge -->
+          <div id="email-verified-badge" class="hidden bg-emerald-950/50 border border-emerald-500/50 rounded-xl p-2 text-center text-xs font-bold text-emerald-300">
+            [본인 확인 완료] 이메일 인증이 성공적으로 완료되었습니다.
+          </div>
+
           <div>
             <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 성명 (실명):</label>
-            <input type="text" id="student-signup-name" value="김리드" placeholder="예: 김민준" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            <input type="text" id="student-signup-name" value="" placeholder="예: 김민준" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
           </div>
           <div>
             <label class="text-[11px] font-bold text-slate-300 block mb-1">소속 학교명:</label>
-            <input type="text" id="student-signup-school" value="대치중학교" placeholder="예: 대치중학교, 연세고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            <input type="text" id="student-signup-school" value="" placeholder="예: 대치중학교, 연세고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -2084,7 +2190,7 @@
             </div>
             <div>
               <label class="text-[11px] font-bold text-slate-300 block mb-1">휴대폰 번호:</label>
-              <input type="tel" id="student-signup-phone" value="010-1234-5678" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <input type="tel" id="student-signup-phone" value="" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
             </div>
           </div>
           <p class="text-[10px] text-slate-400 leading-tight">
@@ -2129,7 +2235,7 @@
 
             <div>
               <label class="text-[11px] font-bold text-slate-300 block mb-1">학원명 또는 선생님 성함:</label>
-              <input type="text" id="teacher-signup-name" value="리드매스 수학 연구소" placeholder="예: 리드매스학원, 김선생 수학" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500" />
+              <input type="text" id="teacher-signup-name" value="" placeholder="예: 리드매스학원, 김선생 수학" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500" />
             </div>
 
             <div class="bg-slate-950 rounded-xl p-2.5 border border-slate-800 space-y-1 text-[11px]">
@@ -2665,24 +2771,47 @@
     try { localStorage.removeItem('rootmath_creator_mode'); } catch (e) {}
 
     let studentProfile = JSON.parse(localStorage.getItem('rootmath_student_profile') || JSON.stringify({
-      name: '김리드',
-      school: '대치중학교',
+      name: '',
+      school: '',
       grade: '고1',
-      phone: '010-1234-5678',
+      phone: '',
+      email: '',
       goal: '수능 1등급 대비',
-      isSuspended: false
+      isSuspended: false,
+      connectedTeacherCode: null,
+      connectedTeacherName: null
     }));
 
-    let registeredUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || JSON.stringify([
-      { id: 'user_1', name: '김리드', school: '대치중학교', grade: '고1', phone: '010-1234-5678', isSuspended: false, joinedAt: '2026-10-01' },
-      { id: 'user_2', name: '박서준', school: '연세고등학교', grade: '고2', phone: '010-8765-4321', isSuspended: false, joinedAt: '2026-10-03' },
-      { id: 'user_3', name: '이채원', school: '휘문중학교', grade: '중3', phone: '010-3456-7890', isSuspended: false, joinedAt: '2026-10-04' }
-    ]));
+    // PassMate-style email verification state
+    let isEmailVerified = false;
+    let emailVerificationCode = '';
+    let emailTimerInterval = null;
+    let emailTimerSeconds = 180;
 
-    let studentFeedbacks = JSON.parse(localStorage.getItem('readmath_feedbacks') || JSON.stringify([
-      { id: 'fb_1', category: '풀이 및 도식 오류 신고', name: '김리드', school: '대치중학교', grade: '고1', phone: '010-1234-5678', content: '고1 이차함수 문제에서 축의 방정식이 x=3일 때 대칭성 시각화가 너무 좋습니다. 다만 그래프 모눈종이 확대 축소 기능이 있으면 더 좋겠습니다.', createdAt: '2026-10-05 14:20', isReviewed: false },
-      { id: 'fb_2', category: '기능 개선 및 제안', name: '박서준', school: '연세고등학교', grade: '고2', phone: '010-8765-4321', content: '오답노트에 적힌 문제를 PDF로 한 번에 다운로드받을 수 있는 기능이 생기면 시험 직전에 복습하기 편할 것 같습니다.', createdAt: '2026-10-06 09:15', isReviewed: true }
-    ]));
+    let registeredUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
+    let studentFeedbacks = JSON.parse(localStorage.getItem('readmath_feedbacks') || '[]');
+
+    // Complete Mock Data Purge: clear legacy mock users and mock feedbacks from earlier versions
+    try {
+      const mockCleanedKey = 'readmath_mock_cleaned_v2';
+      if (!localStorage.getItem(mockCleanedKey)) {
+        localStorage.removeItem('readmath_registered_users');
+        localStorage.removeItem('readmath_feedbacks');
+        registeredUsers = [];
+        studentFeedbacks = [];
+        if (studentProfile && (studentProfile.name === '김리드' || studentProfile.phone === '010-1234-5678')) {
+          studentProfile.name = '';
+          studentProfile.school = '';
+          studentProfile.phone = '';
+          studentProfile.email = '';
+          studentProfile.isSuspended = false;
+          studentProfile.connectedTeacherCode = null;
+          studentProfile.connectedTeacherName = null;
+          localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        }
+        localStorage.setItem(mockCleanedKey, 'true');
+      }
+    } catch (e) {}
 
     let teacherProfile = JSON.parse(localStorage.getItem('rootmath_teacher_profile') || JSON.stringify({
       name: '박지훈',
@@ -4055,6 +4184,7 @@
       updateSuspendedBanner();
       renderAdminUserList();
       renderAdminFeedbackList();
+      updateTeacherConnectionUI();
       openHistoryProblem(1, false);
       renderMathElements();
     });
@@ -5515,11 +5645,30 @@
       localStorage.removeItem('rootmath_user_history');
       teacherStudents = [];
       localStorage.removeItem('rootmath_teacher_students');
+      registeredUsers = [];
+      localStorage.removeItem('readmath_registered_users');
+      studentFeedbacks = [];
+      localStorage.removeItem('readmath_feedbacks');
+      studentProfile = {
+        name: '',
+        school: '',
+        grade: '고1',
+        phone: '',
+        email: '',
+        goal: '수능 1등급 대비',
+        isSuspended: false,
+        connectedTeacherCode: null,
+        connectedTeacherName: null
+      };
+      localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
       renderHistoryList();
       updateReportView();
       updateCameraHomeCards();
       renderTeacherStudentList();
-      alert('모든 오답 및 학생 데이터가 삭제되어 [출시용 클린 초기 상태]로 초기화되었습니다.');
+      renderAdminUserList();
+      renderAdminFeedbackList();
+      updateTeacherConnectionUI();
+      alert('모든 오답, 가입 회원, 건의사항 데이터가 삭제되어 [출시용 클린 초기 상태(0건)]로 초기화되었습니다.');
     }
 
     // ================= NAVIGATION & MODALS =================
@@ -5617,20 +5766,108 @@
       }
     }
 
-    function socialLoginSuccess(provider) {
-      alert(`[${provider} 간편 연동 안내]\n\n${provider} 계정 연동 정보가 확인되었습니다.\n정확한 학사 관리 및 오답노트 보관을 위해, 소속 학교명과 휴대폰 번호 입력을 완료해 주세요.`);
-      const schoolInput = document.getElementById('student-signup-school');
-      if (schoolInput) {
-        schoolInput.focus();
+    function sendEmailVerificationCode() {
+      const emailInput = document.getElementById('student-signup-email');
+      const email = emailInput ? emailInput.value.trim() : '';
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (!email || !emailRegex.test(email)) {
+        alert('올바른 이메일 주소를 입력해 주세요. (예: student@example.com)');
+        emailInput?.focus();
+        return;
+      }
+
+      emailVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      isEmailVerified = false;
+
+      const box = document.getElementById('email-verification-box');
+      const badge = document.getElementById('email-verified-badge');
+      if (box) box.classList.remove('hidden');
+      if (badge) badge.classList.add('hidden');
+
+      if (emailTimerInterval) clearInterval(emailTimerInterval);
+      emailTimerSeconds = 180;
+      updateEmailTimerDisplay();
+      emailTimerInterval = setInterval(() => {
+        emailTimerSeconds--;
+        updateEmailTimerDisplay();
+        if (emailTimerSeconds <= 0) {
+          clearInterval(emailTimerInterval);
+          emailTimerInterval = null;
+          emailVerificationCode = '';
+          alert('[인증 유효시간 만료]\n인증 유효시간(3분)이 초과되었습니다. 인증번호를 다시 발송해 주세요.');
+        }
+      }, 1000);
+
+      const codeInput = document.getElementById('student-email-code');
+      if (codeInput) {
+        codeInput.value = '';
+        codeInput.focus();
+      }
+
+      alert(`[이메일 본인 확인 인증번호 발송]\n\n입력하신 이메일(${email})로 인증번호 6자리가 발송되었습니다.\n[인증번호: ${emailVerificationCode}]\n(테스트 환경: 안내된 6자리 번호를 3분 이내에 입력해 주세요.)`);
+    }
+
+    function updateEmailTimerDisplay() {
+      const timerDisplay = document.getElementById('email-timer-display');
+      if (!timerDisplay) return;
+      const m = Math.floor(emailTimerSeconds / 60);
+      const s = emailTimerSeconds % 60;
+      timerDisplay.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function verifyEmailCode() {
+      if (!emailVerificationCode || emailTimerSeconds <= 0) {
+        alert('[인증 오류]\n유효한 인증번호가 없거나 시간이 만료되었습니다. 인증번호를 다시 발송해 주세요.');
+        return;
+      }
+
+      const codeInput = document.getElementById('student-email-code');
+      const enteredCode = codeInput ? codeInput.value.trim() : '';
+
+      if (enteredCode === emailVerificationCode) {
+        isEmailVerified = true;
+        if (emailTimerInterval) {
+          clearInterval(emailTimerInterval);
+          emailTimerInterval = null;
+        }
+
+        const box = document.getElementById('email-verification-box');
+        const badge = document.getElementById('email-verified-badge');
+        const emailInput = document.getElementById('student-signup-email');
+        const sendBtn = document.getElementById('btn-send-email-code');
+
+        if (box) box.classList.add('hidden');
+        if (badge) badge.classList.remove('hidden');
+        if (emailInput) emailInput.disabled = true;
+        if (sendBtn) sendBtn.disabled = true;
+
+        alert('[이메일 본인 인증 완료]\n\n본인 확인이 성공적으로 완료되었습니다.\n학생 정보(이름, 학교, 학년, 연락처)를 확인하시고 무료 시작하기를 완료해 주세요.');
+      } else {
+        alert('[인증번호 불일치]\n\n입력하신 6자리 인증번호가 일치하지 않습니다. 다시 확인해 주세요.');
+        codeInput?.focus();
       }
     }
 
+    function socialLoginSuccess(provider) {
+      alert(`[서비스 준비 중 안내]\n\n현재 사업자 등록 및 본인 인증 심사 절차가 진행 중입니다.\n정식 심사 완료 후 ${provider} 간편 로그인이 오픈될 예정입니다.\n\n이메일 본인 인증을 통한 학생 무료 가입을 이용해 주시기 바랍니다.`);
+    }
+
     function studentSignupSuccess() {
+      if (!isEmailVerified) {
+        alert('[이메일 본인 확인 필요]\n\n학생 회원 가입을 위해 먼저 이메일 인증번호를 발송하고 본인 확인 인증을 완료해 주세요.');
+        const emailInput = document.getElementById('student-signup-email');
+        emailInput?.focus();
+        return;
+      }
+
+      const emailInput = document.getElementById('student-signup-email');
       const nameInput = document.getElementById('student-signup-name');
       const schoolInput = document.getElementById('student-signup-school');
       const gradeSelect = document.getElementById('student-signup-grade');
       const phoneInput = document.getElementById('student-signup-phone');
 
+      const email = emailInput ? emailInput.value.trim() : '';
       const name = nameInput ? nameInput.value.trim() : '';
       const school = schoolInput ? schoolInput.value.trim() : '';
       const grade = gradeSelect ? gradeSelect.value : '고1';
@@ -5656,9 +5893,9 @@
       const cleanPhone = phone.replace(/[^0-9]/g, '').replace(/^(01[016789])(\d{3,4})(\d{4})$/, '$1-$2-$3');
 
       // Check if suspended
-      const existingUser = registeredUsers.find(u => u.phone === cleanPhone);
+      const existingUser = registeredUsers.find(u => u.phone === cleanPhone || (email && u.email === email));
       if (existingUser && existingUser.isSuspended) {
-        alert('[이용 제한 안내]\n\n해당 연락처로 등록된 계정은 관리자에 의해 이용이 제한되었습니다.\n문의: 리드매스 관리자');
+        alert('[이용 제한 안내]\n\n해당 계정 또는 연락처는 관리자에 의해 이용이 제한되었습니다.\n문의: 리드매스 관리자');
         return;
       }
 
@@ -5666,6 +5903,7 @@
         existingUser.name = name;
         existingUser.school = school;
         existingUser.grade = grade;
+        existingUser.email = email;
       } else {
         registeredUsers.unshift({
           id: 'user_' + Date.now(),
@@ -5673,6 +5911,7 @@
           school: school,
           grade: grade,
           phone: cleanPhone,
+          email: email,
           isSuspended: false,
           joinedAt: new Date().toISOString().slice(0, 10)
         });
@@ -5683,6 +5922,7 @@
       studentProfile.school = school;
       studentProfile.grade = grade;
       studentProfile.phone = cleanPhone;
+      studentProfile.email = email;
       studentProfile.isSuspended = false;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
 
@@ -5708,12 +5948,13 @@
         }
       } catch (e) {}
 
+      isEmailVerified = false;
       setSchoolGrade(grade);
       setUserRole('student');
       updateSuspendedBanner();
       renderAdminUserList();
       closeModal('login');
-      alert(`[학생 무료 회원가입 완료]\n\n환영합니다, ${name} 학생 (${school} ${grade})!\n1:1 시각적 원리 튜터가 시작되었습니다.`);
+      alert(`[학생 무료 회원가입 완료]\n\n환영합니다, ${name} 학생 (${school} ${grade})!\n이메일 본인 인증이 완료되어 1:1 시각적 원리 튜터가 시작되었습니다.`);
     }
 
     function openFeedbackModal() {
@@ -6328,13 +6569,103 @@
     }
 
     function teacherSignupSuccess() {
-      const nameInput = document.getElementById('teacher-signup-name');
-      if (nameInput && nameInput.value.trim()) {
-        teacherProfile.academy = nameInput.value.trim();
+      alert('[선생님·학원 회원 서비스 준비 중 안내]\n\n현재 사업자 등록 진행 및 개인 과외/학원 단위별 맞춤 요금제와 특화 기능(소크라테스 발문 대본, 1:1 클리닉 교재 발행) 시스템을 정비하고 있습니다.\n\n정식 오픈 시 공지사항을 통해 안내해 드리겠습니다.');
+    }
+
+    // ================= TEACHER-STUDENT CONNECTION SYSTEM =================
+    function updateTeacherConnectionUI() {
+      const statusBadge = document.getElementById('teacher-connect-status-badge');
+      const inputBox = document.getElementById('teacher-connect-input-box');
+      const infoBox = document.getElementById('teacher-connected-info-box');
+      const teacherNameEl = document.getElementById('connected-teacher-name');
+
+      if (!statusBadge || !inputBox || !infoBox) return;
+
+      if (studentProfile && studentProfile.connectedTeacherCode) {
+        statusBadge.className = 'text-[9.5px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold';
+        statusBadge.innerText = '연결됨';
+        inputBox.classList.add('hidden');
+        infoBox.classList.remove('hidden');
+        if (teacherNameEl) {
+          teacherNameEl.innerText = studentProfile.connectedTeacherName || '박지훈 선생님 (메가수학)';
+        }
+      } else {
+        statusBadge.className = 'text-[9.5px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold';
+        statusBadge.innerText = '미연결';
+        inputBox.classList.remove('hidden');
+        infoBox.classList.add('hidden');
       }
-      setUserRole('teacher');
-      closeModal('login');
-      alert(`[선생님 회원가입 완료]\n\n환영합니다! '${teacherProfile.academy}' 선생님을 위한 14일 무료 체험이 시작되었습니다.\n\n대화식 1:1 발문 대본과 학생 맞춤 클리닉 교재(개념서+쌍둥이)를 무제한으로 활용하세요!`);
+    }
+
+    function connectTeacherByCode() {
+      const input = document.getElementById('input-teacher-connect-code');
+      const code = input ? input.value.trim().toUpperCase() : '';
+
+      if (!code) {
+        alert('[선생님 코드 입력 필요]\n선생님께 안내받으신 고유 코드를 입력해 주세요. (예: RM-TEACH-2026)');
+        input?.focus();
+        return;
+      }
+
+      if (code === 'RM-TEACH-2026' || code.startsWith('RM-')) {
+        studentProfile.connectedTeacherCode = code;
+        studentProfile.connectedTeacherName = '박지훈 선생님 (메가수학)';
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        updateTeacherConnectionUI();
+        if (input) input.value = '';
+
+        // Auto-roster student into teacher list if not already present
+        const studentName = studentProfile.name || '신규 학생';
+        const alreadyInRoster = teacherStudents.some(s => s.name === studentName);
+        if (!alreadyInRoster) {
+          teacherStudents.unshift({
+            id: Date.now(),
+            name: studentName,
+            grade: studentProfile.grade || '고1',
+            classGroup: '온라인 질문 연결반',
+            weakness: '실시간 질문 전송 연동',
+            goal: '맞춤 클리닉 교재 학습'
+          });
+          localStorage.setItem('rootmath_teacher_students', JSON.stringify(teacherStudents));
+          renderTeacherStudentList();
+        }
+
+        alert(`[담당 선생님 연결 완료]\n\n${studentProfile.connectedTeacherName}과 성공적으로 연결되었습니다.\n\n이제 문제 풀이 화면 하단의 [담당 선생님께 이 문제 질문 전송] 버튼을 통해 언제든 1:1 질문을 보내실 수 있습니다.`);
+      } else {
+        alert('[유효하지 않은 코드]\n등록되지 않은 선생님 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요. (테스트용 코드: RM-TEACH-2026)');
+      }
+    }
+
+    function disconnectTeacher() {
+      if (!confirm('담당 선생님과의 연결을 해제하시겠습니까?\n해제 시 실시간 질문 전송 기능이 비활성화됩니다.')) {
+        return;
+      }
+      studentProfile.connectedTeacherCode = null;
+      studentProfile.connectedTeacherName = null;
+      localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+      updateTeacherConnectionUI();
+      alert('[선생님 연결 해제 완료]\n담당 선생님 연결이 해제되었습니다.');
+    }
+
+    function copyTeacherCode() {
+      const code = 'RM-TEACH-2026';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).catch(() => {});
+      }
+      alert(`[선생님 고유 코드 복사 완료]\n\n초대 코드: ${code}\n\n학생들에게 이 코드를 공유하면, 학생 설정 화면에서 등록 즉시 선생님 교무실에 자동 연동되며 실시간 질문을 접수할 수 있습니다.`);
+    }
+
+    function sendQuestionToTeacher() {
+      if (!studentProfile || !studentProfile.connectedTeacherCode) {
+        alert('[담당 선생님 미연결 안내]\n\n현재 등록된 담당 선생님이 없습니다.\n\n설정 페이지의 [담당 선생님 연결] 메뉴에서 선생님 고유 코드(예: RM-TEACH-2026)를 먼저 등록해 주세요.');
+        goToView('settings');
+        return;
+      }
+
+      const prob = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      const teacherName = studentProfile.connectedTeacherName || '담당 선생님';
+
+      alert(`[담당 선생님께 질문 전송 완료]\n\n받는 분: ${teacherName}\n문제: [${prob.curriculum_grade}] ${prob.topic || '기출 킬러'}\n\n학생의 4방향 오답 분석 데이터(도식화/식세우기/조건누락/개념)와 현재 문제 풀이 내용이 선생님 교무실로 실시간 전송되었습니다.\n선생님 확인 후 1:1 맞춤 피드백과 추가 쌍둥이 클리닉 교재가 전달됩니다.`);
     }
 
     // ================= TEACHER CLINIC & PARENT BRIEFING =================
