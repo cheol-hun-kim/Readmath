@@ -6466,57 +6466,84 @@
       emailVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
       isEmailVerified = false;
 
-      try {
-        const endpoint = (window.location.protocol === 'file:') 
-          ? 'http://127.0.0.1:8765/api/send-email-otp' 
-          : '/api/send-email-otp';
+      // Cascading endpoints for maximum cloud and local resilience
+      const endpoints = [
+        'https://palin-os.onrender.com/api/readmath/send-email-otp',
+        'https://palin-os.onrender.com/api/auth/send-email-otp',
+        (window.location.protocol === 'file:') ? 'http://127.0.0.1:8765/api/send-email-otp' : '/api/send-email-otp'
+      ];
 
-        const resp = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, code: emailVerificationCode })
-        });
-        const resData = await resp.json().catch(() => ({}));
+      let lastError = null;
+      let dispatchSuccess = false;
 
-        if (!resp.ok || !resData.success) {
-          throw new Error(resData.error || '이메일 발송 서버 통신 오류');
-        }
+      for (const endpoint of endpoints) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-        const box = document.getElementById('email-verification-box');
-        const badge = document.getElementById('email-verified-badge');
-        if (box) box.classList.remove('hidden');
-        if (badge) badge.classList.add('hidden');
+          const resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, code: emailVerificationCode }),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
 
-        if (emailTimerInterval) clearInterval(emailTimerInterval);
-        emailTimerSeconds = 180;
-        updateEmailTimerDisplay();
-        emailTimerInterval = setInterval(() => {
-          emailTimerSeconds--;
-          updateEmailTimerDisplay();
-          if (emailTimerSeconds <= 0) {
-            clearInterval(emailTimerInterval);
-            emailTimerInterval = null;
-            emailVerificationCode = '';
-            alert('[인증 유효시간 만료]\n인증 유효시간(3분)이 초과되었습니다. 인증번호를 다시 발송해 주세요.');
+          const resData = await resp.json().catch(() => ({}));
+          if (resp.ok && (resData.success || resData.status === 'success')) {
+            dispatchSuccess = true;
+            if (resData.code) {
+              emailVerificationCode = String(resData.code);
+            }
+            break;
+          } else if (resData.detail || resData.error || resData.message) {
+            lastError = new Error(resData.detail || resData.error || resData.message);
           }
-        }, 1000);
-
-        const codeInput = document.getElementById('student-email-code');
-        if (codeInput) {
-          codeInput.value = '';
-          codeInput.focus();
-        }
-
-        alert(`[인증번호 발송 완료]\n\n입력하신 이메일(${email})로 6자리 인증번호가 발송되었습니다.\n\n메일함(받은편지함 및 스팸함)을 확인하시고 3분 이내에 인증번호를 입력해 주세요.`);
-      } catch (err) {
-        console.error('Email dispatch error:', err);
-        alert(`[이메일 발송 실패]\n\n인증 메일 발송 중 오류가 발생했습니다: ${err.message || '발송 서버 연결 실패'}\n이메일 주소를 다시 확인해 주시거나 잠시 후 다시 시도해 주세요.`);
-      } finally {
-        if (sendBtn) {
-          sendBtn.disabled = false;
-          sendBtn.innerText = '인증번호 재발송';
+        } catch (e) {
+          lastError = e;
         }
       }
+
+      if (!dispatchSuccess) {
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.innerText = originalBtnText;
+        }
+        alert(`[이메일 발송 실패]\n\n인증 메일 발송 중 오류가 발생했습니다: ${lastError ? lastError.message : '발송 서버 통신 오류'}\n이메일 주소를 다시 확인해 주시거나 잠시 후 다시 시도해 주세요.`);
+        return;
+      }
+
+      const box = document.getElementById('email-verification-box');
+      const badge = document.getElementById('email-verified-badge');
+      if (box) box.classList.remove('hidden');
+      if (badge) badge.classList.add('hidden');
+
+      if (emailTimerInterval) clearInterval(emailTimerInterval);
+      emailTimerSeconds = 180;
+      updateEmailTimerDisplay();
+      emailTimerInterval = setInterval(() => {
+        emailTimerSeconds--;
+        updateEmailTimerDisplay();
+        if (emailTimerSeconds <= 0) {
+          clearInterval(emailTimerInterval);
+          emailTimerInterval = null;
+          emailVerificationCode = '';
+          alert('[인증 유효시간 만료]\n인증 유효시간(3분)이 초과되었습니다. 인증번호를 다시 발송해 주세요.');
+        }
+      }, 1000);
+
+      const codeInput = document.getElementById('student-email-code');
+      if (codeInput) {
+        codeInput.value = '';
+        codeInput.focus();
+      }
+
+      if (sendBtn) {
+        sendBtn.disabled = false;
+        sendBtn.innerText = '인증번호 재발송';
+      }
+
+      alert(`[인증번호 발송 완료]\n\n입력하신 이메일(${email})로 6자리 인증번호가 발송되었습니다.\n\n메일함(받은편지함 및 스팸함)을 확인하시고 3분 이내에 인증번호를 입력해 주세요.`);
     }
 
     function updateEmailTimerDisplay() {
@@ -6527,16 +6554,37 @@
       timerDisplay.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
-    function verifyEmailCode() {
-      if (!emailVerificationCode || emailTimerSeconds <= 0) {
+    async function verifyEmailCode() {
+      const codeInput = document.getElementById('student-email-code');
+      const emailInput = document.getElementById('student-signup-email');
+      const enteredCode = codeInput ? codeInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!enteredCode || emailTimerSeconds <= 0) {
         alert('[인증 오류]\n유효한 인증번호가 없거나 시간이 만료되었습니다. 인증번호를 다시 발송해 주세요.');
         return;
       }
 
-      const codeInput = document.getElementById('student-email-code');
-      const enteredCode = codeInput ? codeInput.value.trim() : '';
+      let verified = (emailVerificationCode && enteredCode === emailVerificationCode);
 
-      if (enteredCode === emailVerificationCode) {
+      // Fallback verification against cloud store
+      if (!verified && email) {
+        try {
+          const resp = await fetch('https://palin-os.onrender.com/api/auth/verify-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, code: enteredCode })
+          });
+          const resData = await resp.json().catch(() => ({}));
+          if (resp.ok && (resData.verified || resData.status === 'success')) {
+            verified = true;
+          }
+        } catch (e) {
+          console.warn('Server verify fallback error:', e);
+        }
+      }
+
+      if (verified) {
         isEmailVerified = true;
         if (emailTimerInterval) {
           clearInterval(emailTimerInterval);
@@ -6545,7 +6593,6 @@
 
         const box = document.getElementById('email-verification-box');
         const badge = document.getElementById('email-verified-badge');
-        const emailInput = document.getElementById('student-signup-email');
         const sendBtn = document.getElementById('btn-send-email-code');
 
         if (box) box.classList.add('hidden');
