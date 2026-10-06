@@ -33,3 +33,8 @@ if (previewContent.includes(previewHeadTarget)) {
 
 fs.writeFileSync('public/index.html', publicContent, 'utf8');
 console.log('✓ Successfully synchronized preview.html -> public/index.html with PWA & OpenGraph headers!');
+
+if (fs.existsSync('admin.html')) {
+  fs.copyFileSync('admin.html', 'public/admin.html');
+  console.log('✓ Successfully synchronized admin.html -> public/admin.html!');
+}
