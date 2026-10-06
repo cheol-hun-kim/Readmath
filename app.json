@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "ReadMath",
+    "slug": "readmath",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0F19"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.readmath.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0B0F19"
+      },
+      "package": "com.readmath.app",
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "수학 문제를 촬영하여 AI로 분석하고 도식화하기 위해 카메라 권한이 필요합니다."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "문제 사진을 앨범에서 선택하여 풀이하기 위해 사진 라이브러리 권한이 필요합니다."
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+<svg width="600" height="320" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="320" fill="#ffffff"/>
+  <rect x="20" y="20" width="560" height="280" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="45" y="65" font-family="'Pretendard', sans-serif" font-size="20" font-weight="bold" fill="#1e293b">[중2 일차함수와 직선]</text>
+  <text x="45" y="115" font-family="'Pretendard', sans-serif" font-size="18" fill="#334155">두 일차방정식의 그래프</text>
+  <text x="45" y="160" font-family="'Pretendard', sans-serif" font-size="20" font-weight="bold" fill="#2563eb">2x + y + 1 = 0 과 x - 2y + k = 0</text>
+  <text x="45" y="205" font-family="'Pretendard', sans-serif" font-size="18" fill="#334155">이 x축 위에서 만날 때, 상수 k의 값을 구하시오.</text>
+</svg>

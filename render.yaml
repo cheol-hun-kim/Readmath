@@ -1,0 +1,28 @@
+services:
+  # ReadMath Web Client (Static Site on Render.com)
+  - type: web
+    name: readmath
+    runtime: static
+    buildCommand: echo "ReadMath static web ready"
+    staticPublishPath: ./public
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+    routes:
+      - type: rewrite
+        source: /assets/*
+        destination: /assets/*
+      - type: rewrite
+        source: /privacy
+        destination: /privacy.html
+      - type: rewrite
+        source: /terms
+        destination: /terms.html
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -1,0 +1,23 @@
+{
+  "name": "ReadMath | 리드매스 - 수학은 해석의 대상이다!",
+  "short_name": "ReadMath",
+  "description": "수학은 암기가 아닌 해석의 대상입니다. 일상의 한글과 직관적인 그래프로 번역하면 모든 문제는 반드시 풀립니다. 1등 AI 시각화 수학 멘토 ReadMath",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/adaptive-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

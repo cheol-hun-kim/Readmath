@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Math data PDFs (heavy binary files)
+mathdata/
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Temporary scratch & test files
+temp_style.css
+gemini_raw_out.json
+test_*.js
+check_*.js
+inspect_*.js
