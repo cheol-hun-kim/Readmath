@@ -5857,6 +5857,19 @@
         updateQuotaUI();
         updateTeacherConnectionUI();
         updateStudentReferralUI();
+      } else if (id === 'login') {
+        const signupGradeSelect = document.getElementById('student-signup-grade');
+        if (signupGradeSelect) {
+          signupGradeSelect.value = studentProfile?.grade || currentGrade || '고1';
+        }
+        const nameInput = document.getElementById('student-signup-name');
+        const schoolInput = document.getElementById('student-signup-school');
+        const phoneInput = document.getElementById('student-signup-phone');
+        const emailInput = document.getElementById('student-signup-email');
+        if (studentProfile?.name && nameInput) nameInput.value = studentProfile.name;
+        if (studentProfile?.school && schoolInput) schoolInput.value = studentProfile.school;
+        if (studentProfile?.phone && phoneInput) phoneInput.value = studentProfile.phone;
+        if (studentProfile?.email && emailInput) emailInput.value = studentProfile.email;
       }
       document.getElementById('modal-' + id)?.classList.remove('hidden');
       lucide.createIcons();
