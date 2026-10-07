@@ -306,17 +306,17 @@
         </div>
 
         <!-- Student Data Table -->
-        <div class="overflow-x-auto rounded-xl border border-slate-800">
-          <table class="w-full text-left text-xs">
+        <div class="overflow-x-auto rounded-xl border border-slate-800 -mx-1 sm:mx-0">
+          <table class="w-full text-left text-xs min-w-[720px] whitespace-nowrap">
             <thead class="cockpit-table-header bg-slate-950 text-slate-400 uppercase font-black tracking-wider text-[11px]">
               <tr>
-                <th class="py-3 px-4">학생 성명</th>
-                <th class="py-3 px-4">소속 학교</th>
-                <th class="py-3 px-4">학년</th>
-                <th class="py-3 px-4">휴대폰 번호</th>
-                <th class="py-3 px-4">가입일시</th>
-                <th class="py-3 px-4 text-center">상태</th>
-                <th class="py-3 px-4 text-right">관리 조치</th>
+                <th class="py-3 px-4 whitespace-nowrap min-w-[120px]">학생 성명</th>
+                <th class="py-3 px-4 whitespace-nowrap min-w-[140px]">소속 학교</th>
+                <th class="py-3 px-4 whitespace-nowrap min-w-[80px]">학년</th>
+                <th class="py-3 px-4 whitespace-nowrap min-w-[130px]">휴대폰 번호</th>
+                <th class="py-3 px-4 whitespace-nowrap min-w-[100px]">가입일시</th>
+                <th class="py-3 px-4 text-center whitespace-nowrap min-w-[90px]">상태</th>
+                <th class="py-3 px-4 text-right whitespace-nowrap min-w-[120px]">관리 조치</th>
               </tr>
             </thead>
             <tbody id="student-table-body" class="divide-y divide-slate-800/80">
@@ -732,7 +732,7 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
@@ -775,8 +775,8 @@
       str = str.replace(/[∂]/g, ' \\partial ');
       str = str.replace(/[∘]/g, ' \\circ ');
 
-      // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
-      str = str.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
+      // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
+      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -853,9 +853,13 @@
         const resp = await fetch('https://palin-os.onrender.com/api/readmath/users');
         const data = await resp.json().catch(() => ({}));
         if (data && data.success && Array.isArray(data.users)) {
+          const localUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
+          const localSuspendedMap = new Map(localUsers.map(u => [u.phone || u.email || String(u.id), !!u.isSuspended]));
+
           const remoteMap = new Map();
           data.users.forEach(u => {
             const key = u.phone || u.email || String(u.id);
+            const isSusp = localSuspendedMap.has(key) ? localSuspendedMap.get(key) : !!u.is_suspended;
             remoteMap.set(key, {
               id: String(u.id),
               name: u.name || '미등록',
@@ -863,11 +867,10 @@
               grade: u.grade || '고1',
               phone: u.phone || '-',
               email: u.email || '',
-              isSuspended: !!u.is_suspended,
+              isSuspended: isSusp,
               joinedAt: u.created_at ? u.created_at.slice(0, 10) : '최근'
             });
           });
-          const localUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
           localUsers.forEach(u => {
             const key = u.phone || u.email || String(u.id);
             if (!remoteMap.has(key)) {
@@ -889,8 +892,12 @@
         const resp = await fetch('https://palin-os.onrender.com/api/readmath/feedbacks');
         const data = await resp.json().catch(() => ({}));
         if (data && data.success && Array.isArray(data.feedbacks)) {
+          const localFbs = JSON.parse(localStorage.getItem('readmath_feedbacks') || '[]');
+          const localReviewedMap = new Map(localFbs.map(f => [String(f.id), !!f.isReviewed]));
+
           const fbMap = new Map();
           data.feedbacks.forEach(f => {
+            const isRev = localReviewedMap.has(String(f.id)) ? localReviewedMap.get(String(f.id)) : (!!f.is_reviewed || !!f.isReviewed);
             fbMap.set(String(f.id), {
               id: String(f.id),
               studentName: f.student_name || '익명 학생',
@@ -899,10 +906,9 @@
               category: f.content && f.content.includes('[불편 사항 및 버그]') ? 'bug' : 'feature',
               content: f.content || '',
               date: f.created_at ? f.created_at.slice(0, 10) : '최근',
-              isReviewed: false
+              isReviewed: isRev
             });
           });
-          const localFbs = JSON.parse(localStorage.getItem('readmath_feedbacks') || '[]');
           localFbs.forEach(f => {
             if (!fbMap.has(String(f.id))) {
               fbMap.set(String(f.id), f);
@@ -1126,23 +1132,25 @@
         const isSusp = !!u.isSuspended;
         return `
           <tr class="cockpit-table-row hover:bg-slate-800/40 transition">
-            <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
-              <div class="w-7 h-7 rounded-full ${isSusp ? 'bg-red-500/20 text-red-400' : 'bg-indigo-500/20 text-indigo-400'} flex items-center justify-center font-black text-xs">
-                ${(u.name || '학')[0]}
+            <td class="py-3 px-4 font-bold text-white whitespace-nowrap min-w-[120px]">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full ${isSusp ? 'bg-red-500/20 text-red-400' : 'bg-indigo-500/20 text-indigo-400'} flex items-center justify-center font-black text-xs shrink-0">
+                  ${(u.name || '학')[0]}
+                </div>
+                <span>${u.name || '미등록'}</span>
               </div>
-              <span>${u.name || '미등록'}</span>
             </td>
-            <td class="py-3 px-4 text-slate-300">${u.school || '-'}</td>
-            <td class="py-3 px-4 font-bold text-indigo-300">${u.grade || '-'}</td>
-            <td class="py-3 px-4 font-mono text-slate-400">${u.phone || '-'}</td>
-            <td class="py-3 px-4 text-slate-500 text-[11px]">${u.joinedAt || '최근'}</td>
-            <td class="py-3 px-4 text-center">
+            <td class="py-3 px-4 text-slate-300 whitespace-nowrap min-w-[140px]">${u.school || '-'}</td>
+            <td class="py-3 px-4 font-bold text-indigo-300 whitespace-nowrap min-w-[80px]">${u.grade || '-'}</td>
+            <td class="py-3 px-4 font-mono text-slate-400 whitespace-nowrap min-w-[130px]">${u.phone || '-'}</td>
+            <td class="py-3 px-4 text-slate-500 text-[11px] whitespace-nowrap min-w-[100px]">${u.joinedAt || '최근'}</td>
+            <td class="py-3 px-4 text-center whitespace-nowrap min-w-[90px]">
               ${isSusp 
                 ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-red-950 text-red-300 border border-red-500/50">이용 제한</span>'
                 : '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-950 text-emerald-300 border border-emerald-500/50">정상 회원</span>'
               }
             </td>
-            <td class="py-3 px-4 text-right">
+            <td class="py-3 px-4 text-right whitespace-nowrap min-w-[120px]">
               <div class="flex items-center justify-end gap-1.5">
                 <button onclick="toggleStudentSuspend('${u.id}')" 
                         class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition flex items-center gap-1 ${
@@ -1180,7 +1188,9 @@
           }
         } catch (e) {}
 
-        refreshDashboard();
+        renderStats();
+        renderStudentTable();
+        lucide.createIcons();
       }
     }
 
@@ -1333,7 +1343,9 @@
       if (idx !== -1) {
         studentFeedbacks[idx].isReviewed = !studentFeedbacks[idx].isReviewed;
         localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
-        refreshDashboard();
+        renderStats();
+        renderFeedbackList();
+        lucide.createIcons();
       }
     }
 

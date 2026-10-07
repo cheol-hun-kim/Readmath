@@ -5280,7 +5280,7 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text (e.g. 존재하지(∄) -> 존재하지)
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
@@ -5323,8 +5323,8 @@
       str = str.replace(/[∂]/g, ' \\partial ');
       str = str.replace(/[∘]/g, ' \\circ ');
 
-      // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
-      str = str.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
+      // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
+      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -5640,7 +5640,7 @@
       const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null, false);
       let node;
       const nodesToUpdate = [];
-      const badGlyphRegex = /[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/;
+      const badGlyphRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/;
       while (node = walker.nextNode()) {
         if (node.parentElement && (
           node.parentElement.tagName === 'SCRIPT' ||
@@ -5657,7 +5657,7 @@
 
       nodesToUpdate.forEach(n => {
         let s = n.nodeValue;
-        s = s.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, '≠');
+        s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, '≠');
         if (n.nodeValue !== s) {
           n.nodeValue = s;
         }
@@ -5859,7 +5859,7 @@
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
         // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
-        s = s.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]\s*\)/g, '$1');
 
         // Normalize raw \ne
         s = s.replace(/\\ne\b/g, '\\neq');
@@ -5902,8 +5902,8 @@
         s = s.replace(/[∂]/g, ' \\partial ');
         s = s.replace(/[∘]/g, ' \\circ ');
 
-        // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
-        s = s.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
+        // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
+        s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
         s = s.replace(/\\neq\s*\\neq/g, '\\neq');
         s = s.replace(/\s*\\neq\s*/g, ' \\neq ');
 
