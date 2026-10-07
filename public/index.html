@@ -5276,17 +5276,34 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
-      // 1. Replace broken glyphs / ballot box / tofu (☒, ⌧, ⊠, 日, ∃, etc.) with \neq
-      str = str.replace(/[\u2612\u2327\u22A0\uFFFD\u25A1\u25A0\u25BD\u25B3\u65E5\u2203]/g, ' \\neq ');
-      
-      // 1.1 Correct corrupted OCR/LLM glyphs (e.g. f(2) ∃ 2 or f(4) ∃ 0) to \neq
-      str = str.replace(/([a-zA-Z0-9_\(\)]+)\s*[\u2203\u65E5]\s*([0-9a-zA-Z_\(\)]+)/g, '$1 \\neq $2');
-      str = str.replace(/[\u2203\u65E5]\s*0\b/g, '\\neq 0');
+      // 0.1 Purge redundant logical quantifier inside Korean text (e.g. 존재하지(∄) -> 존재하지)
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203]\s*\)/g, '$1');
+
+      // 0.2 Normalize raw \ne to \neq
+      str = str.replace(/\\ne\b/g, '\\neq');
+
+      // 1. Inviolable Generalized Math Relation & Tofu Sanitizer (e.g. k [ANY_WEIRD_GLYPH] 0 -> k \neq 0)
+      str = str.replace(/([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)\s*([^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+)\s*([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)/g, (m, p1, sym, p2) => {
+        if (sym === '≤' || sym === '≦') return `${p1} \\le ${p2}`;
+        if (sym === '≥' || sym === '≧') return `${p1} \\ge ${p2}`;
+        if (sym === '∈') return `${p1} \\in ${p2}`;
+        if (sym === '∉') return `${p1} \\notin ${p2}`;
+        if (sym === '±') return `${p1} \\pm ${p2}`;
+        if (sym === '×') return `${p1} \\times ${p2}`;
+        if (sym === '÷') return `${p1} \\div ${p2}`;
+        if (sym === '≈' || sym === '≒' || sym === '≅') return `${p1} \\approx ${p2}`;
+        if (sym === '≡') return `${p1} \\equiv ${p2}`;
+        return `${p1} \\neq ${p2}`;
+      });
+
+      // 1.1 Inviolable Standalone Broken Glyphs & Tofu Purger (∄, ∃, ≠, ≢, ≟, 日, ⊠, □, ■, etc.)
+      str = str.replace(/[\u2204\u2203\u2260\u2262\u225F\u65E5\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BDB]/g, ' \\neq ');
+      str = str.replace(/\\neq\s*\\neq/g, '\\neq');
 
       // 2. Normalize raw Unicode math symbols
       str = str.replace(/≠/g, ' \\neq ');
-      str = str.replace(/≤/g, ' \\le ');
-      str = str.replace(/≥/g, ' \\ge ');
+      str = str.replace(/≤|≦/g, ' \\le ');
+      str = str.replace(/≥|≧/g, ' \\ge ');
       str = str.replace(/∈/g, ' \\in ');
       str = str.replace(/∉/g, ' \\notin ');
       str = str.replace(/±/g, ' \\pm ');
@@ -5317,6 +5334,17 @@
           return '$' + str + '$';
         }
       }
+
+      // 4.0 Auto-wrap compound relation chains like f(3^2) = f(9) \neq 0, a = b = c
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*(?:=|\\neq|\\le|\\ge|<|>)\s*[a-zA-Z0-9_\(\)\^]+){2,})/g, (m) => {
+        let p = m.trim();
+        let trail = '';
+        if (p.endsWith(')') && (p.match(/\)/g) || []).length > (p.match(/\(/g) || []).length) {
+          p = p.slice(0, -1).trim();
+          trail = ')';
+        }
+        return '$' + p + '$' + trail;
+      });
 
       // 4.1 Auto-wrap function inequalities/equalities like f(2) \neq 2, f(4) \neq 0, x = 4
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
@@ -5691,13 +5719,39 @@
       });
     }
 
-    // Mathematical Object Sanitizer for AI Responses (Zero LaTeX Font Artifacts)
+    // Mathematical Object Sanitizer for AI Responses & Solved History
     function sanitizeMathObject(obj) {
       if (!obj) return obj;
       if (typeof obj === 'string') {
         let s = obj;
+        // LaTeX font modifiers cleanup
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|text|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
+
+        // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203]\s*\)/g, '$1');
+
+        // Normalize raw \ne
+        s = s.replace(/\\ne\b/g, '\\neq');
+
+        // Inviolable Generalized Math Relation & Tofu Sanitizer (e.g. k [ANY_WEIRD_GLYPH] 0 -> k \neq 0)
+        s = s.replace(/([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)\s*([^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+)\s*([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)/g, (m, p1, sym, p2) => {
+          if (sym === '≤' || sym === '≦') return `${p1} \\le ${p2}`;
+          if (sym === '≥' || sym === '≧') return `${p1} \\ge ${p2}`;
+          if (sym === '∈') return `${p1} \\in ${p2}`;
+          if (sym === '∉') return `${p1} \\notin ${p2}`;
+          if (sym === '±') return `${p1} \\pm ${p2}`;
+          if (sym === '×') return `${p1} \\times ${p2}`;
+          if (sym === '÷') return `${p1} \\div ${p2}`;
+          if (sym === '≈' || sym === '≒' || sym === '≅') return `${p1} \\approx ${p2}`;
+          if (sym === '≡') return `${p1} \\equiv ${p2}`;
+          return `${p1} \\neq ${p2}`;
+        });
+
+        // Standalone Broken Glyphs & Tofu Purger (∄, ∃, ≠, ≢, ≟, 日, ⊠, □, ■, etc.)
+        s = s.replace(/[\u2204\u2203\u2260\u2262\u225F\u65E5\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BDB]/g, ' \\neq ');
+        s = s.replace(/\\neq\s*\\neq/g, '\\neq');
+
         return s;
       }
       if (Array.isArray(obj)) {
@@ -5712,6 +5766,14 @@
       }
       return obj;
     }
+
+    // Retroactive Sanitization of Cached User History in LocalStorage
+    try {
+      if (Array.isArray(userSolvedHistory) && userSolvedHistory.length > 0) {
+        userSolvedHistory = sanitizeMathObject(userSolvedHistory);
+        localStorage.setItem('rootmath_user_history', JSON.stringify(userSolvedHistory));
+      }
+    } catch (e) {}
 
     // ================= ROBUST JSON PARSER FOR AI MATH RESPONSES =================
     function robustJsonParse(rawText) {
@@ -7767,6 +7829,7 @@
       if (!data) {
         data = PROBLEMS_DB[1];
       }
+      data = sanitizeMathObject(data);
 
       // Ensure data.diagrams exists
       if (!data.diagrams || data.diagrams.length === 0) {
