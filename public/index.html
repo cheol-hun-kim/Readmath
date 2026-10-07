@@ -6343,16 +6343,29 @@
         return out;
       },
 
-      // 4. Exact Line y = x Plotter (Guaranteed 45-degree angle through origin)
-      plotLineYEqualsX(ox, oy, scale, xStart = -4, xEnd = 5, color = '#2563EB') {
-        const x1 = ox + xStart * scale;
-        const y1 = oy - xStart * scale;
-        const x2 = ox + xEnd * scale;
-        const y2 = oy - xEnd * scale;
+      // 4. Exact Line y = x Plotter (Guaranteed 45-degree angle through origin, bounded safely within viewport)
+      plotLineYEqualsX(ox, oy, scale, xStart = -2.8, xEnd = 3.8, color = '#2563EB') {
+        let actualXEnd = xEnd;
+        let y2 = oy - actualXEnd * scale;
+        if (y2 < 20) {
+          actualXEnd = (oy - 20) / scale;
+          y2 = 20;
+        }
+        let actualXStart = xStart;
+        let y1 = oy - actualXStart * scale;
+        if (y1 > 185) {
+          actualXStart = (oy - 185) / scale;
+          y1 = 185;
+        }
+
+        const x1 = ox + actualXStart * scale;
+        const x2 = ox + actualXEnd * scale;
 
         let out = `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4,4"/>\n`;
-        out += `<rect x="${(x2 + 3).toFixed(1)}" y="${(y2 - 10).toFixed(1)}" width="28" height="14" fill="#FFFFFF" fill-opacity="0.85" rx="3"/>\n`;
-        out += `<text x="${(x2 + 6).toFixed(1)}" y="${(y2 + 1).toFixed(1)}" fill="${color}" font-size="10.5" font-weight="bold">y=x</text>\n`;
+        const tx = x2 + 6;
+        const ty = Math.max(18, y2 + 4);
+        out += `<rect x="${(tx - 3).toFixed(1)}" y="${(ty - 11).toFixed(1)}" width="28" height="15" fill="#FFFFFF" fill-opacity="0.85" rx="3"/>\n`;
+        out += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${color}" font-size="10.5" font-weight="bold">y=x</text>\n`;
         return out;
       },
 
@@ -6467,7 +6480,7 @@
           const f = (x) => -0.12 * Math.pow(x + 2, 2) * (x - 4);
 
           svgBody += this.buildCoordinateSystem(ox, oy, scale, [-4, 6], [-2, 4]);
-          svgBody += this.plotLineYEqualsX(ox, oy, scale, -3, 4.5, '#2563EB');
+          svgBody += this.plotLineYEqualsX(ox, oy, scale, -2.8, 3.8, '#2563EB');
           svgBody += this.plotFunction(f, [-3.5, 4.8], ox, oy, scale, '#047857', 2.5);
           svgBody += this.renderKeypoint(-2, 0, ox, oy, scale, '(-2, 0)', '#DC2626', 4, 'bottom');
           svgBody += this.renderKeypoint(3, 3, ox, oy, scale, '(3, 3)', '#DC2626', 4, 'top');
