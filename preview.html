@@ -28,19 +28,61 @@
     }
     /* Strictly protect KaTeX mathematical formulas from letter-by-letter vertical collapse */
     .word-chip .katex,
-    .word-chip .katex *,
-    .katex,
-    .katex * {
+    .word-chip .katex * {
       white-space: nowrap !important;
       word-break: normal !important;
       overflow-wrap: normal !important;
     }
-    .word-chip .katex-display {
+    .katex,
+    .katex * {
+      word-break: normal !important;
+      overflow-wrap: normal !important;
+    }
+    .word-chip .katex-display,
+    .katex-display {
       display: block !important;
       margin: 0.5em 0 !important;
+      max-width: 100% !important;
       overflow-x: auto !important;
       overflow-y: hidden !important;
       white-space: nowrap !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .katex-display::-webkit-scrollbar,
+    .step-formula-box::-webkit-scrollbar,
+    #solution-steps-container::-webkit-scrollbar {
+      display: none;
+    }
+    .katex-display,
+    .step-formula-box,
+    #solution-steps-container {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Strictly contain step container and cards to prevent any horizontal overflow */
+    #solution-steps-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+    #solution-steps-container > div,
+    #solution-steps-container .step-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
+    .step-formula-box {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      box-sizing: border-box !important;
+    }
+    #solution-steps-container .katex {
+      max-width: 100%;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -1508,7 +1550,7 @@
             <i data-lucide="list-ordered" class="w-4 h-4 text-indigo-400"></i> 단계별 교과서 풀이
           </span>
 
-          <div id="solution-steps-container" class="space-y-2.5">
+          <div id="solution-steps-container" class="space-y-2.5 w-full max-w-full min-w-0">
             <!-- Dynamic Steps Inserted Here -->
           </div>
 
@@ -5223,8 +5265,8 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
-      // 1. Replace broken glyphs / ballot box / tofu (☒, ⌧, ⊠, etc.) with \neq
-      str = str.replace(/[\u2612\u2327\u22A0\uFFFD\u25A1\u25A0\u25BD\u25B3]/g, ' \\neq ');
+      // 1. Replace broken glyphs / ballot box / tofu (☒, ⌧, ⊠, 日, ∃, etc.) with \neq
+      str = str.replace(/[\u2612\u2327\u22A0\uFFFD\u25A1\u25A0\u25BD\u25B3\u65E5\u2203]/g, ' \\neq ');
       
       // 1.1 Correct corrupted OCR/LLM glyphs (e.g. f(2) ∃ 2 or f(4) ∃ 0) to \neq
       str = str.replace(/([a-zA-Z0-9_\(\)]+)\s*[\u2203\u65E5]\s*([0-9a-zA-Z_\(\)]+)/g, '$1 \\neq $2');
@@ -5266,8 +5308,22 @@
       }
 
       // 4.1 Auto-wrap function inequalities/equalities like f(2) \neq 2, f(4) \neq 0, x = 4
-      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, '$$$1 \\neq $2$$');
-      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, '$$$1 = $2$$');
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return '$' + p1 + ' \\neq ' + p2 + '$' + trail;
+      });
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return '$' + p1 + ' = ' + p2 + '$' + trail;
+      });
       
       // 4.2 Auto-wrap options / fractions like (1/5)e, (4/5)e, 1/e, 1/(2e)
       str = replaceOutsideMath(str, /\(([0-9]+)\/([0-9]+)\)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
@@ -7145,6 +7201,43 @@
       }
     }
 
+    function formatStepContentHtml(content) {
+      if (!content || typeof content !== 'string') return '';
+      
+      // 1. Separate calculation chains if attached directly after Korean text or punctuation
+      let normalized = content.replace(/([가-힣.?!])\s*(\$?[a-zA-Z0-9_\(\)\^'\-]+\s*=\s*[^가-힣\n]+=[^가-힣\n]+)/g, '$1\n$2');
+      
+      // 2. Split into distinct lines
+      const lines = normalized.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      
+      if (lines.length === 0) return '';
+      
+      return lines.map(line => {
+        const nonText = line.replace(/\\text\{[^}]*\}/g, '');
+        const hasKorean = /[가-힣]/.test(nonText);
+        const equalsCount = (line.match(/=/g) || []).length;
+        
+        // An equation/calculation line has math equality, starts with math, or is a calculation chain
+        const isFormulaLine = (!hasKorean && (equalsCount >= 1 || line.startsWith('$') || line.startsWith('\\') || /^f\(/.test(line))) ||
+                              (equalsCount >= 2 && !/[가-힣]{3,}/.test(line));
+
+        if (isFormulaLine) {
+          const formulaStr = line.startsWith('$') ? line : ('$' + line + '$');
+          return `
+            <div class="step-formula-box bg-slate-900/90 rounded-xl p-2.5 my-1.5 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar max-w-full w-full font-medium">
+              ${autoFormatMathText(formulaStr)}
+            </div>
+          `;
+        } else {
+          return `
+            <p class="text-[11px] text-slate-300 leading-relaxed max-w-full overflow-x-auto no-scrollbar py-0.5 break-keep">
+              ${autoFormatMathText(line)}
+            </p>
+          `;
+        }
+      }).join('');
+    }
+
     function renderSolutionStepsAndAnswer(data) {
       const stepsContainer = document.getElementById('solution-steps-container');
       const finalAnswerEl = document.getElementById('solution-final-answer');
@@ -7154,7 +7247,7 @@
         if (currentSubQuestionId === 'all') {
           // 1. Render All Sub-Questions Sequentially
           stepsContainer.innerHTML = data.sub_questions.map(sq => `
-            <div class="bg-slate-950/90 rounded-2xl p-3.5 border-2 border-indigo-500/30 space-y-2.5 mb-3.5 shadow-sm">
+            <div class="bg-slate-950/90 rounded-2xl p-3.5 border-2 border-indigo-500/30 space-y-2.5 mb-3.5 shadow-sm overflow-hidden w-full max-w-full min-w-0">
               <div class="flex items-center justify-between pb-1.5 border-b border-indigo-500/20">
                 <span class="text-xs font-black text-amber-300 flex items-center gap-1.5 shrink-0">
                   <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> ${sq.sub_title || sq.sub_id + '번 소문항'}
@@ -7163,13 +7256,15 @@
               </div>
               <p class="text-xs text-slate-300 font-medium leading-relaxed">${autoFormatMathText(sq.question_text)}</p>
               
-              <div class="space-y-2 pt-1">
+              <div class="space-y-2 pt-1 w-full max-w-full min-w-0">
                 ${sq.solution_steps.map(s => `
-                  <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-1.5">
+                  <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
                     <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
-                    <p class="text-[11px] text-slate-300 leading-relaxed">${autoFormatMathText(s.content)}</p>
+                    <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
+                      ${formatStepContentHtml(s.content)}
+                    </div>
                     ${s.formula ? `
-                      <div class="bg-slate-950 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200">
+                      <div class="step-formula-box bg-slate-950 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
                         ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
                       </div>
                     ` : ''}
@@ -7217,11 +7312,13 @@
               <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text)}</p>
             </div>
             ${sq.solution_steps.map(s => `
-              <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5">
+              <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
                 <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
-                <p class="text-[11px] text-slate-300 leading-relaxed">${autoFormatMathText(s.content)}</p>
+                <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
+                  ${formatStepContentHtml(s.content)}
+                </div>
                 ${s.formula ? `
-                  <div class="bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar">
+                  <div class="step-formula-box bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
                     ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
                   </div>
                 ` : ''}
@@ -7241,11 +7338,13 @@
       } else {
         // 3. Standard Single-Question Problem
         stepsContainer.innerHTML = data.solution_steps.map(s => `
-          <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5">
+          <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
             <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
-            <p class="text-[11px] text-slate-300 leading-relaxed">${autoFormatMathText(s.content)}</p>
+            <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
+              ${formatStepContentHtml(s.content)}
+            </div>
             ${s.formula ? `
-              <div class="bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar">
+              <div class="step-formula-box bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
                 ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
               </div>
             ` : ''}
