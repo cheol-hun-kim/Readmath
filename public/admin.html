@@ -732,40 +732,51 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
 
-      // 1. Comprehensive CJK Ideographs, Math Operator & Symbol Harmonizer
-      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]/g, (sym) => {
-        if (sym === '≤' || sym === '≦') return ' \\le ';
-        if (sym === '≥' || sym === '≧') return ' \\ge ';
-        if (sym === '∈') return ' \\in ';
-        if (sym === '∉') return ' \\notin ';
-        if (sym === '±') return ' \\pm ';
-        if (sym === '∓') return ' \\mp ';
-        if (sym === '×') return ' \\times ';
-        if (sym === '÷') return ' \\div ';
-        if (sym === '·' || sym === '•') return ' \\cdot ';
-        if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
-        if (sym === '≡') return ' \\equiv ';
-        if (sym === '∞') return ' \\infty ';
-        if (sym === '√') return ' \\sqrt ';
-        if (sym === '∠') return ' \\angle ';
-        if (sym === '⊥') return ' \\perp ';
-        if (sym === '∴') return ' \\therefore ';
-        if (sym === '∵') return ' \\because ';
-        if (sym === '∪') return ' \\cup ';
-        if (sym === '∩') return ' \\cap ';
-        if (sym === '⊂') return ' \\subset ';
-        if (sym === '⊃') return ' \\supset ';
-        if (sym === '∫') return ' \\int ';
-        if (sym === '∑') return ' \\sum ';
-        if (sym === '∂') return ' \\partial ';
-        if (sym === '∘') return ' \\circ ';
-        return ' \\neq ';
-      });
+      // 0.3 Heal previously corrupted math strings
+      str = str.replace(/\\frac\{\\neq\s*f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)\s*\\neq\}/g, '\\frac{|f($1 - $2)|}');
+      str = str.replace(/\\neq\s*([a-zA-Z][a-zA-Z0-9_\(\)\^\+\-\*\/]*)\s*\\neq/g, '|$1|');
+      str = str.replace(/\(f\(([a-zA-Z0-9_\^]+)\)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, '(f($1) - $2)');
+      str = str.replace(/\(\s*\\neq\s*([0-9]+)\s*\)/g, '(-$1)');
+      str = str.replace(/\[\s*\\neq\s*([0-9]+)\s*\]/g, '[-$1]');
+      str = str.replace(/f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, 'f($1 - $2)');
+
+      // 1. Precise Unicode Math Operator & Symbol Harmonizer
+      str = str.replace(/[−–—]/g, '-');
+      str = str.replace(/[∣|]/g, '|');
+      str = str.replace(/[≠]/g, ' \\neq ');
+      str = str.replace(/[≤≦]/g, ' \\le ');
+      str = str.replace(/[≥≧]/g, ' \\ge ');
+      str = str.replace(/[∈]/g, ' \\in ');
+      str = str.replace(/[∉]/g, ' \\notin ');
+      str = str.replace(/[±]/g, ' \\pm ');
+      str = str.replace(/[∓]/g, ' \\mp ');
+      str = str.replace(/[×]/g, ' \\times ');
+      str = str.replace(/[÷]/g, ' \\div ');
+      str = str.replace(/[·•]/g, ' \\cdot ');
+      str = str.replace(/[≈≒≅]/g, ' \\approx ');
+      str = str.replace(/[≡]/g, ' \\equiv ');
+      str = str.replace(/[∞]/g, ' \\infty ');
+      str = str.replace(/[√]/g, ' \\sqrt ');
+      str = str.replace(/[∠]/g, ' \\angle ');
+      str = str.replace(/[⊥]/g, ' \\perp ');
+      str = str.replace(/[∴]/g, ' \\therefore ');
+      str = str.replace(/[∵]/g, ' \\because ');
+      str = str.replace(/[∪]/g, ' \\cup ');
+      str = str.replace(/[∩]/g, ' \\cap ');
+      str = str.replace(/[⊂]/g, ' \\subset ');
+      str = str.replace(/[⊃]/g, ' \\supset ');
+      str = str.replace(/[∫]/g, ' \\int ');
+      str = str.replace(/[∑]/g, ' \\sum ');
+      str = str.replace(/[∂]/g, ' \\partial ');
+      str = str.replace(/[∘]/g, ' \\circ ');
+
+      // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
+      str = str.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 

@@ -5269,41 +5269,51 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text (e.g. 존재하지(∄) -> 존재하지)
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
 
-      // 1. Comprehensive CJK Ideographs, Math Operator & Symbol Harmonizer
-      // Covers ALL Chinese/Hanja characters (\u4E00-\u9FFF, \u3400-\u4DBF), Math Operators (\u2200-\u23FF), Technical/Quad (\u2300-\u23FF), Geometric (\u25A0-\u25FF), Tofu/Symbols (\u2BD0-\u2BFF), CJK Symbols (\u3000-\u303F)
-      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]/g, (sym) => {
-        if (sym === '≤' || sym === '≦') return ' \\le ';
-        if (sym === '≥' || sym === '≧') return ' \\ge ';
-        if (sym === '∈') return ' \\in ';
-        if (sym === '∉') return ' \\notin ';
-        if (sym === '±') return ' \\pm ';
-        if (sym === '∓') return ' \\mp ';
-        if (sym === '×') return ' \\times ';
-        if (sym === '÷') return ' \\div ';
-        if (sym === '·' || sym === '•') return ' \\cdot ';
-        if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
-        if (sym === '≡') return ' \\equiv ';
-        if (sym === '∞') return ' \\infty ';
-        if (sym === '√') return ' \\sqrt ';
-        if (sym === '∠') return ' \\angle ';
-        if (sym === '⊥') return ' \\perp ';
-        if (sym === '∴') return ' \\therefore ';
-        if (sym === '∵') return ' \\because ';
-        if (sym === '∪') return ' \\cup ';
-        if (sym === '∩') return ' \\cap ';
-        if (sym === '⊂') return ' \\subset ';
-        if (sym === '⊃') return ' \\supset ';
-        if (sym === '∫') return ' \\int ';
-        if (sym === '∑') return ' \\sum ';
-        if (sym === '∂') return ' \\partial ';
-        if (sym === '∘') return ' \\circ ';
-        return ' \\neq ';
-      });
+      // 0.3 Heal previously corrupted math strings in stored history
+      str = str.replace(/\\frac\{\\neq\s*f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)\s*\\neq\}/g, '\\frac{|f($1 - $2)|}');
+      str = str.replace(/\\neq\s*([a-zA-Z][a-zA-Z0-9_\(\)\^\+\-\*\/]*)\s*\\neq/g, '|$1|');
+      str = str.replace(/\(f\(([a-zA-Z0-9_\^]+)\)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, '(f($1) - $2)');
+      str = str.replace(/\(\s*\\neq\s*([0-9]+)\s*\)/g, '(-$1)');
+      str = str.replace(/\[\s*\\neq\s*([0-9]+)\s*\]/g, '[-$1]');
+      str = str.replace(/f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, 'f($1 - $2)');
+
+      // 1. Precise Unicode Math Operator & Symbol Harmonizer
+      str = str.replace(/[−–—]/g, '-');
+      str = str.replace(/[∣|]/g, '|');
+      str = str.replace(/[≠]/g, ' \\neq ');
+      str = str.replace(/[≤≦]/g, ' \\le ');
+      str = str.replace(/[≥≧]/g, ' \\ge ');
+      str = str.replace(/[∈]/g, ' \\in ');
+      str = str.replace(/[∉]/g, ' \\notin ');
+      str = str.replace(/[±]/g, ' \\pm ');
+      str = str.replace(/[∓]/g, ' \\mp ');
+      str = str.replace(/[×]/g, ' \\times ');
+      str = str.replace(/[÷]/g, ' \\div ');
+      str = str.replace(/[·•]/g, ' \\cdot ');
+      str = str.replace(/[≈≒≅]/g, ' \\approx ');
+      str = str.replace(/[≡]/g, ' \\equiv ');
+      str = str.replace(/[∞]/g, ' \\infty ');
+      str = str.replace(/[√]/g, ' \\sqrt ');
+      str = str.replace(/[∠]/g, ' \\angle ');
+      str = str.replace(/[⊥]/g, ' \\perp ');
+      str = str.replace(/[∴]/g, ' \\therefore ');
+      str = str.replace(/[∵]/g, ' \\because ');
+      str = str.replace(/[∪]/g, ' \\cup ');
+      str = str.replace(/[∩]/g, ' \\cap ');
+      str = str.replace(/[⊂]/g, ' \\subset ');
+      str = str.replace(/[⊃]/g, ' \\supset ');
+      str = str.replace(/[∫]/g, ' \\int ');
+      str = str.replace(/[∑]/g, ' \\sum ');
+      str = str.replace(/[∂]/g, ' \\partial ');
+      str = str.replace(/[∘]/g, ' \\circ ');
+
+      // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
+      str = str.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -5611,7 +5621,7 @@
       updateCameraHomeCards();
     }
 
-    // Live DOM Text Node Scanner & Tofu/Hanja/Quad-Equal Sanitizer
+    // Live DOM Text Node Scanner & Tofu/Hanja/Quad-Equal Sanitizer (Safe Static Runner)
     function sanitizeLiveDomTextNodes(root) {
       if (typeof document === 'undefined') return;
       const target = root || document.body;
@@ -5619,71 +5629,33 @@
       const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null, false);
       let node;
       const nodesToUpdate = [];
-      const broadSymbolRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]|\\neq/;
+      const badGlyphRegex = /[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/;
       while (node = walker.nextNode()) {
         if (node.parentElement && (
           node.parentElement.tagName === 'SCRIPT' ||
           node.parentElement.tagName === 'STYLE' ||
-          (node.parentElement.classList && node.parentElement.classList.contains('katex-html'))
+          (node.parentElement.closest && node.parentElement.closest('.katex'))
         )) {
           continue;
         }
         const val = node.nodeValue;
-        if (val && broadSymbolRegex.test(val)) {
+        if (val && badGlyphRegex.test(val)) {
           nodesToUpdate.push(node);
         }
       }
 
       nodesToUpdate.forEach(n => {
         let s = n.nodeValue;
-        // Purge redundant quantifier in Korean text
-        s = s.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*\)/g, '$1');
-
-        // 1. Compound equality chains e.g. f(3^2) = f(9) [SYM] 0 -> $f(3^2) = f(9) \neq 0$
-        s = s.replace(/(\$?[a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*=\s*[a-zA-Z0-9_\(\)\^]+)+\$?)\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*([0-9a-zA-Z]+)/g, (m, p1, p2) => {
-          const cleanP1 = p1.replace(/\$/g, '').trim();
-          return `$${cleanP1} \\neq ${p2.trim()}$`;
-        });
-
-        // 2. Leftover equals chain in split nodes e.g. = f(9) [SYM] 0 -> = $f(9) \neq 0$
-        s = s.replace(/(=\s*[a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*([0-9a-zA-Z]+)/g, '$1 \\neq $2');
-
-        // 3. Generalized relation e.g. k [SYM] 0 or $k$ [SYM] 0 -> $k \neq 0$
-        s = s.replace(/(\$?[a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?\$?)\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*(\$?[a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?\$?)/g, (m, p1, p2) => {
-          const cleanP1 = p1.replace(/\$/g, '').trim();
-          const cleanP2 = p2.replace(/\$/g, '').trim();
-          return `$${cleanP1} \\neq ${cleanP2}$`;
-        });
-
-        // 4. Incomplete left context in split DOM text nodes e.g. " [SYM] 0)" after a KaTeX span
-        s = s.replace(/[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*([0-9a-zA-Z]+)/g, '≠ $1');
-
-        // 5. Any remaining standalone broken / CJK / technical symbols in Korean math:
-        s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]/g, (sym) => {
-          if (sym === '≤' || sym === '≦') return '≤';
-          if (sym === '≥' || sym === '≧') return '≥';
-          if (sym === '∈') return '∈';
-          if (sym === '∉') return '∉';
-          if (sym === '±') return '±';
-          if (sym === '×') return '×';
-          if (sym === '÷') return '÷';
-          if (sym === '·' || sym === '•') return '·';
-          if (sym === '≠') return '≠';
-          return '≠';
-        });
-
-        // 6. Any naked \neq in text node outside math:
-        s = s.replace(/\\neq\b/g, '≠');
-
+        s = s.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, '≠');
         if (n.nodeValue !== s) {
           n.nodeValue = s;
         }
       });
     }
 
+    // Pure High-Performance KaTeX Math Renderer (Zero DOM Collisions & Zero Freezes)
     function renderMathElements() {
-      sanitizeLiveDomTextNodes(document.body);
-      if (window.renderMathInElement) {
+      if (typeof window !== 'undefined' && window.renderMathInElement) {
         document.querySelectorAll('.math-render-target, .phone-mockup').forEach(el => {
           renderMathInElement(el, {
             delimiters: [
@@ -5694,43 +5666,6 @@
           });
         });
       }
-    }
-
-    // Real-time live DOM active tab / visibility sanitizer
-    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
-      window.addEventListener('focus', () => {
-        sanitizeLiveDomTextNodes(document.body);
-        renderMathElements();
-      });
-      window.addEventListener('pageshow', () => {
-        sanitizeLiveDomTextNodes(document.body);
-        renderMathElements();
-      });
-    }
-    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-          sanitizeLiveDomTextNodes(document.body);
-          renderMathElements();
-        }
-      });
-    }
-
-    // Continuous Live DOM Mutation Observer & Periodic Safety Sweeper
-    if (typeof window !== 'undefined') {
-      if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined' && document.body) {
-        try {
-          const domObserver = new MutationObserver(() => {
-            sanitizeLiveDomTextNodes(document.body);
-          });
-          domObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
-        } catch (e) {}
-      }
-      setInterval(() => {
-        if (typeof document !== 'undefined' && document.body) {
-          sanitizeLiveDomTextNodes(document.body);
-        }
-      }, 400);
     }
 
     // Fundamental Cache Buster & Service Worker Purger
@@ -5748,7 +5683,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261008-0115';
+    const CURRENT_ENGINE_VERSION = '20261008-0130';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
@@ -5913,71 +5848,53 @@
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
         // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
-        s = s.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*\)/g, '$1');
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]\s*\)/g, '$1');
 
         // Normalize raw \ne
         s = s.replace(/\\ne\b/g, '\\neq');
 
-        // Comprehensive CJK Ideographs, Math Operator & Symbol Harmonizer
-        s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]/g, (sym) => {
-          if (sym === '≤' || sym === '≦') return ' \\le ';
-          if (sym === '≥' || sym === '≧') return ' \\ge ';
-          if (sym === '∈') return ' \\in ';
-          if (sym === '∉') return ' \\notin ';
-          if (sym === '±') return ' \\pm ';
-          if (sym === '∓') return ' \\mp ';
-          if (sym === '×') return ' \\times ';
-          if (sym === '÷') return ' \\div ';
-          if (sym === '·' || sym === '•') return ' \\cdot ';
-          if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
-          if (sym === '≡') return ' \\equiv ';
-          if (sym === '∞') return ' \\infty ';
-          if (sym === '√') return ' \\sqrt ';
-          if (sym === '∠') return ' \\angle ';
-          if (sym === '⊥') return ' \\perp ';
-          if (sym === '∴') return ' \\therefore ';
-          if (sym === '∵') return ' \\because ';
-          if (sym === '∪') return ' \\cup ';
-          if (sym === '∩') return ' \\cap ';
-          if (sym === '⊂') return ' \\subset ';
-          if (sym === '⊃') return ' \\supset ';
-          if (sym === '∫') return ' \\int ';
-          if (sym === '∑') return ' \\sum ';
-          if (sym === '∂') return ' \\partial ';
-          if (sym === '∘') return ' \\circ ';
-          return ' \\neq ';
-        });
+        // Heal previously corrupted math strings in stored history
+        s = s.replace(/\\frac\{\\neq\s*f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)\s*\\neq\}/g, '\\frac{|f($1 - $2)|}');
+        s = s.replace(/\\neq\s*([a-zA-Z][a-zA-Z0-9_\(\)\^\+\-\*\/]*)\s*\\neq/g, '|$1|');
+        s = s.replace(/\(f\(([a-zA-Z0-9_\^]+)\)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, '(f($1) - $2)');
+        s = s.replace(/\(\s*\\neq\s*([0-9]+)\s*\)/g, '(-$1)');
+        s = s.replace(/\[\s*\\neq\s*([0-9]+)\s*\]/g, '[-$1]');
+        s = s.replace(/f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, 'f($1 - $2)');
+
+        // Precise Unicode Math Operator & Symbol Harmonizer
+        s = s.replace(/[−–—]/g, '-');
+        s = s.replace(/[∣|]/g, '|');
+        s = s.replace(/[≠]/g, ' \\neq ');
+        s = s.replace(/[≤≦]/g, ' \\le ');
+        s = s.replace(/[≥≧]/g, ' \\ge ');
+        s = s.replace(/[∈]/g, ' \\in ');
+        s = s.replace(/[∉]/g, ' \\notin ');
+        s = s.replace(/[±]/g, ' \\pm ');
+        s = s.replace(/[∓]/g, ' \\mp ');
+        s = s.replace(/[×]/g, ' \\times ');
+        s = s.replace(/[÷]/g, ' \\div ');
+        s = s.replace(/[·•]/g, ' \\cdot ');
+        s = s.replace(/[≈≒≅]/g, ' \\approx ');
+        s = s.replace(/[≡]/g, ' \\equiv ');
+        s = s.replace(/[∞]/g, ' \\infty ');
+        s = s.replace(/[√]/g, ' \\sqrt ');
+        s = s.replace(/[∠]/g, ' \\angle ');
+        s = s.replace(/[⊥]/g, ' \\perp ');
+        s = s.replace(/[∴]/g, ' \\therefore ');
+        s = s.replace(/[∵]/g, ' \\because ');
+        s = s.replace(/[∪]/g, ' \\cup ');
+        s = s.replace(/[∩]/g, ' \\cap ');
+        s = s.replace(/[⊂]/g, ' \\subset ');
+        s = s.replace(/[⊃]/g, ' \\supset ');
+        s = s.replace(/[∫]/g, ' \\int ');
+        s = s.replace(/[∑]/g, ' \\sum ');
+        s = s.replace(/[∂]/g, ' \\partial ');
+        s = s.replace(/[∘]/g, ' \\circ ');
+
+        // Target ONLY specific broken OCR / Quad / CJK / Tofu characters:
+        s = s.replace(/[\u76EE\u65E5\u66F0\u7530\u2338\u236F\u25A4\u25EB\u3013\u2204\u2262\u2263\u225F\u2327\u22A0\u2BD0-\u2BFF\uFFFD]/g, ' \\neq ');
         s = s.replace(/\\neq\s*\\neq/g, '\\neq');
         s = s.replace(/\s*\\neq\s*/g, ' \\neq ');
-
-        // 1.1 Inviolable Compound equality chains e.g. f(3^2) = f(9) [SYM] 0 or $f(3^2) = f(9)$ [SYM] 0
-        s = s.replace(/(\$?[a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*=\s*[a-zA-Z0-9_\(\)\^]+)+\$?)\s*\\neq\s*([0-9a-zA-Z]+)/g, (m, p1, p2) => {
-          const cleanP1 = p1.replace(/\$/g, '').trim();
-          return `$${cleanP1} \\neq ${p2.trim()}$`;
-        });
-
-        // 1.2 Inviolable Leftover equals chain in split nodes e.g. = f(9) \neq 0 -> = $f(9) \neq 0$
-        s = s.replace(/(=\s*[a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([0-9a-zA-Z]+)/g, '$1 \\neq $2');
-
-        // 1.3 Inviolable Generalized relation e.g. k [ANY_WEIRD_GLYPH] 0 or $k$ \neq 0 -> $k \neq 0$
-        s = s.replace(/(\$?[a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?\$?)\s*\\neq\s*(\$?[a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?\$?)/g, (m, p1, p2) => {
-          const cleanP1 = p1.replace(/\$/g, '').trim();
-          const cleanP2 = p2.replace(/\$/g, '').trim();
-          return `$${cleanP1} \\neq ${cleanP2}$`;
-        });
-
-        // 1.4 Merge split math boundaries across \neq:
-        s = s.replace(/\$([^\$]+)\$\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
-          let trail = '';
-          if (p2.endsWith(')') && !p1.includes('(')) {
-            p2 = p2.slice(0, -1);
-            trail = ')';
-          }
-          return `$${p1.trim()} \\neq ${p2.trim()}$` + trail;
-        });
-        s = s.replace(/\$([^\$]+)\$\s*\\neq\s*\$([^\$]+)\$/g, (m, p1, p2) => {
-          return `$${p1.trim()} \\neq ${p2.trim()}$`;
-        });
 
         return s;
       }
