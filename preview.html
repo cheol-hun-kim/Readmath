@@ -664,15 +664,25 @@
       border-color: #CBD5E1 !important;
     }
     body.theme-day #solution-svg-container svg,
-    body.theme-day #twin-problem-svg svg {
-      background-color: #FFFFFF !important;
+    body.theme-day #twin-problem-svg svg,
+    #solution-svg-container svg,
+    #solution-svg-viewport svg,
+    #graph-detail-svg-viewport svg {
+      background-color: transparent !important;
     }
-    /* Canvas Background Rectangles */
+    /* Canvas Background Rectangles must remain transparent so millimeter grid shines through */
     body.theme-day #solution-svg-container svg rect[fill="#090D16"],
     body.theme-day #solution-svg-container svg rect[fill="#0B0F19"],
     body.theme-day #twin-problem-svg svg rect[fill="#090D16"],
-    body.theme-day #twin-problem-svg svg rect[fill="#0B0F19"] {
-      fill: #FFFFFF !important;
+    body.theme-day #twin-problem-svg svg rect[fill="#0B0F19"],
+    #solution-svg-container svg rect[fill="#090D16"],
+    #solution-svg-container svg rect[fill="#0B0F19"],
+    #solution-svg-viewport svg rect[fill="#090D16"],
+    #solution-svg-viewport svg rect[fill="#0B0F19"],
+    #graph-detail-svg-viewport svg rect[fill="#090D16"],
+    #graph-detail-svg-viewport svg rect[fill="#0B0F19"] {
+      fill: transparent !important;
+      display: none !important;
     }
 
     /* Polygons & Geometric Shapes (Soft pastel tint fill with sharp colored border) */
@@ -7275,10 +7285,13 @@
     function convertSvgForWhiteCanvas(svgStr) {
       if (!svgStr) return '';
       let s = svgStr;
-      // 1. Remove dark background rects so millimeter engineering grid shines through
-      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#090D16"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#050811"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+width="[^"]*"\s+height="[^"]*"\s+fill="#0A0E17"[^>]*\/>/gi, '');
+      // 1. Remove dark and opaque background rects so millimeter engineering grid shines through
+      s = s.replace(/<rect\s+[^>]*fill="#090D16"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="#050811"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="#0A0E17"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="#0B0F19"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="(?:#FFFFFF|white)"\s*[^>]*width="(?:100%|400)"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*width="(?:100%|400)"\s*[^>]*fill="(?:#FFFFFF|white)"[^>]*\/>/gi, '');
 
       // 2. Axes and ticks
       s = s.replace(/stroke="#64748B"/gi, 'stroke="#334155"');
