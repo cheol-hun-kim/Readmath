@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReadMath (리드매스) - 수학은 해석의 대상이다!</title>
   <!-- Tailwind CSS CDN -->
@@ -5266,13 +5269,45 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text (e.g. 존재하지(∄) -> 존재하지)
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203\u76EE\u65E5\u2BD0-\u2BFF]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
 
-      // 1. Inviolable Standalone Broken Glyphs & Tofu Purger (目 \u76EE, 日 \u65E5, ∄ \u2204, ∃ \u2203, ≠ \u2260, ≢ \u2262, ≟ \u225F, ≣ \u2263, ☒ \u2612, ⌧ \u2327, ⊠ \u22A0, ◫ \u25EB, ⯐ \u2BD0-\u2BFF, \u25A0-\u25FF)
-      str = str.replace(/[\u76EE\u65E5\u2204\u2203\u2260\u2262\u225F\u2263\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF]/g, ' \\neq ');
+      // 1. Comprehensive Unicode Math Operator & Symbol Harmonizer
+      // Maps broad Unicode blocks:
+      // - \u2200-\u23FF (Operators & Technical: ⌸ \u2338 QUAD EQUAL, ⍯ \u236F, ≣ \u2263, ≢ \u2262, ≟ \u225F, ⌧ \u2327, ⊠ \u22A0, ∄ \u2204, etc.)
+      // - \u25A0-\u25FF (Geometric Shapes: ▤ \u25A4 SQUARE HORIZONTAL FILL, ◫ \u25EB, etc.)
+      // - \u2BD0-\u2BFF (Misc Symbols: ⯐ \u2BD0)
+      // - \u76EE (目), \u65E5 (日), \u3013 (〓 GETA MARK), \uFFFD (REPLACEMENT CHAR)
+      str = str.replace(/[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]/g, (sym) => {
+        if (sym === '≤' || sym === '≦') return ' \\le ';
+        if (sym === '≥' || sym === '≧') return ' \\ge ';
+        if (sym === '∈') return ' \\in ';
+        if (sym === '∉') return ' \\notin ';
+        if (sym === '±') return ' \\pm ';
+        if (sym === '∓') return ' \\mp ';
+        if (sym === '×') return ' \\times ';
+        if (sym === '÷') return ' \\div ';
+        if (sym === '·' || sym === '•') return ' \\cdot ';
+        if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
+        if (sym === '≡') return ' \\equiv ';
+        if (sym === '∞') return ' \\infty ';
+        if (sym === '√') return ' \\sqrt ';
+        if (sym === '∠') return ' \\angle ';
+        if (sym === '⊥') return ' \\perp ';
+        if (sym === '∴') return ' \\therefore ';
+        if (sym === '∵') return ' \\because ';
+        if (sym === '∪') return ' \\cup ';
+        if (sym === '∩') return ' \\cap ';
+        if (sym === '⊂') return ' \\subset ';
+        if (sym === '⊃') return ' \\supset ';
+        if (sym === '∫') return ' \\int ';
+        if (sym === '∑') return ' \\sum ';
+        if (sym === '∂') return ' \\partial ';
+        if (sym === '∘') return ' \\circ ';
+        return ' \\neq ';
+      });
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -5575,7 +5610,62 @@
       updateCameraHomeCards();
     }
 
+    // Live DOM Text Node Scanner & Tofu/Quad-Equal Sanitizer
+    function sanitizeLiveDomTextNodes(root) {
+      if (typeof document === 'undefined') return;
+      const target = root || document.body;
+      if (!target) return;
+      const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      const nodesToUpdate = [];
+      const broadSymbolRegex = /[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]/;
+      while (node = walker.nextNode()) {
+        if (node.parentElement && (
+          node.parentElement.tagName === 'SCRIPT' ||
+          node.parentElement.tagName === 'STYLE' ||
+          node.parentElement.classList.contains('katex-html')
+        )) {
+          continue;
+        }
+        const val = node.nodeValue;
+        if (val && broadSymbolRegex.test(val)) {
+          nodesToUpdate.push(node);
+        }
+      }
+
+      nodesToUpdate.forEach(n => {
+        let s = n.nodeValue;
+        // Purge redundant logical quantifier inside Korean text
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]\s*\)/g, '$1');
+
+        // 1. Compound relation e.g. f(3^2) = f(9) [?] 0 -> $f(3^2) = f(9) \neq 0$
+        s = s.replace(/([a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*=\s*[a-zA-Z0-9_\(\)\^]+)+)\s*[^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+\s*([0-9a-zA-Z]+)/g, '$$$1 \\neq $2$$');
+
+        // 2. Generalized relation e.g. k [?] 0 -> $k \neq 0$
+        s = s.replace(/([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)\s*([^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+)\s*([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)/g, (m, p1, sym, p2) => {
+          if (sym === '≤' || sym === '≦') return `$${p1} \\le ${p2}$`;
+          if (sym === '≥' || sym === '≧') return `$${p1} \\ge ${p2}$`;
+          if (sym === '∈') return `$${p1} \\in ${p2}$`;
+          if (sym === '∉') return `$${p1} \\notin ${p2}$`;
+          if (sym === '±') return `$${p1} \\pm ${p2}$`;
+          if (sym === '×') return `$${p1} \\times ${p2}$`;
+          if (sym === '÷') return `$${p1} \\div ${p2}$`;
+          if (sym === '≈' || sym === '≒' || sym === '≅') return `$${p1} \\approx ${p2}$`;
+          if (sym === '≡') return `$${p1} \\equiv ${p2}$`;
+          return `$${p1} \\neq ${p2}$`;
+        });
+
+        // 3. Fallback for any remaining standalone broken glyphs in plain text:
+        s = s.replace(/[\u2338\u236F\u25A4\u2263\u2262\u225F\u76EE\u65E5\u3013\uFFFD\u2BD0-\u2BFF]/g, '≠');
+
+        if (n.nodeValue !== s) {
+          n.nodeValue = s;
+        }
+      });
+    }
+
     function renderMathElements() {
+      sanitizeLiveDomTextNodes(document.body);
       if (window.renderMathInElement) {
         document.querySelectorAll('.math-render-target, .phone-mockup').forEach(el => {
           renderMathInElement(el, {
@@ -5587,6 +5677,33 @@
           });
         });
       }
+    }
+
+    // Real-time live DOM active tab / visibility sanitizer
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('focus', () => {
+        sanitizeLiveDomTextNodes(document.body);
+        renderMathElements();
+      });
+      window.addEventListener('pageshow', () => {
+        sanitizeLiveDomTextNodes(document.body);
+        renderMathElements();
+      });
+    }
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          sanitizeLiveDomTextNodes(document.body);
+          renderMathElements();
+        }
+      });
+    }
+
+    // Auto-update Service Worker on startup to bypass stale cache
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && typeof navigator.serviceWorker.getRegistrations === 'function') {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.update());
+      }).catch(() => {});
     }
 
     // ================= REAL IMAGE UPLOAD & CROP =================
@@ -5734,13 +5851,45 @@
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
         // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
-        s = s.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203\u76EE\u65E5\u2BD0-\u2BFF]\s*\)/g, '$1');
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]\s*\)/g, '$1');
 
         // Normalize raw \ne
         s = s.replace(/\\ne\b/g, '\\neq');
 
-        // Inviolable Standalone Broken Glyphs & Tofu Purger (目 \u76EE, 日 \u65E5, ∄ \u2204, ∃ \u2203, ≠ \u2260, ≢ \u2262, ≟ \u225F, ≣ \u2263, ☒ \u2612, ⌧ \u2327, ⊠ \u22A0, ◫ \u25EB, ⯐ \u2BD0-\u2BFF, \u25A0-\u25FF)
-        s = s.replace(/[\u76EE\u65E5\u2204\u2203\u2260\u2262\u225F\u2263\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF]/g, ' \\neq ');
+        // Comprehensive Unicode Math Operator & Symbol Harmonizer
+        // Maps broad Unicode blocks:
+        // - \u2200-\u23FF (Operators & Technical: ⌸ \u2338 QUAD EQUAL, ⍯ \u236F, ≣ \u2263, ≢ \u2262, ≟ \u225F, ⌧ \u2327, ⊠ \u22A0, ∄ \u2204, etc.)
+        // - \u25A0-\u25FF (Geometric Shapes: ▤ \u25A4 SQUARE HORIZONTAL FILL, ◫ \u25EB, etc.)
+        // - \u2BD0-\u2BFF (Misc Symbols: ⯐ \u2BD0)
+        // - \u76EE (目), \u65E5 (日), \u3013 (〓 GETA MARK), \uFFFD (REPLACEMENT CHAR)
+        s = s.replace(/[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]/g, (sym) => {
+          if (sym === '≤' || sym === '≦') return ' \\le ';
+          if (sym === '≥' || sym === '≧') return ' \\ge ';
+          if (sym === '∈') return ' \\in ';
+          if (sym === '∉') return ' \\notin ';
+          if (sym === '±') return ' \\pm ';
+          if (sym === '∓') return ' \\mp ';
+          if (sym === '×') return ' \\times ';
+          if (sym === '÷') return ' \\div ';
+          if (sym === '·' || sym === '•') return ' \\cdot ';
+          if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
+          if (sym === '≡') return ' \\equiv ';
+          if (sym === '∞') return ' \\infty ';
+          if (sym === '√') return ' \\sqrt ';
+          if (sym === '∠') return ' \\angle ';
+          if (sym === '⊥') return ' \\perp ';
+          if (sym === '∴') return ' \\therefore ';
+          if (sym === '∵') return ' \\because ';
+          if (sym === '∪') return ' \\cup ';
+          if (sym === '∩') return ' \\cap ';
+          if (sym === '⊂') return ' \\subset ';
+          if (sym === '⊃') return ' \\supset ';
+          if (sym === '∫') return ' \\int ';
+          if (sym === '∑') return ' \\sum ';
+          if (sym === '∂') return ' \\partial ';
+          if (sym === '∘') return ' \\circ ';
+          return ' \\neq ';
+        });
         s = s.replace(/\\neq\s*\\neq/g, '\\neq');
         s = s.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -7849,6 +7998,12 @@
         data = PROBLEMS_DB[1];
       }
       data = sanitizeMathObject(data);
+      PROBLEMS_DB[id] = data;
+      const histIdx = userSolvedHistory.findIndex(h => String(h.id) === String(id));
+      if (histIdx !== -1) {
+        userSolvedHistory[histIdx] = data;
+        safeSaveUserHistory(userSolvedHistory);
+      }
 
       // Ensure data.diagrams exists
       if (!data.diagrams || data.diagrams.length === 0) {

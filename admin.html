@@ -731,16 +731,43 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
-      // 1. Unicode to LaTeX
-      str = str.replace(/≠/g, ' \\neq ');
-      str = str.replace(/≤/g, ' \\le ');
-      str = str.replace(/≥/g, ' \\ge ');
-      str = str.replace(/∈/g, ' \\in ');
-      str = str.replace(/∉/g, ' \\notin ');
-      str = str.replace(/±/g, ' \\pm ');
-      str = str.replace(/×/g, ' \\times ');
-      str = str.replace(/÷/g, ' \\div ');
-      str = str.replace(/·/g, ' \\cdot ');
+      // 0.1 Purge redundant logical quantifier inside Korean text
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]\s*\)/g, '$1');
+
+      // 0.2 Normalize raw \ne to \neq
+      str = str.replace(/\\ne\b/g, '\\neq');
+
+      // 1. Comprehensive Unicode Math Operator & Symbol Harmonizer
+      str = str.replace(/[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]/g, (sym) => {
+        if (sym === '≤' || sym === '≦') return ' \\le ';
+        if (sym === '≥' || sym === '≧') return ' \\ge ';
+        if (sym === '∈') return ' \\in ';
+        if (sym === '∉') return ' \\notin ';
+        if (sym === '±') return ' \\pm ';
+        if (sym === '∓') return ' \\mp ';
+        if (sym === '×') return ' \\times ';
+        if (sym === '÷') return ' \\div ';
+        if (sym === '·' || sym === '•') return ' \\cdot ';
+        if (sym === '≈' || sym === '≒' || sym === '≅') return ' \\approx ';
+        if (sym === '≡') return ' \\equiv ';
+        if (sym === '∞') return ' \\infty ';
+        if (sym === '√') return ' \\sqrt ';
+        if (sym === '∠') return ' \\angle ';
+        if (sym === '⊥') return ' \\perp ';
+        if (sym === '∴') return ' \\therefore ';
+        if (sym === '∵') return ' \\because ';
+        if (sym === '∪') return ' \\cup ';
+        if (sym === '∩') return ' \\cap ';
+        if (sym === '⊂') return ' \\subset ';
+        if (sym === '⊃') return ' \\supset ';
+        if (sym === '∫') return ' \\int ';
+        if (sym === '∑') return ' \\sum ';
+        if (sym === '∂') return ' \\partial ';
+        if (sym === '∘') return ' \\circ ';
+        return ' \\neq ';
+      });
+      str = str.replace(/\\neq\s*\\neq/g, '\\neq');
+      str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
       // 2. Wrap relations like f(2) \neq 2, f(4) \neq 0, x = 4
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, '$$$1 \\neq $2$$');

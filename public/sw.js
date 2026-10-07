@@ -1,6 +1,7 @@
-// ReadMath Resilient PWA Service Worker (v3)
+// ReadMath Resilient PWA Service Worker (v4)
 // Strictly prevents null response errors during AI image upload and API syncing
-const CACHE_NAME = 'readmath-cache-v3';
+// Bypasses cached HTML for navigation to guarantee hotfix immediacy
+const CACHE_NAME = 'readmath-cache-v4';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -36,7 +37,24 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 3. Network first with safe cache fallback and guaranteed non-null response
+  // 3. For HTML documents/navigations, ALWAYS fetch fresh from network without caching stale HTML
+  if (event.request.mode === 'navigate' || event.request.destination === 'document') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(async () => {
+          const cached = await caches.match(event.request);
+          if (cached) return cached;
+          return new Response('Offline content unavailable', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+        })
+    );
+    return;
+  }
+
+  // 4. Network first with safe cache fallback for static assets
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
