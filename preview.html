@@ -5266,12 +5266,17 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text (e.g. 존재하지(∄) -> 존재하지)
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203\u76EE\u65E5\u2BD0-\u2BFF]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
 
-      // 1. Inviolable Generalized Math Relation & Tofu Sanitizer (e.g. k [ANY_WEIRD_GLYPH] 0 -> k \neq 0)
+      // 1. Inviolable Standalone Broken Glyphs & Tofu Purger (目 \u76EE, 日 \u65E5, ∄ \u2204, ∃ \u2203, ≠ \u2260, ≢ \u2262, ≟ \u225F, ≣ \u2263, ☒ \u2612, ⌧ \u2327, ⊠ \u22A0, ◫ \u25EB, ⯐ \u2BD0-\u2BFF, \u25A0-\u25FF)
+      str = str.replace(/[\u76EE\u65E5\u2204\u2203\u2260\u2262\u225F\u2263\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF]/g, ' \\neq ');
+      str = str.replace(/\\neq\s*\\neq/g, '\\neq');
+      str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
+
+      // 1.1 Inviolable Generalized Math Relation & Tofu Sanitizer (e.g. k [ANY_WEIRD_GLYPH] 0 -> k \neq 0)
       str = str.replace(/([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)\s*([^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+)\s*([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)/g, (m, p1, sym, p2) => {
         if (sym === '≤' || sym === '≦') return `${p1} \\le ${p2}`;
         if (sym === '≥' || sym === '≧') return `${p1} \\ge ${p2}`;
@@ -5285,9 +5290,20 @@
         return `${p1} \\neq ${p2}`;
       });
 
-      // 1.1 Inviolable Standalone Broken Glyphs & Tofu Purger (∄, ∃, ≠, ≢, ≟, 日, ⊠, □, ■, etc.)
-      str = str.replace(/[\u2204\u2203\u2260\u2262\u225F\u65E5\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BDB]/g, ' \\neq ');
-      str = str.replace(/\\neq\s*\\neq/g, '\\neq');
+      // 1.2 Merge split math boundaries across \neq:
+      // e.g. '$k$ \neq 0' -> '$k \neq 0$', '($k$ \neq 0)' -> '($k \neq 0$)'
+      // e.g. '$f(3^2) = f(9)$ \neq 0' -> '$f(3^2) = f(9) \neq 0$'
+      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return `$${p1.trim()} \\neq ${p2.trim()}$` + trail;
+      });
+      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*\$([^\$]+)\$/g, (m, p1, p2) => {
+        return `$${p1.trim()} \\neq ${p2.trim()}$`;
+      });
 
       // 2. Normalize raw Unicode math symbols
       str = str.replace(/≠/g, ' \\neq ');
@@ -5718,10 +5734,15 @@
         s = s.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
         // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
-        s = s.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203]\s*\)/g, '$1');
+        s = s.replace(/([가-힣]+)\s*\(\s*[\u2204\u2203\u76EE\u65E5\u2BD0-\u2BFF]\s*\)/g, '$1');
 
         // Normalize raw \ne
         s = s.replace(/\\ne\b/g, '\\neq');
+
+        // Inviolable Standalone Broken Glyphs & Tofu Purger (目 \u76EE, 日 \u65E5, ∄ \u2204, ∃ \u2203, ≠ \u2260, ≢ \u2262, ≟ \u225F, ≣ \u2263, ☒ \u2612, ⌧ \u2327, ⊠ \u22A0, ◫ \u25EB, ⯐ \u2BD0-\u2BFF, \u25A0-\u25FF)
+        s = s.replace(/[\u76EE\u65E5\u2204\u2203\u2260\u2262\u225F\u2263\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF]/g, ' \\neq ');
+        s = s.replace(/\\neq\s*\\neq/g, '\\neq');
+        s = s.replace(/\s*\\neq\s*/g, ' \\neq ');
 
         // Inviolable Generalized Math Relation & Tofu Sanitizer (e.g. k [ANY_WEIRD_GLYPH] 0 -> k \neq 0)
         s = s.replace(/([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)\s*([^\s\w가-힣\$\+\-\*\/\(\)\{\}\^\,\.\:\;\!\?\"\'\<\>\=\\\|&·~①-⑩❶-❿\u2460-\u2473\u3251-\u325F]+)\s*([a-zA-Z0-9_\^]+(?:\([a-zA-Z0-9_\^\+\-\*\/]+\))?)/g, (m, p1, sym, p2) => {
@@ -5737,9 +5758,18 @@
           return `${p1} \\neq ${p2}`;
         });
 
-        // Standalone Broken Glyphs & Tofu Purger (∄, ∃, ≠, ≢, ≟, 日, ⊠, □, ■, etc.)
-        s = s.replace(/[\u2204\u2203\u2260\u2262\u225F\u65E5\u2612\u2327\u22A0\uFFFD\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BDB]/g, ' \\neq ');
-        s = s.replace(/\\neq\s*\\neq/g, '\\neq');
+        // Merge split math boundaries across \neq:
+        s = s.replace(/\$([^\$]+)\$\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+          let trail = '';
+          if (p2.endsWith(')') && !p1.includes('(')) {
+            p2 = p2.slice(0, -1);
+            trail = ')';
+          }
+          return `$${p1.trim()} \\neq ${p2.trim()}$` + trail;
+        });
+        s = s.replace(/\$([^\$]+)\$\s*\\neq\s*\$([^\$]+)\$/g, (m, p1, p2) => {
+          return `$${p1.trim()} \\neq ${p2.trim()}$`;
+        });
 
         return s;
       }

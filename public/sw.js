@@ -1,6 +1,6 @@
-// ReadMath Resilient PWA Service Worker (v2)
+// ReadMath Resilient PWA Service Worker (v3)
 // Strictly prevents null response errors during AI image upload and API syncing
-const CACHE_NAME = 'readmath-cache-v2';
+const CACHE_NAME = 'readmath-cache-v3';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
