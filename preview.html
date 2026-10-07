@@ -1488,10 +1488,7 @@
 
           <!-- Large High-Resolution SVG Canvas (Clickable to Inspect) with Crisp White Background & Engineering Grid -->
           <div id="solution-svg-container" onclick="openGraphDetailModal()" class="group relative bg-white border-2 border-slate-300 rounded-2xl p-2.5 overflow-hidden flex items-center justify-center min-h-[250px] shadow-sm transition-all duration-300 cursor-pointer hover:border-indigo-500" title="클릭하여 모눈종이 정밀 눈금 화면에서 자세히 확대 보기">
-            <!-- Engineering Millimeter Grid Overlay (Always visible from start) -->
-            <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;"></div>
-
-            <!-- Dynamic SVG Graphic Injected with White Canvas Formatting -->
+            <!-- Dynamic SVG Graphic Injected with White Canvas Formatting & Inseparable SVG Grid -->
             <div id="solution-svg-viewport" class="w-full flex items-center justify-center z-10">
             </div>
 
@@ -2546,10 +2543,7 @@
 
         <!-- Crisp White Engineering Grid Canvas Area -->
         <div id="graph-detail-canvas-wrapper" class="relative flex-1 bg-white rounded-2xl overflow-hidden border-2 border-slate-300 shadow-inner select-none cursor-grab active:cursor-grabbing">
-          <!-- Engineering Millimeter Grid Overlay -->
-          <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.3) 1px, transparent 1px), linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;"></div>
-
-          <!-- Scalable & Pannable SVG Viewport -->
+          <!-- Scalable & Pannable SVG Viewport (Internal Inseparable Metric Grid Moves in Lockstep) -->
           <div id="graph-detail-svg-viewport" class="w-full h-full flex items-center justify-center origin-center">
             <!-- Dynamic SVG injected with white-canvas styling -->
           </div>
@@ -6226,24 +6220,74 @@
       WIDTH: 400,
       HEIGHT: 200,
 
-      // 1. Core Coordinate System Builder with Exact Metric Grid Alignment
+      // 1. Core Coordinate System Builder with Inseparable Metric Engineering Grid
       buildCoordinateSystem(ox = 180, oy = 110, scale = 25, xRange = [-5, 7], yRange = [-3, 4], options = {}) {
+        const showGrid = options.showGrid !== false;
         const showTicks = options.showTicks !== false;
         let out = '';
 
+        const xMinPx = 0;
+        const xMaxPx = this.WIDTH;
+        const yMinPx = 0;
+        const yMaxPx = this.HEIGHT;
+
+        // A. Inseparable Engineering Millimeter Grid (Always 100% aligned with origin and scale)
+        if (showGrid) {
+          out += `<g class="math-metric-grid" pointer-events="none">\n`;
+
+          // 1. Minor Millimeter Subdivisions (Every 0.2 units = scale / 5 = 5px)
+          const minorStep = scale / 5;
+          for (let px = ox; px <= xMaxPx; px += minorStep) {
+            out += `<line x1="${px.toFixed(1)}" y1="${yMinPx}" x2="${px.toFixed(1)}" y2="${yMaxPx}" stroke="#EEF2F6" stroke-width="0.5"/>\n`;
+          }
+          for (let px = ox - minorStep; px >= xMinPx; px -= minorStep) {
+            out += `<line x1="${px.toFixed(1)}" y1="${yMinPx}" x2="${px.toFixed(1)}" y2="${yMaxPx}" stroke="#EEF2F6" stroke-width="0.5"/>\n`;
+          }
+          for (let py = oy; py <= yMaxPx; py += minorStep) {
+            out += `<line x1="${xMinPx}" y1="${py.toFixed(1)}" x2="${xMaxPx}" y2="${py.toFixed(1)}" stroke="#EEF2F6" stroke-width="0.5"/>\n`;
+          }
+          for (let py = oy - minorStep; py >= yMinPx; py -= minorStep) {
+            out += `<line x1="${xMinPx}" y1="${py.toFixed(1)}" x2="${xMaxPx}" y2="${py.toFixed(1)}" stroke="#EEF2F6" stroke-width="0.5"/>\n`;
+          }
+
+          // 2. Major Unit Grid Lines (Every 1 unit = scale = 25px, passes through all tick marks and integer coordinates)
+          for (let px = ox; px <= xMaxPx; px += scale) {
+            if (px !== ox) {
+              out += `<line x1="${px.toFixed(1)}" y1="${yMinPx}" x2="${px.toFixed(1)}" y2="${yMaxPx}" stroke="#CBD5E1" stroke-width="0.95"/>\n`;
+            }
+          }
+          for (let px = ox - scale; px >= xMinPx; px -= scale) {
+            if (px !== ox) {
+              out += `<line x1="${px.toFixed(1)}" y1="${yMinPx}" x2="${px.toFixed(1)}" y2="${yMaxPx}" stroke="#CBD5E1" stroke-width="0.95"/>\n`;
+            }
+          }
+          for (let py = oy; py <= yMaxPx; py += scale) {
+            if (py !== oy) {
+              out += `<line x1="${xMinPx}" y1="${py.toFixed(1)}" x2="${xMaxPx}" y2="${py.toFixed(1)}" stroke="#CBD5E1" stroke-width="0.95"/>\n`;
+            }
+          }
+          for (let py = oy - scale; py >= yMinPx; py -= scale) {
+            if (py !== oy) {
+              out += `<line x1="${xMinPx}" y1="${py.toFixed(1)}" x2="${xMaxPx}" y2="${py.toFixed(1)}" stroke="#CBD5E1" stroke-width="0.95"/>\n`;
+            }
+          }
+
+          out += `</g>\n`;
+        }
+
         // x-axis
-        const xMinPx = 25;
-        const xMaxPx = 375;
-        out += `<line x1="${xMinPx}" y1="${oy}" x2="${xMaxPx}" y2="${oy}" stroke="#334155" stroke-width="1.5"/>\n`;
-        out += `<polygon points="${xMaxPx},${oy} ${xMaxPx - 6},${oy - 4} ${xMaxPx - 6},${oy + 4}" fill="#334155"/>\n`;
-        out += `<text x="${xMaxPx + 4}" y="${oy + 4}" fill="#334155" font-size="11" font-weight="bold">x</text>\n`;
+        const xMinAxis = 15;
+        const xMaxAxis = 385;
+        out += `<line x1="${xMinAxis}" y1="${oy}" x2="${xMaxAxis}" y2="${oy}" stroke="#334155" stroke-width="1.6"/>\n`;
+        out += `<polygon points="${xMaxAxis},${oy} ${xMaxAxis - 6},${oy - 4} ${xMaxAxis - 6},${oy + 4}" fill="#334155"/>\n`;
+        out += `<text x="${xMaxAxis + 4}" y="${oy + 4}" fill="#334155" font-size="11" font-weight="bold">x</text>\n`;
 
         // y-axis
-        const yMinPx = 15;
-        const yMaxPx = 185;
-        out += `<line x1="${ox}" y1="${yMaxPx}" x2="${ox}" y2="${yMinPx}" stroke="#334155" stroke-width="1.5"/>\n`;
-        out += `<polygon points="${ox},${yMinPx} ${ox - 4},${yMinPx + 6} ${ox + 4},${yMinPx + 6}" fill="#334155"/>\n`;
-        out += `<text x="${ox - 14}" y="${yMinPx + 2}" fill="#334155" font-size="11" font-weight="bold">y</text>\n`;
+        const yMinAxis = 12;
+        const yMaxAxis = 188;
+        out += `<line x1="${ox}" y1="${yMaxAxis}" x2="${ox}" y2="${yMinAxis}" stroke="#334155" stroke-width="1.6"/>\n`;
+        out += `<polygon points="${ox},${yMinAxis} ${ox - 4},${yMinAxis + 6} ${ox + 4},${yMinAxis + 6}" fill="#334155"/>\n`;
+        out += `<text x="${ox - 14}" y="${yMinAxis + 2}" fill="#334155" font-size="11" font-weight="bold">y</text>\n`;
 
         // Origin O
         out += `<text x="${ox - 12}" y="${oy + 14}" fill="#334155" font-size="11" font-weight="bold">O</text>\n`;
@@ -6253,15 +6297,15 @@
           for (let x = xRange[0]; x <= xRange[1]; x++) {
             if (x === 0) continue;
             const px = ox + x * scale;
-            if (px >= xMinPx + 10 && px <= xMaxPx - 15) {
-              out += `<line x1="${px}" y1="${oy - 3}" x2="${px}" y2="${oy + 3}" stroke="#64748B" stroke-width="1"/>\n`;
+            if (px >= xMinAxis + 10 && px <= xMaxAxis - 15) {
+              out += `<line x1="${px}" y1="${oy - 4}" x2="${px}" y2="${oy + 4}" stroke="#475569" stroke-width="1.2"/>\n`;
             }
           }
           for (let y = yRange[0]; y <= yRange[1]; y++) {
             if (y === 0) continue;
             const py = oy - y * scale;
-            if (py >= yMinPx + 15 && py <= yMaxPx - 10) {
-              out += `<line x1="${ox - 3}" y1="${py}" x2="${ox + 3}" y2="${py}" stroke="#64748B" stroke-width="1"/>\n`;
+            if (py >= yMinAxis + 15 && py <= yMaxAxis - 10) {
+              out += `<line x1="${ox - 4}" y1="${py}" x2="${ox + 4}" y2="${py}" stroke="#475569" stroke-width="1.2"/>\n`;
             }
           }
         }
