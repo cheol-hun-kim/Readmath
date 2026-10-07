@@ -286,13 +286,24 @@ const geometryErrors = [];
 
 // Evaluate runtime sandbox for MathSvgEngine & Math Sanitizer
 const runtimeSandbox = {
-  window: { addEventListener: () => {}, removeEventListener: () => {} },
-  document: { querySelectorAll: () => [], getElementById: () => ({ innerHTML: '', innerText: '', classList: { add: () => {}, remove: () => {} }, style: {}, addEventListener: () => {}, removeEventListener: () => {} }) },
+  window: { addEventListener: () => {}, removeEventListener: () => {}, location: { pathname: '/', search: '' } },
+  document: { 
+    querySelectorAll: () => [], 
+    getElementById: () => ({ innerHTML: '', innerText: '', classList: { add: () => {}, remove: () => {} }, style: {}, addEventListener: () => {}, removeEventListener: () => {} }),
+    createTreeWalker: () => ({ nextNode: () => null }),
+    addEventListener: () => {}
+  },
   lucide: { createIcons: () => {} },
-  navigator: { onLine: true },
+  navigator: { onLine: true, serviceWorker: { getRegistrations: async () => [] } },
   localStorage: { getItem: () => null, setItem: () => {} },
   renderMathInElement: () => {},
-  console: console
+  console: console,
+  setInterval: () => {},
+  clearInterval: () => {},
+  setTimeout: () => {},
+  clearTimeout: () => {},
+  MutationObserver: class { observe() {} disconnect() {} },
+  NodeFilter: { SHOW_TEXT: 4 }
 };
 vm.createContext(runtimeSandbox);
 vm.runInContext(`
@@ -497,8 +508,8 @@ passGate(5, 'Inviolable Runtime Mathematical Sanitizer Safety Net', [
 console.log('\n[GATE 6] Running Multi-Stage AI Parser Robustness & Stress Test...');
 
 let parserSandbox = {
-  window: { addEventListener: () => {} },
-  navigator: { onLine: true },
+  window: { addEventListener: () => {}, removeEventListener: () => {}, location: { pathname: '/', search: '' } },
+  navigator: { onLine: true, serviceWorker: { getRegistrations: async () => [] } },
   document: {
     getElementById: () => ({
       innerHTML: '',
@@ -509,14 +520,23 @@ let parserSandbox = {
       addEventListener: () => {},
       removeEventListener: () => {}
     }),
-    querySelectorAll: () => []
+    querySelectorAll: () => [],
+    createTreeWalker: () => ({ nextNode: () => null }),
+    addEventListener: () => {}
   },
   localStorage: {
     getItem: () => null,
     setItem: () => {}
   },
   lucide: { createIcons: () => {} },
-  renderMathInElement: () => {}
+  renderMathInElement: () => {},
+  console: console,
+  setInterval: () => {},
+  clearInterval: () => {},
+  setTimeout: () => {},
+  clearTimeout: () => {},
+  MutationObserver: class { observe() {} disconnect() {} },
+  NodeFilter: { SHOW_TEXT: 4 }
 };
 vm.createContext(parserSandbox);
 vm.runInContext(`

@@ -732,13 +732,13 @@
       str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
 
       // 0.1 Purge redundant logical quantifier inside Korean text
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]\s*\)/g, '$1');
+      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u2200-\u23FF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\uFFFD]\s*\)/g, '$1');
 
       // 0.2 Normalize raw \ne to \neq
       str = str.replace(/\\ne\b/g, '\\neq');
 
-      // 1. Comprehensive Unicode Math Operator & Symbol Harmonizer
-      str = str.replace(/[\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u76EE\u65E5\u3013\uFFFD]/g, (sym) => {
+      // 1. Comprehensive CJK Ideographs, Math Operator & Symbol Harmonizer
+      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2200-\u23FF\u25A0-\u25FF\u2610-\u2612\u274E\u274C\u2BD0-\u2BFF\u3000-\u303F\uFFFD]/g, (sym) => {
         if (sym === '≤' || sym === '≦') return ' \\le ';
         if (sym === '≥' || sym === '≧') return ' \\ge ';
         if (sym === '∈') return ' \\in ';
@@ -769,9 +769,47 @@
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
+      // 1.1 Merge split math boundaries across \neq:
+      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return `$${p1.trim()} \\neq ${p2.trim()}$` + trail;
+      });
+      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*\$([^\$]+)\$/g, (m, p1, p2) => {
+        return `$${p1.trim()} \\neq ${p2.trim()}$`;
+      });
+
+      // 1.2 Auto-wrap compound relation chains OUTSIDE math
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*(?:=|\\neq|\\le|\\ge|<|>)\s*[a-zA-Z0-9_\(\)\^]+){2,})/g, (m) => {
+        let p = m.trim();
+        let trail = '';
+        if (p.endsWith(')') && (p.match(/\)/g) || []).length > (p.match(/\(/g) || []).length) {
+          p = p.slice(0, -1).trim();
+          trail = ')';
+        }
+        return '$' + p + '$' + trail;
+      });
+
       // 2. Wrap relations like f(2) \neq 2, f(4) \neq 0, x = 4
-      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, '$$$1 \\neq $2$$');
-      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, '$$$1 = $2$$');
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return '$' + p1 + ' \\neq ' + p2 + '$' + trail;
+      });
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, (m, p1, p2) => {
+        let trail = '';
+        if (p2.endsWith(')') && !p1.includes('(')) {
+          p2 = p2.slice(0, -1);
+          trail = ')';
+        }
+        return '$' + p1 + ' = ' + p2 + '$' + trail;
+      });
       
       // 3. Wrap options / fractions like (1/5)e, (4/5)e, (8/5)e, 1/e, 1/(2e)
       str = replaceOutsideMath(str, /\(([0-9]+)\/([0-9]+)\)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
