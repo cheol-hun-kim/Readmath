@@ -27,17 +27,31 @@
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap');
     * { font-family: 'Pretendard', sans-serif; user-select: none; word-break: keep-all; }
     button { white-space: nowrap; }
-    .word-chip, .word-chip * {
+    .word-chip {
       white-space: normal !important;
       word-break: keep-all !important;
-      overflow-wrap: anywhere !important;
-    }
-    .word-chip {
+      overflow-wrap: break-word !important;
       max-width: 100% !important;
       text-align: left !important;
       display: block !important;
       width: 100% !important;
       box-sizing: border-box !important;
+    }
+    /* Strictly protect KaTeX mathematical formulas from letter-by-letter vertical collapse */
+    .word-chip .katex,
+    .word-chip .katex *,
+    .katex,
+    .katex * {
+      white-space: nowrap !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
+    }
+    .word-chip .katex-display {
+      display: block !important;
+      margin: 0.5em 0 !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      white-space: nowrap !important;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -5124,6 +5138,15 @@
 
     // Initialize UI on load
     window.addEventListener('DOMContentLoaded', () => {
+      // 0. Restore user solved history into active PROBLEMS_DB
+      if (Array.isArray(userSolvedHistory)) {
+        userSolvedHistory.forEach(prob => {
+          if (prob && prob.id) {
+            PROBLEMS_DB[prob.id] = prob;
+          }
+        });
+      }
+
       lucide.createIcons();
       setSchoolGrade(currentGrade);
       setUserRole(userRole);
@@ -5142,6 +5165,7 @@
       openHistoryProblem(1, false);
       renderMathElements();
       initDetailGraphPan();
+      fetchRemoteUsersForAdmin();
       if (studentProfile && studentProfile.name) {
         restoreStudentQuestionsFromRemoteDB();
       }
@@ -5184,6 +5208,10 @@
       // 1. Replace broken glyphs / ballot box / tofu (☒, ⌧, ⊠, etc.) with \neq
       str = str.replace(/[\u2612\u2327\u22A0\uFFFD\u25A1\u25A0\u25BD\u25B3]/g, ' \\neq ');
       
+      // 1.1 Correct corrupted OCR/LLM glyphs (e.g. f(2) ∃ 2 or f(4) ∃ 0) to \neq
+      str = str.replace(/([a-zA-Z0-9_\(\)]+)\s*[\u2203\u65E5]\s*([0-9a-zA-Z_\(\)]+)/g, '$1 \\neq $2');
+      str = str.replace(/[\u2203\u65E5]\s*0\b/g, '\\neq 0');
+
       // 2. Normalize raw Unicode math symbols
       str = str.replace(/≠/g, ' \\neq ');
       str = str.replace(/≤/g, ' \\le ');
@@ -5218,6 +5246,20 @@
           return '$' + str + '$';
         }
       }
+
+      // 4.1 Auto-wrap function inequalities/equalities like f(2) \neq 2, f(4) \neq 0, x = 4
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, '$$$1 \\neq $2$$');
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, '$$$1 = $2$$');
+      
+      // 4.2 Auto-wrap options / fractions like (1/5)e, (4/5)e, 1/e, 1/(2e)
+      str = replaceOutsideMath(str, /\(([0-9]+)\/([0-9]+)\)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/\(([0-9]+e?)\)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+e?)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
+      str = replaceOutsideMath(str, /(^|[\s①②③④⑤\(\[])e([\s,.\)\]]|$)/g, '$1$e$$2');
+
+      // 4.3 Auto-wrap limits e.g. lim_{x->0}
+      str = replaceOutsideMath(str, /\\?lim_\{([^}]+)\}/g, (m, sub) => '$\\lim_{' + sub.replace('->', '\\to ') + '}$');
 
       // 5. Multi-pass safe replacement STRICTLY OUTSIDE existing math ($...$ blocks are NEVER corrupted)
       // Step A: Trig/functions with Greek arguments: e.g. cos φ, sin θ, tan α, cos phi, sin theta
@@ -5397,7 +5439,7 @@
 
     function deleteHistoryItem(id) {
       if (!confirm('이 오답노트 질문 기록을 삭제하시겠습니까?')) return;
-      safeSaveUserHistory(userSolvedHistory.filter(item => item.id !== id));
+      safeSaveUserHistory(userSolvedHistory.filter(item => String(item.id) !== String(id)));
       renderHistoryList();
       updateReportView();
       updateCameraHomeCards();
@@ -5830,6 +5872,15 @@
         if (parsed.svg_diagram) {
           parsed.svg_diagram = validateAndSanitizeMathSvg(parsed.svg_diagram, parsed);
         }
+        if (!parsed.diagrams || parsed.diagrams.length === 0) {
+          parsed.diagrams = [{
+            id: 'd1',
+            title: parsed.title || '문제 정밀 도해',
+            badge: '실시간 정밀 도해',
+            caption: parsed.diagram_caption || parsed.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
+            svg: parsed.svg_diagram || ''
+          }];
+        }
 
         parsed.id = Date.now();
         parsed.imageUri = currentUploadedImageBase64;
@@ -6171,14 +6222,81 @@
       return p.svg_diagram || '';
     }
 
+    function snapSvgKeypointsToCurves(svgString) {
+      if (!svgString || typeof svgString !== 'string') return svgString;
+      
+      const pathMatches = Array.from(svgString.matchAll(/<path\s+[^>]*d="([^"]+)"/g));
+      const lineMatches = Array.from(svgString.matchAll(/<line\s+[^>]*x1="([\d.]+)"\s+y1="([\d.]+)"\s+x2="([\d.]+)"\s+y2="([\d.]+)"/g));
+      
+      const allPathPoints = [];
+      pathMatches.forEach(pm => {
+        allPathPoints.push(...getPointsOnSvgPath(pm[1]));
+      });
+
+      return svgString.replace(/<circle\s+([^>]*?)cx="([\d.]+)"\s+cy="([\d.]+)"([^>]*?)>/g, (fullMatch, pre, cxStr, cyStr, post) => {
+        const cx = parseFloat(cxStr);
+        const cy = parseFloat(cyStr);
+        let minDist = Infinity;
+        let nearestX = cx;
+        let nearestY = cy;
+
+        // Check distance to paths
+        for (const pt of allPathPoints) {
+          const d = Math.hypot(cx - pt.x, cy - pt.y);
+          if (d < minDist) {
+            minDist = d;
+            nearestX = pt.x;
+            nearestY = pt.y;
+          }
+        }
+
+        // Check distance to lines
+        for (const lm of lineMatches) {
+          const x1 = parseFloat(lm[1]), y1 = parseFloat(lm[2]);
+          const x2 = parseFloat(lm[3]), y2 = parseFloat(lm[4]);
+          const l2 = (x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1);
+          if (l2 > 0) {
+            let t = ((cx - x1)*(x2 - x1) + (cy - y1)*(y2 - y1)) / l2;
+            t = Math.max(0, Math.min(1, t));
+            const projX = x1 + t*(x2 - x1);
+            const projY = y1 + t*(y2 - y1);
+            const d = Math.hypot(cx - projX, cy - projY);
+            if (d < minDist) {
+              minDist = d;
+              nearestX = projX;
+              nearestY = projY;
+            }
+          }
+        }
+
+        // Snapping tolerance: if point is within 1.5px to 35px, snap to exact curve/line coordinate
+        if (minDist > 1.5 && minDist <= 35) {
+          return `<circle ${pre}cx="${nearestX.toFixed(1)}" cy="${nearestY.toFixed(1)}"${post}>`;
+        }
+        return fullMatch;
+      });
+    }
+
     function validateAndSanitizeMathSvg(rawSvg, probData, contextQuery, aiExplanation) {
-      const defects = inspectMathSvgDefects(rawSvg, probData);
+      if (!rawSvg || typeof rawSvg !== 'string') return '';
+      
+      // Pass 1: Precision coordinate snapping fixes floating circles onto curves/lines
+      let sanitizedSvg = snapSvgKeypointsToCurves(rawSvg);
+
+      const defects = inspectMathSvgDefects(sanitizedSvg, probData);
       if (defects.length === 0) {
-        return rawSvg;
+        return sanitizedSvg;
       }
+      
       console.warn(`[MathSvgEngine] Intercepted ${defects.length} defect(s) in AI diagram:`, defects);
-      const combinedHint = `${contextQuery || ''} ${aiExplanation || ''}`;
-      return generateAuthoritativeMathSvg(probData, combinedHint);
+      
+      // If authoritative hand-crafted diagrams exist for this problem, use them
+      if (probData && probData.diagrams && probData.diagrams.length > 0) {
+        const combinedHint = `${contextQuery || ''} ${aiExplanation || ''}`;
+        return generateAuthoritativeMathSvg(probData, combinedHint);
+      }
+      
+      return sanitizedSvg;
     }
 
     function renderValidatedChatSvg(rawSvg, probData, userQuery, aiExplanation) {
@@ -6255,7 +6373,7 @@
    - 시각 도해가 필요한 경우, 부정확하거나 왜곡된 임의의 SVG를 절대 생성하지 마세요.
    - 현재 문제의 공식 검증 도해 목록(${((probData.diagrams || []).map(d => d.title)).join(', ')}) 중 설명에 가장 적합한 도해가 있다면 svg_diagram 필드에 해당 도해를 우선 인용하거나, 오직 5대 수학 원칙(점은 곡선/선분 위에 정확히 일치, 텍스트는 선과 절대 겹치지 않게 보호 여백/배경 박스 구비, x축/y축/원점 O 필수)을 100% 만족하는 정밀 SVG만 출력하세요.
 4. 전문 용어(SVG, RCA, 모델링 등)와 이모지는 절대 쓰지 마세요.
-5. 수식은 $...$로 LaTeX 표기하세요.
+5. 모든 수식, 등식, 부등식, 함수값(f(2), f(4) 등), 같지 않음(\\neq), 원소 기호(\\in, \\notin)는 반드시 $...$로 감싸서 표준 LaTeX로 작성하세요. 절대로 f(2) ≠ 2나 f(4) ≠ 0처럼 달러 기호 없이 특수문자를 일반 텍스트에 노출하지 마세요!
 
 마크다운 백틱 없이 순수 JSON 단일 객체만 출력하세요:
 {
@@ -6301,8 +6419,8 @@
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9px] font-extrabold px-1.5 py-0.5 rounded">${parsed.diagnosis.category_title || '오답 원인'}</span>
               </div>
               <div class="text-[11px] text-slate-200 bg-black/50 p-2 rounded-lg space-y-1">
-                <p><strong>막힌 조건:</strong> ${parsed.diagnosis.stuck_condition || '핵심 조건'}</p>
-                <p><strong>원인 분석:</strong> ${parsed.diagnosis.root_cause || '원인 분석 완료'}</p>
+                <p><strong>막힌 조건:</strong> ${autoFormatMathText(parsed.diagnosis.stuck_condition || '핵심 조건')}</p>
+                <p><strong>원인 분석:</strong> ${autoFormatMathText(parsed.diagnosis.root_cause || '원인 분석 완료')}</p>
               </div>
               <button onclick="applyChatDiagnosis(${currentProblemId}, '${parsed.diagnosis.category || 'visual'}', '${parsed.diagnosis.stuck_condition || '핵심 조건'}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> 이 분석 결과로 내 약점 리포트에 저장
@@ -6318,7 +6436,7 @@
             </div>
             <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-xs max-w-[88%] space-y-2 shadow-md">
               <span class="text-[10px] font-bold text-indigo-400">리드 쌤</span>
-              <div class="text-slate-200 leading-relaxed">${parsed.explanation}</div>
+              <div class="text-slate-200 leading-relaxed math-content">${autoFormatMathText(parsed.explanation)}</div>
               ${renderValidatedChatSvg(parsed.svg_diagram, probData, text, parsed.explanation)}
               ${diagnosisBox}
             </div>
@@ -6919,7 +7037,30 @@
       currentProblemId = id;
       currentSubQuestionId = 'all';
       currentDiagramIdx = 0;
-      const data = PROBLEMS_DB[id] || PROBLEMS_DB[1];
+      
+      let data = PROBLEMS_DB[id];
+      if (!data) {
+        data = userSolvedHistory.find(h => String(h.id) === String(id));
+        if (data) {
+          PROBLEMS_DB[id] = data;
+        }
+      }
+      if (!data) {
+        data = PROBLEMS_DB[1];
+      }
+
+      // Ensure data.diagrams exists
+      if (!data.diagrams || data.diagrams.length === 0) {
+        if (data.svg_diagram) {
+          data.diagrams = [{
+            id: 'd1',
+            title: data.title || '문제 정밀 도해',
+            badge: '실시간 정밀 도해',
+            caption: data.diagram_caption || data.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
+            svg: data.svg_diagram
+          }];
+        }
+      }
 
       // Update Solution View
       document.getElementById('solution-grade-tag-text').innerText = data.curriculum_badge || `${data.curriculum_grade} 기준 풀이`;
@@ -6942,6 +7083,8 @@
         renderDiagramTabs(data);
       } else {
         document.getElementById('solution-svg-container').innerHTML = data.svg_diagram || '';
+        document.getElementById('solution-svg-caption').innerHTML = autoFormatMathText(data.title || '문제 그래프 분석');
+        document.getElementById('diagram-badge-text').innerText = '문제 도해';
         renderDiagramTabs(data);
       }
       
@@ -6953,14 +7096,25 @@
 
       // Render Diagnosis Clauses
       const clauseContainer = document.getElementById('diagnosis-clauses-container');
-      clauseContainer.innerHTML = data.core_clauses.map((c, idx) => `
-        <button onclick="selectClauseByIndex(${idx})" class="word-chip ${idx === 0 ? 'active-chip bg-indigo-600 border border-indigo-400 text-white font-bold' : 'bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200'} text-xs p-3 rounded-xl transition text-left w-full max-w-full whitespace-normal break-words break-keep leading-relaxed block shadow-xs" style="white-space: normal !important; word-break: keep-all; overflow-wrap: anywhere; max-width: 100%;">
+      const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0
+        ? data.core_clauses
+        : Array.isArray(data.clauses) && data.clauses.length > 0
+          ? data.clauses
+          : [{
+              id: 'c1',
+              text: data.problem_text ? data.problem_text.slice(0, 45) + '...' : '문제 조건',
+              meaning: '이 문제의 핵심 조건을 분석합니다.',
+              prescriptions: { visual: '그래프 개형과 교점을 확인하세요.', modeling: '수학적 등식 관계를 세우세요.', condition: '정의역과 제한 조건을 확인하세요.', concept: '관련 핵심 개념과 공식을 점검하세요.' }
+            }];
+
+      clauseContainer.innerHTML = clauses.map((c, idx) => `
+        <button onclick="selectClauseByIndex(${idx})" class="word-chip ${idx === 0 ? 'active-chip bg-indigo-600 border border-indigo-400 text-white font-bold' : 'bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200'} text-xs p-3 rounded-xl transition text-left w-full max-w-full leading-relaxed block shadow-xs" style="white-space: normal !important; word-break: keep-all; overflow-wrap: break-word; max-width: 100%;">
           ${autoFormatMathText(c.text)}
         </button>
       `).join('');
 
-      selectedKeywordText = data.core_clauses[0].text;
-      document.getElementById('clause-meaning-text').innerHTML = autoFormatMathText(data.core_clauses[0].meaning);
+      selectedKeywordText = clauses[0].text;
+      document.getElementById('clause-meaning-text').innerHTML = autoFormatMathText(clauses[0].meaning);
 
       updatePrescriptionDisplay();
 
@@ -7058,22 +7212,23 @@
 
     function selectClauseByIndex(idx) {
       const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
-      if (!data || !data.core_clauses || !data.core_clauses[idx]) return;
-      const targetClause = data.core_clauses[idx];
+      const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0 ? data.core_clauses : (data.clauses || []);
+      if (!clauses || !clauses[idx]) return;
+      const targetClause = clauses[idx];
       selectedKeywordText = targetClause.text;
 
       const chips = document.querySelectorAll('.word-chip');
       chips.forEach((c, i) => {
         if (i === idx) {
-          c.className = 'word-chip active-chip bg-indigo-600 border border-indigo-400 text-white font-bold text-xs p-3 rounded-xl shadow-md transition text-left w-full max-w-full whitespace-normal break-words break-keep leading-relaxed block';
+          c.className = 'word-chip active-chip bg-indigo-600 border border-indigo-400 text-white font-bold text-xs p-3 rounded-xl shadow-md transition text-left w-full max-w-full leading-relaxed block';
           c.style.whiteSpace = 'normal';
           c.style.wordBreak = 'keep-all';
-          c.style.overflowWrap = 'anywhere';
+          c.style.overflowWrap = 'break-word';
         } else {
-          c.className = 'word-chip bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200 text-xs p-3 rounded-xl transition text-left w-full max-w-full whitespace-normal break-words break-keep leading-relaxed block shadow-xs';
+          c.className = 'word-chip bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200 text-xs p-3 rounded-xl transition text-left w-full max-w-full leading-relaxed block shadow-xs';
           c.style.whiteSpace = 'normal';
           c.style.wordBreak = 'keep-all';
-          c.style.overflowWrap = 'anywhere';
+          c.style.overflowWrap = 'break-word';
         }
       });
 
@@ -7084,18 +7239,19 @@
     function selectWord(el, text) {
       selectedKeywordText = text;
       document.querySelectorAll('.word-chip').forEach(c => {
-        c.className = 'word-chip bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200 text-xs p-3 rounded-xl transition text-left w-full max-w-full whitespace-normal break-words break-keep leading-relaxed block shadow-xs';
+        c.className = 'word-chip bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200 text-xs p-3 rounded-xl transition text-left w-full max-w-full leading-relaxed block shadow-xs';
         c.style.whiteSpace = 'normal';
         c.style.wordBreak = 'keep-all';
-        c.style.overflowWrap = 'anywhere';
+        c.style.overflowWrap = 'break-word';
       });
-      el.className = 'word-chip active-chip bg-indigo-600 border border-indigo-400 text-white font-bold text-xs p-3 rounded-xl shadow-md transition text-left w-full max-w-full whitespace-normal break-words break-keep leading-relaxed block';
+      el.className = 'word-chip active-chip bg-indigo-600 border border-indigo-400 text-white font-bold text-xs p-3 rounded-xl shadow-md transition text-left w-full max-w-full leading-relaxed block';
       el.style.whiteSpace = 'normal';
       el.style.wordBreak = 'keep-all';
-      el.style.overflowWrap = 'anywhere';
+      el.style.overflowWrap = 'break-word';
       
       const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
-      const match = data.core_clauses?.find(c => c.text === text);
+      const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0 ? data.core_clauses : (data.clauses || []);
+      const match = clauses.find(c => c.text === text);
       if (match) {
         document.getElementById('clause-meaning-text').innerHTML = autoFormatMathText(match.meaning);
       }
@@ -7156,7 +7312,7 @@
       container.innerHTML = items.map(item => {
         const hasSubQuestions = item.sub_questions && item.sub_questions.length > 0;
         return `
-          <div id="history-card-${item.id}" data-category="visual" data-resolved="false" onclick="openHistoryProblem(${item.id})" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
+          <div id="history-card-${item.id}" data-category="visual" data-resolved="false" onclick="openHistoryProblem('${item.id}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1.5 min-w-0 flex-1 pr-2">
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded shrink-0">
@@ -7165,10 +7321,10 @@
                 <span class="text-xs font-bold text-slate-200 line-clamp-1">${cleanProblemTitle(item.title)}</span>
               </div>
               <div class="flex items-center gap-1 shrink-0">
-                <button onclick="event.stopPropagation(); toggleResolvedCard(${item.id})" id="resolve-badge-${item.id}" class="text-[10px] text-slate-400 font-semibold flex items-center gap-1 hover:text-emerald-400 transition">
+                <button onclick="event.stopPropagation(); toggleResolvedCard('${item.id}')" id="resolve-badge-${item.id}" class="text-[10px] text-slate-400 font-semibold flex items-center gap-1 hover:text-emerald-400 transition">
                   <i data-lucide="circle" class="w-3 h-3 text-slate-500"></i> 미완료
                 </button>
-                <button onclick="event.stopPropagation(); deleteHistoryItem(${item.id})" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 삭제">
+                <button onclick="event.stopPropagation(); deleteHistoryItem('${item.id}')" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 삭제">
                   <i data-lucide="trash-2" class="w-3 h-3"></i> 삭제
                 </button>
               </div>
@@ -7452,7 +7608,7 @@
             </div>
             <div class="grid grid-cols-${recent.length > 1 ? '2' : '1'} gap-2">
               ${recent.map(p => `
-                <div onclick="openHistoryProblem(${p.id})" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-2.5 cursor-pointer transition">
+                <div onclick="openHistoryProblem('${p.id}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-2.5 cursor-pointer transition">
                   <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9px] font-bold px-1.5 py-0.5 rounded">${p.curriculum_grade || currentGrade}</span>
                   <p class="text-xs font-bold text-slate-200 mt-1 line-clamp-1">${cleanProblemTitle(p.title)}</p>
                   <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">${formatSnippetText(p.problem_text, 36)}</p>
@@ -8296,6 +8452,41 @@
 
       renderAdminUserList();
       alert(`[학생 등록 완료]\n${name} 학생이 수동 등록되었습니다.`);
+    }
+
+    async function fetchRemoteUsersForAdmin() {
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/readmath/users');
+        const data = await resp.json().catch(() => ({}));
+        if (data && data.success && Array.isArray(data.users)) {
+          const remoteMap = new Map();
+          data.users.forEach(u => {
+            const key = u.phone || u.email || String(u.id);
+            remoteMap.set(key, {
+              id: String(u.id),
+              name: u.name || '미등록',
+              school: u.school || '-',
+              grade: u.grade || '고1',
+              phone: u.phone || '-',
+              email: u.email || '',
+              isSuspended: !!u.is_suspended,
+              joinedAt: u.created_at ? u.created_at.slice(0, 10) : '최근'
+            });
+          });
+          const localUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
+          localUsers.forEach(u => {
+            const key = u.phone || u.email || String(u.id);
+            if (!remoteMap.has(key)) {
+              remoteMap.set(key, u);
+            }
+          });
+          registeredUsers = Array.from(remoteMap.values());
+          localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+          renderAdminUserList();
+        }
+      } catch (e) {
+        console.warn('Deferred remote admin user sync:', e);
+      }
     }
 
     function renderAdminUserList() {

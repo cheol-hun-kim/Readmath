@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- KaTeX for High-Precision Mathematical Formula Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
   <style>
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
@@ -674,6 +678,168 @@
       } catch (e) {
         studentFeedbacks = [];
       }
+      fetchRemoteUsers();
+      fetchRemoteFeedbacks();
+      fetchRemoteQuestions();
+    }
+
+    function renderAdminMath(targetEl) {
+      if (!targetEl) return;
+      if (window.renderMathInElement) {
+        window.renderMathInElement(targetEl, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      } else {
+        setTimeout(() => renderAdminMath(targetEl), 200);
+      }
+    }
+
+    function autoFormatMathText(text) {
+      if (!text || typeof text !== 'string') return text || '';
+      let str = text.trim();
+
+      function tokenizeMath(s) {
+        const tokens = [];
+        let inDollar = false;
+        let current = '';
+        for (let i = 0; i < s.length; i++) {
+          if (s[i] === '$') {
+            tokens.push({ text: current, isMath: inDollar });
+            current = '';
+            inDollar = !inDollar;
+          } else {
+            current += s[i];
+          }
+        }
+        tokens.push({ text: current, isMath: inDollar });
+        return tokens;
+      }
+
+      function replaceOutsideMath(s, regex, replacer) {
+        const tokens = tokenizeMath(s);
+        return tokens.map(token => {
+          if (token.isMath) return '$' + token.text + '$';
+          return token.text.replace(regex, replacer);
+        }).join('');
+      }
+
+      // 0. Sanitize LaTeX font modifier artifacts
+      str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
+      str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
+
+      // 1. Unicode to LaTeX
+      str = str.replace(/≠/g, ' \\neq ');
+      str = str.replace(/≤/g, ' \\le ');
+      str = str.replace(/≥/g, ' \\ge ');
+      str = str.replace(/∈/g, ' \\in ');
+      str = str.replace(/∉/g, ' \\notin ');
+      str = str.replace(/±/g, ' \\pm ');
+      str = str.replace(/×/g, ' \\times ');
+      str = str.replace(/÷/g, ' \\div ');
+      str = str.replace(/·/g, ' \\cdot ');
+
+      // 2. Wrap relations like f(2) \neq 2, f(4) \neq 0, x = 4
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, '$$$1 \\neq $2$$');
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, '$$$1 = $2$$');
+      
+      // 3. Wrap options / fractions like (1/5)e, (4/5)e, (8/5)e, 1/e, 1/(2e)
+      str = replaceOutsideMath(str, /\(([0-9]+)\/([0-9]+)\)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/\(([0-9]+e?)\)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
+      str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+e?)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
+      str = replaceOutsideMath(str, /(^|[\s①②③④⑤\(\[])e([\s,.\)\]]|$)/g, '$1$e$$2');
+
+      // 4. Wrap limits e.g. lim_{x->0}
+      str = replaceOutsideMath(str, /\\?lim_\{([^}]+)\}/g, (m, sub) => '$\\lim_{' + sub.replace('->', '\\to ') + '}$');
+
+      // 5. Standalone symbols & commands outside $
+      str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
+      str = replaceOutsideMath(str, /\\(alpha|beta|gamma|delta|theta|lambda|mu|pi|rho|sigma|tau|phi|omega)\b/g, ' $\\$1$ ');
+      str = replaceOutsideMath(str, /\b(theta|alpha|beta|phi|gamma|delta|lambda|sigma|omega)\b/gi, (m) => ' $\\' + m.toLowerCase() + '$ ');
+      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
+      str = replaceOutsideMath(str, /(\\(?:sin|cos|tan|log|ln|lim|sum|int)\s*(?:\\left\(|\()[^\n\r가-힣$]+?(?:\\right\)|\))[^\n\r가-힣$]*)/g, ' $$$1$$ ');
+
+      // 6. Inviolable Safety Net: Any remaining backslash commands outside math
+      str = replaceOutsideMath(str, /(\\[a-zA-Z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})*)/g, (match) => {
+        if (['\\n', '\\r', '\\t'].includes(match)) return match;
+        return ' $' + match + '$ ';
+      });
+
+      return str.replace(/\${3,}/g, '$$').replace(/\$\s*\$/g, ' ');
+    }
+
+    async function fetchRemoteUsers() {
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/readmath/users');
+        const data = await resp.json().catch(() => ({}));
+        if (data && data.success && Array.isArray(data.users)) {
+          const remoteMap = new Map();
+          data.users.forEach(u => {
+            const key = u.phone || u.email || String(u.id);
+            remoteMap.set(key, {
+              id: String(u.id),
+              name: u.name || '미등록',
+              school: u.school || '-',
+              grade: u.grade || '고1',
+              phone: u.phone || '-',
+              email: u.email || '',
+              isSuspended: !!u.is_suspended,
+              joinedAt: u.created_at ? u.created_at.slice(0, 10) : '최근'
+            });
+          });
+          const localUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
+          localUsers.forEach(u => {
+            const key = u.phone || u.email || String(u.id);
+            if (!remoteMap.has(key)) {
+              remoteMap.set(key, u);
+            }
+          });
+          registeredUsers = Array.from(remoteMap.values());
+          localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+          renderStats();
+          renderStudentTable();
+        }
+      } catch (e) {
+        console.warn('Remote user sync deferred:', e);
+      }
+    }
+
+    async function fetchRemoteFeedbacks() {
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/readmath/feedbacks');
+        const data = await resp.json().catch(() => ({}));
+        if (data && data.success && Array.isArray(data.feedbacks)) {
+          const fbMap = new Map();
+          data.feedbacks.forEach(f => {
+            fbMap.set(String(f.id), {
+              id: String(f.id),
+              studentName: f.student_name || '익명 학생',
+              studentSchool: f.student_school || '',
+              studentPhone: f.student_phone || '',
+              category: f.content && f.content.includes('[불편 사항 및 버그]') ? 'bug' : 'feature',
+              content: f.content || '',
+              date: f.created_at ? f.created_at.slice(0, 10) : '최근',
+              isReviewed: false
+            });
+          });
+          const localFbs = JSON.parse(localStorage.getItem('readmath_feedbacks') || '[]');
+          localFbs.forEach(f => {
+            if (!fbMap.has(String(f.id))) {
+              fbMap.set(String(f.id), f);
+            }
+          });
+          studentFeedbacks = Array.from(fbMap.values());
+          localStorage.setItem('readmath_feedbacks', JSON.stringify(studentFeedbacks));
+          renderStats();
+          renderFeedbackList();
+        }
+      } catch (e) {
+        console.warn('Remote feedback sync deferred:', e);
+      }
     }
 
     function refreshDashboard() {
@@ -811,16 +977,16 @@
             <div>
               <div class="flex items-center gap-2 mb-1">
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-1.5 py-0.5 rounded">${q.curriculum_grade || '공통수학'}</span>
-                <h4 class="text-xs font-bold text-white">${q.problem_title || '질문 문제'}</h4>
+                <h4 class="text-xs font-bold text-white">${autoFormatMathText(q.problem_title || '질문 문제')}</h4>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60">
-                ${q.problem_text || '문제 내용'}
+              <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60 math-content">
+                ${autoFormatMathText(q.problem_text || '문제 내용')}
               </p>
             </div>
 
             ${q.final_answer ? `
               <div class="text-xs text-slate-400 bg-slate-900/40 p-2 rounded-lg flex items-center justify-between">
-                <span>최종 정답: <strong class="text-indigo-300 font-mono">${q.final_answer}</strong></span>
+                <span>최종 정답: <strong class="text-indigo-300 font-mono">${autoFormatMathText(q.final_answer)}</strong></span>
                 <span class="text-[10px] text-slate-500">1:1 대화: ${chats.length}턴</span>
               </div>
             ` : ''}
@@ -828,6 +994,7 @@
         `;
       }).join('');
       lucide.createIcons();
+      renderAdminMath(container);
     }
 
     // ================= STUDENT MANAGEMENT =================
