@@ -135,6 +135,15 @@
     .katex-display {
       margin: 0.85em 0 !important;
     }
+    .katex .mrel.neq-clean-symbol {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif !important;
+      font-weight: 600 !important;
+      display: inline-block !important;
+      vertical-align: 0.02em !important;
+      line-height: 1 !important;
+      padding: 0 0.22em !important;
+      color: inherit !important;
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .phone-mockup {
@@ -6258,9 +6267,9 @@
       str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
       
       // Auto-wrap variable condition patterns like k (k \neq 0) or (k \neq 0)
-      str = str.replace(/\b([a-zA-Z])\s*\(\s*([a-zA-Z0-9_\^]+\s*\\neq\s*[a-zA-Z0-9_\^]+)\s*\)/g, (m, p1, p2) => '$' + p1 + ' (' + p2.trim() + ')$');
-      str = str.replace(/\(\s*([a-zA-Z0-9_\^]+\s*\\neq\s*[a-zA-Z0-9_\^]+)\s*\)/g, (m, p1) => '($' + p1.trim() + '$)');
-      str = replaceOutsideMath(str, /\b([a-zA-Z0-9_\(\)\^]+)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)\b/g, (m, p1, p2) => '$' + p1.trim() + ' \\neq ' + p2.trim() + '$');
+      str = replaceOutsideMath(str, /\b([a-zA-Z])\s*\(\s*([a-zA-Z0-9_\^\+\-]+\s*\\neq\s*[-a-zA-Z0-9_\^\+\-]+)\s*\)/g, (m, p1, p2) => '$' + p1 + ' (' + p2.trim() + ')$');
+      str = replaceOutsideMath(str, /\(\s*([a-zA-Z0-9_\^\+\-]+\s*\\neq\s*[-a-zA-Z0-9_\^\+\-]+)\s*\)/g, (m, p1) => '($' + p1.trim() + '$)');
+      str = replaceOutsideMath(str, /\b([a-zA-Z0-9_\(\)\^\+\-]+)\s*\\neq\s*([-a-zA-Z0-9_\(\)\^\+\-]+)\b/g, (m, p1, p2) => '$' + p1.trim() + ' \\neq ' + p2.trim() + '$');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -6289,7 +6298,7 @@
       });
 
       // 1.3 Auto-wrap simple relations OUTSIDE math
-      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
+      str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^\+\-]*)\s*\\neq\s*([-0-9a-zA-Z_\(\)\^\+\-]+)/g, (m, p1, p2) => {
         let trail = '';
         if (p2.endsWith(')') && !p1.includes('(')) {
           p2 = p2.slice(0, -1);
@@ -6622,12 +6631,19 @@
           });
         });
 
-        // Post-process KaTeX rendered elements to guarantee zero font Tofu / missing glyph defects
-        const neqSvg = '<' + 'svg class="inline-block align-middle" style="width:0.85em;height:0.85em;vertical-align:-0.15em;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><' + 'line x1="4" y1="9" x2="20" y2="9"/><' + 'line x1="4" y1="15" x2="20" y2="15"/><' + 'line x1="16" y1="4" x2="8" y2="20"/></' + 'svg>';
+        // Post-process KaTeX rendered elements: harmonize with root .mrel clean Unicode symbol on exact text baseline
         document.querySelectorAll('.katex .mrel').forEach(el => {
+          if (!el.isConnected) return;
           const t = el.textContent ? el.textContent.trim() : '';
           if (t === '≠' || t === '⌸' || t === '目' || t === '▤' || t === '〓' || t === '∄' || t.includes('\uE020') || t.includes('') || /[\uE000-\uF8FF]/.test(t)) {
-            el.innerHTML = neqSvg;
+            let rootMrel = el;
+            while (rootMrel.parentElement && !rootMrel.parentElement.classList.contains('base') && rootMrel.parentElement.closest('.mrel')) {
+              rootMrel = rootMrel.parentElement.closest('.mrel');
+            }
+            if (rootMrel && rootMrel.isConnected) {
+              rootMrel.innerHTML = '≠';
+              rootMrel.className = 'mrel neq-clean-symbol';
+            }
           }
         });
       }
