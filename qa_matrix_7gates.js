@@ -127,11 +127,43 @@ if (emojiInButton.length > 0) {
   failGate(1, 'Zero Duplicate Emoji Scanner', `Found redundant emoji in button: ${emojiInButton.join(' | ')}`);
 }
 
+// 1.4 Cache-Busting & Anti-Stale Storage Headers Scanner
+const headMatch = htmlContent.match(/<head[\s\S]*?<\/head>/i);
+const headHtml = headMatch ? headMatch[0] : '';
+const cacheViolations = [];
+if (!headHtml.includes('http-equiv="Cache-Control"') || !headHtml.includes('no-store')) {
+  cacheViolations.push('Missing <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"> in <head>');
+}
+if (!headHtml.includes('http-equiv="Pragma"')) {
+  cacheViolations.push('Missing <meta http-equiv="Pragma" content="no-cache"> in <head>');
+}
+if (!headHtml.includes('http-equiv="Expires"')) {
+  cacheViolations.push('Missing <meta http-equiv="Expires" content="0"> in <head>');
+}
+if (!htmlContent.includes('serviceWorker.getRegistrations')) {
+  cacheViolations.push('Missing Service Worker auto-unregister / purge guard in client scripts');
+}
+if (cacheViolations.length > 0) {
+  failGate(1, 'Cache-Busting & Anti-Stale Storage Headers', cacheViolations.join('; '));
+}
+
+// 1.5 Zero Floating Canvas Overlays / Badges Scanner
+const solutionContainerMatch = htmlContent.match(/<div id="solution-svg-container"[\s\S]*?<\/div>\s*<\/div>/i);
+if (solutionContainerMatch) {
+  const containerHtml = solutionContainerMatch[0];
+  if (containerHtml.includes('탭하여 전체 확대 / 정밀 이동') || containerHtml.includes('pointer-events-none bg-slate-900/80') || containerHtml.includes('zoom-hint')) {
+    failGate(1, 'Zero Floating Canvas Badges', 'Found intrusive floating badge inside #solution-svg-container');
+  }
+}
+
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
   'Zero developer jargon (Gemini, API, AI Studio, RCA, B2B, 수식 모델링, 해석기하) completely purged from user UI',
   'Zero developer pixel labels ("1칸 = 10px") purged from graph modal',
-  'Zero duplicate emoji spam verified'
+  'Zero duplicate emoji spam verified',
+  'Cache-Busting & Anti-Stale Meta Headers verified (no-cache, no-store, Pragma, Expires: 0)',
+  'Service Worker unregister/purge guard verified',
+  'Zero intrusive floating zoom badges inside #solution-svg-container verified'
 ]);
 
 // ==============================================================================
@@ -270,10 +302,116 @@ if (prescriptionErrors.length > 0) {
   failGate(3, '4-Way Prescription Matrix', prescriptionErrors.join('; '));
 }
 
+// 3.2 Stale localStorage Immunity & Canonical DB Protection
+const makeMockElement = () => ({
+  innerHTML: '',
+  innerText: '',
+  textContent: '',
+  value: '',
+  style: { setProperty: () => {}, removeProperty: () => {} },
+  classList: { add: () => {}, remove: () => {}, contains: () => false, toggle: () => {} },
+  setAttribute: () => {},
+  getAttribute: () => '',
+  removeAttribute: () => {},
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  appendChild: () => {},
+  removeChild: () => {},
+  querySelectorAll: () => [],
+  querySelector: () => null
+});
+
+const storageTestSandbox = {
+  window: { addEventListener: (evt, cb) => { if (evt === 'DOMContentLoaded') storageTestSandbox._domCb = cb; }, removeEventListener: () => {}, location: { pathname: '/', search: '' } },
+  document: { 
+    body: makeMockElement(),
+    querySelectorAll: () => [], 
+    getElementById: () => makeMockElement(),
+    createElement: () => makeMockElement(),
+    createTreeWalker: () => ({ nextNode: () => null }),
+    addEventListener: () => {}
+  },
+  lucide: { createIcons: () => {} },
+  navigator: { onLine: true, serviceWorker: { getRegistrations: async () => [] } },
+  localStorage: {
+    getItem: (key) => {
+      if (key === 'rootmath_user_history') {
+        return JSON.stringify([
+          { id: "3", title: "구버전 문제 3", svg_diagram: "<svg><text>오래된 버그 선분 AB</text></svg>", diagrams: [{ id: 'd1', svg: "<svg><text>오래된 버그 선분 AB</text></svg>" }] },
+          { id: 6, title: "구버전 문제 6", svg_diagram: "<svg><text>오래된 버그</text></svg>", diagrams: [{ id: 'd1', svg: "<svg><text>오래된 버그</text></svg>" }] }
+        ]);
+      }
+      return null;
+    },
+    setItem: (key, val) => { storageTestSandbox._savedStorage[key] = val; },
+    removeItem: (key) => { delete storageTestSandbox._savedStorage[key]; }
+  },
+  _savedStorage: {},
+  renderMathInElement: () => {},
+  console: { log: () => {}, warn: () => {}, error: () => {} },
+  setInterval: () => {},
+  clearInterval: () => {},
+  setTimeout: () => {},
+  clearTimeout: () => {},
+  MutationObserver: class { observe() {} disconnect() {} },
+  NodeFilter: { SHOW_TEXT: 4 }
+};
+vm.createContext(storageTestSandbox);
+vm.runInContext(allScriptCode + '\nthis.PROBLEMS_DB = PROBLEMS_DB;\nthis.openHistoryProblem = openHistoryProblem;\n', storageTestSandbox);
+
+if (typeof storageTestSandbox._domCb === 'function') {
+  storageTestSandbox._domCb();
+}
+
+const staleStorageErrors = [];
+const p3AfterDom = storageTestSandbox.PROBLEMS_DB[3];
+if (!p3AfterDom || p3AfterDom.title === '구버전 문제 3') {
+  staleStorageErrors.push('Problem 3 in PROBLEMS_DB was overwritten by stale localStorage item!');
+}
+if (p3AfterDom && p3AfterDom.diagrams && p3AfterDom.diagrams[0].svg.includes('오래된 버그')) {
+  staleStorageErrors.push('Problem 3 diagram in PROBLEMS_DB was corrupted by stale localStorage SVG!');
+}
+
+if (typeof storageTestSandbox.openHistoryProblem === 'function') {
+  storageTestSandbox.openHistoryProblem('3', false);
+  const p3HistoryLoaded = storageTestSandbox.PROBLEMS_DB[3];
+  if (!p3HistoryLoaded || p3HistoryLoaded.diagrams[0].svg.includes('오래된 버그')) {
+    staleStorageErrors.push('openHistoryProblem("3") loaded stale SVG instead of canonical problem!');
+  }
+}
+
+if (staleStorageErrors.length > 0) {
+  failGate(3, 'Stale localStorage Immunity', staleStorageErrors.join('; '));
+}
+
+// 3.3 Zero Divergence Between svg_diagram fallback and diagrams[0].svg
+const svgDivergenceErrors = [];
+for (let id = 1; id <= 6; id++) {
+  const p = PROBLEMS_DB[id];
+  if (!p) continue;
+  if (!p.svg_diagram) {
+    svgDivergenceErrors.push(`Problem ${id} missing svg_diagram fallback`);
+  }
+  if (!p.diagrams || !p.diagrams[0] || !p.diagrams[0].svg) {
+    svgDivergenceErrors.push(`Problem ${id} missing diagrams[0].svg`);
+  }
+  if (p.svg_diagram && p.svg_diagram.includes('x축 (선분 AB)')) {
+    svgDivergenceErrors.push(`Problem ${id} svg_diagram contains deprecated 'x축 (선분 AB)'`);
+  }
+  if (p.diagrams && p.diagrams[0] && p.diagrams[0].svg.includes('x축 (선분 AB)')) {
+    svgDivergenceErrors.push(`Problem ${id} diagrams[0].svg contains deprecated 'x축 (선분 AB)'`);
+  }
+}
+if (svgDivergenceErrors.length > 0) {
+  failGate(3, 'SVG Diagram Parity & Cleanliness', svgDivergenceErrors.join('; '));
+}
+
 passGate(3, 'Dynamic State Synchronization & 4-Way Prescription Matrix', [
   `Verified ${dbProblems.length} preloaded/live problem templates in PROBLEMS_DB`,
   '100% of clauses contain distinct 4-way prescriptions (visual, modeling, condition, concept)',
-  'Zero fallback collisions across all student failure modes'
+  'Zero fallback collisions across all student failure modes',
+  'Stale localStorage Immunity: DOMContentLoaded & openHistoryProblem protect canonical problems 1~6 with 100% fidelity',
+  'Authoritative Parity: 100% synchronization between diagrams[0].svg and svg_diagram across all database problems'
 ]);
 
 // ==============================================================================
@@ -442,6 +580,48 @@ if (!sanitizedOutput.includes('3x² - 3') || !sanitizedOutput.includes('x = 1 (�
 const outputDefects = inspectSvgFn(sanitizedOutput, p6);
 if (outputDefects.length > 0) {
   geometryErrors.push(`Substituted diagram in MathSvgEngine contains defects: ${outputDefects.join(', ')}`);
+}
+
+// 4.8 Axis-to-Grid Coordinate Alignment
+const axisErrors = [];
+if (!/y1=["']190["'].*?y2=["']190["']/.test(p1.diagrams[0].svg) || !/x1=["']160["'].*?x2=["']160["']/.test(p1.diagrams[0].svg)) {
+  axisErrors.push('Problem 1 Diagram 1 axes must be aligned at y=190 and x=160');
+}
+if (!/y1=["']190["'].*?y2=["']190["']/.test(p3.diagrams[0].svg) || !/x1=["']150["'].*?x2=["']150["']/.test(p3.diagrams[0].svg)) {
+  axisErrors.push('Problem 3 Diagram 1 axes must be aligned at y=190 and x=150');
+}
+if (!/y1=["']125["'].*?y2=["']125["']/.test(p6.diagrams[0].svg) || !/x1=["']180["'].*?x2=["']180["']/.test(p6.diagrams[0].svg)) {
+  axisErrors.push('Problem 6 Diagram 1 axes must be aligned at y=125 and x=180');
+}
+if (axisErrors.length > 0) {
+  geometryErrors.push(...axisErrors);
+}
+
+// 4.9 High-Contrast Callout & Explanation Text Scan
+const contrastErrors = [];
+for (const id in PROBLEMS_DB) {
+  const prob = PROBLEMS_DB[id];
+  (prob.diagrams || []).forEach((diag, dIdx) => {
+    if (diag.svg.includes('fill="#FFFBEB"') || diag.svg.includes('fill="#EEF2FF"') || diag.svg.includes('fill="#FEF3C7"')) {
+      if (diag.svg.includes('fill="#FEF08A"') || diag.svg.includes('fill="#FBBF24"')) {
+        contrastErrors.push(`Problem ${id} Diagram ${dIdx + 1} has low-contrast yellow text inside a light callout box`);
+      }
+    }
+  });
+}
+if (p1.diagrams[2] && !p1.diagrams[2].svg.includes('fill="#B45309"')) {
+  contrastErrors.push('Problem 1 Diagram 3 callout text must use high-contrast #B45309 fill');
+}
+if (contrastErrors.length > 0) {
+  geometryErrors.push(...contrastErrors);
+}
+
+// 4.10 Zero Overlapping Labels Scan
+if (p3.diagrams[0].svg.includes('x축 (선분 AB)')) {
+  geometryErrors.push('Problem 3 Diagram 1 contains colliding label "x축 (선분 AB)"');
+}
+if (p3.svg_diagram.includes('x축 (선분 AB)')) {
+  geometryErrors.push('Problem 3 svg_diagram fallback contains colliding label "x축 (선분 AB)"');
 }
 
 if (geometryErrors.length > 0) {

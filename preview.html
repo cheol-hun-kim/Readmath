@@ -5269,32 +5269,39 @@
       }
     };
 
+    // Deep clone authoritative canonical problems DB to prevent stale localStorage overwrites
+    const CANONICAL_PROBLEMS_DB = JSON.parse(JSON.stringify(PROBLEMS_DB));
+
     // Initialize UI on load
     window.addEventListener('DOMContentLoaded', () => {
       // 0. Restore user solved history into active PROBLEMS_DB & sanitize any outdated diagrams
       if (Array.isArray(userSolvedHistory)) {
         let historyChanged = false;
-        userSolvedHistory.forEach(prob => {
-          if (prob && prob.id) {
-            if (prob.svg_diagram) {
-              const cleaned = validateAndSanitizeMathSvg(prob.svg_diagram, prob);
-              if (cleaned && cleaned !== prob.svg_diagram) {
-                prob.svg_diagram = cleaned;
-                historyChanged = true;
-              }
-            }
-            if (prob.diagrams && prob.diagrams[0]) {
-              const cleaned0 = validateAndSanitizeMathSvg(prob.diagrams[0].svg, prob);
-              if (cleaned0 && cleaned0 !== prob.diagrams[0].svg) {
-                prob.diagrams[0].svg = cleaned0;
-                historyChanged = true;
-              }
-            }
-            if (typeof prob.id === 'number' && prob.id <= 6 && PROBLEMS_DB[prob.id]) {
-              // Always keep latest authoritative code for canonical problems 1~6
-              Object.assign(prob, JSON.parse(JSON.stringify(PROBLEMS_DB[prob.id])));
+        userSolvedHistory.forEach((prob, idx) => {
+          if (prob && prob.id !== undefined) {
+            const numId = Number(prob.id);
+            if (!isNaN(numId) && numId >= 1 && numId <= 6 && CANONICAL_PROBLEMS_DB[numId]) {
+              // Inviolable guarantee: Canonical problems 1~6 ALWAYS overwrite stale local cache
+              const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[numId]));
+              userSolvedHistory[idx] = canonical;
+              PROBLEMS_DB[numId] = canonical;
+              PROBLEMS_DB[String(numId)] = canonical;
               historyChanged = true;
             } else {
+              if (prob.svg_diagram) {
+                const cleaned = validateAndSanitizeMathSvg(prob.svg_diagram, prob);
+                if (cleaned && cleaned !== prob.svg_diagram) {
+                  prob.svg_diagram = cleaned;
+                  historyChanged = true;
+                }
+              }
+              if (prob.diagrams && prob.diagrams[0]) {
+                const cleaned0 = validateAndSanitizeMathSvg(prob.diagrams[0].svg, prob);
+                if (cleaned0 && cleaned0 !== prob.diagrams[0].svg) {
+                  prob.diagrams[0].svg = cleaned0;
+                  historyChanged = true;
+                }
+              }
               PROBLEMS_DB[prob.id] = prob;
             }
           }
@@ -8257,18 +8264,19 @@
       currentSubQuestionId = 'all';
       currentDiagramIdx = 0;
       
-      let data = PROBLEMS_DB[id];
-      if (!data) {
-        data = userSolvedHistory.find(h => String(h.id) === String(id));
-        if (data) {
-          PROBLEMS_DB[id] = data;
-        }
+      const numId = Number(id);
+      let data;
+      if (!isNaN(numId) && numId >= 1 && numId <= 6 && (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId])) {
+        // Enforce authoritative canonical code for 1~6 with zero stale localStorage pollution
+        const source = (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId]);
+        data = JSON.parse(JSON.stringify(source));
+        PROBLEMS_DB[numId] = data;
+        PROBLEMS_DB[String(numId)] = data;
+      } else {
+        data = PROBLEMS_DB[id] || userSolvedHistory.find(h => String(h.id) === String(id)) || PROBLEMS_DB[1];
+        data = sanitizeMathObject(data);
+        PROBLEMS_DB[id] = data;
       }
-      if (!data) {
-        data = PROBLEMS_DB[1];
-      }
-      data = sanitizeMathObject(data);
-      PROBLEMS_DB[id] = data;
       const histIdx = userSolvedHistory.findIndex(h => String(h.id) === String(id));
       if (histIdx !== -1) {
         userSolvedHistory[histIdx] = data;
