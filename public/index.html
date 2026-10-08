@@ -713,11 +713,21 @@
       box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
-    /* SVG Canvas in Day Mode - Pure Textbook High-Contrast Ink Theme */
+    /* SVG Canvas - Pure Textbook High-Contrast Ink Theme with Coordinate Millimeter Grid */
+    #solution-svg-container,
+    #twin-problem-svg,
+    #graph-detail-canvas-wrapper,
     body.theme-day #solution-svg-container,
     body.theme-day #twin-problem-svg {
       background-color: #FFFFFF !important;
       border-color: #CBD5E1 !important;
+      background-image: 
+        linear-gradient(to right, rgba(226, 232, 240, 0.75) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.75) 1px, transparent 1px),
+        linear-gradient(to right, rgba(203, 213, 225, 0.95) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(203, 213, 225, 0.95) 1px, transparent 1px) !important;
+      background-size: 10px 10px, 10px 10px, 50px 50px, 50px 50px !important;
+      background-position: center center !important;
     }
     body.theme-day #solution-svg-container svg,
     body.theme-day #twin-problem-svg svg,
@@ -5694,7 +5704,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261008-0130';
+    const CURRENT_ENGINE_VERSION = '20261008-1230';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
@@ -6916,27 +6926,42 @@
         if (hint.includes('대칭') || hint.includes('변곡') || hint.includes('기함수')) {
           return p.diagrams && p.diagrams[2] ? p.diagrams[2].svg : p.svg_diagram;
         }
+        if (typeof currentDiagramIdx === 'number' && p.diagrams && p.diagrams[currentDiagramIdx]) {
+          return p.diagrams[currentDiagramIdx].svg;
+        }
         return p.diagrams && p.diagrams[0] ? p.diagrams[0].svg : p.svg_diagram;
       }
 
       if (p.id === 1) {
         if (hint.includes('경우 1') || hint.includes('a < 0')) return p.diagrams && p.diagrams[0] ? p.diagrams[0].svg : p.svg_diagram;
         if (hint.includes('경우 3') || hint.includes('a > 2')) return p.diagrams && p.diagrams[2] ? p.diagrams[2].svg : p.svg_diagram;
+        if (typeof currentDiagramIdx === 'number' && p.diagrams && p.diagrams[currentDiagramIdx]) {
+          return p.diagrams[currentDiagramIdx].svg;
+        }
         return p.diagrams && p.diagrams[1] ? p.diagrams[1].svg : p.svg_diagram;
       }
 
       if (p.id === 2) {
         if (hint.includes('직각') || hint.includes('직교') || hint.includes('교점')) return p.diagrams && p.diagrams[1] ? p.diagrams[1].svg : p.svg_diagram;
+        if (typeof currentDiagramIdx === 'number' && p.diagrams && p.diagrams[currentDiagramIdx]) {
+          return p.diagrams[currentDiagramIdx].svg;
+        }
         return p.diagrams && p.diagrams[0] ? p.diagrams[0].svg : p.svg_diagram;
       }
 
       if (p.id === 3) {
         if (hint.includes('2번') || hint.includes('st') || hint.includes('길이') || hint.includes('최댓값')) return p.diagrams && p.diagrams[1] ? p.diagrams[1].svg : p.svg_diagram;
         if (hint.includes('3번') || hint.includes('정사영') || hint.includes('이면각')) return p.diagrams && p.diagrams[2] ? p.diagrams[2].svg : p.svg_diagram;
+        if (typeof currentDiagramIdx === 'number' && p.diagrams && p.diagrams[currentDiagramIdx]) {
+          return p.diagrams[currentDiagramIdx].svg;
+        }
         return p.diagrams && p.diagrams[0] ? p.diagrams[0].svg : p.svg_diagram;
       }
 
       if (p.diagrams && p.diagrams.length > 0 && typeof p.id === 'number' && p.id <= 6) {
+        if (typeof currentDiagramIdx === 'number' && p.diagrams[currentDiagramIdx]) {
+          return p.diagrams[currentDiagramIdx].svg;
+        }
         return p.diagrams[0].svg;
       }
       return UniversalMathGraphEngine.reconstructExactMathDiagram(p);
@@ -7162,6 +7187,11 @@
     }
 
     function validateAndSanitizeMathSvg(rawSvg, probData, contextQuery, aiExplanation) {
+      // 0. If rawSvg is already an authoritative diagram in probData.diagrams, preserve it!
+      if (probData && Array.isArray(probData.diagrams) && probData.diagrams.some(d => d.svg === rawSvg)) {
+        return rawSvg;
+      }
+
       // 1. Authoritative hand-crafted diagrams for canonical problems (ID 1~6)
       if (probData && probData.diagrams && probData.diagrams.length > 0 && typeof probData.id === 'number' && probData.id <= 6) {
         const combinedHint = `${contextQuery || ''} ${aiExplanation || ''}`;
@@ -7632,7 +7662,6 @@
       if (!data.diagrams || !data.diagrams[idx]) return;
       currentDiagramIdx = idx;
       const target = data.diagrams[idx];
-      target.svg = validateAndSanitizeMathSvg(target.svg, data);
 
       const svgBox = document.getElementById('solution-svg-container');
       const captionEl = document.getElementById('solution-svg-caption');
@@ -7822,7 +7851,6 @@
         title: '그래프 도해',
         badge: '직관적 도해'
       };
-      target.svg = validateAndSanitizeMathSvg(target.svg, prob);
 
       const titleEl = document.getElementById('graph-detail-title');
       if (titleEl) {
