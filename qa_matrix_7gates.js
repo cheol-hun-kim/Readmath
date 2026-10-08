@@ -450,6 +450,7 @@ vm.runInContext(`
   this.inspectMathSvgDefects = inspectMathSvgDefects;
   this.generateAuthoritativeMathSvg = generateAuthoritativeMathSvg;
   this.validateAndSanitizeMathSvg = validateAndSanitizeMathSvg;
+  this.convertSvgForWhiteCanvas = convertSvgForWhiteCanvas;
 `, runtimeSandbox);
 
 const inspectSvgFn = runtimeSandbox.inspectMathSvgDefects;
@@ -624,6 +625,41 @@ if (p3.svg_diagram.includes('x축 (선분 AB)')) {
   geometryErrors.push('Problem 3 svg_diagram fallback contains colliding label "x축 (선분 AB)"');
 }
 
+// 4.11 Rendered Canvas Zero Dark-on-Dark & Zero Light-on-Light Contrast Armor
+const convertFn = runtimeSandbox.convertSvgForWhiteCanvas;
+if (typeof convertFn === 'function') {
+  for (const id in PROBLEMS_DB) {
+    const prob = PROBLEMS_DB[id];
+    const allSvgs = [prob.svg_diagram, ...(prob.diagrams || []).map(d => d.svg)].filter(Boolean);
+    allSvgs.forEach((rawSvg, sIdx) => {
+      const renderedSvg = convertFn(rawSvg);
+      
+      // A. Zero dark containers rendered on white canvas
+      const darkContainers = renderedSvg.match(/<(?:rect|polygon)[^>]+fill=["']#(?:0F172A|090D16|0B0F19|1E1B4B|1E293B|000000|111827|1F2937)["'][^>]*>/gi) || [];
+      if (darkContainers.length > 0) {
+        geometryErrors.push(`Problem ${id} SVG #${sIdx + 1} has ${darkContainers.length} dark container(s) rendered on white canvas: ${darkContainers[0].slice(0, 70)}`);
+      }
+
+      // B. Zero low-contrast / light text on rendered white canvas or pastel containers
+      const lightTexts = renderedSvg.match(/<(?:text|tspan)[^>]+fill=["']#(?:FFFFFF|FEF08A|FDE68A|FCD34D|E2E8F0|E0E7FF|CBD5E1|white)["'][^>]*>/gi) || [];
+      if (lightTexts.length > 0) {
+        geometryErrors.push(`Problem ${id} SVG #${sIdx + 1} has ${lightTexts.length} low-contrast/light text element(s) on rendered canvas: ${lightTexts[0].slice(0, 70)}`);
+      }
+    });
+  }
+
+  // Specifically verify Problem 5 Diagram 1 callout box
+  const p5 = PROBLEMS_DB[5];
+  const p5Rendered = convertFn(p5.diagrams[0].svg);
+  if (!p5Rendered.includes('fill="#312E81"') || !p5Rendered.includes('fill="#B45309"')) {
+    geometryErrors.push('Problem 5 Diagram 1 callout box text must use high-contrast #312E81 and #B45309 ink');
+  }
+  const p5DarkRects = p5Rendered.match(/<rect[^>]+fill=["']#0F172A["'][^>]*>/gi) || [];
+  if (p5DarkRects.length > 0) {
+    geometryErrors.push('Problem 5 Diagram 1 callout box rendered as dark rectangle #0F172A');
+  }
+}
+
 if (geometryErrors.length > 0) {
   failGate(4, 'Exact Mathematical Geometry', geometryErrors.join('; '));
 }
@@ -635,7 +671,9 @@ passGate(4, 'Exact Mathematical Geometry & SVG Precision', [
   'Problem 4 & 5 (Geometry & Pythagoras): Exact leg/diagonal dimensions and right angle verification',
   'Problem 6 (Cubic): 3 verified diagrams (tangent y=9x-16, derivative & extrema sign analysis, cubic symmetry)',
   `Audited 100% of SVGs in database (${totalAuditedSvgs} diagrams): ZERO defects, ZERO floating points, ZERO collisions`,
-  'Inviolable MathSvgEngine: Intercepted flawed user screenshot SVG and substituted 100% exact mathematical diagram'
+  'Inviolable MathSvgEngine: Intercepted flawed user screenshot SVG and substituted 100% exact mathematical diagram',
+  'Rendered Canvas Contrast Armor: ZERO dark containers, ZERO dark-on-dark, and ZERO light-on-light text on rendered white canvas',
+  'Problem 5 (Pythagoras): High-contrast light pastel callout container (#F8FAFC) with deep navy (#312E81) and deep amber (#B45309) ink verified'
 ]);
 
 // ==============================================================================

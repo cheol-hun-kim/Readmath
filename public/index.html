@@ -4713,7 +4713,7 @@
                 <text x="175" y="85" fill="#A5B4FC" font-size="10.5" font-weight="medium">합동 삼각형 (48㎠)</text>
                 
                 <!-- Explanatory Callout Box -->
-                <rect x="215" y="12" width="195" height="26" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+                <rect x="215" y="12" width="195" height="26" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
                 <text x="312" y="29" fill="#FCD34D" font-size="9.5" font-weight="bold" text-anchor="middle">전체 96㎠ ÷ 2 = 48㎠ (합동 분할)</text>
               </svg>
             `
@@ -4761,7 +4761,7 @@
             <text x="175" y="85" fill="#A5B4FC" font-size="10.5" font-weight="medium">합동 삼각형 (48㎠)</text>
             
             <!-- Explanatory Callout Box -->
-            <rect x="215" y="12" width="195" height="26" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+            <rect x="215" y="12" width="195" height="26" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
             <text x="312" y="29" fill="#FCD34D" font-size="9.5" font-weight="bold" text-anchor="middle">전체 96㎠ ÷ 2 = 48㎠ (합동 분할)</text>
           </svg>
         `,
@@ -4889,9 +4889,9 @@
                 <text x="215" y="125" fill="#FDE047" font-size="13" font-weight="extrabold">빗변 AC = 10cm (10칸)</text>
 
                 <!-- Calculation Callout Box -->
-                <rect x="235" y="32" width="175" height="54" rx="8" fill="#1E293B" fill-opacity="0.95" stroke="#6366F1" stroke-width="1.2"/>
-                <text x="248" y="51" fill="#A5B4FC" font-size="10" font-weight="bold">6² + 8² = 36 + 64 = 100</text>
-                <text x="248" y="69" fill="#FBBF24" font-size="10.5" font-weight="extrabold">∴ AC = √100 = 10cm</text>
+                <rect x="235" y="32" width="175" height="54" rx="8" fill="#F8FAFC" fill-opacity="0.95" stroke="#6366F1" stroke-width="1.2"/>
+                <text x="248" y="51" fill="#312E81" font-size="10" font-weight="bold">6² + 8² = 36 + 64 = 100</text>
+                <text x="248" y="69" fill="#B45309" font-size="10.5" font-weight="extrabold">∴ AC = √100 = 10cm</text>
               </svg>
             `
           }
@@ -4939,9 +4939,9 @@
             <text x="215" y="125" fill="#FDE047" font-size="13" font-weight="extrabold">빗변 AC = 10cm (10칸)</text>
 
             <!-- Calculation Callout Box -->
-            <rect x="250" y="35" width="155" height="52" rx="6" fill="#1E293B" stroke="#6366F1" stroke-width="1"/>
-            <text x="260" y="52" fill="#A5B4FC" font-size="9.5" font-weight="bold">6² + 8² = 36 + 64 = 100</text>
-            <text x="260" y="68" fill="#FBBF24" font-size="10.5" font-weight="extrabold">∴ AC = √100 = 10cm</text>
+            <rect x="250" y="35" width="155" height="52" rx="6" fill="#F8FAFC" stroke="#6366F1" stroke-width="1.2"/>
+            <text x="260" y="52" fill="#312E81" font-size="9.5" font-weight="bold">6² + 8² = 36 + 64 = 100</text>
+            <text x="260" y="68" fill="#B45309" font-size="10.5" font-weight="extrabold">∴ AC = √100 = 10cm</text>
           </svg>
         `,
         welcomeMsg: "리드 쌤입니다! 중학교 기하의 핵심인 피타고라스 정리 문제네요. 직각을 낀 두 변과 빗변의 관계를 직관적인 그림으로 살펴볼까요?",
@@ -5157,7 +5157,7 @@
                 <circle cx="200" cy="194" r="3.5" fill="#64748B"/>
 
                 <!-- Theorem Summary Card -->
-                <rect x="30" y="204" width="360" height="40" rx="6" fill="#1E293B" fill-opacity="0.95" stroke="#475569"/>
+                <rect x="30" y="204" width="360" height="40" rx="6" fill="#F8FAFC" fill-opacity="0.95" stroke="#475569" stroke-width="1.2"/>
                 <text x="210" y="219" fill="#E2E8F0" font-size="9.5" font-weight="bold" text-anchor="middle">도함수 부호 판정: f' 부호가 바뀌는 지점에서만 극값이 성립합니다</text>
                 <text x="210" y="236" fill="#FBBF24" font-size="9" text-anchor="middle">증가(+)→감소(-): 극대(산봉우리) | 감소(-)→증가(+): 극소(계곡)</text>
               </svg>
@@ -5208,7 +5208,7 @@
                 <!-- Point of Symmetry Connection Line -->
                 <line x1="140" y1="81" x2="220" y2="169" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="2 2"/>
                 <circle cx="180" cy="125" r="4.5" fill="#A855F7"/>
-                <rect x="195" y="104" width="105" height="20" rx="4" fill="#3B0764" stroke="#A855F7"/>
+                <rect x="195" y="104" width="105" height="20" rx="4" fill="#FAF5FF" stroke="#9333EA" stroke-width="1.2"/>
                 <text x="247" y="118" fill="#E9D5FF" font-size="8.5" font-weight="bold" text-anchor="middle">변곡점 O(0,0) 대칭</text>
               </svg>
             `
@@ -7956,7 +7956,7 @@
       let s = svgStr;
       s = ensureSvgCoordinateGrid(s);
 
-      // 1. Remove dark and opaque background rects
+      // 1. Remove dark and opaque canvas background rects
       s = s.replace(/<rect\s+[^>]*fill="#090D16"[^>]*\/>/gi, '');
       s = s.replace(/<rect\s+[^>]*fill="#050811"[^>]*\/>/gi, '');
       s = s.replace(/<rect\s+[^>]*fill="#0A0E17"[^>]*\/>/gi, '');
@@ -7964,60 +7964,60 @@
       s = s.replace(/<rect\s+[^>]*fill="(?:#FFFFFF|white)"\s*[^>]*width="(?:100%|400|420)"[^>]*\/>/gi, '');
       s = s.replace(/<rect\s+[^>]*width="(?:100%|400|420)"\s*[^>]*fill="(?:#FFFFFF|white)"[^>]*\/>/gi, '');
 
-      // 2. Pastel Callout Containers (Explicitly target <rect> and <polygon> to prevent matching <text>)
-      s = s.replace(/<rect([^>]*)\bfill="#1E1B4B"([^>]*)>/gi, '<rect$1fill="#EEF2FF" stroke="#4F46E5"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#1E1B4B"([^>]*)>/gi, '<polygon$1fill="#EEF2FF" stroke="#4F46E5"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#312E81"([^>]*)>/gi, '<rect$1fill="#EEF2FF" stroke="#4F46E5"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#312E81"([^>]*)>/gi, '<polygon$1fill="#EEF2FF" stroke="#4F46E5"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#064E3B"([^>]*)>/gi, '<rect$1fill="#ECFDF5" stroke="#059669"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#064E3B"([^>]*)>/gi, '<polygon$1fill="#ECFDF5" stroke="#059669"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#0C4A6E"([^>]*)>/gi, '<rect$1fill="#F0F9FF" stroke="#0284C7"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#0C4A6E"([^>]*)>/gi, '<polygon$1fill="#F0F9FF" stroke="#0284C7"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#1E293B"([^>]*)>/gi, '<rect$1fill="#F8FAFC" stroke="#64748B"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#1E293B"([^>]*)>/gi, '<polygon$1fill="#F8FAFC" stroke="#64748B"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#7F1D1D"([^>]*)>/gi, '<rect$1fill="#FEF2F2" stroke="#DC2626"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#7F1D1D"([^>]*)>/gi, '<polygon$1fill="#FEF2F2" stroke="#DC2626"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#172554"([^>]*)>/gi, '<rect$1fill="#EFF6FF" stroke="#2563EB"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#172554"([^>]*)>/gi, '<polygon$1fill="#EFF6FF" stroke="#2563EB"$2>');
-      s = s.replace(/<rect([^>]*)\bfill="#451A03"([^>]*)>/gi, '<rect$1fill="#FFFBEB" stroke="#D97706"$2>');
-      s = s.replace(/<polygon([^>]*)\bfill="#451A03"([^>]*)>/gi, '<polygon$1fill="#FFFBEB" stroke="#D97706"$2>');
+      // 2. Pastel Callout Containers (Transform dark containers to soft, high-contrast light pastel backgrounds)
+      const containerTransforms = [
+        ['#1E1B4B', '#EEF2FF', '#4F46E5'],
+        ['#312E81', '#EEF2FF', '#6366F1'],
+        ['#064E3B', '#ECFDF5', '#059669'],
+        ['#0C4A6E', '#F0F9FF', '#0284C7'],
+        ['#1E293B', '#F8FAFC', '#64748B'],
+        ['#7F1D1D', '#FEF2F2', '#DC2626'],
+        ['#172554', '#EFF6FF', '#2563EB'],
+        ['#451A03', '#FFFBEB', '#D97706'],
+        ['#3B0764', '#FAF5FF', '#9333EA']
+      ];
+      containerTransforms.forEach(([darkFill, lightFill, borderStroke]) => {
+        const rectRegex = new RegExp(`(<rect\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
+        s = s.replace(rectRegex, (m, p1, p2) => {
+          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
+          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+        });
+        const polyRegex = new RegExp(`(<polygon\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
+        s = s.replace(polyRegex, (m, p1, p2) => {
+          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
+          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+        });
+      });
 
       // 3. Axes, ticks and arrows
-      s = s.replace(/stroke="#64748B"/gi, 'stroke="#334155"');
-      s = s.replace(/fill="#64748B"/gi, 'fill="#334155"');
+      s = s.replace(/(<(?:line|path|polygon)\b[^>]*\b)stroke="#64748B"/gi, '$1stroke="#334155"');
+      s = s.replace(/(<(?:polygon|circle)\b[^>]*\b)fill="#64748B"/gi, '$1fill="#334155"');
 
-      // 4. Text labels: High contrast textbook ink (NEVER pure white!)
-      s = s.replace(/fill="#94A3B8"/gi, 'fill="#334155"');
-      s = s.replace(/fill="#CBD5E1"/gi, 'fill="#0F172A"');
-      s = s.replace(/fill="#F1F5F9"/gi, 'fill="#0F172A"');
-      s = s.replace(/fill="#F8FAFC"/gi, 'fill="#0F172A"');
-      s = s.replace(/fill="#E2E8F0"/gi, 'fill="#0F172A"'); // High contrast deep slate ink!
-      s = s.replace(/fill="#E0E7FF"/gi, 'fill="#0F172A"');
-      s = s.replace(/fill="#C7D2FE"/gi, 'fill="#1E1B4B"');
-      s = s.replace(/fill="#A5B4FC"/gi, 'fill="#312E81"');
-      s = s.replace(/fill="#7DD3FC"/gi, 'fill="#0284C7"');
-      s = s.replace(/fill="#BAE6FD"/gi, 'fill="#0369A1"');
-      s = s.replace(/fill="#FCA5A5"/gi, 'fill="#991B1B"');
-      s = s.replace(/fill="#FBBF24"/gi, 'fill="#B45309"');
-      s = s.replace(/fill="#FDE047"/gi, 'fill="#92400E"');
-      s = s.replace(/fill="#FCD34D"/gi, 'fill="#B45309"');
-      s = s.replace(/fill="#FDE68A"/gi, 'fill="#92400E"');
-      s = s.replace(/fill="#A7F3D0"/gi, 'fill="#064E3B"');
-      s = s.replace(/fill="#6EE7B7"/gi, 'fill="#065F46"');
-      s = s.replace(/fill="#F87171"/gi, 'fill="#B91C1C"');
-      s = s.replace(/fill="#EF4444"/gi, 'fill="#DC2626"');
+      // 4. Text labels: High contrast textbook ink (STRICTLY target <text> and <tspan> only!)
+      const textReps = [
+        ['#94A3B8', '#334155'], ['#CBD5E1', '#0F172A'], ['#F1F5F9', '#0F172A'],
+        ['#F8FAFC', '#0F172A'], ['#E2E8F0', '#0F172A'], ['#E0E7FF', '#0F172A'],
+        ['#C7D2FE', '#1E1B4B'], ['#A5B4FC', '#312E81'], ['#7DD3FC', '#0284C7'],
+        ['#BAE6FD', '#0369A1'], ['#FCA5A5', '#991B1B'], ['#FBBF24', '#B45309'],
+        ['#FDE047', '#92400E'], ['#FCD34D', '#B45309'], ['#FDE68A', '#92400E'],
+        ['#A7F3D0', '#064E3B'], ['#6EE7B7', '#065F46'], ['#F87171', '#B91C1C'],
+        ['#EF4444', '#DC2626'], ['#FFFFFF', '#0F172A'], ['white', '#0F172A']
+      ];
+      textReps.forEach(([from, to]) => {
+        const re = new RegExp('(<(?:text|tspan)\\b[^>]*\\bfill=["\'])' + from + '(["\'])', 'gi');
+        s = s.replace(re, '$1' + to + '$2');
+      });
 
-      // 5. Function curves: Distinct high-contrast colors
-      s = s.replace(/stroke="#38BDF8"/gi, 'stroke="#0284C7"');
-      s = s.replace(/stroke="#60A5FA"/gi, 'stroke="#2563EB"');
-      s = s.replace(/fill="#38BDF8"/gi, 'fill="#0284C7"');
-      s = s.replace(/stroke="#06B6D4"/gi, 'stroke="#0891B2"');
-      s = s.replace(/stroke="#10B981"/gi, 'stroke="#047857"');
-      s = s.replace(/stroke="#34D399"/gi, 'stroke="#059669"');
-      s = s.replace(/stroke="#A855F7"/gi, 'stroke="#7E22CE"');
-      s = s.replace(/stroke="#818CF8"/gi, 'stroke="#4338CA"');
-      s = s.replace(/stroke="#6366F1"/gi, 'stroke="#4F46E5"');
-      s = s.replace(/stroke="#FBBF24"/gi, 'stroke="#D97706"');
+      // 5. Function curves: Distinct high-contrast colors (target paths, lines, circles only)
+      const curveReps = [
+        ['#38BDF8', '#0284C7'], ['#60A5FA', '#2563EB'], ['#06B6D4', '#0891B2'],
+        ['#10B981', '#047857'], ['#34D399', '#059669'], ['#A855F7', '#7E22CE'],
+        ['#818CF8', '#4338CA'], ['#6366F1', '#4F46E5'], ['#FBBF24', '#D97706']
+      ];
+      curveReps.forEach(([from, to]) => {
+        const re = new RegExp('(<(?:path|line|polyline|circle)\\b[^>]*\\bstroke=["\'])' + from + '(["\'])', 'gi');
+        s = s.replace(re, '$1' + to + '$2');
+      });
 
       // 6. LaTeX cleanup in SVG text
       s = s.replace(/\\therefore/g, '∴');
