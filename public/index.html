@@ -721,13 +721,7 @@
     body.theme-day #twin-problem-svg {
       background-color: #FFFFFF !important;
       border-color: #CBD5E1 !important;
-      background-image: 
-        linear-gradient(to right, rgba(226, 232, 240, 0.75) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(226, 232, 240, 0.75) 1px, transparent 1px),
-        linear-gradient(to right, rgba(203, 213, 225, 0.95) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(203, 213, 225, 0.95) 1px, transparent 1px) !important;
-      background-size: 10px 10px, 10px 10px, 50px 50px, 50px 50px !important;
-      background-position: center center !important;
+      /* CSS background grid removed in favor of SVG coordinate grid */
     }
     body.theme-day #solution-svg-container svg,
     body.theme-day #twin-problem-svg svg,
@@ -5704,7 +5698,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261008-1230';
+    const CURRENT_ENGINE_VERSION = '20261008-2355';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
@@ -7362,7 +7356,10 @@
 
         container.insertAdjacentHTML('beforeend', aiBubble);
         lucide.createIcons();
-        renderMathElements();
+      renderMathElements();
+      if (typeof sanitizeLiveDomTextNodes === 'function') {
+        sanitizeLiveDomTextNodes(document.getElementById('solution-steps-container'));
+      }
         document.getElementById('screen-container').scrollTop = document.getElementById('screen-container').scrollHeight;
 
         if (probData) {
@@ -7461,6 +7458,7 @@
 
     function formatStepContentHtml(content) {
       if (!content || typeof content !== 'string') return '';
+      content = sanitizeMathObject(content);
       
       // 1. Separate calculation chains if attached directly after Korean text or punctuation
       let normalized = content.replace(/([가-힣.?!])\s*(\$?[a-zA-Z0-9_\(\)\^'\-]+\s*=\s*[^가-힣\n]+=[^가-힣\n]+)/g, '$1\n$2');
@@ -7497,6 +7495,8 @@
     }
 
     function renderSolutionStepsAndAnswer(data) {
+      if (!data) return;
+      data = sanitizeMathObject(data);
       const stepsContainer = document.getElementById('solution-steps-container');
       const finalAnswerEl = document.getElementById('solution-final-answer');
       const finalAnswerTitle = document.getElementById('solution-final-answer-title');
@@ -7695,9 +7695,46 @@
       renderDetailGraph();
     }
 
+        function ensureSvgCoordinateGrid(svgStr) {
+      if (!svgStr || typeof svgStr !== 'string') return svgStr;
+      if (svgStr.includes('math-metric-grid')) return svgStr;
+
+      const viewBoxMatch = svgStr.match(/viewBox=["']([^"']+)["']/i);
+      let w = 400, h = 300;
+      if (viewBoxMatch) {
+        const parts = viewBoxMatch[1].trim().split(/[\s,]+/).map(Number);
+        if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) {
+          w = parts[2];
+          h = parts[3];
+        }
+      }
+
+      let gridSvg = '<g class="math-metric-grid" pointer-events="none">\n';
+      for (let x = 0; x <= w; x += 10) {
+        const stroke = (x % 50 === 0) ? '#CBD5E1' : '#EEF2F6';
+        const width = (x % 50 === 0) ? '0.95' : '0.5';
+        gridSvg += '  <line x1="' + x + '" y1="0" x2="' + x + '" y2="' + h + '" stroke="' + stroke + '" stroke-width="' + width + '"/>\n';
+      }
+      for (let y = 0; y <= h; y += 10) {
+        const stroke = (y % 50 === 0) ? '#CBD5E1' : '#EEF2F6';
+        const width = (y % 50 === 0) ? '0.95' : '0.5';
+        gridSvg += '  <line x1="0" y1="' + y + '" x2="' + w + '" y2="' + y + '" stroke="' + stroke + '" stroke-width="' + width + '"/>\n';
+      }
+      gridSvg += '</g>\n';
+
+      if (svgStr.includes('</rect>')) {
+        return svgStr.replace(/<\/rect>/i, '</rect>\n' + gridSvg);
+      } else if (svgStr.includes('<rect')) {
+        return svgStr.replace(/(<rect[^>]*\/>)/i, '$1\n' + gridSvg);
+      } else {
+        return svgStr.replace(/(<svg[^>]*>)/i, '$1\n' + gridSvg);
+      }
+    }
+
     function convertSvgForWhiteCanvas(svgStr) {
       if (!svgStr) return '';
       let s = svgStr;
+      s = ensureSvgCoordinateGrid(s);
       // 1. Remove dark and opaque background rects so millimeter engineering grid shines through
       s = s.replace(/<rect\s+[^>]*fill="#090D16"[^>]*\/>/gi, '');
       s = s.replace(/<rect\s+[^>]*fill="#050811"[^>]*\/>/gi, '');
