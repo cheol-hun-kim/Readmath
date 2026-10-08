@@ -5678,6 +5678,15 @@
             throwOnError: false
           });
         });
+
+        // Post-process KaTeX rendered elements to guarantee zero font Tofu / missing glyph defects
+        const neqSvg = '<' + 'svg class="inline-block align-middle" style="width:0.85em;height:0.85em;vertical-align:-0.15em;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><' + 'line x1="4" y1="9" x2="20" y2="9"/><' + 'line x1="4" y1="15" x2="20" y2="15"/><' + 'line x1="16" y1="4" x2="8" y2="20"/></' + 'svg>';
+        document.querySelectorAll('.katex .mrel').forEach(el => {
+          const t = el.textContent ? el.textContent.trim() : '';
+          if (t === '≠' || t === '⌸' || t === '目' || t === '▤' || t === '〓' || t === '∄') {
+            el.innerHTML = neqSvg;
+          }
+        });
       }
     }
 
@@ -5696,7 +5705,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261009-0010';
+    const CURRENT_ENGINE_VERSION = '20261009-0030';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
