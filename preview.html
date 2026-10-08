@@ -3449,7 +3449,13 @@
     let teacherStudents = JSON.parse(localStorage.getItem('rootmath_teacher_students') || '[]');
 
     // Active User Questions History (Defaults to clean empty array for release)
-    let userSolvedHistory = JSON.parse(localStorage.getItem('rootmath_user_history') || '[]');
+    let userSolvedHistory = [];
+    try {
+      const rawHist = JSON.parse(localStorage.getItem('rootmath_user_history') || '[]');
+      userSolvedHistory = (typeof sanitizeMathObject === 'function') ? sanitizeMathObject(rawHist) : rawHist;
+    } catch(e) {
+      userSolvedHistory = [];
+    }
 
     // One-time sanitization: clear legacy fixed mock data (IDs 1, 2, 3) left over from earlier testing
     try {
@@ -5241,6 +5247,9 @@
     // Mathematical Text Sanitizer & Multi-Pass LaTeX Auto-Wrapper (Zero-Defect Guaranteed)
     function autoFormatMathText(text) {
       if (!text || typeof text !== 'string') return text || '';
+      if (typeof sanitizeMathObject === 'function') {
+        text = sanitizeMathObject(text);
+      }
       let str = text.trim();
 
       function tokenizeMath(s) {
@@ -5687,7 +5696,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261008-2355';
+    const CURRENT_ENGINE_VERSION = '20261009-0010';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
