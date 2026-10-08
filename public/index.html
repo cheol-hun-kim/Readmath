@@ -98,6 +98,43 @@
     #solution-steps-container .katex {
       max-width: 100%;
     }
+    /* Generous typography & vertical clearance for solution steps with fractions */
+    #solution-steps-container p,
+    .solution-step-paragraph {
+      font-size: 0.8125rem !important; /* 13px */
+      line-height: 2.2 !important;
+      padding-top: 0.35rem !important;
+      padding-bottom: 0.35rem !important;
+      margin-bottom: 0.5rem !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+    }
+    .solution-step-card {
+      padding: 1rem !important;
+      margin-bottom: 0.875rem !important;
+    }
+    .step-formula-box {
+      padding: 0.875rem 1rem !important;
+      margin-top: 0.75rem !important;
+      margin-bottom: 0.75rem !important;
+      min-height: 48px !important;
+      line-height: 2.0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    /* KaTeX fractions and display math breathing room */
+    .katex .mfrac {
+      padding: 0.15em 0.1em !important;
+      margin: 0.1em 0.05em !important;
+    }
+    .katex .mfrac .denom-line {
+      margin-top: 2px !important;
+      margin-bottom: 2px !important;
+    }
+    .katex-display {
+      margin: 0.85em 0 !important;
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .phone-mockup {
@@ -251,8 +288,9 @@
       color: #4338CA !important;
     }
     body.theme-day #solution-steps-container .text-slate-300,
-    body.theme-day #solution-steps-container .text-slate-400 {
-      color: #334155 !important;
+    body.theme-day #solution-steps-container .text-slate-400,
+    body.theme-day .solution-step-paragraph {
+      color: #1E293B !important;
     }
     body.theme-day #solution-steps-container .text-indigo-200,
     body.theme-day #solution-steps-container .text-amber-300 {
@@ -5277,7 +5315,793 @@
           answer: "$M = 2, \\quad y = -9x + 16$",
           explanation: "g'(x) = -3x² + 3 = -3(x-1)(x+1)이므로 x=1에서 극댓값 g(1) = 2. 접선 기울기는 g'(2) = -9, 접선은 y - (-2) = -9(x - 2) => y = -9x + 16."
         }
+      },
+
+      101: {
+    id: 101,
+    title: "10 이하의 수 모으기와 가르기",
+    curriculum_grade: "초1",
+    curriculum_badge: "초등 1~2학년군 수와 연산 기준 풀이",
+    problem_text: "민수가 사탕을 $8$개 가지고 있습니다. 동생에게 $3$개를 나누어 주었을 때, 민수에게 남은 사탕은 몇 개인지 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "민수가 사탕 8개를 가지고 있음",
+        meaning: "처음 가지고 있던 전체 사탕의 수량은 8개입니다.",
+        trap: "처음 수와 나중에 나누어 준 수를 거꾸로 생각하는 실수",
+        prescriptions: {
+          visual: "사탕 동그라미 8개를 나란히 그리고 전체 수량을 눈으로 확인해보세요.",
+          modeling: "처음 사탕 개수를 8로 두고 식 세우기를 시작하세요.",
+          condition: "주어진 수량이 10 이하의 자연수인지 확인하세요.",
+          concept: "초등 1학년 1학기 10까지의 수 모으기와 가르기 개념을 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "동생에게 3개를 나누어 주었을 때 남은 사탕",
+        meaning: "전체 8개에서 3개를 덜어내는 뺄셈 상황입니다.",
+        trap: "나누어 주는 상황인데 덧셈으로 잘못 계산하여 11개로 답하는 실수",
+        prescriptions: {
+          visual: "8개의 동그라미 중 3개에 빗금을 그어 지우고 남은 개수를 직접 세어보세요.",
+          modeling: "$8 - 3 = 5$ 뺄셈 등식으로 식 세우기를 완성하세요.",
+          condition: "남은 개수는 처음 개수 8개보다 작아야 한다는 조건을 확인하세요.",
+          concept: "초등 1학년 뺄셈의 의미(덜어내기, 가르기)를 점검하세요."
+        }
       }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "사탕 덜어내기 뺄셈식 세우기",
+        content: "처음 사탕 8개에서 동생에게 나누어 준 3개를 빼는 뺄셈식을 세웁니다.",
+        formula: "$8 - 3 = 5$"
+      },
+      {
+        step_number: 2,
+        title: "남은 사탕 개수 구하기",
+        content: "8에서 3을 가르면 5가 남으므로 민수에게 남은 사탕은 5개입니다.",
+        formula: "$\\text{남은 사탕} = 5\\text{개}$"
+      }
+    ],
+    final_answer: "$5\\text{개}$",
+    socratic_teaching_guide: {
+      pro_tip: "사탕 모형이나 바둑돌을 직접 손으로 덜어내며 가르기를 시각화하게 도와주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "처음 민수가 가지고 있던 사탕은 모두 몇 개인가요?", goal: "처음 수 8 확인" },
+        { stage: "2단계 [유도 발문]", prompt: "동생에게 사탕을 주면 사탕 수는 늘어날까요, 줄어들까요?", goal: "뺄셈 상황(덜어내기) 인지" },
+        { stage: "3단계 [도출 발문]", prompt: "8에서 3을 덜어내면 몇 개가 남을까요?", goal: "$8 - 3 = 5$ 스스로 계산" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p101_d1",
+        title: "사탕 가르기와 뺄셈 도해",
+        badge: "시각적 이해",
+        caption: "전체 8개의 사탕 중 동생에게 준 3개를 덜어내면 5개가 남습니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="25" y="30" width="370" height="190" rx="12" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <line x1="40" y1="95" x2="380" y2="95" stroke="#4338CA" stroke-width="2"/>
+  <line x1="250" y1="40" x2="250" y2="210" stroke="#6366F1" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="55" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="95" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="135" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="175" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="215" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="285" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <circle cx="325" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <circle cx="365" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <line x1="275" y1="85" x2="295" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <line x1="315" y1="85" x2="335" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <line x1="355" y1="85" x2="375" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <text x="135" y="145" fill="#93C5FD" font-size="13" font-weight="bold" text-anchor="middle">남은 사탕: 5개</text>
+  <text x="325" y="145" fill="#FCA5A5" font-size="13" font-weight="bold" text-anchor="middle">동생에게 줌: 3개</text>
+  <rect x="85" y="170" width="250" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="192" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">전체 8개 - 3개 = 5개 남음</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="25" y="30" width="370" height="190" rx="12" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <line x1="40" y1="95" x2="380" y2="95" stroke="#4338CA" stroke-width="2"/>
+  <line x1="250" y1="40" x2="250" y2="210" stroke="#6366F1" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="55" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="95" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="135" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="175" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="215" cy="95" r="14" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="285" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <circle cx="325" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <circle cx="365" cy="95" r="14" fill="#EF4444" stroke="#FCA5A5" stroke-width="1.5"/>
+  <line x1="275" y1="85" x2="295" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <line x1="315" y1="85" x2="335" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <line x1="355" y1="85" x2="375" y2="105" stroke="#FFFFFF" stroke-width="2.5"/>
+  <text x="135" y="145" fill="#93C5FD" font-size="13" font-weight="bold" text-anchor="middle">남은 사탕: 5개</text>
+  <text x="325" y="145" fill="#FCA5A5" font-size="13" font-weight="bold" text-anchor="middle">동생에게 줌: 3개</text>
+  <rect x="85" y="170" width="250" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="192" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">전체 8개 - 3개 = 5개 남음</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 초등학교 1학년 수의 덧셈과 뺄셈 문제네요. 그림을 통해 사탕을 덜어내는 과정을 확인해볼까요?",
+    quickPrompts: [
+      "8에서 3을 가르는 방법을 더 쉽게 알려주세요",
+      "사탕 그림을 어떻게 그리면 좋을까요?",
+      "덧셈과 뺄셈의 차이점을 설명해주세요"
+    ],
+    twin_problem: {
+      title: "구슬 모으기와 뺄셈",
+      problem_text: "지호가 구슬을 $9$개 가지고 있었습니다. 친구에게 $4$개를 주었을 때 지호에게 남은 구슬은 몇 개인지 구하시오.",
+      rca_identity: "사탕에서 구슬로 대상은 바뀌었지만, 10 이하의 수에서 덜어내기 뺄셈 원리를 묻는 쌍둥이 문제입니다.",
+      answer: "$5\\text{개}$",
+      explanation: "전체 9개에서 4개를 덜어내므로 $9 - 4 = 5$개입니다."
+    }
+  },
+
+  102: {
+    id: 102,
+    title: "곱셈구구와 묶어 세기",
+    curriculum_grade: "초2",
+    curriculum_badge: "초등 1~2학년군 곱셈구구 기준 풀이",
+    problem_text: "한 상자에 사과가 $4$개씩 들어 있습니다. 이러한 상자가 $6$상자 있을 때, 전체 사과의 개수를 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "한 상자에 사과가 4개씩 들어 있음",
+        meaning: "한 묶음에 포함된 사과의 기준 수량이 4개입니다.",
+        trap: "상자의 수와 사과의 수를 혼동하는 실수",
+        prescriptions: {
+          visual: "네모 상자 하나에 사과 동그라미 4개를 그려 묶음을 눈으로 확인하세요.",
+          modeling: "묶음당 개수 4를 기준으로 식 세우기를 준비하세요.",
+          condition: "각 상자마다 들어 있는 사과의 개수가 모두 같은지 확인하세요.",
+          concept: "초등 2학년 '몇씩 몇 묶음'의 묶어 세기 개념을 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "상자가 6상자 있을 때 전체 사과의 개수",
+        meaning: "4개씩 6묶음이므로 4를 6번 더하는 곱셈 상황입니다.",
+        trap: "4와 6을 단순히 덧셈하여 10개로 답하는 실수",
+        prescriptions: {
+          visual: "4개씩 묶인 상자 6개를 나란히 배열하고 묶음의 크기를 시각화하세요.",
+          modeling: "$4 \\times 6 = 24$ 곱셈식으로 식 세우기를 전개하세요.",
+          condition: "전체 개수는 한 상자의 개수인 4의 배수여야 합니다.",
+          concept: "구구단 4단의 곱셈 공식 $4 \\times 6 = 24$를 점검하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "몇씩 몇 묶음인지 곱셈식 세우기",
+        content: "한 상자에 4개씩 6상자이므로 4씩 6묶음, 즉 4를 6번 더하는 곱셈식을 세웁니다.",
+        formula: "$4 \\times 6 = 24$"
+      },
+      {
+        step_number: 2,
+        title: "전체 사과 개수 완성",
+        content: "4단 곱셈구구 $4 \\times 6 = 24$를 적용하여 전체 사과 개수를 구합니다.",
+        formula: "$\\text{전체 사과} = 24\\text{개}$"
+      }
+    ],
+    final_answer: "$24\\text{개}$",
+    socratic_teaching_guide: {
+      pro_tip: "4를 6번 더하는 것과 $4 \\times 6$이 같다는 동수누가 원리를 연결해주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "상자 하나에 사과가 몇 개씩 들어있나요?", goal: "한 묶음의 크기 4 파악" },
+        { stage: "2단계 [유도 발문]", prompt: "그런 상자가 모두 몇 개인가요?", goal: "묶음의 수 6 파악" },
+        { stage: "3단계 [도출 발문]", prompt: "4개씩 6상자면 곱셈구구로 어떻게 계산할 수 있을까요?", goal: "$4 \\times 6 = 24$ 완성" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p102_d1",
+        title: "사과 묶어 세기 도해",
+        badge: "시각적 이해",
+        caption: "한 상자에 4개씩 6상자이므로 4씩 6묶음, 총 24개입니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="20" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="85" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="150" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="215" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="280" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="345" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <line x1="20" y1="62" x2="400" y2="62" stroke="#312E81" stroke-width="1"/>
+  <line x1="20" y1="98" x2="400" y2="98" stroke="#312E81" stroke-width="1"/>
+  <circle cx="35" cy="62" r="7" fill="#EF4444"/><circle cx="60" cy="62" r="7" fill="#EF4444"/><circle cx="35" cy="98" r="7" fill="#EF4444"/><circle cx="60" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="100" cy="62" r="7" fill="#EF4444"/><circle cx="125" cy="62" r="7" fill="#EF4444"/><circle cx="100" cy="98" r="7" fill="#EF4444"/><circle cx="125" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="165" cy="62" r="7" fill="#EF4444"/><circle cx="190" cy="62" r="7" fill="#EF4444"/><circle cx="165" cy="98" r="7" fill="#EF4444"/><circle cx="190" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="230" cy="62" r="7" fill="#EF4444"/><circle cx="255" cy="62" r="7" fill="#EF4444"/><circle cx="230" cy="98" r="7" fill="#EF4444"/><circle cx="255" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="295" cy="62" r="7" fill="#EF4444"/><circle cx="320" cy="62" r="7" fill="#EF4444"/><circle cx="295" cy="98" r="7" fill="#EF4444"/><circle cx="320" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="360" cy="62" r="7" fill="#EF4444"/><circle cx="385" cy="62" r="7" fill="#EF4444"/><circle cx="360" cy="98" r="7" fill="#EF4444"/><circle cx="385" cy="98" r="7" fill="#EF4444"/>
+  <text x="210" y="155" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">4개씩 6상자</text>
+  <rect x="95" y="175" width="230" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="197" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">전체 사과 = 4 × 6 = 24개</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="20" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="85" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="150" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="215" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="280" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="345" y="35" width="55" height="95" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <line x1="20" y1="62" x2="400" y2="62" stroke="#312E81" stroke-width="1"/>
+  <line x1="20" y1="98" x2="400" y2="98" stroke="#312E81" stroke-width="1"/>
+  <circle cx="35" cy="62" r="7" fill="#EF4444"/><circle cx="60" cy="62" r="7" fill="#EF4444"/><circle cx="35" cy="98" r="7" fill="#EF4444"/><circle cx="60" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="100" cy="62" r="7" fill="#EF4444"/><circle cx="125" cy="62" r="7" fill="#EF4444"/><circle cx="100" cy="98" r="7" fill="#EF4444"/><circle cx="125" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="165" cy="62" r="7" fill="#EF4444"/><circle cx="190" cy="62" r="7" fill="#EF4444"/><circle cx="165" cy="98" r="7" fill="#EF4444"/><circle cx="190" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="230" cy="62" r="7" fill="#EF4444"/><circle cx="255" cy="62" r="7" fill="#EF4444"/><circle cx="230" cy="98" r="7" fill="#EF4444"/><circle cx="255" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="295" cy="62" r="7" fill="#EF4444"/><circle cx="320" cy="62" r="7" fill="#EF4444"/><circle cx="295" cy="98" r="7" fill="#EF4444"/><circle cx="320" cy="98" r="7" fill="#EF4444"/>
+  <circle cx="360" cy="62" r="7" fill="#EF4444"/><circle cx="385" cy="62" r="7" fill="#EF4444"/><circle cx="360" cy="98" r="7" fill="#EF4444"/><circle cx="385" cy="98" r="7" fill="#EF4444"/>
+  <text x="210" y="155" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">4개씩 6상자</text>
+  <rect x="95" y="175" width="230" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="197" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">전체 사과 = 4 × 6 = 24개</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 초등학교 2학년 곱셈구구 문제네요. 묶어 세기를 그림으로 확인하며 곱셈 원리를 익혀봅시다.",
+    quickPrompts: [
+      "곱셈구구 4단을 쉽게 외우는 팁이 있나요?",
+      "덧셈식으로 바꾸면 어떻게 되나요?",
+      "다른 묶음으로 세는 방법도 알려주세요"
+    ],
+    twin_problem: {
+      title: "연필 묶어 세기와 곱셈",
+      problem_text: "한 묶음에 $5$자루씩 들어 있는 연필이 $4$묶음 있을 때, 전체 연필은 몇 자루인지 구하시오.",
+      rca_identity: "사과에서 연필로 바뀌었지만 같은 수만큼 묶어 세는 곱셈구구 원리를 묻는 쌍둥이 문제입니다.",
+      answer: "$20\\text{자루}$",
+      explanation: "5자루씩 4묶음이므로 $5 \\times 4 = 20$자루입니다."
+    }
+  },
+
+  103: {
+    id: 103,
+    title: "똑같이 나누기와 나눗셈의 기초",
+    curriculum_grade: "초3",
+    curriculum_badge: "초등 3~4학년군 나눗셈 기준 풀이",
+    problem_text: "색종이 $24$장을 $4$명의 학생에게 똑같이 나누어 주려고 합니다. 한 학생이 받는 색종이는 몇 장인지 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "색종이 24장을 4명에게 똑같이 나누어 줌",
+        meaning: "전체 24를 4개의 묶음으로 똑같이 균등 분할하는 상황입니다.",
+        trap: "나누는 수와 나누어지는 수의 순서를 바꾸는 실수",
+        prescriptions: {
+          visual: "24개의 색종이를 4개의 바구니에 하나씩 골고루 담는 모습을 연상하세요.",
+          modeling: "$24 \\div 4$ 나눗셈식으로 식 세우기를 시작하세요.",
+          condition: "모든 학생이 남김없이 똑같은 장수를 받아야 합니다.",
+          concept: "초등 3학년 나눗셈(등분제, 똑같이 나누기) 원리를 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "한 학생이 받는 색종이 수",
+        meaning: "나눗셈 $24 \\div 4$의 몫을 구하는 목표입니다.",
+        trap: "곱셈구구 단수를 헷갈려 몫을 잘못 적는 실수",
+        prescriptions: {
+          visual: "한 묶음 안에 6장씩 모여 있는 모습을 시각적으로 확인하세요.",
+          modeling: "$4 \\times \\square = 24$의 곱셈 역관계를 활용하여 몫 6을 도출하세요.",
+          condition: "구한 몫에 4를 곱했을 때 전체 장수 24가 나오는지 검산하세요.",
+          concept: "나눗셈의 몫을 곱셈구구(4단)로 구하는 방법을 복습하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "똑같이 나누는 나눗셈식 세우기",
+        content: "전체 24장을 4명에게 똑같이 나누므로 24 나누기 4의 나눗셈식을 세웁니다.",
+        formula: "$24 \\div 4 = 6$"
+      },
+      {
+        step_number: 2,
+        title: "한 학생이 받는 색종이 수 구하기",
+        content: "곱셈구구 $4 \\times 6 = 24$를 이용하여 계산하면 한 학생이 받는 색종이는 6장입니다.",
+        formula: "$\\text{한 사람의 몫} = 6\\text{장}$"
+      }
+    ],
+    final_answer: "$6\\text{장}$",
+    socratic_teaching_guide: {
+      pro_tip: "곱셈구구 4단에서 얼마를 곱해야 24가 되는지 역으로 질문해주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "전체 색종이는 몇 장이고, 몇 명에게 나누어 주나요?", goal: "전체 24장, 4명 확인" },
+        { stage: "2단계 [유도 발문]", prompt: "똑같이 나눌 때 어떤 연산 기호를 사용해야 할까요?", goal: "나눗셈 기호 사용 인지" },
+        { stage: "3단계 [도출 발문]", prompt: "4단 곱셈구구에서 곱해서 24가 되는 수는 무엇일까요?", goal: "$24 \\div 4 = 6$ 도출" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p103_d1",
+        title: "색종이 등분할 도해",
+        badge: "시각적 이해",
+        caption: "24장의 색종이를 4묶음으로 똑같이 나누면 한 묶음에 6장씩 들어갑니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="25" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="120" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="215" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="310" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="67" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 A</text>
+  <text x="67" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="162" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 B</text>
+  <text x="162" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="257" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 C</text>
+  <text x="257" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="352" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 D</text>
+  <text x="352" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="210" y="155" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">24장을 4명에게 똑같이 나누기</text>
+  <rect x="95" y="175" width="230" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="197" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">24장 ÷ 4명 = 한 학생당 6장</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="25" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="120" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="215" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <rect x="310" y="35" width="85" height="100" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="67" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 A</text>
+  <text x="67" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="162" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 B</text>
+  <text x="162" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="257" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 C</text>
+  <text x="257" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="352" y="70" fill="#38BDF8" font-size="14" font-weight="bold" text-anchor="middle">학생 D</text>
+  <text x="352" y="105" fill="#FDE047" font-size="16" font-weight="extrabold" text-anchor="middle">6장</text>
+  <text x="210" y="155" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">24장을 4명에게 똑같이 나누기</text>
+  <rect x="95" y="175" width="230" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="197" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">24장 ÷ 4명 = 한 학생당 6장</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 초등학교 3학년 나눗셈 기초 문제네요. 색종이를 똑같이 나누는 과정을 도해로 살펴볼까요?",
+    quickPrompts: [
+      "곱셈구구를 사용해서 나눗셈을 빠르게 푸는 법을 알려주세요",
+      "남는 것이 있는 나눗셈은 어떻게 하나요?",
+      "나눗셈의 검산 방법을 설명해주세요"
+    ],
+    twin_problem: {
+      title: "구슬 똑같이 나누기",
+      problem_text: "구슬 $30$개를 $5$개의 주머니에 똑같이 나누어 담으려고 합니다. 주머니 한 개에 들어가는 구슬의 개수를 구하시오.",
+      rca_identity: "색종이에서 구슬로 바뀌었지만 같은 수만큼 등분할하는 초3 나눗셈 원리를 묻는 쌍둥이 문제입니다.",
+      answer: "$6\\text{개}$",
+      explanation: "30개를 5묶음으로 똑같이 나누므로 $30 \\div 5 = 6$개입니다."
+    }
+  },
+
+  104: {
+    id: 104,
+    title: "삼각형의 세 각의 크기의 합",
+    curriculum_grade: "초4",
+    curriculum_badge: "초등 3~4학년군 각도와 삼각형 기준 풀이",
+    problem_text: "삼각형의 세 각 중에서 두 각의 크기가 각각 $50^\\circ$, $70^\\circ$일 때, 나머지 한 각의 크기를 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "삼각형의 두 각의 크기가 50도, 70도",
+        meaning: "삼각형을 이루는 세 각 중 이미 알려진 두 내각의 크기입니다.",
+        trap: "두 각의 합을 180도에서 빼지 않고 두 각을 더하기만 하는 실수",
+        prescriptions: {
+          visual: "삼각형 모양을 스케치하고 두 각 자리에 50도, 70도를 표시하세요.",
+          modeling: "알려진 두 각의 합 $50^\\circ + 70^\\circ = 120^\\circ$를 계산하세요.",
+          condition: "각도의 단위가 도인지 정확히 확인하세요.",
+          concept: "초등 4학년 각도 단원의 두 각의 덧셈을 점검하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "나머지 한 각의 크기",
+        meaning: "삼각형의 세 각의 합이 항상 180도라는 성질을 이용해 미지의 각을 구합니다.",
+        trap: "삼각형의 내각의 총합을 360도로 사각형과 혼동하는 실수",
+        prescriptions: {
+          visual: "삼각형 세 꼭짓점을 잘라 한 점에 모았을 때 일직선(180도)이 되는 모습을 연상하세요.",
+          modeling: "$180^\\circ - (50^\\circ + 70^\\circ) = 60^\\circ$ 식 세우기를 완성하세요.",
+          condition: "구한 세 각의 합이 정확히 180도가 되는지 확인하세요.",
+          concept: "삼각형의 세 내각의 합은 항상 $180^\\circ$라는 기본 정리를 복습하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "알려진 두 각의 합 구하기",
+        content: "주어진 두 각 50도와 70도의 합을 구합니다.",
+        formula: "$50^\\circ + 70^\\circ = 120^\\circ$"
+      },
+      {
+        step_number: 2,
+        title: "삼각형의 세 각의 합(180도) 성질로 나머지 각 계산",
+        content: "삼각형의 세 각의 합은 항상 180도이므로 180도에서 120도를 빼서 나머지 각을 구합니다.",
+        formula: "$180^\\circ - 120^\\circ = 60^\\circ$"
+      }
+    ],
+    final_answer: "$60^\\circ$",
+    socratic_teaching_guide: {
+      pro_tip: "삼각형의 세 꼭짓점을 오려서 모으면 평평한 직선(180도)이 된다는 시각적 원리를 상기시켜주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "문제에서 주어진 두 각의 크기는 각각 몇 도인가요?", goal: "50도와 70도 확인" },
+        { stage: "2단계 [유도 발문]", prompt: "삼각형의 세 각의 크기를 모두 더하면 몇 도가 되나요?", goal: "180도 성질 상기" },
+        { stage: "3단계 [도출 발문]", prompt: "180도에서 두 각의 합 120도를 빼면 나머지 각은 몇 도가 될까요?", goal: "$180 - 120 = 60$ 스스로 완성" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p104_d1",
+        title: "삼각형 세 각의 합 도해",
+        badge: "기하 원리",
+        caption: "삼각형의 세 각의 합은 항상 180도이므로 나머지 한 각은 60도입니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <polygon points="70,185 350,185 220,50" fill="#1E1B4B" stroke="#6366F1" stroke-width="2"/>
+  <circle cx="70" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="350" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="220" cy="50" r="4" fill="#38BDF8"/>
+  <text x="115" y="175" fill="#FDE047" font-size="13" font-weight="extrabold">50°</text>
+  <text x="305" y="175" fill="#FDE047" font-size="13" font-weight="extrabold">70°</text>
+  <text x="220" y="85" fill="#EF4444" font-size="15" font-weight="black" text-anchor="middle">? (60°)</text>
+  <rect x="75" y="202" width="270" height="32" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="223" fill="#312E81" font-size="12" font-weight="bold" text-anchor="middle">세 각의 합: 50° + 70° + 60° = 180°</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <polygon points="70,185 350,185 220,50" fill="#1E1B4B" stroke="#6366F1" stroke-width="2"/>
+  <circle cx="70" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="350" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="220" cy="50" r="4" fill="#38BDF8"/>
+  <text x="115" y="175" fill="#FDE047" font-size="13" font-weight="extrabold">50°</text>
+  <text x="305" y="175" fill="#FDE047" font-size="13" font-weight="extrabold">70°</text>
+  <text x="220" y="85" fill="#EF4444" font-size="15" font-weight="black" text-anchor="middle">? (60°)</text>
+  <rect x="75" y="202" width="270" height="32" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="223" fill="#312E81" font-size="12" font-weight="bold" text-anchor="middle">세 각의 합: 50° + 70° + 60° = 180°</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 초등학교 4학년 각도와 삼각형 문제네요. 삼각형의 세 각이 이루는 원리를 함께 살펴봅시다.",
+    quickPrompts: [
+      "왜 삼각형의 세 각의 합은 항상 180도인가요?",
+      "사각형의 네 각의 합은 몇 도인가요?",
+      "이등변삼각형일 때는 각을 어떻게 구하나요?"
+    ],
+    twin_problem: {
+      title: "삼각형의 다른 한 각 구하기",
+      problem_text: "삼각형의 두 각이 각각 $45^\\circ$, $65^\\circ$일 때 나머지 한 각의 크기를 구하시오.",
+      rca_identity: "각의 수치는 달라졌지만 삼각형의 세 내각의 합이 180도라는 원리를 묻는 쌍둥이 문제입니다.",
+      answer: "$70^\\circ$",
+      explanation: "세 각의 합이 180도이므로 $180^\\circ - (45^\\circ + 65^\\circ) = 70^\\circ$입니다."
+    }
+  },
+
+  106: {
+    id: 106,
+    title: "분모가 같은 분수의 나눗셈",
+    curriculum_grade: "초6",
+    curriculum_badge: "초등 5~6학년군 분수의 나눗셈 기준 풀이",
+    problem_text: "길이가 $\\frac{6}{7}\\text{m}$인 끈을 $\\frac{2}{7}\\text{m}$씩 잘라서 리본을 만들려고 합니다. 리본을 몇 개 만들 수 있는지 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "전체 끈의 길이 6/7m",
+        meaning: "전체 1m를 7등분한 것 중 6개에 해당하는 끈의 전체 길이입니다.",
+        trap: "분모 7을 실제 7m로 착각하는 실수",
+        prescriptions: {
+          visual: "수직선 위에 0부터 1까지 7칸으로 나눈 그림을 그리고 6칸까지 색칠하세요.",
+          modeling: "전체 길이 $\\frac{6}{7}$을 피제수(나누어지는 수)로 설정하세요.",
+          condition: "단위가 미터(m)로 통일되어 있는지 확인하세요.",
+          concept: "초등 분수의 의미(전체를 등분한 부분)를 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "2/7m씩 잘라 만들 수 있는 리본 수",
+        meaning: "$\\frac{6}{7}$ 안에 $\\frac{2}{7}$가 몇 번 포함되는지 구하는 나눗셈 상황입니다.",
+        trap: "분모까지 나눗셈하여 $7 \\div 7 = 1$로 분모를 1로 잘못 계산하는 실수",
+        prescriptions: {
+          visual: "수직선 위의 6칸을 2칸씩 묶어 몇 묶음이 나오는지 세어보세요.",
+          modeling: "$\\frac{6}{7} \\div \\frac{2}{7} = 6 \\div 2 = 3$ 식 세우기를 전개하세요.",
+          condition: "분모가 같을 때는 분자끼리 나누면 된다는 규칙을 확인하세요.",
+          concept: "초등 6학년 1학기 '분모가 같은 분수의 나눗셈' 원리를 점검하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "분모가 같은 분수의 나눗셈식 세우기",
+        content: "전체 길이 $\\frac{6}{7}\\text{m}$에서 $\\frac{2}{7}\\text{m}$씩 덜어내는 나눗셈식을 세웁니다.",
+        formula: "$\\frac{6}{7} \\div \\frac{2}{7}$"
+      },
+      {
+        step_number: 2,
+        title: "분자끼리의 나눗셈으로 리본 개수 계산",
+        content: "분모가 7로 서로 같으므로 분자끼리 나누어 계산합니다. 6 나누기 2는 3이므로 3개의 리본을 만들 수 있습니다.",
+        formula: "$\\frac{6}{7} \\div \\frac{2}{7} = 6 \\div 2 = 3\\text{ (개)}$"
+      }
+    ],
+    final_answer: "$3\\text{개}$",
+    socratic_teaching_guide: {
+      pro_tip: "1/7m짜리 조각 6개에서 2개씩 묶으면 몇 묶음이 되는지 유도해주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "전체 끈의 길이는 몇 미터이고, 한 리본의 길이는 몇 미터인가요?", goal: "6/7m와 2/7m 확인" },
+        { stage: "2단계 [유도 발문]", prompt: "두 분수의 분모가 7로 같을 때 어떻게 계산할 수 있을까요?", goal: "분자끼리 나눈다는 성질 인지" },
+        { stage: "3단계 [도출 발문]", prompt: "6을 2로 나누면 몫은 얼마인가요?", goal: "$6 \\div 2 = 3$ 스스로 완성" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p106_d1",
+        title: "분수의 나눗셈 수직선 도해",
+        badge: "시각적 이해",
+        caption: "6/7m를 2/7m씩 묶으면 정확히 3도막(3묶음)이 나옵니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="30" y="50" width="360" height="60" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <rect x="30" y="50" width="102" height="60" fill="#3B82F6" fill-opacity="0.6"/>
+  <rect x="132" y="50" width="102" height="60" fill="#10B981" fill-opacity="0.6"/>
+  <rect x="234" y="50" width="102" height="60" fill="#F59E0B" fill-opacity="0.6"/>
+  <line x1="81" y1="50" x2="81" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="132" y1="50" x2="132" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="183" y1="50" x2="183" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="234" y1="50" x2="234" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="285" y1="50" x2="285" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="336" y1="50" x2="336" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="81" y="135" fill="#93C5FD" font-size="11" font-weight="bold" text-anchor="middle">1도막 (2/7)</text>
+  <text x="183" y="135" fill="#6EE7B7" font-size="11" font-weight="bold" text-anchor="middle">2도막 (2/7)</text>
+  <text x="285" y="135" fill="#FDE68A" font-size="11" font-weight="bold" text-anchor="middle">3도막 (2/7)</text>
+  <text x="365" y="85" fill="#64748B" font-size="11" font-weight="bold" text-anchor="middle">남은 1/7</text>
+  <rect x="85" y="170" width="250" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="192" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">6/7 ÷ 2/7 = 6 ÷ 2 = 3개</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <rect x="30" y="50" width="360" height="60" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <rect x="30" y="50" width="102" height="60" fill="#3B82F6" fill-opacity="0.6"/>
+  <rect x="132" y="50" width="102" height="60" fill="#10B981" fill-opacity="0.6"/>
+  <rect x="234" y="50" width="102" height="60" fill="#F59E0B" fill-opacity="0.6"/>
+  <line x1="81" y1="50" x2="81" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="132" y1="50" x2="132" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="183" y1="50" x2="183" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="234" y1="50" x2="234" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <line x1="285" y1="50" x2="285" y2="110" stroke="#818CF8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="336" y1="50" x2="336" y2="110" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="81" y="135" fill="#93C5FD" font-size="11" font-weight="bold" text-anchor="middle">1도막 (2/7)</text>
+  <text x="183" y="135" fill="#6EE7B7" font-size="11" font-weight="bold" text-anchor="middle">2도막 (2/7)</text>
+  <text x="285" y="135" fill="#FDE68A" font-size="11" font-weight="bold" text-anchor="middle">3도막 (2/7)</text>
+  <text x="365" y="85" fill="#64748B" font-size="11" font-weight="bold" text-anchor="middle">남은 1/7</text>
+  <rect x="85" y="170" width="250" height="34" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="192" fill="#312E81" font-size="13" font-weight="extrabold" text-anchor="middle">6/7 ÷ 2/7 = 6 ÷ 2 = 3개</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 초등학교 6학년 분수의 나눗셈 문제네요. 분모가 같은 분수의 나눗셈 원리를 수직선 도해로 바로 확인해봅시다.",
+    quickPrompts: [
+      "분모가 다른 분수의 나눗셈은 어떻게 하나요?",
+      "나누기를 곱하기 역수로 바꾸는 이유가 뭔가요?",
+      "자연수 나누기 분수도 설명해주세요"
+    ],
+    twin_problem: {
+      title: "분모가 같은 분수의 포함제",
+      problem_text: "물이 $\\frac{8}{9}\\text{L}$ 있습니다. 한 컵에 $\\frac{2}{9}\\text{L}$씩 나누어 담을 때 몇 개의 컵을 가득 채울 수 있는지 구하시오.",
+      rca_identity: "끈에서 물로 대상이 바뀌었지만 분모가 같은 분수의 나눗셈 원리를 묻는 쌍둥이 문제입니다.",
+      answer: "$4\\text{개}$",
+      explanation: "분모가 9로 같으므로 $\\frac{8}{9} \\div \\frac{2}{9} = 8 \\div 2 = 4$개입니다."
+    }
+  },
+
+  201: {
+    id: 201,
+    title: "일차방정식의 풀이와 이항",
+    curriculum_grade: "중1",
+    curriculum_badge: "중학교 1학년 일차방정식 기준 풀이",
+    problem_text: "일차방정식 $3x - 5 = x + 7$의 해를 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "일차방정식 3x - 5 = x + 7",
+        meaning: "미지수 x에 대한 일차식이 양변에 등호로 연결된 등식입니다.",
+        trap: "이항할 때 항의 부호를 바꾸지 않고 그대로 넘기는 실수",
+        prescriptions: {
+          visual: "양팔 저울의 좌변에 x 상자 3개와 추 -5, 우변에 x 상자 1개와 추 7이 균형을 이루는 모습을 그리세요.",
+          modeling: "미지수 항은 좌변으로, 상수항은 우변으로 모으는 식 세우기 $3x - x = 7 + 5$를 진행하세요.",
+          condition: "등식의 성질(양변에 같은 수를 더하거나 빼도 등식은 성립한다)을 지키세요.",
+          concept: "중1 일차방정식의 기본 개념과 이항의 원리를 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "일차방정식의 해를 구하시오",
+        meaning: "등식을 참이 되게 하는 미지수 x의 값을 도출하는 과정입니다.",
+        trap: "양변을 x의 계수로 나눌 때 곱셈을 해버리거나 부호를 잘못 계산하는 실수",
+        prescriptions: {
+          visual: "2x = 12에서 2개의 x 상자가 추 12개와 같으므로 x 상자 1개는 6개라는 저울 분할을 시각화하세요.",
+          modeling: "$2x = 12 \\implies x = \\frac{12}{2} = 6$ 대수적 정리를 완료하세요.",
+          condition: "구한 해 $x=6$을 원래 식의 좌변과 우변에 대입하여 등식이 성립하는지 확인하세요.",
+          concept: "등식의 양변을 0이 아닌 같은 수로 나누어도 등식이 성립한다는 성질을 점검하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "이항하여 동류항 모으기",
+        content: "우변의 $x$를 좌변으로 이항하여 $-x$로 바꾸고, 좌변의 $-5$를 우변으로 이항하여 $+5$로 부호를 바꿉니다.",
+        formula: "$3x - x = 7 + 5$"
+      },
+      {
+        step_number: 2,
+        title: "동류항 정리 및 x의 계수로 나누기",
+        content: "양변을 정리하면 $2x = 12$가 됩니다. 양변을 $x$의 계수인 2로 나누어 해를 완성합니다.",
+        formula: "$2x = 12 \\implies x = 6$"
+      }
+    ],
+    final_answer: "$x = 6$",
+    socratic_teaching_guide: {
+      pro_tip: "이항이란 사실 양변에 같은 수를 더하거나 빼는 등식의 성질에서 비롯되었음을 일깨워주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "방정식 좌변의 미지수 항과 우변의 미지수 항은 각각 무엇인가요?", goal: "3x와 x 식별" },
+        { stage: "2단계 [유도 발문]", prompt: "우변의 x를 좌변으로 넘길 때 부호는 어떻게 바뀌어야 할까요?", goal: "+x가 -x로 바뀜 인지" },
+        { stage: "3단계 [도출 발문]", prompt: "동류항을 정리한 2x = 12에서 양변을 2로 나누면 x는 얼마일까요?", goal: "x = 6 스스로 유도" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p201_d1",
+        title: "일차방정식 양팔 저울 도해",
+        badge: "대수적 균형",
+        caption: "양변에서 x를 빼고 5를 더하면 2x = 12가 되어 x = 6을 얻습니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <line x1="60" y1="130" x2="360" y2="130" stroke="#64748B" stroke-width="4"/>
+  <polygon points="210,130 190,180 230,180" fill="#475569"/>
+  <rect x="70" y="80" width="100" height="48" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="120" y="110" fill="#93C5FD" font-size="14" font-weight="extrabold" text-anchor="middle">3x - 5</text>
+  <rect x="250" y="80" width="100" height="48" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="300" y="110" fill="#93C5FD" font-size="14" font-weight="extrabold" text-anchor="middle">x + 7</text>
+  <line x1="210" y1="55" x2="210" y2="130" stroke="#38BDF8" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="210" y="45" fill="#38BDF8" font-size="12" font-weight="bold" text-anchor="middle">등호 (=) 균형</text>
+  <rect x="75" y="195" width="270" height="34" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="217" fill="#312E81" font-size="12" font-weight="extrabold" text-anchor="middle">3x - x = 7 + 5 → 2x = 12 → x = 6</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <line x1="60" y1="130" x2="360" y2="130" stroke="#64748B" stroke-width="4"/>
+  <polygon points="210,130 190,180 230,180" fill="#475569"/>
+  <rect x="70" y="80" width="100" height="48" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="120" y="110" fill="#93C5FD" font-size="14" font-weight="extrabold" text-anchor="middle">3x - 5</text>
+  <rect x="250" y="80" width="100" height="48" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5"/>
+  <text x="300" y="110" fill="#93C5FD" font-size="14" font-weight="extrabold" text-anchor="middle">x + 7</text>
+  <line x1="210" y1="55" x2="210" y2="130" stroke="#38BDF8" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="210" y="45" fill="#38BDF8" font-size="12" font-weight="bold" text-anchor="middle">등호 (=) 균형</text>
+  <rect x="75" y="195" width="270" height="34" rx="6" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="210" y="217" fill="#312E81" font-size="12" font-weight="extrabold" text-anchor="middle">3x - x = 7 + 5 → 2x = 12 → x = 6</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 중학교 1학년 일차방정식 문제네요. 이항의 원리와 등식의 성질을 저울 도해로 확인해볼까요?",
+    quickPrompts: [
+      "이항할 때 왜 부호가 바뀌는지 더 쉽게 설명해주세요",
+      "괄호가 있는 일차방정식은 어떻게 푸나요?",
+      "계수가 분수나 소수일 때는 어떻게 하나요?"
+    ],
+    twin_problem: {
+      title: "일차방정식의 해 구하기",
+      problem_text: "일차방정식 $4x - 3 = 2x + 9$의 해를 구하시오.",
+      rca_identity: "계수는 다르지만 양변의 미지수 항과 상수항을 이항하여 해를 구하는 중1 일차방정식 쌍둥이 문제입니다.",
+      answer: "$x = 6$",
+      explanation: "$4x - 2x = 9 + 3 \\implies 2x = 12 \\implies x = 6$입니다."
+    }
+  },
+
+  301: {
+    id: 301,
+    title: "직각삼각형과 삼각비의 값",
+    curriculum_grade: "중3",
+    curriculum_badge: "중학교 3학년 삼각비 기준 풀이",
+    problem_text: "직각삼각형 $\\text{ABC}$에서 $\\angle\\text{B} = 90^\\circ$이고 밑변 $\\text{BC} = 4$, 높이 $\\text{AB} = 3$일 때, $\\sin A$와 $\\cos A$의 값을 구하시오.",
+    core_clauses: [
+      {
+        id: "clause_1",
+        text: "각 B = 90도인 직각삼각형에서 두 변 AB=3, BC=4",
+        meaning: "직각을 낀 두 변의 길이가 각각 3, 4인 직각삼각형입니다.",
+        trap: "빗변의 길이를 구하지 않고 두 변의 비율만으로 삼각비를 계산하는 실수",
+        prescriptions: {
+          visual: "직각 기호(ㄱ)를 B에 표시하고 두 직각변 3과 4를 바닥과 높이에 스케치하세요.",
+          modeling: "피타고라스 정리 $\\text{AC}^2 = 3^2 + 4^2 = 25 \\implies \\text{AC} = 5$로 빗변을 먼저 구하세요.",
+          condition: "변의 길이는 항상 양수이므로 $\\text{AC} = 5$임을 확인하세요.",
+          concept: "중3 피타고라스 정리와 3:4:5 직각삼각형의 기본 비례를 복습하세요."
+        }
+      },
+      {
+        id: "clause_2",
+        text: "sin A와 cos A의 값을 구하시오",
+        meaning: "기준각 A에 대한 높이의 비율(사인)과 밑변의 비율(코사인)을 구합니다.",
+        trap: "기준각이 A인데 C를 기준으로 보아 사인과 코사인을 거꾸로 쓰는 실수",
+        prescriptions: {
+          visual: "각 A의 마주 보는 대변이 높이 BC=4이고, 이웃변이 AB=3임을 눈으로 추적하세요.",
+          modeling: "$\\sin A = \\frac{\\text{대변}}{\\text{빗변}} = \\frac{4}{5}$, $\\cos A = \\frac{\\text{이웃변}}{\\text{빗변}} = \\frac{3}{5}$ 등식을 수립하세요.",
+          condition: "직각삼각형에서 삼각비의 값은 항상 0보다 크고 1보다 작아야 합니다.",
+          concept: "중3 2학기 삼각비의 정의($\\sin = \\frac{\\text{높이}}{\\text{빗변}}$, $\\cos = \\frac{\\text{밑변}}{\\text{빗변}}$)를 점검하세요."
+        }
+      }
+    ],
+    solution_steps: [
+      {
+        step_number: 1,
+        title: "피타고라스 정리로 빗변 AC의 길이 구하기",
+        content: "직각을 낀 두 변이 3, 4이므로 피타고라스 정리에 의해 빗변 AC는 5가 됩니다.",
+        formula: "$\\text{AC} = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$"
+      },
+      {
+        step_number: 2,
+        title: "기준각 A에 대한 sin A와 cos A 계산",
+        content: "기준각 A에 대해 빗변은 5, 대변(높이)은 4, 이웃변(밑변)은 3이므로 각각의 삼각비를 구합니다.",
+        formula: "$\\sin A = \\frac{4}{5},\\; \\cos A = \\frac{3}{5}$"
+      }
+    ],
+    final_answer: "$\\sin A = \\frac{4}{5},\\; \\cos A = \\frac{3}{5}$",
+    socratic_teaching_guide: {
+      pro_tip: "기준각이 A일 때 높이는 각 A의 '맞은편 변'이라는 점을 손가락으로 짚어주세요.",
+      steps: [
+        { stage: "1단계 [관찰 발문]", prompt: "직각을 낀 두 변이 3과 4일 때 빗변 AC의 길이는 얼마일까요?", goal: "피타고라스 정리로 AC=5 도출" },
+        { stage: "2단계 [유도 발문]", prompt: "각 A의 입장에서 맞은편에 있는 대변(높이)은 어떤 변인가요?", goal: "변 BC(길이 4) 식별" },
+        { stage: "3단계 [도출 발문]", prompt: "빗변분의 높이인 sin A와 빗변분의 밑변인 cos A를 각각 계산해볼까요?", goal: "sin A = 4/5, cos A = 3/5 스스로 완성" }
+      ]
+    },
+    diagrams: [
+      {
+        id: "p301_d1",
+        title: "직각삼각형과 삼각비 도해",
+        badge: "삼각비 정의",
+        caption: "세 변의 길이가 3, 4, 5인 직각삼각형에서 기준각 A에 대한 삼각비입니다.",
+        svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <polygon points="100,185 320,185 100,50" fill="#1E1B4B" stroke="#6366F1" stroke-width="2"/>
+  <rect x="100" y="167" width="18" height="18" fill="none" stroke="#64748B" stroke-width="1.5"/>
+  <circle cx="100" cy="50" r="4" fill="#38BDF8"/>
+  <circle cx="100" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="320" cy="185" r="4" fill="#38BDF8"/>
+  <text x="90" y="45" fill="#C7D2FE" font-size="13" font-weight="bold">A</text>
+  <text x="85" y="200" fill="#C7D2FE" font-size="13" font-weight="bold">B</text>
+  <text x="330" y="200" fill="#C7D2FE" font-size="13" font-weight="bold">C</text>
+  <text x="75" y="125" fill="#93C5FD" font-size="12" font-weight="bold">AB = 3</text>
+  <text x="210" y="205" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">BC = 4</text>
+  <text x="225" y="110" fill="#FDE047" font-size="13" font-weight="extrabold">AC = 5 (빗변)</text>
+  <rect x="230" y="30" width="165" height="46" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="312" y="49" fill="#312E81" font-size="11" font-weight="bold" text-anchor="middle">sin A = 4/5 = 0.8</text>
+  <text x="312" y="67" fill="#B45309" font-size="11" font-weight="bold" text-anchor="middle">cos A = 3/5 = 0.6</text>
+</svg>`
+      }
+    ],
+    svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <polygon points="100,185 320,185 100,50" fill="#1E1B4B" stroke="#6366F1" stroke-width="2"/>
+  <rect x="100" y="167" width="18" height="18" fill="none" stroke="#64748B" stroke-width="1.5"/>
+  <circle cx="100" cy="50" r="4" fill="#38BDF8"/>
+  <circle cx="100" cy="185" r="4" fill="#38BDF8"/>
+  <circle cx="320" cy="185" r="4" fill="#38BDF8"/>
+  <text x="90" y="45" fill="#C7D2FE" font-size="13" font-weight="bold">A</text>
+  <text x="85" y="200" fill="#C7D2FE" font-size="13" font-weight="bold">B</text>
+  <text x="330" y="200" fill="#C7D2FE" font-size="13" font-weight="bold">C</text>
+  <text x="75" y="125" fill="#93C5FD" font-size="12" font-weight="bold">AB = 3</text>
+  <text x="210" y="205" fill="#93C5FD" font-size="12" font-weight="bold" text-anchor="middle">BC = 4</text>
+  <text x="225" y="110" fill="#FDE047" font-size="13" font-weight="extrabold">AC = 5 (빗변)</text>
+  <rect x="230" y="30" width="165" height="46" rx="8" fill="#F8FAFC" stroke="#475569" stroke-width="1.2"/>
+  <text x="312" y="49" fill="#312E81" font-size="11" font-weight="bold" text-anchor="middle">sin A = 4/5 = 0.8</text>
+  <text x="312" y="67" fill="#B45309" font-size="11" font-weight="bold" text-anchor="middle">cos A = 3/5 = 0.6</text>
+</svg>`,
+    welcomeMsg: "리드 쌤입니다! 중학교 3학년 삼각비 단원 문제네요. 직각삼각형에서 빗변, 밑변, 높이와 삼각비의 정의를 도해로 확인해볼까요?",
+    quickPrompts: [
+      "sin과 cos과 tan의 차이점을 쉽게 외우는 법을 알려주세요",
+      "특수각(30도, 45도, 60도)의 삼각비 표를 보여주세요",
+      "삼각비는 실생활에서 어디에 쓰이나요?"
+    ],
+    twin_problem: {
+      title: "직각삼각형의 탄젠트 값 구하기",
+      problem_text: "직각을 낀 두 변이 $6$, $8$인 직각삼각형에서 기준각 $A$의 대변(높이)이 $8$일 때, $\\tan A$의 값을 구하시오.",
+      rca_identity: "사인, 코사인에서 탄젠트로 삼각비의 종류를 변경하여 삼각비의 정의 이해를 확인하는 쌍둥이 문제입니다.",
+      answer: "$\\tan A = \\frac{4}{3}$",
+      explanation: "$\\tan A = \\frac{\\text{대변}}{\\text{이웃변}} = \\frac{8}{6} = \\frac{4}{3}$입니다."
+    }
+  }
     };
 
     // Deep clone authoritative canonical problems DB to prevent stale localStorage overwrites
@@ -5291,7 +6115,7 @@
         userSolvedHistory.forEach((prob, idx) => {
           if (prob && prob.id !== undefined) {
             const numId = Number(prob.id);
-            if (!isNaN(numId) && numId >= 1 && numId <= 6 && CANONICAL_PROBLEMS_DB[numId]) {
+            if (!isNaN(numId) && CANONICAL_PROBLEMS_DB[numId]) {
               // Inviolable guarantee: Canonical problems 1~6 ALWAYS overwrite stale local cache
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[numId]));
               userSolvedHistory[idx] = canonical;
@@ -5427,8 +6251,16 @@
       str = str.replace(/[∂]/g, ' \\partial ');
       str = str.replace(/[∘]/g, ' \\circ ');
 
-      // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
+      // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters & KaTeX PUA artifacts:
+      str = str.replace(/[\uE000-\uF8FF]=?/g, ' \\neq ');
+      str = str.replace(/=/g, ' \\neq ');
+      str = str.replace(/!=/g, ' \\neq ');
       str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
+      
+      // Auto-wrap variable condition patterns like k (k \neq 0) or (k \neq 0)
+      str = str.replace(/\b([a-zA-Z])\s*\(\s*([a-zA-Z0-9_\^]+\s*\\neq\s*[a-zA-Z0-9_\^]+)\s*\)/g, (m, p1, p2) => '$' + p1 + ' (' + p2.trim() + ')$');
+      str = str.replace(/\(\s*([a-zA-Z0-9_\^]+\s*\\neq\s*[a-zA-Z0-9_\^]+)\s*\)/g, (m, p1) => '($' + p1.trim() + '$)');
+      str = replaceOutsideMath(str, /\b([a-zA-Z0-9_\(\)\^]+)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)\b/g, (m, p1, p2) => '$' + p1.trim() + ' \\neq ' + p2.trim() + '$');
       str = str.replace(/\\neq\s*\\neq/g, '\\neq');
       str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
 
@@ -5563,8 +6395,8 @@
       });
 
       // Step C: Standalone LaTeX commands with braces outside $: e.g. \overline{AB}, \frac{a}{b}, \sqrt{3}, \angle POQ
-      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
-      str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, ' $$$1$$ ');
+      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
 
       // Step D: Standalone symbols & relations outside $
       str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
@@ -5585,7 +6417,7 @@
       });
 
       // Step G: Subscripted variables outside $: e.g. a_1, x_M
-      str = replaceOutsideMath(str, /\b([a-zA-Z]_[0-9a-zA-Z{}]*)\b/g, ' $$1$ ');
+      str = replaceOutsideMath(str, /\b([a-zA-Z]_[0-9a-zA-Z{}]*)\b/g, (m, p1) => ' $' + p1 + '$ ');
 
       return str.replace(/\${3,}/g, '$$').replace(/\$\s*\$/g, ' ');
     }
@@ -5632,14 +6464,23 @@
       return title.replace(/^(고[123]|중[123]|초[1-6]|고3\/N수)\s*/g, '').trim();
     }
 
-    // Grade-Tailored Sample Problem Mapping Engine
+    // Grade-Tailored Sample Problem Mapping Engine (Curriculum-Isolated Dedicated Questions)
     function getSampleProblemIdForGrade(grade) {
       if (!grade) grade = currentGrade || '고1';
-      if (grade.startsWith('초')) return 4;
-      if (grade.startsWith('중')) return 5;
+      if (grade === '초1') return 101;
+      if (grade === '초2') return 102;
+      if (grade === '초3') return 103;
+      if (grade === '초4') return 104;
+      if (grade === '초5') return 4;
+      if (grade === '초6') return 106;
+      if (grade === '중1') return 201;
+      if (grade === '중2') return 5;
+      if (grade === '중3') return 301;
       if (grade === '고1') return 1;
       if (grade === '고2') return 6;
       if (grade === '고3/N수' || grade === '고3' || grade === 'N수') return 3;
+      if (grade.startsWith('초')) return 4;
+      if (grade.startsWith('중')) return 5;
       return 1;
     }
 
@@ -5785,11 +6626,27 @@
         const neqSvg = '<' + 'svg class="inline-block align-middle" style="width:0.85em;height:0.85em;vertical-align:-0.15em;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><' + 'line x1="4" y1="9" x2="20" y2="9"/><' + 'line x1="4" y1="15" x2="20" y2="15"/><' + 'line x1="16" y1="4" x2="8" y2="20"/></' + 'svg>';
         document.querySelectorAll('.katex .mrel').forEach(el => {
           const t = el.textContent ? el.textContent.trim() : '';
-          if (t === '≠' || t === '⌸' || t === '目' || t === '▤' || t === '〓' || t === '∄') {
+          if (t === '≠' || t === '⌸' || t === '目' || t === '▤' || t === '〓' || t === '∄' || t.includes('\uE020') || t.includes('') || /[\uE000-\uF8FF]/.test(t)) {
             el.innerHTML = neqSvg;
           }
         });
       }
+    }
+
+    // Global Copy Interceptor: Harmonize KaTeX Private-Use-Area Glyphs into Pure Unicode
+    if (typeof window !== 'undefined') {
+      window.addEventListener('copy', (e) => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+        const text = selection.toString();
+        if (/[\uE000-\uF8FF]/.test(text) || text.includes('=')) {
+          const cleanText = text.replace(/[\uE000-\uF8FF]=?/g, '≠').replace(/=/g, '≠');
+          if (e.clipboardData) {
+            e.clipboardData.setData('text/plain', cleanText);
+            e.preventDefault();
+          }
+        }
+      });
     }
 
     // Fundamental Cache Buster & Service Worker Purger
@@ -6022,7 +6879,10 @@
         s = s.replace(/[∂]/g, ' \\partial ');
         s = s.replace(/[∘]/g, ' \\circ ');
 
-        // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
+        // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters & KaTeX PUA artifacts:
+        s = s.replace(/[\uE000-\uF8FF]=?/g, ' \\neq ');
+        s = s.replace(/=/g, ' \\neq ');
+        s = s.replace(/!=/g, ' \\neq ');
         s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
         s = s.replace(/\\neq\s*\\neq/g, '\\neq');
         s = s.replace(/\s*\\neq\s*/g, ' \\neq ');
@@ -7609,7 +8469,7 @@
           `;
         } else {
           return `
-            <p class="text-[11px] text-slate-300 leading-relaxed max-w-full overflow-x-auto no-scrollbar py-0.5 break-keep">
+            <p class="solution-step-paragraph text-slate-300 max-w-full overflow-x-auto no-scrollbar break-keep">
               ${autoFormatMathText(line)}
             </p>
           `;
@@ -7639,7 +8499,7 @@
               
               <div class="space-y-2 pt-1 w-full max-w-full min-w-0">
                 ${sq.solution_steps.map(s => `
-                  <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
+                  <div class="solution-step-card bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
                     <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
                     <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
                       ${formatStepContentHtml(s.content)}
@@ -7693,7 +8553,7 @@
               <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text)}</p>
             </div>
             ${sq.solution_steps.map(s => `
-              <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
+              <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
                 <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
                 <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
                   ${formatStepContentHtml(s.content)}
@@ -7719,7 +8579,7 @@
       } else {
         // 3. Standard Single-Question Problem
         stepsContainer.innerHTML = data.solution_steps.map(s => `
-          <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
+          <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
             <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
             <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
               ${formatStepContentHtml(s.content)}
@@ -8277,7 +9137,7 @@
       
       const numId = Number(id);
       let data;
-      if (!isNaN(numId) && numId >= 1 && numId <= 6 && (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId])) {
+      if (!isNaN(numId) && (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId])) {
         // Enforce authoritative canonical code for 1~6 with zero stale localStorage pollution
         const source = (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId]);
         data = JSON.parse(JSON.stringify(source));
