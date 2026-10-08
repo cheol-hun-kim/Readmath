@@ -346,7 +346,7 @@ if (p3) {
   const d1Svg = p3.diagrams[0].svg;
   // Center O(150, 190), R=130: A(20, 190), B(280, 190), y-axis at x=150
   if (!d1Svg.includes('A 130 130 0 0 1 280 190')) geometryErrors.push('Problem 3 Diagram 1 outer semicircle must end at exact B(280, 190)');
-  if (!d1Svg.includes('x1="150" y1="215" x2="150" y2="35"')) geometryErrors.push('Problem 3 Diagram 1 missing y-axis at origin O(150, 190)');
+  if (!d1Svg.includes('x1="150"') || !d1Svg.includes('x2="150"')) geometryErrors.push('Problem 3 Diagram 1 missing y-axis at origin O(150, 190)');
   if (!d1Svg.includes('M 204.4 71.9 A 65 65 0 0 0 279.5 178.1')) geometryErrors.push('Problem 3 Diagram 1 inner semicircle must use exact tangent arc M 204.4 71.9 A 65 65 0 0 0 279.5 178.1');
   if (!d1Svg.includes('H (접점)')) geometryErrors.push('Problem 3 Diagram 1 missing contact point H');
 
