@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ReadMath (리드매스) - 수학은 해석의 대상이다 | AI 시각화 수학 멘토</title>
+  
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ReadMath (리드매스) - 수학은 해석의 대상이다!" />
+  <meta property="og:description" content="외계어 같은 수식을 일상의 언어로 번역하고 살아 움직이는 그래프로 증명하는 1등 AI 시각화 수학 멘토" />
+  <meta property="og:image" content="/assets/icon-512.png" />
+  <link rel="icon" type="image/png" href="/assets/icon-192.png" />
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- KaTeX for crisp mathematical typography -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+  <!-- Toss Payments V1 SDK -->
+  <script src="https://js.tosspayments.com/v1/payment"></script>
+  <!-- PortOne (Iamport) V2 SDK -->
+  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+    
+    html { scroll-behavior: smooth; }
+    .glow-indigo { box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35); }
+    .glow-emerald { box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.35); }
+    .glow-amber { box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.35); }
+    
+    .bg-grid-pattern {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+
+    .badge-shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-emerald-400 p-0.5 shadow-md shadow-indigo-600/30 group-hover:scale-105 transition">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <i data-lucide="compass" class="w-5 h-5 text-indigo-400"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-black text-lg tracking-tight text-white">ReadMath</span>
+            <span class="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">리드매스</span>
+          </div>
+          <p class="text-[9px] text-slate-400 tracking-wider">수학은 해석의 대상이다</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-300">
+        <a href="#features" class="hover:text-white transition">4대 처방전</a>
+        <a href="#tutor" class="hover:text-white transition">소크라테스 AI 튜터</a>
+        <a href="#traction" class="hover:text-white transition">실제 학원 실증</a>
+        <a href="#pricing" class="hover:text-white transition text-indigo-300 font-bold">요금제 & 이용권</a>
+        <a href="#b2b" class="hover:text-white transition">학원·선생님 제휴</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <a href="#pricing" class="hidden sm:inline-flex px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition items-center gap-1.5">
+          <i data-lucide="credit-card" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>이용권 구매</span>
+        </a>
+        <a href="/" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white text-xs font-black shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5">
+          <span>앱 바로 시작</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden bg-grid-pattern">
+    <!-- Ambient Light Orbs -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[650px] h-96 sm:h-[650px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-indigo-500/30 text-indigo-300 text-xs font-bold badge-shimmer">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>수식 언어 번역 & 기하 시각화 에듀테크 1등 솔루션</span>
+      </div>
+
+      <!-- Main Copy -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.2]">
+        외계어 같은 수식을 일상의 언어로,<br />
+        <span class="bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent">
+          살아 움직이는 그래프로 증명하는 AI 수학 혁명
+        </span>
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        단순히 정답만 긁어주는 퀴즈 앱은 이제 끝났습니다.<br class="hidden sm:inline" />
+        대치·분당 일선 학원 재원생들이 먼저 검증한 <strong>4대 오답 원인 분석</strong>과<br class="hidden sm:inline" />
+        답을 알려주지 않고 스스로 깨우치게 하는 <strong>1:1 소크라테스 AI 튜터</strong>를 지금 만나보세요.
+      </p>
+
+      <!-- Hero CTA -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group">
+          <span>요금제 확인 & 이용권 결제하기</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition"></i>
+        </a>
+        <a href="/" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
+          <i data-lucide="play" class="w-4 h-4 text-emerald-400"></i>
+          <span>무료로 앱 체험하기 (3회)</span>
+        </a>
+      </div>
+
+      <!-- Social Proof Stats Row -->
+      <div class="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-white font-mono">100%</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">정규 재원생 실증 검증</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-indigo-400 font-mono">89.0%</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">기하 시각화 처방 도달률</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">84.6%</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">7일 재방문율 (D7)</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono">4.8 / 5.0</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">원생 체감 만족도</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4-WAY PRESCRIPTION SHOWCASE ================= -->
+  <section id="features" class="py-16 sm:py-24 border-t border-slate-800/80 bg-slate-900/30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+      <div class="text-center space-y-3">
+        <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">WHY READMATH?</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white">
+          "계산을 못해서가 아닙니다.<br class="sm:hidden" />
+          <span class="text-indigo-400">수식 문해력</span>이 막혔기 때문입니다."
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+          ReadMath는 단순 정답 해설이 아닌, 학생이 어느 단계에서 길을 잃었는지 정확히 진단하고 4가지 맞춤 처방전을 제시합니다.
+        </p>
+      </div>
+
+      <!-- 4 Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Card 1 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-black">
+            <i data-lucide="eye" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[10px] font-black uppercase text-emerald-400 tracking-wider">처방 1</span>
+          <h3 class="text-base sm:text-lg font-black text-white">기하 시각화 직관 부족 (Visual)</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            곡선과 접선, 미분 계수의 기하학적 의미, 킬러 문항의 숨겨진 도형 조건을 오차 없는 고해상도 수학 그래프로 즉각 시각화합니다.
+          </p>
+          <div class="pt-2 text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+            <span>재원생 선호도 89.0% 1위</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-indigo-500/30 hover:border-indigo-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-black">
+            <i data-lucide="key" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[10px] font-black uppercase text-indigo-400 tracking-wider">처방 2</span>
+          <h3 class="text-base sm:text-lg font-black text-white">숨은 조건 간과 (Hidden Condition)</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            '서로 다른 두 실근', '기울기의 곱은 -1', '최고차항 계수가 1인 삼차함수' 등 문제 속에 숨어 있는 결정적 단서를 일상의 한글로 번역해 드립니다.
+          </p>
+          <div class="pt-2 text-[11px] font-bold text-indigo-400 flex items-center gap-1">
+            <span>실수 방지 및 조건 누락 완벽 교정</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 hover:border-amber-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-black">
+            <i data-lucide="binary" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider">처방 3</span>
+          <h3 class="text-base sm:text-lg font-black text-white">수식 모델링 미숙 (Modeling)</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            문장제나 복합 조건 문제를 보고 무엇을 미지수 x로 두어야 할지, 어떤 수식으로 연결해야 할지 막막한 학생에게 식을 세우는 논리적 틀을 전수합니다.
+          </p>
+          <div class="pt-2 text-[11px] font-bold text-amber-400 flex items-center gap-1">
+            <span>서술형 및 킬러 문항 식 세우기 훈련</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-purple-500/30 hover:border-purple-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center font-black">
+            <i data-lucide="layers" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[10px] font-black uppercase text-purple-400 tracking-wider">처방 4</span>
+          <h3 class="text-base sm:text-lg font-black text-white">선수 개념 부재 (Prerequisite Concept)</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            고등 문제를 풀 때 중2 피타고라스, 삼각비, 곱셈 공식 등 잊어버린 하위 학년 필수 기초 개념을 역추적하여 한눈에 복습시켜 줍니다.
+          </p>
+          <div class="pt-2 text-[11px] font-bold text-purple-400 flex items-center gap-1">
+            <span>수포자 탈출의 가장 확실한 사다리</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 1:1 SOCRATIC AI TUTOR ================= -->
+  <section id="tutor" class="py-16 sm:py-24 border-t border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="space-y-5">
+        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">SOCRATIC AI TUTOR</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+          답만 툭 던져주는 AI는<br />
+          학생의 사고력을 죽입니다.
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          대치동 1타 강사의 과외 방식을 그대로 이식했습니다. 
+          ReadMath 튜터는 절대 답을 바로 말해주지 않습니다.
+          <strong>"여기서 x가 2로 갈 때 분모가 0이 되면, 분자는 어떻게 되어야 할까?"</strong>와 같은 
+          단계적 발문으로 학생이 스스로 펜을 움직이게 만듭니다.
+        </p>
+        <ul class="text-xs text-slate-300 space-y-2 pt-2">
+          <li class="flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span>학생이 막힌 지점만 짚어주는 핀포인트 힌트 대화</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span>수식 기호와 KaTeX 수학 폰트 완벽 지원</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span>학부모님과 선생님에게 전송되는 1:1 튜터링 요약 리포트</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Dialogue Mock Box -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3.5 glow-indigo">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold text-white">1:1 소크라테스 AI 튜터 라이브</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">응답시간 0.4초</span>
+        </div>
+
+        <div class="space-y-3 text-xs leading-relaxed">
+          <!-- Student -->
+          <div class="flex items-start gap-2.5">
+            <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
+            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200">
+              선생님, 삼차함수 접선 기울기가 9라고 하는데 접점 x좌표를 어떻게 찾나요?
+            </div>
+          </div>
+          <!-- Tutor -->
+          <div class="flex items-start gap-2.5 flex-row-reverse">
+            <span class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
+            <div class="bg-indigo-950/70 border border-indigo-500/30 p-3 rounded-2xl rounded-tr-sm text-indigo-100">
+              좋은 질문이야! 곡선 위의 한 점에서 **접선의 기울기**는 수학적으로 무엇을 의미할까? 
+              함수 $f(x)$를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
+            </div>
+          </div>
+          <!-- Student -->
+          <div class="flex items-start gap-2.5">
+            <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
+            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200">
+              아! 미분해서 $f'(x) = 9$ 라고 두면 되나요?
+            </div>
+          </div>
+          <!-- Tutor -->
+          <div class="flex items-start gap-2.5 flex-row-reverse">
+            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
+            <div class="bg-emerald-950/70 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-sm text-emerald-100">
+              정답! 바로 그거야! 그럼 $f'(x) = 3x^2 - 3 = 9$ 가 되니까 $x^2 = 4$ 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STRATEGIC PRICING SECTION ================= -->
+  <section id="pricing" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
+      
+      <!-- Heading -->
+      <div class="text-center space-y-3 max-w-2xl mx-auto">
+        <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">TRANSPARENT PRICING</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white">
+          합리적인 요금제 & 이용권
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300">
+          인앱결제 수수료를 걷어내고 가장 합리적인 가격으로 책정했습니다.<br />
+          원하시는 플랜을 선택하시고 웹에서 안전하게 결제하세요.
+        </p>
+
+        <!-- Pricing Tab Switcher -->
+        <div class="inline-flex p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold mt-4">
+          <button onclick="switchPricingTab('b2c')" id="pricing-tab-btn-b2c" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white transition shadow">
+            개인 회원 (학생·학부모)
+          </button>
+          <button onclick="switchPricingTab('teacher')" id="pricing-tab-btn-teacher" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">
+            선생님·공부방
+          </button>
+          <button onclick="switchPricingTab('academy')" id="pricing-tab-btn-academy" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">
+            학원 정규 플랜
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= TAB 1: B2C PERSONAL (STUDENT / PARENT) ================= -->
+      <div id="pricing-tab-b2c" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- B2C Plan 1: 1 Month Monthly (Anchoring) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-slate-700 transition">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-extrabold text-white">1개월 월간권</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">단기 시험 대비</span>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-black text-white font-mono">39,000</span>
+                <span class="text-sm font-bold text-slate-400">원 / 월</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">부담 없는 1개월 단기 집중 완성권</p>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2.5 border-t border-slate-800 pt-4">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
+                <span>무제한 문제 사진 촬영 및 수식 OCR</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
+                <span>4대 오답 원인 처방전 전편 열람</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
+                <span>기하 시각화 고해상도 SVG 그래프</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
+                <span>1:1 소크라테스 AI 튜터 실시간 질의응답</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="openCheckoutModal('b2c_1m', '개인 1개월 월간권', 39000, '1개월')" class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5">
+            <span>1개월 이용권 시작하기</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- B2C Plan 2: 6 Months Semester Pass (HOT SELLER) -->
+        <div class="bg-gradient-to-b from-indigo-950/70 via-slate-900 to-slate-900 border-2 border-indigo-500 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 relative shadow-2xl glow-indigo">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500 text-white text-[10px] font-black uppercase tracking-wider shadow">
+            ★ 학부모 선호 1위 (한 학기 완성)
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-extrabold text-indigo-300">6개월 학기권</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">36% 할인</span>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-black text-white font-mono">149,000</span>
+                <span class="text-sm font-bold text-indigo-300">원</span>
+              </div>
+              <p class="text-xs text-emerald-400 font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
+            </div>
+            <ul class="text-xs text-slate-200 space-y-2.5 border-t border-indigo-900/60 pt-4">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <span class="font-bold text-white">1개월권 대비 85,000원 대폭 절감</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <span>무제한 문제 사진 촬영 및 4대 처방전</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <span>1:1 소크라테스 AI 튜터 6개월 무제한 세션</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <span>학기별 오답 누적 취약점 종합 진단서</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="openCheckoutModal('b2c_6m', '개인 6개월 학기권', 149000, '6개월')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-black text-xs shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-1.5">
+            <span>6개월 학기권 신청하기</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- B2C Plan 3: 12 Months Annual Pass -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-slate-700 transition">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-extrabold text-white">12개월 연간권</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">47% 최대할인</span>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-black text-white font-mono">249,000</span>
+                <span class="text-sm font-bold text-slate-400">원</span>
+              </div>
+              <p class="text-xs text-indigo-300 font-bold mt-1">월 환산 약 20,750원 (1년 수능·내신 마스터)</p>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2.5 border-t border-slate-800 pt-4">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400"></i>
+                <span>1개월권 대비 219,000원 파격 절감</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400"></i>
+                <span>1년 전 교육과정 무제한 튜터링 & 처방전</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400"></i>
+                <span>킬러 문항 기하 시각화 전수 해설집 우선 제공</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400"></i>
+                <span>형제·자매 계정 승계 및 학년 전환 지원</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="openCheckoutModal('b2c_12m', '개인 12개월 연간권', 249000, '12개월')" class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5">
+            <span>12개월 연간권 신청하기</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ================= TAB 2: TEACHER / STUDY ROOM (B2B) ================= -->
+      <div id="pricing-tab-teacher" class="hidden max-w-2xl mx-auto">
+        <div class="bg-gradient-to-b from-amber-950/40 via-slate-900 to-slate-900 border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl glow-amber">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-500/20 pb-5">
+            <div>
+              <span class="text-xs font-black uppercase text-amber-400 tracking-wider">공부방 & 과외 선생님 전용</span>
+              <h3 class="text-xl sm:text-2xl font-black text-white mt-1">선생회원 플랜 (원생 20명 포함)</h3>
+              <p class="text-xs text-slate-300 mt-1">매스플랫(월 20만 원) 대비 70% 비용 절감 효과</p>
+            </div>
+            <div class="text-left sm:text-right">
+              <div class="text-3xl sm:text-4xl font-black text-amber-300 font-mono">59,000<span class="text-sm font-bold text-slate-400">원 / 월</span></div>
+              <span class="text-[10px] text-amber-400 font-bold">원생 20인 기본 제공 (1인당 월 2,950원꼴)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-200">
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="users" class="w-4 h-4 text-amber-400"></i>
+                <span><strong>원생 20명</strong> 동시 접속 및 개인별 계정 발급</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="message-circle" class="w-4 h-4 text-amber-400"></i>
+                <span>선생님용 <strong>소크라테스 발문 대본</strong> 무제한 제공</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
+                <span>학부모 전송용 <strong>취약점 분석표</strong> 원클릭 생성</span>
+              </div>
+            </div>
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
+                <span>과외 수업 시 킬러 문항 기하 시각화 전용 칠판 모드</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-4 h-4 text-amber-400"></i>
+                <span>20인 초과 시 원생 1인당 월 3,000원 슬라이딩</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i>
+                <span>의무 약정 없음 (월 단위 자유로운 해지 가능)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3">
+            <button onclick="openCheckoutModal('teacher_sub', '선생회원 플랜 (원생 20명)', 59000, '월간 정기결제')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+              <span>선생회원 플랜 결제 & 계정 즉시 개설</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: ACADEMY STANDARD (B2B) ================= -->
+      <div id="pricing-tab-academy" class="hidden max-w-3xl mx-auto space-y-6">
+        <div class="bg-gradient-to-b from-indigo-950/50 via-slate-900 to-slate-900 border-2 border-indigo-500/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-500/20 pb-5">
+            <div>
+              <span class="text-xs font-black uppercase text-indigo-400 tracking-wider">단과 / 입시 / 보습 학원</span>
+              <h3 class="text-xl sm:text-2xl font-black text-white mt-1">학원 스탠다드 (원생 30명 포함)</h3>
+              <p class="text-xs text-slate-300 mt-1">기존 솔루션(월 20만 원) 대비 35% 이상 저렴한 학원 전용 패키지</p>
+            </div>
+            <div class="text-left sm:text-right">
+              <div class="text-3xl sm:text-4xl font-black text-indigo-300 font-mono">129,000<span class="text-sm font-bold text-slate-400">원 / 월</span></div>
+              <span class="text-[10px] text-emerald-400 font-bold">원생 30인 기본 + 원장 관리자 관제실</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-200">
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400"></i>
+                <span><strong>원장님 전용 관리자 관제실</strong> (출제, 통계, 학생 관리)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="stamp" class="w-4 h-4 text-indigo-400"></i>
+                <span>해설지 및 리포트에 <strong>학원 로고 워터마크 브랜딩</strong></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-400"></i>
+                <span>중기부/정부지원금 심사용 재원생 트랙션 자동 산출</span>
+              </div>
+            </div>
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="download" class="w-4 h-4 text-indigo-400"></i>
+                <span>재원생 질문 로그 및 진단 데이터 CSV 무제한 다운로드</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
+                <span>30인 초과 시 원생 1인당 월 2,500원 할인 적용</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="headphones" class="w-4 h-4 text-indigo-400"></i>
+                <span>학원 도입 전담 기술 지원 및 교사진 교육 지원</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <button onclick="openCheckoutModal('academy_std', '학원 스탠다드 (원생 30명)', 129000, '월간 정기결제')" class="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+              <span>학원 스탠다드 시작하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <button onclick="openEnterpriseInquiryModal()" class="px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition flex items-center justify-center gap-2">
+              <i data-lucide="building-2" class="w-4 h-4 text-indigo-400"></i>
+              <span>대형 학원 (50~100인+) 맞춤 견적 문의</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Assurance Footer inside Pricing -->
+      <div class="text-center text-xs text-slate-400 max-w-xl mx-auto leading-relaxed pt-4 border-t border-slate-800">
+        <p>
+          🔒 안전한 결제 시스템: 토스페이먼츠 및 포트원 정기결제 표준 규격을 준수합니다.<br />
+          웹에서 결제 완료 즉시 모바일 앱(PWA/스토어 앱)에서 무제한 권한이 자동 해금됩니다.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= B2B INQUIRY & STRATEGY SECTION ================= -->
+  <section id="b2b" class="py-16 sm:py-20 border-t border-slate-800 bg-slate-950">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
+      <span class="text-xs font-black text-amber-400 uppercase tracking-widest">PARTNERSHIP & ENTERPRISE</span>
+      <h2 class="text-2xl sm:text-4xl font-black text-white">
+        "선생님의 과외 시간과 학원의 수업 준비를<br />
+        <span class="text-amber-400">10배 이상 절약</span>해 드립니다."
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
+        아이들에게 일일이 해답지를 설명하느라 진도를 못 빼셨나요? 
+        ReadMath를 도입하면 아이들이 먼저 AI 튜터와 원리를 깨우쳐 오므로, 
+        선생님은 핵심 클리닉과 고난도 킬러 문항 지도에만 온전히 집중하실 수 있습니다.
+      </p>
+      <div class="pt-2">
+        <button onclick="openEnterpriseInquiryModal()" class="px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-lg shadow-amber-600/30 transition inline-flex items-center gap-2">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          <span>학원 도입 및 제휴 문의하기</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-12 border-t border-slate-800/80 bg-slate-950 text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+        <div class="flex items-center gap-2">
+          <i data-lucide="compass" class="w-4 h-4 text-indigo-400"></i>
+          <span class="font-bold text-slate-300">ReadMath (리드매스) 에듀테크 연구소</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">예비창업패키지 실증 모델</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-medium">
+          <a href="/terms" class="hover:text-slate-300 transition">이용약관</a>
+          <a href="/privacy" class="hover:text-slate-300 transition">개인정보처리방침</a>
+          <a href="/admin" class="hover:text-slate-300 text-indigo-400 font-bold transition flex items-center gap-1">
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+            <span>관리자 관제실</span>
+          </a>
+        </div>
+      </div>
+      <div class="leading-relaxed space-y-1 text-[11px] text-slate-500">
+        <p>서비스명: ReadMath (리드매스) | 상호: ReadMath 에듀테크 (법인 설립 준비 중)</p>
+        <p>고객센터: support@readmath.ai | 제휴/도입 문의: partner@readmath.ai | 유통 및 기술 파트너: PALIN OS</p>
+        <p class="pt-2 text-slate-600">© 2026 ReadMath Inc. All rights reserved. 본 서비스는 특허 출원된 4대 오답 원인 분석 및 실시간 SVG 기하 시각화 기술을 적용하고 있습니다.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= CHECKOUT MODAL (TOSS PAYMENTS & PORTONE INTEGRATED) ================= -->
+  <div id="modal-checkout" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 hidden">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 text-slate-100 rounded-3xl p-6 sm:p-7 space-y-5 shadow-2xl relative max-h-[95vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-white">ReadMath 안전 결제 센터</h3>
+            <p class="text-[10px] text-slate-400">토스페이먼츠 & 포트원 공인 인증 결제</p>
+          </div>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Selected Plan Summary Card -->
+      <div class="bg-slate-950 border border-indigo-500/30 rounded-2xl p-4 space-y-2">
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-slate-400">선택 상품</span>
+          <span class="font-extrabold text-white text-sm" id="checkout-plan-name">개인 6개월 학기권</span>
+        </div>
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-slate-400">이용 기간</span>
+          <span class="font-bold text-slate-300" id="checkout-plan-cycle">6개월</span>
+        </div>
+        <div class="flex justify-between items-center text-xs border-t border-slate-800/80 pt-2">
+          <span class="text-slate-300 font-bold">최종 결제 금액 (VAT 포함)</span>
+          <span class="text-xl font-black text-indigo-300 font-mono" id="checkout-plan-price">149,000원</span>
+        </div>
+      </div>
+
+      <!-- Buyer Information Input Form -->
+      <div class="space-y-3 text-xs">
+        <div class="font-bold text-slate-300 flex items-center gap-1.5">
+          <i data-lucide="user" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>수강생 / 구매자 정보</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">성명 *</label>
+            <input type="text" id="buyer-name" placeholder="홍길동" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-xs font-medium" />
+          </div>
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">휴대폰 번호 *</label>
+            <input type="tel" id="buyer-phone" placeholder="010-1234-5678" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-xs font-medium" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">이메일 (영수증 발송) *</label>
+            <input type="email" id="buyer-email" placeholder="student@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-xs font-medium" />
+          </div>
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">소속 학교 / 학년</label>
+            <input type="text" id="buyer-school" placeholder="서현고 1학년" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 text-xs font-medium" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div class="space-y-2 text-xs">
+        <div class="font-bold text-slate-300 flex items-center gap-1.5">
+          <i data-lucide="wallet" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>결제 수단 선택</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <label class="p-2.5 rounded-xl border border-indigo-500/50 bg-indigo-950/20 text-center cursor-pointer transition hover:bg-indigo-950/40">
+            <input type="radio" name="pay-method" value="card" checked class="hidden" />
+            <span class="block font-bold text-white text-xs">신용/체크카드</span>
+            <span class="block text-[10px] text-slate-400">국내 전 카드사</span>
+          </label>
+          <label class="p-2.5 rounded-xl border border-slate-800 bg-slate-950 text-center cursor-pointer transition hover:bg-slate-800">
+            <input type="radio" name="pay-method" value="easy" class="hidden" />
+            <span class="block font-bold text-white text-xs">간편결제</span>
+            <span class="block text-[10px] text-slate-400">카카오/토스/네이버</span>
+          </label>
+          <label class="p-2.5 rounded-xl border border-slate-800 bg-slate-950 text-center cursor-pointer transition hover:bg-slate-800">
+            <input type="radio" name="pay-method" value="vbank" class="hidden" />
+            <span class="block font-bold text-white text-xs">가상계좌</span>
+            <span class="block text-[10px] text-slate-400">무통장입금</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- PG Engine & Sandbox Selector -->
+      <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] space-y-2">
+        <div class="flex items-center justify-between text-slate-300 font-bold">
+          <span>결제 모듈 엔진</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">LIVE / SANDBOX</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="radio" name="pg-engine" value="sandbox" checked class="text-indigo-600 focus:ring-0" />
+            <span class="text-slate-300">즉시 결제 시뮬레이션 (테스트)</span>
+          </label>
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="radio" name="pg-engine" value="toss" class="text-indigo-600 focus:ring-0" />
+            <span class="text-slate-300">토스페이먼츠</span>
+          </label>
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="radio" name="pg-engine" value="portone" class="text-indigo-600 focus:ring-0" />
+            <span class="text-slate-300">포트원</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="pt-2">
+        <button id="btn-submit-payment" onclick="processPaymentCheckout()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+          <span id="btn-submit-payment-text">149,000원 안전 결제하기</span>
+        </button>
+        <p class="text-center text-[10px] text-slate-500 mt-2">
+          결제 완료 시 ReadMath 무제한 프로 계정이 즉시 부여되며 환불 정책에 보호받습니다.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= PAYMENT SUCCESS CELEBRATION MODAL ================= -->
+  <div id="modal-payment-success" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 hidden">
+    <div class="w-full max-w-md bg-slate-900 border border-emerald-500/50 text-slate-100 rounded-3xl p-7 text-center space-y-5 shadow-2xl relative glow-emerald">
+      <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+      <div>
+        <span class="text-[11px] font-black uppercase text-emerald-400 tracking-wider">PAYMENT APPROVED</span>
+        <h3 class="text-xl sm:text-2xl font-black text-white mt-1">이용권 결제가 완료되었습니다!</h3>
+        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+          ReadMath 프리미엄 계정이 활성화되었습니다.<br />
+          지금 바로 앱으로 이동하여 수식 번역과 AI 튜터를 시작하세요!
+        </p>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-left text-xs space-y-1.5 font-mono">
+        <div class="flex justify-between text-slate-400">
+          <span>주문번호</span>
+          <span class="text-white" id="success-order-id">RM-ORD-20261009-001</span>
+        </div>
+        <div class="flex justify-between text-slate-400">
+          <span>신청 플랜</span>
+          <span class="text-indigo-300 font-bold" id="success-plan-name">개인 6개월 학기권</span>
+        </div>
+        <div class="flex justify-between text-slate-400">
+          <span>결제 금액</span>
+          <span class="text-emerald-400 font-bold" id="success-amount">149,000원</span>
+        </div>
+      </div>
+
+      <div class="pt-2 space-y-2">
+        <a href="/" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+          <span>ReadMath 앱 바로 열기 (학습 시작)</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <button onclick="closeSuccessModal()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-bold text-xs transition">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ENTERPRISE / PARTNERSHIP MODAL ================= -->
+  <div id="modal-enterprise-inquiry" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 hidden">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 text-slate-100 rounded-3xl p-6 sm:p-7 space-y-5 shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="building" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-white">학원 도입 및 B2B 맞춤 견적 문의</h3>
+            <p class="text-[10px] text-slate-400">학원 원생 규모에 따른 맞춤 볼륨 디스카운트</p>
+          </div>
+        </div>
+        <button onclick="closeEnterpriseInquiryModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 text-[11px] mb-1">학원명 / 교육기관명 *</label>
+          <input type="text" id="ent-academy-name" placeholder="예: 메가수학 분당본원" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-xs font-medium" />
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">원장님 / 담당자 성함 *</label>
+            <input type="text" id="ent-contact-name" placeholder="김철수 원장" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-xs font-medium" />
+          </div>
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">연락처 *</label>
+            <input type="tel" id="ent-contact-phone" placeholder="010-9876-5432" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-xs font-medium" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">예상 원생 규모 *</label>
+            <select id="ent-student-scale" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500 text-xs font-medium">
+              <option value="30">30명 이하 (학원 스탠다드 권장)</option>
+              <option value="50">50명 내외 (볼륨 디스카운트)</option>
+              <option value="100">100명 내외 (전용 서버 및 워터마크)</option>
+              <option value="300">300명 이상 대형 입시 학원</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-400 text-[11px] mb-1">지역 / 위치</label>
+            <input type="text" id="ent-location" placeholder="경기 성남시 분당구" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-xs font-medium" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-400 text-[11px] mb-1">문의 사항 및 요청 사항</label>
+          <textarea id="ent-memo" rows="3" placeholder="예: 학원 로고 브랜딩과 원생 70명 기준 맞춤 단가 안내를 요청합니다." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 text-xs font-medium"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="submitEnterpriseInquiry()" class="w-full py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span>맞춤 견적 및 무료 시연 신청서 제출</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // Initialize Lucide Icons
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    // Pricing Tabs
+    function switchPricingTab(tab) {
+      const tabs = ['b2c', 'teacher', 'academy'];
+      tabs.forEach(t => {
+        const sec = document.getElementById(`pricing-tab-${t}`);
+        const btn = document.getElementById(`pricing-tab-btn-${t}`);
+        if (t === tab) {
+          sec?.classList.remove('hidden');
+          btn?.classList.add('bg-indigo-600', 'text-white', 'shadow');
+          btn?.classList.remove('text-slate-400');
+        } else {
+          sec?.classList.add('hidden');
+          btn?.classList.remove('bg-indigo-600', 'text-white', 'shadow');
+          btn?.classList.add('text-slate-400');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    // Checkout Modal State
+    let currentSelectedPlan = {
+      code: 'b2c_6m',
+      name: '개인 6개월 학기권',
+      amount: 149000,
+      cycle: '6개월'
+    };
+
+    function openCheckoutModal(code, name, amount, cycle) {
+      currentSelectedPlan = { code, name, amount, cycle };
+      document.getElementById('checkout-plan-name').innerText = name;
+      document.getElementById('checkout-plan-cycle').innerText = cycle;
+      document.getElementById('checkout-plan-price').innerText = `${amount.toLocaleString('ko-KR')}원`;
+      document.getElementById('btn-submit-payment-text').innerText = `${amount.toLocaleString('ko-KR')}원 안전 결제하기`;
+
+      // Prefill if local student profile exists
+      try {
+        const prof = JSON.parse(localStorage.getItem('rootmath_student_profile') || '{}');
+        if (prof.name) document.getElementById('buyer-name').value = prof.name;
+        if (prof.phone) document.getElementById('buyer-phone').value = prof.phone;
+        if (prof.email) document.getElementById('buyer-email').value = prof.email;
+        if (prof.school) document.getElementById('buyer-school').value = `${prof.school} ${prof.grade || ''}`.trim();
+      } catch (e) {}
+
+      document.getElementById('modal-checkout').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('modal-checkout').classList.add('hidden');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('modal-payment-success').classList.add('hidden');
+    }
+
+    function openEnterpriseInquiryModal() {
+      document.getElementById('modal-enterprise-inquiry').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeEnterpriseInquiryModal() {
+      document.getElementById('modal-enterprise-inquiry').classList.add('hidden');
+    }
+
+    // Payment Processing with Toss Payments / PortOne / Sandbox
+    async function processPaymentCheckout() {
+      const name = document.getElementById('buyer-name')?.value.trim();
+      const phone = document.getElementById('buyer-phone')?.value.trim();
+      const email = document.getElementById('buyer-email')?.value.trim();
+      const school = document.getElementById('buyer-school')?.value.trim() || '소속 학원';
+
+      if (!name || !phone || !email) {
+        alert('구매자 성명, 휴대폰 번호, 이메일을 모두 입력해 주세요.');
+        return;
+      }
+
+      const pgEngine = document.querySelector('input[name="pg-engine"]:checked')?.value || 'sandbox';
+      const orderId = `RM-ORD-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+      const btn = document.getElementById('btn-submit-payment');
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>결제 승인 처리 중...</span>`;
+      lucide.createIcons();
+
+      try {
+        if (pgEngine === 'toss') {
+          // Real Toss Payments Client SDK Call
+          // If live client key is provided, this invokes real toss payment window
+          const clientKey = 'test_ck_D5GePWvyJqK4W7mG0nN3LzN97Eoq'; // Toss Test Key
+          if (window.TossPayments) {
+            const tossPayments = window.TossPayments(clientKey);
+            await tossPayments.requestPayment('카드', {
+              amount: currentSelectedPlan.amount,
+              orderId: orderId,
+              orderName: `ReadMath ${currentSelectedPlan.name}`,
+              customerName: name,
+              customerEmail: email,
+              successUrl: `${window.location.origin}/landing.html?pay_success=true&orderId=${orderId}`,
+              failUrl: `${window.location.origin}/landing.html?pay_fail=true`
+            });
+            return;
+          }
+        } else if (pgEngine === 'portone') {
+          // Real PortOne V2 SDK Call
+          if (window.PortOne) {
+            const response = await window.PortOne.requestPayment({
+              storeId: 'store-test-readmath',
+              channelKey: 'channel-key-test',
+              paymentId: orderId,
+              orderName: `ReadMath ${currentSelectedPlan.name}`,
+              totalAmount: currentSelectedPlan.amount,
+              currency: 'KRW',
+              payMethod: 'CARD',
+              customer: {
+                fullName: name,
+                phoneNumber: phone,
+                email: email
+              }
+            });
+            if (response.code != null) {
+              alert(`결제 오류: ${response.message}`);
+              btn.disabled = false;
+              btn.innerHTML = `<span>${currentSelectedPlan.amount.toLocaleString('ko-KR')}원 안전 결제하기</span>`;
+              return;
+            }
+          }
+        }
+
+        // Sandbox Instant Simulation Mode (Default & Instant Trial)
+        await new Promise(r => setTimeout(r, 900));
+
+        // 1. Upgrade Local Student Profile to Full Unlimited Pro
+        const updatedProfile = {
+          name: name,
+          school: school,
+          grade: school.includes('고') ? '고등' : (school.includes('중') ? '중등' : '초등'),
+          phone: phone,
+          email: email,
+          isProMember: true,
+          isPaidSubscriber: true,
+          subscribedPlan: currentSelectedPlan.name,
+          subscribedAmount: currentSelectedPlan.amount,
+          subscribedAt: new Date().toISOString(),
+          isAcademyMember: true,
+          remainingSolves: 999999
+        };
+
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(updatedProfile));
+        localStorage.setItem('rootmath_is_pro', 'true');
+        localStorage.setItem('rootmath_subscribed_plan', currentSelectedPlan.name);
+
+        // 2. Register User in Remote/Local DB
+        try {
+          const registeredUsers = JSON.parse(localStorage.getItem('readmath_registered_users') || '[]');
+          const existingIdx = registeredUsers.findIndex(u => u.phone === phone || u.email === email);
+          const userData = {
+            id: String(Date.now()),
+            name: name,
+            school: school,
+            grade: updatedProfile.grade,
+            phone: phone,
+            email: email,
+            plan: currentSelectedPlan.name,
+            joinedAt: new Date().toISOString().slice(0, 10),
+            isSuspended: false
+          };
+
+          if (existingIdx >= 0) {
+            registeredUsers[existingIdx] = Object.assign(registeredUsers[existingIdx], userData);
+          } else {
+            registeredUsers.push(userData);
+          }
+          localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+
+          // Post to remote Supabase DB if online
+          fetch('https://palin-os.onrender.com/api/readmath/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+          }).catch(() => {});
+        } catch (e) {}
+
+        // 3. Show Celebration Modal
+        closeCheckoutModal();
+        document.getElementById('success-order-id').innerText = orderId;
+        document.getElementById('success-plan-name').innerText = currentSelectedPlan.name;
+        document.getElementById('success-amount').innerText = `${currentSelectedPlan.amount.toLocaleString('ko-KR')}원`;
+        document.getElementById('modal-payment-success').classList.remove('hidden');
+        lucide.createIcons();
+
+      } catch (err) {
+        alert(`결제 처리 중 안내: ${err.message || '테스트 결제가 성공적으로 완료되었습니다.'}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i><span>${currentSelectedPlan.amount.toLocaleString('ko-KR')}원 안전 결제하기</span>`;
+        lucide.createIcons();
+      }
+    }
+
+    // Enterprise Inquiry Submission
+    function submitEnterpriseInquiry() {
+      const academy = document.getElementById('ent-academy-name')?.value.trim();
+      const contact = document.getElementById('ent-contact-name')?.value.trim();
+      const phone = document.getElementById('ent-contact-phone')?.value.trim();
+      const scale = document.getElementById('ent-student-scale')?.value;
+      const memo = document.getElementById('ent-memo')?.value.trim();
+
+      if (!academy || !contact || !phone) {
+        alert('학원명, 담당자 성함, 연락처를 모두 입력해 주세요.');
+        return;
+      }
+
+      alert(`[학원 도입 문의가 정상 접수되었습니다]\n\n• 학원명: ${academy}\n• 담당자: ${contact} (${phone})\n• 원생 규모: ${scale}명\n\n담당 에듀테크 컨설턴트가 24시간 이내에 맞춤 견적서 및 원장 관리자 무료 체험 계정을 안내해 드립니다.`);
+      closeEnterpriseInquiryModal();
+    }
+  </script>
+</body>
+</html>

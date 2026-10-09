@@ -2131,14 +2131,14 @@
             <!-- Basic Teacher Plan -->
             <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2.5 space-y-1 hover:border-amber-500/40 transition">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold text-white">베이직 티처</span>
+                <span class="text-[11px] font-bold text-white">선생회원 플랜</span>
                 <span class="text-[8.5px] bg-slate-800 text-slate-300 px-1 py-0.2 rounded">과외/공부방</span>
               </div>
-              <p class="text-xs font-black text-amber-300">월 39,000원</p>
+              <p class="text-xs font-black text-amber-300">월 59,000원</p>
               <ul class="text-[9.5px] text-slate-300 space-y-0.5 pt-0.5">
-                <li>• 학생 15명 계정 관리</li>
+                <li>• 원생 20명 계정 관리</li>
                 <li>• 1:1 대화식 발문 대본</li>
-                <li>• 맞춤 클리닉 교재 무제한</li>
+                <li>• 학부모 전송용 분석표</li>
               </ul>
             </div>
 
@@ -2146,16 +2146,26 @@
             <div class="bg-slate-950/80 border border-amber-500/40 rounded-xl p-2.5 space-y-1 hover:border-amber-500 transition relative">
               <span class="absolute -top-1.5 right-1.5 bg-red-600 text-white text-[8px] font-black px-1.5 py-0.2 rounded-full">추천</span>
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold text-amber-200">선생님·학원 무제한 플랜</span>
+                <span class="text-[11px] font-bold text-amber-200">학원 스탠다드</span>
                 <span class="text-[8.5px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded">단과/입시</span>
               </div>
-              <p class="text-xs font-black text-amber-300">월 99,000원</p>
+              <p class="text-xs font-black text-amber-300">월 129,000원</p>
               <ul class="text-[9.5px] text-slate-300 space-y-0.5 pt-0.5">
-                <li>• 학생 <strong>무제한</strong> 관리</li>
-                <li>• 학원 로고 워터마크 인쇄</li>
-                <li>• 학부모 카톡 브리핑 연동</li>
+                <li>• 원생 30명 기본 관리</li>
+                <li>• 원장 전용 관리자 관제실</li>
+                <li>• 학원 로고 워터마크 브랜딩</li>
               </ul>
             </div>
+          </div>
+
+          <div class="flex gap-2 pt-1">
+            <button onclick="requestTeacherPlanInquiry()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black text-xs py-2 rounded-xl transition">
+              선생님 전용 무료 체험 신청
+            </button>
+            <a href="/landing#pricing" target="_blank" class="px-3 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold py-2 rounded-xl transition flex items-center gap-1">
+              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+              <span>웹 결제 센터</span>
+            </a>
           </div>
 
           <div class="bg-slate-950/70 rounded-lg p-2 text-[10.5px] text-slate-300 space-y-1 border border-slate-800">
@@ -2587,37 +2597,58 @@
         </div>
 
         <div class="space-y-2">
-          <div onclick="selectModalPlan('annual')" id="sub-plan-annual" class="border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 flex items-center justify-between cursor-pointer">
+          <!-- 6 Months Semester Pass (Hot) -->
+          <div onclick="selectModalPlan('semester')" id="sub-plan-semester" class="border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 flex items-center justify-between cursor-pointer">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-white">연간 구독 (추천)</span>
-                <span class="bg-red-500 text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded">37% 할인</span>
+                <span class="text-xs font-bold text-white">6개월 학기권 (추천 1위)</span>
+                <span class="bg-red-500 text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded">36% 할인</span>
               </div>
-              <p class="text-[10px] text-slate-400 mt-0.5">7일 무료체험 후 연 149,000원 (월 1.2만)</p>
+              <p class="text-[10px] text-slate-400 mt-0.5">한 학기 149,000원 (월 환산 24,800원)</p>
             </div>
-            <span class="text-sm font-black text-indigo-300">월 1.2만</span>
+            <span class="text-sm font-black text-indigo-300">월 2.4만</span>
           </div>
 
+          <!-- 12 Months Annual Pass -->
+          <div onclick="selectModalPlan('annual')" id="sub-plan-annual" class="border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-between cursor-pointer">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-white">12개월 연간권</span>
+                <span class="bg-indigo-500/20 text-indigo-300 text-[9px] font-extrabold px-1.5 py-0.2 rounded">47% 할인</span>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-0.5">1년 249,000원 (월 환산 20,750원)</p>
+            </div>
+            <span class="text-sm font-bold text-slate-300">월 2.0만</span>
+          </div>
+
+          <!-- 1 Month Monthly Pass -->
           <div onclick="selectModalPlan('monthly')" id="sub-plan-monthly" class="border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-between cursor-pointer">
             <div>
-              <span class="text-xs font-bold text-white">월간 구독</span>
-              <p class="text-[10px] text-slate-400 mt-0.5">언제든 해지 가능</p>
+              <span class="text-xs font-bold text-white">1개월 월간권</span>
+              <p class="text-[10px] text-slate-400 mt-0.5">단기 집중 완성 (언제든 해지 가능)</p>
             </div>
-            <span class="text-sm font-bold text-slate-300">19,800원/월</span>
+            <span class="text-sm font-bold text-slate-300">39,000원/월</span>
           </div>
         </div>
 
         <div class="bg-slate-950 rounded-xl p-3 text-[11px] space-y-1.5 text-slate-300">
           <p class="text-amber-400 font-bold mb-1">Pro 회원 전용 혜택:</p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 문제 촬영 및 단계별 풀이 <strong>무제한</strong></p>
-          <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 실시간 그래프 및 그림 설명 <strong>무제한</strong></p>
+          <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 실시간 그래프 및 4대 처방전 <strong>무제한</strong></p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 리드 쌤과 1:1 맞춤 질문과 대화 <strong>무제한</strong></p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 초1부터 고3/N수 전 과정 자유 전환</p>
         </div>
 
-        <button onclick="activatePro()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-indigo-600/40">
-          7일 무료 체험 시작하기
-        </button>
+        <div class="space-y-2 pt-1">
+          <a href="/landing#pricing" target="_blank" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 via-indigo-600 to-indigo-500 hover:from-emerald-500 hover:to-indigo-400 text-white font-extrabold text-xs shadow-lg transition flex items-center justify-center gap-2">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span>웹 결제 센터에서 이용권 결제하기 (수수료 우회 할인)</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+          <button onclick="activatePro()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition">
+            7일 무료 체험 모드로 시작하기
+          </button>
+        </div>
       </div>
     </div>
 
@@ -10154,13 +10185,14 @@
     }
 
     function selectModalPlan(type) {
-      if (type === 'annual') {
-        document.getElementById('sub-plan-annual').className = 'border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 flex items-center justify-between cursor-pointer';
-        document.getElementById('sub-plan-monthly').className = 'border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-between cursor-pointer';
-      } else {
-        document.getElementById('sub-plan-annual').className = 'border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-between cursor-pointer';
-        document.getElementById('sub-plan-monthly').className = 'border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 flex items-center justify-between cursor-pointer';
-      }
+      const sem = document.getElementById('sub-plan-semester');
+      const ann = document.getElementById('sub-plan-annual');
+      const mon = document.getElementById('sub-plan-monthly');
+      const activeClass = 'border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 flex items-center justify-between cursor-pointer';
+      const inactiveClass = 'border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-between cursor-pointer';
+      if (sem) sem.className = type === 'semester' ? activeClass : inactiveClass;
+      if (ann) ann.className = type === 'annual' ? activeClass : inactiveClass;
+      if (mon) mon.className = type === 'monthly' ? activeClass : inactiveClass;
     }
 
     function isCurrentUserSuspended() {

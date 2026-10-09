@@ -33,6 +33,12 @@ services:
         source: /admin
         destination: /admin.html
       - type: rewrite
+        source: /landing
+        destination: /landing.html
+      - type: rewrite
+        source: /pricing
+        destination: /landing.html
+      - type: rewrite
         source: /privacy
         destination: /privacy.html
       - type: rewrite

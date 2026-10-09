@@ -38,3 +38,9 @@ if (fs.existsSync('admin.html')) {
   fs.copyFileSync('admin.html', 'public/admin.html');
   console.log('✓ Successfully synchronized admin.html -> public/admin.html!');
 }
+
+if (fs.existsSync('landing.html')) {
+  fs.copyFileSync('landing.html', 'public/landing.html');
+  console.log('✓ Successfully synchronized landing.html -> public/landing.html!');
+}
+
