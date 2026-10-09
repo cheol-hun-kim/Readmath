@@ -100,6 +100,9 @@ const forbiddenJargonPatterns = [
   { pattern: /\bB2B\b/i, desc: 'B2B business jargon exposed in user UI' },
   { pattern: /문해력/i, desc: 'Responsibility-evading jargon "문해력" exposed (must focus on 출제자 의도/설계)' },
   { pattern: /독해력/i, desc: 'Responsibility-evading jargon "독해력" exposed' },
+  { pattern: /1타\s*(?:강사)?/i, desc: 'Commercial private education jargon "1타 강사" exposed (must focus on 출제자 의도)' },
+  { pattern: /대치동\s*1타/i, desc: 'Daechi-dong 1타 marketing jargon exposed' },
+  { pattern: /KaTeX/i, desc: 'KaTeX developer library jargon exposed in user UI' },
   { pattern: /격자\s*눈금\s*:\s*1칸\s*=\s*10px/i, desc: 'Developer pixel dimension guide exposed in modal' },
   { pattern: /\^circ\b/i, desc: 'Unrendered degree LaTeX code pattern "^circ" exposed in UI' },
   { pattern: /\\circ\b/i, desc: 'Unrendered LaTeX command "\\circ" exposed in UI' },
@@ -177,17 +180,25 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   if (/\*\*[^*]+\*\*/.test(landingVisible)) {
     failGate(1, 'Landing Page Markdown Armor', 'Raw unrendered markdown asterisks (**) found in landing page visible text!');
   }
+  if (/KaTeX/i.test(landingVisible)) {
+    failGate(1, 'Landing Page Developer Jargon', 'Developer jargon "KaTeX" found in landing page visible text!');
+  }
+  if (/1타\s*(?:강사)?/i.test(landingVisible) || /대치동\s*1타/i.test(landingVisible)) {
+    failGate(1, 'Landing Page Private Education Jargon', 'Commercialized jargon "1타 강사" found in landing page visible text!');
+  }
 }
 
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
-  'Zero developer jargon (Gemini, API, AI Studio, RCA, B2B, 수식 모델링, 해석기하) completely purged from user UI',
+  'Zero developer jargon (Gemini, API, AI Studio, RCA, B2B, KaTeX, 수식 모델링, 해석기하) completely purged from user UI',
+  'Zero 1타 강사 / 대치동 1타 commercialized jargon purged from UI',
   'Zero developer pixel labels ("1칸 = 10px") purged from graph modal',
   'Zero duplicate emoji spam verified',
   'Cache-Busting & Anti-Stale Meta Headers verified (no-cache, no-store, Pragma, Expires: 0)',
   'Service Worker unregister/purge guard verified',
   'Zero intrusive floating zoom badges inside #solution-svg-container verified',
-  'Landing page zero unrendered LaTeX dollars ($) and zero raw markdown asterisks (**) verified'
+  'Landing page zero unrendered LaTeX dollars ($) and zero raw markdown asterisks (**) verified',
+  'Landing page zero KaTeX and zero 1타 강사 jargon verified'
 ]);
 
 // ==============================================================================
