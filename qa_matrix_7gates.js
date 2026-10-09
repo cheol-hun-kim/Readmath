@@ -954,6 +954,86 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   if (!landingHtml.includes('id="csat-sub-grid"') || !landingHtml.includes('lg:grid-cols-5')) {
     geometryErrors.push('landing.html must use structured 5-column grid #csat-sub-grid for High 3 / CSAT sub-options');
   }
+
+  // 4.12.8 Inviolable Linear Intersection Exactness Armor: Problem 202 (중2 연립일차방정식과 두 직선의 위치 관계)
+  // A. Verify preview.html Problem 202
+  const p202 = PROBLEMS_DB[202];
+  if (!p202 || !p202.diagrams || !p202.diagrams[0]) {
+    geometryErrors.push('Problem 202 missing from database or diagrams');
+  } else {
+    const p202Svg = p202.diagrams[0].svg;
+    const blueLineM = p202Svg.match(/<line[^>]+x1="([\d.]+)"[^>]+y1="([\d.]+)"[^>]+x2="([\d.]+)"[^>]+y2="([\d.]+)"[^>]*stroke=["']#60A5FA["']/);
+    const greenLineM = p202Svg.match(/<line[^>]+x1="([\d.]+)"[^>]+y1="([\d.]+)"[^>]+x2="([\d.]+)"[^>]+y2="([\d.]+)"[^>]*stroke=["']#34D399["']/);
+    const redDotM = p202Svg.match(/<circle[^>]+cx="([\d.]+)"[^>]+cy="([\d.]+)"[^>]*fill=["']#EF4444["']/);
+    
+    if (!blueLineM || !greenLineM || !redDotM) {
+      geometryErrors.push('Problem 202 missing blue line (#60A5FA), green line (#34D399), or red dot (#EF4444)');
+    } else {
+      const l1 = { x1: parseFloat(blueLineM[1]), y1: parseFloat(blueLineM[2]), x2: parseFloat(blueLineM[3]), y2: parseFloat(blueLineM[4]) };
+      const l2 = { x1: parseFloat(greenLineM[1]), y1: parseFloat(greenLineM[2]), x2: parseFloat(greenLineM[3]), y2: parseFloat(greenLineM[4]) };
+      const dot = { cx: parseFloat(redDotM[1]), cy: parseFloat(redDotM[2]) };
+      
+      const denom = (l1.x1 - l1.x2) * (l2.y1 - l2.y2) - (l1.y1 - l1.y2) * (l2.x1 - l2.x2);
+      if (Math.abs(denom) < 1e-4) {
+        geometryErrors.push('Problem 202 lines are parallel and do not intersect');
+      } else {
+        const ix = ((l1.x1 * l1.y2 - l1.y1 * l1.x2) * (l2.x1 - l2.x2) - (l1.x1 - l1.x2) * (l2.x1 * l2.y2 - l2.y1 * l2.x2)) / denom;
+        const iy = ((l1.x1 * l1.y2 - l1.y1 * l1.x2) * (l2.y1 - l2.y2) - (l1.y1 - l1.y2) * (l2.x1 * l2.y2 - l2.y1 * l2.x2)) / denom;
+        
+        // Exact mathematical target is (190, 90) representing (2, 3) in math coordinates
+        if (Math.abs(ix - 190) > 0.001 || Math.abs(iy - 90) > 0.001) {
+          geometryErrors.push(`Problem 202 lines intersect at (${ix.toFixed(3)}, ${iy.toFixed(3)}) instead of exact (190, 90)`);
+        }
+        if (Math.abs(dot.cx - 190) > 0.001 || Math.abs(dot.cy - 90) > 0.001) {
+          geometryErrors.push(`Problem 202 red dot placed at (${dot.cx}, ${dot.cy}) instead of exact (190, 90)`);
+        }
+        if (Math.hypot(dot.cx - ix, dot.cy - iy) > 0.001) {
+          geometryErrors.push(`Problem 202 red dot does not coincide with line intersection (delta = ${Math.hypot(dot.cx - ix, dot.cy - iy).toFixed(3)}px)`);
+        }
+      }
+    }
+  }
+
+  // B. Verify landing.html mid_2
+  const mid2Match = landingHtml.match(/mid_2[\s\S]*?svg:\s*`([\s\S]*?)`/);
+  if (mid2Match) {
+    const mid2Svg = mid2Match[1];
+    const blueLineLanding = mid2Svg.match(/<line[^>]+x1="([\d.]+)"[^>]+y1="([\d.]+)"[^>]+x2="([\d.]+)"[^>]+y2="([\d.]+)"[^>]*stroke=["']#2563EB["']/);
+    const greenLineLanding = mid2Svg.match(/<line[^>]+x1="([\d.]+)"[^>]+y1="([\d.]+)"[^>]+x2="([\d.]+)"[^>]+y2="([\d.]+)"[^>]*stroke=["']#16A34A["']/);
+    const redDotLanding = mid2Svg.match(/<circle[^>]+cx="([\d.]+)"[^>]+cy="([\d.]+)"[^>]*fill=["']#DC2626["']/);
+    
+    if (blueLineLanding && greenLineLanding && redDotLanding) {
+      const l1 = { x1: parseFloat(blueLineLanding[1]), y1: parseFloat(blueLineLanding[2]), x2: parseFloat(blueLineLanding[3]), y2: parseFloat(blueLineLanding[4]) };
+      const l2 = { x1: parseFloat(greenLineLanding[1]), y1: parseFloat(greenLineLanding[2]), x2: parseFloat(greenLineLanding[3]), y2: parseFloat(greenLineLanding[4]) };
+      const dot = { cx: parseFloat(redDotLanding[1]), cy: parseFloat(redDotLanding[2]) };
+      
+      const denom = (l1.x1 - l1.x2) * (l2.y1 - l2.y2) - (l1.y1 - l1.y2) * (l2.x1 - l2.x2);
+      if (Math.abs(denom) > 1e-4) {
+        const ix = ((l1.x1 * l1.y2 - l1.y1 * l1.x2) * (l2.x1 - l2.x2) - (l1.x1 - l1.x2) * (l2.x1 * l2.y2 - l2.y1 * l2.x2)) / denom;
+        const iy = ((l1.x1 * l1.y2 - l1.y1 * l1.x2) * (l2.y1 - l2.y2) - (l1.y1 - l1.y2) * (l2.x1 * l2.y2 - l2.y1 * l2.x2)) / denom;
+        
+        if (Math.abs(ix - 162) > 0.01 || Math.abs(iy - 102) > 0.01) {
+          geometryErrors.push(`landing.html mid_2 lines intersect at (${ix.toFixed(2)}, ${iy.toFixed(2)}) instead of exact (162, 102)`);
+        }
+        if (Math.hypot(dot.cx - ix, dot.cy - iy) > 0.01) {
+          geometryErrors.push(`landing.html mid_2 red dot does not coincide with line intersection (delta = ${Math.hypot(dot.cx - ix, dot.cy - iy).toFixed(2)}px)`);
+        }
+      }
+    }
+  }
+
+  // C. Stress test inspectMathSvgDefects on flawed screenshot coordinates
+  const flawedIntersectionSvg = `<svg viewBox="0 0 420 250">
+    <rect width="420" height="250" fill="#090D16"/>
+    <line x1="100" y1="240" x2="235" y2="22" stroke="#60A5FA"/>
+    <line x1="100" y1="45" x2="280" y2="225" stroke="#34D399"/>
+    <circle cx="190" cy="90" r="5" fill="#EF4444"/>
+    <text x="200" y="86">교점 (2, 3)</text>
+  </svg>`;
+  const intersectionDefects = inspectSvgFn(flawedIntersectionSvg, p202);
+  if (!intersectionDefects.some(d => d.includes('INTERSECTION_MISMATCH'))) {
+    geometryErrors.push('inspectMathSvgDefects failed to detect flawed intersection mismatch in user screenshot coordinates');
+  }
 }
 
 // 4.13 Non-Coordinate Diagram Metric Grid Suppression Check
@@ -1063,6 +1143,7 @@ passGate(4, 'Exact Mathematical Geometry & SVG Precision', [
   'Inviolable MathSvgEngine: Intercepted flawed user screenshot SVG and substituted 100% exact mathematical diagram',
   'Rendered Canvas Contrast Armor: ZERO dark containers, ZERO dark-on-dark, and ZERO light-on-light text on rendered white canvas',
   'Problem 5 (Pythagoras): High-contrast light pastel callout container (#F8FAFC) with deep navy (#312E81) and deep amber (#B45309) ink verified',
+  'Problem 202 (Linear Intersection): Exact intersection (190, 90) representing (2, 3), zero pixel error, and intersection armor verified',
   'Landing Page Exact Mathematical Precision: Zero low-poly jagged curves, zero callout-to-axis overlaps, and 100% metric Cartesian grid integrity verified'
 ]);
 
