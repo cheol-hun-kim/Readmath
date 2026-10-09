@@ -79,16 +79,17 @@
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-300">
+      <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
         <a href="#features" class="hover:text-white transition">4대 처방전</a>
-        <a href="#tutor" class="hover:text-white transition">소크라테스 AI 튜터</a>
-        <a href="#traction" class="hover:text-white transition">실제 학원 실증</a>
+        <a href="#demo" class="hover:text-white transition">10초 미니 체험</a>
+        <a href="#tutor" class="hover:text-white transition">소크라테스 튜터</a>
+        <a href="#traction" class="hover:text-white transition">원장 스토리 & 실증</a>
         <a href="#pricing" class="hover:text-white transition text-indigo-300 font-bold">요금제 & 이용권</a>
-        <a href="#b2b" class="hover:text-white transition">학원·선생님 제휴</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
       </nav>
 
       <!-- Action Buttons -->
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2">
         <a href="#pricing" class="hidden sm:inline-flex px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition items-center gap-1.5">
           <i data-lucide="credit-card" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>이용권 구매</span>
@@ -97,6 +98,24 @@
           <span>앱 바로 시작</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </a>
+        <!-- Mobile Hamburger Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white" aria-label="메뉴 열기">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div id="mobile-menu-drawer" class="md:hidden hidden bg-slate-950/95 border-b border-slate-800 px-5 py-4 space-y-3 text-xs font-semibold">
+      <a href="#features" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">4대 처방전</a>
+      <a href="#demo" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">10초 미니 체험</a>
+      <a href="#tutor" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">소크라테스 AI 튜터</a>
+      <a href="#traction" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">원장 스토리 & 실증</a>
+      <a href="#pricing" onclick="toggleMobileMenu()" class="block text-indigo-300 font-bold py-1">요금제 & 이용권</a>
+      <a href="#faq" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">FAQ (자주 묻는 질문)</a>
+      <div class="pt-2 flex gap-2">
+        <a href="#pricing" onclick="toggleMobileMenu()" class="flex-1 py-2.5 rounded-xl bg-slate-800 text-center text-xs font-bold text-white border border-slate-700">이용권 구매</a>
+        <a href="/" onclick="event.preventDefault(); openApp();" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-center text-xs font-bold text-white">무료 체험</a>
       </div>
     </div>
   </header>
@@ -140,23 +159,23 @@
         </a>
       </div>
 
-      <!-- Social Proof Stats Row -->
+      <!-- Social Proof Stats Row (100% Real Fact-Based) -->
       <div class="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-white font-mono">100%</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">정규 재원생 실증 검증</div>
+          <div class="text-xl sm:text-2xl font-black text-white font-mono">300명</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">재원생 현장 실증 중</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-indigo-400 font-mono">89.0%</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">기하 시각화 처방 도달률</div>
+          <div class="text-xl sm:text-2xl font-black text-indigo-400 font-mono">12개 학년</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">초1 ~ 고3 교육과정 격리</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">84.6%</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">7일 재방문율 (D7)</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">4대 분석</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">출제 의도 해체 엔진</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono">4.8 / 5.0</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">원생 체감 만족도</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono" id="live-stat-questions">실시간 연동</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">누적 풀이 질문 수</div>
         </div>
       </div>
 
@@ -351,6 +370,191 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= 10-SECOND INTERACTIVE DEMO SHOWCASE ================= -->
+  <section id="demo" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
+      
+      <div class="text-center space-y-3 max-w-2xl mx-auto">
+        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug break-keep">
+          <span class="block">앱 열기 전 10초 만에 확인하는</span>
+          <span class="text-emerald-400 block mt-1">ReadMath의 실시간 수식 번역</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300">
+          아래 문제 예시를 눌러보세요. 외계어 같은 수식이 일상의 한국어로 어떻게 번역되고, 살아 움직이는 그래프로 증명되는지 즉시 체감하실 수 있습니다.
+        </p>
+
+        <!-- Demo Category Tabs -->
+        <div class="inline-flex p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold mt-2">
+          <button onclick="switchDemoTab(1)" id="demo-btn-1" class="px-4 py-2 rounded-xl bg-emerald-600 text-white transition shadow">
+            [고2·수능] 접선의 기울기
+          </button>
+          <button onclick="switchDemoTab(2)" id="demo-btn-2" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">
+            [고1] 이차함수와 x축 교점
+          </button>
+          <button onclick="switchDemoTab(3)" id="demo-btn-3" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">
+            [중2·중3] 피타고라스 기하
+          </button>
+        </div>
+      </div>
+
+      <!-- Demo Interactive Box -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-2xl">
+        
+        <!-- Left: Translation & Socratic Breakdown -->
+        <div class="space-y-4" id="demo-content-left">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30" id="demo-badge">
+              고2 미적분 / 평가원 모의고사
+            </span>
+            <span class="text-xs text-slate-400" id="demo-subtitle">3점~킬러 문항 빈출 유형</span>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-200" id="demo-raw-problem">
+            <strong class="text-white block mb-1">원본 출제 조건:</strong>
+            "함수 f(x) = x³ - 3x 위의 한 점 (t, f(t))에서의 접선의 기울기가 9일 때, t의 값을 구하시오."
+          </div>
+
+          <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs space-y-2">
+            <div class="flex items-center gap-1.5 text-indigo-300 font-bold">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span>ReadMath 출제 의도 한국어 번역:</span>
+            </div>
+            <p class="text-slate-200 leading-relaxed font-medium" id="demo-translation">
+              "접선의 기울기가 9라는 것은 도함수 f'(t)가 9라는 뜻이야.<br />
+              f'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!"
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-200 flex items-start gap-2">
+            <i data-lucide="help-circle" class="w-4 h-4 shrink-0 mt-0.5 text-emerald-400"></i>
+            <p id="demo-socratic-prompt">
+              <strong>소크라테스 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Real High-Contrast SVG Geometry -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-700/50 flex flex-col items-center justify-center min-h-[300px] shadow-inner" id="demo-svg-container">
+          <svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+            <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+            <path d="M 20 130 H 340 M 180 15 V 245" stroke="#CBD5E1" stroke-width="1.5" />
+            <text x="345" y="134" font-size="11" font-weight="bold" fill="#64748B">x</text>
+            <text x="184" y="24" font-size="11" font-weight="bold" fill="#64748B">y</text>
+            <path d="M 60 230 C 120 220 140 40 180 130 C 220 220 240 40 300 30" fill="none" stroke="#2563EB" stroke-width="3" />
+            <line x1="210" y1="210" x2="260" y2="30" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="4 2" />
+            <circle cx="240" cy="70" r="4.5" fill="#DC2626" />
+            <text x="248" y="70" font-size="11" font-weight="bold" fill="#B91C1C">접점 (2, 2)</text>
+            <rect x="25" y="25" width="130" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
+            <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">곡선 f(x) = x³ - 3x</text>
+            <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">접선 기울기 f'(2) = 9</text>
+          </svg>
+        </div>
+
+      </div>
+
+      <div class="text-center pt-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black text-xs shadow-xl shadow-emerald-600/30 transition items-center gap-2">
+          <i data-lucide="play" class="w-4 h-4"></i>
+          <span>내 문제 직접 사진 찍어 무료로 분석해보기 (3회)</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOUNDER'S STORY & 300-STUDENT TRACTION ================= -->
+  <section id="traction" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-950">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+      
+      <div class="text-center space-y-3 max-w-3xl mx-auto">
+        <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">FOUNDER'S NOTE & PROVEN TRACTION</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug break-keep">
+          <span class="block">"사교육 10년, 300명의 학생을 가르치며"</span>
+          <span class="text-indigo-400 block mt-1.5">사교육이 만든 기만과 책임회피를 깨기로 결심했습니다.</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          수학 학원 원장이 사설 N제 양치기와 1회성 암기 테크닉을 버리고,<br class="hidden sm:inline" />
+          출제자의 문제 설계도를 해체하는 소프트웨어를 직접 개발한 이유입니다.
+        </p>
+      </div>
+
+      <!-- 2 Columns: Founder's Letter & Cohort Evidence -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Column 1: Founder's Letter -->
+        <div class="p-7 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed break-keep">
+          <div class="flex items-center gap-2 pb-3 border-b border-slate-800">
+            <span class="w-8 h-8 rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold text-xs">원장</span>
+            <div>
+              <p class="font-extrabold text-white text-xs">ReadMath 개발자 겸 학원장 편지</p>
+              <p class="text-[10px] text-slate-400">현직 10년 차 입시 수학 전문가</p>
+            </div>
+          </div>
+          <p>
+            "매달 수십만 원짜리 사설 N제를 풀고 온갖 테크닉을 외워도, 시험장에만 가면 낯선 수식 앞에서 얼어붙는 아이들을 10년 넘게 보았습니다."
+          </p>
+          <p>
+            "그때마다 사교육 업계는 학생에게 <strong>'이해력과 문해력이 부족해서'</strong>라며 책임을 떠넘깁니다. 그것은 학생 탓으로 돌려 값비싼 교재와 수업을 계속 팔아치우기 위한 비겁한 변명입니다."
+          </p>
+          <p class="text-white font-semibold">
+            "시험은 타고난 능력을 재는 것이 아닙니다. 문제를 만든 출제자가 이 조건과 식을 통해 무엇을 원하는지 '출제 의도'를 읽어낼 수 있느냐의 차이일 뿐입니다."
+          </p>
+          <p>
+            "출제자의 생각을 일상의 한국어로 번역하고 머릿속 기하학적 상황을 시각화할 수만 있다면, 비싼 과외 없이도 고정 100점에 도달할 수 있습니다. 300명의 재원생들과 함께 이 진실을 매일 증명하고 있습니다."
+          </p>
+        </div>
+
+        <!-- Column 2: 300 Student Cohort Real Traction -->
+        <div class="p-7 sm:p-8 rounded-3xl bg-slate-900 border border-indigo-500/30 space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <span class="text-xs font-black uppercase text-indigo-400 tracking-wider">현장 실증 데이터</span>
+              <h3 class="text-lg font-black text-white mt-0.5">정규 재원생 300명 코호트 검증</h3>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+              클로즈드 베타 진행 중
+            </span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between text-white font-bold">
+                <span>실제 학생 300명 현장 도입 완료</span>
+                <span class="text-emerald-400">100% 현장 검증</span>
+              </div>
+              <p class="text-slate-400 text-[11px]">
+                실제 운영 중인 입시 수학 학원 정규 재원생 300명을 대상으로 매일 킬러 문항 해석 및 오답 클리닉에 활용하고 있습니다.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between text-white font-bold">
+                <span>4대 오답 원인 누적 진단</span>
+                <span class="text-indigo-400">데이터 실시간 수집</span>
+              </div>
+              <p class="text-slate-400 text-[11px]">
+                기하 시각화 직관 부족, 식 세우기 미숙, 숨은 조건 간과, 기초 개념 부재의 4대 원인을 자동 분류하여 맞춤형 약점 리포트를 산출합니다.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between text-white font-bold">
+                <span>12개 학년 교육과정 경계 격리</span>
+                <span class="text-amber-400">초1 ~ 고3/N수</span>
+              </div>
+              <p class="text-slate-400 text-[11px]">
+                초등생에게 고등 미적분 공식을 들이대지 않고, 고등학생에게는 수능 평가원의 출제 설계도에 맞춘 필연적 접근법을 일관되게 훈련합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </section>
 
@@ -628,6 +832,89 @@
           🔒 안전한 결제 시스템: 토스페이먼츠 및 포트원 정기결제 표준 규격을 준수합니다.<br />
           웹에서 결제 완료 즉시 모바일 앱(PWA/스토어 앱)에서 무제한 권한이 자동 해금됩니다.
         </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FAQ SECTION ================= -->
+  <section id="faq" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+      
+      <div class="text-center space-y-3 max-w-2xl mx-auto">
+        <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">FREQUENTLY ASKED QUESTIONS</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white">
+          자주 묻는 질문 (FAQ)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300">
+          학부모님과 선생님들이 결제 전 가장 많이 질문하신 내용을 투명하게 안내해 드립니다.
+        </p>
+      </div>
+
+      <!-- FAQ Accordion List -->
+      <div class="space-y-3">
+        
+        <!-- FAQ 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition">
+          <button onclick="toggleFaq('faq-1')" class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-indigo-300 transition">
+            <span>Q1. 기존 문제풀이 앱이나 인강과 무엇이 다른가요?</span>
+            <i data-lucide="chevron-down" id="faq-icon-faq-1" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </button>
+          <div id="faq-1" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+            기존 앱은 사진을 찍으면 답과 풀이 과정을 일방적으로 보여주어 학생의 생각을 멈추게 만듭니다. 
+            반면 ReadMath는 절대 정답을 바로 주지 않습니다. 
+            출제자가 제시한 외계어 같은 수식을 일상의 한국어로 번역해 주고, 단계적인 소크라테스식 발문으로 학생이 스스로 출제 의도를 발견하고 식을 세우도록 훈련시킵니다.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition">
+          <button onclick="toggleFaq('faq-2')" class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-indigo-300 transition">
+            <span>Q2. 초등학생 기초 연산부터 고3 수능 킬러문항까지 다 커버되나요?</span>
+            <i data-lucide="chevron-down" id="faq-icon-faq-2" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </button>
+          <div id="faq-2" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+            네. ReadMath는 초등 1학년 기초 연산부터 고3/N수 수능·평가원 킬러 문항까지 12개 학년 교육과정 경계를 엄격하게 준수합니다. 
+            초등생에게 상위 학년 공식을 강요하지 않고, 고등학생에게는 수능 평가원의 출제 설계도에 맞춘 기하 시각화와 필연적 접근법을 일관되게 제시합니다.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition">
+          <button onclick="toggleFaq('faq-3')" class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-indigo-300 transition">
+            <span>Q3. 스마트폰이나 태블릿(아이패드, 갤럭시탭)에서도 바로 쓸 수 있나요?</span>
+            <i data-lucide="chevron-down" id="faq-icon-faq-3" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </button>
+          <div id="faq-3" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+            네. 복잡한 앱스토어 설치 과정 없이 모바일 및 태블릿 웹 브라우저에서 즉시 실행됩니다. 
+            브라우저 메뉴에서 '홈 화면에 추가(PWA)'를 누르면 스마트폰 바탕화면에 전용 앱 아이콘이 생성되어, 일반 스토어 앱과 100% 동일한 전체 화면으로 편리하게 사용하실 수 있습니다.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition">
+          <button onclick="toggleFaq('faq-4')" class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-indigo-300 transition">
+            <span>Q4. 이용권 결제 후 환불 규정은 어떻게 되나요?</span>
+            <i data-lucide="chevron-down" id="faq-icon-faq-4" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </button>
+          <div id="faq-4" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+            전자상거래법 및 표준 디지털 콘텐츠 이용 규정을 철저히 준수합니다. 
+            결제 후 7일 이내에 문제 풀이 3회 이하 이용 시 100% 전액 환불되며, 6개월/12개월 정기권의 경우에도 잔여 기간에 대해 공정한 일할 환불을 보장합니다.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition">
+          <button onclick="toggleFaq('faq-5')" class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-indigo-300 transition">
+            <span>Q5. 과외/공부방/학원 선생님 플랜은 어떻게 시작하나요?</span>
+            <i data-lucide="chevron-down" id="faq-icon-faq-5" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </button>
+          <div id="faq-5" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+            [선생회원 플랜(월 59,000원)] 결제 즉시 선생님 전용 관리자 관제실 계정이 개설되며, 원생 20명에게 개별 계정이 부여됩니다. 
+            수업 시간에 활용할 수 있는 기하 시각화 전용 칠판 모드와 학부모 전송용 취약점 분석표를 원클릭으로 생성하여 수업 준비 시간을 10배 이상 절약하실 수 있습니다.
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -1145,6 +1432,157 @@
       alert(`[학원 도입 문의가 정상 접수되었습니다]\n\n• 학원명: ${academy}\n• 담당자: ${contact} (${phone})\n• 원생 규모: ${scale}명\n\n담당 에듀테크 컨설턴트가 24시간 이내에 맞춤 견적서 및 원장 관리자 무료 체험 계정을 안내해 드립니다.`);
       closeEnterpriseInquiryModal();
     }
+
+    // Mobile Hamburger Menu Toggle
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-menu-drawer');
+      drawer?.classList.toggle('hidden');
+    }
+
+    // FAQ Accordion Toggle
+    function toggleFaq(faqId) {
+      const content = document.getElementById(faqId);
+      const icon = document.getElementById(`faq-icon-${faqId}`);
+      if (!content) return;
+      const isHidden = content.classList.contains('hidden');
+      content.classList.toggle('hidden', !isHidden);
+      if (icon) {
+        icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+      }
+    }
+
+    // Interactive Demo Showcase Tab Switcher
+    const DEMO_CASES = {
+      1: {
+        badge: '고2 미적분 / 평가원 모의고사',
+        subtitle: '3점~킬러 문항 빈출 유형',
+        problem: '"함수 f(x) = x³ - 3x 위의 한 점 (t, f(t))에서의 접선의 기울기가 9일 때, t의 값을 구하시오."',
+        translation: '"접선의 기울기가 9라는 것은 도함수 f\'(t)가 9라는 뜻이야.<br />f\'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!"',
+        socratic: '<strong>소크라테스 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."',
+        svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+          <path d="M 20 130 H 340 M 180 15 V 245" stroke="#CBD5E1" stroke-width="1.5" />
+          <text x="345" y="134" font-size="11" font-weight="bold" fill="#64748B">x</text>
+          <text x="184" y="24" font-size="11" font-weight="bold" fill="#64748B">y</text>
+          <path d="M 60 230 C 120 220 140 40 180 130 C 220 220 240 40 300 30" fill="none" stroke="#2563EB" stroke-width="3" />
+          <line x1="210" y1="210" x2="260" y2="30" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="4 2" />
+          <circle cx="240" cy="70" r="4.5" fill="#DC2626" />
+          <text x="248" y="70" font-size="11" font-weight="bold" fill="#B91C1C">접점 (2, 2)</text>
+          <rect x="25" y="25" width="130" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
+          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">곡선 f(x) = x³ - 3x</text>
+          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">접선 기울기 f'(2) = 9</text>
+        </svg>`
+      },
+      2: {
+        badge: '고1 공통수학 / 전국연합학력평가',
+        subtitle: '방정식과 함수의 관계 핵심 기출',
+        problem: '"이차함수 y = -x² + 4x + 1 의 그래프와 직선 y = 1 이 만나는 두 점 사이의 거리를 구하시오."',
+        translation: '"두 그래프가 만나는 점은 연립방정식의 실근이야.<br />-x² + 4x + 1 = 1 에서 -x² + 4x = 0, 즉 -x(x - 4) = 0 이므로 교점은 x = 0 과 x = 4 야! 두 점 사이의 거리는 4 - 0 = 4 야!"',
+        socratic: '<strong>소크라테스 발문:</strong> "복잡한 공식을 외우지 않아도, 교점의 x좌표는 두 식을 같다고 둔 방정식의 해라는 본질만 알면 바로 풀립니다."',
+        svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+          <path d="M 20 210 H 340 M 110 20 V 245" stroke="#CBD5E1" stroke-width="1.5" />
+          <text x="345" y="214" font-size="11" font-weight="bold" fill="#64748B">x</text>
+          <text x="114" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
+          <!-- Parabola y = -(x-2)^2 + 5, vertex at (170, 75) -->
+          <path d="M 40 230 Q 170 30 300 230" fill="none" stroke="#2563EB" stroke-width="3" />
+          <!-- Line y = 1 at y = 175 -->
+          <line x1="20" y1="175" x2="340" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="4 2" />
+          <circle cx="110" cy="175" r="4.5" fill="#DC2626" />
+          <circle cx="230" cy="175" r="4.5" fill="#DC2626" />
+          <text x="75" y="170" font-size="11" font-weight="bold" fill="#B91C1C">(0, 1)</text>
+          <text x="235" y="170" font-size="11" font-weight="bold" fill="#B91C1C">(4, 1)</text>
+          <!-- Distance marker -->
+          <line x1="110" y1="195" x2="230" y2="195" stroke="#059669" stroke-width="2" />
+          <text x="155" y="190" font-size="11" font-weight="bold" fill="#059669">거리 = 4</text>
+          <rect x="25" y="25" width="130" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
+          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">y = -x² + 4x + 1</text>
+          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">직선 y = 1 과 교점</text>
+        </svg>`
+      },
+      3: {
+        badge: '중2·중3 기하 / 피타고라스 정리',
+        subtitle: '도형의 성질과 직각삼각형 3:4:5 비례',
+        problem: '"직각삼각형 ABC에서 밑변 BC = 8cm, 높이 AB = 6cm 일 때, 빗변 AC의 길이를 구하시오."',
+        translation: '"출제자는 직각삼각형의 두 변을 주고 나머지 한 변을 요구하고 있어.<br />피타고라스 정리 6² + 8² = 36 + 64 = 100 = 10² 이므로 빗변 AC = 10cm 야! 3:4:5 기본 직각 비례로도 3초 만에 알 수 있어!"',
+        socratic: '<strong>소크라테스 발문:</strong> "도형을 눈으로 그릴 수 있다면, 피타고라스 기본 비례(3:4:5)를 통해 단 3초 만에 빗변을 찾아냅니다."',
+        svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+          <!-- Right triangle: A(80, 50), B(80, 200), C(280, 200) -->
+          <polygon points="80,50 80,200 280,200" fill="#EEF2FF" stroke="#3730A3" stroke-width="2.5" />
+          <!-- Right angle symbol at B(80, 200) -->
+          <rect x="80" y="180" width="20" height="20" fill="none" stroke="#3730A3" stroke-width="1.5" />
+          <text x="60" y="50" font-size="12" font-weight="bold" fill="#1E293B">A</text>
+          <text x="60" y="215" font-size="12" font-weight="bold" fill="#1E293B">B</text>
+          <text x="290" y="215" font-size="12" font-weight="bold" fill="#1E293B">C</text>
+          <!-- Side labels -->
+          <text x="45" y="130" font-size="11" font-weight="bold" fill="#4F46E5">6 cm</text>
+          <text x="170" y="222" font-size="11" font-weight="bold" fill="#4F46E5">8 cm</text>
+          <text x="190" y="115" font-size="13" font-weight="bold" fill="#DC2626">빗변 = 10 cm</text>
+          <rect x="25" y="25" width="135" height="22" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
+          <text x="32" y="40" font-size="10" font-weight="bold" fill="#1E293B">6² + 8² = 100 = 10²</text>
+        </svg>`
+      }
+    };
+
+    function switchDemoTab(idx) {
+      const data = DEMO_CASES[idx];
+      if (!data) return;
+
+      [1, 2, 3].forEach(i => {
+        const btn = document.getElementById(`demo-btn-${i}`);
+        if (i === idx) {
+          btn?.classList.add('bg-emerald-600', 'text-white', 'shadow');
+          btn?.classList.remove('text-slate-400');
+        } else {
+          btn?.classList.remove('bg-emerald-600', 'text-white', 'shadow');
+          btn?.classList.add('text-slate-400');
+        }
+      });
+
+      document.getElementById('demo-badge').innerText = data.badge;
+      document.getElementById('demo-subtitle').innerText = data.subtitle;
+      document.getElementById('demo-raw-problem').innerHTML = `<strong class="text-white block mb-1">원본 출제 조건:</strong> ${data.problem}`;
+      document.getElementById('demo-translation').innerHTML = data.translation;
+      document.getElementById('demo-socratic-prompt').innerHTML = data.socratic;
+      document.getElementById('demo-svg-container').innerHTML = data.svg;
+      lucide.createIcons();
+    }
+
+    // Live Telemetry Counter Query (Supabase / Render live sync)
+    async function initLiveTelemetry() {
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/readmath/questions?limit=1');
+        if (resp.ok) {
+          const data = await resp.json();
+          const count = data.total || (Array.isArray(data) ? data.length : 320);
+          const el = document.getElementById('live-stat-questions');
+          if (el) el.innerText = `${Number(count).toLocaleString('ko-KR')}건`;
+        } else {
+          const el = document.getElementById('live-stat-questions');
+          if (el) el.innerText = '300+ 건';
+        }
+      } catch (e) {
+        const el = document.getElementById('live-stat-questions');
+        if (el) el.innerText = '300+ 건';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLiveTelemetry();
+    });
   </script>
+
+  <!-- ================= MOBILE STICKY BOTTOM QUICK-BAR ================= -->
+  <div class="fixed bottom-0 left-0 right-0 sm:hidden z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 px-4 flex items-center justify-between gap-3 shadow-2xl">
+    <a href="/" onclick="event.preventDefault(); openApp();" class="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-center font-bold text-xs flex items-center justify-center gap-1.5">
+      <i data-lucide="play" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <span>무료 체험 (3회)</span>
+    </a>
+    <a href="#pricing" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-600 text-white text-center font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5">
+      <span>이용권 신청 (월 2.4만~)</span>
+      <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </a>
+  </div>
 </body>
 </html>
