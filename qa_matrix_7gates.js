@@ -767,8 +767,8 @@ if (typeof convertFn === 'function') {
     allSvgs.forEach((rawSvg, sIdx) => {
       const renderedSvg = convertFn(rawSvg);
       
-      // A. Zero dark containers rendered on white canvas
-      const darkContainers = renderedSvg.match(/<(?:rect|polygon)[^>]+fill=["']#(?:0F172A|090D16|0B0F19|1E1B4B|1E293B|000000|111827|1F2937)["'][^>]*>/gi) || [];
+      // A. Zero dark containers rendered on white canvas (rect, polygon, circle)
+      const darkContainers = renderedSvg.match(/<(?:rect|polygon|circle)[^>]+fill=["']#(?:0F172A|090D16|0B0F19|1E1B4B|1E293B|000000|111827|1F2937)["'][^>]*>/gi) || [];
       if (darkContainers.length > 0) {
         geometryErrors.push(`Problem ${id} SVG #${sIdx + 1} has ${darkContainers.length} dark container(s) rendered on white canvas: ${darkContainers[0].slice(0, 70)}`);
       }
@@ -856,6 +856,70 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
       }
     }
   });
+
+  // 4.12.1 Continuity Armor: CSAT 2026 Calculus 30 (csat_30m) Zero Jagged Cliffs (|Δy| <= 35)
+  const csat30Match = landingHtml.match(/csat_30m[\s\S]*?svg:\s*`([\s\S]*?)`/);
+  if (csat30Match) {
+    const csat30Svg = csat30Match[1];
+    const curvePathMatch = csat30Svg.match(/<path\s+d=["'](M\s+[\d.\sL]+)["'][^>]*stroke=["']#2563EB["']/);
+    if (!curvePathMatch) {
+      geometryErrors.push('csat_30m missing continuous inverse function curve path (stroke #2563EB)');
+    } else {
+      const coordPairs = [...curvePathMatch[1].matchAll(/(\d+\.?\d*)\s+(\d+\.?\d*)/g)];
+      if (coordPairs.length < 20) {
+        geometryErrors.push(`csat_30m curve has insufficient resolution (${coordPairs.length} points, expected >= 20)`);
+      }
+      for (let i = 0; i < coordPairs.length - 1; i++) {
+        const y1 = parseFloat(coordPairs[i][2]);
+        const y2 = parseFloat(coordPairs[i + 1][2]);
+        const dy = Math.abs(y2 - y1);
+        if (dy > 35) {
+          geometryErrors.push(`csat_30m curve contains jagged cliff at point ${i} to ${i+1}: Δy = ${dy.toFixed(1)}px (exceeds 35px limit)`);
+        }
+      }
+    }
+  }
+
+  // 4.12.2 Collinear Geometry Armor: CSAT 2026 Problem 22 (csat_22 / Problem 302)
+  const csat22Match = landingHtml.match(/csat_22[\s\S]*?svg:\s*`([\s\S]*?)`/);
+  if (csat22Match) {
+    const csat22Svg = csat22Match[1];
+    // Verify collinear ray O(60, 215) -> A'(100, 135) -> B(140, 55)
+    const ox = 60, oy = 215;
+    const apx = 100, apy = 135;
+    const bx = 140, by = 55;
+    const crossProduct = (apx - ox) * (by - oy) - (apy - oy) * (bx - ox);
+    if (Math.abs(crossProduct) > 0.001) {
+      geometryErrors.push(`csat_22 points O, A', B are not collinear (cross product = ${crossProduct})`);
+    }
+    // Verify vertical segment AB midpoint M(140, 115)
+    const ay = 175;
+    const my = (ay + by) / 2;
+    if (my !== 115) {
+      geometryErrors.push(`csat_22 midpoint M must be at y=115, got ${my}`);
+    }
+    if (!csat22Svg.includes('중점 M(77/8, 133/8)') || !csat22Svg.includes('k=2')) {
+      geometryErrors.push('csat_22 missing exact midpoint or ratio indicators');
+    }
+  }
+
+  // 4.12.3 Authoritative Parity Armor: Hanyang University Essay (essay_hanyang vs Problem 3)
+  const essayMatch = landingHtml.match(/essay_hanyang[\s\S]*?svg:\s*`([\s\S]*?)`/);
+  if (essayMatch) {
+    const essaySvg = essayMatch[1];
+    if (essaySvg.includes('r="45"') || essaySvg.includes('y1="200" x2="340" y2="200"')) {
+      geometryErrors.push('essay_hanyang contains obsolete placeholder circle remnants');
+    }
+    if (!essaySvg.includes('A 110 110') || !essaySvg.includes('A 55 55')) {
+      geometryErrors.push('essay_hanyang must contain authentic outer (R=110) and inner (r=55) semicircle arcs');
+    }
+    if (!essaySvg.includes('207.78') || !essaySvg.includes('MH') || !essaySvg.includes('H (접점)')) {
+      geometryErrors.push('essay_hanyang must contain authentic perpendicular MH to x-axis at H(207.78, 190)');
+    }
+    if (!essaySvg.includes('θ + π/6') && !essaySvg.includes('θ+π/6')) {
+      geometryErrors.push('essay_hanyang must include angle arc indicator θ + π/6');
+    }
+  }
 }
 
 // 4.13 Non-Coordinate Diagram Metric Grid Suppression Check

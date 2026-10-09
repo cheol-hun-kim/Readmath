@@ -6370,7 +6370,7 @@
               <text x="315" y="138" fill="#38BDF8" font-size="10" font-weight="bold">y = log16(8x+2)</text>
               <!-- Exp curve passing through B(140, 55) -->
               <path d="M 70 215 Q 110 180 140 55 Q 146 30 155 15" fill="none" stroke="#C084FC" stroke-width="2.5"/>
-              <text x="145" y="22" fill="#C084FC" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
+              <text x="155" y="38" fill="#C084FC" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
               <!-- Segment AB from A(140, 175) to B(140, 55) -->
               <line x1="140" y1="175" x2="140" y2="55" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
               <!-- Point A(140, 175) -->
@@ -6412,7 +6412,7 @@
               <text x="315" y="138" fill="#38BDF8" font-size="10" font-weight="bold">y = log16(8x+2)</text>
               <!-- Exp curve passing through B(140, 55) -->
               <path d="M 70 215 Q 110 180 140 55 Q 146 30 155 15" fill="none" stroke="#C084FC" stroke-width="2.5"/>
-              <text x="145" y="22" fill="#C084FC" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
+              <text x="155" y="38" fill="#C084FC" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
               <!-- Segment AB from A(140, 175) to B(140, 55) -->
               <line x1="140" y1="175" x2="140" y2="55" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
               <!-- Point A(140, 175) -->
@@ -9696,6 +9696,9 @@
         ['#064E3B', '#ECFDF5', '#059669'],
         ['#0C4A6E', '#F0F9FF', '#0284C7'],
         ['#1E293B', '#F8FAFC', '#64748B'],
+        ['#0F172A', '#F8FAFC', '#64748B'],
+        ['#090D16', '#F8FAFC', '#64748B'],
+        ['#0B0F19', '#F8FAFC', '#64748B'],
         ['#7F1D1D', '#FEF2F2', '#DC2626'],
         ['#172554', '#EFF6FF', '#2563EB'],
         ['#451A03', '#FFFBEB', '#D97706'],
@@ -9709,6 +9712,11 @@
         });
         const polyRegex = new RegExp(`(<polygon\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
         s = s.replace(polyRegex, (m, p1, p2) => {
+          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
+          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+        });
+        const circleRegex = new RegExp(`(<circle\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
+        s = s.replace(circleRegex, (m, p1, p2) => {
           let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
           return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
         });

@@ -1593,17 +1593,18 @@
         socratic: '분수는 전체를 똑같이 나눈 크기(분모) 위에 선택된 조각 수(분자)를 얹는 직관적인 나눔의 언어입니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <!-- Circle Pizza at Center (140, 110), Radius = 75 -->
-          <circle cx="140" cy="110" r="75" fill="#F1F5F9" stroke="#64748B" stroke-width="2" />
-          <!-- 5 remaining slices shaded in soft green -->
-          <path d="M 140 110 L 140 35 A 75 75 0 1 1 65 110 Z" fill="#DCFCE7" stroke="#16A34A" stroke-width="2" />
-          <!-- Radial division lines -->
+          <!-- 3 eaten slices shaded in soft grey (135 degrees) -->
+          <path d="M 140 110 L 86.97 163.03 A 75 75 0 0 1 140 35 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.8" />
+          <!-- 5 remaining slices shaded in soft green (225 degrees) -->
+          <path d="M 140 110 L 140 35 A 75 75 0 1 1 86.97 163.03 Z" fill="#DCFCE7" stroke="#16A34A" stroke-width="2" />
+          <!-- Radial division lines for 8 slices -->
           <line x1="140" y1="35" x2="140" y2="185" stroke="#16A34A" stroke-width="1.5" />
           <line x1="65" y1="110" x2="215" y2="110" stroke="#16A34A" stroke-width="1.5" />
-          <line x1="87" y1="57" x2="193" y2="163" stroke="#16A34A" stroke-width="1.5" />
-          <line x1="87" y1="163" x2="193" y2="57" stroke="#16A34A" stroke-width="1.5" />
-          <text x="140" y="115" font-size="12" font-weight="extrabold" fill="#15803D" text-anchor="middle">남은 5조각</text>
-          <text x="90" y="70" font-size="10" font-weight="bold" fill="#DC2626">먹은 3조각</text>
+          <line x1="86.97" y1="56.97" x2="193.03" y2="163.03" stroke="#16A34A" stroke-width="1.5" />
+          <line x1="86.97" y1="163.03" x2="193.03" y2="56.97" stroke="#16A34A" stroke-width="1.5" />
+          <!-- Labels well-spaced from dividing lines -->
+          <text x="82" y="90" font-size="11" font-weight="black" fill="#DC2626">먹은 3조각</text>
+          <text x="165" y="145" font-size="12" font-weight="black" fill="#15803D" text-anchor="middle">남은 5조각</text>
           <!-- Callout -->
           <rect x="235" y="65" width="105" height="90" rx="8" fill="#F8FAFC" stroke="#E2E8F0" />
           <text x="287" y="88" font-size="10" font-weight="bold" fill="#64748B" text-anchor="middle">전체 = 8조각</text>
@@ -1622,13 +1623,13 @@
         socratic: '마주 보는 변의 길이가 같다는 직사각형의 대칭성을 활용하면 4변을 일일이 더하지 않고도 1초 만에 둘레가 나옵니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <rect x="60" y="60" width="240" height="130" fill="#EEF2FF" stroke="#4F46E5" stroke-width="3" rx="4" />
-          <text x="180" y="50" font-size="13" font-weight="bold" fill="#4338CA" text-anchor="middle">가로 = 8 cm</text>
-          <text x="180" y="212" font-size="13" font-weight="bold" fill="#4338CA" text-anchor="middle">가로 = 8 cm</text>
-          <text x="42" y="130" font-size="13" font-weight="bold" fill="#4338CA" text-anchor="middle">5 cm</text>
-          <text x="318" y="130" font-size="13" font-weight="bold" fill="#4338CA" text-anchor="middle">5 cm</text>
-          <rect x="25" y="15" width="310" height="26" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="180" y="32" font-size="11" font-weight="bold" fill="#1E293B" text-anchor="middle">직사각형 둘레 = (8 + 5) × 2 = 26 cm</text>
+          <rect x="25" y="14" width="310" height="26" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2" />
+          <text x="180" y="31" font-size="11" font-weight="bold" fill="#1E293B" text-anchor="middle">직사각형 둘레 = (8 + 5) × 2 = 26 cm</text>
+          <rect x="60" y="76" width="240" height="124" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2.5" rx="4" />
+          <text x="180" y="64" font-size="12" font-weight="bold" fill="#4338CA" text-anchor="middle">가로 = 8 cm</text>
+          <text x="180" y="222" font-size="12" font-weight="bold" fill="#4338CA" text-anchor="middle">가로 = 8 cm</text>
+          <text x="40" y="142" font-size="12" font-weight="bold" fill="#4338CA" text-anchor="middle">5 cm</text>
+          <text x="320" y="142" font-size="12" font-weight="bold" fill="#4338CA" text-anchor="middle">5 cm</text>
         </svg>`
       },
       elem_5: {
@@ -1872,27 +1873,57 @@
         socratic: '지수함수와 로그함수의 역함수 대칭성을 원점 비례 직선(kb, ka)으로 치환하면 킬러 연립방정식이 덧셈과 뺄셈 2줄로 단순화됩니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <line x1="20" y1="220" x2="340" y2="220" stroke="#CBD5E1" stroke-width="1.5" />
-          <line x1="50" y1="240" x2="50" y2="20" stroke="#CBD5E1" stroke-width="1.5" />
-          <text x="345" y="224" font-size="11" font-weight="bold" fill="#64748B">x</text>
-          <text x="54" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
-          <line x1="40" y1="230" x2="250" y2="20" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3" />
-          <text x="235" y="32" font-size="10" font-weight="bold" fill="#059669">y = x</text>
-          <path d="M 55 210 Q 150 180 320 160" fill="none" stroke="#2563EB" stroke-width="2.5" />
-          <path d="M 60 215 Q 80 180 120 40" fill="none" stroke="#7C3AED" stroke-width="2.5" />
-          <line x1="50" y1="220" x2="160" y2="30" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 2" />
-          <circle cx="240" cy="170" r="4.5" fill="#2563EB" />
-          <text x="248" y="174" font-size="10" font-weight="black" fill="#1D4ED8">A(63/4, 7/4)</text>
-          <circle cx="90" cy="80" r="4.5" fill="#10B981" />
-          <text x="96" y="80" font-size="10" font-weight="black" fill="#047857">A\'(b, a)</text>
-          <circle cx="130" cy="45" r="4.5" fill="#7C3AED" />
-          <text x="138" y="45" font-size="10" font-weight="black" fill="#6D28D9">B(7/2, 63/2)</text>
-          <line x1="240" y1="170" x2="130" y2="45" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2" />
-          <circle cx="185" cy="107" r="4" fill="#DC2626" />
-          <text x="192" y="112" font-size="10" font-weight="black" fill="#DC2626">M(77/8, 133/8)</text>
-          <rect x="25" y="25" width="165" height="32" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="40" font-size="10" font-weight="bold" fill="#1E293B">O, A\', B 일직선 비례 (k=2)</text>
-          <text x="32" y="52" font-size="9" font-weight="bold" fill="#DC2626">a×b = 441/16  (p+q = 457)</text>
+          <g class="grid-lines">
+            <line x1="20" y1="215" x2="340" y2="215" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="175" x2="340" y2="175" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="135" x2="340" y2="135" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="95" x2="340" y2="95" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="55" x2="340" y2="55" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="100" y1="20" x2="100" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="140" y1="20" x2="140" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="180" y1="20" x2="180" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="220" y1="20" x2="220" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="260" y1="20" x2="260" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="300" y1="20" x2="300" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+          </g>
+          <!-- Axes with Arrowheads & Origin -->
+          <line x1="20" y1="215" x2="340" y2="215" stroke="#334155" stroke-width="1.8"/>
+          <polygon points="340,212 348,215 340,218" fill="#334155"/>
+          <text x="345" y="228" fill="#64748B" font-size="11" font-weight="bold">x</text>
+          <line x1="60" y1="240" x2="60" y2="20" stroke="#334155" stroke-width="1.8"/>
+          <polygon points="57,20 60,12 63,20" fill="#334155"/>
+          <text x="48" y="22" fill="#64748B" font-size="11" font-weight="bold">y</text>
+          <text x="46" y="228" fill="#64748B" font-size="11" font-weight="bold">O</text>
+          <!-- y = x line -->
+          <line x1="45" y1="230" x2="230" y2="45" stroke="#059669" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="215" y="42" fill="#047857" font-size="10" font-weight="bold">y = x</text>
+          <!-- Ray OB passing through O(60, 215), A'(100, 135) and B(140, 55) -->
+          <line x1="60" y1="215" x2="160" y2="15" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
+          <!-- Log curve passing through A(140, 175) -->
+          <path d="M 65 210 Q 100 190 140 175 Q 230 155 330 145" fill="none" stroke="#0284C7" stroke-width="2.5"/>
+          <text x="250" y="140" fill="#0284C7" font-size="10" font-weight="bold">y = log₁₆(8x+2)</text>
+          <!-- Exp curve passing through B(140, 55) -->
+          <path d="M 70 215 Q 110 180 140 55 Q 146 30 155 15" fill="none" stroke="#7C3AED" stroke-width="2.5"/>
+          <text x="155" y="38" fill="#6D28D9" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
+          <!-- Segment AB from A(140, 175) to B(140, 55) -->
+          <line x1="140" y1="175" x2="140" y2="55" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <!-- Point A(140, 175) -->
+          <circle cx="140" cy="175" r="4.5" fill="#0284C7"/>
+          <text x="150" y="180" fill="#0284C7" font-size="10.5" font-weight="bold">A(63/4, 7/4)</text>
+          <!-- Point A'(100, 135) -->
+          <circle cx="100" cy="135" r="4.5" fill="#059669"/>
+          <text x="50" y="132" fill="#047857" font-size="10" font-weight="bold">A'(7/4, 63/4)</text>
+          <!-- Point B(140, 55) -->
+          <circle cx="140" cy="55" r="4.5" fill="#7C3AED"/>
+          <text x="148" y="58" fill="#6D28D9" font-size="10.5" font-weight="bold">B(7/2, 63/2)</text>
+          <!-- Midpoint M(140, 115) -->
+          <circle cx="140" cy="115" r="4.5" fill="#DC2626"/>
+          <text x="148" y="118" fill="#B91C1C" font-size="10.5" font-weight="extrabold">중점 M(77/8, 133/8)</text>
+          <!-- Callout Box -->
+          <rect x="180" y="18" width="165" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="262" y="33" fill="#1E293B" font-size="9.5" font-weight="bold" text-anchor="middle">O, A', B 일직선 비례 (k=2)</text>
+          <text x="262" y="48" fill="#DC2626" font-size="9.5" font-weight="bold" text-anchor="middle">a × b = 441/16  (p+q = 457)</text>
         </svg>`
       },
 
@@ -1905,43 +1936,59 @@
         translation: '출제자는 O, A\'(b, a), B가 한 직선 위에 있다는 조건으로 B = (kb, ka) 비례 관계를 심어뒀어!<br />중점 좌표로부터 a + kb = 77/4, b + ka = 133/4 가 되어 두 식을 더하고 빼면 (k+1)(a+b)=105/2, (k-1)(a-b)=14 가 나와!<br />지수·로그 곡선 대입을 통해 k=2, a=63/4, b=7/4 가 결정되어 a × b = 441/16, 즉 p+q = 457 로 끝납니다.',
         socratic: '지수함수와 로그함수의 역함수 대칭성을 원점 비례 직선(kb, ka)으로 치환하면 킬러 연립방정식이 덧셈과 뺄셈 2줄로 단순화됩니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-    <!-- Axes with Arrowheads & Origin -->
-    <line x1="25" y1="230" x2="340" y2="230" stroke="#64748B" stroke-width="1.8"/>
-    <polygon points="340,227 348,230 340,233" fill="#64748B"/>
-    <text x="345" y="234" font-size="11" font-weight="bold" fill="#64748B">x</text>
-    <line x1="45" y1="245" x2="45" y2="15" stroke="#64748B" stroke-width="1.8"/>
-    <polygon points="42,15 45,7 48,15" fill="#64748B"/>
-    <text x="51" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
-    <text x="31" y="244" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
-    <!-- Line y = x (Green dashed) -->
-    <line x1="45" y1="230" x2="220" y2="55" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3"/>
-    <text x="210" y="48" font-size="10" font-weight="bold" fill="#059669">y = x</text>
-    <!-- Log Curve (Blue) -->
-    <path d="M 46.35 227.85 L 47.7 227.32 L 49.05 226.9 L 50.4 226.55 L 51.75 226.25 L 53.1 225.99 L 54.45 225.76 L 55.8 225.55 L 57.15 225.36 L 58.5 225.18 L 59.85 225.02 L 61.2 224.87 L 62.55 224.73 L 63.9 224.6 L 65.25 224.48 L 66.6 224.36 L 67.95 224.25 L 69.3 224.15 L 70.65 224.05 L 72 223.95 L 73.35 223.86 L 74.7 223.78 L 76.05 223.69 L 77.4 223.61 L 78.75 223.53 L 80.1 223.46 L 81.45 223.39 L 82.8 223.32 L 84.15 223.25 L 85.5 223.18 L 86.85 223.12 L 88.2 223.06 L 89.55 223 L 90.9 222.94 L 92.25 222.89 L 93.6 222.83 L 94.95 222.78 L 96.3 222.72 L 97.65 222.67 L 99 222.62 L 100.35 222.57 L 101.7 222.53 L 103.05 222.48 L 104.4 222.44 L 105.75 222.39 L 107.1 222.35 L 108.45 222.3 L 109.8 222.26 L 111.15 222.22 L 112.5 222.18 L 113.85 222.14 L 115.2 222.1 L 116.55 222.06 L 117.9 222.03 L 119.25 221.99 L 120.6 221.95 L 121.95 221.92 L 123.3 221.88 L 124.65 221.85 L 126 221.82 L 127.35 221.78 L 128.7 221.75 L 130.05 221.72 L 131.4 221.69 L 132.75 221.66 L 134.1 221.62 L 135.45 221.59 L 136.8 221.56 L 138.15 221.53 L 139.5 221.51 L 140.85 221.48 L 142.2 221.45 L 143.55 221.42 L 144.9 221.39 L 146.25 221.37 L 147.6 221.34 L 148.95 221.31 L 150.3 221.29 L 151.65 221.26 L 153 221.24 L 154.35 221.21 L 155.7 221.19 L 157.05 221.16 L 158.4 221.14 L 159.75 221.11 L 161.1 221.09 L 162.45 221.07 L 163.8 221.04 L 165.15 221.02 L 166.5 221 L 167.85 220.97 L 169.2 220.95 L 170.55 220.93 L 171.9 220.91 L 173.25 220.89 L 174.6 220.86 L 175.95 220.84 L 177.3 220.82 L 178.65 220.8 L 180 220.78 L 181.35 220.76 L 182.7 220.74 L 184.05 220.72 L 185.4 220.7 L 186.75 220.68 L 188.1 220.66 L 189.45 220.64 L 190.8 220.62 L 192.15 220.61 L 193.5 220.59 L 194.85 220.57 L 196.2 220.55 L 197.55 220.53 L 198.9 220.51 L 200.25 220.5 L 201.6 220.48 L 202.95 220.46 L 204.3 220.44 L 205.65 220.43 L 207 220.41 L 208.35 220.39 L 209.7 220.37 L 211.05 220.36 L 212.4 220.34 L 213.75 220.32 L 215.1 220.31 L 216.45 220.29 L 217.8 220.28 L 219.15 220.26 L 220.5 220.24 L 221.85 220.23 L 223.2 220.21 L 224.55 220.2 L 225.9 220.18 L 227.25 220.17 L 228.6 220.15 L 229.95 220.14 L 231.3 220.12 L 232.65 220.11 L 234 220.09 L 235.35 220.08 L 236.7 220.06 L 238.05 220.05 L 239.4 220.03 L 240.75 220.02 L 242.1 220.01 L 243.45 219.99 L 244.8 219.98 L 246.15 219.96 L 247.5 219.95 L 248.85 219.94 L 250.2 219.92 L 251.55 219.91 L 252.9 219.9 L 254.25 219.88 L 255.6 219.87 L 256.95 219.86 L 258.3 219.84 L 259.65 219.83 L 261 219.82 L 262.35 219.8 L 263.7 219.79 L 265.05 219.78 L 266.4 219.77 L 267.75 219.75 L 269.1 219.74 L 270.45 219.73 L 271.8 219.72 L 273.15 219.7 L 274.5 219.69 L 275.85 219.68 L 277.2 219.67 L 278.55 219.66 L 279.9 219.64 L 281.25 219.63 L 282.6 219.62 L 283.95 219.61 L 285.3 219.6 L 286.65 219.59 L 288 219.57 L 289.35 219.56 L 290.7 219.55 L 292.05 219.54 L 293.4 219.53 L 294.75 219.52 L 296.1 219.51 L 297.45 219.5 L 298.8 219.49 L 300.15 219.47 L 301.5 219.46 L 302.85 219.45 L 304.2 219.44 L 305.55 219.43 L 306.9 219.42 L 308.25 219.41 L 309.6 219.4 L 310.95 219.39 L 312.3 219.38 L 313.65 219.37" fill="none" stroke="#2563EB" stroke-width="2.5"/>
-    <!-- Exp Curve (Purple) -->
-    <path d="M 51.75 230 L 52.42 229.79 L 53.1 229.57 L 53.78 229.33 L 54.45 229.07 L 55.13 228.8 L 55.8 228.5 L 56.48 228.19 L 57.15 227.85 L 57.83 227.49 L 58.5 227.1 L 59.18 226.68 L 59.85 226.24 L 60.53 225.76 L 61.2 225.25 L 61.88 224.7 L 62.55 224.11 L 63.23 223.48 L 63.9 222.8 L 64.58 222.08 L 65.25 221.3 L 65.93 220.47 L 66.6 219.58 L 67.28 218.62 L 67.95 217.59 L 68.63 216.5 L 69.3 215.32 L 69.98 214.06 L 70.65 212.7 L 71.33 211.25 L 72 209.7 L 72.68 208.03 L 73.35 206.25 L 74.03 204.34 L 74.7 202.29 L 75.38 200.09 L 76.05 197.74 L 76.72 195.21 L 77.4 192.51 L 78.07 189.61 L 78.75 186.5 L 79.42 183.17 L 80.1 179.6 L 80.77 175.77 L 81.45 171.67 L 82.12 167.28 L 82.8 162.57 L 83.47 157.52 L 84.15 152.11 L 84.82 146.31 L 85.5 140.1 L 86.17 133.44 L 86.85 126.3 L 87.52 118.65 L 88.2 110.45 L 88.87 101.66 L 89.55 92.24 L 90.22 82.15 L 90.9 71.33 L 91.57 59.73 L 92.25 47.3 L 92.92 33.98 L 93.6 19.7" fill="none" stroke="#7C3AED" stroke-width="2.5"/>
-    <!-- Ray OB (Red dashed) passing colinearly through O, A', B -->
-    <line x1="45" y1="230" x2="105" y2="20" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
-    <!-- Segment AB with Midpoint M -->
-    <line x1="257.63" y1="219.85" x2="92.25" y2="47.3" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <!-- Point A (15.75, 1.75) -->
-    <circle cx="257.63" cy="219.85" r="4.5" fill="#2563EB"/>
-    <text x="263.63" y="223.85" font-size="9.5" font-weight="bold" fill="#1D4ED8">A(63/4, 7/4)</text>
-    <!-- Point A' (1.75, 15.75) -->
-    <circle cx="68.63" cy="138.65" r="4.5" fill="#10B981"/>
-    <text x="62.629999999999995" y="134.65" font-size="9.5" font-weight="bold" fill="#047857" text-anchor="end">A'(7/4, 63/4)</text>
-    <!-- Point B (3.5, 31.5) -->
-    <circle cx="92.25" cy="47.3" r="4.5" fill="#7C3AED"/>
-    <text x="98.25" y="51.3" font-size="9.5" font-weight="bold" fill="#6D28D9">B(7/2, 63/2)</text>
-    <!-- Midpoint M -->
-    <circle cx="174.94" cy="133.57" r="4.5" fill="#DC2626"/>
-    <text x="180.94" y="129.57" font-size="9.5" font-weight="black" fill="#B91C1C">M(77/8, 133/8)</text>
-    <!-- Top-Right Callout Box (Zero Collision) -->
-    <rect x="180" y="20" width="165" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
-    <text x="262" y="34" font-size="9.5" font-weight="bold" fill="#1E293B" text-anchor="middle">O, A', B 일직선 비례 (k=2)</text>
-    <text x="262" y="47" font-size="9" font-weight="bold" fill="#DC2626" text-anchor="middle">a × b = 441/16  (p+q = 457)</text>
-  </svg>`
+          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+          <g class="grid-lines">
+            <line x1="20" y1="215" x2="340" y2="215" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="175" x2="340" y2="175" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="135" x2="340" y2="135" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="95" x2="340" y2="95" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="20" y1="55" x2="340" y2="55" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="60" y1="20" x2="60" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="100" y1="20" x2="100" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="140" y1="20" x2="140" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="180" y1="20" x2="180" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="220" y1="20" x2="220" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="260" y1="20" x2="260" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+            <line x1="300" y1="20" x2="300" y2="245" stroke="#F1F5F9" stroke-width="1"/>
+          </g>
+          <!-- Axes with Arrowheads & Origin -->
+          <line x1="20" y1="215" x2="340" y2="215" stroke="#334155" stroke-width="1.8"/>
+          <polygon points="340,212 348,215 340,218" fill="#334155"/>
+          <text x="345" y="228" fill="#64748B" font-size="11" font-weight="bold">x</text>
+          <line x1="60" y1="240" x2="60" y2="20" stroke="#334155" stroke-width="1.8"/>
+          <polygon points="57,20 60,12 63,20" fill="#334155"/>
+          <text x="48" y="22" fill="#64748B" font-size="11" font-weight="bold">y</text>
+          <text x="46" y="228" fill="#64748B" font-size="11" font-weight="bold">O</text>
+          <!-- y = x line -->
+          <line x1="45" y1="230" x2="230" y2="45" stroke="#059669" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="215" y="42" fill="#047857" font-size="10" font-weight="bold">y = x</text>
+          <!-- Ray OB passing through O(60, 215), A'(100, 135) and B(140, 55) -->
+          <line x1="60" y1="215" x2="160" y2="15" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
+          <!-- Log curve passing through A(140, 175) -->
+          <path d="M 65 210 Q 100 190 140 175 Q 230 155 330 145" fill="none" stroke="#0284C7" stroke-width="2.5"/>
+          <text x="250" y="140" fill="#0284C7" font-size="10" font-weight="bold">y = log₁₆(8x+2)</text>
+          <!-- Exp curve passing through B(140, 55) -->
+          <path d="M 70 215 Q 110 180 140 55 Q 146 30 155 15" fill="none" stroke="#7C3AED" stroke-width="2.5"/>
+          <text x="155" y="38" fill="#6D28D9" font-size="10" font-weight="bold">y = 4^(x-1) - 1/2</text>
+          <!-- Segment AB from A(140, 175) to B(140, 55) -->
+          <line x1="140" y1="175" x2="140" y2="55" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <!-- Point A(140, 175) -->
+          <circle cx="140" cy="175" r="4.5" fill="#0284C7"/>
+          <text x="150" y="180" fill="#0284C7" font-size="10.5" font-weight="bold">A(63/4, 7/4)</text>
+          <!-- Point A'(100, 135) -->
+          <circle cx="100" cy="135" r="4.5" fill="#059669"/>
+          <text x="50" y="132" fill="#047857" font-size="10" font-weight="bold">A'(7/4, 63/4)</text>
+          <!-- Point B(140, 55) -->
+          <circle cx="140" cy="55" r="4.5" fill="#7C3AED"/>
+          <text x="148" y="58" fill="#6D28D9" font-size="10.5" font-weight="bold">B(7/2, 63/2)</text>
+          <!-- Midpoint M(140, 115) -->
+          <circle cx="140" cy="115" r="4.5" fill="#DC2626"/>
+          <text x="148" y="118" fill="#B91C1C" font-size="10.5" font-weight="extrabold">중점 M(77/8, 133/8)</text>
+          <!-- Callout Box -->
+          <rect x="180" y="18" width="165" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="262" y="33" fill="#1E293B" font-size="9.5" font-weight="bold" text-anchor="middle">O, A', B 일직선 비례 (k=2)</text>
+          <text x="262" y="48" fill="#DC2626" font-size="9.5" font-weight="bold" text-anchor="middle">a × b = 441/16  (p+q = 457)</text>
+        </svg>`
       },
       csat_29: {
         grade: 'high_3',
@@ -1987,36 +2034,39 @@
         translation: 'y=x 대칭이동을 하면, 문제의 본질은 "(0, 1)에서 곡선 y=f⁻¹(x)에 그은 접선의 기울기"를 찾는 문제로 완벽히 단순화돼!<br />접점이 x=1에서 매끄럽게 연결되는 (1, 2)와 x<-1 영역에서의 지수함수 접선 2개가 불연속 경계야!<br />원함수의 복잡한 식 대신 역함수 좌표계에서 접선의 기울기를 해석하면 교점 개수가 바뀌는 경계가 한눈에 증명됩니다.',
         socratic: '원함수에서 직접 교점을 구하지 않고, 역함수 평면에서 고정점 (0, 1)을 통과하는 회전 직선으로 시점을 전환하는 것이 수능 킬러의 본질입니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-    <g class="grid-lines"><line x1="30" y1="20" x2="30" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="70" y1="20" x2="70" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="150" y1="20" x2="150" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="190" y1="20" x2="190" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="230" y1="20" x2="230" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="270" y1="20" x2="270" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="230" x2="335" y2="230" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="190" x2="335" y2="190" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="150" x2="335" y2="150" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="110" x2="335" y2="110" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="70" x2="335" y2="70" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="30" x2="335" y2="30" stroke="#F1F5F9" stroke-width="1"/></g>
-    <!-- Axes with Arrowheads & Origin -->
-    <line x1="20" y1="150" x2="335" y2="150" stroke="#64748B" stroke-width="1.8"/>
-    <polygon points="335,147 343,150 335,153" fill="#64748B"/>
-    <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
-    <line x1="150" y1="245" x2="150" y2="18" stroke="#64748B" stroke-width="1.8"/>
-    <polygon points="147,18 150,10 153,18" fill="#64748B"/>
-    <text x="156" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
-    <text x="136" y="164" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
-    <!-- Scale Ticks -->
-    <line x1="190" y1="147" x2="190" y2="153" stroke="#64748B" stroke-width="1.5"/>
-    <text x="190" y="164" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
-    <line x1="147" y1="110" x2="153" y2="110" stroke="#64748B" stroke-width="1.5"/>
-    <text x="144" y="114" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
-    <!-- Dense Exact Inverse Curve -->
-    <path d="M 62 202.8 L 64 196.33 L 66 190.17 L 68 184.31 L 70 178.73 L 72 173.43 L 74 168.38 L 76 163.59 L 78 159.02 L 80 154.68 L 82 150.55 L 84 146.62 L 86 142.88 L 88 139.33 L 90 135.95 L 92 132.73 L 94 129.67 L 96 126.76 L 98 123.99 L 100 121.36 L 102 118.86 L 104 116.47 L 106 114.21 L 108 112.05 L 110 230 L 110.8 229.18 L 111.6 228.31 L 112.4 227.39 L 113.2 226.43 L 114 225.42 L 114.8 224.37 L 115.6 223.28 L 116.4 222.15 L 117.2 220.97 L 118 219.76 L 118.8 218.51 L 119.6 217.22 L 120.4 215.9 L 121.2 214.54 L 122 213.14 L 122.8 211.71 L 123.6 210.25 L 124.4 208.76 L 125.2 207.23 L 126 205.68 L 126.8 204.1 L 127.6 202.49 L 128.4 200.85 L 129.2 199.19 L 130 197.5 L 130.8 195.79 L 131.6 194.05 L 132.4 192.3 L 133.2 190.52 L 134 188.72 L 134.8 186.9 L 135.6 185.07 L 136.4 183.21 L 137.2 181.34 L 138 179.46 L 138.8 177.56 L 139.6 175.65 L 140.4 173.72 L 141.2 171.79 L 142 169.84 L 142.8 167.88 L 143.6 165.92 L 144.4 163.95 L 145.2 161.97 L 146 159.98 L 146.8 157.99 L 147.6 156 L 148.4 154 L 149.2 152 L 150 150 L 150.8 148 L 151.6 146 L 152.4 144 L 153.2 142.01 L 154 140.02 L 154.8 138.03 L 155.6 136.05 L 156.4 134.08 L 157.2 132.12 L 158 130.16 L 158.8 128.21 L 159.6 126.28 L 160.4 124.35 L 161.2 122.44 L 162 120.54 L 162.8 118.66 L 163.6 116.79 L 164.4 114.93 L 165.2 113.1 L 166 111.28 L 166.8 109.48 L 167.6 107.7 L 168.4 105.95 L 169.2 104.21 L 170 102.5 L 170.8 100.81 L 171.6 99.15 L 172.4 97.51 L 173.2 95.9 L 174 94.32 L 174.8 92.77 L 175.6 91.24 L 176.4 89.75 L 177.2 88.29 L 178 86.86 L 178.8 85.46 L 179.6 84.1 L 180.4 82.78 L 181.2 81.49 L 182 80.24 L 182.8 79.03 L 183.6 77.85 L 184.4 76.72 L 185.2 75.63 L 186 74.58 L 186.8 73.57 L 187.6 72.61 L 188.4 71.69 L 189.2 70.82 L 190 70 L 191.6 68.37 L 193.2 66.67 L 194.8 64.9 L 196.4 63.06 L 198 61.14 L 199.6 59.15 L 201.2 57.07 L 202.8 54.91 L 204.4 52.67 L 206 50.33 L 207.6 47.89 L 209.2 45.36 L 210.8 42.72 L 212.4 39.97 L 214 37.12 L 215.6 34.14 L 217.2 31.04 L 218.8 27.82 L 220.4 24.47" fill="none" stroke="#2563EB" stroke-width="2.5"/>
-    <!-- Tangent Line from (0, 1) through (1, 2) -->
-    <line x1="90" y1="170" x2="214" y2="46" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
-    <!-- Fixed Point (0, 1) -->
-    <circle cx="150" cy="110" r="4.5" fill="#DC2626"/>
-    <text x="144" y="106" font-size="9.5" font-weight="black" fill="#B91C1C" text-anchor="end">(0, 1)</text>
-    <!-- Tangent Contact (1, 2) -->
-    <circle cx="190" cy="70" r="4.5" fill="#7C3AED"/>
-    <text x="196" y="72" font-size="9.5" font-weight="bold" fill="#6D28D9">접점 (1, 2)</text>
-    <!-- Top-Left Callout Box (Ends at x=135, Zero Overlap with y-axis at x=150) -->
-    <rect x="20" y="20" width="120" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
-    <text x="26" y="33" font-size="9" font-weight="bold" fill="#1E293B">y=x 대칭: (0, 1) 접선 해석</text>
-    <text x="26" y="46" font-size="8.5" font-weight="bold" fill="#DC2626">불연속 경계 m=a, m=b 결정</text>
-  </svg>`
+          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+          <g class="grid-lines"><line x1="30" y1="20" x2="30" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="70" y1="20" x2="70" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="150" y1="20" x2="150" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="190" y1="20" x2="190" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="230" y1="20" x2="230" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="270" y1="20" x2="270" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="230" x2="335" y2="230" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="190" x2="335" y2="190" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="150" x2="335" y2="150" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="110" x2="335" y2="110" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="70" x2="335" y2="70" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="30" x2="335" y2="30" stroke="#F1F5F9" stroke-width="1"/></g>
+          <!-- Axes with Arrowheads & Origin -->
+          <line x1="20" y1="150" x2="335" y2="150" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="335,147 343,150 335,153" fill="#64748B"/>
+          <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
+          <line x1="150" y1="245" x2="150" y2="18" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="147,18 150,10 153,18" fill="#64748B"/>
+          <text x="156" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+          <text x="136" y="164" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+          <!-- Scale Ticks -->
+          <line x1="190" y1="147" x2="190" y2="153" stroke="#64748B" stroke-width="1.5"/>
+          <text x="190" y="164" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+          <line x1="147" y1="110" x2="153" y2="110" stroke="#64748B" stroke-width="1.5"/>
+          <text x="144" y="114" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
+          <!-- Smooth Mathematically Continuous Inverse Curve -->
+          <path d="M 98.0 244.0 L 100.0 241.4 L 102.0 238.9 L 104.0 236.5 L 106.0 234.2 L 108.0 232.1 L 110.0 230.0 L 112.0 227.9 L 114.0 225.4 L 116.0 222.7 L 118.0 219.8 L 120.0 216.6 L 122.0 213.1 L 124.0 209.5 L 126.0 205.7 L 128.0 201.7 L 130.0 197.5 L 132.0 193.2 L 134.0 188.7 L 136.0 184.1 L 138.0 179.5 L 140.0 174.7 L 142.0 169.8 L 144.0 164.9 L 146.0 160.0 L 148.0 155.0 L 150.0 150.0 L 152.0 145.0 L 154.0 140.0 L 156.0 135.1 L 158.0 130.2 L 160.0 125.3 L 162.0 120.5 L 164.0 115.9 L 166.0 111.3 L 168.0 106.8 L 170.0 102.5 L 172.0 98.3 L 174.0 94.3 L 176.0 90.5 L 178.0 86.9 L 180.0 83.4 L 182.0 80.2 L 184.0 77.3 L 186.0 74.6 L 188.0 72.1 L 190.0 70.0 L 192.0 67.9 L 194.0 65.8 L 196.0 63.5 L 198.0 61.1 L 200.0 58.6 L 202.0 56.0 L 204.0 53.2 L 206.0 50.3 L 208.0 47.3 L 210.0 44.1 L 212.0 40.7 L 214.0 37.1 L 216.0 33.4 L 218.0 29.4 L 220.0 25.3 L 222.0 21.0 L 224.0 16.4" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+          <!-- Tangent Line 1: from (0, 1) through (1, 2) [b = 1] -->
+          <line x1="90" y1="170" x2="214" y2="46" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
+          <!-- Tangent Line 2: from (0, 1) to Negative Branch [m = a] -->
+          <line x1="150" y1="110" x2="88" y2="245" stroke="#D97706" stroke-width="1.8" stroke-dasharray="4 2"/>
+          <text x="80" y="248" fill="#B45309" font-size="9.5" font-weight="bold">음의 지수 접선 [m=a]</text>
+          <!-- Fixed Point (0, 1) -->
+          <circle cx="150" cy="110" r="4.5" fill="#DC2626"/>
+          <text x="144" y="106" font-size="9.5" font-weight="black" fill="#B91C1C" text-anchor="end">(0, 1)</text>
+          <!-- Tangent Contact (1, 2) -->
+          <circle cx="190" cy="70" r="4.5" fill="#7C3AED"/>
+          <text x="196" y="72" font-size="9.5" font-weight="bold" fill="#6D28D9">접점 (1, 2) [b=1]</text>
+          <!-- Top-Left Callout Box (Zero Overlap with y-axis at x=150) -->
+          <rect x="20" y="20" width="120" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+          <text x="26" y="33" font-size="9" font-weight="bold" fill="#1E293B">y=x 대칭: (0, 1) 접선 해석</text>
+          <text x="26" y="46" font-size="8.5" font-weight="bold" fill="#DC2626">불연속 경계 m=a, m=b 결정</text>
+        </svg>`
       },
       csat_30g: {
         grade: 'high_3',
@@ -2059,20 +2109,51 @@
         socratic: '아무리 긴 수리논술 지문이라도 접선에서 수선의 발을 내리는 기본 기하 보조선 하나로 출제자의 의도가 완벽하게 꿰뚫립니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <line x1="20" y1="200" x2="340" y2="200" stroke="#64748B" stroke-width="1.8" />
-          <path d="M 50 200 A 110 110 0 0 1 270 200" fill="#EEF2FF" stroke="#3730A3" stroke-width="2.5" />
-          <text x="40" y="215" font-size="12" font-weight="bold" fill="#1E293B">A</text>
-          <text x="275" y="215" font-size="12" font-weight="bold" fill="#1E293B">B</text>
-          <text x="160" y="215" font-size="12" font-weight="bold" fill="#1E293B">O</text>
-          <line x1="220" y1="200" x2="220" y2="155" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 2" />
-          <circle cx="220" cy="200" r="3.5" fill="#DC2626" />
-          <text x="220" y="215" font-size="11" font-weight="bold" fill="#B91C1C">H</text>
-          <circle cx="220" cy="155" r="45" fill="none" stroke="#DC2626" stroke-width="2" />
-          <circle cx="220" cy="155" r="3.5" fill="#DC2626" />
-          <text x="230" y="155" font-size="11" font-weight="bold" fill="#B91C1C">M (반지름 1/2)</text>
-          <rect x="25" y="25" width="165" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">접선 성질: MH = 반지름 1/2</text>
-          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">정사영 넓이 S\' = (√3/12)π</text>
+          <g class="grid-lines"><line x1="20" y1="190" x2="340" y2="190" stroke="#F1F5F9" stroke-width="1"/><line x1="130" y1="20" x2="130" y2="245" stroke="#F1F5F9" stroke-width="1"/></g>
+          <!-- Axes with Arrowheads & Origin -->
+          <line x1="20" y1="190" x2="340" y2="190" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="340,187 348,190 340,193" fill="#64748B"/>
+          <text x="345" y="185" fill="#64748B" font-size="11" font-weight="bold">x</text>
+          <line x1="130" y1="245" x2="130" y2="25" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="127,25 130,17 133,25" fill="#64748B"/>
+          <text x="122" y="27" fill="#64748B" font-size="11" font-weight="bold">y</text>
+          <!-- Origin O & Points A, B -->
+          <circle cx="130" cy="190" r="4.5" fill="#E2E8F0" stroke="#6366F1" stroke-width="1.5"/>
+          <text x="120" y="208" fill="#64748B" font-size="11" font-weight="bold">O</text>
+          <!-- Outer Semicircle: Center O(130, 190), Radius R = 110 -->
+          <path d="M 20 190 A 110 110 0 0 1 240 190" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="20" cy="190" r="4" fill="#94A3B8"/>
+          <text x="20" y="208" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">A (-1)</text>
+          <circle cx="240" cy="190" r="4" fill="#2563EB"/>
+          <text x="240" y="208" fill="#2563EB" font-size="10" font-weight="bold" text-anchor="middle">B (1)</text>
+          <!-- Chord PQ: P(176.03, 90.09), Q(239.54, 179.91) -->
+          <line x1="176.03" y1="90.09" x2="239.54" y2="179.91" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="2 2"/>
+          <circle cx="176.03" cy="90.09" r="4" fill="#0284C7"/>
+          <text x="168" y="85" fill="#0284C7" font-size="10.5" font-weight="extrabold">P</text>
+          <circle cx="239.54" cy="179.91" r="4" fill="#0284C7"/>
+          <text x="248" y="180" fill="#0284C7" font-size="10.5" font-weight="extrabold">Q</text>
+          <!-- Inner Semicircle: Center M(207.78, 135), Radius r = 55 -->
+          <path d="M 176.03 90.09 A 55 55 0 0 0 239.54 179.91" fill="none" stroke="#0891B2" stroke-width="2.5"/>
+          <!-- Radius OM -->
+          <line x1="130" y1="190" x2="207.78" y2="135" stroke="#7C3AED" stroke-width="2.2"/>
+          <circle cx="207.78" cy="135" r="5" fill="#D97706"/>
+          <text x="204" y="125" fill="#B45309" font-size="11" font-weight="bold" text-anchor="end">M (중심)</text>
+          <!-- Perpendicular MH to x-axis at H(207.78, 190) -->
+          <line x1="207.78" y1="135" x2="207.78" y2="190" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="207.78" cy="190" r="4.5" fill="#DC2626"/>
+          <text x="207.78" y="208" fill="#B91C1C" font-size="10.5" font-weight="bold" text-anchor="middle">H (접점)</text>
+          <!-- Right angle symbol at H -->
+          <rect x="197.78" y="180" width="10" height="10" fill="none" stroke="#DC2626" stroke-width="1.2"/>
+          <text x="214" y="162" fill="#DC2626" font-size="9.5" font-weight="bold">r = 1/2</text>
+          <!-- Angle arc for theta + pi/6 at Origin O -->
+          <path d="M 155 190 A 25 25 0 0 0 150.4 172.2" fill="none" stroke="#D97706" stroke-width="1.5"/>
+          <text x="158" y="176" fill="#B45309" font-size="9.5" font-weight="bold">θ + π/6</text>
+          <!-- Formula Callout Box -->
+          <rect x="14" y="22" width="110" height="68" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="20" y="38" font-size="9" font-weight="bold" fill="#1E293B">직각삼각형 OMH 관계:</text>
+          <text x="20" y="52" font-size="8.5" font-weight="semibold" fill="#2563EB">sin(θ + π/6) = MH / OM</text>
+          <text x="20" y="66" font-size="8.5" font-weight="semibold" fill="#2563EB">= (1/2) / (√3/2) = 1/√3</text>
+          <text x="20" y="80" font-size="8.5" font-weight="extrabold" fill="#DC2626">∴ 덧셈정리로 cosθ, sinθ 도출</text>
         </svg>`
       }
     };
