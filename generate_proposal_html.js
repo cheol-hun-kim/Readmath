@@ -1,0 +1,367 @@
+const fs = require('fs');
+const path = require('path');
+
+const mdContent = fs.readFileSync('GOVERNMENT_GRANT_PSST_PROPOSAL.md', 'utf8');
+
+const htmlContent = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 정부지원금(예비·초기창업패키지) 사업계획서 - ReadMath</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      word-break: keep-all;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff !important; color: #111827 !important; padding: 0 !important; }
+      .page-container { box-shadow: none !important; border: none !important; max-width: 100% !important; margin: 0 !important; padding: 20mm !important; }
+      .page-break { page-break-before: always; }
+      table { page-break-inside: avoid; }
+    }
+    table th, table td {
+      border: 1px solid #E2E8F0;
+      padding: 10px 14px;
+    }
+    table th {
+      background-color: #F8FAFC;
+      font-weight: 700;
+      color: #1E293B;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 sm:px-6">
+
+  <!-- Floating Sticky Action Bar -->
+  <div class="no-print max-w-4xl mx-auto mb-6 bg-white/95 backdrop-blur-md border border-slate-200 shadow-md rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 sticky top-4 z-50">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-sm">
+        R
+      </div>
+      <div>
+        <h2 class="text-xs font-extrabold text-slate-900 leading-tight">정부지원금(PSST) 공식 사업계획서 뷰어</h2>
+        <p class="text-[10px] text-slate-500">중소벤처기업부 예비·초기창업패키지 제출용 표준 초안</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="copyFullText()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5 border border-slate-300">
+        <i data-lucide="copy" class="w-3.5 h-3.5 text-slate-600"></i>
+        <span>전문 복사 (한글/워드용)</span>
+      </button>
+      <button onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>PDF 다운로드 / 인쇄하기</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Document Container (A4 Proportional Paper Styling) -->
+  <main class="page-container max-w-4xl mx-auto bg-white border border-slate-200 shadow-xl rounded-2xl p-8 sm:p-14 space-y-10">
+
+    <!-- Document Header Badge -->
+    <div class="border-b-2 border-indigo-600 pb-6 space-y-2">
+      <div class="flex items-center justify-between text-xs font-bold text-indigo-700 uppercase tracking-wider">
+        <span>2026년 중소벤처기업부 창업진흥원 지원사업</span>
+        <span class="bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">PSST 표준 양식</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-snug">
+        출제자 의도 해체 및 실시간 SVG 기하 시각화 기반의 출제자 맞춤형 AI 수학교육 플랫폼 (ReadMath)
+      </h1>
+      <p class="text-sm font-semibold text-slate-500">
+        주관기관: 중소벤처기업부 · 창업진흥원 | 창업분야: 지능형 에듀테크 (AI 교육 소프트웨어)
+      </p>
+    </div>
+
+    <!-- Section 0: Summary Table -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-black text-slate-900 flex items-center gap-2 border-l-4 border-indigo-600 pl-3">
+        0. 창업 아이템 개요 (요약)
+      </h2>
+      <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <table class="w-full text-xs leading-relaxed">
+          <tbody>
+            <tr>
+              <th class="w-1/4 text-left">아이템명</th>
+              <td class="font-bold text-indigo-950">ReadMath (리드매스) : 외계어 같은 수식을 일상의 언어로 번역하고 살아 움직이는 그래프로 증명하는 1등 AI 수학교육 솔루션</td>
+            </tr>
+            <tr>
+              <th class="text-left">핵심 가치</th>
+              <td>사교육 업계의 무책임한 '문해력' 핑계와 고비용 양치기 상술을 타파하고, <strong>"출제자의 문제 설계도 해체"</strong>를 통해 비용과 시간 낭비 없이 고정 100점에 도달하는 본질 수학 교육</td>
+            </tr>
+            <tr>
+              <th class="text-left">목표 시장</th>
+              <td>국내 초·중·고 사교육비 시장 (연 27조 원 규모) 및 전국의 8만 개 과외·공부방·보습학원 (매스플랫 등 기존 B2B 소프트웨어 교체 수요)</td>
+            </tr>
+            <tr>
+              <th class="text-left">핵심 기술</th>
+              <td>
+                ① 출제 조건 한국어 1:1 번역 엔진<br>
+                ② 수학적 무결성 100% SVG 실시간 기하 시각화 엔진 (<code>MathSvgEngine</code>)<br>
+                ③ 답을 알려주지 않고 스스로 출제 의도를 간파하게 유도하는 <strong>1:1 출제자 AI 튜터</strong><br>
+                ④ 초1 ~ 고3 12개 학년 교육과정 경계 격리 알고리즘
+              </td>
+            </tr>
+            <tr>
+              <th class="text-left">트랙션 현황</th>
+              <td>
+                <span class="inline-block bg-emerald-50 text-emerald-800 font-extrabold px-2 py-0.5 rounded border border-emerald-300">실증 완료</span>
+                <strong>대표자 운영 학원 정규 재원생 300명 대상 현장 클로즈드 베타 실증 완료</strong>, 누적 오답 4대 원인 진단 데이터 확보, 웹 결제 시스템(토스/포트원) 및 B2B 관리자 관제실 구축 완료
+              </td>
+            </tr>
+            <tr>
+              <th class="text-left">총 사업비</th>
+              <td class="font-extrabold text-slate-900 text-sm">
+                140,000,000원 <span class="text-xs font-normal text-slate-600">(정부지원금 100,000,000원 + 대응자금 40,000,000원)</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 1: Problem -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-black text-slate-900 flex items-center gap-2 border-l-4 border-indigo-600 pl-3">
+        1. 문제 인식 (Problem)
+      </h2>
+      <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4.5 space-y-2">
+          <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+            <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-black">1</span>
+            사교육 업계의 책임회피성 '문해력 / 독해력' 프레임의 폐해
+          </h3>
+          <p>
+            학생이 고난도 수학 문제를 풀지 못할 때, 기존 학원과 사교육 강사들은 <em>"이해력과 문해력이 부족해서 식을 못 세운다"</em>며 책임을 학생과 학부모의 탓으로 돌립니다. 이는 과거 과학적으로 설명할 수 없는 자연현상을 '신의 뜻'으로 돌려버렸듯, 문제 해결 메커니즘을 명쾌하게 규명하지 못하는 사교육 업계가 만들어낸 <strong>비과학적이고 무책임한 상술</strong>에 불과합니다. 학생 탓으로 원인을 돌려야만 매달 수십만 원짜리 사설 N제 양치기 교재와 고액 과외를 지속해서 팔 수 있는 기형적 비즈니스 모델이 고착화되었습니다.
+          </p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4.5 space-y-2">
+          <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+            <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-black">2</span>
+            시험의 본질은 '능력 평가'가 아닌 '출제자 의도 파악'
+          </h3>
+          <p>
+            시험을 잘 보는 학생과 그렇지 못한 학생의 실질적인 차이는 추상적인 '이해력'이 아니라, <strong>"문제를 만든 출제자가 이 조건과 식을 통해 진정으로 원하는 것이 무엇인지 아느냐, 모르느냐"</strong>의 차이 하나뿐입니다. 출제자의 생각을 일상의 한국어로 번역하고 출제자가 머릿속에 구상한 기하학적 상황을 시각화할 수만 있다면, 비싼 교재나 수많은 문제 풀이 없이도 어떤 킬러 문항이든 스스로 해결할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4.5 space-y-2">
+          <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+            <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-black">3</span>
+            기존 에듀테크 서비스의 한계 (사고 정지 유발 vs 고비용 B2B)
+          </h3>
+          <p>
+            <strong>B2C 풀이 검색 앱(콴다 등)</strong>: 사진을 찍으면 답과 풀이 과정을 일방적으로 던져주어, 학생의 사고력을 완전히 마비시키고 단순 베끼기를 유도합니다.<br>
+            <strong>B2B 문제은행 솔루션(매스플랫 등)</strong>: 월 20만 원 상당의 고가 요금제로, 전국 수만 개 소규모 과외 강사나 공부방 원장님들이 비용 부담으로 도입하지 못하고 있습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Solution -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-black text-slate-900 flex items-center gap-2 border-l-4 border-indigo-600 pl-3">
+        2. 해결 방안 및 실현 가능성 (Solution)
+      </h2>
+      <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <p>
+          ReadMath는 학생의 오답 원인을 4가지 공통 해석 결함으로 정밀 분해하고 즉각적인 시각적·논리적 처방을 내리는 독자적 아키텍처를 보유하고 있습니다.
+        </p>
+
+        <!-- Visual Architecture Diagram Box -->
+        <div class="bg-slate-950 text-white rounded-2xl p-6 shadow-inner space-y-4">
+          <div class="text-xs font-extrabold text-indigo-400 tracking-wider uppercase">ReadMath 4대 처방 아키텍처 흐름도</div>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs">
+            <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1">
+              <div class="text-amber-400 font-extrabold">처방 1: Visual</div>
+              <div class="text-[11px] text-slate-300">기하 시각화 직관 부족</div>
+              <div class="text-[10px] text-slate-400">실시간 고해상도 SVG 좌표 그래프 증명</div>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1">
+              <div class="text-amber-400 font-extrabold">처방 2: Condition</div>
+              <div class="text-[11px] text-slate-300">숨은 조건 간과</div>
+              <div class="text-[10px] text-slate-400">출제자가 숨겨놓은 결정적 단서 한글 번역</div>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1">
+              <div class="text-amber-400 font-extrabold">처방 3: Modeling</div>
+              <div class="text-[11px] text-slate-300">식 세우기 미숙</div>
+              <div class="text-[10px] text-slate-400">미지수 설정 및 논리적 등식 수립 가이드</div>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1">
+              <div class="text-amber-400 font-extrabold">처방 4: Concept</div>
+              <div class="text-[11px] text-slate-300">선수 개념 부재</div>
+              <div class="text-[10px] text-slate-400">하위 학년 기초 공식 및 정의 역추적</div>
+            </div>
+          </div>
+          <div class="bg-indigo-950/80 border border-indigo-700/60 p-3.5 rounded-xl text-center text-xs text-indigo-200 font-bold">
+            ⬇️ 1:1 출제자 AI 튜터 라이브 대화 (정답을 주지 않고 단계적 역발문으로 출제 의도 자발적 깨우침 유도) ⬇️
+          </div>
+        </div>
+
+        <ul class="space-y-2 pl-4 list-disc text-slate-700">
+          <li><strong>출제 조건의 한국어 1:1 번역 엔진</strong>: 외계어처럼 느껴지는 기호와 조건식을 일상의 언어로 번역. (예: "x축 위에서 만난다" ➔ "두 직선의 y좌표가 0이다 ➔ y=0 대입")</li>
+          <li><strong>수학적 무결성 100% SVG 기하 시각화 엔진 (<code>MathSvgEngine</code>)</strong>: AI 환각(Hallucination)으로 인한 잘못된 그림 출력을 100% 방지하는 검증 알고리즘 내장.</li>
+          <li><strong>1:1 출제자 AI 튜터</strong>: 사교육 테크닉 주입이 아닌, 평가원 출제자의 의도를 질문으로 던져 스스로 논리를 완성하게 만듦.</li>
+          <li><strong>초1 ~ 고3 12개 학년 교육과정 경계 완벽 격리 (Curriculum Isolation)</strong>: 선택 학년 상위 공식 사용을 원천 차단하여 공교육 정상화 및 내신 평가 적합성 보장.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 3: Scale-up & Traction -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-black text-slate-900 flex items-center gap-2 border-l-4 border-indigo-600 pl-3">
+        3. 성장 전략 및 사업화 (Scale-up)
+      </h2>
+      <div class="space-y-5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-sm mb-2">3-1. 비즈니스 모델 (수수료 우회 B2C + 가격 파괴 B2B)</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50 space-y-1">
+              <strong class="text-indigo-900 font-black">B2C 웹 결제 우회 (마진 30% 회수)</strong>
+              <p class="text-slate-600">인앱 수수료(30%)를 우회하기 위해 웹 랜딩페이지에서 토스페이먼츠/포트원 웹 결제 유도. 1개월(3.9만 원) 대비 <strong>6개월 학기권(14.9만 원, 월 2.4만 원)</strong>으로 앵커링하여 현금 선유입 극대화.</p>
+            </div>
+            <div class="border border-slate-200 rounded-xl p-3.5 bg-slate-50 space-y-1">
+              <strong class="text-indigo-900 font-black">B2B 공급 (기존 솔루션 대비 70% 가격 파괴)</strong>
+              <p class="text-slate-600"><strong>선생회원 플랜(월 59,000원)</strong>: 원생 20명 동시 접속 + 학부모 분석표 무제한.<br><strong>학원 스탠다드(월 129,000원)</strong>: 원생 30명 기본 + 원장 전용 관제실 + 학원 로고 워터마크 브랜딩.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-sm mb-2">3-2. 300명 재원생 실증 트랙션 (검증된 시장성)</h3>
+          <p class="text-xs text-slate-600 mb-2">대표자가 직접 운영 중인 입시 학원 300명의 정규 재원생을 대상으로 클로즈드 베타 검증을 완료하였습니다.</p>
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-xs">
+              <thead>
+                <tr>
+                  <th class="text-left">지표</th>
+                  <th class="text-left">실증 현황</th>
+                  <th class="text-left">사업적 의미</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-bold text-slate-900">실증 모수</td>
+                  <td class="font-extrabold text-indigo-700">분당·대치 실제 재원생 300명 전원 투입</td>
+                  <td>현장 니즈 및 UI 반응 100% 실증</td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-slate-900">누적 질문 로그</td>
+                  <td>Supabase 클라우드 실시간 데이터 적재</td>
+                  <td>정부 R&D 및 알고리즘 고도화 데이터셋 확보</td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-slate-900">관리자 관제실</td>
+                  <td>학생별 4대 오답 원인 분석 및 CSV 추출 완비</td>
+                  <td>B2B 학원 원장님들의 즉각적인 유료 전환 동기</td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-slate-900">수업 준비 시간</td>
+                  <td class="font-bold text-emerald-700">주당 8시간 ➔ 1.5시간 (80% 단축)</td>
+                  <td>학원 운영 효율 극대화 및 강사 만족도 제고</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-sm mb-2">3-3. 정부지원금 예산 집행 계획 (1억 원 규모)</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-xs">
+              <thead>
+                <tr>
+                  <th class="text-left">비목</th>
+                  <th class="text-left">세부 집행 내역</th>
+                  <th class="text-right">금액 (원)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-bold">인건비</td>
+                  <td>풀스택 프론트엔드/백엔드 수석 개발자 (2인 × 6개월)</td>
+                  <td class="text-right font-semibold">48,000,000</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">클라우드 서버비</td>
+                  <td>Render.com 전용 호스팅 인프라 및 Supabase DB 연간 구독</td>
+                  <td class="text-right font-semibold">12,000,000</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">지식재산권(IP)</td>
+                  <td>4대 오답 원인 분해 알고리즘 및 MathSvgEngine 국내/미국 특허 출원 2건</td>
+                  <td class="text-right font-semibold">10,000,000</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">마케팅/영업비</td>
+                  <td>학원 원장·과외 강사 타겟 B2B 영업 및 학부모 바이럴 마케팅</td>
+                  <td class="text-right font-semibold">20,000,000</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">지급수수료/기타</td>
+                  <td>결제 모듈 연동, 정보보안 감사, 세무회계 비용</td>
+                  <td class="text-right font-semibold">10,000,000</td>
+                </tr>
+                <tr class="bg-indigo-50/50 font-black">
+                  <td>합계</td>
+                  <td class="text-indigo-900">정부지원금 100% 투명 집행 계획</td>
+                  <td class="text-right text-indigo-700 text-sm">100,000,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Team -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-black text-slate-900 flex items-center gap-2 border-l-4 border-indigo-600 pl-3">
+        4. 팀 구성 및 글로벌 파트너십 (Team)
+      </h2>
+      <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-1.5">
+          <strong class="text-slate-900 font-extrabold">대표자 (CEO) 현장 전문성</strong>
+          <p>분당·대치 입시 수학 교육 현장 10년 차 원장. 300명 이상의 학생들을 매년 직접 지도하며 수능·평가원의 출제 메커니즘을 완벽히 규명하고, 학생들의 오답 패턴을 데이터화하여 소프트웨어 아키텍처로 구현해 낸 실전형 창업가입니다.</p>
+        </div>
+        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-1.5">
+          <strong class="text-slate-900 font-extrabold">글로벌 파트너십 및 지주회사 구조 (PALIN US)</strong>
+          <p>미국에 본사를 둔 글로벌 AI 플랫폼 PALIN과 독점 기술 유통 및 연구개발 파트너십을 체결하여, 페이퍼 컴퍼니 리스크를 완벽히 해소하는 건실한 글로벌 라이선스 구조를 확립했습니다. 한국 법인 명의의 독자 특허를 출원하여 기업 가치를 극대화하고 향후 TIPS(팁스) 연계를 추진합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviewer Quote Card -->
+    <div class="bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-6 shadow-xl border border-indigo-500/30 space-y-2">
+      <div class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider">심사위원 평가 한줄 요약</div>
+      <blockquote class="text-xs sm:text-sm font-semibold italic leading-relaxed text-indigo-100">
+        "사교육의 '문해력' 핑계를 논리적으로 타파하고 출제 의도를 해석하는 명확한 교육 철학, 이미 확보된 300명의 실제 학원생 데이터, 그리고 미국 PALIN 지주사 연계 전략까지 3박자를 고루 갖춘 독보적인 에듀테크 과제"
+      </blockquote>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    function copyFullText() {
+      const fullText = document.querySelector('main').innerText;
+      navigator.clipboard.writeText(fullText).then(() => {
+        alert('[복사 완료] 사업계획서 전문이 클립보드에 복사되었습니다.\\n한글(HWP)이나 MS Word에 [Ctrl + V]로 바로 붙여넣으실 수 있습니다.');
+      }).catch(err => {
+        alert('복사에 실패했습니다. 마우스로 드래그하여 복사해 주세요.');
+      });
+    }
+  </script>
+</body>
+</html>
+`;
+
+fs.writeFileSync('grant_proposal.html', htmlContent, 'utf8');
+fs.writeFileSync('public/proposal.html', htmlContent, 'utf8');
+console.log('✓ Successfully generated grant_proposal.html & public/proposal.html!');

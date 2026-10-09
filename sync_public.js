@@ -51,3 +51,9 @@ if (fs.existsSync('admin.html')) {
   console.log('✓ Successfully synchronized admin.html -> public/admin.html!');
 }
 
+// 4. Process grant_proposal.html -> public/proposal.html
+if (fs.existsSync('grant_proposal.html')) {
+  fs.copyFileSync('grant_proposal.html', 'public/proposal.html');
+  console.log('✓ Successfully synchronized grant_proposal.html -> public/proposal.html!');
+}
+

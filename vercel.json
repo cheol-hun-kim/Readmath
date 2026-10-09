@@ -43,6 +43,10 @@
       "dest": "/public/index.html"
     },
     {
+      "src": "/proposal",
+      "dest": "/public/proposal.html"
+    },
+    {
       "src": "/privacy",
       "dest": "/public/privacy.html"
     },
