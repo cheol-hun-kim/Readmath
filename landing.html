@@ -58,7 +58,7 @@
   <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5 group">
+      <a href="/" onclick="event.preventDefault(); openApp();" class="flex items-center gap-2.5 group">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-emerald-400 p-0.5 shadow-md shadow-indigo-600/30 group-hover:scale-105 transition">
           <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
             <i data-lucide="compass" class="w-5 h-5 text-indigo-400"></i>
@@ -88,7 +88,7 @@
           <i data-lucide="credit-card" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>이용권 구매</span>
         </a>
-        <a href="/" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white text-xs font-black shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white text-xs font-black shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5">
           <span>앱 바로 시작</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </a>
@@ -129,7 +129,7 @@
           <span>요금제 확인 & 이용권 결제하기</span>
           <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition"></i>
         </a>
-        <a href="/" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
           <i data-lucide="play" class="w-4 h-4 text-emerald-400"></i>
           <span>무료로 앱 체험하기 (3회)</span>
         </a>
@@ -801,7 +801,7 @@
       </div>
 
       <div class="pt-2 space-y-2">
-        <a href="/" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
           <span>ReadMath 앱 바로 열기 (학습 시작)</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
@@ -881,6 +881,18 @@
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
     });
+
+    function openApp() {
+      if (window.location.protocol === 'file:') {
+        if (window.location.pathname.includes('/public/')) {
+          window.location.href = 'index.html';
+        } else {
+          window.location.href = 'preview.html';
+        }
+      } else {
+        window.location.href = '/';
+      }
+    }
 
     // Pricing Tabs
     function switchPricingTab(tab) {
