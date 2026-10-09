@@ -6259,6 +6259,14 @@
       str = str.replace(/[∑]/g, ' \\sum ');
       str = str.replace(/[∂]/g, ' \\partial ');
       str = str.replace(/[∘]/g, ' \\circ ');
+      str = str.replace(/[°]/g, ' ^\\circ ');
+      str = str.replace(/[∠]/g, ' \\angle ');
+      str = str.replace(/[△]/g, ' \\triangle ');
+      str = str.replace(/[∥]/g, ' \\parallel ');
+      str = str.replace(/[∽]/g, ' \\sim ');
+      str = str.replace(/[≡]/g, ' \\equiv ');
+      str = str.replace(/[≈]/g, ' \\approx ');
+      str = str.replace(/[∞]/g, ' \\infty ');
 
       // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters & KaTeX PUA artifacts:
       str = str.replace(/[\uE000-\uF8FF]=?/g, ' \\neq ');
@@ -6406,6 +6414,8 @@
       // Step C: Standalone LaTeX commands with braces outside $: e.g. \overline{AB}, \frac{a}{b}, \sqrt{3}, \angle POQ
       str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, (m, p1) => ' $' + p1 + '$ ');
       str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\triangle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /\b([0-9]+(?:\.[0-9]+)?)\s*(?:\^\{?\\circ\}?|\^?\\circ\b|\^\{?circ\}?|°)/g, (m, p1) => ' $' + p1 + '^\\circ$ ');
 
       // Step D: Standalone symbols & relations outside $
       str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
@@ -6436,27 +6446,107 @@
       if (!text || typeof text !== 'string') return text || '';
       return text
         .replace(/<[^>]+>/g, ' ')
+        // 1. Degree & Angle representations (Crucial: convert to natural Korean Unicode ° and ∠)
+        .replace(/\^\{\\circ\}/g, '°')
+        .replace(/\^\\circ\b/g, '°')
+        .replace(/\^\{circ\}/g, '°')
+        .replace(/\^circ\b/g, '°')
+        .replace(/([0-9]+)\s*\^\s*circ\b/g, '$1°')
+        .replace(/([0-9]+)\s*\^?\s*\\circ\b/g, '$1°')
+        .replace(/\\circ\b/g, '°')
+        .replace(/\\angle\b/g, '∠')
+        .replace(/\\triangle\b/g, '△')
+        .replace(/\\overline\{([^}]*)\}/g, '$1')
+        .replace(/\\underline\{([^}]*)\}/g, '$1')
+        .replace(/\\vec\{([^}]*)\}/g, '$1')
+        .replace(/\\perp\b/g, '⊥')
+        .replace(/\\parallel\b/g, '∥')
+        .replace(/\\sim\b/g, '∽')
+        .replace(/\\equiv\b/g, '≡')
+        .replace(/\\approx\b/g, '≈')
+        // 2. Fractions & Roots
+        .replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, '$1/$2')
+        .replace(/\\sqrt\{([^}]*)\}/g, '√$1')
+        .replace(/\\sqrt\[([0-9]+)\]\{([^}]*)\}/g, '^$1√$2')
+        // 3. Mathematical Relations & Operators
+        .replace(/\\le(q)?\b/g, '≤')
+        .replace(/\\ge(q)?\b/g, '≥')
+        .replace(/\\ne(q)?\b/g, '≠')
+        .replace(/\\times\b/g, '×')
+        .replace(/\\div\b/g, '÷')
+        .replace(/\\cdot\b/g, '·')
+        .replace(/\\pm\b/g, '±')
+        .replace(/\\mp\b/g, '∓')
+        .replace(/\\infty\b/g, '∞')
+        .replace(/\\to\b/g, '→')
+        .replace(/\\leftarrow\b/g, '←')
+        .replace(/\\Rightarrow\b/g, '⇒')
+        .replace(/\\Leftarrow\b/g, '⇐')
+        .replace(/\\Leftrightarrow\b/g, '⇔')
+        .replace(/\\in\b/g, '∈')
+        .replace(/\\notin\b/g, '∉')
+        .replace(/\\subset\b/g, '⊂')
+        .replace(/\\supset\b/g, '⊃')
+        .replace(/\\cup\b/g, '∪')
+        .replace(/\\cap\b/g, '∩')
+        .replace(/\\emptyset\b/g, '∅')
+        .replace(/\\forall\b/g, '∀')
+        .replace(/\\exists\b/g, '∃')
+        .replace(/\\therefore\b/g, '∴')
+        .replace(/\\because\b/g, '∵')
+        // 4. Greek alphabet (lowercase & uppercase)
+        .replace(/\\alpha\b/g, 'α')
+        .replace(/\\beta\b/g, 'β')
+        .replace(/\\gamma\b/g, 'γ')
+        .replace(/\\delta\b/g, 'δ')
+        .replace(/\\epsilon\b|\\varepsilon\b/g, 'ε')
+        .replace(/\\zeta\b/g, 'ζ')
+        .replace(/\\eta\b/g, 'η')
+        .replace(/\\theta\b/g, 'θ')
+        .replace(/\\iota\b/g, 'ι')
+        .replace(/\\kappa\b/g, 'κ')
+        .replace(/\\lambda\b/g, 'λ')
+        .replace(/\\mu\b/g, 'μ')
+        .replace(/\\nu\b/g, 'ν')
+        .replace(/\\xi\b/g, 'ξ')
+        .replace(/\\pi\b/g, 'π')
+        .replace(/\\rho\b/g, 'ρ')
+        .replace(/\\sigma\b/g, 'σ')
+        .replace(/\\tau\b/g, 'τ')
+        .replace(/\\upsilon\b/g, 'υ')
+        .replace(/\\phi\b|\\varphi\b/g, 'φ')
+        .replace(/\\chi\b/g, 'χ')
+        .replace(/\\psi\b/g, 'ψ')
+        .replace(/\\omega\b/g, 'ω')
+        .replace(/\\Gamma\b/g, 'Γ')
+        .replace(/\\Delta\b/g, 'Δ')
+        .replace(/\\Theta\b/g, 'Θ')
+        .replace(/\\Lambda\b/g, 'Λ')
+        .replace(/\\Xi\b/g, 'Ξ')
+        .replace(/\\Pi\b/g, 'Π')
+        .replace(/\\Sigma\b/g, 'Σ')
+        .replace(/\\Phi\b/g, 'Φ')
+        .replace(/\\Psi\b/g, 'Ψ')
+        .replace(/\\Omega\b/g, 'Ω')
+        // 5. Text styling & common math functions
+        .replace(/\\(?:text|mathrm|mathbf|mathit|mathbb|mathcal|operatorname)\{([^}]*)\}/g, '$1')
+        .replace(/\\(sin|cos|tan|log|ln|lim|det|max|min)\b/g, '$1')
+        .replace(/\\(?:displaystyle|textstyle|left|right)\b/g, '')
+        .replace(/\\quad\b/g, ' ')
+        .replace(/\\qquad\b/g, ' ')
+        .replace(/\\[,;:!]/g, ' ')
+        // 6. Delimiters
         .replace(/\$\$([^$]+)\$\$/g, '$1')
         .replace(/\$([^$]+)\$/g, '$1')
         .replace(/\\\[([^\\]+)\\\]/g, '$1')
         .replace(/\\\(([^\\]+)\\\)/g, '$1')
-        .replace(/\\text\{([^}]*)\}/g, '$1')
-        .replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, '$1/$2')
-        .replace(/\\sqrt\{([^}]*)\}/g, '√$1')
-        .replace(/\\le\b/g, '≤')
-        .replace(/\\ge\b/g, '≥')
-        .replace(/\\neq\b/g, '≠')
-        .replace(/\\times\b/g, '×')
-        .replace(/\\cdot\b/g, '·')
-        .replace(/\\pm\b/g, '±')
-        .replace(/\\quad/g, ' ')
-        .replace(/\\qquad/g, ' ')
-        .replace(/\\alpha\b/g, 'α')
-        .replace(/\\beta\b/g, 'β')
-        .replace(/\\theta\b/g, 'θ')
-        .replace(/\\pi\b/g, 'π')
-        .replace(/\$/g, '')
+        // 7. INVIOLABLE SAFEGUARD: Purge ANY remaining unrecognized LaTeX commands (\xyz)
+        .replace(/\\[a-zA-Z]+/g, '')
+        // 8. Clean orphan backslashes, math markers and braces
         .replace(/\\/g, '')
+        .replace(/\$/g, '')
+        .replace(/\^\{([^}]*)\}/g, '^$1')
+        .replace(/\{([^}]*)\}/g, '$1')
         .replace(/\s+/g, ' ')
         .trim();
     }
@@ -6470,7 +6560,7 @@
 
     function cleanProblemTitle(title) {
       if (!title || typeof title !== 'string') return '';
-      return title.replace(/^(고[123]|중[123]|초[1-6]|고3\/N수)\s*/g, '').trim();
+      return stripMathDelimiters(title.replace(/^(고[123]|중[123]|초[1-6]|고3\/N수)\s*/g, '')).trim();
     }
 
     // Grade-Tailored Sample Problem Mapping Engine (Curriculum-Isolated Dedicated Questions)

@@ -98,7 +98,11 @@ const forbiddenJargonPatterns = [
   { pattern: /수식\s*모델링/i, desc: 'Difficult jargon "수식 모델링" exposed (should be "식 세우기")' },
   { pattern: /해석기하/i, desc: 'Difficult jargon "해석기하" exposed' },
   { pattern: /\bB2B\b/i, desc: 'B2B business jargon exposed in user UI' },
-  { pattern: /격자\s*눈금\s*:\s*1칸\s*=\s*10px/i, desc: 'Developer pixel dimension guide exposed in modal' }
+  { pattern: /격자\s*눈금\s*:\s*1칸\s*=\s*10px/i, desc: 'Developer pixel dimension guide exposed in modal' },
+  { pattern: /\^circ\b/i, desc: 'Unrendered degree LaTeX code pattern "^circ" exposed in UI' },
+  { pattern: /\\circ\b/i, desc: 'Unrendered LaTeX command "\\circ" exposed in UI' },
+  { pattern: /\\frac\b/i, desc: 'Unrendered LaTeX command "\\frac" exposed in UI' },
+  { pattern: /\\sqrt\b/i, desc: 'Unrendered LaTeX command "\\sqrt" exposed in UI' }
 ];
 
 const jargonViolations = [];
@@ -175,8 +179,13 @@ console.log('\n[GATE 2] Running Database Zero Unrendered LaTeX & Naked Greek Aud
 const scriptMatches = htmlContent.match(/<script[\s\S]*?>([\s\S]*?)<\/script>/gi) || [];
 const allScriptCode = scriptMatches.map(s => s.replace(/<script[\s\S]*?>/i, '').replace(/<\/script>/i, '')).join('\n');
 const pDbMatch = allScriptCode.match(/const\s+PROBLEMS_DB\s*=\s*(\{[\s\S]*?\n\s*\};)/);
+const matchStrip = allScriptCode.match(/function\s+stripMathDelimiters\s*\([\s\S]*?\n\s{4}\}/);
+const matchSnippet = allScriptCode.match(/function\s+formatSnippetText\s*\([\s\S]*?\n\s{4}\}/);
 if (!pDbMatch) {
   failGate(2, 'Problems DB', 'PROBLEMS_DB declaration not found in preview.html');
+}
+if (!matchStrip || !matchSnippet) {
+  failGate(2, 'Math Sanitizer Functions', 'stripMathDelimiters or formatSnippetText declaration not found in preview.html');
 }
 
 const dbSandbox = {
@@ -199,7 +208,11 @@ try {
     let selectedClauseText = '';
     let _APP_ENGINE_KEY = 'test';
     ${pDbMatch[0]}
+    ${matchStrip[0]}
+    ${matchSnippet[0]}
     this.PROBLEMS_DB = PROBLEMS_DB;
+    this.stripMathDelimiters = stripMathDelimiters;
+    this.formatSnippetText = formatSnippetText;
   `, dbSandbox);
   PROBLEMS_DB = dbSandbox.PROBLEMS_DB;
 } catch (e) {
@@ -264,11 +277,78 @@ if (dbIssues.length > 0) {
   failGate(2, 'Database Mathematical Purity', `Found ${dbIssues.length} issues:\n   |-- ${topIssues}`);
 }
 
+// 2.2 Inviolable Plaintext Math Sanitizer & Snippet Leakage Scanner
+// Strictly verifies that formatSnippetText & stripMathDelimiters produce 100% natural Korean text
+// with ZERO leaked programming terms (circ, frac, sqrt, overline, angle, etc.), ZERO unrendered backslashes,
+// and natural Korean Unicode representations (e.g. 50°, ∠ABC, △ABC).
+const snippetIssues = [];
+const stripMathDelimiters = dbSandbox.stripMathDelimiters;
+const formatSnippetText = dbSandbox.formatSnippetText;
+
+for (const id in PROBLEMS_DB) {
+  const prob = PROBLEMS_DB[id];
+  const fieldsToTest = [
+    { name: 'problem_text', text: prob.problem_text },
+    { name: 'title', text: prob.title }
+  ];
+  if (Array.isArray(prob.steps)) {
+    prob.steps.forEach((s, idx) => fieldsToTest.push({ name: `step[${idx}]`, text: s }));
+  }
+  if (prob.explanation) {
+    fieldsToTest.push({ name: 'explanation', text: prob.explanation });
+  }
+
+  fieldsToTest.forEach(f => {
+    if (!f.text || typeof f.text !== 'string') return;
+    const stripped = stripMathDelimiters(f.text);
+    const snippet = formatSnippetText(f.text, 48);
+
+    const forbiddenLeakedWords = [
+      { pattern: /\bcirc\b|\^circ\b/i, token: 'circ' },
+      { pattern: /\bfrac\b/i, token: 'frac' },
+      { pattern: /\bsqrt\b/i, token: 'sqrt' },
+      { pattern: /\boverline\b/i, token: 'overline' },
+      { pattern: /\bangle\b/i, token: 'angle' },
+      { pattern: /\btriangle\b/i, token: 'triangle' },
+      { pattern: /\bquad\b/i, token: 'quad' },
+      { pattern: /\bcdot\b/i, token: 'cdot' }
+    ];
+
+    forbiddenLeakedWords.forEach(({ pattern, token }) => {
+      if (pattern.test(stripped) || pattern.test(snippet)) {
+        snippetIssues.push(`Problem ID ${id} [${prob.curriculum_grade}] ${f.name}: Leaked raw code token '${token}' in snippet or stripped text`);
+      }
+    });
+
+    if (/\\[a-zA-Z]+/.test(stripped) || /\\[a-zA-Z]+/.test(snippet)) {
+      snippetIssues.push(`Problem ID ${id} [${prob.curriculum_grade}] ${f.name}: Unparsed LaTeX backslash command in snippet: "${snippet}"`);
+    }
+    if (stripped.includes('$') || snippet.includes('$')) {
+      snippetIssues.push(`Problem ID ${id} [${prob.curriculum_grade}] ${f.name}: Unstripped dollar sign in snippet: "${snippet}"`);
+    }
+  });
+}
+
+// Explicit test for triangle degree problem (ID 104)
+const p104 = PROBLEMS_DB[104];
+if (p104) {
+  const p104Snip = formatSnippetText(p104.problem_text, 48);
+  if (!p104Snip.includes('50°') || !p104Snip.includes('70°')) {
+    snippetIssues.push(`Problem ID 104 failed to convert angles to '50°' and '70°': "${p104Snip}"`);
+  }
+}
+
+if (snippetIssues.length > 0) {
+  failGate(2, 'Snippet & Plaintext Math Sanitizer Integrity', snippetIssues.join('; '));
+}
+
 passGate(2, 'Database Mathematical Purity & Zero Exposed Jargon', [
   `All ${Object.keys(PROBLEMS_DB).length} problems in database audited across 100% of fields`,
   '0 unescaped LaTeX backslash commands outside math ($...$)',
   '0 naked Greek words (theta, alpha, beta, phi) outside math ($...$)',
-  '0 raw unicode math symbols (≠, ≤, ≥, ±, ×, ÷) outside math ($...$)'
+  '0 raw unicode math symbols (≠, ≤, ≥, ±, ×, ÷) outside math ($...$)',
+  'Zero LaTeX code token leaks (circ, frac, sqrt, overline, angle, etc.) across all snippets & titles',
+  'All angle degrees cleanly normalized to Unicode "°" (e.g. 50°, 70° in Problem 104)'
 ]);
 
 // ==============================================================================
