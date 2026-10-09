@@ -12,6 +12,7 @@ const vm = require('vm');
 const ROOT_DIR = path.resolve(__dirname);
 const PREVIEW_HTML_PATH = path.join(ROOT_DIR, 'preview.html');
 const TS_SOLVER_PATH = path.join(ROOT_DIR, 'src', 'services', 'ai', 'mathSolver.ts');
+const ADMIN_HTML_PATH = path.join(ROOT_DIR, 'admin.html');
 
 console.log('='.repeat(75));
 console.log('[RootMath 7-GATE ABSOLUTE QA MATRIX & INTEGRITY VERIFICATION]');
@@ -580,6 +581,9 @@ vm.runInContext(`
   this.generateAuthoritativeMathSvg = generateAuthoritativeMathSvg;
   this.validateAndSanitizeMathSvg = validateAndSanitizeMathSvg;
   this.convertSvgForWhiteCanvas = convertSvgForWhiteCanvas;
+  this.isGradeMatch = isGradeMatch;
+  this.getSampleProblemIdForGrade = getSampleProblemIdForGrade;
+  this.ensureSvgCoordinateGrid = ensureSvgCoordinateGrid;
 `, runtimeSandbox);
 
 const inspectSvgFn = runtimeSandbox.inspectMathSvgDefects;
@@ -852,6 +856,99 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
       }
     }
   });
+}
+
+// 4.13 Non-Coordinate Diagram Metric Grid Suppression Check
+const ensureGridFn = runtimeSandbox.ensureSvgCoordinateGrid;
+if (typeof ensureGridFn === 'function') {
+  const p5 = PROBLEMS_DB[5];
+  const p201 = PROBLEMS_DB[201];
+  const p6 = PROBLEMS_DB[6];
+  if (p5 && p5.diagrams && p5.diagrams[0]) {
+    const res5 = ensureGridFn(p5.diagrams[0].svg);
+    if (res5.includes('class="math-metric-grid"')) {
+      geometryErrors.push('Problem 5 (Pythagoras right triangle) must NOT contain metric coordinate grid lines');
+    }
+  }
+  if (p201 && p201.diagrams && p201.diagrams[0]) {
+    const res201 = ensureGridFn(p201.diagrams[0].svg);
+    if (res201.includes('class="math-metric-grid"')) {
+      geometryErrors.push('Problem 201 (Balance scale) must NOT contain metric coordinate grid lines');
+    }
+  }
+  if (p6 && p6.diagrams && p6.diagrams[0]) {
+    const res6 = ensureGridFn(p6.diagrams[0].svg);
+    if (!res6.includes('class="math-metric-grid"')) {
+      geometryErrors.push('Problem 6 Diagram 1 (Cubic curve on Cartesian axes) MUST contain metric coordinate grid lines');
+    }
+  }
+}
+
+// 4.14 Strict Contrast Armor in preview.html (Zero dark-on-dark action buttons)
+if (htmlContent.includes('openRootCauseComparisonModal')) {
+  const rcaBtnMatch = htmlContent.match(/<button[^>]*openRootCauseComparisonModal[^>]*class=["']([^"']+)["']/i);
+  if (rcaBtnMatch) {
+    const cls = rcaBtnMatch[1];
+    if (cls.includes('text-amber-800') || cls.includes('bg-amber-950')) {
+      geometryErrors.push('Root cause comparison button uses low-contrast text-amber-800 on dark background');
+    }
+    if (!cls.includes('bg-amber-400') || !cls.includes('text-slate-950')) {
+      geometryErrors.push('Root cause comparison button must use high-contrast bg-amber-400 with text-slate-950');
+    }
+  }
+}
+
+// 4.15 Middle School Curriculum Isolation & Distinct Problems Check
+const isGradeMatchFn = runtimeSandbox.isGradeMatch;
+const getSampleProblemIdFn = runtimeSandbox.getSampleProblemIdForGrade;
+if (typeof isGradeMatchFn === 'function') {
+  if (isGradeMatchFn('중1', '중2') !== false || isGradeMatchFn('중2', '중3') !== false) {
+    geometryErrors.push('isGradeMatch must strictly isolate middle school grades (중1, 중2, 중3 cannot match each other)');
+  }
+}
+if (typeof getSampleProblemIdFn === 'function') {
+  const m1Id = getSampleProblemIdFn('중1');
+  const m2Id = getSampleProblemIdFn('중2');
+  const m3Id = getSampleProblemIdFn('중3');
+  if (m1Id === m2Id || m2Id === m3Id || m1Id === m3Id) {
+    geometryErrors.push(`Middle school grades must map to distinct sample problems (found 중1: ${m1Id}, 중2: ${m2Id}, 중3: ${m3Id})`);
+  }
+}
+
+// 4.16 2026 CSAT Killer Problems Integrity Verification
+const csatRequiredIds = [
+  { id: 302, title: '공통 22번' },
+  { id: 303, title: '확통 29번' },
+  { id: 304, title: '미적 30번' },
+  { id: 305, title: '기하 30번' },
+  { id: 3, title: '한양대 논술' }
+];
+csatRequiredIds.forEach(req => {
+  if (!PROBLEMS_DB[req.id]) {
+    geometryErrors.push(`PROBLEMS_DB must contain 2026 CSAT / Essay problem ID ${req.id} (${req.title})`);
+  }
+});
+
+// 4.17 Director's Letter Text Phrasing Check
+if (fs.existsSync(LANDING_HTML_PATH)) {
+  const landingHtml = fs.readFileSync(LANDING_HTML_PATH, 'utf8');
+  if (!landingHtml.includes("사고력, 수리적 추론능력 등 '능력'이 부족해서")) {
+    geometryErrors.push("Landing page Director's letter must contain exact phrase \"사고력, 수리적 추론능력 등 '능력'이 부족해서\"");
+  }
+  if (landingHtml.includes("이해력과 문해력이 부족해서")) {
+    geometryErrors.push("Landing page Director's letter contains deprecated phrase \"이해력과 문해력이 부족해서\"");
+  }
+}
+
+// 4.18 Admin Mobile Typography & Truncation Check
+if (fs.existsSync(ADMIN_HTML_PATH)) {
+  const adminHtml = fs.readFileSync(ADMIN_HTML_PATH, 'utf8');
+  if (adminHtml.includes('R..<span') || adminHtml.includes('R...<span')) {
+    geometryErrors.push('admin.html header must not truncate ReadMath brand name as "R.."');
+  }
+  if (!adminHtml.includes('shrink-0 whitespace-nowrap') && !adminHtml.includes('whitespace-nowrap shrink-0')) {
+    geometryErrors.push('admin.html KPI badges must include shrink-0 whitespace-nowrap to prevent single-character line wraps');
+  }
 }
 
 if (geometryErrors.length > 0) {
