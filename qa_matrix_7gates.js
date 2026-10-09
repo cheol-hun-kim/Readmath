@@ -186,6 +186,9 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   if (/1타\s*(?:강사)?/i.test(landingVisible) || /대치동\s*1타/i.test(landingVisible)) {
     failGate(1, 'Landing Page Private Education Jargon', 'Commercialized jargon "1타 강사" found in landing page visible text!');
   }
+  if (/소크라테스/i.test(landingVisible)) {
+    failGate(1, 'Landing Page Cliché Term', 'Cliché term "소크라테스" found in landing page visible text! (Must use "출제자 AI 튜터")');
+  }
 }
 
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [

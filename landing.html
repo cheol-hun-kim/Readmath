@@ -82,7 +82,7 @@
       <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
         <a href="#features" class="hover:text-white transition">4대 처방전</a>
         <a href="#demo" class="hover:text-white transition">10초 미니 체험</a>
-        <a href="#tutor" class="hover:text-white transition">소크라테스 튜터</a>
+        <a href="#tutor" class="hover:text-white transition">출제자 AI 튜터</a>
         <a href="#traction" class="hover:text-white transition">원장 스토리 & 실증</a>
         <a href="#pricing" class="hover:text-white transition text-indigo-300 font-bold">요금제 & 이용권</a>
         <a href="#faq" class="hover:text-white transition">FAQ</a>
@@ -109,7 +109,7 @@
     <div id="mobile-menu-drawer" class="md:hidden hidden bg-slate-950/95 border-b border-slate-800 px-5 py-4 space-y-3 text-xs font-semibold">
       <a href="#features" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">4대 처방전</a>
       <a href="#demo" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">10초 미니 체험</a>
-      <a href="#tutor" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">소크라테스 AI 튜터</a>
+      <a href="#tutor" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">출제자 AI 튜터</a>
       <a href="#traction" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">원장 스토리 & 실증</a>
       <a href="#pricing" onclick="toggleMobileMenu()" class="block text-indigo-300 font-bold py-1">요금제 & 이용권</a>
       <a href="#faq" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">FAQ (자주 묻는 질문)</a>
@@ -290,11 +290,11 @@
     </div>
   </section>
 
-  <!-- ================= 1:1 SOCRATIC AI TUTOR ================= -->
+  <!-- ================= 1:1 EXAMINER AI TUTOR ================= -->
   <section id="tutor" class="py-16 sm:py-24 border-t border-slate-800">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div class="space-y-5">
-        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">SOCRATIC AI TUTOR</span>
+        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">EXAMINER AI TUTOR</span>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug break-keep">
           <span class="block">답만 툭 던져주는 AI는</span>
           <span class="text-emerald-400 block mt-1.5">출제자의 의도를 가립니다.</span>
@@ -302,14 +302,14 @@
         <div class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3">
           <p class="font-medium">
             수능·평가원 출제위원의 문제 제작 방식을 그대로 이식했습니다.<br />
-            ReadMath 튜터는 정답을 외우게 하거나 공식을 바로 떠먹여 주지 않습니다.
+            ReadMath 출제자 튜터는 정답을 외우게 하거나 공식을 바로 떠먹여 주지 않습니다.
           </p>
           <div class="p-3.5 rounded-2xl bg-slate-900 border border-indigo-500/30 text-indigo-200 text-xs sm:text-sm font-semibold flex items-start gap-2.5">
             <span class="text-base leading-none">💡</span>
             <span>"분모가 0에 가까워질 때, 출제자는 분자에 어떤 조건을 원했을까?"</span>
           </div>
           <p class="text-slate-400">
-            단계적인 소크라테스식 발문으로 문제 속에 숨은 출제 의도와 필연적인 접근법을 학생 스스로 찾아내게 만듭니다.
+            단계적인 출제자 역발문으로 문제 속에 숨은 출제 의도와 필연적인 접근법을 학생 스스로 찾아내게 만듭니다.
           </p>
         </div>
         <ul class="text-xs text-slate-300 space-y-2.5 pt-1">
@@ -333,7 +333,7 @@
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="text-xs font-bold text-white">1:1 소크라테스 AI 튜터 라이브</span>
+            <span class="text-xs font-bold text-white">1:1 출제자 AI 튜터 라이브</span>
           </div>
           <span class="text-[10px] text-slate-400 font-mono">응답시간 0.4초</span>
         </div>
@@ -432,7 +432,7 @@
           <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-200 flex items-start gap-2">
             <i data-lucide="help-circle" class="w-4 h-4 shrink-0 mt-0.5 text-emerald-400"></i>
             <p id="demo-socratic-prompt">
-              <strong>소크라테스 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
+              <strong>출제자 유도 질문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
             </p>
           </div>
         </div>
@@ -619,7 +619,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
-                <span>1:1 소크라테스 AI 튜터 실시간 질의응답</span>
+                <span>1:1 출제자 AI 튜터 실시간 질의응답</span>
               </li>
             </ul>
           </div>
@@ -657,7 +657,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
-                <span>1:1 소크라테스 AI 튜터 6개월 무제한 세션</span>
+                <span>1:1 출제자 AI 튜터 6개월 무제한 세션</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
@@ -735,7 +735,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <i data-lucide="message-circle" class="w-4 h-4 text-amber-400"></i>
-                <span>선생님용 <strong>소크라테스 발문 대본</strong> 무제한 제공</span>
+                <span>선생님용 <strong>출제자 의도 유도 대본</strong> 무제한 제공</span>
               </div>
               <div class="flex items-center gap-2">
                 <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
@@ -863,7 +863,7 @@
           <div id="faq-1" class="hidden px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
             기존 앱은 사진을 찍으면 답과 풀이 과정을 일방적으로 보여주어 학생의 생각을 멈추게 만듭니다. 
             반면 ReadMath는 절대 정답을 바로 주지 않습니다. 
-            출제자가 제시한 외계어 같은 수식을 일상의 한국어로 번역해 주고, 단계적인 소크라테스식 발문으로 학생이 스스로 출제 의도를 발견하고 식을 세우도록 훈련시킵니다.
+            출제자가 제시한 외계어 같은 수식을 일상의 한국어로 번역해 주고, 단계적인 출제자 역발문으로 학생이 스스로 출제 의도를 발견하고 식을 세우도록 훈련시킵니다.
           </div>
         </div>
 
@@ -1458,7 +1458,7 @@
         subtitle: '3점~킬러 문항 빈출 유형',
         problem: '"함수 f(x) = x³ - 3x 위의 한 점 (t, f(t))에서의 접선의 기울기가 9일 때, t의 값을 구하시오."',
         translation: '"접선의 기울기가 9라는 것은 도함수 f\'(t)가 9라는 뜻이야.<br />f\'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!"',
-        socratic: '<strong>소크라테스 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."',
+        socratic: '<strong>출제자 유도 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
           <path d="M 20 130 H 340 M 180 15 V 245" stroke="#CBD5E1" stroke-width="1.5" />
@@ -1478,7 +1478,7 @@
         subtitle: '방정식과 함수의 관계 핵심 기출',
         problem: '"이차함수 y = -x² + 4x + 1 의 그래프와 직선 y = 1 이 만나는 두 점 사이의 거리를 구하시오."',
         translation: '"두 그래프가 만나는 점은 연립방정식의 실근이야.<br />-x² + 4x + 1 = 1 에서 -x² + 4x = 0, 즉 -x(x - 4) = 0 이므로 교점은 x = 0 과 x = 4 야! 두 점 사이의 거리는 4 - 0 = 4 야!"',
-        socratic: '<strong>소크라테스 발문:</strong> "복잡한 공식을 외우지 않아도, 교점의 x좌표는 두 식을 같다고 둔 방정식의 해라는 본질만 알면 바로 풀립니다."',
+        socratic: '<strong>출제자 유도 발문:</strong> "복잡한 공식을 외우지 않아도, 교점의 x좌표는 두 식을 같다고 둔 방정식의 해라는 본질만 알면 바로 풀립니다."',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
           <path d="M 20 210 H 340 M 110 20 V 245" stroke="#CBD5E1" stroke-width="1.5" />
@@ -1505,7 +1505,7 @@
         subtitle: '도형의 성질과 직각삼각형 3:4:5 비례',
         problem: '"직각삼각형 ABC에서 밑변 BC = 8cm, 높이 AB = 6cm 일 때, 빗변 AC의 길이를 구하시오."',
         translation: '"출제자는 직각삼각형의 두 변을 주고 나머지 한 변을 요구하고 있어.<br />피타고라스 정리 6² + 8² = 36 + 64 = 100 = 10² 이므로 빗변 AC = 10cm 야! 3:4:5 기본 직각 비례로도 3초 만에 알 수 있어!"',
-        socratic: '<strong>소크라테스 발문:</strong> "도형을 눈으로 그릴 수 있다면, 피타고라스 기본 비례(3:4:5)를 통해 단 3초 만에 빗변을 찾아냅니다."',
+        socratic: '<strong>출제자 유도 발문:</strong> "도형을 눈으로 그릴 수 있다면, 피타고라스 기본 비례(3:4:5)를 통해 단 3초 만에 빗변을 찾아냅니다."',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
           <!-- Right triangle: A(80, 50), B(80, 200), C(280, 200) -->
