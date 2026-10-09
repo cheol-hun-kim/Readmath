@@ -98,6 +98,8 @@ const forbiddenJargonPatterns = [
   { pattern: /수식\s*모델링/i, desc: 'Difficult jargon "수식 모델링" exposed (should be "식 세우기")' },
   { pattern: /해석기하/i, desc: 'Difficult jargon "해석기하" exposed' },
   { pattern: /\bB2B\b/i, desc: 'B2B business jargon exposed in user UI' },
+  { pattern: /문해력/i, desc: 'Responsibility-evading jargon "문해력" exposed (must focus on 출제자 의도/설계)' },
+  { pattern: /독해력/i, desc: 'Responsibility-evading jargon "독해력" exposed' },
   { pattern: /격자\s*눈금\s*:\s*1칸\s*=\s*10px/i, desc: 'Developer pixel dimension guide exposed in modal' },
   { pattern: /\^circ\b/i, desc: 'Unrendered degree LaTeX code pattern "^circ" exposed in UI' },
   { pattern: /\\circ\b/i, desc: 'Unrendered LaTeX command "\\circ" exposed in UI' },
