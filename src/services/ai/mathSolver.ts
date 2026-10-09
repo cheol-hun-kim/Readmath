@@ -189,12 +189,12 @@ export const mathSolverService = {
       });
 
       const prompt = `
-당신은 학생의 수학 사고력을 꿰뚫어 보는 냉철한 ReadMath 수석 튜터입니다.
+당신은 출제자의 의도를 꿰뚫어 보고 학생에게 명쾌한 길을 제시하는 ReadMath 수석 튜터입니다.
 [현재 문제]: ${currentOcr}
 [개념]: ${JSON.stringify(currentConcepts)}
 [과거 오답 및 질문 기록]: ${JSON.stringify(history, null, 2)}
 
-반복되는 약점(동일 개념 2회 이상, 도식화 회피 등)이 발견되면 뼈를 때리는 선제적 피드백과 명확한 행동 강령을 JSON으로 출력하십시오.
+반복되는 약점(동일 개념 2회 이상, 도식화 회피 등)이 발견되면 정밀하고 명확한 선제적 피드백과 실천적인 행동 강령을 JSON으로 출력하십시오.
 JSON 규격:
 {
   "has_critical_warning": true,

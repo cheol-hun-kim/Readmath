@@ -189,6 +189,21 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   if (/소크라테스/i.test(landingVisible)) {
     failGate(1, 'Landing Page Cliché Term', 'Cliché term "소크라테스" found in landing page visible text! (Must use "출제자 AI 튜터")');
   }
+  if (/(?:냉철한|서늘한|팩트폭격|뼈를\s*때리)/i.test(landingVisible)) {
+    failGate(1, 'Landing Page AI Tone Cliché', 'Pretentious AI tone cliché ("냉철한", "서늘한", "팩트폭격", "뼈를 때리는") found in landing page visible text!');
+  }
+}
+
+// 1.6 App (preview.html) Zero-AI Tone & Raw Asterisks Scanner
+const previewVisibleText = htmlContent.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                                      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                                      .replace(/<!--[\s\S]*?-->/g, '')
+                                      .replace(/<[^>]+>/g, ' ');
+if (/(?:냉철한|서늘한|팩트폭격|뼈를\s*때리)/i.test(previewVisibleText)) {
+  failGate(1, 'UI AI Tone Cliché', 'Pretentious AI tone cliché ("냉철한", "서늘한", "팩트폭격", "뼈를 때리는") found in user-facing UI!');
+}
+if (/\*\*[^*]+\*\*/.test(previewVisibleText)) {
+  failGate(1, 'UI Raw Markdown Asterisks', 'Raw unrendered markdown asterisks (**) found in user-facing UI!');
 }
 
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
