@@ -466,63 +466,45 @@
         <!-- Right: Real High-Contrast SVG Geometry (Exact Cartesian Grid) -->
         <div class="bg-white rounded-2xl p-4 border border-slate-700/50 flex flex-col items-center justify-center min-h-[300px] shadow-inner" id="demo-svg-container">
           <svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-            <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-            <!-- Exact Cartesian Coordinate Grid Lines (1 unit = 36px) -->
-            <g stroke="#F1F5F9" stroke-width="1">
-              <line x1="36" y1="15" x2="36" y2="245" />
-              <line x1="72" y1="15" x2="72" y2="245" />
-              <line x1="108" y1="15" x2="108" y2="245" />
-              <line x1="144" y1="15" x2="144" y2="245" />
-              <line x1="180" y1="15" x2="180" y2="245" />
-              <line x1="216" y1="15" x2="216" y2="245" />
-              <line x1="252" y1="15" x2="252" y2="245" />
-              <line x1="288" y1="15" x2="288" y2="245" />
-              <line x1="324" y1="15" x2="324" y2="245" />
-              <line x1="15" y1="32" x2="345" y2="32" />
-              <line x1="15" y1="68" x2="345" y2="68" />
-              <line x1="15" y1="104" x2="345" y2="104" />
-              <line x1="15" y1="140" x2="345" y2="140" />
-              <line x1="15" y1="176" x2="345" y2="176" />
-              <line x1="15" y1="212" x2="345" y2="212" />
-            </g>
-            <!-- Main Axes with Origin O(180, 140) -->
-            <line x1="20" y1="140" x2="345" y2="140" stroke="#64748B" stroke-width="1.8" />
-            <polygon points="345,137 353,140 345,143" fill="#64748B" />
-            <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
-            <line x1="180" y1="250" x2="180" y2="15" stroke="#64748B" stroke-width="1.8" />
-            <polygon points="177,15 180,7 183,15" fill="#64748B" />
-            <text x="186" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
-            <text x="168" y="155" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
-            <!-- Axis Ticks & Scale Numbers -->
-            <line x1="108" y1="137" x2="108" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="108" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-2</text>
-            <line x1="144" y1="137" x2="144" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="144" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-1</text>
-            <line x1="216" y1="137" x2="216" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="216" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
-            <line x1="252" y1="137" x2="252" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="252" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
-            <line x1="177" y1="68" x2="183" y2="68" stroke="#64748B" stroke-width="1.5" />
-            <text x="170" y="72" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">2</text>
-            <line x1="177" y1="212" x2="183" y2="212" stroke="#64748B" stroke-width="1.5" />
-            <text x="170" y="216" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">-2</text>
-            <!-- Exact Mathematical Cubic Curve f(x) = x³ - 3x -->
-            <path d="M 103,260 L 108,212 L 118,168 L 128,133 L 138,93 L 144,68 L 150,69 L 162,72 L 174,99 L 180,140 L 186,181 L 198,208 L 210,211 L 216,212 L 222,211 L 234,187 L 244,147 L 252,68 L 257,18" fill="none" stroke="#2563EB" stroke-width="2.5" />
-            <!-- Local Max (-1, 2) at (144, 68) -->
-            <circle cx="144" cy="68" r="3.5" fill="#2563EB" />
-            <text x="135" y="60" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="end">극대 (-1, 2)</text>
-            <!-- Local Min (1, -2) at (216, 212) -->
-            <circle cx="216" cy="212" r="3.5" fill="#2563EB" />
-            <text x="225" y="226" font-size="9" font-weight="bold" fill="#1D4ED8">극소 (1, -2)</text>
-            <!-- Tangent Point (2, 2) at (252, 68) & Line y = 9x - 16 -->
-            <line x1="240" y1="176" x2="260" y2="-4" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4 2" />
-            <circle cx="252" cy="68" r="4.5" fill="#DC2626" />
-            <text x="260" y="66" font-size="11" font-weight="black" fill="#B91C1C">접점 (2, 2)</text>
-            <!-- Callout Box -->
-            <rect x="25" y="20" width="135" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
-            <text x="32" y="34" font-size="10" font-weight="bold" fill="#1E293B">곡선 f(x) = x³ - 3x</text>
-            <text x="32" y="47" font-size="9" font-weight="bold" fill="#DC2626">접선: y = 9x - 16 (기울기 9)</text>
-          </svg>
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <g class="grid-lines"><line x1="46" y1="18" x2="46" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="84" y1="18" x2="84" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="122" y1="18" x2="122" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="160" y1="18" x2="160" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="198" y1="18" x2="198" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="236" y1="18" x2="236" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="274" y1="18" x2="274" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="214" x2="335" y2="214" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="186" x2="335" y2="186" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="158" x2="335" y2="158" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="130" x2="335" y2="130" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="102" x2="335" y2="102" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="74" x2="335" y2="74" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="46" x2="335" y2="46" stroke="#F1F5F9" stroke-width="1"/></g>
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="20" y1="130" x2="335" y2="130" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="335,127 343,130 335,133" fill="#64748B"/>
+    <text x="345" y="134" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="160" y1="245" x2="160" y2="18" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="157,18 160,10 163,18" fill="#64748B"/>
+    <text x="166" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="146" y="144" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Scale Ticks -->
+    <line x1="122" y1="127" x2="122" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="122" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-1</text>
+    <line x1="198" y1="127" x2="198" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="198" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+    <line x1="236" y1="127" x2="236" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="236" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
+    <line x1="157" y1="74" x2="163" y2="74" stroke="#64748B" stroke-width="1.5"/>
+    <text x="154" y="78" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">2</text>
+    <line x1="157" y1="186" x2="163" y2="186" stroke="#64748B" stroke-width="1.5"/>
+    <text x="154" y="190" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">-2</text>
+    <!-- Smooth Mathematically Computed Cubic Curve -->
+    <path d="M 74.5 259.94 L 74.88 256.54 L 75.26 253.19 L 75.64 249.87 L 76.02 246.59 L 76.4 243.34 L 76.78 240.14 L 77.16 236.97 L 77.54 233.83 L 77.92 230.74 L 78.3 227.67 L 78.68 224.65 L 79.06 221.66 L 79.44 218.71 L 79.82 215.79 L 80.2 212.91 L 80.58 210.06 L 80.96 207.25 L 81.34 204.47 L 81.72 201.73 L 82.1 199.02 L 82.48 196.35 L 82.86 193.71 L 83.24 191.11 L 83.62 188.54 L 84 186 L 84.38 183.5 L 84.76 181.03 L 85.14 178.59 L 85.52 176.19 L 85.9 173.82 L 86.28 171.48 L 86.66 169.17 L 87.04 166.9 L 87.42 164.66 L 87.8 162.45 L 88.18 160.28 L 88.56 158.13 L 88.94 156.02 L 89.32 153.94 L 89.7 151.89 L 90.08 149.87 L 90.46 147.88 L 90.84 145.92 L 91.22 143.99 L 91.6 142.1 L 91.98 140.23 L 92.36 138.39 L 92.74 136.59 L 93.12 134.81 L 93.5 133.06 L 93.88 131.34 L 94.26 129.66 L 94.64 128 L 95.02 126.37 L 95.4 124.76 L 95.78 123.19 L 96.16 121.65 L 96.54 120.13 L 96.92 118.64 L 97.3 117.18 L 97.68 115.75 L 98.06 114.34 L 98.44 112.96 L 98.82 111.61 L 99.2 110.29 L 99.58 108.99 L 99.96 107.72 L 100.34 106.48 L 100.72 105.26 L 101.1 104.07 L 101.48 102.9 L 101.86 101.76 L 102.24 100.65 L 102.62 99.56 L 103 98.5 L 103.38 97.46 L 103.76 96.45 L 104.14 95.46 L 104.52 94.5 L 104.9 93.56 L 105.28 92.65 L 105.66 91.76 L 106.04 90.89 L 106.42 90.05 L 106.8 89.23 L 107.18 88.44 L 107.56 87.67 L 107.94 86.92 L 108.32 86.19 L 108.7 85.49 L 109.08 84.81 L 109.46 84.15 L 109.84 83.52 L 110.22 82.91 L 110.6 82.32 L 110.98 81.75 L 111.36 81.2 L 111.74 80.67 L 112.12 80.17 L 112.5 79.69 L 112.88 79.23 L 113.26 78.78 L 113.64 78.36 L 114.02 77.96 L 114.4 77.58 L 114.78 77.22 L 115.16 76.88 L 115.54 76.57 L 115.92 76.27 L 116.3 75.98 L 116.68 75.72 L 117.06 75.48 L 117.44 75.26 L 117.82 75.05 L 118.2 74.87 L 118.58 74.7 L 118.96 74.55 L 119.34 74.42 L 119.72 74.31 L 120.1 74.21 L 120.48 74.14 L 120.86 74.08 L 121.24 74.03 L 121.62 74.01 L 122 74 L 122.38 74.01 L 122.76 74.03 L 123.14 74.07 L 123.52 74.13 L 123.9 74.21 L 124.28 74.3 L 124.66 74.4 L 125.04 74.52 L 125.42 74.66 L 125.8 74.81 L 126.18 74.98 L 126.56 75.16 L 126.94 75.36 L 127.32 75.57 L 127.7 75.8 L 128.08 76.04 L 128.46 76.29 L 128.84 76.56 L 129.22 76.84 L 129.6 77.14 L 129.98 77.45 L 130.36 77.77 L 130.74 78.1 L 131.12 78.45 L 131.5 78.81 L 131.88 79.19 L 132.26 79.57 L 132.64 79.97 L 133.02 80.38 L 133.4 80.8 L 133.78 81.24 L 134.16 81.68 L 134.54 82.14 L 134.92 82.61 L 135.3 83.09 L 135.68 83.58 L 136.06 84.08 L 136.44 84.59 L 136.82 85.12 L 137.2 85.65 L 137.58 86.19 L 137.96 86.74 L 138.34 87.31 L 138.72 87.88 L 139.1 88.46 L 139.48 89.05 L 139.86 89.65 L 140.24 90.26 L 140.62 90.87 L 141 91.5 L 141.38 92.13 L 141.76 92.78 L 142.14 93.43 L 142.52 94.09 L 142.9 94.75 L 143.28 95.43 L 143.66 96.11 L 144.04 96.79 L 144.42 97.49 L 144.8 98.19 L 145.18 98.9 L 145.56 99.62 L 145.94 100.34 L 146.32 101.07 L 146.7 101.8 L 147.08 102.54 L 147.46 103.29 L 147.84 104.04 L 148.22 104.79 L 148.6 105.56 L 148.98 106.32 L 149.36 107.09 L 149.74 107.87 L 150.12 108.65 L 150.5 109.44 L 150.88 110.23 L 151.26 111.02 L 151.64 111.82 L 152.02 112.62 L 152.4 113.42 L 152.78 114.23 L 153.16 115.04 L 153.54 115.86 L 153.92 116.67 L 154.3 117.49 L 154.68 118.32 L 155.06 119.14 L 155.44 119.97 L 155.82 120.8 L 156.2 121.63 L 156.58 122.46 L 156.96 123.29 L 157.34 124.13 L 157.72 124.97 L 158.1 125.8 L 158.48 126.64 L 158.86 127.48 L 159.24 128.32 L 159.62 129.16 L 160 130 L 160.38 130.84 L 160.76 131.68 L 161.14 132.52 L 161.52 133.36 L 161.9 134.2 L 162.28 135.03 L 162.66 135.87 L 163.04 136.71 L 163.42 137.54 L 163.8 138.37 L 164.18 139.2 L 164.56 140.03 L 164.94 140.86 L 165.32 141.68 L 165.7 142.51 L 166.08 143.33 L 166.46 144.14 L 166.84 144.96 L 167.22 145.77 L 167.6 146.58 L 167.98 147.38 L 168.36 148.18 L 168.74 148.98 L 169.12 149.77 L 169.5 150.56 L 169.88 151.35 L 170.26 152.13 L 170.64 152.91 L 171.02 153.68 L 171.4 154.44 L 171.78 155.21 L 172.16 155.96 L 172.54 156.71 L 172.92 157.46 L 173.3 158.2 L 173.68 158.93 L 174.06 159.66 L 174.44 160.38 L 174.82 161.1 L 175.2 161.81 L 175.58 162.51 L 175.96 163.21 L 176.34 163.89 L 176.72 164.57 L 177.1 165.25 L 177.48 165.91 L 177.86 166.57 L 178.24 167.22 L 178.62 167.87 L 179 168.5 L 179.38 169.13 L 179.76 169.74 L 180.14 170.35 L 180.52 170.95 L 180.9 171.54 L 181.28 172.12 L 181.66 172.69 L 182.04 173.26 L 182.42 173.81 L 182.8 174.35 L 183.18 174.88 L 183.56 175.41 L 183.94 175.92 L 184.32 176.42 L 184.7 176.91 L 185.08 177.39 L 185.46 177.86 L 185.84 178.32 L 186.22 178.76 L 186.6 179.2 L 186.98 179.62 L 187.36 180.03 L 187.74 180.43 L 188.12 180.81 L 188.5 181.19 L 188.88 181.55 L 189.26 181.9 L 189.64 182.23 L 190.02 182.55 L 190.4 182.86 L 190.78 183.16 L 191.16 183.44 L 191.54 183.71 L 191.92 183.96 L 192.3 184.2 L 192.68 184.43 L 193.06 184.64 L 193.44 184.84 L 193.82 185.02 L 194.2 185.19 L 194.58 185.34 L 194.96 185.48 L 195.34 185.6 L 195.72 185.7 L 196.1 185.79 L 196.48 185.87 L 196.86 185.93 L 197.24 185.97 L 197.62 185.99 L 198 186 L 198.38 185.99 L 198.76 185.97 L 199.14 185.92 L 199.52 185.86 L 199.9 185.79 L 200.28 185.69 L 200.66 185.58 L 201.04 185.45 L 201.42 185.3 L 201.8 185.13 L 202.18 184.95 L 202.56 184.74 L 202.94 184.52 L 203.32 184.28 L 203.7 184.02 L 204.08 183.73 L 204.46 183.43 L 204.84 183.12 L 205.22 182.78 L 205.6 182.42 L 205.98 182.04 L 206.36 181.64 L 206.74 181.22 L 207.12 180.77 L 207.5 180.31 L 207.88 179.83 L 208.26 179.33 L 208.64 178.8 L 209.02 178.25 L 209.4 177.68 L 209.78 177.09 L 210.16 176.48 L 210.54 175.85 L 210.92 175.19 L 211.3 174.51 L 211.68 173.81 L 212.06 173.08 L 212.44 172.33 L 212.82 171.56 L 213.2 170.77 L 213.58 169.95 L 213.96 169.11 L 214.34 168.24 L 214.72 167.35 L 215.1 166.44 L 215.48 165.5 L 215.86 164.54 L 216.24 163.55 L 216.62 162.54 L 217 161.5 L 217.38 160.44 L 217.76 159.35 L 218.14 158.24 L 218.52 157.1 L 218.9 155.93 L 219.28 154.74 L 219.66 153.52 L 220.04 152.28 L 220.42 151.01 L 220.8 149.71 L 221.18 148.39 L 221.56 147.04 L 221.94 145.66 L 222.32 144.25 L 222.7 142.82 L 223.08 141.36 L 223.46 139.87 L 223.84 138.35 L 224.22 136.81 L 224.6 135.24 L 224.98 133.63 L 225.36 132 L 225.74 130.34 L 226.12 128.66 L 226.5 126.94 L 226.88 125.19 L 227.26 123.41 L 227.64 121.61 L 228.02 119.77 L 228.4 117.9 L 228.78 116.01 L 229.16 114.08 L 229.54 112.12 L 229.92 110.13 L 230.3 108.11 L 230.68 106.06 L 231.06 103.98 L 231.44 101.87 L 231.82 99.72 L 232.2 97.55 L 232.58 95.34 L 232.96 93.1 L 233.34 90.83 L 233.72 88.52 L 234.1 86.18 L 234.48 83.81 L 234.86 81.41 L 235.24 78.97 L 235.62 76.5 L 236 74 L 236.38 71.46 L 236.76 68.89 L 237.14 66.29 L 237.52 63.65 L 237.9 60.98 L 238.28 58.27 L 238.66 55.53 L 239.04 52.75 L 239.42 49.94 L 239.8 47.09 L 240.18 44.21 L 240.56 41.29 L 240.94 38.34 L 241.32 35.35 L 241.7 32.33 L 242.08 29.26 L 242.46 26.17 L 242.84 23.03 L 243.22 19.86 L 243.6 16.66 L 243.98 13.41 L 244.36 10.13 L 244.74 6.81 L 245.12 3.46 L 245.5 0.06" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Local Max (-1, 2) -->
+    <circle cx="122" cy="74" r="3.5" fill="#2563EB"/>
+    <text x="122" y="67" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="middle">극대 (-1, 2)</text>
+    <!-- Local Min (1, -2) -->
+    <circle cx="198" cy="186" r="3.5" fill="#2563EB"/>
+    <text x="198" y="202" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="middle">극소 (1, -2)</text>
+    <!-- Tangent Line y = 9x - 16 (Red dashed) -->
+    <line x1="224.6" y1="149.6" x2="245.5" y2="11" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4 2"/>
+    <!-- Tangent Point (2, 2) -->
+    <circle cx="236" cy="74" r="4.5" fill="#DC2626"/>
+    <text x="244" y="70" font-size="10.5" font-weight="black" fill="#B91C1C">접점 (2, 2)</text>
+    <!-- Top-Left Compact Callout Box (Ends at x=105, Leaves Max at x=122 Completely Free!) -->
+    <rect x="18" y="18" width="92" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="24" y="31" font-size="9.5" font-weight="bold" fill="#1E293B">f(x) = x³ - 3x</text>
+    <text x="24" y="43" font-size="8.5" font-weight="bold" fill="#DC2626">접선: y = 9x - 16</text>
+  </svg>
         </div>
 
       </div>
@@ -1732,23 +1714,33 @@
         translation: '두 직선의 교점은 두 식을 동시에 만족하는 연립방정식의 해와 같아.<br />2x - 1 = -x + 5 에서 3x = 6 이므로 x = 2 이고, y = 2(2) - 1 = 3 이 되어 교점은 (2, 3) 이야!',
         socratic: '연립방정식을 푼다는 것은 기하학적으로 두 직선이 만나는 교점을 찾는 일과 100% 동일합니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <!-- Grid -->
-          <pattern id="mid2-grid" width="25" height="25" patternUnits="userSpaceOnUse">
-            <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#F1F5F9" stroke-width="1"/>
-          </pattern>
-          <rect width="360" height="260" fill="url(#mid2-grid)" />
-          <path d="M 20 180 H 340 M 110 20 V 245" stroke="#CBD5E1" stroke-width="1.5" />
-          <text x="345" y="184" font-size="11" font-weight="bold" fill="#64748B">x</text>
-          <text x="114" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
-          <line x1="60" y1="230" x2="210" y2="30" stroke="#2563EB" stroke-width="2.5" />
-          <line x1="60" y1="80" x2="260" y2="230" stroke="#16A34A" stroke-width="2.5" />
-          <circle cx="160" cy="105" r="5" fill="#DC2626" />
-          <text x="170" y="102" font-size="12" font-weight="black" fill="#DC2626">교점 (2, 3)</text>
-          <rect x="25" y="25" width="135" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1D4ED8">y = 2x - 1</text>
-          <text x="32" y="54" font-size="10" font-weight="bold" fill="#15803D">y = -x + 5</text>
-        </svg>`
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <g class="grid-lines"><line x1="58" y1="20" x2="58" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="84" y1="20" x2="84" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="136" y1="20" x2="136" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="162" y1="20" x2="162" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="188" y1="20" x2="188" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="214" y1="20" x2="214" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="240" y1="20" x2="240" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="266" y1="20" x2="266" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="292" y1="20" x2="292" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="318" y1="20" x2="318" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="232" x2="335" y2="232" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="206" x2="335" y2="206" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="180" x2="335" y2="180" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="154" x2="335" y2="154" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="128" x2="335" y2="128" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="102" x2="335" y2="102" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="76" x2="335" y2="76" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="50" x2="335" y2="50" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="24" x2="335" y2="24" stroke="#F1F5F9" stroke-width="1"/></g>
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="25" y1="180" x2="335" y2="180" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="335,177 343,180 335,183" fill="#64748B"/>
+    <text x="345" y="184" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="110" y1="245" x2="110" y2="18" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="107,18 110,10 113,18" fill="#64748B"/>
+    <text x="116" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="96" y="194" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Scale Ticks -->
+    <line x1="162" y1="177" x2="162" y2="183" stroke="#64748B" stroke-width="1.5"/>
+    <text x="162" y="194" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
+    <line x1="107" y1="102" x2="113" y2="102" stroke="#64748B" stroke-width="1.5"/>
+    <text x="104" y="106" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">3</text>
+    <!-- Line 1: y = 2x - 1 (Blue) -->
+    <line x1="97" y1="232" x2="193.2" y2="39.6" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Line 2: y = -x + 5 (Green) -->
+    <line x1="97" y1="37" x2="253" y2="193" stroke="#16A34A" stroke-width="2.5"/>
+    <!-- Exact Intersection Dot & Label -->
+    <circle cx="162" cy="102" r="5" fill="#DC2626"/>
+    <text x="172" y="100" font-size="11" font-weight="black" fill="#B91C1C">교점 (2, 3)</text>
+    <!-- Top-Right Callout Box (Zero Collision) -->
+    <rect x="220" y="20" width="125" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="228" y="34" font-size="10" font-weight="bold" fill="#1D4ED8">y = 2x - 1</text>
+    <text x="228" y="48" font-size="10" font-weight="bold" fill="#15803D">y = -x + 5</text>
+  </svg>`
       },
       mid_3: {
         grade: 'mid_3',
@@ -1781,22 +1773,47 @@
         translation: '두 그래프가 만나는 점은 연립방정식의 실근이야.<br />-x² + 4x + 1 = 1 에서 -x² + 4x = 0, 즉 -x(x - 4) = 0 이므로 교점은 x = 0 과 x = 4 야! 두 점 사이의 거리는 4 - 0 = 4 야!',
         socratic: '복잡한 공식을 외우지 않아도, 교점의 x좌표는 두 식을 같다고 둔 방정식의 해라는 본질만 알면 바로 풀립니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <path d="M 20 210 H 340 M 110 20 V 245" stroke="#CBD5E1" stroke-width="1.5" />
-          <text x="345" y="214" font-size="11" font-weight="bold" fill="#64748B">x</text>
-          <text x="114" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
-          <path d="M 40 230 Q 170 30 300 230" fill="none" stroke="#2563EB" stroke-width="3" />
-          <line x1="20" y1="175" x2="340" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="4 2" />
-          <circle cx="110" cy="175" r="4.5" fill="#DC2626" />
-          <circle cx="230" cy="175" r="4.5" fill="#DC2626" />
-          <text x="75" y="170" font-size="11" font-weight="bold" fill="#B91C1C">(0, 1)</text>
-          <text x="235" y="170" font-size="11" font-weight="bold" fill="#B91C1C">(4, 1)</text>
-          <line x1="110" y1="195" x2="230" y2="195" stroke="#059669" stroke-width="2" />
-          <text x="155" y="190" font-size="11" font-weight="bold" fill="#059669">거리 = 4</text>
-          <rect x="25" y="25" width="130" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">y = -x² + 4x + 1</text>
-          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">직선 y = 1 과 교점</text>
-        </svg>`
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <g class="grid-lines"><line x1="58" y1="20" x2="58" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="90" y1="20" x2="90" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="122" y1="20" x2="122" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="154" y1="20" x2="154" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="186" y1="20" x2="186" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="218" y1="20" x2="218" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="250" y1="20" x2="250" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="282" y1="20" x2="282" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="228" x2="335" y2="228" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="200" x2="335" y2="200" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="172" x2="335" y2="172" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="144" x2="335" y2="144" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="116" x2="335" y2="116" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="88" x2="335" y2="88" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="60" x2="335" y2="60" stroke="#F1F5F9" stroke-width="1"/><line x1="25" y1="32" x2="335" y2="32" stroke="#F1F5F9" stroke-width="1"/></g>
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="25" y1="200" x2="335" y2="200" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="335,197 343,200 335,203" fill="#64748B"/>
+    <text x="345" y="204" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="90" y1="245" x2="90" y2="18" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="87,18 90,10 93,18" fill="#64748B"/>
+    <text x="96" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="76" y="214" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Scale Ticks -->
+    <line x1="154" y1="197" x2="154" y2="203" stroke="#64748B" stroke-width="1.5"/>
+    <text x="154" y="214" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
+    <line x1="218" y1="197" x2="218" y2="203" stroke="#64748B" stroke-width="1.5"/>
+    <text x="218" y="214" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">4</text>
+    <line x1="87" y1="172" x2="93" y2="172" stroke="#64748B" stroke-width="1.5"/>
+    <text x="84" y="176" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
+    <line x1="87" y1="60" x2="93" y2="60" stroke="#64748B" stroke-width="1.5"/>
+    <text x="84" y="64" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">5</text>
+    <!-- Smooth Exact Parabola -->
+    <path d="M 67.6 264.12 L 68.24 261.11 L 68.88 258.12 L 69.52 255.15 L 70.16 252.2 L 70.8 249.28 L 71.44 246.38 L 72.08 243.5 L 72.72 240.64 L 73.36 237.81 L 74 235 L 74.64 232.21 L 75.28 229.44 L 75.92 226.7 L 76.56 223.98 L 77.2 221.28 L 77.84 218.6 L 78.48 215.95 L 79.12 213.32 L 79.76 210.71 L 80.4 208.12 L 81.04 205.56 L 81.68 203.01 L 82.32 200.49 L 82.96 198 L 83.6 195.52 L 84.24 193.07 L 84.88 190.64 L 85.52 188.23 L 86.16 185.84 L 86.8 183.48 L 87.44 181.14 L 88.08 178.82 L 88.72 176.52 L 89.36 174.25 L 90 172 L 90.64 169.77 L 91.28 167.56 L 91.92 165.38 L 92.56 163.22 L 93.2 161.08 L 93.84 158.96 L 94.48 156.87 L 95.12 154.8 L 95.76 152.75 L 96.4 150.72 L 97.04 148.72 L 97.68 146.73 L 98.32 144.77 L 98.96 142.84 L 99.6 140.92 L 100.24 139.03 L 100.88 137.16 L 101.52 135.31 L 102.16 133.48 L 102.8 131.68 L 103.44 129.9 L 104.08 128.14 L 104.72 126.4 L 105.36 124.69 L 106 123 L 106.64 121.33 L 107.28 119.68 L 107.92 118.06 L 108.56 116.46 L 109.2 114.88 L 109.84 113.32 L 110.48 111.79 L 111.12 110.28 L 111.76 108.79 L 112.4 107.32 L 113.04 105.88 L 113.68 104.45 L 114.32 103.05 L 114.96 101.68 L 115.6 100.32 L 116.24 98.99 L 116.88 97.68 L 117.52 96.39 L 118.16 95.12 L 118.8 93.88 L 119.44 92.66 L 120.08 91.46 L 120.72 90.28 L 121.36 89.13 L 122 88 L 122.64 86.89 L 123.28 85.8 L 123.92 84.74 L 124.56 83.7 L 125.2 82.68 L 125.84 81.68 L 126.48 80.71 L 127.12 79.76 L 127.76 78.83 L 128.4 77.92 L 129.04 77.04 L 129.68 76.17 L 130.32 75.33 L 130.96 74.52 L 131.6 73.72 L 132.24 72.95 L 132.88 72.2 L 133.52 71.47 L 134.16 70.76 L 134.8 70.08 L 135.44 69.42 L 136.08 68.78 L 136.72 68.16 L 137.36 67.57 L 138 67 L 138.64 66.45 L 139.28 65.92 L 139.92 65.42 L 140.56 64.94 L 141.2 64.48 L 141.84 64.04 L 142.48 63.63 L 143.12 63.24 L 143.76 62.87 L 144.4 62.52 L 145.04 62.2 L 145.68 61.89 L 146.32 61.61 L 146.96 61.36 L 147.6 61.12 L 148.24 60.91 L 148.88 60.72 L 149.52 60.55 L 150.16 60.4 L 150.8 60.28 L 151.44 60.18 L 152.08 60.1 L 152.72 60.04 L 153.36 60.01 L 154 60 L 154.64 60.01 L 155.28 60.04 L 155.92 60.1 L 156.56 60.18 L 157.2 60.28 L 157.84 60.4 L 158.48 60.55 L 159.12 60.72 L 159.76 60.91 L 160.4 61.12 L 161.04 61.36 L 161.68 61.61 L 162.32 61.89 L 162.96 62.2 L 163.6 62.52 L 164.24 62.87 L 164.88 63.24 L 165.52 63.63 L 166.16 64.04 L 166.8 64.48 L 167.44 64.94 L 168.08 65.42 L 168.72 65.92 L 169.36 66.45 L 170 67 L 170.64 67.57 L 171.28 68.16 L 171.92 68.78 L 172.56 69.42 L 173.2 70.08 L 173.84 70.76 L 174.48 71.47 L 175.12 72.2 L 175.76 72.95 L 176.4 73.72 L 177.04 74.52 L 177.68 75.33 L 178.32 76.17 L 178.96 77.04 L 179.6 77.92 L 180.24 78.83 L 180.88 79.76 L 181.52 80.71 L 182.16 81.68 L 182.8 82.68 L 183.44 83.7 L 184.08 84.74 L 184.72 85.8 L 185.36 86.89 L 186 88 L 186.64 89.13 L 187.28 90.28 L 187.92 91.46 L 188.56 92.66 L 189.2 93.88 L 189.84 95.12 L 190.48 96.39 L 191.12 97.68 L 191.76 98.99 L 192.4 100.32 L 193.04 101.68 L 193.68 103.05 L 194.32 104.45 L 194.96 105.88 L 195.6 107.32 L 196.24 108.79 L 196.88 110.28 L 197.52 111.79 L 198.16 113.32 L 198.8 114.88 L 199.44 116.46 L 200.08 118.06 L 200.72 119.68 L 201.36 121.33 L 202 123 L 202.64 124.69 L 203.28 126.4 L 203.92 128.14 L 204.56 129.9 L 205.2 131.68 L 205.84 133.48 L 206.48 135.31 L 207.12 137.16 L 207.76 139.03 L 208.4 140.92 L 209.04 142.84 L 209.68 144.77 L 210.32 146.73 L 210.96 148.72 L 211.6 150.72 L 212.24 152.75 L 212.88 154.8 L 213.52 156.87 L 214.16 158.96 L 214.8 161.08 L 215.44 163.22 L 216.08 165.38 L 216.72 167.56 L 217.36 169.77 L 218 172 L 218.64 174.25 L 219.28 176.52 L 219.92 178.82 L 220.56 181.14 L 221.2 183.48 L 221.84 185.84 L 222.48 188.23 L 223.12 190.64 L 223.76 193.07 L 224.4 195.52 L 225.04 198 L 225.68 200.49 L 226.32 203.01 L 226.96 205.56 L 227.6 208.12 L 228.24 210.71 L 228.88 213.32 L 229.52 215.95 L 230.16 218.6 L 230.8 221.28 L 231.44 223.98 L 232.08 226.7 L 232.72 229.44 L 233.36 232.21 L 234 235 L 234.64 237.81 L 235.28 240.64 L 235.92 243.5 L 236.56 246.38 L 237.2 249.28 L 237.84 252.2 L 238.48 255.15 L 239.12 258.12 L 239.76 261.11 L 240.4 264.12" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Line y = 1 -->
+    <line x1="35" y1="172" x2="275" y2="172" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <!-- Vertex (2, 5) -->
+    <circle cx="154" cy="60" r="3.5" fill="#2563EB"/>
+    <text x="154" y="54" font-size="10" font-weight="bold" fill="#1D4ED8" text-anchor="middle">꼭짓점 (2, 5)</text>
+    <!-- Intersection Points (0, 1) and (4, 1) -->
+    <circle cx="90" cy="172" r="4.5" fill="#DC2626"/>
+    <text x="90" y="165" font-size="10" font-weight="black" fill="#B91C1C" text-anchor="middle">(0, 1)</text>
+    <circle cx="218" cy="172" r="4.5" fill="#DC2626"/>
+    <text x="218" y="165" font-size="10" font-weight="black" fill="#B91C1C" text-anchor="middle">(4, 1)</text>
+    <!-- Distance Bracket -->
+    <line x1="90" y1="190" x2="218" y2="190" stroke="#059669" stroke-width="1.8"/>
+    <line x1="90" y1="186" x2="90" y2="194" stroke="#059669" stroke-width="1.8"/>
+    <line x1="218" y1="186" x2="218" y2="194" stroke="#059669" stroke-width="1.8"/>
+    <text x="154" y="204" font-size="11" font-weight="extrabold" fill="#059669" text-anchor="middle">두 점 사이 거리 = 4</text>
+    <!-- Top-Right Callout Box (Completely Clear of Curve & Y-Axis) -->
+    <rect x="215" y="20" width="130" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="222" y="34" font-size="10" font-weight="bold" fill="#1E293B">y = -x² + 4x + 1</text>
+    <text x="222" y="47" font-size="9" font-weight="bold" fill="#DC2626">직선 y = 1 과 교점</text>
+  </svg>`
       },
       high_2: {
         grade: 'high_2',
@@ -1806,63 +1823,45 @@
         translation: '접선의 기울기가 9라는 것은 도함수 f\'(t)가 9라는 뜻이야.<br />f\'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!',
         socratic: '도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-            <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-            <!-- Exact Cartesian Coordinate Grid Lines (1 unit = 36px) -->
-            <g stroke="#F1F5F9" stroke-width="1">
-              <line x1="36" y1="15" x2="36" y2="245" />
-              <line x1="72" y1="15" x2="72" y2="245" />
-              <line x1="108" y1="15" x2="108" y2="245" />
-              <line x1="144" y1="15" x2="144" y2="245" />
-              <line x1="180" y1="15" x2="180" y2="245" />
-              <line x1="216" y1="15" x2="216" y2="245" />
-              <line x1="252" y1="15" x2="252" y2="245" />
-              <line x1="288" y1="15" x2="288" y2="245" />
-              <line x1="324" y1="15" x2="324" y2="245" />
-              <line x1="15" y1="32" x2="345" y2="32" />
-              <line x1="15" y1="68" x2="345" y2="68" />
-              <line x1="15" y1="104" x2="345" y2="104" />
-              <line x1="15" y1="140" x2="345" y2="140" />
-              <line x1="15" y1="176" x2="345" y2="176" />
-              <line x1="15" y1="212" x2="345" y2="212" />
-            </g>
-            <!-- Main Axes with Origin O(180, 140) -->
-            <line x1="20" y1="140" x2="345" y2="140" stroke="#64748B" stroke-width="1.8" />
-            <polygon points="345,137 353,140 345,143" fill="#64748B" />
-            <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
-            <line x1="180" y1="250" x2="180" y2="15" stroke="#64748B" stroke-width="1.8" />
-            <polygon points="177,15 180,7 183,15" fill="#64748B" />
-            <text x="186" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
-            <text x="168" y="155" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
-            <!-- Axis Ticks & Scale Numbers -->
-            <line x1="108" y1="137" x2="108" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="108" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-2</text>
-            <line x1="144" y1="137" x2="144" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="144" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-1</text>
-            <line x1="216" y1="137" x2="216" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="216" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
-            <line x1="252" y1="137" x2="252" y2="143" stroke="#64748B" stroke-width="1.5" />
-            <text x="252" y="154" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
-            <line x1="177" y1="68" x2="183" y2="68" stroke="#64748B" stroke-width="1.5" />
-            <text x="170" y="72" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">2</text>
-            <line x1="177" y1="212" x2="183" y2="212" stroke="#64748B" stroke-width="1.5" />
-            <text x="170" y="216" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">-2</text>
-            <!-- Exact Mathematical Cubic Curve f(x) = x³ - 3x -->
-            <path d="M 103,260 L 108,212 L 118,168 L 128,133 L 138,93 L 144,68 L 150,69 L 162,72 L 174,99 L 180,140 L 186,181 L 198,208 L 210,211 L 216,212 L 222,211 L 234,187 L 244,147 L 252,68 L 257,18" fill="none" stroke="#2563EB" stroke-width="2.5" />
-            <!-- Local Max (-1, 2) at (144, 68) -->
-            <circle cx="144" cy="68" r="3.5" fill="#2563EB" />
-            <text x="135" y="60" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="end">극대 (-1, 2)</text>
-            <!-- Local Min (1, -2) at (216, 212) -->
-            <circle cx="216" cy="212" r="3.5" fill="#2563EB" />
-            <text x="225" y="226" font-size="9" font-weight="bold" fill="#1D4ED8">극소 (1, -2)</text>
-            <!-- Tangent Point (2, 2) at (252, 68) & Line y = 9x - 16 -->
-            <line x1="240" y1="176" x2="260" y2="-4" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4 2" />
-            <circle cx="252" cy="68" r="4.5" fill="#DC2626" />
-            <text x="260" y="66" font-size="11" font-weight="black" fill="#B91C1C">접점 (2, 2)</text>
-            <!-- Callout Box -->
-            <rect x="25" y="20" width="135" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
-            <text x="32" y="34" font-size="10" font-weight="bold" fill="#1E293B">곡선 f(x) = x³ - 3x</text>
-            <text x="32" y="47" font-size="9" font-weight="bold" fill="#DC2626">접선: y = 9x - 16 (기울기 9)</text>
-          </svg>`
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <g class="grid-lines"><line x1="46" y1="18" x2="46" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="84" y1="18" x2="84" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="122" y1="18" x2="122" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="160" y1="18" x2="160" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="198" y1="18" x2="198" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="236" y1="18" x2="236" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="274" y1="18" x2="274" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="214" x2="335" y2="214" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="186" x2="335" y2="186" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="158" x2="335" y2="158" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="130" x2="335" y2="130" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="102" x2="335" y2="102" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="74" x2="335" y2="74" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="46" x2="335" y2="46" stroke="#F1F5F9" stroke-width="1"/></g>
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="20" y1="130" x2="335" y2="130" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="335,127 343,130 335,133" fill="#64748B"/>
+    <text x="345" y="134" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="160" y1="245" x2="160" y2="18" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="157,18 160,10 163,18" fill="#64748B"/>
+    <text x="166" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="146" y="144" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Scale Ticks -->
+    <line x1="122" y1="127" x2="122" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="122" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">-1</text>
+    <line x1="198" y1="127" x2="198" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="198" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+    <line x1="236" y1="127" x2="236" y2="133" stroke="#64748B" stroke-width="1.5"/>
+    <text x="236" y="144" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">2</text>
+    <line x1="157" y1="74" x2="163" y2="74" stroke="#64748B" stroke-width="1.5"/>
+    <text x="154" y="78" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">2</text>
+    <line x1="157" y1="186" x2="163" y2="186" stroke="#64748B" stroke-width="1.5"/>
+    <text x="154" y="190" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">-2</text>
+    <!-- Smooth Mathematically Computed Cubic Curve -->
+    <path d="M 74.5 259.94 L 74.88 256.54 L 75.26 253.19 L 75.64 249.87 L 76.02 246.59 L 76.4 243.34 L 76.78 240.14 L 77.16 236.97 L 77.54 233.83 L 77.92 230.74 L 78.3 227.67 L 78.68 224.65 L 79.06 221.66 L 79.44 218.71 L 79.82 215.79 L 80.2 212.91 L 80.58 210.06 L 80.96 207.25 L 81.34 204.47 L 81.72 201.73 L 82.1 199.02 L 82.48 196.35 L 82.86 193.71 L 83.24 191.11 L 83.62 188.54 L 84 186 L 84.38 183.5 L 84.76 181.03 L 85.14 178.59 L 85.52 176.19 L 85.9 173.82 L 86.28 171.48 L 86.66 169.17 L 87.04 166.9 L 87.42 164.66 L 87.8 162.45 L 88.18 160.28 L 88.56 158.13 L 88.94 156.02 L 89.32 153.94 L 89.7 151.89 L 90.08 149.87 L 90.46 147.88 L 90.84 145.92 L 91.22 143.99 L 91.6 142.1 L 91.98 140.23 L 92.36 138.39 L 92.74 136.59 L 93.12 134.81 L 93.5 133.06 L 93.88 131.34 L 94.26 129.66 L 94.64 128 L 95.02 126.37 L 95.4 124.76 L 95.78 123.19 L 96.16 121.65 L 96.54 120.13 L 96.92 118.64 L 97.3 117.18 L 97.68 115.75 L 98.06 114.34 L 98.44 112.96 L 98.82 111.61 L 99.2 110.29 L 99.58 108.99 L 99.96 107.72 L 100.34 106.48 L 100.72 105.26 L 101.1 104.07 L 101.48 102.9 L 101.86 101.76 L 102.24 100.65 L 102.62 99.56 L 103 98.5 L 103.38 97.46 L 103.76 96.45 L 104.14 95.46 L 104.52 94.5 L 104.9 93.56 L 105.28 92.65 L 105.66 91.76 L 106.04 90.89 L 106.42 90.05 L 106.8 89.23 L 107.18 88.44 L 107.56 87.67 L 107.94 86.92 L 108.32 86.19 L 108.7 85.49 L 109.08 84.81 L 109.46 84.15 L 109.84 83.52 L 110.22 82.91 L 110.6 82.32 L 110.98 81.75 L 111.36 81.2 L 111.74 80.67 L 112.12 80.17 L 112.5 79.69 L 112.88 79.23 L 113.26 78.78 L 113.64 78.36 L 114.02 77.96 L 114.4 77.58 L 114.78 77.22 L 115.16 76.88 L 115.54 76.57 L 115.92 76.27 L 116.3 75.98 L 116.68 75.72 L 117.06 75.48 L 117.44 75.26 L 117.82 75.05 L 118.2 74.87 L 118.58 74.7 L 118.96 74.55 L 119.34 74.42 L 119.72 74.31 L 120.1 74.21 L 120.48 74.14 L 120.86 74.08 L 121.24 74.03 L 121.62 74.01 L 122 74 L 122.38 74.01 L 122.76 74.03 L 123.14 74.07 L 123.52 74.13 L 123.9 74.21 L 124.28 74.3 L 124.66 74.4 L 125.04 74.52 L 125.42 74.66 L 125.8 74.81 L 126.18 74.98 L 126.56 75.16 L 126.94 75.36 L 127.32 75.57 L 127.7 75.8 L 128.08 76.04 L 128.46 76.29 L 128.84 76.56 L 129.22 76.84 L 129.6 77.14 L 129.98 77.45 L 130.36 77.77 L 130.74 78.1 L 131.12 78.45 L 131.5 78.81 L 131.88 79.19 L 132.26 79.57 L 132.64 79.97 L 133.02 80.38 L 133.4 80.8 L 133.78 81.24 L 134.16 81.68 L 134.54 82.14 L 134.92 82.61 L 135.3 83.09 L 135.68 83.58 L 136.06 84.08 L 136.44 84.59 L 136.82 85.12 L 137.2 85.65 L 137.58 86.19 L 137.96 86.74 L 138.34 87.31 L 138.72 87.88 L 139.1 88.46 L 139.48 89.05 L 139.86 89.65 L 140.24 90.26 L 140.62 90.87 L 141 91.5 L 141.38 92.13 L 141.76 92.78 L 142.14 93.43 L 142.52 94.09 L 142.9 94.75 L 143.28 95.43 L 143.66 96.11 L 144.04 96.79 L 144.42 97.49 L 144.8 98.19 L 145.18 98.9 L 145.56 99.62 L 145.94 100.34 L 146.32 101.07 L 146.7 101.8 L 147.08 102.54 L 147.46 103.29 L 147.84 104.04 L 148.22 104.79 L 148.6 105.56 L 148.98 106.32 L 149.36 107.09 L 149.74 107.87 L 150.12 108.65 L 150.5 109.44 L 150.88 110.23 L 151.26 111.02 L 151.64 111.82 L 152.02 112.62 L 152.4 113.42 L 152.78 114.23 L 153.16 115.04 L 153.54 115.86 L 153.92 116.67 L 154.3 117.49 L 154.68 118.32 L 155.06 119.14 L 155.44 119.97 L 155.82 120.8 L 156.2 121.63 L 156.58 122.46 L 156.96 123.29 L 157.34 124.13 L 157.72 124.97 L 158.1 125.8 L 158.48 126.64 L 158.86 127.48 L 159.24 128.32 L 159.62 129.16 L 160 130 L 160.38 130.84 L 160.76 131.68 L 161.14 132.52 L 161.52 133.36 L 161.9 134.2 L 162.28 135.03 L 162.66 135.87 L 163.04 136.71 L 163.42 137.54 L 163.8 138.37 L 164.18 139.2 L 164.56 140.03 L 164.94 140.86 L 165.32 141.68 L 165.7 142.51 L 166.08 143.33 L 166.46 144.14 L 166.84 144.96 L 167.22 145.77 L 167.6 146.58 L 167.98 147.38 L 168.36 148.18 L 168.74 148.98 L 169.12 149.77 L 169.5 150.56 L 169.88 151.35 L 170.26 152.13 L 170.64 152.91 L 171.02 153.68 L 171.4 154.44 L 171.78 155.21 L 172.16 155.96 L 172.54 156.71 L 172.92 157.46 L 173.3 158.2 L 173.68 158.93 L 174.06 159.66 L 174.44 160.38 L 174.82 161.1 L 175.2 161.81 L 175.58 162.51 L 175.96 163.21 L 176.34 163.89 L 176.72 164.57 L 177.1 165.25 L 177.48 165.91 L 177.86 166.57 L 178.24 167.22 L 178.62 167.87 L 179 168.5 L 179.38 169.13 L 179.76 169.74 L 180.14 170.35 L 180.52 170.95 L 180.9 171.54 L 181.28 172.12 L 181.66 172.69 L 182.04 173.26 L 182.42 173.81 L 182.8 174.35 L 183.18 174.88 L 183.56 175.41 L 183.94 175.92 L 184.32 176.42 L 184.7 176.91 L 185.08 177.39 L 185.46 177.86 L 185.84 178.32 L 186.22 178.76 L 186.6 179.2 L 186.98 179.62 L 187.36 180.03 L 187.74 180.43 L 188.12 180.81 L 188.5 181.19 L 188.88 181.55 L 189.26 181.9 L 189.64 182.23 L 190.02 182.55 L 190.4 182.86 L 190.78 183.16 L 191.16 183.44 L 191.54 183.71 L 191.92 183.96 L 192.3 184.2 L 192.68 184.43 L 193.06 184.64 L 193.44 184.84 L 193.82 185.02 L 194.2 185.19 L 194.58 185.34 L 194.96 185.48 L 195.34 185.6 L 195.72 185.7 L 196.1 185.79 L 196.48 185.87 L 196.86 185.93 L 197.24 185.97 L 197.62 185.99 L 198 186 L 198.38 185.99 L 198.76 185.97 L 199.14 185.92 L 199.52 185.86 L 199.9 185.79 L 200.28 185.69 L 200.66 185.58 L 201.04 185.45 L 201.42 185.3 L 201.8 185.13 L 202.18 184.95 L 202.56 184.74 L 202.94 184.52 L 203.32 184.28 L 203.7 184.02 L 204.08 183.73 L 204.46 183.43 L 204.84 183.12 L 205.22 182.78 L 205.6 182.42 L 205.98 182.04 L 206.36 181.64 L 206.74 181.22 L 207.12 180.77 L 207.5 180.31 L 207.88 179.83 L 208.26 179.33 L 208.64 178.8 L 209.02 178.25 L 209.4 177.68 L 209.78 177.09 L 210.16 176.48 L 210.54 175.85 L 210.92 175.19 L 211.3 174.51 L 211.68 173.81 L 212.06 173.08 L 212.44 172.33 L 212.82 171.56 L 213.2 170.77 L 213.58 169.95 L 213.96 169.11 L 214.34 168.24 L 214.72 167.35 L 215.1 166.44 L 215.48 165.5 L 215.86 164.54 L 216.24 163.55 L 216.62 162.54 L 217 161.5 L 217.38 160.44 L 217.76 159.35 L 218.14 158.24 L 218.52 157.1 L 218.9 155.93 L 219.28 154.74 L 219.66 153.52 L 220.04 152.28 L 220.42 151.01 L 220.8 149.71 L 221.18 148.39 L 221.56 147.04 L 221.94 145.66 L 222.32 144.25 L 222.7 142.82 L 223.08 141.36 L 223.46 139.87 L 223.84 138.35 L 224.22 136.81 L 224.6 135.24 L 224.98 133.63 L 225.36 132 L 225.74 130.34 L 226.12 128.66 L 226.5 126.94 L 226.88 125.19 L 227.26 123.41 L 227.64 121.61 L 228.02 119.77 L 228.4 117.9 L 228.78 116.01 L 229.16 114.08 L 229.54 112.12 L 229.92 110.13 L 230.3 108.11 L 230.68 106.06 L 231.06 103.98 L 231.44 101.87 L 231.82 99.72 L 232.2 97.55 L 232.58 95.34 L 232.96 93.1 L 233.34 90.83 L 233.72 88.52 L 234.1 86.18 L 234.48 83.81 L 234.86 81.41 L 235.24 78.97 L 235.62 76.5 L 236 74 L 236.38 71.46 L 236.76 68.89 L 237.14 66.29 L 237.52 63.65 L 237.9 60.98 L 238.28 58.27 L 238.66 55.53 L 239.04 52.75 L 239.42 49.94 L 239.8 47.09 L 240.18 44.21 L 240.56 41.29 L 240.94 38.34 L 241.32 35.35 L 241.7 32.33 L 242.08 29.26 L 242.46 26.17 L 242.84 23.03 L 243.22 19.86 L 243.6 16.66 L 243.98 13.41 L 244.36 10.13 L 244.74 6.81 L 245.12 3.46 L 245.5 0.06" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Local Max (-1, 2) -->
+    <circle cx="122" cy="74" r="3.5" fill="#2563EB"/>
+    <text x="122" y="67" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="middle">극대 (-1, 2)</text>
+    <!-- Local Min (1, -2) -->
+    <circle cx="198" cy="186" r="3.5" fill="#2563EB"/>
+    <text x="198" y="202" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="middle">극소 (1, -2)</text>
+    <!-- Tangent Line y = 9x - 16 (Red dashed) -->
+    <line x1="224.6" y1="149.6" x2="245.5" y2="11" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4 2"/>
+    <!-- Tangent Point (2, 2) -->
+    <circle cx="236" cy="74" r="4.5" fill="#DC2626"/>
+    <text x="244" y="70" font-size="10.5" font-weight="black" fill="#B91C1C">접점 (2, 2)</text>
+    <!-- Top-Left Compact Callout Box (Ends at x=105, Leaves Max at x=122 Completely Free!) -->
+    <rect x="18" y="18" width="92" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="24" y="31" font-size="9.5" font-weight="bold" fill="#1E293B">f(x) = x³ - 3x</text>
+    <text x="24" y="43" font-size="8.5" font-weight="bold" fill="#DC2626">접선: y = 9x - 16</text>
+  </svg>`
       },
       high_3: {
         grade: 'high_3',
@@ -1906,29 +1905,43 @@
         translation: '출제자는 O, A\'(b, a), B가 한 직선 위에 있다는 조건으로 B = (kb, ka) 비례 관계를 심어뒀어!<br />중점 좌표로부터 a + kb = 77/4, b + ka = 133/4 가 되어 두 식을 더하고 빼면 (k+1)(a+b)=105/2, (k-1)(a-b)=14 가 나와!<br />지수·로그 곡선 대입을 통해 k=2, a=63/4, b=7/4 가 결정되어 a × b = 441/16, 즉 p+q = 457 로 끝납니다.',
         socratic: '지수함수와 로그함수의 역함수 대칭성을 원점 비례 직선(kb, ka)으로 치환하면 킬러 연립방정식이 덧셈과 뺄셈 2줄로 단순화됩니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <line x1="20" y1="220" x2="340" y2="220" stroke="#CBD5E1" stroke-width="1.5" />
-          <line x1="50" y1="240" x2="50" y2="20" stroke="#CBD5E1" stroke-width="1.5" />
-          <text x="345" y="224" font-size="11" font-weight="bold" fill="#64748B">x</text>
-          <text x="54" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
-          <line x1="40" y1="230" x2="250" y2="20" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3" />
-          <text x="235" y="32" font-size="10" font-weight="bold" fill="#059669">y = x</text>
-          <path d="M 55 210 Q 150 180 320 160" fill="none" stroke="#2563EB" stroke-width="2.5" />
-          <path d="M 60 215 Q 80 180 120 40" fill="none" stroke="#7C3AED" stroke-width="2.5" />
-          <line x1="50" y1="220" x2="160" y2="30" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 2" />
-          <circle cx="240" cy="170" r="4.5" fill="#2563EB" />
-          <text x="248" y="174" font-size="10" font-weight="black" fill="#1D4ED8">A(63/4, 7/4)</text>
-          <circle cx="90" cy="80" r="4.5" fill="#10B981" />
-          <text x="96" y="80" font-size="10" font-weight="black" fill="#047857">A\'(b, a)</text>
-          <circle cx="130" cy="45" r="4.5" fill="#7C3AED" />
-          <text x="138" y="45" font-size="10" font-weight="black" fill="#6D28D9">B(7/2, 63/2)</text>
-          <line x1="240" y1="170" x2="130" y2="45" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2" />
-          <circle cx="185" cy="107" r="4" fill="#DC2626" />
-          <text x="192" y="112" font-size="10" font-weight="black" fill="#DC2626">M(77/8, 133/8)</text>
-          <rect x="25" y="25" width="165" height="32" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="40" font-size="10" font-weight="bold" fill="#1E293B">O, A\', B 일직선 비례 (k=2)</text>
-          <text x="32" y="52" font-size="9" font-weight="bold" fill="#DC2626">a×b = 441/16  (p+q = 457)</text>
-        </svg>`
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="25" y1="230" x2="340" y2="230" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="340,227 348,230 340,233" fill="#64748B"/>
+    <text x="345" y="234" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="45" y1="245" x2="45" y2="15" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="42,15 45,7 48,15" fill="#64748B"/>
+    <text x="51" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="31" y="244" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Line y = x (Green dashed) -->
+    <line x1="45" y1="230" x2="220" y2="55" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="210" y="48" font-size="10" font-weight="bold" fill="#059669">y = x</text>
+    <!-- Log Curve (Blue) -->
+    <path d="M 46.35 227.85 L 47.7 227.32 L 49.05 226.9 L 50.4 226.55 L 51.75 226.25 L 53.1 225.99 L 54.45 225.76 L 55.8 225.55 L 57.15 225.36 L 58.5 225.18 L 59.85 225.02 L 61.2 224.87 L 62.55 224.73 L 63.9 224.6 L 65.25 224.48 L 66.6 224.36 L 67.95 224.25 L 69.3 224.15 L 70.65 224.05 L 72 223.95 L 73.35 223.86 L 74.7 223.78 L 76.05 223.69 L 77.4 223.61 L 78.75 223.53 L 80.1 223.46 L 81.45 223.39 L 82.8 223.32 L 84.15 223.25 L 85.5 223.18 L 86.85 223.12 L 88.2 223.06 L 89.55 223 L 90.9 222.94 L 92.25 222.89 L 93.6 222.83 L 94.95 222.78 L 96.3 222.72 L 97.65 222.67 L 99 222.62 L 100.35 222.57 L 101.7 222.53 L 103.05 222.48 L 104.4 222.44 L 105.75 222.39 L 107.1 222.35 L 108.45 222.3 L 109.8 222.26 L 111.15 222.22 L 112.5 222.18 L 113.85 222.14 L 115.2 222.1 L 116.55 222.06 L 117.9 222.03 L 119.25 221.99 L 120.6 221.95 L 121.95 221.92 L 123.3 221.88 L 124.65 221.85 L 126 221.82 L 127.35 221.78 L 128.7 221.75 L 130.05 221.72 L 131.4 221.69 L 132.75 221.66 L 134.1 221.62 L 135.45 221.59 L 136.8 221.56 L 138.15 221.53 L 139.5 221.51 L 140.85 221.48 L 142.2 221.45 L 143.55 221.42 L 144.9 221.39 L 146.25 221.37 L 147.6 221.34 L 148.95 221.31 L 150.3 221.29 L 151.65 221.26 L 153 221.24 L 154.35 221.21 L 155.7 221.19 L 157.05 221.16 L 158.4 221.14 L 159.75 221.11 L 161.1 221.09 L 162.45 221.07 L 163.8 221.04 L 165.15 221.02 L 166.5 221 L 167.85 220.97 L 169.2 220.95 L 170.55 220.93 L 171.9 220.91 L 173.25 220.89 L 174.6 220.86 L 175.95 220.84 L 177.3 220.82 L 178.65 220.8 L 180 220.78 L 181.35 220.76 L 182.7 220.74 L 184.05 220.72 L 185.4 220.7 L 186.75 220.68 L 188.1 220.66 L 189.45 220.64 L 190.8 220.62 L 192.15 220.61 L 193.5 220.59 L 194.85 220.57 L 196.2 220.55 L 197.55 220.53 L 198.9 220.51 L 200.25 220.5 L 201.6 220.48 L 202.95 220.46 L 204.3 220.44 L 205.65 220.43 L 207 220.41 L 208.35 220.39 L 209.7 220.37 L 211.05 220.36 L 212.4 220.34 L 213.75 220.32 L 215.1 220.31 L 216.45 220.29 L 217.8 220.28 L 219.15 220.26 L 220.5 220.24 L 221.85 220.23 L 223.2 220.21 L 224.55 220.2 L 225.9 220.18 L 227.25 220.17 L 228.6 220.15 L 229.95 220.14 L 231.3 220.12 L 232.65 220.11 L 234 220.09 L 235.35 220.08 L 236.7 220.06 L 238.05 220.05 L 239.4 220.03 L 240.75 220.02 L 242.1 220.01 L 243.45 219.99 L 244.8 219.98 L 246.15 219.96 L 247.5 219.95 L 248.85 219.94 L 250.2 219.92 L 251.55 219.91 L 252.9 219.9 L 254.25 219.88 L 255.6 219.87 L 256.95 219.86 L 258.3 219.84 L 259.65 219.83 L 261 219.82 L 262.35 219.8 L 263.7 219.79 L 265.05 219.78 L 266.4 219.77 L 267.75 219.75 L 269.1 219.74 L 270.45 219.73 L 271.8 219.72 L 273.15 219.7 L 274.5 219.69 L 275.85 219.68 L 277.2 219.67 L 278.55 219.66 L 279.9 219.64 L 281.25 219.63 L 282.6 219.62 L 283.95 219.61 L 285.3 219.6 L 286.65 219.59 L 288 219.57 L 289.35 219.56 L 290.7 219.55 L 292.05 219.54 L 293.4 219.53 L 294.75 219.52 L 296.1 219.51 L 297.45 219.5 L 298.8 219.49 L 300.15 219.47 L 301.5 219.46 L 302.85 219.45 L 304.2 219.44 L 305.55 219.43 L 306.9 219.42 L 308.25 219.41 L 309.6 219.4 L 310.95 219.39 L 312.3 219.38 L 313.65 219.37" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Exp Curve (Purple) -->
+    <path d="M 51.75 230 L 52.42 229.79 L 53.1 229.57 L 53.78 229.33 L 54.45 229.07 L 55.13 228.8 L 55.8 228.5 L 56.48 228.19 L 57.15 227.85 L 57.83 227.49 L 58.5 227.1 L 59.18 226.68 L 59.85 226.24 L 60.53 225.76 L 61.2 225.25 L 61.88 224.7 L 62.55 224.11 L 63.23 223.48 L 63.9 222.8 L 64.58 222.08 L 65.25 221.3 L 65.93 220.47 L 66.6 219.58 L 67.28 218.62 L 67.95 217.59 L 68.63 216.5 L 69.3 215.32 L 69.98 214.06 L 70.65 212.7 L 71.33 211.25 L 72 209.7 L 72.68 208.03 L 73.35 206.25 L 74.03 204.34 L 74.7 202.29 L 75.38 200.09 L 76.05 197.74 L 76.72 195.21 L 77.4 192.51 L 78.07 189.61 L 78.75 186.5 L 79.42 183.17 L 80.1 179.6 L 80.77 175.77 L 81.45 171.67 L 82.12 167.28 L 82.8 162.57 L 83.47 157.52 L 84.15 152.11 L 84.82 146.31 L 85.5 140.1 L 86.17 133.44 L 86.85 126.3 L 87.52 118.65 L 88.2 110.45 L 88.87 101.66 L 89.55 92.24 L 90.22 82.15 L 90.9 71.33 L 91.57 59.73 L 92.25 47.3 L 92.92 33.98 L 93.6 19.7" fill="none" stroke="#7C3AED" stroke-width="2.5"/>
+    <!-- Ray OB (Red dashed) passing colinearly through O, A', B -->
+    <line x1="45" y1="230" x2="105" y2="20" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <!-- Segment AB with Midpoint M -->
+    <line x1="257.63" y1="219.85" x2="92.25" y2="47.3" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
+    <!-- Point A (15.75, 1.75) -->
+    <circle cx="257.63" cy="219.85" r="4.5" fill="#2563EB"/>
+    <text x="263.63" y="223.85" font-size="9.5" font-weight="bold" fill="#1D4ED8">A(63/4, 7/4)</text>
+    <!-- Point A' (1.75, 15.75) -->
+    <circle cx="68.63" cy="138.65" r="4.5" fill="#10B981"/>
+    <text x="62.629999999999995" y="134.65" font-size="9.5" font-weight="bold" fill="#047857" text-anchor="end">A'(7/4, 63/4)</text>
+    <!-- Point B (3.5, 31.5) -->
+    <circle cx="92.25" cy="47.3" r="4.5" fill="#7C3AED"/>
+    <text x="98.25" y="51.3" font-size="9.5" font-weight="bold" fill="#6D28D9">B(7/2, 63/2)</text>
+    <!-- Midpoint M -->
+    <circle cx="174.94" cy="133.57" r="4.5" fill="#DC2626"/>
+    <text x="180.94" y="129.57" font-size="9.5" font-weight="black" fill="#B91C1C">M(77/8, 133/8)</text>
+    <!-- Top-Right Callout Box (Zero Collision) -->
+    <rect x="180" y="20" width="165" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="262" y="34" font-size="9.5" font-weight="bold" fill="#1E293B" text-anchor="middle">O, A', B 일직선 비례 (k=2)</text>
+    <text x="262" y="47" font-size="9" font-weight="bold" fill="#DC2626" text-anchor="middle">a × b = 441/16  (p+q = 457)</text>
+  </svg>`
       },
       csat_29: {
         grade: 'high_3',
@@ -1939,18 +1952,31 @@
         socratic: '시행 횟수 n=19200이 충분히 크므로 중심극한정리에 의해 정규분포로 근사하고, 표준화 공식 Z = (X-m)/σ 로 1초 만에 확률을 읽어냅니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <line x1="20" y1="210" x2="340" y2="210" stroke="#CBD5E1" stroke-width="1.5" />
+          <!-- Axes with Arrowheads & Origin -->
+          <line x1="20" y1="210" x2="340" y2="210" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="340,207 348,210 340,213" fill="#64748B"/>
+          <text x="345" y="214" font-size="11" font-weight="bold" fill="#64748B">x</text>
+          <line x1="40" y1="240" x2="40" y2="18" stroke="#64748B" stroke-width="1.8"/>
+          <polygon points="37,18 40,10 43,18" fill="#64748B"/>
+          <text x="46" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+          <text x="26" y="224" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+          <!-- Shaded Region Z <= 2.0 (X <= 4920) -->
           <path d="M 40 210 Q 110 208 150 160 Q 180 50 180 50 Q 180 50 210 160 Q 235 190 260 205 L 260 210 Z" fill="#DCFCE7" />
+          <!-- Normal Curve -->
           <path d="M 40 210 Q 110 208 150 160 Q 180 50 180 50 Q 180 50 210 160 Q 250 208 320 210" fill="none" stroke="#16A34A" stroke-width="2.5" />
+          <!-- Center Mean m = 4800 (Z = 0) -->
           <line x1="180" y1="210" x2="180" y2="50" stroke="#16A34A" stroke-width="1.5" stroke-dasharray="3 2" />
-          <text x="180" y="225" font-size="11" font-weight="bold" fill="#15803D" text-anchor="middle">m = 4800 (Z = 0)</text>
+          <text x="180" y="225" font-size="10.5" font-weight="bold" fill="#15803D" text-anchor="middle">m = 4800 (Z = 0)</text>
+          <!-- Z = 2.0 Boundary at X = 4920 -->
           <line x1="260" y1="210" x2="260" y2="195" stroke="#DC2626" stroke-width="2" />
-          <text x="260" y="225" font-size="11" font-weight="black" fill="#DC2626" text-anchor="middle">4920 (Z = 2.0)</text>
-          <rect x="90" y="115" width="130" height="30" rx="6" fill="#FFFFFF" stroke="#16A34A" />
-          <text x="155" y="134" font-size="11" font-weight="black" fill="#15803D" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
-          <rect x="25" y="25" width="165" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">a = 4, X ~ N(4800, 60²)</text>
-          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">1000 × k = 977</text>
+          <text x="260" y="225" font-size="10.5" font-weight="black" fill="#DC2626" text-anchor="middle">4920 (Z = 2.0)</text>
+          <!-- Area Label (Left Shaded Region, Completely Clear of Mean Line at x=180) -->
+          <rect x="55" y="115" width="115" height="28" rx="6" fill="#FFFFFF" stroke="#16A34A" stroke-width="1.2"/>
+          <text x="112" y="133" font-size="10" font-weight="black" fill="#15803D" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
+          <!-- Top-Right Callout Box (Completely Clear of Peak at x=180, y=50) -->
+          <rect x="225" y="20" width="125" height="36" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+          <text x="232" y="34" font-size="9.5" font-weight="bold" fill="#1E293B">a = 4, X ~ N(4800, 60²)</text>
+          <text x="232" y="48" font-size="9.5" font-weight="bold" fill="#DC2626">1000 × k = 977</text>
         </svg>`
       },
       csat_30m: {
@@ -1961,22 +1987,36 @@
         translation: 'y=x 대칭이동을 하면, 문제의 본질은 "(0, 1)에서 곡선 y=f⁻¹(x)에 그은 접선의 기울기"를 찾는 문제로 완벽히 단순화돼!<br />접점이 x=1에서 매끄럽게 연결되는 (1, 2)와 x<-1 영역에서의 지수함수 접선 2개가 불연속 경계야!<br />원함수의 복잡한 식 대신 역함수 좌표계에서 접선의 기울기를 해석하면 교점 개수가 바뀌는 경계가 한눈에 증명됩니다.',
         socratic: '원함수에서 직접 교점을 구하지 않고, 역함수 평면에서 고정점 (0, 1)을 통과하는 회전 직선으로 시점을 전환하는 것이 수능 킬러의 본질입니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
-          <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <line x1="20" y1="150" x2="340" y2="150" stroke="#CBD5E1" stroke-width="1.5" />
-          <line x1="160" y1="240" x2="160" y2="20" stroke="#CBD5E1" stroke-width="1.5" />
-          <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
-          <text x="164" y="28" font-size="11" font-weight="bold" fill="#64748B">y</text>
-          <path d="M 60 230 Q 90 220 120 180 Q 140 160 160 150 Q 180 140 200 120 Q 230 80 270 30" fill="none" stroke="#2563EB" stroke-width="2.5" />
-          <circle cx="160" cy="120" r="5" fill="#DC2626" />
-          <text x="140" y="118" font-size="10" font-weight="black" fill="#B91C1C">(0, 1)</text>
-          <line x1="120" y1="120" x2="240" y2="120" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2" />
-          <circle cx="200" cy="120" r="4.5" fill="#7C3AED" />
-          <text x="208" y="112" font-size="10" font-weight="bold" fill="#6D28D9">접점 (1, 2)</text>
-          <line x1="160" y1="120" x2="70" y2="225" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4 2" />
-          <rect x="25" y="25" width="165" height="34" rx="6" fill="#F8FAFC" stroke="#E2E8F0" />
-          <text x="32" y="42" font-size="10" font-weight="bold" fill="#1E293B">y=x 대칭: (0, 1) 접선 해석</text>
-          <text x="32" y="54" font-size="9" font-weight="bold" fill="#DC2626">불연속 경계 m=a, m=b 결정</text>
-        </svg>`
+    <rect width="360" height="260" fill="#FFFFFF" rx="8" />
+    <g class="grid-lines"><line x1="30" y1="20" x2="30" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="70" y1="20" x2="70" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="150" y1="20" x2="150" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="190" y1="20" x2="190" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="230" y1="20" x2="230" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="270" y1="20" x2="270" y2="245" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="230" x2="335" y2="230" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="190" x2="335" y2="190" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="150" x2="335" y2="150" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="110" x2="335" y2="110" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="70" x2="335" y2="70" stroke="#F1F5F9" stroke-width="1"/><line x1="20" y1="30" x2="335" y2="30" stroke="#F1F5F9" stroke-width="1"/></g>
+    <!-- Axes with Arrowheads & Origin -->
+    <line x1="20" y1="150" x2="335" y2="150" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="335,147 343,150 335,153" fill="#64748B"/>
+    <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
+    <line x1="150" y1="245" x2="150" y2="18" stroke="#64748B" stroke-width="1.8"/>
+    <polygon points="147,18 150,10 153,18" fill="#64748B"/>
+    <text x="156" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+    <text x="136" y="164" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+    <!-- Scale Ticks -->
+    <line x1="190" y1="147" x2="190" y2="153" stroke="#64748B" stroke-width="1.5"/>
+    <text x="190" y="164" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+    <line x1="147" y1="110" x2="153" y2="110" stroke="#64748B" stroke-width="1.5"/>
+    <text x="144" y="114" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
+    <!-- Dense Exact Inverse Curve -->
+    <path d="M 62 202.8 L 64 196.33 L 66 190.17 L 68 184.31 L 70 178.73 L 72 173.43 L 74 168.38 L 76 163.59 L 78 159.02 L 80 154.68 L 82 150.55 L 84 146.62 L 86 142.88 L 88 139.33 L 90 135.95 L 92 132.73 L 94 129.67 L 96 126.76 L 98 123.99 L 100 121.36 L 102 118.86 L 104 116.47 L 106 114.21 L 108 112.05 L 110 230 L 110.8 229.18 L 111.6 228.31 L 112.4 227.39 L 113.2 226.43 L 114 225.42 L 114.8 224.37 L 115.6 223.28 L 116.4 222.15 L 117.2 220.97 L 118 219.76 L 118.8 218.51 L 119.6 217.22 L 120.4 215.9 L 121.2 214.54 L 122 213.14 L 122.8 211.71 L 123.6 210.25 L 124.4 208.76 L 125.2 207.23 L 126 205.68 L 126.8 204.1 L 127.6 202.49 L 128.4 200.85 L 129.2 199.19 L 130 197.5 L 130.8 195.79 L 131.6 194.05 L 132.4 192.3 L 133.2 190.52 L 134 188.72 L 134.8 186.9 L 135.6 185.07 L 136.4 183.21 L 137.2 181.34 L 138 179.46 L 138.8 177.56 L 139.6 175.65 L 140.4 173.72 L 141.2 171.79 L 142 169.84 L 142.8 167.88 L 143.6 165.92 L 144.4 163.95 L 145.2 161.97 L 146 159.98 L 146.8 157.99 L 147.6 156 L 148.4 154 L 149.2 152 L 150 150 L 150.8 148 L 151.6 146 L 152.4 144 L 153.2 142.01 L 154 140.02 L 154.8 138.03 L 155.6 136.05 L 156.4 134.08 L 157.2 132.12 L 158 130.16 L 158.8 128.21 L 159.6 126.28 L 160.4 124.35 L 161.2 122.44 L 162 120.54 L 162.8 118.66 L 163.6 116.79 L 164.4 114.93 L 165.2 113.1 L 166 111.28 L 166.8 109.48 L 167.6 107.7 L 168.4 105.95 L 169.2 104.21 L 170 102.5 L 170.8 100.81 L 171.6 99.15 L 172.4 97.51 L 173.2 95.9 L 174 94.32 L 174.8 92.77 L 175.6 91.24 L 176.4 89.75 L 177.2 88.29 L 178 86.86 L 178.8 85.46 L 179.6 84.1 L 180.4 82.78 L 181.2 81.49 L 182 80.24 L 182.8 79.03 L 183.6 77.85 L 184.4 76.72 L 185.2 75.63 L 186 74.58 L 186.8 73.57 L 187.6 72.61 L 188.4 71.69 L 189.2 70.82 L 190 70 L 191.6 68.37 L 193.2 66.67 L 194.8 64.9 L 196.4 63.06 L 198 61.14 L 199.6 59.15 L 201.2 57.07 L 202.8 54.91 L 204.4 52.67 L 206 50.33 L 207.6 47.89 L 209.2 45.36 L 210.8 42.72 L 212.4 39.97 L 214 37.12 L 215.6 34.14 L 217.2 31.04 L 218.8 27.82 L 220.4 24.47" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+    <!-- Tangent Line from (0, 1) through (1, 2) -->
+    <line x1="90" y1="170" x2="214" y2="46" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <!-- Fixed Point (0, 1) -->
+    <circle cx="150" cy="110" r="4.5" fill="#DC2626"/>
+    <text x="144" y="106" font-size="9.5" font-weight="black" fill="#B91C1C" text-anchor="end">(0, 1)</text>
+    <!-- Tangent Contact (1, 2) -->
+    <circle cx="190" cy="70" r="4.5" fill="#7C3AED"/>
+    <text x="196" y="72" font-size="9.5" font-weight="bold" fill="#6D28D9">접점 (1, 2)</text>
+    <!-- Top-Left Callout Box (Ends at x=135, Zero Overlap with y-axis at x=150) -->
+    <rect x="20" y="20" width="120" height="34" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="26" y="33" font-size="9" font-weight="bold" fill="#1E293B">y=x 대칭: (0, 1) 접선 해석</text>
+    <text x="26" y="46" font-size="8.5" font-weight="bold" fill="#DC2626">불연속 경계 m=a, m=b 결정</text>
+  </svg>`
       },
       csat_30g: {
         grade: 'high_3',
