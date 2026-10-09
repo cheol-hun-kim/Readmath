@@ -920,6 +920,40 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
       geometryErrors.push('essay_hanyang must include angle arc indicator θ + π/6');
     }
   }
+
+  // 4.12.4 Calculus 30 Parity Armor (preview.html Problem 304 vs landing.html csat_30m)
+  const p304Svg = PROBLEMS_DB[304] ? PROBLEMS_DB[304].diagrams[0].svg : '';
+  if (p304Svg.includes('y1="110" x2="280" y2="110"') || p304Svg.includes('y1="110" y2="110"')) {
+    geometryErrors.push('Problem 304 in preview.html contains flawed horizontal tangent line (slope 0 instead of slope 1)');
+  }
+  if (!p304Svg.includes('x1="90" y1="170" x2="214" y2="46"')) {
+    geometryErrors.push('Problem 304 in preview.html must contain verified slope 1 tangent through (0, 1) and (1, 2)');
+  }
+  if (!p304Svg.includes('cx="190" cy="70"')) {
+    geometryErrors.push('Problem 304 in preview.html must place tangent contact point (1, 2) at cx=190, cy=70');
+  }
+
+  // 4.12.5 Geometry 30 Zero Dark Circle Armor (Problem 305 & csat_30g)
+  const p305Svg = PROBLEMS_DB[305] ? PROBLEMS_DB[305].diagrams[0].svg : '';
+  if (p305Svg.includes('fill="#0F172A"') || p305Svg.includes("fill='#0F172A'")) {
+    geometryErrors.push('Problem 305 circle must NOT use dark background fill (#0F172A); must use fill="none"');
+  }
+  const csat30gMatch = landingHtml.match(/csat_30g[\s\S]*?svg:\s*`([\s\S]*?)`/);
+  if (csat30gMatch && (csat30gMatch[1].includes('fill="#0F172A"') || csat30gMatch[1].includes('fill="#F8FAFC"'))) {
+    if (!csat30gMatch[1].includes('fill="none"')) {
+      geometryErrors.push('csat_30g in landing.html circle must use fill="none" for transparent geometric clarity');
+    }
+  }
+
+  // 4.12.6 Zero Horizontal Scrollbar Armor on Sample Problem Recommendations
+  if (htmlContent.includes('csatSwitcherHtml = `') && htmlContent.includes('overflow-x-auto pb-1 max-w-full')) {
+    geometryErrors.push('preview.html csatSwitcherHtml must NOT use overflow-x-auto; must use structured grid without horizontal scrollbars');
+  }
+
+  // 4.12.7 Structured 5-Option Grid Armor on Landing Page
+  if (!landingHtml.includes('id="csat-sub-grid"') || !landingHtml.includes('lg:grid-cols-5')) {
+    geometryErrors.push('landing.html must use structured 5-column grid #csat-sub-grid for High 3 / CSAT sub-options');
+  }
 }
 
 // 4.13 Non-Coordinate Diagram Metric Grid Suppression Check

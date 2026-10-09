@@ -1224,6 +1224,17 @@
       color: #1E1B4B !important;
     }
 
+    /* Permanent Horizontal Scrollbar Elimination */
+    .no-scrollbar, #sample-problem-recommend-card *, #sub-questions-pills-container {
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+    .no-scrollbar::-webkit-scrollbar, #sample-problem-recommend-card *::-webkit-scrollbar, #sub-questions-pills-container::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
     /* ================= CURRICULUM CARD & GRADE SELECTOR (NIGHT & DAY) ================= */
     .curriculum-preview-card {
       background: linear-gradient(145deg, rgba(30, 27, 75, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
@@ -6658,51 +6669,75 @@
             title: "역함수 그래프와 고정점 (0, 1) 접선 도해",
             badge: "2026 수능 미적 30번 도해",
             caption: "y=x 대칭 평면에서 고정점 (0, 1)을 통과하는 두 접선 광선이 교점 개수 g(m)의 불연속 경계 m=a, m=b를 결정합니다.",
-            svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-              <rect width="420" height="250" fill="#090D16" rx="10"/>
-              <text x="210" y="24" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[2026 수능 미적 30번] 역함수 평면 &amp; 점 (0, 1) 접선 해석</text>
-              <line x1="20" y1="140" x2="400" y2="140" stroke="#64748B" stroke-width="1.8"/>
-              <polygon points="400,137 408,140 400,143" fill="#64748B"/>
-              <text x="400" y="155" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
-              <line x1="180" y1="240" x2="180" y2="20" stroke="#64748B" stroke-width="1.8"/>
-              <polygon points="177,20 180,12 183,20" fill="#64748B"/>
-              <text x="168" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
-              <text x="168" y="155" fill="#64748B" font-size="11">O</text>
-              <path d="M 60 220 Q 100 210 130 170 Q 160 150 180 140 Q 200 130 230 110 Q 270 60 320 25" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
-              <circle cx="180" cy="110" r="4.5" fill="#F43F5E"/>
-              <text x="155" y="108" fill="#F43F5E" font-size="11" font-weight="extrabold">(0, 1)</text>
-              <line x1="130" y1="110" x2="280" y2="110" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
-              <circle cx="230" cy="110" r="4" fill="#C084FC"/>
-              <text x="238" y="102" fill="#C084FC" font-size="10.5" font-weight="bold">접점 (1, 2) [b=1]</text>
-              <line x1="180" y1="110" x2="70" y2="215" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4 2"/>
-              <text x="75" y="230" fill="#F59E0B" font-size="10" font-weight="bold">음의 지수 접선 [m=a]</text>
-              <rect x="235" y="175" width="170" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
-              <text x="320" y="192" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">y=x 대칭: (0, 1) 접선</text>
-              <text x="320" y="208" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">불연속 경계 m=a, m=b</text>
+            svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+              <rect width="360" height="260" fill="#090D16" rx="8" />
+              <g class="grid-lines"><line x1="30" y1="20" x2="30" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="70" y1="20" x2="70" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="150" y1="20" x2="150" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="190" y1="20" x2="190" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="230" y1="20" x2="230" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="270" y1="20" x2="270" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="230" x2="335" y2="230" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="190" x2="335" y2="190" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="150" x2="335" y2="150" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="110" x2="335" y2="110" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="70" x2="335" y2="70" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="30" x2="335" y2="30" stroke="#1E293B" stroke-width="1"/></g>
+              <!-- Axes with Arrowheads & Origin -->
+              <line x1="20" y1="150" x2="335" y2="150" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="335,147 343,150 335,153" fill="#64748B"/>
+              <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
+              <line x1="150" y1="245" x2="150" y2="18" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="147,18 150,10 153,18" fill="#64748B"/>
+              <text x="156" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+              <text x="136" y="164" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+              <!-- Scale Ticks -->
+              <line x1="190" y1="147" x2="190" y2="153" stroke="#64748B" stroke-width="1.5"/>
+              <text x="190" y="164" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+              <line x1="147" y1="110" x2="153" y2="110" stroke="#64748B" stroke-width="1.5"/>
+              <text x="144" y="114" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
+              <!-- Smooth Mathematically Continuous Inverse Curve -->
+              <path d="M 98.0 244.0 L 100.0 241.4 L 102.0 238.9 L 104.0 236.5 L 106.0 234.2 L 108.0 232.1 L 110.0 230.0 L 112.0 227.9 L 114.0 225.4 L 116.0 222.7 L 118.0 219.8 L 120.0 216.6 L 122.0 213.1 L 124.0 209.5 L 126.0 205.7 L 128.0 201.7 L 130.0 197.5 L 132.0 193.2 L 134.0 188.7 L 136.0 184.1 L 138.0 179.5 L 140.0 174.7 L 142.0 169.8 L 144.0 164.9 L 146.0 160.0 L 148.0 155.0 L 150.0 150.0 L 152.0 145.0 L 154.0 140.0 L 156.0 135.1 L 158.0 130.2 L 160.0 125.3 L 162.0 120.5 L 164.0 115.9 L 166.0 111.3 L 168.0 106.8 L 170.0 102.5 L 172.0 98.3 L 174.0 94.3 L 176.0 90.5 L 178.0 86.9 L 180.0 83.4 L 182.0 80.2 L 184.0 77.3 L 186.0 74.6 L 188.0 72.1 L 190.0 70.0 L 192.0 67.9 L 194.0 65.8 L 196.0 63.5 L 198.0 61.1 L 200.0 58.6 L 202.0 56.0 L 204.0 53.2 L 206.0 50.3 L 208.0 47.3 L 210.0 44.1 L 212.0 40.7 L 214.0 37.1 L 216.0 33.4 L 218.0 29.4 L 220.0 25.3 L 222.0 21.0 L 224.0 16.4" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+              <!-- Tangent Line 1: from (0, 1) through (1, 2) [b = 1] -->
+              <line x1="90" y1="170" x2="214" y2="46" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
+              <!-- Tangent Line 2: from (0, 1) to Negative Branch [m = a] -->
+              <line x1="150" y1="110" x2="88" y2="245" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4 2"/>
+              <text x="80" y="248" fill="#F59E0B" font-size="9.5" font-weight="bold">음의 지수 접선 [m=a]</text>
+              <!-- Fixed Point (0, 1) -->
+              <circle cx="150" cy="110" r="4.5" fill="#F43F5E"/>
+              <text x="144" y="106" font-size="9.5" font-weight="black" fill="#F43F5E" text-anchor="end">(0, 1)</text>
+              <!-- Tangent Contact (1, 2) -->
+              <circle cx="190" cy="70" r="4.5" fill="#C084FC"/>
+              <text x="196" y="72" font-size="9.5" font-weight="bold" fill="#C084FC">접점 (1, 2) [b=1]</text>
+              <!-- Top-Left Callout Box -->
+              <rect x="20" y="20" width="120" height="34" rx="6" fill="#1E1B4B" stroke="#4F46E5"/>
+              <text x="26" y="33" font-size="9" font-weight="bold" fill="#C7D2FE">y=x 대칭: (0, 1) 접선 해석</text>
+              <text x="26" y="46" font-size="8.5" font-weight="bold" fill="#FBBF24">불연속 경계 m=a, m=b 결정</text>
             </svg>`
           }
         ],
-        svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
-              <rect width="420" height="250" fill="#090D16" rx="10"/>
-              <text x="210" y="24" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[2026 수능 미적 30번] 역함수 평면 &amp; 점 (0, 1) 접선 해석</text>
-              <line x1="20" y1="140" x2="400" y2="140" stroke="#64748B" stroke-width="1.8"/>
-              <polygon points="400,137 408,140 400,143" fill="#64748B"/>
-              <text x="400" y="155" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
-              <line x1="180" y1="240" x2="180" y2="20" stroke="#64748B" stroke-width="1.8"/>
-              <polygon points="177,20 180,12 183,20" fill="#64748B"/>
-              <text x="168" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
-              <text x="168" y="155" fill="#64748B" font-size="11">O</text>
-              <path d="M 60 220 Q 100 210 130 170 Q 160 150 180 140 Q 200 130 230 110 Q 270 60 320 25" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
-              <circle cx="180" cy="110" r="4.5" fill="#F43F5E"/>
-              <text x="155" y="108" fill="#F43F5E" font-size="11" font-weight="extrabold">(0, 1)</text>
-              <line x1="130" y1="110" x2="280" y2="110" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
-              <circle cx="230" cy="110" r="4" fill="#C084FC"/>
-              <text x="238" y="102" fill="#C084FC" font-size="10.5" font-weight="bold">접점 (1, 2) [b=1]</text>
-              <line x1="180" y1="110" x2="70" y2="215" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4 2"/>
-              <text x="75" y="230" fill="#F59E0B" font-size="10" font-weight="bold">음의 지수 접선 [m=a]</text>
-              <rect x="235" y="175" width="170" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
-              <text x="320" y="192" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">y=x 대칭: (0, 1) 접선</text>
-              <text x="320" y="208" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">불연속 경계 m=a, m=b</text>
+        svg_diagram: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
+              <rect width="360" height="260" fill="#090D16" rx="8" />
+              <g class="grid-lines"><line x1="30" y1="20" x2="30" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="70" y1="20" x2="70" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="110" y1="20" x2="110" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="150" y1="20" x2="150" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="190" y1="20" x2="190" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="230" y1="20" x2="230" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="270" y1="20" x2="270" y2="245" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="230" x2="335" y2="230" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="190" x2="335" y2="190" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="150" x2="335" y2="150" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="110" x2="335" y2="110" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="70" x2="335" y2="70" stroke="#1E293B" stroke-width="1"/><line x1="20" y1="30" x2="335" y2="30" stroke="#1E293B" stroke-width="1"/></g>
+              <!-- Axes with Arrowheads & Origin -->
+              <line x1="20" y1="150" x2="335" y2="150" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="335,147 343,150 335,153" fill="#64748B"/>
+              <text x="345" y="154" font-size="11" font-weight="bold" fill="#64748B">x</text>
+              <line x1="150" y1="245" x2="150" y2="18" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="147,18 150,10 153,18" fill="#64748B"/>
+              <text x="156" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
+              <text x="136" y="164" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
+              <!-- Scale Ticks -->
+              <line x1="190" y1="147" x2="190" y2="153" stroke="#64748B" stroke-width="1.5"/>
+              <text x="190" y="164" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="middle">1</text>
+              <line x1="147" y1="110" x2="153" y2="110" stroke="#64748B" stroke-width="1.5"/>
+              <text x="144" y="114" font-size="10" font-weight="bold" fill="#94A3B8" text-anchor="end">1</text>
+              <!-- Smooth Mathematically Continuous Inverse Curve -->
+              <path d="M 98.0 244.0 L 100.0 241.4 L 102.0 238.9 L 104.0 236.5 L 106.0 234.2 L 108.0 232.1 L 110.0 230.0 L 112.0 227.9 L 114.0 225.4 L 116.0 222.7 L 118.0 219.8 L 120.0 216.6 L 122.0 213.1 L 124.0 209.5 L 126.0 205.7 L 128.0 201.7 L 130.0 197.5 L 132.0 193.2 L 134.0 188.7 L 136.0 184.1 L 138.0 179.5 L 140.0 174.7 L 142.0 169.8 L 144.0 164.9 L 146.0 160.0 L 148.0 155.0 L 150.0 150.0 L 152.0 145.0 L 154.0 140.0 L 156.0 135.1 L 158.0 130.2 L 160.0 125.3 L 162.0 120.5 L 164.0 115.9 L 166.0 111.3 L 168.0 106.8 L 170.0 102.5 L 172.0 98.3 L 174.0 94.3 L 176.0 90.5 L 178.0 86.9 L 180.0 83.4 L 182.0 80.2 L 184.0 77.3 L 186.0 74.6 L 188.0 72.1 L 190.0 70.0 L 192.0 67.9 L 194.0 65.8 L 196.0 63.5 L 198.0 61.1 L 200.0 58.6 L 202.0 56.0 L 204.0 53.2 L 206.0 50.3 L 208.0 47.3 L 210.0 44.1 L 212.0 40.7 L 214.0 37.1 L 216.0 33.4 L 218.0 29.4 L 220.0 25.3 L 222.0 21.0 L 224.0 16.4" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+              <!-- Tangent Line 1: from (0, 1) through (1, 2) [b = 1] -->
+              <line x1="90" y1="170" x2="214" y2="46" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
+              <!-- Tangent Line 2: from (0, 1) to Negative Branch [m = a] -->
+              <line x1="150" y1="110" x2="88" y2="245" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4 2"/>
+              <text x="80" y="248" fill="#F59E0B" font-size="9.5" font-weight="bold">음의 지수 접선 [m=a]</text>
+              <!-- Fixed Point (0, 1) -->
+              <circle cx="150" cy="110" r="4.5" fill="#F43F5E"/>
+              <text x="144" y="106" font-size="9.5" font-weight="black" fill="#F43F5E" text-anchor="end">(0, 1)</text>
+              <!-- Tangent Contact (1, 2) -->
+              <circle cx="190" cy="70" r="4.5" fill="#C084FC"/>
+              <text x="196" y="72" font-size="9.5" font-weight="bold" fill="#C084FC">접점 (1, 2) [b=1]</text>
+              <!-- Top-Left Callout Box -->
+              <rect x="20" y="20" width="120" height="34" rx="6" fill="#1E1B4B" stroke="#4F46E5"/>
+              <text x="26" y="33" font-size="9" font-weight="bold" fill="#C7D2FE">y=x 대칭: (0, 1) 접선 해석</text>
+              <text x="26" y="46" font-size="8.5" font-weight="bold" fill="#FBBF24">불연속 경계 m=a, m=b 결정</text>
             </svg>`,
         welcomeMsg: "리드 쌤입니다! 2026학년도 수능 미적분 30번 킬러 문항이네요. 역함수와 접선의 교점 개수가 바뀌는 임계 상태를 좌표평면으로 확인해볼까요?",
         quickPrompts: [
@@ -6795,7 +6830,7 @@
             svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
               <rect width="420" height="250" fill="#090D16" rx="10"/>
               <text x="210" y="24" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[2026 수능 기하 30번] 원의 지름 &amp; 벡터 내적 도해</text>
-              <circle cx="210" cy="135" r="85" fill="#0F172A" stroke="#64748B" stroke-width="2"/>
+              <circle cx="210" cy="135" r="85" fill="none" stroke="#64748B" stroke-width="2"/>
               <line x1="125" y1="135" x2="295" y2="135" stroke="#64748B" stroke-width="1.8"/>
               <circle cx="210" cy="135" r="3.5" fill="#64748B"/>
               <text x="210" y="152" fill="#64748B" font-size="11" font-weight="bold" text-anchor="middle">O</text>
@@ -6821,7 +6856,7 @@
         svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
               <rect width="420" height="250" fill="#090D16" rx="10"/>
               <text x="210" y="24" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">[2026 수능 기하 30번] 원의 지름 &amp; 벡터 내적 도해</text>
-              <circle cx="210" cy="135" r="85" fill="#0F172A" stroke="#64748B" stroke-width="2"/>
+              <circle cx="210" cy="135" r="85" fill="none" stroke="#64748B" stroke-width="2"/>
               <line x1="125" y1="135" x2="295" y2="135" stroke="#64748B" stroke-width="1.8"/>
               <circle cx="210" cy="135" r="3.5" fill="#64748B"/>
               <text x="210" y="152" fill="#64748B" font-size="11" font-weight="bold" text-anchor="middle">O</text>
@@ -9705,20 +9740,13 @@
         ['#3B0764', '#FAF5FF', '#9333EA']
       ];
       containerTransforms.forEach(([darkFill, lightFill, borderStroke]) => {
-        const rectRegex = new RegExp(`(<rect\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
-        s = s.replace(rectRegex, (m, p1, p2) => {
-          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
-          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
-        });
-        const polyRegex = new RegExp(`(<polygon\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
-        s = s.replace(polyRegex, (m, p1, p2) => {
-          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
-          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
-        });
-        const circleRegex = new RegExp(`(<circle\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
-        s = s.replace(circleRegex, (m, p1, p2) => {
-          let cleaned = p2.replace(/\\bstroke=["'][^"']*["']/gi, '').replace(/\\bfill-opacity=["'][^"']*["']/gi, '');
-          return `${p1}${lightFill}" stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+        ['rect', 'polygon', 'circle'].forEach(tag => {
+          const re = new RegExp(`(<${tag}\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
+          s = s.replace(re, (m, p1, p2) => {
+            const quote = p2.charAt(0);
+            let cleaned = p2.slice(1).replace(/\bstroke=["'][^"']*["']/gi, '').replace(/\bfill-opacity=["'][^"']*["']/gi, '');
+            return `${p1}${lightFill}${quote} stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+          });
         });
       });
 
@@ -10532,20 +10560,20 @@
         let csatSwitcherHtml = '';
         if (currentGrade.includes('고3') || currentGrade.includes('수능') || currentGrade.includes('N수')) {
           csatSwitcherHtml = `
-            <div class="flex items-center gap-1 overflow-x-auto pb-1 max-w-full">
-              <button onclick="switchCsatSample(302)" class="px-2 py-0.5 rounded-lg text-[9.5px] font-bold ${sampleId === 302 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">2026 공통 22번</button>
-              <button onclick="switchCsatSample(303)" class="px-2 py-0.5 rounded-lg text-[9.5px] font-bold ${sampleId === 303 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">2026 확통 29번</button>
-              <button onclick="switchCsatSample(304)" class="px-2 py-0.5 rounded-lg text-[9.5px] font-bold ${sampleId === 304 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">2026 미적 30번</button>
-              <button onclick="switchCsatSample(305)" class="px-2 py-0.5 rounded-lg text-[9.5px] font-bold ${sampleId === 305 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">2026 기하 30번</button>
-              <button onclick="switchCsatSample(3)" class="px-2 py-0.5 rounded-lg text-[9.5px] font-bold ${sampleId === 3 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">한양대 논술</button>
+            <div class="grid grid-cols-5 gap-1 w-full pt-0.5">
+              <button onclick="switchCsatSample(302)" class="w-full py-1.5 px-0.5 rounded-lg text-center text-[10px] font-bold ${sampleId === 302 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">공통 22</button>
+              <button onclick="switchCsatSample(303)" class="w-full py-1.5 px-0.5 rounded-lg text-center text-[10px] font-bold ${sampleId === 303 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">확통 29</button>
+              <button onclick="switchCsatSample(304)" class="w-full py-1.5 px-0.5 rounded-lg text-center text-[10px] font-bold ${sampleId === 304 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">미적 30</button>
+              <button onclick="switchCsatSample(305)" class="w-full py-1.5 px-0.5 rounded-lg text-center text-[10px] font-bold ${sampleId === 305 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">기하 30</button>
+              <button onclick="switchCsatSample(3)" class="w-full py-1.5 px-0.5 rounded-lg text-center text-[10px] font-bold ${sampleId === 3 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">한양 논술</button>
             </div>
           `;
         } else if (currentGrade.startsWith('중')) {
           csatSwitcherHtml = `
-            <div class="flex items-center gap-1 overflow-x-auto pb-1 max-w-full">
-              <button onclick="setSchoolGrade('중1')" class="px-2.5 py-0.5 rounded-lg text-[9.5px] font-bold ${currentGrade === '중1' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">중1 일차방정식</button>
-              <button onclick="setSchoolGrade('중2')" class="px-2.5 py-0.5 rounded-lg text-[9.5px] font-bold ${currentGrade === '중2' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">중2 연립방정식</button>
-              <button onclick="setSchoolGrade('중3')" class="px-2.5 py-0.5 rounded-lg text-[9.5px] font-bold ${currentGrade === '중3' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} whitespace-nowrap transition">중3 피타고라스</button>
+            <div class="grid grid-cols-3 gap-1 w-full pt-0.5">
+              <button onclick="setSchoolGrade('중1')" class="w-full py-1.5 px-1 rounded-lg text-center text-[10px] sm:text-[10.5px] font-bold ${currentGrade === '중1' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">중1 일차방정식</button>
+              <button onclick="setSchoolGrade('중2')" class="w-full py-1.5 px-1 rounded-lg text-center text-[10px] sm:text-[10.5px] font-bold ${currentGrade === '중2' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">중2 연립방정식</button>
+              <button onclick="setSchoolGrade('중3')" class="w-full py-1.5 px-1 rounded-lg text-center text-[10px] sm:text-[10.5px] font-bold ${currentGrade === '중3' ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white'} transition truncate">중3 피타고라스</button>
             </div>
           `;
         }

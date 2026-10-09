@@ -421,8 +421,21 @@
           </div>
 
           <!-- Sub-Problem Tabs (고3·수능 킬러 문항 5선 세부 선택 탭) -->
-          <div id="subproblem-tabs-container" class="hidden flex flex-wrap items-center justify-center gap-1.5 max-w-4xl mx-auto pt-1">
-            <!-- Dynamic sub-tabs for CSAT / Essay -->
+          <div id="subproblem-tabs-container" class="hidden w-full max-w-4xl mx-auto pt-2">
+            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-2 sm:p-2.5 shadow-xl">
+              <div class="flex items-center justify-between px-2 pb-2 mb-1.5 border-b border-slate-800/80">
+                <span class="text-xs font-black text-slate-200 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                  고3·수능 킬러 &amp; 수리논술 기출 도해 5선
+                </span>
+                <span class="text-[11px] font-bold text-indigo-400 bg-indigo-950/80 border border-indigo-500/30 px-2.5 py-0.5 rounded-full">
+                  실시간 수식 번역
+                </span>
+              </div>
+              <div id="csat-sub-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-1.5">
+                <!-- Dynamic sub-tabs for CSAT / Essay -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2077,7 +2090,7 @@
         socratic: '지름에 대한 원주각 90°로 수직 내적 0을 만들고, 벡터의 시점을 원의 중심으로 통일하는 순간 복잡한 기하 벡터가 삼각비 계산으로 종결됩니다.',
         svg: `<svg viewBox="0 0 360 260" class="w-full h-auto max-h-[280px]">
           <rect width="360" height="260" fill="#FFFFFF" rx="8" />
-          <circle cx="180" cy="130" r="85" fill="#F8FAFC" stroke="#64748B" stroke-width="2" />
+          <circle cx="180" cy="130" r="85" fill="none" stroke="#64748B" stroke-width="2" />
           <line x1="95" y1="130" x2="265" y2="130" stroke="#64748B" stroke-width="1.8" />
           <circle cx="180" cy="130" r="3.5" fill="#64748B" />
           <text x="180" y="148" font-size="11" font-weight="bold" fill="#64748B" text-anchor="middle">O</text>
@@ -2165,11 +2178,11 @@
     ];
 
     const CSAT_SUB_ITEMS = [
-      { id: 'csat_22', label: '[2026 수능 22번] 로그·지수 역함수 대칭' },
-      { id: 'csat_29', label: '[2026 수능 확통 29번] 정규분포 근사' },
-      { id: 'csat_30m', label: '[2026 수능 미적 30번] 역함수 접선' },
-      { id: 'csat_30g', label: '[2026 수능 기하 30번] 원과 벡터 내적' },
-      { id: 'essay_hanyang', label: '[수리논술] 삼각함수 덧셈·정사영' }
+      { id: 'csat_22', tag: '[2026 수능 22번]', title: '로그·지수 역함수 대칭', label: '[2026 수능 22번] 로그·지수 역함수 대칭' },
+      { id: 'csat_29', tag: '[2026 수능 확통 29번]', title: '정규분포 근사', label: '[2026 수능 확통 29번] 정규분포 근사' },
+      { id: 'csat_30m', tag: '[2026 수능 미적 30번]', title: '역함수 접선', label: '[2026 수능 미적 30번] 역함수 접선' },
+      { id: 'csat_30g', tag: '[2026 수능 기하 30번]', title: '원과 벡터 내적', label: '[2026 수능 기하 30번] 원과 벡터 내적' },
+      { id: 'essay_hanyang', tag: '[수리논술]', title: '삼각함수 덧셈·정사영', label: '[수리논술] 삼각함수 덧셈·정사영' }
     ];
 
     let currentSelectedGrade = 'high_2';
@@ -2208,13 +2221,17 @@
     }
 
     function renderCsatSubTabs(activeSubId) {
-      const subContainer = document.getElementById('subproblem-tabs-container');
-      if (!subContainer) return;
-      subContainer.innerHTML = CSAT_SUB_ITEMS.map(item => `
-        <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${item.id === activeSubId ? 'bg-indigo-600 text-white shadow font-black' : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'}">
-          ${item.label}
-        </button>
-      `).join('');
+      const subGrid = document.getElementById('csat-sub-grid');
+      if (!subGrid) return;
+      subGrid.innerHTML = CSAT_SUB_ITEMS.map(item => {
+        const isActive = item.id === activeSubId;
+        return `
+          <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="w-full flex items-center justify-between sm:justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition text-left sm:text-center ${isActive ? 'bg-indigo-600 text-white shadow-lg font-black border border-indigo-400' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}">
+            <span class="font-extrabold text-[11px] ${isActive ? 'text-indigo-100' : 'text-indigo-400'} shrink-0">${item.tag}</span>
+            <span class="truncate">${item.title}</span>
+          </button>
+        `;
+      }).join('');
     }
 
     function switchDemoCase(caseId) {
@@ -2226,13 +2243,11 @@
       if (currentSelectedGrade === 'high_3') {
         CSAT_SUB_ITEMS.forEach(item => {
           const btn = document.getElementById(`sub-btn-${item.id}`);
-          if (item.id === caseId) {
-            btn?.classList.add('bg-indigo-600', 'text-white', 'shadow', 'font-black');
-            btn?.classList.remove('bg-slate-900', 'text-slate-400');
-          } else {
-            btn?.classList.remove('bg-indigo-600', 'text-white', 'shadow', 'font-black');
-            btn?.classList.add('bg-slate-900', 'text-slate-400');
-          }
+          if (!btn) return;
+          const isActive = item.id === caseId;
+          btn.className = `w-full flex items-center justify-between sm:justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition text-left sm:text-center ${isActive ? 'bg-indigo-600 text-white shadow-lg font-black border border-indigo-400' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}`;
+          const tagSpan = btn.querySelector('span:first-child');
+          if (tagSpan) tagSpan.className = `font-extrabold text-[11px] ${isActive ? 'text-indigo-100' : 'text-indigo-400'} shrink-0`;
         });
       }
 
