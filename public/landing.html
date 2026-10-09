@@ -19,6 +19,7 @@
   <!-- KaTeX for crisp mathematical typography -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
   <!-- Toss Payments V1 SDK -->
   <script src="https://js.tosspayments.com/v1/payment"></script>
@@ -27,7 +28,11 @@
 
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-    * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+    * { 
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; 
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
     
     html { scroll-behavior: smooth; }
     .glow-indigo { box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35); }
@@ -110,17 +115,17 @@
       </div>
 
       <!-- Main Copy -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.2]">
-        외계어 같은 수식을 일상의 언어로,<br />
-        <span class="bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent">
-          살아 움직이는 그래프로 증명하는 AI 수학 혁명
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.3] break-keep max-w-4xl mx-auto">
+        <span class="block">외계어 같은 수식을 일상의 언어로 번역하고,</span>
+        <span class="bg-gradient-to-r from-indigo-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent block mt-2">
+          살아 움직이는 그래프로 증명하는 수학
         </span>
       </h1>
 
-      <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        단순히 정답만 긁어주는 퀴즈 앱은 이제 끝났습니다.<br class="hidden sm:inline" />
-        대치·분당 일선 학원 재원생들이 먼저 검증한 <strong>4대 오답 원인 분석</strong>과<br class="hidden sm:inline" />
-        답을 알려주지 않고 스스로 깨우치게 하는 <strong>1:1 소크라테스 AI 튜터</strong>를 지금 만나보세요.
+      <p class="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed break-keep">
+        <strong class="text-white">비싼 컨텐츠 양치기와 테크닉 암기는 수학 공부가 아닙니다.</strong><br class="hidden sm:inline" />
+        수학은 출제자의 생각을 담은 '언어'일 뿐입니다. 출제자가 요구하는 조건이 해석되면 어떤 문제든 스스로 풀 수 있습니다.<br class="hidden sm:inline" />
+        오래, 많이 공부하는 것이 정답이라는 사교육의 착각을 깨고, 가장 적은 비용과 시간으로 고정 100점에 도달하세요.
       </p>
 
       <!-- Hero CTA -->
@@ -154,6 +159,30 @@
           <div class="text-[11px] text-slate-400 mt-0.5 font-medium">원생 체감 만족도</div>
         </div>
       </div>
+
+      <!-- Educational Manifesto Card -->
+      <div class="max-w-4xl mx-auto mt-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-950/80 via-slate-900 to-emerald-950/80 border border-indigo-500/30 text-left space-y-4 shadow-2xl break-keep">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-black uppercase tracking-wider">
+            ReadMath 교육 선언문
+          </span>
+          <span class="text-xs text-slate-400 font-bold">진짜 수학 공부는 비용과 시간이 거의 들지 않아야 정상입니다</span>
+        </div>
+        <h3 class="text-lg sm:text-2xl font-black text-white leading-snug">
+          "비싼 컨텐츠 양치기와 테크닉 암기는 수학 공부가 아닙니다.<br class="hidden sm:inline" />
+          수학은 언어일 뿐입니다. 출제자의 의도가 해석되면 어떤 문제든 풀 수 있습니다."
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-slate-300 leading-relaxed border-t border-slate-800/80">
+          <div>
+            <p class="font-bold text-rose-400 mb-1">❌ 사교육이 만든 잘못된 착각</p>
+            <p>무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
+          </div>
+          <div>
+            <p class="font-bold text-emerald-400 mb-1">✓ ReadMath가 증명하는 진실</p>
+            <p>수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -162,13 +191,13 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
       <div class="text-center space-y-3">
         <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">WHY READMATH?</span>
-        <h2 class="text-2xl sm:text-4xl font-black text-white">
-          "학생의 타고난 '능력' 문제가 아닙니다.<br class="sm:hidden" />
-          <span class="text-indigo-400">출제자가 무엇을 원하는지</span> 보이지 않았을 뿐입니다."
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug break-keep max-w-4xl mx-auto">
+          <span class="block">"학생의 타고난 '능력' 문제가 아닙니다.</span>
+          <span class="text-indigo-400 block mt-1.5">출제자가 진정으로 원하는 것이 무엇인지 몰랐을 뿐입니다."</span>
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-xs sm:text-sm text-slate-300 max-w-3xl mx-auto leading-relaxed break-keep pt-1">
           시험을 잘 보는 사람과 그렇지 않은 사람의 차이는 '이해력'이나 '독해력' 같은 추상적인 능력이 아닙니다.<br class="hidden sm:inline" />
-          <strong>"문제를 만든 출제자가 이 조건과 식을 통해 무엇을 원했는가?"</strong>를 간파하느냐의 차이일 뿐입니다.<br class="hidden sm:inline" />
+          <strong>"문제를 만든 출제자가 이 조건과 식을 통해 진정으로 원하는 것이 무엇인가?"</strong>를 간파하느냐의 차이일 뿐입니다.<br class="hidden sm:inline" />
           ReadMath는 출제자가 문제 속에 숨겨둔 의도와 설계도를 명확하게 해체하여 보여줍니다.
         </p>
       </div>
@@ -247,13 +276,13 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div class="space-y-5">
         <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">SOCRATIC AI TUTOR</span>
-        <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">
-          답만 툭 던져주는 AI는<br />
-          출제자의 의도를 읽는 눈을 가립니다.
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug break-keep">
+          <span class="block">답만 툭 던져주는 AI는</span>
+          <span class="text-emerald-400 block mt-1.5">출제자의 의도를 가립니다.</span>
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          대치동 1타 강사의 과외 방식을 그대로 이식했습니다. 
-          ReadMath 튜터는 절대 답을 바로 말해주지 않습니다.
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed break-keep">
+          대치동 1타 강사의 과외 방식을 그대로 이식했습니다.<br class="hidden sm:inline" />
+          ReadMath 튜터는 절대 답을 바로 말해주지 않습니다.<br class="hidden sm:inline" />
           <strong>"여기서 x가 2로 갈 때 분모가 0이 되면, 출제자는 분자에 어떤 조건을 요구하고 있을까?"</strong>와 같은 
           단계적 발문으로 출제자가 숨겨놓은 출제 의도와 필연적 접근법을 학생 스스로 발견하게 만듭니다.
         </p>
@@ -287,30 +316,30 @@
           <!-- Student -->
           <div class="flex items-start gap-2.5">
             <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200">
+            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200 break-keep">
               선생님, 삼차함수 접선 기울기가 9라고 하는데 접점 x좌표를 어떻게 찾나요?
             </div>
           </div>
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-indigo-950/70 border border-indigo-500/30 p-3 rounded-2xl rounded-tr-sm text-indigo-100">
-              좋은 질문이야! 곡선 위의 한 점에서 **접선의 기울기**는 수학적으로 무엇을 의미할까? 
-              함수 $f(x)$를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
+            <div class="bg-indigo-950/70 border border-indigo-500/30 p-3 rounded-2xl rounded-tr-sm text-indigo-100 break-keep">
+              좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-white font-extrabold underline decoration-indigo-400 underline-offset-4">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
+              함수 <span class="font-serif italic font-bold text-indigo-200 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
             </div>
           </div>
           <!-- Student -->
           <div class="flex items-start gap-2.5">
             <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200">
-              아! 미분해서 $f'(x) = 9$ 라고 두면 되나요?
+            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200 break-keep">
+              아! 미분해서 <span class="font-serif italic font-bold text-white tracking-wide">f'(x) = 9</span> 라고 두면 되나요?
             </div>
           </div>
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-emerald-950/70 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-sm text-emerald-100">
-              정답! 바로 그거야! 그럼 $f'(x) = 3x^2 - 3 = 9$ 가 되니까 $x^2 = 4$ 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
+            <div class="bg-emerald-950/70 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-sm text-emerald-100 break-keep">
+              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
           </div>
         </div>

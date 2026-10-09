@@ -162,6 +162,23 @@ if (solutionContainerMatch) {
   }
 }
 
+// 1.5 Landing Page Zero-Exposed LaTeX & Raw Markdown Armor
+const LANDING_HTML_PATH = path.join(ROOT_DIR, 'landing.html');
+if (fs.existsSync(LANDING_HTML_PATH)) {
+  const landingRaw = fs.readFileSync(LANDING_HTML_PATH, 'utf8');
+  const landingClean = landingRaw.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                                 .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                                 .replace(/<!--[\s\S]*?-->/g, '');
+  const landingVisible = landingClean.replace(/<[^>]+>/g, ' ');
+  
+  if (/\$[a-zA-Z0-9'_\^=\-\+\s]+\$/.test(landingVisible)) {
+    failGate(1, 'Landing Page Mathematical Armor', 'Raw unrendered math dollar ($) found in landing page visible text!');
+  }
+  if (/\*\*[^*]+\*\*/.test(landingVisible)) {
+    failGate(1, 'Landing Page Markdown Armor', 'Raw unrendered markdown asterisks (**) found in landing page visible text!');
+  }
+}
+
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
   'Zero developer jargon (Gemini, API, AI Studio, RCA, B2B, 수식 모델링, 해석기하) completely purged from user UI',
@@ -169,7 +186,8 @@ passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'Zero duplicate emoji spam verified',
   'Cache-Busting & Anti-Stale Meta Headers verified (no-cache, no-store, Pragma, Expires: 0)',
   'Service Worker unregister/purge guard verified',
-  'Zero intrusive floating zoom badges inside #solution-svg-container verified'
+  'Zero intrusive floating zoom badges inside #solution-svg-container verified',
+  'Landing page zero unrendered LaTeX dollars ($) and zero raw markdown asterisks (**) verified'
 ]);
 
 // ==============================================================================
