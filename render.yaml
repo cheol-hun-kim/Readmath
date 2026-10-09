@@ -16,8 +16,11 @@ services:
         value: "0"
     routes:
       - type: rewrite
-        source: /landing
-        destination: /landing.html
+        source: /app
+        destination: /app.html
       - type: rewrite
         source: /admin
         destination: /admin.html
+      - type: rewrite
+        source: /landing
+        destination: /index.html

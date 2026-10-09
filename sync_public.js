@@ -1,5 +1,6 @@
 const fs = require('fs');
 
+// 1. Process preview.html (Web App)
 const previewContent = fs.readFileSync('preview.html', 'utf8');
 
 const headPwaSection = `  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -20,27 +21,33 @@ const previewHeadTarget = `  <meta name="viewport" content="width=device-width, 
   <title>ReadMath (리드매스) - 수학은 해석의 대상이다!</title>`;
 
 // Replace with either CRLF or LF matching
-let publicContent;
+let appContent;
 if (previewContent.includes(previewHeadTarget)) {
-  publicContent = previewContent.replace(previewHeadTarget, headPwaSection);
+  appContent = previewContent.replace(previewHeadTarget, headPwaSection);
 } else {
   // Normalize newline
   const normPreview = previewContent.replace(/\r\n/g, '\n');
   const normTarget = previewHeadTarget.replace(/\r\n/g, '\n');
   const normHead = headPwaSection.replace(/\r\n/g, '\n');
-  publicContent = normPreview.replace(normTarget, normHead);
+  appContent = normPreview.replace(normTarget, normHead);
 }
 
-fs.writeFileSync('public/index.html', publicContent, 'utf8');
-console.log('✓ Successfully synchronized preview.html -> public/index.html with PWA & OpenGraph headers!');
+// Sync App to public/app.html & public/preview.html
+fs.writeFileSync('public/app.html', appContent, 'utf8');
+fs.writeFileSync('public/preview.html', appContent, 'utf8');
+console.log('✓ Successfully synchronized preview.html -> public/app.html & public/preview.html!');
 
+// 2. Process landing.html (Brand Homepage) -> public/index.html & public/landing.html
+if (fs.existsSync('landing.html')) {
+  const landingContent = fs.readFileSync('landing.html', 'utf8');
+  fs.writeFileSync('public/index.html', landingContent, 'utf8');
+  fs.writeFileSync('public/landing.html', landingContent, 'utf8');
+  console.log('✓ Successfully synchronized landing.html -> public/index.html (Root Homepage) & public/landing.html!');
+}
+
+// 3. Process admin.html -> public/admin.html
 if (fs.existsSync('admin.html')) {
   fs.copyFileSync('admin.html', 'public/admin.html');
   console.log('✓ Successfully synchronized admin.html -> public/admin.html!');
-}
-
-if (fs.existsSync('landing.html')) {
-  fs.copyFileSync('landing.html', 'public/landing.html');
-  console.log('✓ Successfully synchronized landing.html -> public/landing.html!');
 }
 

@@ -63,7 +63,7 @@
   <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <!-- Logo -->
-      <a href="/" onclick="event.preventDefault(); openApp();" class="flex items-center gap-2.5 group">
+      <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-2.5 group">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-emerald-400 p-0.5 shadow-md shadow-indigo-600/30 group-hover:scale-105 transition">
           <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
             <i data-lucide="compass" class="w-5 h-5 text-indigo-400"></i>
@@ -1208,12 +1208,12 @@
     function openApp() {
       if (window.location.protocol === 'file:') {
         if (window.location.pathname.includes('/public/')) {
-          window.location.href = 'index.html';
+          window.location.href = 'app.html';
         } else {
           window.location.href = 'preview.html';
         }
       } else {
-        window.location.href = '/';
+        window.location.href = '/app';
       }
     }
 
