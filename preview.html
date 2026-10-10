@@ -10230,6 +10230,10 @@
         safeSaveUserHistory(userSolvedHistory);
       }
 
+      if (typeof logContentAccessEvent === 'function') {
+        logContentAccessEvent('VIEW_SOLUTION', String(id), data ? data.title : '수학 문항 해설');
+      }
+
       // Ensure data.diagrams exists
       if (!data.diagrams || data.diagrams.length === 0) {
         if (data.svg_diagram) {
@@ -13347,9 +13351,130 @@
         throwOnError: false
       });
 
+      if (typeof logContentAccessEvent === 'function') {
+        logContentAccessEvent('PRINT_WORKSHEET', selectedIds.join(','), 'AI 쌍둥이 및 기출 클리닉 시험지 인쇄/PDF');
+      }
+
       setTimeout(() => {
         window.print();
       }, 300);
+    }
+
+    // ============================================================================
+    // INFRASTRUCTURE GUARD: CS CHATBOT SDK, AUDIT LOGGING & REFUND DEFENSE
+    // ============================================================================
+
+    // 1. Content Access Telemetry Logger (Refund Defense & Analytics)
+    function logContentAccessEvent(actionType, contentId, contentTitle) {
+      const uid = (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.name)
+        ? studentProfile.name.trim()
+        : (localStorage.getItem('readmath_guest_uuid') || 'guest_' + Math.random().toString(36).substring(2, 9));
+
+      if (!localStorage.getItem('readmath_guest_uuid') && (!studentProfile || !studentProfile.name)) {
+        localStorage.setItem('readmath_guest_uuid', uid);
+      }
+
+      const payload = {
+        user_id: uid,
+        action_type: actionType,
+        content_id: String(contentId || ''),
+        content_title: contentTitle || ''
+      };
+
+      try {
+        fetch('https://palin-os.onrender.com/api/infra/content-access/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    // 2. Refund Defense Status Checker (Electronic Commerce Act Art 17-2-5)
+    async function checkRefundDefenseEligibility(onComplete) {
+      const uid = (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.name)
+        ? studentProfile.name.trim()
+        : (localStorage.getItem('readmath_guest_uuid') || '');
+
+      if (!uid) {
+        if (onComplete) onComplete({ eligible: true, reason: '게스트 이용자' });
+        return;
+      }
+      try {
+        const resp = await fetch('https://palin-os.onrender.com/api/infra/subscription/refund-check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: uid, max_trial_views: 3 })
+        });
+        const res = await resp.json().catch(() => ({ eligible: true }));
+        if (onComplete) onComplete(res);
+      } catch (err) {
+        if (onComplete) onComplete({ eligible: true, reason: '네트워크 연결 상태로 기본 처리' });
+      }
+    }
+
+    // 3. ChannelTalk (채널톡) CS SDK Initialization & User Metadata Sync
+    function initChannelTalkSDK() {
+      (function() {
+        var w = window;
+        if (w.ChannelIO) {
+          return w.console.error("ChannelIO script included twice.");
+        }
+        var ch = function() {
+          ch.c(arguments);
+        };
+        ch.q = [];
+        ch.c = function(args) {
+          ch.q.push(args);
+        };
+        w.ChannelIO = ch;
+        function l() {
+          if (w.ChannelIOInitialized) {
+            return;
+          }
+          w.ChannelIOInitialized = true;
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://cdn.channel.io/plugin/ch-plugin-web.js";
+          var x = document.getElementsByTagName("script")[0];
+          if (x.parentNode) {
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+        if (document.readyState === "complete") {
+          l();
+        } else {
+          w.addEventListener("DOMContentLoaded", l);
+          w.addEventListener("load", l);
+        }
+      })();
+
+      const memberId = (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.phone)
+        ? studentProfile.phone.replace(/[^0-9]/g, '')
+        : undefined;
+
+      const profileData = {
+        name: (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.name) || '게스트 학생',
+        grade: (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.grade) || currentGrade || '고1',
+        school: (typeof studentProfile !== 'undefined' && studentProfile && studentProfile.school) || '미설정',
+        subscription: (typeof isSubscribed === 'function' && isSubscribed()) ? 'PRO' : 'FREE'
+      };
+
+      if (window.ChannelIO) {
+        window.ChannelIO('boot', {
+          pluginKey: window.CHANNEL_TALK_PLUGIN_KEY || "READMATH_CHANNELTALK_KEY",
+          memberId: memberId,
+          profile: profileData
+        });
+      }
+    }
+
+    // Initialize ChannelTalk upon window load
+    if (typeof window !== 'undefined') {
+      window.addEventListener('DOMContentLoaded', () => {
+        initChannelTalkSDK();
+      });
     }
   </script>
 
