@@ -1552,7 +1552,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between gap-1 flex-nowrap">
           <div class="flex items-center gap-2 min-w-0 flex-1 pr-1">
-            <div onclick="handleLogoClick()" class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-600/40 text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5" title="ReadMath (제작자 3회 탭)">
+            <div onclick="handleLogoClick()" id="app-brand-logo-icon" class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-600/40 text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5" title="ReadMath (제작자 3회 탭)">
               <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
@@ -1563,10 +1563,13 @@
               </svg>
             </div>
             <div class="min-w-0 truncate">
-              <h2 class="text-sm font-black text-white leading-tight truncate">
-                <span>ReadMath</span>
-              </h2>
-              <p class="text-[9.5px] text-slate-400 leading-none truncate mt-0.5">수학은 해석의 대상이다</p>
+              <div class="flex items-center gap-1.5 truncate">
+                <h2 class="text-sm font-black text-white leading-tight truncate">
+                  <span id="app-brand-title">ReadMath</span>
+                </h2>
+                <span id="app-brand-vip-badge" class="hidden bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full shrink-0">재원생 전용</span>
+              </div>
+              <p id="app-brand-subtitle" class="text-[9.5px] text-slate-400 leading-none truncate mt-0.5">수학은 해석의 대상이다</p>
             </div>
           </div>
           
@@ -2246,6 +2249,28 @@
               <button onclick="setSchoolGrade('고2')" class="grade-btn grade-btn-inactive py-1.5 rounded-lg font-bold">고2</button>
               <button onclick="setSchoolGrade('고3/N수')" class="grade-btn grade-btn-inactive py-1.5 rounded-lg font-bold">고3/N수</button>
             </div>
+          </div>
+        </div>
+
+        <!-- Academy White-Label Branding Card (학원 전용 맞춤 브랜딩 카드) -->
+        <div id="settings-whitelabel-card" class="rounded-xl p-3.5 bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 min-w-0">
+              <div id="settings-wl-icon" class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30 shrink-0 font-black text-xs">
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h4 id="settings-wl-title" class="text-xs font-bold text-white truncate">소속 학원: ReadMath 기본</h4>
+                <p id="settings-wl-sub" class="text-[10.5px] text-slate-400 truncate">재원생 전용 VIP 수학 클리닉 연동 중</p>
+              </div>
+            </div>
+            <button onclick="resetWhiteLabelBrand()" id="btn-wl-reset" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2 py-1 rounded-lg border border-slate-700 transition shrink-0">
+              기본 복원
+            </button>
+          </div>
+          <div id="settings-wl-contact-box" class="hidden text-[10px] bg-slate-950/80 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+            <span class="text-slate-400">원장 직통 상담:</span>
+            <span id="settings-wl-phone" class="font-bold text-amber-300">010-0000-0000</span>
           </div>
         </div>
 
@@ -6990,6 +7015,7 @@
       }
 
       lucide.createIcons();
+      checkUrlForWhiteLabel();
       setSchoolGrade(currentGrade);
       setUserRole(userRole);
       setTheme(currentTheme);
@@ -11414,7 +11440,11 @@
       const diag = getCognitiveDiagnosisForProblem(targetPId);
       const probTitle = prob.topic || prob.title || '수능/내신 고난도 문항';
 
-      const briefingText = `[ReadMath 인지 DNA 진단 브리핑]\n\n학생 인지 분석: [${prob.curriculum_grade}] ${probTitle} 풀이 중 발생한 오답 원인을 역추적한 결과, [${diag.deficitTitle}] 단계의 개념 결손이 감지되었습니다.\n\n- 목표 문항: ${diag.targetTitle}\n- 역추적 결손 개념: ${diag.deficitTitle}\n- 오답 원인 분석: ${diag.deficitReason}\n- 1:1 처방 솔루션: ${diag.remedyTip}\n\n* ReadMath 인지 DNA 신경망 엔진으로 분석된 진단 결과입니다.`;
+      const wl = getWhiteLabelConfig();
+      const brandHeader = (wl && wl.is_whitelabel_active) ? `[${wl.academy_name} 인지 DNA 진단 브리핑]` : `[ReadMath 인지 DNA 진단 브리핑]`;
+      const brandFooter = (wl && wl.is_whitelabel_active) ? `* ${wl.academy_name} 수학 멘토 시스템으로 분석된 진단 결과입니다.` : `* ReadMath 인지 DNA 신경망 엔진으로 분석된 진단 결과입니다.`;
+
+      const briefingText = `${brandHeader}\n\n학생 인지 분석: [${prob.curriculum_grade}] ${probTitle} 풀이 중 발생한 오답 원인을 역추적한 결과, [${diag.deficitTitle}] 단계의 개념 결손이 감지되었습니다.\n\n- 목표 문항: ${diag.targetTitle}\n- 역추적 결손 개념: ${diag.deficitTitle}\n- 오답 원인 분석: ${diag.deficitReason}\n- 1:1 처방 솔루션: ${diag.remedyTip}\n\n${brandFooter}`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(briefingText).catch(() => {});
@@ -11422,6 +11452,239 @@
 
       alert(`[학부모 브리핑 요약 복사 완료]\n\n카카오톡 단톡방이나 학부모 상담 메시지로 전송할 수 있는 인지 DNA 브리핑이 복사되었습니다!\n\n${briefingText}`);
     }
+
+    // ================= WHITE-LABEL ACADEMY BRANDING ENGINE =================
+    const DEFAULT_BRAND_CONFIG = {
+      is_whitelabel_active: false,
+      academy_id: 'default',
+      academy_code: 'ILWON-2027',
+      academy_name: 'ReadMath',
+      academy_slogan: '수학은 해석의 대상이다',
+      director_name: '대표 원장',
+      director_phone: '010-0000-0000',
+      brand_theme: 'indigo',
+      logo_text: 'RM',
+      print_watermark: 'ReadMath 1:1 취약점 클리닉 교재'
+    };
+
+    function getWhiteLabelConfig() {
+      try {
+        const stored = localStorage.getItem('rootmath_whitelabel_config');
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+      return DEFAULT_BRAND_CONFIG;
+    }
+
+    function applyWhiteLabelBranding(config = null) {
+      const cfg = config || getWhiteLabelConfig();
+      const titleEl = document.getElementById('app-brand-title');
+      const subEl = document.getElementById('app-brand-subtitle');
+      const vipBadge = document.getElementById('app-brand-vip-badge');
+      const logoBox = document.getElementById('app-brand-logo-icon');
+
+      if (!cfg || !cfg.is_whitelabel_active) {
+        if (titleEl) titleEl.innerText = 'ReadMath';
+        if (subEl) subEl.innerText = '수학은 해석의 대상이다';
+        if (vipBadge) vipBadge.classList.add('hidden');
+        if (logoBox) {
+          logoBox.className = 'w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-600/40 text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5';
+          logoBox.innerHTML = `
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              <path d="M6 8h2" stroke="#E0E7FF" stroke-width="2"/>
+              <path d="M6 12h2" stroke="#E0E7FF" stroke-width="2"/>
+              <path d="M15 15c1-2 2-5 4-6" stroke="#FDE047" stroke-width="2.4"/>
+              <circle cx="19" cy="9" r="1.2" fill="#FDE047"/>
+            </svg>
+          `;
+        }
+        updateWhiteLabelSettingsCard();
+        return;
+      }
+
+      // 1. Transform Header
+      if (titleEl) titleEl.innerText = cfg.academy_name;
+      if (subEl) subEl.innerText = cfg.academy_slogan || '맞춤 수학 클리닉 시스템';
+      if (vipBadge) {
+        vipBadge.classList.remove('hidden');
+        vipBadge.innerText = `${cfg.academy_name} 인증`;
+      }
+
+      // Theme Gradient
+      let gradientClass = 'from-indigo-600 via-indigo-500 to-cyan-400 shadow-indigo-600/40';
+      if (cfg.brand_theme === 'navy_gold') {
+        gradientClass = 'from-blue-900 via-indigo-900 to-amber-500 shadow-amber-500/30';
+      } else if (cfg.brand_theme === 'emerald') {
+        gradientClass = 'from-emerald-700 via-teal-600 to-cyan-500 shadow-emerald-600/30';
+      } else if (cfg.brand_theme === 'crimson') {
+        gradientClass = 'from-rose-800 via-red-600 to-amber-500 shadow-rose-600/30';
+      } else if (cfg.brand_theme === 'royal_purple') {
+        gradientClass = 'from-purple-800 via-indigo-700 to-pink-500 shadow-purple-600/30';
+      }
+
+      if (logoBox) {
+        logoBox.className = `w-8 h-8 rounded-xl bg-gradient-to-tr ${gradientClass} flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1 font-black text-white tracking-wider border border-white/20`;
+        logoBox.innerText = cfg.logo_text || '학원';
+      }
+
+      // 2. Grant Academy Member Unlimited Quota
+      localStorage.setItem('rootmath_is_pro', 'true');
+      localStorage.setItem('rootmath_user_solves', '999999');
+      if (studentProfile) {
+        studentProfile.isAcademyMember = true;
+        studentProfile.connectedTeacherCode = cfg.academy_code || 'ACADEMY-PASS';
+        studentProfile.connectedTeacherName = `${cfg.academy_name} (${cfg.director_name || '원장'})`;
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+      }
+
+      updateWhiteLabelSettingsCard();
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updateWhiteLabelSettingsCard() {
+      const card = document.getElementById('settings-whitelabel-card');
+      const titleEl = document.getElementById('settings-wl-title');
+      const subEl = document.getElementById('settings-wl-sub');
+      const iconEl = document.getElementById('settings-wl-icon');
+      const resetBtn = document.getElementById('btn-wl-reset');
+      const contactBox = document.getElementById('settings-wl-contact-box');
+      const phoneEl = document.getElementById('settings-wl-phone');
+      if (!card) return;
+
+      const wl = getWhiteLabelConfig();
+      if (wl && wl.is_whitelabel_active) {
+        if (titleEl) titleEl.innerText = `소속 학원: ${wl.academy_name}`;
+        if (subEl) subEl.innerText = `${wl.academy_slogan || '맞춤 수학 클리닉 연동 중'}`;
+        if (resetBtn) resetBtn.classList.remove('hidden');
+        if (contactBox) contactBox.classList.remove('hidden');
+        if (phoneEl) phoneEl.innerText = wl.director_phone || '원장 직통';
+        if (iconEl) {
+          iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
+          iconEl.innerText = wl.logo_text || '학원';
+        }
+      } else {
+        if (titleEl) titleEl.innerText = '소속 학원: ReadMath 기본';
+        if (subEl) subEl.innerText = '공식 AI 수학 멘토 시스템';
+        if (resetBtn) resetBtn.classList.add('hidden');
+        if (contactBox) contactBox.classList.add('hidden');
+        if (iconEl) {
+          iconEl.className = 'w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30 shrink-0 font-black text-xs';
+          iconEl.innerHTML = '<i data-lucide="award" class="w-4 h-4"></i>';
+        }
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function resetWhiteLabelBrand() {
+      if (confirm('학원 전용 브랜드를 해제하고 기본 리드매스 모드로 복원하시겠습니까?')) {
+        localStorage.removeItem('rootmath_whitelabel_config');
+        applyWhiteLabelBranding(DEFAULT_BRAND_CONFIG);
+        alert('[기본 브랜드 복원 완료]\n리드매스 공식 기본 모드로 전환되었습니다.');
+      }
+    }
+
+    function checkUrlForWhiteLabel() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const academyCode = urlParams.get('academy') || urlParams.get('brand') || urlParams.get('code');
+        const customName = urlParams.get('name');
+
+        if (urlParams.get('reset') === 'true') {
+          localStorage.removeItem('rootmath_whitelabel_config');
+          applyWhiteLabelBranding(DEFAULT_BRAND_CONFIG);
+          return;
+        }
+
+        if (academyCode || customName) {
+          let matched = null;
+          if (academyCode && academyCode.toUpperCase().includes('OLYMPIAD')) {
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'olympiad',
+              academy_code: 'OLYMPIAD-2026',
+              academy_name: '대치 올림피아드 수학학원',
+              academy_slogan: '대치동 상위 1% 수학 클리닉 전문관',
+              director_name: '김도형 대표원장',
+              director_phone: '02-555-1234',
+              brand_theme: 'navy_gold',
+              logo_text: 'DO',
+              print_watermark: '대치 올림피아드 수학학원 공식 인증 교재'
+            };
+          } else if (academyCode && academyCode.toUpperCase().includes('MIRAE')) {
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'mirae',
+              academy_code: 'MIRAE-2026',
+              academy_name: '목동 미래탐구 수학',
+              academy_slogan: '개념 시각화 & 서술형 완벽 대비반',
+              director_name: '박미래 원장',
+              director_phone: '02-2640-5678',
+              brand_theme: 'emerald',
+              logo_text: 'MT',
+              print_watermark: '목동 미래탐구 수학 전문 클리닉 인증'
+            };
+          } else if (academyCode && academyCode.toUpperCase().includes('MEISTER')) {
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'meister',
+              academy_code: 'MEISTER-2026',
+              academy_name: '송도 마이스터 고등관',
+              academy_slogan: '수능 킬러 & 수리논술 핀포인트 처방',
+              director_name: '이수혁 총괄원장',
+              director_phone: '032-833-9988',
+              brand_theme: 'crimson',
+              logo_text: 'SM',
+              print_watermark: '송도 마이스터 고등관 전용 진단 처방서'
+            };
+          } else if (academyCode && academyCode.toUpperCase().includes('CS')) {
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'choisangwi',
+              academy_code: 'CS-2026',
+              academy_name: '서초 최상위 수리연구소',
+              academy_slogan: '인지 DNA 결손 완벽 극복 1:1 케어',
+              director_name: '정서초 수석연구원',
+              director_phone: '02-595-7766',
+              brand_theme: 'royal_purple',
+              logo_text: 'CS',
+              print_watermark: '서초 최상위 수리연구소 맞춤 교재'
+            };
+          } else if (customName) {
+            const decName = decodeURIComponent(customName);
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'custom',
+              academy_code: academyCode || 'CUSTOM-2026',
+              academy_name: decName,
+              academy_slogan: '맞춤형 AI 수학 클리닉 시스템',
+              director_name: '담당 원장',
+              director_phone: '010-0000-0000',
+              brand_theme: 'navy_gold',
+              logo_text: decName.substring(0, 2),
+              print_watermark: `${decName} 1:1 취약점 클리닉 교재`
+            };
+          }
+
+          if (matched) {
+            localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(matched));
+            applyWhiteLabelBranding(matched);
+          }
+        } else {
+          applyWhiteLabelBranding();
+        }
+      } catch (e) {
+        console.error('[White-Label] Init error:', e);
+      }
+    }
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'rootmath_whitelabel_config') {
+        applyWhiteLabelBranding();
+      }
+    });
 
     function openModal(id) {
       if (id === 'account-mgmt') {
@@ -12434,6 +12697,8 @@
     function updateUserProfileDisplay() {
       const isTeacher = userRole === 'teacher';
       const isIlwon = studentProfile && (studentProfile.isAcademyMember || studentProfile.connectedTeacherCode === 'ILWON-2027');
+      const wl = getWhiteLabelConfig();
+      const isWhiteLabel = wl && wl.is_whitelabel_active;
       
       const ind = document.getElementById('settings-role-indicator');
       const profileName = document.getElementById('profile-display-name');
@@ -12446,6 +12711,9 @@
         if (isTeacher) {
           ind.innerText = '선생님 / 학원 회원';
           ind.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+        } else if (isWhiteLabel) {
+          ind.innerText = `${wl.academy_name} 재원생 (무제한)`;
+          ind.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
         } else if (isIlwon) {
           ind.innerText = '일원 재원생 (무제한)';
           ind.className = 'text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
@@ -12463,6 +12731,9 @@
         if (isTeacher) {
           profileName.innerText = `${teacherProfile.name || '박지훈'} 선생님`;
           profileSub.innerText = `${teacherProfile.academy || '메가수학 학원'} • ${teacherProfile.plan || '선생님 프리미엄 14일 무료 체험'}`;
+        } else if (isWhiteLabel) {
+          profileName.innerText = studentProfile?.name ? `${studentProfile.name} 학생` : `${wl.academy_name} 인증 원생`;
+          profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • ${wl.academy_name} 정규 VIP 패스`;
         } else if (isIlwon) {
           profileName.innerText = studentProfile.name ? `${studentProfile.name} 학생` : '일원 재원생 (인증 완료)';
           profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • 일원 학원 무제한 패스`;
@@ -12474,6 +12745,7 @@
           profileSub.innerText = `${CURRICULUM_MATRIX[currentGrade]?.title || currentGrade} • 무료 3회 체험 모드`;
         }
       }
+      updateWhiteLabelSettingsCard();
 
       // 3. Account Management Modal Fields
       const acctBadge = document.getElementById('account-mgmt-status-badge');
@@ -13217,7 +13489,9 @@
       }
 
       const topicText = selTopic?.options[selTopic.selectedIndex]?.text || '이차함수 최대·최소';
-      const academyName = teacherProfile.academy || '리드매스 수학 연구소';
+      const wl = getWhiteLabelConfig();
+      const academyName = (wl && wl.is_whitelabel_active) ? wl.academy_name : (teacherProfile.academy || '리드매스 수학 연구소');
+      const watermarkText = (wl && wl.is_whitelabel_active) ? wl.print_watermark : '1:1 개별 맞춤 수학 클리닉';
 
       const prob = PROBLEMS_DB[1];
       const twin = prob.twin_problem;
@@ -13230,13 +13504,13 @@
           <div style="border-bottom: 3px double #000; padding-bottom: 12px; margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: flex-end;">
               <div>
-                <span style="font-size: 11px; font-weight: 800; color: #b45309; letter-spacing: 1px;">ROOTMATH TEACHER 1:1 CLINIC WORKBOOK</span>
+                <span style="font-size: 11px; font-weight: 800; color: #b45309; letter-spacing: 1px;">${watermarkText}</span>
                 <h1 style="font-size: 22px; font-weight: 900; margin: 3px 0 0 0; color: #000;">${academyName} 1:1 취약점 클리닉 교재</h1>
                 <h2 style="font-size: 13.5px; font-weight: 700; margin: 4px 0 0 0; color: #444;">${studentName} 학생 맞춤 [${topicText}] 집중 처방서</h2>
               </div>
               <div style="border: 2px solid #b45309; padding: 6px 14px; text-align: center; background: #fffbeb;">
                 <span style="font-size: 10px; font-weight: 800; display: block; color: #b45309;">1:1 개별 맞춤</span>
-                <span style="font-size: 16px; font-weight: 900; color: #000;">수학 클리닉</span>
+                <span style="font-size: 16px; font-weight: 900; color: #000;">${(wl && wl.is_whitelabel_active) ? '공식 인증' : '수학 클리닉'}</span>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-top: 12px; border-top: 1px solid #000; padding-top: 8px;">

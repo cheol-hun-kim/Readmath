@@ -246,8 +246,8 @@
         <span id="tab-badge-feedback" class="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-bold hidden">0</span>
       </button>
       <button onclick="switchTab('academy')" id="tab-btn-academy" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition shrink-0">
-        <i data-lucide="key" class="w-4 h-4"></i>
-        <span>3. 학원 코드 & 쿼터 정책</span>
+        <i data-lucide="palette" class="w-4 h-4"></i>
+        <span>3. 1분 화이트라벨링 & 학원 코드</span>
       </button>
       <button onclick="switchTab('system')" id="tab-btn-system" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition shrink-0">
         <i data-lucide="database" class="w-4 h-4"></i>
@@ -379,20 +379,221 @@
       </div>
     </section>
 
-    <!-- ================= TAB 3: ACADEMY PASS & QUOTA RULES ================= -->
-    <section id="view-tab-academy" class="hidden space-y-4">
+    <!-- ================= TAB 3: WHITE-LABEL ACADEMY BRANDING & PASS RULES ================= -->
+    <section id="view-tab-academy" class="hidden space-y-5">
       <div class="cockpit-card bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-6">
-        <div>
-          <h2 class="text-base font-black text-white flex items-center gap-2">
-            <i data-lucide="key" class="w-4 h-4 text-amber-400"></i>
-            학원 전용 고유 코드 및 이용권 통제 정책
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            정식 배포 전 비인가 학생의 무단 유포를 원천 차단하고, 일원학원 정규 재원생에게만 무제한 혜택을 부여합니다.
-          </p>
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                <i data-lucide="palette" class="w-4 h-4"></i>
+              </span>
+              <h2 class="text-base font-black text-white">학원 전용 1분 화이트라벨링 & 브랜딩 관제실</h2>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              원장님의 학원 로고, 테마 컬러, 슬로건을 설정하면 학생 모바일 앱, A4 인쇄 시험지, 학부모 카톡 브리핑이 원장님 학원 독자 브랜드로 100% 자동 전환됩니다.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="copyBrandedStudentUrl()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow transition">
+              <i data-lucide="link" class="w-3.5 h-3.5"></i>
+              <span>재원생 접속 링크 복사</span>
+            </button>
+            <button onclick="applyWhiteLabelToStudentApp()" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 shadow transition">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              <span>학생 앱 즉시 동기화</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Code Card -->
+        <!-- 1. Quick Preset Selector -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-300 block">학원 시그니처 프리셋 빠른 적용:</label>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-bold">
+            <button onclick="loadWhiteLabelPreset('olympiad')" class="p-2.5 rounded-xl border border-blue-500/40 bg-gradient-to-br from-blue-950/60 to-slate-900 text-blue-200 hover:border-blue-400 flex flex-col items-center gap-1 transition">
+              <span class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-[10px]">DO</span>
+              <span class="truncate">대치 올림피아드</span>
+              <span class="text-[9px] text-amber-400">Navy & Gold</span>
+            </button>
+            <button onclick="loadWhiteLabelPreset('mirae')" class="p-2.5 rounded-xl border border-emerald-500/40 bg-gradient-to-br from-emerald-950/60 to-slate-900 text-emerald-200 hover:border-emerald-400 flex flex-col items-center gap-1 transition">
+              <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-[10px]">MT</span>
+              <span class="truncate">목동 미래탐구</span>
+              <span class="text-[9px] text-emerald-300">Emerald</span>
+            </button>
+            <button onclick="loadWhiteLabelPreset('meister')" class="p-2.5 rounded-xl border border-rose-500/40 bg-gradient-to-br from-rose-950/60 to-slate-900 text-rose-200 hover:border-rose-400 flex flex-col items-center gap-1 transition">
+              <span class="w-6 h-6 rounded-lg bg-rose-600 text-white flex items-center justify-center text-[10px]">SM</span>
+              <span class="truncate">송도 마이스터</span>
+              <span class="text-[9px] text-rose-300">Crimson</span>
+            </button>
+            <button onclick="loadWhiteLabelPreset('choisangwi')" class="p-2.5 rounded-xl border border-purple-500/40 bg-gradient-to-br from-purple-950/60 to-slate-900 text-purple-200 hover:border-purple-400 flex flex-col items-center gap-1 transition">
+              <span class="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-[10px]">CS</span>
+              <span class="truncate">서초 최상위</span>
+              <span class="text-[9px] text-purple-300">Royal Purple</span>
+            </button>
+            <button onclick="loadWhiteLabelPreset('default')" class="p-2.5 rounded-xl border border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500 flex flex-col items-center gap-1 transition">
+              <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-[10px]">RM</span>
+              <span class="truncate">ReadMath 기본</span>
+              <span class="text-[9px] text-slate-400">Classic Indigo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Form Settings & Live Preview Split Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          
+          <!-- Left: Input Form (7 cols) -->
+          <div class="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-3.5">
+            <h3 class="text-xs font-extrabold text-slate-200 flex items-center gap-1.5">
+              <i data-lucide="sliders" class="w-3.5 h-3.5 text-indigo-400"></i>
+              학원 맞춤 브랜딩 세부 항목
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">학원 공식 명칭</label>
+                <input type="text" id="wl-input-name" value="대치 올림피아드 수학학원" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold text-xs focus:outline-none focus:border-amber-500" />
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">슬로건 / 서브 수식어</label>
+                <input type="text" id="wl-input-slogan" value="대치동 상위 1% 수학 클리닉 전문관" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-amber-500" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">엠블럼 약칭 (2자)</label>
+                <input type="text" id="wl-input-logo" maxlength="3" value="DO" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono font-black text-xs text-center focus:outline-none focus:border-amber-500" />
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">시그니처 테마</label>
+                <select id="wl-input-theme" onchange="updateWhiteLabelLivePreview()"
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-amber-500">
+                  <option value="navy_gold">Navy & Gold (대치동 프리미엄)</option>
+                  <option value="emerald">Emerald & Teal (목동 미래탐구)</option>
+                  <option value="crimson">Crimson & Amber (송도 마이스터)</option>
+                  <option value="royal_purple">Royal Purple (서초 최상위)</option>
+                  <option value="indigo">Classic Indigo (리드매스 기본)</option>
+                </select>
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">학원 전용 인증 코드</label>
+                <input type="text" id="wl-input-code" value="OLYMPIAD-2026" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-amber-300 font-mono font-black text-xs uppercase focus:outline-none focus:border-amber-500" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">대표 원장 / 담당자 성함</label>
+                <input type="text" id="wl-input-director" value="김도형 대표원장" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-amber-500" />
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block mb-1">원장 직통 상담 연락처</label>
+                <input type="text" id="wl-input-phone" value="02-555-1234" oninput="updateWhiteLabelLivePreview()"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-amber-500" />
+              </div>
+            </div>
+
+            <div class="text-xs">
+              <label class="font-bold text-slate-400 block mb-1">A4 인쇄물 상단 공식 워터마크</label>
+              <input type="text" id="wl-input-watermark" value="대치 올림피아드 수학학원 공식 인증 교재" oninput="updateWhiteLabelLivePreview()"
+                     class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-amber-500" />
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <button onclick="resetWhiteLabel()" class="text-xs text-slate-400 hover:text-slate-200 underline">
+                기본값으로 초기화
+              </button>
+              <div class="flex gap-2">
+                <button onclick="copyBrandedStudentUrl()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 flex items-center gap-1 transition">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i> 링크 복사
+                </button>
+                <button onclick="applyWhiteLabelToStudentApp()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1 shadow-md transition">
+                  <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> 학생 앱에 즉시 적용
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live 3-Way Preview (5 cols) -->
+          <div class="lg:col-span-5 space-y-3">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1">
+              <i data-lucide="eye" class="w-3.5 h-3.5 text-amber-400"></i>
+              실시간 3단 인터랙티브 라이브 뷰
+            </span>
+
+            <!-- Preview 1: Student Mobile App Header -->
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 space-y-1.5 shadow-md">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-800 pb-1">
+                <span>[1] 학생 모바일 앱 상단 헤더</span>
+                <span class="text-emerald-400 font-bold">실시간 연동</span>
+              </div>
+              <div class="bg-slate-900 rounded-xl p-2.5 flex items-center justify-between gap-2 border border-slate-800">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div id="prev-app-logo" class="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-900 via-indigo-900 to-amber-500 flex items-center justify-center text-white font-black text-xs shadow shrink-0 border border-white/20">
+                    DO
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1 truncate">
+                      <span id="prev-app-name" class="text-xs font-black text-white truncate">대치 올림피아드 수학학원</span>
+                      <span id="prev-app-badge" class="text-[8.5px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1 py-0.2 rounded-full font-bold shrink-0">재원생 전용</span>
+                    </div>
+                    <p id="prev-app-slogan" class="text-[9.5px] text-slate-400 truncate">대치동 상위 1% 수학 클리닉 전문관</p>
+                  </div>
+                </div>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold shrink-0">무제한</span>
+              </div>
+            </div>
+
+            <!-- Preview 2: A4 Printed Booklet Header -->
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 space-y-1.5 shadow-md">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-800 pb-1">
+                <span>[2] A4 인쇄 시험지 클리닉 표지</span>
+                <span class="text-amber-400 font-bold">인쇄물 공식 인증</span>
+              </div>
+              <div class="bg-white text-slate-900 rounded-xl p-2.5 space-y-1 text-[11px] border border-slate-300 shadow-inner">
+                <div class="flex justify-between items-start border-b border-black pb-1">
+                  <div>
+                    <span id="prev-print-watermark" class="text-[9px] font-extrabold text-amber-700 block tracking-wider">대치 올림피아드 수학학원 공식 인증 교재</span>
+                    <h4 id="prev-print-title" class="text-xs font-black text-black leading-tight">대치 올림피아드 수학학원 1:1 취약점 클리닉 교재</h4>
+                  </div>
+                  <span class="text-[8.5px] border border-amber-600 px-1.5 py-0.5 rounded bg-amber-50 font-bold text-amber-800 shrink-0">1:1 맞춤</span>
+                </div>
+                <div class="text-[9.5px] text-slate-600 flex justify-between pt-0.5">
+                  <span id="prev-print-student">학생명: 김민우 (고2)</span>
+                  <span id="prev-print-director">담당: 김도형 대표원장</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preview 3: KakaoTalk Parent Message -->
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 space-y-1.5 shadow-md">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-800 pb-1">
+                <span>[3] 학부모 상담용 카카오톡 알림톡/브리핑</span>
+                <span class="text-indigo-400 font-bold">1초 복사 전송</span>
+              </div>
+              <div class="bg-[#FEE500] text-slate-900 rounded-xl p-2.5 text-[10px] leading-relaxed shadow space-y-1 border border-amber-300">
+                <p id="prev-kakao-header" class="font-extrabold text-slate-950">[대치 올림피아드 수학학원 인지 DNA 진단 브리핑]</p>
+                <p class="text-slate-800">
+                  학생 인지 분석: 오답 원인을 역추적한 결과, [고1 합성·역함수의 성질과 y=x 대칭] 개념 결손이 감지되어 1:1 맞춤 처방을 완료하였습니다.
+                </p>
+                <p id="prev-kakao-footer" class="text-[9px] text-slate-600 border-t border-amber-400/50 pt-1">
+                  * 문의: 김도형 대표원장 (02-555-1234)
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 3. Existing Security Quota Card (Maintained & Synchronized) -->
         <div class="cockpit-subcard bg-slate-950 border border-amber-500/40 rounded-2xl p-5 space-y-4">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -412,7 +613,7 @@
           <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 flex items-center justify-between">
               <span class="text-xs text-slate-400">인증 코드</span>
-              <span class="text-lg font-black text-amber-300 font-mono tracking-widest" id="active-academy-code-display">ILWON-2027</span>
+              <span class="text-lg font-black text-amber-300 font-mono tracking-widest" id="active-academy-code-display">OLYMPIAD-2026</span>
             </div>
             <button onclick="copyAcademyCode()" class="px-4 py-3 bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow transition">
               <i data-lucide="copy" class="w-4 h-4"></i>
@@ -427,7 +628,7 @@
             </div>
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-1">
               <span class="font-bold text-amber-300 block">2. 고유 코드 등록자</span>
-              <p class="text-slate-400 text-[11px]">ILWON-2027 등록 즉시 영구 무제한 풀이 권한 부여</p>
+              <p class="text-slate-400 text-[11px]">학원 코드 등록 즉시 영구 무제한 풀이 권한 부여</p>
             </div>
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-1">
               <span class="font-bold text-red-300 block">3. 비인가 유포 방지</span>
@@ -435,6 +636,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -1063,6 +1265,7 @@
       // 3. Load & Render Data
       loadData();
       refreshDashboard();
+      initWhiteLabelStudio();
       lucide.createIcons();
     });
 
@@ -1406,6 +1609,9 @@
           btn?.classList.add('text-slate-400', 'hover:bg-slate-800');
         }
       });
+      if (tab === 'academy') {
+        updateWhiteLabelLivePreview();
+      }
       if (tab === 'questions') {
         fetchRemoteQuestions();
       }
@@ -1797,13 +2003,250 @@
       }
     }
 
+    // ================= WHITE-LABEL ACADEMY BRANDING ENGINE =================
+    const WHITE_LABEL_PRESETS = {
+      olympiad: {
+        is_whitelabel_active: true,
+        academy_id: 'olympiad',
+        academy_code: 'OLYMPIAD-2026',
+        academy_name: '대치 올림피아드 수학학원',
+        academy_slogan: '대치동 상위 1% 수학 클리닉 전문관',
+        director_name: '김도형 대표원장',
+        director_phone: '02-555-1234',
+        brand_theme: 'navy_gold',
+        logo_text: 'DO',
+        print_watermark: '대치 올림피아드 수학학원 공식 인증 교재'
+      },
+      mirae: {
+        is_whitelabel_active: true,
+        academy_id: 'mirae',
+        academy_code: 'MIRAE-2026',
+        academy_name: '목동 미래탐구 수학',
+        academy_slogan: '개념 시각화 & 서술형 완벽 대비반',
+        director_name: '박미래 원장',
+        director_phone: '02-2640-5678',
+        brand_theme: 'emerald',
+        logo_text: 'MT',
+        print_watermark: '목동 미래탐구 수학 전문 클리닉 인증'
+      },
+      meister: {
+        is_whitelabel_active: true,
+        academy_id: 'meister',
+        academy_code: 'MEISTER-2026',
+        academy_name: '송도 마이스터 고등관',
+        academy_slogan: '수능 킬러 & 수리논술 핀포인트 처방',
+        director_name: '이수혁 총괄원장',
+        director_phone: '032-833-9988',
+        brand_theme: 'crimson',
+        logo_text: 'SM',
+        print_watermark: '송도 마이스터 고등관 전용 진단 처방서'
+      },
+      choisangwi: {
+        is_whitelabel_active: true,
+        academy_id: 'choisangwi',
+        academy_code: 'CS-2026',
+        academy_name: '서초 최상위 수리연구소',
+        academy_slogan: '인지 DNA 결손 완벽 극복 1:1 케어',
+        director_name: '정서초 수석연구원',
+        director_phone: '02-595-7766',
+        brand_theme: 'royal_purple',
+        logo_text: 'CS',
+        print_watermark: '서초 최상위 수리연구소 맞춤 교재'
+      },
+      default: {
+        is_whitelabel_active: false,
+        academy_id: 'default',
+        academy_code: 'ILWON-2027',
+        academy_name: 'ReadMath',
+        academy_slogan: '수학은 해석의 대상이다',
+        director_name: '대표 원장',
+        director_phone: '010-0000-0000',
+        brand_theme: 'indigo',
+        logo_text: 'RM',
+        print_watermark: 'ReadMath 1:1 취약점 클리닉 교재'
+      }
+    };
+
+    function initWhiteLabelStudio() {
+      try {
+        const stored = localStorage.getItem('rootmath_whitelabel_config');
+        if (stored) {
+          const cfg = JSON.parse(stored);
+          const nameInput = document.getElementById('wl-input-name');
+          const sloganInput = document.getElementById('wl-input-slogan');
+          const logoInput = document.getElementById('wl-input-logo');
+          const themeInput = document.getElementById('wl-input-theme');
+          const codeInput = document.getElementById('wl-input-code');
+          const directorInput = document.getElementById('wl-input-director');
+          const phoneInput = document.getElementById('wl-input-phone');
+          const watermarkInput = document.getElementById('wl-input-watermark');
+
+          if (nameInput && cfg.academy_name) nameInput.value = cfg.academy_name;
+          if (sloganInput && cfg.academy_slogan) sloganInput.value = cfg.academy_slogan;
+          if (logoInput && cfg.logo_text) logoInput.value = cfg.logo_text;
+          if (themeInput && cfg.brand_theme) themeInput.value = cfg.brand_theme;
+          if (codeInput && cfg.academy_code) codeInput.value = cfg.academy_code;
+          if (directorInput && cfg.director_name) directorInput.value = cfg.director_name;
+          if (phoneInput && cfg.director_phone) phoneInput.value = cfg.director_phone;
+          if (watermarkInput && cfg.print_watermark) watermarkInput.value = cfg.print_watermark;
+        }
+      } catch (e) {}
+      updateWhiteLabelLivePreview();
+    }
+
+    function loadWhiteLabelPreset(presetKey) {
+      const preset = WHITE_LABEL_PRESETS[presetKey];
+      if (!preset) return;
+
+      const nameInput = document.getElementById('wl-input-name');
+      const sloganInput = document.getElementById('wl-input-slogan');
+      const logoInput = document.getElementById('wl-input-logo');
+      const themeInput = document.getElementById('wl-input-theme');
+      const codeInput = document.getElementById('wl-input-code');
+      const directorInput = document.getElementById('wl-input-director');
+      const phoneInput = document.getElementById('wl-input-phone');
+      const watermarkInput = document.getElementById('wl-input-watermark');
+
+      if (nameInput) nameInput.value = preset.academy_name;
+      if (sloganInput) sloganInput.value = preset.academy_slogan;
+      if (logoInput) logoInput.value = preset.logo_text;
+      if (themeInput) themeInput.value = preset.brand_theme;
+      if (codeInput) codeInput.value = preset.academy_code;
+      if (directorInput) directorInput.value = preset.director_name;
+      if (phoneInput) phoneInput.value = preset.director_phone;
+      if (watermarkInput) watermarkInput.value = preset.print_watermark;
+
+      updateWhiteLabelLivePreview();
+    }
+
+    function updateWhiteLabelLivePreview() {
+      const name = document.getElementById('wl-input-name')?.value?.trim() || 'ReadMath';
+      const slogan = document.getElementById('wl-input-slogan')?.value?.trim() || '수학은 해석의 대상이다';
+      const logo = document.getElementById('wl-input-logo')?.value?.trim() || 'RM';
+      const theme = document.getElementById('wl-input-theme')?.value || 'indigo';
+      const code = document.getElementById('wl-input-code')?.value?.trim() || 'ILWON-2027';
+      const director = document.getElementById('wl-input-director')?.value?.trim() || '대표 원장';
+      const phone = document.getElementById('wl-input-phone')?.value?.trim() || '010-0000-0000';
+      const watermark = document.getElementById('wl-input-watermark')?.value?.trim() || '1:1 맞춤 교재';
+
+      // 1. Mobile App Live Header
+      const prevLogo = document.getElementById('prev-app-logo');
+      const prevName = document.getElementById('prev-app-name');
+      const prevBadge = document.getElementById('prev-app-badge');
+      const prevSlogan = document.getElementById('prev-app-slogan');
+
+      let gradientClass = 'bg-gradient-to-tr from-indigo-700 to-indigo-900 border border-white/20';
+      if (theme === 'navy_gold') {
+        gradientClass = 'bg-gradient-to-tr from-blue-900 via-indigo-900 to-amber-500 border border-white/20';
+      } else if (theme === 'emerald') {
+        gradientClass = 'bg-gradient-to-tr from-emerald-900 via-teal-900 to-emerald-500 border border-white/20';
+      } else if (theme === 'crimson') {
+        gradientClass = 'bg-gradient-to-tr from-rose-950 via-red-900 to-amber-600 border border-white/20';
+      } else if (theme === 'royal_purple') {
+        gradientClass = 'bg-gradient-to-tr from-purple-950 via-indigo-900 to-pink-500 border border-white/20';
+      }
+
+      if (prevLogo) {
+        prevLogo.className = `w-8 h-8 rounded-xl ${gradientClass} flex items-center justify-center text-white font-black text-xs shadow shrink-0`;
+        prevLogo.innerText = logo;
+      }
+      if (prevName) prevName.innerText = name;
+      if (prevBadge) prevBadge.innerText = (name === 'ReadMath') ? '기본 버전' : `${name} 인증`;
+      if (prevSlogan) prevSlogan.innerText = slogan;
+
+      // 2. A4 Printable Booklet Preview
+      const prevWatermark = document.getElementById('prev-print-watermark');
+      const prevTitle = document.getElementById('prev-print-title');
+      const prevDirector = document.getElementById('prev-print-director');
+
+      if (prevWatermark) prevWatermark.innerText = watermark;
+      if (prevTitle) prevTitle.innerText = `${name} 1:1 취약점 클리닉 교재`;
+      if (prevDirector) prevDirector.innerText = `담당: ${director}`;
+
+      // 3. KakaoTalk Parent Message Preview
+      const prevKakaoHeader = document.getElementById('prev-kakao-header');
+      const prevKakaoFooter = document.getElementById('prev-kakao-footer');
+
+      if (prevKakaoHeader) prevKakaoHeader.innerText = `[${name} 인지 DNA 진단 브리핑]`;
+      if (prevKakaoFooter) prevKakaoFooter.innerText = `* 문의: ${director} (${phone})`;
+
+      // 4. Active Academy Code display
+      const activeCodeDisplay = document.getElementById('active-academy-code-display');
+      if (activeCodeDisplay) activeCodeDisplay.innerText = code;
+    }
+
+    function applyWhiteLabelToStudentApp() {
+      const name = document.getElementById('wl-input-name')?.value?.trim() || 'ReadMath';
+      const slogan = document.getElementById('wl-input-slogan')?.value?.trim() || '수학은 해석의 대상이다';
+      const logo = document.getElementById('wl-input-logo')?.value?.trim() || 'RM';
+      const theme = document.getElementById('wl-input-theme')?.value || 'indigo';
+      const code = document.getElementById('wl-input-code')?.value?.trim() || 'ILWON-2027';
+      const director = document.getElementById('wl-input-director')?.value?.trim() || '대표 원장';
+      const phone = document.getElementById('wl-input-phone')?.value?.trim() || '010-0000-0000';
+      const watermark = document.getElementById('wl-input-watermark')?.value?.trim() || '1:1 맞춤 교재';
+
+      const config = {
+        is_whitelabel_active: (name !== 'ReadMath'),
+        academy_id: (name === 'ReadMath') ? 'default' : ('academy_' + code.toLowerCase().replace(/[^a-z0-9]/g, '_')),
+        academy_code: code,
+        academy_name: name,
+        academy_slogan: slogan,
+        director_name: director,
+        director_phone: phone,
+        brand_theme: theme,
+        logo_text: logo,
+        print_watermark: watermark
+      };
+
+      localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(config));
+      alert(`[동기화 완료]\n${name} 맞춤 브랜딩 설정이 성공적으로 저장되었습니다.\n\n- 학원명: ${name}\n- 고유코드: ${code}\n- 시그니처 테마: ${theme}\n\n학생 모바일 앱 화면과 A4 인쇄물, 학부모 알림톡에 즉시 실시간 반영됩니다.`);
+    }
+
+    function copyBrandedStudentUrl() {
+      const name = document.getElementById('wl-input-name')?.value?.trim() || 'ReadMath';
+      const slogan = document.getElementById('wl-input-slogan')?.value?.trim() || '수학은 해석의 대상이다';
+      const logo = document.getElementById('wl-input-logo')?.value?.trim() || 'RM';
+      const theme = document.getElementById('wl-input-theme')?.value || 'indigo';
+      const code = document.getElementById('wl-input-code')?.value?.trim() || 'ILWON-2027';
+      const phone = document.getElementById('wl-input-phone')?.value?.trim() || '010-0000-0000';
+
+      const targetPath = window.location.pathname.includes('admin.html') 
+        ? window.location.pathname.replace('admin.html', 'preview.html')
+        : '/preview.html';
+      const baseUrl = `${window.location.origin}${targetPath}`;
+      const url = `${baseUrl}?academy=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}&logo=${encodeURIComponent(logo)}&theme=${encodeURIComponent(theme)}&slogan=${encodeURIComponent(slogan)}&phone=${encodeURIComponent(phone)}`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          alert(`[원클릭 전용 접속 링크 복사 완료]\n\n학생들이 이 링크로 접속하면 별도 가입 절차 없이 즉시 [${name}] 재원생 VIP 모드로 작동하며 무제한 풀이 쿼터가 자동 부여됩니다.\n\n복사된 링크:\n${url}`);
+        }).catch(() => {
+          alert(`[원클릭 전용 접속 링크]\n${url}`);
+        });
+      } else {
+        alert(`[원클릭 전용 접속 링크]\n${url}`);
+      }
+    }
+
+    function resetWhiteLabel() {
+      if (confirm('브랜딩 설정을 ReadMath 기본 상태로 초기화하시겠습니까?')) {
+        loadWhiteLabelPreset('default');
+        localStorage.removeItem('rootmath_whitelabel_config');
+        alert('기본 설정으로 복원되었습니다.');
+      }
+    }
+
     function copyAcademyCode() {
-      const code = 'ILWON-2027';
-      navigator.clipboard.writeText(code).then(() => {
-        alert(`[코드 복사 완료]\n학원 고유 코드 [${code}]가 클립보드에 복사되었습니다.\n재원생에게 전달하여 등록하도록 안내해주세요.`);
-      }).catch(() => {
+      const codeInput = document.getElementById('wl-input-code');
+      const code = codeInput ? codeInput.value.trim() : 'OLYMPIAD-2026';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(() => {
+          alert(`[코드 복사 완료]\n학원 고유 코드 [${code}]가 클립보드에 복사되었습니다.\n재원생에게 전달하여 등록하도록 안내해주세요.`);
+        }).catch(() => {
+          alert(`학원 고유 코드: ${code}`);
+        });
+      } else {
         alert(`학원 고유 코드: ${code}`);
-      });
+      }
     }
 
     // ================= SYSTEM & DATA =================
