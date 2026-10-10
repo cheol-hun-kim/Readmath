@@ -1330,98 +1330,107 @@
       if (!text || typeof text !== 'string') return text || '';
       let str = text.trim();
 
+      // 0. Space normalization for angle commands (inside or outside math): \anglePBC -> \angle PBC
+      str = str.replace(/\\angle\s*([A-Za-z]{1,4})\b/g, '\\angle $1');
+
       function tokenizeMath(s) {
         const tokens = [];
-        let inDollar = false;
+        let i = 0;
         let current = '';
-        for (let i = 0; i < s.length; i++) {
-          if (s[i] === '$') {
-            tokens.push({ text: current, isMath: inDollar });
-            current = '';
-            inDollar = !inDollar;
+        let inMath = false;
+        let delimiter = '';
+
+        while (i < s.length) {
+          if (!inMath) {
+            if (s[i] === '$' && s[i + 1] === '$') {
+              if (current) tokens.push({ text: current, isMath: false });
+              current = '';
+              inMath = true;
+              delimiter = '$$';
+              i += 2;
+            } else if (s[i] === '$') {
+              if (current) tokens.push({ text: current, isMath: false });
+              current = '';
+              inMath = true;
+              delimiter = '$';
+              i += 1;
+            } else {
+              current += s[i];
+              i += 1;
+            }
           } else {
-            current += s[i];
+            if (delimiter === '$$' && s[i] === '$' && s[i + 1] === '$') {
+              tokens.push({ text: current, isMath: true, isDisplay: true });
+              current = '';
+              inMath = false;
+              delimiter = '';
+              i += 2;
+            } else if (delimiter === '$' && s[i] === '$') {
+              tokens.push({ text: current, isMath: true, isDisplay: false });
+              current = '';
+              inMath = false;
+              delimiter = '';
+              i += 1;
+            } else {
+              current += s[i];
+              i += 1;
+            }
           }
         }
-        tokens.push({ text: current, isMath: inDollar });
+        if (current) tokens.push({ text: current, isMath: inMath, isDisplay: delimiter === '$$' });
         return tokens;
       }
 
       function replaceOutsideMath(s, regex, replacer) {
         const tokens = tokenizeMath(s);
         return tokens.map(token => {
-          if (token.isMath) return '$' + token.text + '$';
+          if (token.isMath) {
+            return (token.isDisplay ? '$$' : '$') + token.text + (token.isDisplay ? '$$' : '$');
+          }
           return token.text.replace(regex, replacer);
         }).join('');
       }
 
-      // 0. Sanitize LaTeX font modifier artifacts
-      str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*\{([^}]+)\}/g, '$1');
-      str = str.replace(/\\?(?:mathrm|mathbf|mathit|rm|bf|it)\s*([A-Z]{1,5})\b/g, '$1');
+      // 1. Pre-pass Cases outside math: Wrap whole \begin{cases}...\end{cases} in display math $$...$$
+      str = replaceOutsideMath(str, /(\\begin\{cases\}[\s\S]*?\\end\{cases\})/g, (m) => ' $$' + m.trim() + '$$ ');
 
-      // 0.1 Purge redundant logical quantifier inside Korean text
-      str = str.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]\s*\)/g, '$1');
+      // 2. Pre-pass Fractions outside math (to protect nested \sin, \cos etc.)
+      str = replaceOutsideMath(str, /(\\frac\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
 
-      // 0.2 Normalize raw \ne to \neq
-      str = str.replace(/\\ne\b/g, '\\neq');
+      // 3. Early Exit for Pure LaTeX/Math Strings without Korean
+      if (!str.includes('$')) {
+        const nonTextStr = str.replace(/\\text\{[^}]*\}/g, '');
+        const hasLatex = /\\[a-zA-Z]+/.test(str);
+        const hasKorean = /[가-힣]/.test(nonTextStr);
+        if (hasLatex && !hasKorean) {
+          const subqMatch = str.match(/^(\d+번\s*[:\.]?\s*)(.*)$/);
+          if (subqMatch) {
+            return subqMatch[1] + '$' + subqMatch[2].trim() + '$';
+          }
+          return '$' + str + '$';
+        }
+        if (/^[a-zA-Z0-9_\s\+\-\*\(\)]+\s*=\s*[-0-9\/\s\.\+\-\*\^\(\)]+$/.test(str) || /^-?[0-9]+(\/[0-9]+)?$/.test(str)) {
+          return '$' + str + '$';
+        }
+      }
 
-      // 0.3 Heal previously corrupted math strings
-      str = str.replace(/\\frac\{\\neq\s*f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)\s*\\neq\}/g, '\\frac{|f($1 - $2)|}');
-      str = str.replace(/\\neq\s*([a-zA-Z][a-zA-Z0-9_\(\)\^\+\-\*\/]*)\s*\\neq/g, '|$1|');
-      str = str.replace(/\(f\(([a-zA-Z0-9_\^]+)\)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, '(f($1) - $2)');
-      str = str.replace(/\(\s*\\neq\s*([0-9]+)\s*\)/g, '(-$1)');
-      str = str.replace(/\[\s*\\neq\s*([0-9]+)\s*\]/g, '[-$1]');
-      str = str.replace(/f\(([a-zA-Z0-9_\^]+)\s*\\neq\s*([a-zA-Z0-9_\^]+)\)/g, 'f($1 - $2)');
-
-      // 1. Precise Unicode Math Operator & Symbol Harmonizer
+      // 4. Unicode Math & Operator Replacements
       str = str.replace(/[−–—]/g, '-');
-      str = str.replace(/[∣|]/g, '|');
       str = str.replace(/[≠]/g, ' \\neq ');
       str = str.replace(/[≤≦]/g, ' \\le ');
       str = str.replace(/[≥≧]/g, ' \\ge ');
       str = str.replace(/[∈]/g, ' \\in ');
       str = str.replace(/[∉]/g, ' \\notin ');
       str = str.replace(/[±]/g, ' \\pm ');
-      str = str.replace(/[∓]/g, ' \\mp ');
       str = str.replace(/[×]/g, ' \\times ');
       str = str.replace(/[÷]/g, ' \\div ');
       str = str.replace(/[·•]/g, ' \\cdot ');
       str = str.replace(/[≈≒≅]/g, ' \\approx ');
       str = str.replace(/[≡]/g, ' \\equiv ');
       str = str.replace(/[∞]/g, ' \\infty ');
-      str = str.replace(/[√]/g, ' \\sqrt ');
-      str = str.replace(/[∠]/g, ' \\angle ');
-      str = str.replace(/[⊥]/g, ' \\perp ');
-      str = str.replace(/[∴]/g, ' \\therefore ');
-      str = str.replace(/[∵]/g, ' \\because ');
-      str = str.replace(/[∪]/g, ' \\cup ');
-      str = str.replace(/[∩]/g, ' \\cap ');
-      str = str.replace(/[⊂]/g, ' \\subset ');
-      str = str.replace(/[⊃]/g, ' \\supset ');
-      str = str.replace(/[∫]/g, ' \\int ');
-      str = str.replace(/[∑]/g, ' \\sum ');
-      str = str.replace(/[∂]/g, ' \\partial ');
       str = str.replace(/[∘]/g, ' \\circ ');
 
-      // Target ALL broken OCR / Quad / CJK / Radicals / Tofu characters:
-      str = str.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, ' \\neq ');
-      str = str.replace(/\\neq\s*\\neq/g, '\\neq');
-      str = str.replace(/\s*\\neq\s*/g, ' \\neq ');
-
-      // 1.1 Merge split math boundaries across \neq:
-      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
-        let trail = '';
-        if (p2.endsWith(')') && !p1.includes('(')) {
-          p2 = p2.slice(0, -1);
-          trail = ')';
-        }
-        return `$${p1.trim()} \\neq ${p2.trim()}$` + trail;
-      });
-      str = str.replace(/\$([^\$]+)\$\s*\\neq\s*\$([^\$]+)\$/g, (m, p1, p2) => {
-        return `$${p1.trim()} \\neq ${p2.trim()}$`;
-      });
-
-      // 1.2 Auto-wrap compound relation chains OUTSIDE math
+      // 5. Relations outside math
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*(?:=|\\neq|\\le|\\ge|<|>)\s*[a-zA-Z0-9_\(\)\^]+){2,})/g, (m) => {
         let p = m.trim();
         let trail = '';
@@ -1432,7 +1441,6 @@
         return '$' + p + '$' + trail;
       });
 
-      // 2. Wrap relations like f(2) \neq 2, f(4) \neq 0, x = 4
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*\\neq\s*([a-zA-Z0-9_\(\)\^]+)/g, (m, p1, p2) => {
         let trail = '';
         if (p2.endsWith(')') && !p1.includes('(')) {
@@ -1441,6 +1449,7 @@
         }
         return '$' + p1 + ' \\neq ' + p2 + '$' + trail;
       });
+
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*)\s*=\s*([0-9a-zA-Z_\-\+\/\^]+)/g, (m, p1, p2) => {
         let trail = '';
         if (p2.endsWith(')') && !p1.includes('(')) {
@@ -1449,31 +1458,46 @@
         }
         return '$' + p1 + ' = ' + p2 + '$' + trail;
       });
-      
-      // 3. Wrap options / fractions like (1/5)e, (4/5)e, (8/5)e, 1/e, 1/(2e)
+
       str = replaceOutsideMath(str, /\(([0-9]+)\/([0-9]+)\)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
       str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+)e\b/g, (m, a, b) => `$\\frac{${a}}{${b}}e$`);
       str = replaceOutsideMath(str, /\b([0-9]+)\/\(([0-9]+e?)\)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
       str = replaceOutsideMath(str, /\b([0-9]+)\/([0-9]+e?)\b/g, (m, a, b) => `$\\frac{${a}}{${b}}$`);
       str = replaceOutsideMath(str, /(^|[\s①②③④⑤\(\[])e([\s,.\)\]]|$)/g, '$1$e$$2');
 
-      // 4. Wrap limits e.g. lim_{x->0}
-      str = replaceOutsideMath(str, /\\?lim_\{([^}]+)\}/g, (m, sub) => '$\\lim_{' + sub.replace('->', '\\to ') + '}$');
+      // 6. Trig with Greek arguments outside math
+      str = replaceOutsideMath(str, /\b(cos|sin|tan)\s*(?:\\?(theta|alpha|beta|phi)|[θϕφ])/gi, (m, fn, grk) => {
+        let g = (grk || '').toLowerCase();
+        if (m.includes('φ') || m.includes('ϕ') || g === 'phi') g = 'phi';
+        else if (m.includes('θ') || g === 'theta') g = 'theta';
+        else if (m.includes('α') || g === 'alpha') g = 'alpha';
+        else if (m.includes('β') || g === 'beta') g = 'beta';
+        return ' $\\' + fn.toLowerCase() + '\\' + g + '$ ';
+      });
 
-      // 5. Standalone symbols & commands outside $
-      str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
+      // 7. Standalone LaTeX commands with braces outside math
+      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
+      str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\triangle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
+
+      // 8. Standalone symbols & relations outside math
+      str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|mp|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\\(alpha|beta|gamma|delta|theta|lambda|mu|pi|rho|sigma|tau|phi|omega)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\b(theta|alpha|beta|phi|gamma|delta|lambda|sigma|omega)\b/gi, (m) => ' $\\' + m.toLowerCase() + '$ ');
-      str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
-      str = replaceOutsideMath(str, /(\\(?:sin|cos|tan|log|ln|lim|sum|int)\s*(?:\\left\(|\()[^\n\r가-힣$]+?(?:\\right\)|\))[^\n\r가-힣$]*)/g, ' $$$1$$ ');
+      str = replaceOutsideMath(str, /[θ]/g, ' $\\theta$ ');
+      str = replaceOutsideMath(str, /[ϕφ]/g, ' $\\phi$ ');
+      str = replaceOutsideMath(str, /[α]/g, ' $\\alpha$ ');
+      str = replaceOutsideMath(str, /[β]/g, ' $\\beta$ ');
+      str = replaceOutsideMath(str, /[π]/g, ' $\\pi$ ');
 
-      // 6. Inviolable Safety Net: Any remaining backslash commands outside math
-      str = replaceOutsideMath(str, /(\\[a-zA-Z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})*)/g, (match) => {
+      // 9. Inviolable Safety Net: Any remaining backslash commands outside math
+      str = replaceOutsideMath(str, /(\\[a-zA-Z]+(?:\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})*)/g, (match) => {
         if (['\\n', '\\r', '\\t'].includes(match)) return match;
         return ' $' + match + '$ ';
       });
 
-      return str.replace(/\${3,}/g, '$$').replace(/\$\s*\$/g, ' ');
+      // 10. Clean redundant dollars (keep $$ intact, do not delete empty display math)
+      return str.replace(/\${3,}/g, () => '$$').replace(/\$\s+\$/g, ' ');
     }
 
     async function fetchRemoteUsers() {
