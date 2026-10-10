@@ -11401,11 +11401,21 @@
         if (isTarget) {
           circleColor = '#EF4444';
           strokeColor = '#FFFFFF';
-          pulseAnim = `<circle cx="${n.cx}" cy="${n.cy}" r="10" fill="none" stroke="#EF4444" stroke-width="1.8" opacity="0.6" class="animate-ping"/>`;
+          pulseAnim = `
+            <circle cx="${n.cx}" cy="${n.cy}" r="6.5" fill="none" stroke="#EF4444" stroke-width="1.8">
+              <animate attributeName="r" values="6.5; 13; 14" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.9; 0.2; 0" dur="2s" repeatCount="indefinite" />
+            </circle>
+          `;
         } else if (isDeficit) {
           circleColor = '#F59E0B';
           strokeColor = '#FDE047';
-          pulseAnim = `<circle cx="${n.cx}" cy="${n.cy}" r="9.5" fill="none" stroke="#F59E0B" stroke-width="1.8" opacity="0.8" class="animate-pulse"/>`;
+          pulseAnim = `
+            <circle cx="${n.cx}" cy="${n.cy}" r="6.5" fill="none" stroke="#F59E0B" stroke-width="1.8">
+              <animate attributeName="r" values="6.5; 11.5; 12" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.9; 0.3; 0" dur="2s" repeatCount="indefinite" />
+            </circle>
+          `;
         }
 
         let selectionHalo = '';
