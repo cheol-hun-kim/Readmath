@@ -16,6 +16,18 @@
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     }
+    /* Inviolable Math Presentation Armor: 100% Suppression of KaTeX Red Error Text */
+    .katex-error {
+      color: inherit !important;
+      background: transparent !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      border: none !important;
+      outline: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+    }
     /* Day Theme Overrides */
     body.theme-day {
       background-color: #F8FAFC !important;
@@ -1311,6 +1323,78 @@
       fetchRemoteQuestions();
     }
 
+    function stripMathDelimiters(text) {
+      if (!text || typeof text !== 'string') return text || '';
+      return text
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\^\{\\circ\}/g, '°')
+        .replace(/\^\\circ\b/g, '°')
+        .replace(/\^\{circ\}/g, '°')
+        .replace(/\^circ\b/g, '°')
+        .replace(/([0-9]+)\s*\^\s*circ\b/g, '$1°')
+        .replace(/([0-9]+)\s*\^?\s*\\circ\b/g, '$1°')
+        .replace(/\\circ\b/g, '°')
+        .replace(/\\angle\b/g, '∠')
+        .replace(/\\triangle\b/g, '△')
+        .replace(/\\overline\{([^}]*)\}/g, '$1')
+        .replace(/\\underline\{([^}]*)\}/g, '$1')
+        .replace(/\\vec\{([^}]*)\}/g, '$1')
+        .replace(/\\perp\b/g, '⊥')
+        .replace(/\\parallel\b/g, '∥')
+        .replace(/\\sim\b/g, '∽')
+        .replace(/\\equiv\b/g, '≡')
+        .replace(/\\approx\b/g, '≈')
+        .replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, '$1/$2')
+        .replace(/\\sqrt\{([^}]*)\}/g, '√$1')
+        .replace(/\\sqrt\[([0-9]+)\]\{([^}]*)\}/g, '^$1√$2')
+        .replace(/\\le(q)?\b/g, '≤')
+        .replace(/\\ge(q)?\b/g, '≥')
+        .replace(/\\ne(q)?\b/g, '≠')
+        .replace(/\\times\b/g, '×')
+        .replace(/\\div\b/g, '÷')
+        .replace(/\\cdot\b/g, '·')
+        .replace(/\\pm\b/g, '±')
+        .replace(/\\mp\b/g, '∓')
+        .replace(/\\infty\b/g, '∞')
+        .replace(/\\to\b/g, '→')
+        .replace(/\\alpha\b/g, 'α')
+        .replace(/\\beta\b/g, 'β')
+        .replace(/\\gamma\b/g, 'γ')
+        .replace(/\\delta\b/g, 'δ')
+        .replace(/\\theta\b/g, 'θ')
+        .replace(/\\lambda\b/g, 'λ')
+        .replace(/\\mu\b/g, 'μ')
+        .replace(/\\pi\b/g, 'π')
+        .replace(/\\sigma\b/g, 'σ')
+        .replace(/\\phi\b|\\varphi\b/g, 'φ')
+        .replace(/\\omega\b/g, 'ω')
+        .replace(/\$+/g, '')
+        .replace(/\\([a-zA-Z]+)/g, '$1')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Inviolable KaTeX Error Healer: Intercepts & Reconstructs any .katex-error nodes into clean Unicode math
+    function healKaTeXDomErrors(root) {
+      const container = root || document;
+      if (!container || typeof container.querySelectorAll !== 'function') return;
+      const errors = container.querySelectorAll('.katex-error');
+      errors.forEach(errEl => {
+        const raw = errEl.getAttribute('title') || errEl.textContent || '';
+        let formula = raw.replace(/^ParseError:\s*KaTeX parse error:[^:]*:\s*/i, '')
+                         .replace(/^KaTeX parse error:[^:]*:\s*/i, '')
+                         .trim();
+        const readable = (typeof stripMathDelimiters === 'function') 
+          ? stripMathDelimiters(formula) 
+          : formula.replace(/\\([a-zA-Z]+)/g, '$1');
+        const span = document.createElement('span');
+        span.className = 'math-healed-symbol font-sans font-medium text-slate-800 dark:text-slate-200 tracking-normal';
+        span.textContent = readable;
+        span.setAttribute('data-healed-math', 'true');
+        errEl.replaceWith(span);
+      });
+    }
+
     function renderAdminMath(targetEl) {
       if (!targetEl) return;
       if (window.renderMathInElement) {
@@ -1321,17 +1405,62 @@
           ],
           throwOnError: false
         });
+        healKaTeXDomErrors(targetEl);
       } else {
         setTimeout(() => renderAdminMath(targetEl), 200);
       }
+    }
+
+    // Global Inviolable DOM Guard: Immediately heals any .katex-error injected anywhere dynamically
+    if (typeof window !== 'undefined' && window.MutationObserver) {
+      const adminMathErrorObserver = new MutationObserver((mutations) => {
+        let hasError = false;
+        for (const m of mutations) {
+          if (m.addedNodes && m.addedNodes.length > 0) {
+            for (const node of m.addedNodes) {
+              if (node.nodeType === 1) {
+                if (node.classList && node.classList.contains('katex-error')) {
+                  hasError = true;
+                  break;
+                }
+                if (node.querySelector && node.querySelector('.katex-error')) {
+                  hasError = true;
+                  break;
+                }
+              }
+            }
+          }
+          if (hasError) break;
+        }
+        if (hasError) {
+          healKaTeXDomErrors(document.body);
+        }
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        if (document.body) {
+          adminMathErrorObserver.observe(document.body, { childList: true, subtree: true });
+        }
+      });
     }
 
     function autoFormatMathText(text) {
       if (!text || typeof text !== 'string') return text || '';
       let str = text.trim();
 
-      // 0. Space normalization for angle commands (inside or outside math): \anglePBC -> \angle PBC
-      str = str.replace(/\\angle\s*([A-Za-z]{1,4})\b/g, '\\angle $1');
+      // 0. Space normalization for control words (inside or outside math): \anglePBC -> \angle PBC, \sinX -> \sin X
+      str = str.replace(/\\(angle|triangle|perp|parallel|sin|cos|tan|log|ln|lim|det)\s*([A-Za-z]{1,4})\b/g, '\\$1 $2');
+
+      // 0.1 Auto-heal unclosed LaTeX environments
+      const commonEnvs = ['cases', 'aligned', 'matrix', 'pmatrix', 'bmatrix', 'vmatrix'];
+      commonEnvs.forEach(env => {
+        const openTag = '\\begin{' + env + '}';
+        const closeTag = '\\end{' + env + '}';
+        const openCount = (str.match(new RegExp('\\\\begin\\{' + env + '\\}', 'g')) || []).length;
+        const closeCount = (str.match(new RegExp('\\\\end\\{' + env + '\\}', 'g')) || []).length;
+        if (openCount > closeCount) {
+          str += ' ' + closeTag.repeat(openCount - closeCount);
+        }
+      });
 
       function tokenizeMath(s) {
         const tokens = [];
@@ -1391,11 +1520,13 @@
         }).join('');
       }
 
-      // 1. Pre-pass Cases outside math: Wrap whole \begin{cases}...\end{cases} in display math $$...$$
-      str = replaceOutsideMath(str, /(\\begin\{cases\}[\s\S]*?\\end\{cases\})/g, (m) => ' $$' + m.trim() + '$$ ');
+      // 1. Pre-pass Environments outside math: Wrap whole \begin{env}...\end{env} in display math $$...$$
+      str = replaceOutsideMath(str, /(\\begin\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\}[\s\S]*?\\end\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\})/g, (m) => ' $$' + m.trim() + '$$ ');
 
-      // 2. Pre-pass Fractions outside math (to protect nested \sin, \cos etc.)
+      // 2. Pre-pass Fractions, Roots, and Overlines outside math (to protect nested \sin, \cos etc.)
       str = replaceOutsideMath(str, /(\\frac\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
+      str = replaceOutsideMath(str, /(\\sqrt(?:\[[0-9]+\])?\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
+      str = replaceOutsideMath(str, /(\\overline\{[^{}]+\})/g, (m) => ' $' + m.trim() + '$ ');
 
       // 3. Early Exit for Pure LaTeX/Math Strings without Korean
       if (!str.includes('$')) {
