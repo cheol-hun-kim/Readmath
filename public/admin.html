@@ -77,6 +77,33 @@
     body.theme-day .text-white {
       color: #0F172A !important;
     }
+    .katex-display {
+      display: block !important;
+      margin: 0.6em 0 !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      padding: 4px 2px !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .katex-display::-webkit-scrollbar {
+      height: 3px !important;
+    }
+    .katex-display::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.4) !important;
+      border-radius: 9999px !important;
+    }
+    .math-content {
+      overflow-x: auto !important;
+      max-width: 100% !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+    @media (max-width: 640px) {
+      .katex-display {
+        font-size: 0.88em !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
@@ -1862,9 +1889,9 @@
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-1.5 py-0.5 rounded">${q.curriculum_grade || '공통수학'}</span>
                 <h4 class="text-xs font-bold text-white">${autoFormatMathText(q.problem_title || '질문 문제')}</h4>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60 math-content">
+              <div class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60 math-content overflow-x-auto max-w-full">
                 ${autoFormatMathText(q.problem_text || '문제 내용')}
-              </p>
+              </div>
             </div>
 
             ${q.final_answer ? `
