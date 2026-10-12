@@ -1189,7 +1189,10 @@ const sanitizerStressTests = [
   { in: '두 평면의 코사인값 cos φ를 곱한다', mustHave: '$\\cos\\phi$', mustNotHave: 'cos φ' },
   { in: 'a + b + m = -9', mustHave: '$a + b + m = -9$' },
   { in: '수식 \\frac{a}{b} = 3', mustHave: '\\frac{a}{b}' },
-  { in: '$\\cos\\theta = \\frac{1}{2}$', mustExact: '$\\cos\\theta = \\frac{1}{2}$' }
+  { in: '$\\cos\\theta = \\frac{1}{2}$', mustExact: '$\\cos\\theta = \\frac{1}{2}$' },
+  { in: '• 지수·로그함수의 그래프와 외심의 기하학적 성질', mustHave: '지수·로그함수의 그래프와 외심의 기하학적 성질', mustNotHave: '\\cdot' },
+  { in: '지수 \\cdot 로그함수의 그래프', mustHave: '지수·로그함수의 그래프', mustNotHave: '\\cdot' },
+  { in: '조건 (나)를 이용한 수직 조건: \\angleCDP = 90^\\circ', mustHave: '$\\angle CDP = 90^\\circ$', mustNotHave: '\\angleCDP = 90^\\circ' }
 ];
 
 const sanitizerFailures = [];
@@ -1372,13 +1375,25 @@ if (!htmlContent.includes('renderValidatedChatSvg') || !htmlContent.includes('MA
   failGate(7, 'MathSvgEngine Socratic Chat Guard', 'renderValidatedChatSvg or MATH_GRAPH_RULES missing in preview.html');
 }
 
+// 7.5 Custom Exam Sheet Typography & Solution Booklet Visual Diagram Verification
+if (!htmlContent.includes('white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${qNum}]</span>')) {
+  failGate(7, 'Exam Sheet Typography', 'Question number header must have white-space: nowrap and flex-shrink: 0 to prevent line breaks');
+}
+if (!htmlContent.includes('line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify;')) {
+  failGate(7, 'Exam Sheet Typography', 'Problem text must have authentic evaluation exam line-height (2.0) and justified text');
+}
+if (!htmlContent.includes('[수학적 시각화 직관 도해]')) {
+  failGate(7, 'Solution Booklet Diagrams', 'Solution booklet must embed high-contrast mathematical visualization diagrams');
+}
+
 passGate(7, 'End-to-End Functional Simulation & Mobile Viewport Layout Integrity', [
   `All 5 school stages (${gradesToTest.join(', ')}) mapped to curriculum isolation controls`,
   `All 5 primary views (${views.join(', ')}) validated for seamless single-page tab transitions`,
   'Responsive diagram selector tabs (multi-column grid, zero horizontal scroll) verified',
   'Responsive graph detail legend bar (2x2/4x1 grid, zero cutoff) verified',
   '1:1 Socratic AI Chat Tutor dialogue & Weakness Report saving cycle verified',
-  'MathSvgEngine Inviolable Chat Guard: 100% verified mathematical diagrams in real-time tutor dialogue'
+  'MathSvgEngine Inviolable Chat Guard: 100% verified mathematical diagrams in real-time tutor dialogue',
+  'Custom Exam Sheet Typography: Header line-break protection, 2.0 line-height, and exact SVG solution diagrams verified'
 ]);
 
 // ==============================================================================

@@ -7230,6 +7230,10 @@
       str = replaceOutsideMath(str, /(\\frac\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
       str = replaceOutsideMath(str, /(\\sqrt(?:\[[0-9]+\])?\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
       str = replaceOutsideMath(str, /(\\overline\{[^{}]+\})/g, (m) => ' $' + m.trim() + '$ ');
+      // 2.1 Pre-pass Angles, Triangles, and Degrees outside math (to protect before generic equality matcher)
+      str = replaceOutsideMath(str, /(\\angle\s*[a-zA-Z0-9_]+(?:\s*=\s*[-0-9a-zA-Z_\^\\]+(?:\{[^{}]*\})*)?)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\triangle\s*[a-zA-Z0-9_]+(?:\s*=\s*[-0-9a-zA-Z_\^\\]+(?:\{[^{}]*\})*)?)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /([0-9]+)\s*\^\s*(?:\\circ|\{\\circ\})/g, ' $$$1^\\circ$$ ');
 
       // 3. Early Exit for Pure LaTeX/Math Strings without Korean
       if (!str.includes('$')) {
@@ -7266,7 +7270,11 @@
       str = str.replace(/[±]/g, ' \\pm ');
       str = str.replace(/[×]/g, ' \\times ');
       str = str.replace(/[÷]/g, ' \\div ');
-      str = str.replace(/[·•]/g, ' \\cdot ');
+      // 4.01 Middle Dot & Bullet Preservation:
+      // Korean middle dots (지수·로그) & list bullets must be preserved as Unicode; only convert to \cdot when multiplying math tokens
+      str = replaceOutsideMath(str, /([가-힣])\s*(?:[·•]|\\[c]?dot)\s*([가-힣])/g, '$1·$2');
+      str = replaceOutsideMath(str, /([0-9a-zA-Z\)\^]+)\s*(?:[·•]|\\cdot)\s*([0-9a-zA-Z\(\\]+)/g, ' $$$1 \\cdot $2$$ ');
+      str = replaceOutsideMath(str, /\\cdot\b/g, '·');
       str = str.replace(/[≈≒≅]/g, ' \\approx ');
       str = str.replace(/[≡]/g, ' \\equiv ');
       str = str.replace(/[∞]/g, ' \\infty ');
@@ -7338,11 +7346,12 @@
 
       // 7. Standalone LaTeX commands with braces outside math
       str = replaceOutsideMath(str, /(\\(?:overline|underline|vec|hat|tilde|frac|sqrt|binom)\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}(?:\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})?)/g, ' $$$1$$ ');
-      str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
-      str = replaceOutsideMath(str, /(\\triangle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\angle\s*[a-zA-Z0-9_]+(?:\s*=\s*[-0-9a-zA-Z_\^\\]+(?:\{[^{}]*\})*)?)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /(\\triangle\s*[a-zA-Z0-9_]+(?:\s*=\s*[-0-9a-zA-Z_\^\\]+(?:\{[^{}]*\})*)?)/g, (m, p1) => ' $' + p1 + '$ ');
+      str = replaceOutsideMath(str, /([0-9]+)\s*\^\s*(?:\\circ|\{\\circ\})/g, ' $$$1^\\circ$$ ');
 
       // 8. Standalone symbols & relations outside math (including all set operations & relations)
-      str = replaceOutsideMath(str, /\\(cup|cap|subseteq|supseteq|subset|supset|in|notin|emptyset|varnothing|setminus|neq|ne|le|ge|pm|mp|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
+      str = replaceOutsideMath(str, /\\(cup|cap|subseteq|supseteq|subset|supset|in|notin|emptyset|varnothing|setminus|neq|ne|le|ge|pm|mp|times|div|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\\(alpha|beta|gamma|delta|theta|lambda|mu|pi|rho|sigma|tau|phi|omega)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\b(theta|alpha|beta|phi|gamma|delta|lambda|sigma|omega)\b/gi, (m) => ' $\\' + m.toLowerCase() + '$ ');
       str = replaceOutsideMath(str, /[θ]/g, ' $\\theta$ ');
@@ -7976,7 +7985,8 @@
         s = s.replace(/[∓]/g, ' \\mp ');
         s = s.replace(/[×]/g, ' \\times ');
         s = s.replace(/[÷]/g, ' \\div ');
-        s = s.replace(/[·•]/g, ' \\cdot ');
+        s = s.replace(/([가-힣])\s*(?:[·•]|\\[c]?dot)\s*([가-힣])/g, '$1·$2');
+        s = s.replace(/([0-9a-zA-Z\)\^])\s*(?:[·•]|\\cdot)\s*([0-9a-zA-Z\(\\])/g, ' $1 \\cdot $2 ');
         s = s.replace(/[≈≒≅]/g, ' \\approx ');
         s = s.replace(/[≡]/g, ' \\equiv ');
         s = s.replace(/[∞]/g, ' \\infty ');
@@ -14420,16 +14430,16 @@
 
           <!-- Section 1: Concept Clinic Sheet (If Enabled) -->
           ${includeConcept ? `
-            <div style="margin-bottom: 24px; padding: 14px; border: 2px solid #4f46e5; border-radius: 8px; background: #f8fafc;">
-              <div style="font-size: 13px; font-weight: 900; color: #4338ca; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <div style="margin-bottom: 24px; padding: 16px; border: 2px solid #4f46e5; border-radius: 8px; background: #f8fafc;">
+              <div style="font-size: 13.5px; font-weight: 900; color: #4338ca; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                 <span>[학생 맞춤 개념서] 이번 질문에서 도출된 핵심 개념 &amp; 시각화 처방 노트</span>
               </div>
-              <div style="font-size: 11.5px; line-height: 1.7; color: #334155;">
+              <div style="font-size: 12px; line-height: 1.8; color: #334155;">
                 ${selectedProblems.map(p => `
-                  <div style="margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                    <div style="font-weight: 800; color: #1e293b;">• ${p.title} (${p.curriculum_grade}):</div>
-                    <div><strong>핵심 의미</strong>: ${p.core_clauses && p.core_clauses[0] ? p.core_clauses[0].meaning : '개념 원리를 확인하세요.'}</div>
-                    <div style="color: #4338ca;"><strong>1:1 처방</strong>: ${p.core_clauses && p.core_clauses[0] ? (p.core_clauses[0].prescriptions.visual || p.core_clauses[0].prescriptions.modeling) : '도식화 스케치 연습'}</div>
+                  <div style="margin-bottom: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                    <div style="font-weight: 800; color: #1e293b; font-size: 12.5px;">• ${autoFormatMathText(p.title)} (${p.curriculum_grade}):</div>
+                    <div><strong>핵심 의미</strong>: ${p.core_clauses && p.core_clauses[0] ? autoFormatMathText(p.core_clauses[0].meaning) : '개념 원리를 확인하세요.'}</div>
+                    <div style="color: #4338ca;"><strong>1:1 처방</strong>: ${p.core_clauses && p.core_clauses[0] ? autoFormatMathText(p.core_clauses[0].prescriptions.visual || p.core_clauses[0].prescriptions.modeling) : '도식화 스케치 연습'}</div>
                   </div>
                 `).join('')}
               </div>
@@ -14437,52 +14447,58 @@
           ` : ''}
 
           <!-- Section 2: Questions Area (2-Column Grid) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; border-bottom: 1px solid #ddd; padding-bottom: 24px;">
             ${selectedProblems.map((prob, idx) => {
               const qNum = idx * (includeTwin ? 2 : 1) + 1;
               const twinNum = qNum + 1;
               const twin = prob.twin_problem;
               return `
                 <!-- Original Question -->
-                <div style="break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px;">
-                  <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px;">
-                    <span style="font-size: 15px; font-weight: 900; color: #000;">[문항 ${qNum}]</span>
-                    <span style="font-size: 11px; font-weight: 700; color: #4f46e5;">(${prob.curriculum_grade} - ${prob.title})</span>
+                <div style="break-inside: avoid; margin-bottom: 28px; padding-bottom: 16px;">
+                  <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
+                    <span style="font-size: 16px; font-weight: 900; color: #000; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${qNum}]</span>
+                    <span style="font-size: 11px; font-weight: 700; color: #4f46e5; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade} - ${autoFormatMathText(prob.title)})</span>
                   </div>
-                  <div style="font-size: 12.5px; line-height: 1.7; color: #111; margin-bottom: 10px;">
+                  <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
                     ${autoFormatMathText(prob.problem_text)}
                   </div>
 
                   ${prob.sub_questions && prob.sub_questions.length > 1 ? `
-                    <div style="margin-top: 8px; padding-left: 10px; border-left: 2px solid #4f46e5;">
+                    <div style="margin: 10px 0 14px 0; padding-left: 12px; border-left: 2px solid #4f46e5;">
                       ${prob.sub_questions.map(sq => `
-                        <div style="margin-bottom: 8px; font-size: 12px; line-height: 1.6;">
-                          <strong>(${sq.sub_id})</strong> ${autoFormatMathText(sq.question_text)}
+                        <div style="margin-bottom: 10px; font-size: 12.5px; line-height: 1.9; word-break: keep-all; text-align: justify;">
+                          <strong style="color: #4338ca;">(${sq.sub_id})</strong> ${autoFormatMathText(sq.question_text)}
                         </div>
                       `).join('')}
                     </div>
                   ` : ''}
 
                   ${includeWorkspace ? `
-                    <div style="border: 1px dashed #999; border-radius: 6px; min-height: 130px; margin-top: 10px; padding: 8px; font-size: 10px; color: #888;">
-                      [풀이 및 정답 서술 공간]
+                    <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 140px; margin-top: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                      <span style="font-size: 10.5px; font-weight: 700; color: #64748b;">[풀이 및 서술 공간]</span>
+                      <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">
+                        정답: ____________________
+                      </div>
                     </div>
                   ` : ''}
                 </div>
 
                 <!-- Twin / Variant Question (If Enabled) -->
                 ${includeTwin && twin ? `
-                  <div style="break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px; background: #fafafa; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
-                    <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px;">
-                      <span style="font-size: 15px; font-weight: 900; color: #047857;">[문항 ${twinNum} - AI 쌍둥이 실전]</span>
-                      <span style="font-size: 10.5px; font-weight: 700; color: #059669;">(${twin.title})</span>
+                  <div style="break-inside: avoid; margin-bottom: 28px; padding: 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px;">
+                    <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
+                      <span style="font-size: 16px; font-weight: 900; color: #047857; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${twinNum} - AI 쌍둥이 실전]</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #059669; line-height: 1.4; word-break: keep-all;">(${autoFormatMathText(twin.title)})</span>
                     </div>
-                    <div style="font-size: 12.5px; line-height: 1.7; color: #111; margin-bottom: 10px;">
+                    <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
                       ${autoFormatMathText(twin.problem_text)}
                     </div>
                     ${includeWorkspace ? `
-                      <div style="border: 1px dashed #94a3b8; background: #fff; border-radius: 6px; min-height: 130px; margin-top: 10px; padding: 8px; font-size: 10px; color: #888;">
-                        [쌍둥이 검증 풀이 및 정답 서술 공간]
+                      <div style="border: 1px dashed #86efac; background: #ffffff; border-radius: 6px; min-height: 140px; margin-top: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <span style="font-size: 10.5px; font-weight: 700; color: #059669;">[쌍둥이 검증 풀이 및 서술 공간]</span>
+                        <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #166534; border-bottom: 1px solid #86efac; padding-bottom: 2px;">
+                          정답: ____________________
+                        </div>
                       </div>
                     ` : ''}
                   </div>
@@ -14494,59 +14510,89 @@
           <!-- Section 3: Appendix - Answer Key & Teacher Dialogue Guide -->
           ${includeAnswers ? `
             <div style="page-break-before: always; margin-top: 30px; padding-top: 20px; border-top: 2px solid #000;">
-              <div style="text-align: center; margin-bottom: 20px;">
-                <span style="font-size: 11px; font-weight: 800; color: #4338ca;">ROOTMATH 1:1 PRESCRIPTION KEY</span>
-                <h2 style="font-size: 20px; font-weight: 900; margin: 2px 0;">[권말 부록] 정답 및 오답 근본 원인 분석 해설지</h2>
+              <div style="text-align: center; margin-bottom: 24px;">
+                <span style="font-size: 11px; font-weight: 800; color: #4338ca; letter-spacing: 1px;">ROOTMATH 1:1 PRESCRIPTION KEY</span>
+                <h2 style="font-size: 20px; font-weight: 900; margin: 2px 0; color: #000;">[권말 부록] 정답 및 오답 근본 원인 분석 해설지</h2>
                 <p style="font-size: 12px; color: #555;">${isTeacher ? '선생님 전용 출제자 3단계 유도 질문 가이드 &amp; 정답 해설' : '포장지에 속지 않고 공통 결손을 도려내는 해설'}</p>
               </div>
 
               <div style="space-y: 20px;">
-                ${selectedProblems.map((prob, idx) => `
-                  <div style="margin-bottom: 24px; padding: 14px; border: 1px solid #ccc; border-radius: 8px; background: #fafafa;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 6px;">
-                      <span style="font-size: 14px; font-weight: 900;">[문항] ${prob.title}</span>
-                      <span style="font-size: 13px; font-weight: 900; color: #b45309;">최종 정답: ${autoFormatMathText(prob.final_answer)}</span>
+                ${selectedProblems.map((prob, idx) => {
+                  let probSvg = '';
+                  if (prob) {
+                    const raw = (prob.diagrams && prob.diagrams[0] && prob.diagrams[0].svg) ? prob.diagrams[0].svg : (prob.svg_diagram || '');
+                    if (raw) {
+                      const safe = (typeof validateAndSanitizeMathSvg === 'function') ? validateAndSanitizeMathSvg(raw, prob) : raw;
+                      probSvg = (typeof convertSvgForWhiteCanvas === 'function') ? convertSvgForWhiteCanvas(safe) : safe;
+                    }
+                  }
+
+                  return `
+                  <div style="break-inside: avoid; margin-bottom: 28px; padding: 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #fafafa;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 8px;">
+                      <span style="font-size: 15px; font-weight: 900; color: #0f172a; white-space: nowrap; flex-shrink: 0;">[문항 ${idx + 1}] ${autoFormatMathText(prob.title)}</span>
+                      <span style="font-size: 13.5px; font-weight: 900; color: #b45309; background: #fef3c7; padding: 3px 10px; border-radius: 4px; border: 1px solid #fde68a; white-space: nowrap;">최종 정답: ${autoFormatMathText(prob.final_answer)}</span>
                     </div>
 
-                    <div style="font-size: 11.5px; line-height: 1.6; color: #222; margin-bottom: 10px;">
-                      <strong>리드 쌤의 1:1 오답 원인 분석:</strong><br/>
+                    ${probSvg ? `
+                      <div style="margin: 12px 0 16px 0; padding: 12px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); break-inside: avoid;">
+                        <div style="font-size: 11px; font-weight: 800; color: #4338ca; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                          <span>[수학적 시각화 직관 도해] ${autoFormatMathText(prob.title || '핵심 기하 / 함수 그래프 모델링')}</span>
+                        </div>
+                        <div style="max-width: 440px; margin: 0 auto; display: flex; justify-content: center;">
+                          ${probSvg}
+                        </div>
+                      </div>
+                    ` : ''}
+
+                    <div style="font-size: 12px; line-height: 1.7; color: #334155; margin-bottom: 12px; background: #f1f5f9; padding: 10px 12px; border-radius: 6px;">
+                      <strong style="color: #1e293b; font-size: 12.5px;">리드 쌤의 1:1 오답 원인 분석:</strong><br/>
                       ${prob.core_clauses && prob.core_clauses[0] ? `
-                        - 막히기 쉬운 조건: "${prob.core_clauses[0].text}"<br/>
-                        - 핵심 처방: ${prob.core_clauses[0].prescriptions.visual || prob.core_clauses[0].prescriptions.modeling}
+                        <div style="margin-top: 4px;">- 막히기 쉬운 조건: "${autoFormatMathText(prob.core_clauses[0].text)}"</div>
+                        <div style="margin-top: 2px;">- 핵심 처방: ${autoFormatMathText(prob.core_clauses[0].prescriptions.visual || prob.core_clauses[0].prescriptions.modeling)}</div>
                       ` : '개념과 도식화를 바탕으로 꼼꼼히 식을 세우세요.'}
                     </div>
 
                     ${isTeacher && prob.socratic_teaching_guide ? `
-                      <div style="font-size: 11.5px; background: #fffbeb; padding: 10px; border-radius: 6px; border: 1px solid #fde68a; margin-bottom: 10px;">
-                        <strong style="color: #b45309;">1:1 대화식 티칭 발문 대본 (학생에게 물어보세요):</strong>
-                        <ul style="margin: 4px 0 0 16px; padding: 0;">
+                      <div style="font-size: 12px; line-height: 1.7; background: #fffbeb; padding: 12px; border-radius: 6px; border: 1px solid #fde68a; margin-bottom: 12px;">
+                        <strong style="color: #b45309; font-size: 12.5px;">1:1 대화식 티칭 발문 대본 (학생에게 물어보세요):</strong>
+                        <ul style="margin: 6px 0 0 18px; padding: 0;">
                           ${prob.socratic_teaching_guide.steps.map(st => `
-                            <li><strong>${st.stage}</strong>: "${st.prompt}" (목표: ${st.goal})</li>
+                            <li style="margin-bottom: 4px; word-break: keep-all;"><strong style="color: #92400e;">${autoFormatMathText(st.stage)}</strong>: "${autoFormatMathText(st.prompt)}" (목표: ${autoFormatMathText(st.goal)})</li>
                           `).join('')}
                         </ul>
                       </div>
                     ` : ''}
 
                     ${prob.solution_steps ? `
-                      <div style="font-size: 11.5px; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb;">
-                        <strong>단계별 풀이 요약:</strong>
-                        <ol style="margin: 4px 0 0 16px; padding: 0;">
-                          ${prob.solution_steps.map(s => `
-                            <li><strong>${s.title}</strong>: ${s.formula ? `$${s.formula}$` : s.content}</li>
-                          `).join('')}
+                      <div style="font-size: 12px; line-height: 1.8; background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+                        <strong style="color: #1e293b; font-size: 12.5px;">단계별 풀이 및 수학적 증명 요약:</strong>
+                        <ol style="margin: 6px 0 0 18px; padding: 0;">
+                          ${prob.solution_steps.map(s => {
+                            let stepText = s.content || '';
+                            if (s.formula && !stepText.includes(s.formula)) {
+                              stepText = stepText ? `${stepText} : ${s.formula}` : s.formula;
+                            }
+                            return `
+                              <li style="margin-bottom: 6px; word-break: keep-all;">
+                                <strong style="color: #4338ca;">${autoFormatMathText(s.title)}</strong>: ${autoFormatMathText(stepText)}
+                              </li>
+                            `;
+                          }).join('')}
                         </ol>
                       </div>
                     ` : ''}
 
                     ${includeTwin && prob.twin_problem ? `
-                      <div style="margin-top: 10px; font-size: 11.5px; background: #ecfdf5; padding: 8px; border-radius: 6px; border: 1px solid #a7f3d0;">
-                        <strong style="color: #047857;">[AI 쌍둥이 문제 정답 및 해설]</strong><br/>
-                        - 정답: <strong>${autoFormatMathText(prob.twin_problem.answer)}</strong><br/>
-                        - 해설: ${autoFormatMathText(prob.twin_problem.explanation)}
+                      <div style="margin-top: 10px; font-size: 12px; line-height: 1.8; background: #ecfdf5; padding: 12px; border-radius: 6px; border: 1px solid #a7f3d0;">
+                        <strong style="color: #047857; font-size: 12.5px;">[AI 쌍둥이 문제 정답 및 해설]</strong><br/>
+                        <div style="margin-top: 4px;">- 정답: <strong>${autoFormatMathText(prob.twin_problem.answer)}</strong></div>
+                        <div style="margin-top: 2px;">- 해설: ${autoFormatMathText(prob.twin_problem.explanation)}</div>
                       </div>
                     ` : ''}
                   </div>
-                `).join('')}
+                `;
+                }).join('')}
               </div>
             </div>
           ` : ''}
