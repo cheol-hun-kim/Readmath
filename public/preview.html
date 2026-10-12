@@ -7092,8 +7092,9 @@
               historyChanged = true;
             } else {
               const isKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+              const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
               if (prob.svg_diagram) {
-                if (isKk(prob.svg_diagram)) {
+                if (isKk(prob.svg_diagram) || isProb22(prob)) {
                   prob.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
                   historyChanged = true;
                 } else {
@@ -7106,7 +7107,7 @@
               }
               if (Array.isArray(prob.diagrams)) {
                 prob.diagrams.forEach(d => {
-                  if (d && isKk(d.svg)) {
+                  if (d && (isKk(d.svg) || isProb22(prob))) {
                     d.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
                     historyChanged = true;
                   } else if (d && d.svg) {
@@ -7773,7 +7774,7 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261013-0100';
+    const CURRENT_ENGINE_VERSION = '20261013-0145';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
@@ -7784,14 +7785,15 @@
           if (Array.isArray(hist) && hist.length > 0) {
             hist = sanitizeMathObject(hist);
             const isKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+            const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
             hist.forEach(prob => {
               if (prob) {
-                if (isKk(prob.svg_diagram)) {
+                if (isKk(prob.svg_diagram) || isProb22(prob)) {
                   prob.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
                 }
                 if (Array.isArray(prob.diagrams)) {
                   prob.diagrams.forEach(d => {
-                    if (d && isKk(d.svg)) {
+                    if (d && (isKk(d.svg) || isProb22(prob))) {
                       d.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
                     }
                   });
@@ -8779,34 +8781,62 @@
       },
 
       // 3. Exact Keypoint & Label Positioner
+      // 3. Exact Keypoint & Label Positioner (Zero Overlap & Bold Pin Points)
       renderKeypoint(mathX, mathY, ox, oy, scale, label = null, color = '#DC2626', radius = 4, labelPos = 'auto') {
         const px = ox + mathX * scale;
         const py = oy - mathY * scale;
 
-        let out = `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${radius}" fill="${color}" stroke="#FFFFFF" stroke-width="1"/>\n`;
+        let out = '';
 
         if (label) {
+          const str = String(label);
+          let textWidth = 0;
+          for (let i = 0; i < str.length; i++) {
+            textWidth += str.charCodeAt(i) > 127 ? 10 : 6.5;
+          }
+          textWidth = Math.max(textWidth + 8, 28);
+          const rectHeight = 15;
+
           let tx = px;
           let ty = py - 8;
           let anchor = 'middle';
+          let rx = px - textWidth / 2;
+          let ry = ty - 11;
 
           if (labelPos === 'bottom' || (labelPos === 'auto' && mathY === 0)) {
-            ty = py + 14;
+            tx = px;
+            ty = py + (radius + 14);
+            anchor = 'middle';
+            rx = px - textWidth / 2;
+            ry = py + radius + 3;
           } else if (labelPos === 'top') {
-            ty = py - 8;
+            tx = px;
+            ty = py - (radius + 6);
+            anchor = 'middle';
+            rx = px - textWidth / 2;
+            ry = py - radius - 17;
           } else if (labelPos === 'left') {
-            tx = px - 8;
-            ty = py + 4;
+            tx = px - (radius + 4);
+            ty = py + 3.5;
             anchor = 'end';
+            rx = tx - textWidth;
+            ry = py - 7.5;
           } else if (labelPos === 'right') {
-            tx = px + 8;
-            ty = py + 4;
+            tx = px + (radius + 4);
+            ty = py + 3.5;
             anchor = 'start';
+            rx = tx;
+            ry = py - 7.5;
           }
 
-          out += `<rect x="${(tx - 24).toFixed(1)}" y="${(ty - 11).toFixed(1)}" width="48" height="15" fill="#FFFFFF" fill-opacity="0.85" rx="3"/>\n`;
-          out += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${color}" font-size="10.5" font-weight="bold" text-anchor="${anchor}">${label}</text>\n`;
+          // 1. Label pill drawn BEFORE circle so it NEVER covers the circle!
+          out += `<rect x="${rx.toFixed(1)}" y="${ry.toFixed(1)}" width="${textWidth.toFixed(1)}" height="${rectHeight}" fill="#FFFFFF" fill-opacity="0.95" stroke="#CBD5E1" stroke-width="0.8" rx="3.5"/>\n`;
+          // 2. High-contrast text label
+          out += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="${color}" font-size="10.5" font-weight="bold" text-anchor="${anchor}">${str}</text>\n`;
         }
+
+        // 3. Crisp Bold Pin Circle (ALWAYS on top, vibrant and never washed out!)
+        out += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${radius}" fill="${color}" stroke="#FFFFFF" stroke-width="1.8"/>\n`;
 
         return out;
       },
@@ -9096,21 +9126,21 @@
           )
         ) {
           const cOx = 85;
-          const cOy = 85;
-          const cScale = 20;
+          const cOy = 75;
+          const cScale = 18;
 
           svgBody += this.buildCoordinateSystem(cOx, cOy, cScale, [-1, 14], [-7, 3]);
 
           const aExp = Math.pow(2.5, 1 / 3);
           const fExp = (x) => 2 * Math.pow(aExp, x - 2) - 8;
-          svgBody += this.plotFunction(fExp, [0.0, 8.4], cOx, cOy, cScale, '#10B981', 2.5);
+          svgBody += this.plotFunction(fExp, [0.0, 7.8], cOx, cOy, cScale, '#10B981', 2.5);
 
-          const asympY = cOy - (-8) * cScale;
-          svgBody += `<line x1="${cOx - 15}" y1="${asympY.toFixed(1)}" x2="${cOx + 13.5 * cScale}" y2="${asympY.toFixed(1)}" stroke="#64748B" stroke-width="1.2" stroke-dasharray="3 3"/>\n`;
-          svgBody += `<text x="${cOx + 13.5 * cScale}" y="${asympY - 4}" fill="#64748B" font-size="9" text-anchor="end">점근선 y = -8</text>\n`;
+          const asympY = 196;
+          svgBody += `<line x1="${cOx - 15}" y1="${asympY}" x2="${cOx + 16.5 * cScale}" y2="${asympY}" stroke="#64748B" stroke-width="1.2" stroke-dasharray="3 3"/>\n`;
+          svgBody += `<text x="${cOx + 16.5 * cScale}" y="${asympY - 4}" fill="#64748B" font-size="8.5" text-anchor="end">점근선 y = -8</text>\n`;
 
           const fLog = (x) => 0.5 * (Math.log(x) / Math.log(aExp)) - 2;
-          svgBody += this.plotFunction(fLog, [0.35, 14.5], cOx, cOy, cScale, '#38BDF8', 2.5);
+          svgBody += this.plotFunction(fLog, [0.35, 16.5], cOx, cOy, cScale, '#38BDF8', 2.5);
 
           const pxP = cOx + 0 * cScale;
           const pyP = cOy - 2 * cScale;
@@ -9128,26 +9158,26 @@
           svgBody += `<line x1="${pxB.toFixed(1)}" y1="${pyB.toFixed(1)}" x2="${pxC.toFixed(1)}" y2="${pyC.toFixed(1)}" stroke="#F59E0B" stroke-width="2.2"/>\n`;
           svgBody += `<line x1="${pxC.toFixed(1)}" y1="${pyC.toFixed(1)}" x2="${pxP.toFixed(1)}" y2="${pyP.toFixed(1)}" stroke="#F59E0B" stroke-width="2.2" stroke-dasharray="3 2"/>\n`;
 
-          svgBody += `<path d="M ${(pxB - 7.1).toFixed(1)} ${(pyB + 7.1).toFixed(1)} L ${(pxB - 14.1).toFixed(1)} ${pyB.toFixed(1)} L ${(pxB - 7.1).toFixed(1)} ${(pyB - 7.1).toFixed(1)}" fill="none" stroke="#F59E0B" stroke-width="1.6"/>\n`;
+          // Orthogonal right-angle indicator at B(175, 129)
+          svgBody += `<path d="M ${(pxB - 6.4).toFixed(1)} ${(pyB + 6.4).toFixed(1)} L ${(pxB - 12.7).toFixed(1)} ${pyB.toFixed(1)} L ${(pxB - 6.4).toFixed(1)} ${(pyB - 6.4).toFixed(1)}" fill="none" stroke="#D97706" stroke-width="1.8"/>\n`;
 
-          svgBody += `<circle cx="100.0" cy="90.0" r="2.2" fill="#F59E0B"/>\n`;
-          svgBody += `<circle cx="120.0" cy="170.0" r="2.2" fill="#F59E0B"/>\n`;
-          svgBody += `<circle cx="150.0" cy="140.0" r="2.2" fill="#F59E0B"/>\n`;
-
+          // Exact pin keypoints (bold, vivid, zero overlap)
           svgBody += this.renderKeypoint(0, 2, cOx, cOy, cScale, 'P(0, 2)', '#EF4444', 4.5, 'left');
-          svgBody += this.renderKeypoint(2, -6, cOx, cOy, cScale, 'A(2, -6)', '#10B981', 4, 'bottom');
+          svgBody += this.renderKeypoint(2, -6, cOx, cOy, cScale, 'A(2, -6)', '#10B981', 4, 'left');
           svgBody += this.renderKeypoint(5, -3, cOx, cOy, cScale, 'B(5, -3)', '#10B981', 4.5, 'right');
-          svgBody += this.renderKeypoint(1, -2, cOx, cOy, cScale, 'C(1, -2)', '#F59E0B', 4, 'left');
-          svgBody += this.renderKeypoint(2.5, -0.5, cOx, cOy, cScale, 'D(5/2, -1/2)', '#F59E0B', 4, 'top');
+          svgBody += this.renderKeypoint(1, -2, cOx, cOy, cScale, 'C(1, -2)', '#D97706', 4, 'left');
+          svgBody += this.renderKeypoint(2.5, -0.5, cOx, cOy, cScale, 'D(5/2, -1/2)', '#D97706', 4, 'top');
 
-          svgBody += `<text x="${cOx + 6.8 * cScale}" y="${cOy - 3.2 * cScale}" fill="#10B981" font-size="9.5" font-weight="bold">y = 2a^{x-2} - 8</text>\n`;
-          svgBody += `<text x="${cOx + 8.5 * cScale}" y="${cOy - 1.8 * cScale}" fill="#38BDF8" font-size="9.5" font-weight="bold">y = 1/2 log_a x - 2</text>\n`;
+          // Curve function labels with clean Unicode exponents
+          svgBody += `<text x="210" y="24" fill="#10B981" font-size="10" font-weight="bold">y = 2aˣ⁻² - 8</text>\n`;
+          svgBody += `<text x="235" y="46" fill="#38BDF8" font-size="10" font-weight="bold">y = ½ logₐ x - 2</text>\n`;
 
-          svgBody += `<rect x="235" y="152" width="160" height="74" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>\n`;
-          svgBody += `<text x="245" y="170" fill="#FCD34D" font-size="10" font-weight="bold">외심 성질: BC = CP = AC</text>\n`;
-          svgBody += `<text x="245" y="186" fill="#93C5FD" font-size="9.5" font-weight="bold">⟹ △ABP는 ∠B=90° 직각</text>\n`;
-          svgBody += `<text x="245" y="202" fill="#A7F3D0" font-size="9.5" font-weight="bold">(x-1)² + (y+2)² = 17 ⟹ B(5, -3)</text>\n`;
-          svgBody += `<text x="245" y="217" fill="#F43F5E" font-size="9.5" font-weight="bold">a³ = 5/2 ⟹ 4a⁶ = 25</text>\n`;
+          // Explanatory callout box: fully within viewport [112, 194], zero cut-off
+          svgBody += `<rect x="218" y="112" width="176" height="82" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>\n`;
+          svgBody += `<text x="228" y="129" fill="#FCD34D" font-size="10" font-weight="bold">외심 성질: BC = CP = AC</text>\n`;
+          svgBody += `<text x="228" y="146" fill="#93C5FD" font-size="9.5" font-weight="bold">⟹ △ABP는 ∠B=90° 직각</text>\n`;
+          svgBody += `<text x="228" y="163" fill="#A7F3D0" font-size="9.5" font-weight="bold">(x-1)² + (y+2)² = 17 ⟹ B(5, -3)</text>\n`;
+          svgBody += `<text x="228" y="180" fill="#F43F5E" font-size="10" font-weight="extrabold">a³ = 5/2 ⟹ 4a⁶ = 25</text>\n`;
         }
         // Category 8.1: Exponential Curve y = e^x with line y = t and x = ln t (입체도형 밑면 넓이/적분)
         else if ((combined.includes('e^x') || combined.includes('e^{x}')) && (combined.includes('ln t') || combined.includes('y=t') || combined.includes('y = t') || combined.includes('입체도형') || combined.includes('밑면'))) {
@@ -10328,7 +10358,7 @@
         ['#C4B5FD', '#4C1D95'], ['#C084FC', '#581C87'], ['#38BDF8', '#0369A1'],
         ['#67E8F9', '#0E7490'], ['#A5F3FC', '#0E7490'], ['#86EFAC', '#166534'],
         ['#BBF7D0', '#166534'], ['#FECDD3', '#9F1239'], ['#FED7AA', '#9A3412'],
-        ['#FEF08A', '#854D0E']
+        ['#FEF08A', '#854D0E'], ['#F43F5E', '#BE123C']
       ];
       textReps.forEach(([from, to]) => {
         const re = new RegExp('(<(?:text|tspan)\\b[^>]*\\bfill=["\'])' + from + '(["\'])', 'gi');
@@ -10343,6 +10373,18 @@
       ];
       curveReps.forEach(([from, to]) => {
         const re = new RegExp('(<(?:path|line|polyline|circle)\\b[^>]*\\bstroke=["\'])' + from + '(["\'])', 'gi');
+        s = s.replace(re, '$1' + to + '$2');
+      });
+
+      // 5.1 High-contrast keypoint circle fills for white canvas
+      const circleFillReps = [
+        ['#EF4444', '#DC2626'],
+        ['#10B981', '#047857'],
+        ['#F59E0B', '#D97706'],
+        ['#38BDF8', '#0284C7']
+      ];
+      circleFillReps.forEach(([from, to]) => {
+        const re = new RegExp('(<circle\\b[^>]*\\bfill=["\'])' + from + '(["\'])', 'gi');
         s = s.replace(re, '$1' + to + '$2');
       });
 
@@ -10654,8 +10696,9 @@
       // Initialize Diagrams & Dynamic Diagram Tabs
       const svgViewport = document.getElementById('solution-svg-viewport') || document.getElementById('solution-svg-container');
       const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+      const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
       if (data.diagrams && data.diagrams.length > 0) {
-        if (isDummyKk(data.diagrams[0].svg)) {
+        if (isDummyKk(data.diagrams[0].svg) || isProb22(data)) {
           data.diagrams[0].svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
           safeSaveUserHistory(userSolvedHistory);
         } else {
@@ -10666,7 +10709,7 @@
         document.getElementById('diagram-badge-text').innerText = data.diagrams[0].badge || '직관적 이해';
         renderDiagramTabs(data);
       } else {
-        if (isDummyKk(data.svg_diagram)) {
+        if (isDummyKk(data.svg_diagram) || isProb22(data)) {
           data.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
           safeSaveUserHistory(userSolvedHistory);
         } else {

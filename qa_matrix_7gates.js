@@ -734,7 +734,7 @@ const csat22Sanitized = sanitizeSvgFn(csat22Prob.diagrams[0].svg, csat22Prob);
 if (csat22Sanitized.includes('(k, k)') || csat22Sanitized.includes('(k,k)')) {
   geometryErrors.push('MathSvgEngine returned dummy (k, k) graph for CSAT 22번 problem');
 }
-if (!csat22Sanitized.includes('2a^{x-2} - 8') || !csat22Sanitized.includes('B(5, -3)') || !csat22Sanitized.includes('4a⁶ = 25')) {
+if ((!csat22Sanitized.includes('2aˣ⁻² - 8') && !csat22Sanitized.includes('2a^{x-2} - 8')) || !csat22Sanitized.includes('B(5, -3)') || !csat22Sanitized.includes('4a⁶ = 25')) {
   geometryErrors.push('MathSvgEngine failed to generate exact analytical geometry for CSAT 22번');
 }
 const csat22Defects = inspectSvgFn(csat22Sanitized, csat22Prob);
