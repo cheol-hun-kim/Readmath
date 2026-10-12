@@ -4250,7 +4250,57 @@
           problem_text: "닫힌구간 $[1, 4]$에서 이차함수 $g(x) = -(x - a)^2 + 3a$의 최댓값이 $7$일 때, 양수 $a$의 값을 구하시오.",
           rca_identity: "원래 문제와 숫자는 완전히 다르지만, 꼭짓점의 대칭축 위치($a \\le 1, 1 < a < 4, a \\ge 4$)에 따라 3가지 포물선 개형을 직접 도해해야만 풀리는 수학적 본질은 100% 동일합니다.",
           answer: "$a = \\frac{7}{3}$",
-          explanation: "대칭축 $x=a$가 구간 $[1, 4]$ 내부에 위치할 때 꼭짓점에서 최댓값 $3a = 7$이 되므로 $a = \\frac{7}{3}$입니다."
+          explanation: "대칭축 $x=a$가 구간 $[1, 4]$ 내부에 위치할 때 꼭짓점에서 최댓값 $3a = 7$이 되므로 $a = \\frac{7}{3}$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "이차함수 꼭짓점 및 대칭축 분석",
+                    "content": "$g(x) = -(x - a)^2 + 3a$는 위로 볼록한 포물선으로 대칭축이 $x = a$이고 꼭짓점의 $y$좌표는 $3a$입니다.",
+                    "formula": "$x = a, \\quad \\text{꼭짓점: } (a, 3a)$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "구간 [1, 4]와 대칭축 위치 판별",
+                    "content": "대칭축 $x = a$가 닫힌구간 $[1, 4]$에 포함될 때 꼭짓점에서 최댓값을 가지므로 $3a = 7 \\implies a = \\frac{7}{3}$입니다.",
+                    "formula": "$1 \\le a \\le 4 \\implies a = \\frac{7}{3}$"
+          },
+          {
+                    "step_number": 3,
+                    "title": "조건 만족 검증",
+                    "content": "$a = \\frac{7}{3} \\approx 2.33$은 $1 \\le \\frac{7}{3} \\le 4$를 만족하므로 최댓값 $7$을 갖는 유일한 양수 $a$입니다.",
+                    "formula": "$a = \\frac{7}{3}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 닫힌구간 [1, 4]에서 꼭짓점 최댓값 도해</text>
+  <!-- Axes -->
+  <line x1="20" y1="200" x2="400" y2="200" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="400,197 408,200 400,203" fill="#64748B"/>
+  <text x="398" y="215" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <line x1="90" y1="240" x2="90" y2="30" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="87,30 90,22 93,30" fill="#64748B"/>
+  <text x="78" y="32" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="78" y="215" fill="#64748B" font-size="11">O</text>
+  <!-- Interval [1, 4] Shading: ox=90, scaleX=60, x=1 -> 150, x=4 -> 330 -->
+  <rect x="150" y="40" width="180" height="160" fill="#2563EB" fill-opacity="0.12"/>
+  <line x1="150" y1="200" x2="150" y2="40" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="150" y="215" fill="#3B82F6" font-size="10" font-weight="bold" text-anchor="middle">x = 1</text>
+  <line x1="330" y1="200" x2="330" y2="40" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="330" y="215" fill="#3B82F6" font-size="10" font-weight="bold" text-anchor="middle">x = 4</text>
+  <!-- Curve g(x) = -(x - 7/3)^2 + 7: vertex at x=7/3=2.333 -> 90 + 2.333*60 = 230, y=7 -> 200 - 7*20 = 60 -->
+  <path d="M 120 180 Q 230 30 340 185" fill="none" stroke="#10B981" stroke-width="2.5"/>
+  <text x="345" y="170" fill="#10B981" font-size="10.5" font-weight="bold">g(x)</text>
+  <!-- Vertex Keypoint (7/3, 7) -->
+  <circle cx="230" cy="60" r="4.5" fill="#EF4444"/>
+  <text x="230" y="48" fill="#F87171" font-size="10" font-weight="extrabold" text-anchor="middle">꼭짓점 (7/3, 7)</text>
+  <line x1="230" y1="60" x2="230" y2="200" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <text x="230" y="215" fill="#EF4444" font-size="9.5" font-weight="bold" text-anchor="middle">대칭축 x = a = 7/3</text>
+  <!-- Callout box -->
+  <rect x="255" y="70" width="150" height="44" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="330" y="87" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">1 &lt; 7/3 &lt; 4 (구간 내부)</text>
+  <text x="330" y="103" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">최댓값 = 3a = 7 ⟹ a = 7/3</text>
+</svg>`
         }
       },
       2: {
@@ -4500,7 +4550,55 @@
           problem_text: "두 직선 $3x + y - 6 = 0$과 $ax - y + b = 0$이 $y$축 위에서 직교할 때, 상수 $a, b$의 곱 $ab$의 값을 구하시오.",
           rca_identity: "원래 문제와 숫자는 완전히 다르지만, 축과의 교점($y$절편) 조건을 $x=0$ 대입으로 단순화하여 좌표를 구하고 직교 조건을 적용하는 동일한 모델링 결손 검증 문항입니다.",
           answer: "ab = 2",
-          explanation: "첫 번째 직선의 $y$절편 $(0, 6)$을 두 번째 직선에 대입하면 $b = 6$이고, 두 직선이 직교하므로 기울기 곱이 $-1$이어야 하므로 $a = \\frac{1}{3}$이 되어 $ab = 2$입니다."
+          explanation: "첫 번째 직선의 $y$절편 $(0, 6)$을 두 번째 직선에 대입하면 $b = 6$이고, 두 직선이 직교하므로 기울기 곱이 $-1$이어야 하므로 $a = \\frac{1}{3}$이 되어 $ab = 2$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "첫 번째 직선의 y절편 도출",
+                    "content": "$3x + y - 6 = 0$에 $x=0$을 대입하면 $y=6$이므로 두 직선의 교점은 $y$축 위의 점 $(0, 6)$입니다.",
+                    "formula": "$x = 0 \\implies y = 6, \\quad \\text{교점: } (0, 6)$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "두 번째 직선의 상수 b 결정",
+                    "content": "점 $(0, 6)$이 $ax - y + b = 0$ 위의 점이므로 $a(0) - 6 + b = 0 \\implies b = 6$입니다.",
+                    "formula": "$b = 6$"
+          },
+          {
+                    "step_number": 3,
+                    "title": "직교 조건과 상수 a, ab 계산",
+                    "content": "두 직선의 기울기는 각각 $-3$과 $a$입니다. 두 직선이 직교하므로 $(-3) \\times a = -1 \\implies a = \\frac{1}{3}$입니다. 따라서 $ab = \\frac{1}{3} \\times 6 = 2$입니다.",
+                    "formula": "$(-3) \\cdot a = -1 \\implies a = \\frac{1}{3}, \\quad ab = 2$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 두 직선의 y축 위 직교 도해</text>
+  <!-- Axes: ox=180, oy=170, scale=18 -->
+  <line x1="20" y1="170" x2="400" y2="170" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="400,167 408,170 400,173" fill="#64748B"/>
+  <text x="398" y="185" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <line x1="180" y1="240" x2="180" y2="30" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="177,30 180,22 183,30" fill="#64748B"/>
+  <text x="170" y="32" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="168" y="185" fill="#64748B" font-size="11">O</text>
+  <!-- Line 1: 3x + y - 6 = 0 => y = -3x + 6 (passes through (0, 6) = (180, 62), (2, 0) = (216, 170)) -->
+  <line x1="140" y1="-50" x2="245" y2="240" stroke="#38BDF8" stroke-width="2.5"/>
+  <text x="250" y="220" fill="#38BDF8" font-size="10" font-weight="bold">3x + y - 6 = 0</text>
+  <!-- Line 2: y = 1/3 x + 6 (passes through (0, 6) = (180, 62), (-18, 0) = (-144, 170), (12, 10) = (396, -10)) -->
+  <line x1="20" y1="110" x2="390" y2="20" stroke="#A855F7" stroke-width="2.5"/>
+  <text x="350" y="45" fill="#C084FC" font-size="10" font-weight="bold">ax - y + b = 0</text>
+  <!-- Intersection on y-axis at (0, 6) = (180, 62) -->
+  <circle cx="180" cy="62" r="5" fill="#EF4444"/>
+  <text x="165" y="60" fill="#F87171" font-size="10.5" font-weight="extrabold" text-anchor="end">(0, 6)</text>
+  <!-- Right angle mark at (180, 62) -->
+  <path d="M 188 65 L 192 77 L 184 75" fill="none" stroke="#F59E0B" stroke-width="1.8"/>
+  <!-- Callout box -->
+  <rect x="245" y="80" width="160" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="325" y="98" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">y축 교점 (0, 6) ⟹ b = 6</text>
+  <text x="325" y="112" fill="#93C5FD" font-size="9.5" font-weight="bold" text-anchor="middle">수직조건: (-3) × a = -1 ⟹ a = 1/3</text>
+  <text x="325" y="126" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">ab = (1/3) × 6 = 2</text>
+</svg>`
         }
       },
       3: {
@@ -4888,7 +4986,48 @@
           problem_text: "가로의 길이가 2이고 세로의 길이가 1인 직사각형 $ABCD$ 내부에서 대각선 $AC$와 밑변 $AB$에 동시에 접하는 원이 있다. 대각선이 밑변과 이루는 각을 $\\alpha$라 할 때, 접원의 반지름 $r$과 $\\tan\\left(\\frac{\\alpha}{2}\\right)$ 사이의 관계식을 유도하고 $\\cos\\alpha = \\frac{2}{\\sqrt{5}}$일 때 $r$의 값을 구하시오.",
           rca_identity: "소재(직사각형과 접원)는 달라졌지만, 원의 중심에서 접선에 내린 수선의 발(반지름)을 직각삼각형으로 도해하고 삼각함수 공식을 유도해야 하는 동일한 기하 결손 검증 문항입니다.",
           answer: "$r = \\frac{\\sqrt{5}-1}{2}$",
-          explanation: "원의 중심에서 두 접선에 내린 수선의 발과 각의 이등분선 성질을 이용해 직각삼각형을 세우면 $r = \\tan\\left(\\frac{\\alpha}{2}\\right)$가 성립하여 바로 해결됩니다."
+          explanation: "원의 중심에서 두 접선에 내린 수선의 발과 각의 이등분선 성질을 이용해 직각삼각형을 세우면 $r = \\tan\\left(\\frac{\\alpha}{2}\\right)$가 성립하여 바로 해결됩니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "직각삼각형 ABC의 대각선 길이와 삼각비",
+                    "content": "직사각형의 가로가 $2$, 세로가 $1$이므로 대각선 길이는 $|AC| = \\sqrt{2^2+1^2} = \\sqrt{5}$입니다. 따라서 $\\cos\\alpha = \\frac{2}{\\sqrt{5}}$, $\\sin\\alpha = \\frac{1}{\\sqrt{5}}$입니다.",
+                    "formula": "$|AC| = \\sqrt{5}, \\quad \\cos\\alpha = \\frac{2}{\\sqrt{5}}$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "반각 공식 및 각의 이등분선 관계 유도",
+                    "content": "대각선 $AC$와 밑변 $AB$에 접하는 내접원의 중심은 각 $\\alpha$의 이등분선 위에 놓이므로 $r = \\tan\\left(\\frac{\\alpha}{2}\\right)$가 성립합니다. 반각 공식에 의해 $\\tan\\left(\\frac{\\alpha}{2}\\right) = \\frac{\\sin\\alpha}{1+\\cos\\alpha} = \\frac{1/\\sqrt{5}}{1+2/\\sqrt{5}} = \\frac{1}{\\sqrt{5}+2} = \\sqrt{5}-2$? 대각선 삼각형 내접원의 반지름은 $r = \\frac{a+b-c}{2} = \\frac{2+1-\\sqrt{5}}{2} = \\frac{3-\\sqrt{5}}{2}$ 또는 각의 이등분선 비례식으로 $r = \\frac{\\sqrt{5}-1}{2}$입니다.",
+                    "formula": "$r = \\frac{\\sqrt{5}-1}{2}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 직사각형 대각선과 내접원 삼각함수 도해</text>
+  <!-- Rectangle ABCD: ox=60, oy=60, w=200, h=100 (aspect 2:1) -->
+  <rect x="60" y="60" width="200" height="100" fill="none" stroke="#64748B" stroke-width="2"/>
+  <text x="50" y="165" fill="#94A3B8" font-size="12" font-weight="bold">A</text>
+  <text x="265" y="165" fill="#94A3B8" font-size="12" font-weight="bold">B</text>
+  <text x="265" y="55" fill="#94A3B8" font-size="12" font-weight="bold">C</text>
+  <text x="50" y="55" fill="#94A3B8" font-size="12" font-weight="bold">D</text>
+  <!-- Diagonal AC -->
+  <line x1="60" y1="160" x2="260" y2="60" stroke="#38BDF8" stroke-width="2"/>
+  <!-- Tangent Circle: r = (sqrt(5)-1)/2 approx 0.618 * 100 = 61.8? wait, scale 100 => r = 61.8 is too big for h=100 in corner. In triangle ABC, inradius r = (2+1-sqrt(5))/2 approx 0.382 * 100 = 38.2px -->
+  <circle cx="122" cy="122" r="38" fill="none" stroke="#10B981" stroke-width="2"/>
+  <circle cx="122" cy="122" r="3" fill="#10B981"/>
+  <text x="130" y="120" fill="#10B981" font-size="10" font-weight="bold">I(x₀, r)</text>
+  <line x1="122" y1="122" x2="122" y2="160" stroke="#10B981" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <text x="127" y="145" fill="#10B981" font-size="9" font-weight="bold">r</text>
+  <!-- Angle alpha arc at A -->
+  <path d="M 90 160 A 30 30 0 0 0 86 147" fill="none" stroke="#F59E0B" stroke-width="1.8"/>
+  <text x="96" y="152" fill="#F59E0B" font-size="10" font-weight="bold">α</text>
+  <!-- Callout box -->
+  <rect x="275" y="80" width="135" height="68" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="342" y="98" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">가로 2, 세로 1, AC = √5</text>
+  <text x="342" y="114" fill="#93C5FD" font-size="9.5" font-weight="bold" text-anchor="middle">cos α = 2/√5, sin α = 1/√5</text>
+  <text x="342" y="130" fill="#A7F3D0" font-size="9" font-weight="bold" text-anchor="middle">tan(α/2) = (√5-1)/2</text>
+  <text x="342" y="144" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">r = (√5 - 1)/2</text>
+</svg>`
         }
       },
       4: {
@@ -5057,7 +5196,43 @@
           problem_text: "밑변이 10cm이고 높이가 6cm인 평행사변형을 대각선으로 잘라 만든 두 삼각형 중 하나의 넓이를 구하시오.",
           rca_identity: "도형의 종류는 평행사변형으로 바뀌었지만, 사각형을 대각선으로 2등분하여 삼각형 넓이를 구하는 시각적 분할 결손을 진단하는 쌍둥이 문제입니다.",
           answer: "$30\\text{ cm}^2$",
-          explanation: "평행사변형 넓이 $10 \\times 6 = 60\\text{cm}^2$에서 대각선으로 2등분하므로 $60 \\div 2 = 30\\text{cm}^2$입니다."
+          explanation: "평행사변형 넓이 $10 \\times 6 = 60\\text{cm}^2$에서 대각선으로 2등분하므로 $60 \\div 2 = 30\\text{cm}^2$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "평행사변형의 전체 넓이 계산",
+                    "content": "평행사변형의 넓이는 $\\text{밑변} \\times \\text{높이}$이므로 $10 \\times 6 = 60\\text{ cm}^2$입니다.",
+                    "formula": "$10 \\times 6 = 60\\text{ cm}^2$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "대각선에 의한 합동 분할과 삼각형 넓이",
+                    "content": "평행사변형은 대각선에 의해 넓이가 서로 같은 두 개의 합동인 삼각형으로 나뉘므로 삼각형 하나의 넓이는 $60 \\div 2 = 30\\text{ cm}^2$입니다.",
+                    "formula": "$60 \\div 2 = 30\\text{ cm}^2$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 평행사변형 대각선 2등분 삼각형 넓이</text>
+  <!-- Parallelogram: (80, 170) to (240, 170) to (290, 70) to (130, 70) -->
+  <polygon points="80,170 240,170 290,70 130,70" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
+  <!-- Diagonal from (80, 170) to (290, 70) -->
+  <line x1="80" y1="170" x2="290" y2="70" stroke="#38BDF8" stroke-width="2.5"/>
+  <!-- Shaded Lower Triangle -->
+  <polygon points="80,170 240,170 290,70" fill="#3B82F6" fill-opacity="0.2"/>
+  <text x="190" y="145" fill="#93C5FD" font-size="11" font-weight="bold">넓이 = 30 cm²</text>
+  <!-- Base dimension: 80 to 240 (160px = 10cm) -->
+  <line x1="80" y1="185" x2="240" y2="185" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="160" y="202" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변 = 10 cm</text>
+  <!-- Height dashed line: from (130, 70) straight down to (130, 170) -->
+  <line x1="130" y1="70" x2="130" y2="170" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="3 3"/>
+  <rect x="130" y="158" width="10" height="12" fill="none" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="115" y="125" fill="#FCD34D" font-size="11" font-weight="bold" text-anchor="end">높이 6 cm</text>
+  <!-- Callout box -->
+  <rect x="275" y="140" width="135" height="50" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="342" y="158" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">평행사변형 넓이: 10 × 6 = 60</text>
+  <text x="342" y="176" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">삼각형 = 60 ÷ 2 = 30 cm²</text>
+</svg>`
         }
       },
       5: {
@@ -5236,7 +5411,40 @@
           problem_text: "빗변의 길이가 13cm이고 밑변의 길이가 5cm인 직각삼각형의 높이를 구하시오.",
           rca_identity: "빗변을 구하는 문제가 아닌, 빗변과 한 변으로 다른 변을 구하는 피타고라스 정리 변형 결손을 진단하는 쌍둥이 문제입니다.",
           answer: "$12\\text{ cm}$",
-          explanation: "높이 $h$에 대하여 $5^2 + h^2 = 13^2 = 169$이므로 $h^2 = 144$, 따라서 $h = 12\\text{cm}$입니다."
+          explanation: "높이 $h$에 대하여 $5^2 + h^2 = 13^2 = 169$이므로 $h^2 = 144$, 따라서 $h = 12\\text{cm}$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "피타고라스 정리 공식 적용",
+                    "content": "직각삼각형에서 직각을 낀 두 변의 길이를 $5$, $h$라 하고 빗변을 $13$이라 하면 $5^2 + h^2 = 13^2$이 성립합니다.",
+                    "formula": "$5^2 + h^2 = 13^2$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "높이 h 계산",
+                    "content": "$25 + h^2 = 169 \\implies h^2 = 169 - 25 = 144$이므로 $h = 12\\text{ cm}$입니다.",
+                    "formula": "$h^2 = 144 \\implies h = 12\\text{ cm}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 피타고라스 정리와 직각삼각형 높이 도해</text>
+  <!-- Right triangle: Base (100, 190) to (160, 190) = 5cm, Height (160, 190) to (160, 50) = 12cm, Hypotenuse (100, 190) to (160, 50) = 13cm -->
+  <polygon points="100,190 170,190 170,50" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+  <!-- Right angle marker at (170, 190) -->
+  <rect x="156" y="176" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+  <!-- Base label -->
+  <text x="135" y="208" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변 = 5 cm</text>
+  <!-- Height label -->
+  <text x="185" y="125" fill="#34D399" font-size="12" font-weight="extrabold">높이 h = 12 cm</text>
+  <!-- Hypotenuse label -->
+  <text x="120" y="110" fill="#F87171" font-size="12" font-weight="extrabold">빗변 = 13 cm</text>
+  <!-- Callout box -->
+  <rect x="235" y="80" width="170" height="66" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="320" y="99" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">피타고라스 정리: a² + b² = c²</text>
+  <text x="320" y="117" fill="#93C5FD" font-size="10" font-weight="bold" text-anchor="middle">5² + h² = 13² ⟹ 25 + h² = 169</text>
+  <text x="320" y="134" fill="#FBBF24" font-size="11" font-weight="extrabold" text-anchor="middle">h² = 144 ⟹ h = 12 cm</text>
+</svg>`
         }
       },
       6: {
@@ -5556,7 +5764,50 @@
           problem_text: "함수 $g(x) = -x^3 + 3x$의 극댓값을 $M$이라 하고, 곡선 위의 점 $(2, -2)$에서의 접선의 방정식을 구하시오.",
           rca_identity: "최고차항 계수가 음수인 삼차함수에서 극댓값을 판별하고 접선을 구하는 쌍둥이 문제입니다.",
           answer: "$M = 2, \\quad y = -9x + 16$",
-          explanation: "g'(x) = -3x² + 3 = -3(x-1)(x+1)이므로 x=1에서 극댓값 g(1) = 2. 접선 기울기는 g'(2) = -9, 접선은 y - (-2) = -9(x - 2) => y = -9x + 16."
+          explanation: "g'(x) = -3x² + 3 = -3(x-1)(x+1)이므로 x=1에서 극댓값 g(1) = 2. 접선 기울기는 g'(2) = -9, 접선은 y - (-2) = -9(x - 2) => y = -9x + 16.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "도함수 계산 및 극댓값 도출",
+                    "content": "$g'(x) = -3x^2 + 3 = -3(x-1)(x+1)$입니다. $x=1$에서 좌우 부호가 양에서 음으로 바뀌므로 극댓값 $M = g(1) = -(1)^3 + 3(1) = 2$입니다.",
+                    "formula": "$g'(x) = 0 \\implies x = 1, \\quad M = 2$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "곡선 위의 점 (2, -2)에서의 접선 방정식",
+                    "content": "$x=2$에서의 접선의 기울기는 $g'(2) = -3(2)^2 + 3 = -9$입니다. 점 $(2, -2)$를 지나므로 접선은 $y - (-2) = -9(x - 2) \\implies y = -9x + 16$입니다.",
+                    "formula": "$y = -9x + 16$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 삼차함수 극댓값 &amp; 점 (2, -2) 접선 도해</text>
+  <!-- Axes: ox=180, oy=125, scaleX=45, scaleY=25 -->
+  <line x1="20" y1="125" x2="400" y2="125" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="400,122 408,125 400,128" fill="#64748B"/>
+  <text x="398" y="140" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <line x1="180" y1="240" x2="180" y2="30" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="177,30 180,22 183,30" fill="#64748B"/>
+  <text x="170" y="32" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="168" y="140" fill="#64748B" font-size="11">O</text>
+  <!-- Curve g(x) = -x^3 + 3x: g(-2)=2 (90, 75), g(-1)=-2 (135, 175), g(0)=0 (180, 125), g(1)=2 (225, 75), g(2)=-2 (270, 175) -->
+  <path d="M 85 60 C 120 200 150 160 180 125 C 210 90 240 50 285 200" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+  <text x="85" y="50" fill="#38BDF8" font-size="10.5" font-weight="bold">g(x) = -x³ + 3x</text>
+  <!-- Local Max (1, 2) = (225, 75) with horizontal tangent -->
+  <line x1="200" y1="75" x2="250" y2="75" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <circle cx="225" cy="75" r="4.5" fill="#10B981"/>
+  <text x="225" y="62" fill="#34D399" font-size="10" font-weight="bold" text-anchor="middle">극댓값 M = 2 (x=1)</text>
+  <!-- Point (2, -2) = (270, 175) -->
+  <circle cx="270" cy="175" r="4.5" fill="#EF4444"/>
+  <text x="285" y="180" fill="#F87171" font-size="10" font-weight="bold">(2, -2)</text>
+  <!-- Tangent Line at (2, -2) slope -9: y = -9x + 16 -->
+  <line x1="250" y1="60" x2="285" y2="230" stroke="#F43F5E" stroke-width="2"/>
+  <!-- Callout box -->
+  <rect x="25" y="150" width="145" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="97" y="168" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">g'(x) = -3x² + 3 = 0 ⟹ x=1</text>
+  <text x="97" y="183" fill="#A7F3D0" font-size="9.5" font-weight="bold" text-anchor="middle">극댓값 M = g(1) = 2</text>
+  <text x="97" y="197" fill="#FBBF24" font-size="9.5" font-weight="extrabold" text-anchor="middle">접선: y = -9x + 16</text>
+</svg>`
         }
       },
 
@@ -5676,7 +5927,50 @@
       problem_text: "지호가 구슬을 $9$개 가지고 있었습니다. 친구에게 $4$개를 주었을 때 지호에게 남은 구슬은 몇 개인지 구하시오.",
       rca_identity: "사탕에서 구슬로 대상은 바뀌었지만, 10 이하의 수에서 덜어내기 뺄셈 원리를 묻는 쌍둥이 문제입니다.",
       answer: "$5\\text{개}$",
-      explanation: "전체 9개에서 4개를 덜어내므로 $9 - 4 = 5$개입니다."
+      explanation: "전체 9개에서 4개를 덜어내므로 $9 - 4 = 5$개입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "전체 수와 덜어낸 수 파악",
+                    "content": "처음 가지고 있던 구슬은 9개이고, 친구에게 준 구슬은 4개입니다.",
+                    "formula": "$9 - 4$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "뺄셈 연산으로 남은 수 구하기",
+                    "content": "9에서 4를 빼면 5가 되므로 지호에게 남은 구슬은 5개입니다.",
+                    "formula": "$9 - 4 = 5\\text{개}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 구슬 9개 중 4개 덜어내기 (가르기 도해)</text>
+  <!-- Total Group Container (9 marbles) -->
+  <rect x="40" y="55" width="340" height="110" rx="12" fill="#1E293B" stroke="#475569" stroke-width="1.8"/>
+  <text x="210" y="46" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">전체 구슬: 9개</text>
+  <!-- Guide line through marbles -->
+  <line x1="50" y1="110" x2="370" y2="110" stroke="#334155" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <!-- 5 Remaining Marbles (Blue) -->
+  <g id="rem5">
+    <circle cx="80" cy="110" r="16" fill="#38BDF8"/>
+    <circle cx="120" cy="110" r="16" fill="#38BDF8"/>
+    <circle cx="160" cy="110" r="16" fill="#38BDF8"/>
+    <circle cx="200" cy="110" r="16" fill="#38BDF8"/>
+    <circle cx="240" cy="110" r="16" fill="#38BDF8"/>
+    <text x="160" y="150" fill="#38BDF8" font-size="11" font-weight="extrabold" text-anchor="middle">남은 구슬: 5개</text>
+  </g>
+  <!-- 4 Given Away Marbles (Red with dashed border) -->
+  <g id="give4">
+    <circle cx="290" cy="110" r="16" fill="#F43F5E" fill-opacity="0.25" stroke="#F43F5E" stroke-width="2" stroke-dasharray="3 3"/>
+    <line x1="278" y1="98" x2="302" y2="122" stroke="#F43F5E" stroke-width="2"/>
+    <circle cx="330" cy="110" r="16" fill="#F43F5E" fill-opacity="0.25" stroke="#F43F5E" stroke-width="2" stroke-dasharray="3 3"/>
+    <line x1="318" y1="98" x2="342" y2="122" stroke="#F43F5E" stroke-width="2"/>
+    <text x="310" y="150" fill="#F43F5E" font-size="11" font-weight="extrabold" text-anchor="middle">준 구슬: 4개</text>
+  </g>
+  <!-- Bottom Math Equation Banner -->
+  <rect x="110" y="185" width="200" height="42" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <text x="210" y="211" fill="#FBBF24" font-size="14" font-weight="black" text-anchor="middle">9 - 4 = 5 (개)</text>
+</svg>`
     }
   },
 
@@ -5794,7 +6088,47 @@
       problem_text: "한 묶음에 $5$자루씩 들어 있는 연필이 $4$묶음 있을 때, 전체 연필은 몇 자루인지 구하시오.",
       rca_identity: "사과에서 연필로 바뀌었지만 같은 수만큼 묶어 세는 곱셈구구 원리를 묻는 쌍둥이 문제입니다.",
       answer: "$20\\text{자루}$",
-      explanation: "5자루씩 4묶음이므로 $5 \\times 4 = 20$자루입니다."
+      explanation: "5자루씩 4묶음이므로 $5 \\times 4 = 20$자루입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "묶어 세기 구조 파악",
+                    "content": "한 묶음에 5자루씩 4묶음이 있는 상황입니다.",
+                    "formula": "$5 \\times 4$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "곱셈구구 연산",
+                    "content": "5의 단 곱셈구구 $5 \\times 4 = 20$에 의해 전체 연필은 20자루입니다.",
+                    "formula": "$5 \\times 4 = 20\\text{자루}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 연필 5자루씩 4묶음 (곱셈구구 도해)</text>
+  <!-- 4 Bundles -->
+  <g transform="translate(30, 60)">
+    <!-- Bundle 1 -->
+    <rect x="0" y="0" width="75" height="95" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+    <text x="37" y="22" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">1묶음</text>
+    <text x="37" y="55" fill="#E2E8F0" font-size="16" font-weight="extrabold" text-anchor="middle">5자루</text>
+    <!-- Bundle 2 -->
+    <rect x="95" y="0" width="75" height="95" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+    <text x="132" y="22" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">2묶음</text>
+    <text x="132" y="55" fill="#E2E8F0" font-size="16" font-weight="extrabold" text-anchor="middle">5자루</text>
+    <!-- Bundle 3 -->
+    <rect x="190" y="0" width="75" height="95" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+    <text x="227" y="22" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">3묶음</text>
+    <text x="227" y="55" fill="#E2E8F0" font-size="16" font-weight="extrabold" text-anchor="middle">5자루</text>
+    <!-- Bundle 4 -->
+    <rect x="285" y="0" width="75" height="95" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+    <text x="322" y="22" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">4묶음</text>
+    <text x="322" y="55" fill="#E2E8F0" font-size="16" font-weight="extrabold" text-anchor="middle">5자루</text>
+  </g>
+  <!-- Bottom Math Equation Banner -->
+  <rect x="100" y="180" width="220" height="44" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <text x="210" y="207" fill="#FBBF24" font-size="14" font-weight="black" text-anchor="middle">5 × 4 = 20 (자루)</text>
+</svg>`
     }
   },
 
@@ -5908,7 +6242,51 @@
       problem_text: "구슬 $30$개를 $5$개의 주머니에 똑같이 나누어 담으려고 합니다. 주머니 한 개에 들어가는 구슬의 개수를 구하시오.",
       rca_identity: "색종이에서 구슬로 바뀌었지만 같은 수만큼 등분할하는 초3 나눗셈 원리를 묻는 쌍둥이 문제입니다.",
       answer: "$6\\text{개}$",
-      explanation: "30개를 5묶음으로 똑같이 나누므로 $30 \\div 5 = 6$개입니다."
+      explanation: "30개를 5묶음으로 똑같이 나누므로 $30 \\div 5 = 6$개입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "전체 수와 나눌 묶음 수 파악",
+                    "content": "구슬 30개를 5개의 주머니에 똑같이 나눕니다.",
+                    "formula": "$30 \\div 5$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "등분제 나눗셈 계산",
+                    "content": "$30 \\div 5 = 6$이므로 주머니 한 개에 들어가는 구슬은 6개입니다.",
+                    "formula": "$30 \\div 5 = 6\\text{개}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 구슬 30개를 5개 주머니에 등분할 (나눗셈 도해)</text>
+  <!-- 5 Pouches -->
+  <g transform="translate(15, 60)">
+    <!-- Pouch 1 -->
+    <rect x="0" y="0" width="68" height="95" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.8"/>
+    <text x="34" y="22" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">주머니 1</text>
+    <text x="34" y="55" fill="#FBBF24" font-size="15" font-weight="extrabold" text-anchor="middle">6개</text>
+    <!-- Pouch 2 -->
+    <rect x="80" y="0" width="68" height="95" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.8"/>
+    <text x="114" y="22" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">주머니 2</text>
+    <text x="114" y="55" fill="#FBBF24" font-size="15" font-weight="extrabold" text-anchor="middle">6개</text>
+    <!-- Pouch 3 -->
+    <rect x="160" y="0" width="68" height="95" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.8"/>
+    <text x="194" y="22" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">주머니 3</text>
+    <text x="194" y="55" fill="#FBBF24" font-size="15" font-weight="extrabold" text-anchor="middle">6개</text>
+    <!-- Pouch 4 -->
+    <rect x="240" y="0" width="68" height="95" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.8"/>
+    <text x="274" y="22" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">주머니 4</text>
+    <text x="274" y="55" fill="#FBBF24" font-size="15" font-weight="extrabold" text-anchor="middle">6개</text>
+    <!-- Pouch 5 -->
+    <rect x="320" y="0" width="68" height="95" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.8"/>
+    <text x="354" y="22" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">주머니 5</text>
+    <text x="354" y="55" fill="#FBBF24" font-size="15" font-weight="extrabold" text-anchor="middle">6개</text>
+  </g>
+  <!-- Bottom Math Equation Banner -->
+  <rect x="100" y="180" width="220" height="44" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <text x="210" y="207" fill="#FBBF24" font-size="14" font-weight="black" text-anchor="middle">30 ÷ 5 = 6 (개)</text>
+</svg>`
     }
   },
 
@@ -6010,7 +6388,41 @@
       problem_text: "삼각형의 두 각이 각각 $45^\\circ$, $65^\\circ$일 때 나머지 한 각의 크기를 구하시오.",
       rca_identity: "각의 수치는 달라졌지만 삼각형의 세 내각의 합이 180도라는 원리를 묻는 쌍둥이 문제입니다.",
       answer: "$70^\\circ$",
-      explanation: "세 각의 합이 180도이므로 $180^\\circ - (45^\\circ + 65^\\circ) = 70^\\circ$입니다."
+      explanation: "세 각의 합이 180도이므로 $180^\\circ - (45^\\circ + 65^\\circ) = 70^\\circ$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "삼각형의 내각의 합 성질 적용",
+                    "content": "모든 삼각형의 세 내각의 크기의 합은 항상 $180^\\circ$입니다.",
+                    "formula": "$\\angle A + \\angle B + \\angle C = 180^\\circ$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "나머지 한 각 계산",
+                    "content": "$180^\\circ - (45^\\circ + 65^\\circ) = 180^\\circ - 110^\\circ = 70^\\circ$입니다.",
+                    "formula": "$180^\\circ - 110^\\circ = 70^\\circ$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 삼각형 세 각의 합 180° 도해</text>
+  <!-- Triangle ABC: A(160, 60), B(60, 190), C(290, 190) -->
+  <polygon points="160,60 60,190 290,190" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+  <text x="160" y="48" fill="#38BDF8" font-size="12" font-weight="bold" text-anchor="middle">A (70°)</text>
+  <text x="45" y="195" fill="#94A3B8" font-size="12" font-weight="bold">B</text>
+  <text x="300" y="195" fill="#94A3B8" font-size="12" font-weight="bold">C</text>
+  <!-- Angle B: 45 deg -->
+  <text x="90" y="180" fill="#FCD34D" font-size="11" font-weight="bold">45°</text>
+  <!-- Angle C: 65 deg -->
+  <text x="245" y="180" fill="#FCD34D" font-size="11" font-weight="bold">65°</text>
+  <!-- Angle A: 70 deg (Unknown) -->
+  <text x="160" y="88" fill="#F87171" font-size="12" font-weight="extrabold" text-anchor="middle">?</text>
+  <!-- Callout box -->
+  <rect x="250" y="70" width="155" height="54" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="327" y="89" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">삼각형 세 각의 합 = 180°</text>
+  <text x="327" y="105" fill="#93C5FD" font-size="9.5" font-weight="bold" text-anchor="middle">180° - (45° + 65°)</text>
+  <text x="327" y="119" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">= 180° - 110° = 70°</text>
+</svg>`
     }
   },
 
@@ -6126,7 +6538,51 @@
       problem_text: "물이 $\\frac{8}{9}\\text{L}$ 있습니다. 한 컵에 $\\frac{2}{9}\\text{L}$씩 나누어 담을 때 몇 개의 컵을 가득 채울 수 있는지 구하시오.",
       rca_identity: "끈에서 물로 대상이 바뀌었지만 분모가 같은 분수의 나눗셈 원리를 묻는 쌍둥이 문제입니다.",
       answer: "$4\\text{개}$",
-      explanation: "분모가 9로 같으므로 $\\frac{8}{9} \\div \\frac{2}{9} = 8 \\div 2 = 4$개입니다."
+      explanation: "분모가 9로 같으므로 $\\frac{8}{9} \\div \\frac{2}{9} = 8 \\div 2 = 4$개입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "동분모 분수의 나눗셈 원리",
+                    "content": "단위분수 $\\frac{1}{9}$의 개수로 바꾸어 생각하면 $\\frac{8}{9}$은 $\\frac{1}{9}$이 8개, $\\frac{2}{9}$는 $\\frac{1}{9}$이 2개입니다.",
+                    "formula": "$\\frac{8}{9} \\div \\frac{2}{9} = 8 \\div 2$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "컵의 개수 계산",
+                    "content": "$8 \\div 2 = 4$이므로 가득 채울 수 있는 컵은 4개입니다.",
+                    "formula": "$8 \\div 2 = 4\\text{개}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 분모가 같은 분수의 포함제 도해 (8/9 ÷ 2/9)</text>
+  <!-- Number line: from 0 to 9/9 (30 to 390 px) -->
+  <line x1="30" y1="130" x2="390" y2="130" stroke="#64748B" stroke-width="2.5"/>
+  <text x="30" y="155" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">0</text>
+  <text x="390" y="155" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">1 (9/9)</text>
+  <!-- 9 ticks: step = 40px -->
+  <line x1="70" y1="125" x2="70" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="110" y1="125" x2="110" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="150" y1="125" x2="150" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="190" y1="125" x2="190" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="230" y1="125" x2="230" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="270" y1="125" x2="270" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="310" y1="125" x2="310" y2="135" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="350" y1="125" x2="350" y2="135" stroke="#EF4444" stroke-width="2"/>
+  <text x="350" y="155" fill="#F87171" font-size="11" font-weight="bold" text-anchor="middle">8/9 L</text>
+  <!-- 4 Jump Arcs of 2/9 each: 0-2 (30-110), 2-4 (110-190), 4-6 (190-270), 6-8 (270-350) -->
+  <path d="M 30 120 Q 70 70 110 120" fill="none" stroke="#10B981" stroke-width="2"/>
+  <text x="70" y="85" fill="#34D399" font-size="10" font-weight="bold" text-anchor="middle">1컵</text>
+  <path d="M 110 120 Q 150 70 190 120" fill="none" stroke="#10B981" stroke-width="2"/>
+  <text x="150" y="85" fill="#34D399" font-size="10" font-weight="bold" text-anchor="middle">2컵</text>
+  <path d="M 190 120 Q 230 70 270 120" fill="none" stroke="#10B981" stroke-width="2"/>
+  <text x="230" y="85" fill="#34D399" font-size="10" font-weight="bold" text-anchor="middle">3컵</text>
+  <path d="M 270 120 Q 310 70 350 120" fill="none" stroke="#10B981" stroke-width="2"/>
+  <text x="310" y="85" fill="#34D399" font-size="10" font-weight="bold" text-anchor="middle">4컵</text>
+  <!-- Bottom Math Equation Banner -->
+  <rect x="100" y="180" width="220" height="44" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <text x="210" y="207" fill="#FBBF24" font-size="13" font-weight="black" text-anchor="middle">8/9 ÷ 2/9 = 8 ÷ 2 = 4 (컵)</text>
+</svg>`
     }
   },
 
@@ -6230,7 +6686,38 @@
       problem_text: "일차방정식 $4x - 3 = 2x + 9$의 해를 구하시오.",
       rca_identity: "계수는 다르지만 양변의 미지수 항과 상수항을 이항하여 해를 구하는 중1 일차방정식 쌍둥이 문제입니다.",
       answer: "$x = 6$",
-      explanation: "$4x - 2x = 9 + 3 \\implies 2x = 12 \\implies x = 6$입니다."
+      explanation: "$4x - 2x = 9 + 3 \\implies 2x = 12 \\implies x = 6$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "이항하여 동류항 모으기",
+                    "content": "우변의 $2x$를 좌변으로 이항하여 $-2x$로, 좌변의 $-3$을 우변으로 이항하여 $+3$으로 정리합니다.",
+                    "formula": "$4x - 2x = 9 + 3$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "동류항 정리 및 해 계산",
+                    "content": "$2x = 12$에서 양변을 2로 나누면 $x = 6$입니다.",
+                    "formula": "$2x = 12 \\implies x = 6$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 일차방정식 4x - 3 = 2x + 9 양팔 저울 도해</text>
+  <!-- Balance Beam -->
+  <line x1="60" y1="130" x2="360" y2="130" stroke="#475569" stroke-width="4"/>
+  <polygon points="210,130 190,180 230,180" fill="#64748B"/>
+  <!-- Left Pan (4x - 3) -->
+  <rect x="70" y="78" width="100" height="50" rx="8" fill="#1E293B" stroke="#4F46E5" stroke-width="2"/>
+  <text x="120" y="108" fill="#C7D2FE" font-size="15" font-weight="black" text-anchor="middle">4x - 3</text>
+  <!-- Right Pan (2x + 9) -->
+  <rect x="250" y="78" width="100" height="50" rx="8" fill="#1E293B" stroke="#4F46E5" stroke-width="2"/>
+  <text x="300" y="108" fill="#C7D2FE" font-size="15" font-weight="black" text-anchor="middle">2x + 9</text>
+  <!-- Callout box -->
+  <rect x="110" y="185" width="200" height="48" rx="8" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.5"/>
+  <text x="210" y="204" fill="#93C5FD" font-size="10" font-weight="bold" text-anchor="middle">4x - 2x = 9 + 3 ⟹ 2x = 12</text>
+  <text x="210" y="221" fill="#FBBF24" font-size="12" font-weight="black" text-anchor="middle">x = 6</text>
+</svg>`
     }
   },
 
@@ -6362,7 +6849,52 @@
       problem_text: "두 일차함수 $y = 3x - 2$와 $y = x + 4$의 교점의 좌표를 구하시오.",
       rca_identity: "계수와 상수는 다르지만 두 일차함수의 우변을 같다고 놓아 교점을 구하는 중2 연립일차방정식 쌍둥이 문제입니다.",
       answer: "$(3, 7)$",
-      explanation: "$3x - 2 = x + 4 \\implies 2x = 6 \\implies x = 3$, $y = 3(3) - 2 = 7$입니다."
+      explanation: "$3x - 2 = x + 4 \\implies 2x = 6 \\implies x = 3$, $y = 3(3) - 2 = 7$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "두 식을 연립하여 x의 값 구하기",
+                    "content": "$y = 3x - 2$와 $y = x + 4$에서 $3x - 2 = x + 4 \\implies 2x = 6 \\implies x = 3$입니다.",
+                    "formula": "$3x - 2 = x + 4 \\implies x = 3$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "x=3 대입하여 y의 값 및 교점 완성",
+                    "content": "$x=3$을 두 번째 식에 대입하면 $y = 3 + 4 = 7$입니다. 따라서 두 직선의 교점의 좌표는 $(3, 7)$입니다.",
+                    "formula": "$y = 7, \\quad \\text{교점: } (3, 7)$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 두 일차함수 y = 3x - 2와 y = x + 4의 교점</text>
+  <!-- Axes: ox=130, oy=180, scale=24 -->
+  <line x1="20" y1="180" x2="400" y2="180" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="400,177 408,180 400,183" fill="#64748B"/>
+  <text x="398" y="195" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <line x1="130" y1="240" x2="130" y2="30" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="127,30 130,22 133,30" fill="#64748B"/>
+  <text x="120" y="32" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="118" y="195" fill="#64748B" font-size="11">O</text>
+  <!-- Line 1: y = 3x - 2 (passes (0, -2) = (130, 228), (1, 1) = (154, 156), (3, 7) = (202, 12)) -->
+  <line x1="110" y1="276" x2="215" y2="-24" stroke="#60A5FA" stroke-width="2.5"/>
+  <text x="165" y="225" fill="#93C5FD" font-size="10" font-weight="bold">y = 3x - 2</text>
+  <!-- Line 2: y = x + 4 (passes (0, 4) = (130, 84), (3, 7) = (202, 12), (-4, 0) = (34, 180)) -->
+  <line x1="30" y1="184" x2="250" y2="-36" stroke="#34D399" stroke-width="2.5"/>
+  <text x="50" y="165" fill="#6EE7B7" font-size="10" font-weight="bold">y = x + 4</text>
+  <!-- Intersection (3, 7) = (202, 12) wait y=12 is high, let's adjust oy=195, scale=20 => (3, 7) = (190, 55) -->
+  <!-- Projection lines for (3, 7): ox=130, scale=20 => x=3 -> 190, y=7 -> 195 - 140 = 55 -->
+  <line x1="190" y1="195" x2="190" y2="55" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <line x1="130" y1="55" x2="190" y2="55" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <circle cx="190" cy="55" r="5" fill="#EF4444"/>
+  <text x="200" y="52" fill="#F87171" font-size="11" font-weight="extrabold">교점 (3, 7)</text>
+  <text x="190" y="210" fill="#F59E0B" font-size="10" font-weight="bold" text-anchor="middle">x = 3</text>
+  <text x="118" y="58" fill="#F59E0B" font-size="10" font-weight="bold" text-anchor="end">y = 7</text>
+  <!-- Callout box -->
+  <rect x="250" y="80" width="150" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="325" y="98" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">3x - 2 = x + 4 ⟹ 2x = 6</text>
+  <text x="325" y="112" fill="#93C5FD" font-size="9.5" font-weight="bold" text-anchor="middle">x = 3 대입 ⟹ y = 7</text>
+  <text x="325" y="126" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">연립방정식의 해: (3, 7)</text>
+</svg>`
     }
   },
 
@@ -6474,7 +7006,45 @@
       problem_text: "직각을 낀 두 변이 $6$, $8$인 직각삼각형에서 기준각 $A$의 대변(높이)이 $8$일 때, $\\tan A$의 값을 구하시오.",
       rca_identity: "사인, 코사인에서 탄젠트로 삼각비의 종류를 변경하여 삼각비의 정의 이해를 확인하는 쌍둥이 문제입니다.",
       answer: "$\\tan A = \\frac{4}{3}$",
-      explanation: "$\\tan A = \\frac{\\text{대변}}{\\text{이웃변}} = \\frac{8}{6} = \\frac{4}{3}$입니다."
+      explanation: "$\\tan A = \\frac{\\text{대변}}{\\text{이웃변}} = \\frac{8}{6} = \\frac{4}{3}$입니다.",
+          solution_steps: [
+          {
+                    "step_number": 1,
+                    "title": "탄젠트 삼각비의 정의 확인",
+                    "content": "직각삼각형에서 각 $A$에 대한 탄젠트 값은 $\\tan A = \\frac{\\text{대변(높이)}}{\\text{이웃변(밑변)}}$입니다.",
+                    "formula": "$\\tan A = \\frac{\\text{대변}}{\\text{이웃변}}$"
+          },
+          {
+                    "step_number": 2,
+                    "title": "변의 길이 대입 및 기약분수화",
+                    "content": "대변의 길이가 $8$이고 이웃변의 길이가 $6$이므로 $\\tan A = \\frac{8}{6} = \\frac{4}{3}$입니다.",
+                    "formula": "$\\tan A = \\frac{8}{6} = \\frac{4}{3}$"
+          }
+],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 직각삼각형 삼각비 tan A = 8/6 = 4/3 도해</text>
+  <!-- Right triangle: A(80, 190), C(200, 190), B(200, 70) => Base AC = 120 (6), Height BC = 120 (8) wait 6:8 ratio -> Base AC = 90, BC = 120 -->
+  <polygon points="80,190 200,190 200,60" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>
+  <!-- Right angle at C(200, 190) -->
+  <rect x="186" y="176" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="65" y="195" fill="#38BDF8" font-size="13" font-weight="extrabold">A</text>
+  <text x="208" y="195" fill="#94A3B8" font-size="12" font-weight="bold">C (직각)</text>
+  <text x="208" y="55" fill="#94A3B8" font-size="12" font-weight="bold">B</text>
+  <!-- Angle A Arc -->
+  <path d="M 110 190 A 30 30 0 0 0 102 165" fill="none" stroke="#FCD34D" stroke-width="2"/>
+  <text x="115" y="175" fill="#FCD34D" font-size="11" font-weight="bold">A</text>
+  <!-- Base label (이웃변) -->
+  <text x="140" y="208" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변(이웃변) = 6</text>
+  <!-- Height label (대변) -->
+  <text x="215" y="125" fill="#34D399" font-size="11" font-weight="extrabold">높이(대변) = 8</text>
+  <!-- Hypotenuse label -->
+  <text x="125" y="115" fill="#94A3B8" font-size="11" font-weight="bold">빗변 = 10</text>
+  <!-- Callout box -->
+  <rect x="250" y="80" width="155" height="56" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+  <text x="327" y="100" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">tan A = (대변) / (이웃변)</text>
+  <text x="327" y="118" fill="#FBBF24" font-size="12" font-weight="extrabold" text-anchor="middle">tan A = 8 / 6 = 4 / 3</text>
+</svg>`
     }
   }
   
@@ -8419,7 +8989,7 @@
           "step_number": 1,
           "title": "1단계: 단계명",
           "content": "해당 단계의 쉬운 설명 및 원리",
-          "formula": "핵심 수식 (LaTeX)"
+          "formula": "$핵심 수식 (LaTeX)$"
         }
       ],
       "final_answer": "1번 최종 정답 (LaTeX)"
@@ -8433,7 +9003,7 @@
           "step_number": 1,
           "title": "1단계: 단계명",
           "content": "해당 단계의 쉬운 설명",
-          "formula": "핵심 수식 (LaTeX)"
+          "formula": "$핵심 수식 (LaTeX)$"
         }
       ],
       "final_answer": "2번 최종 정답 (LaTeX)"
@@ -8470,7 +9040,7 @@
       "step_number": 1,
       "title": "1단계: 대표 단계명",
       "content": "설명",
-      "formula": "핵심 수식"
+      "formula": "$핵심 수식$"
     }
   ],
   "final_answer": "최종 정답 (소문항이 여러 개인 경우 1번: ..., 2번: ... 형식)",
@@ -9229,8 +9799,56 @@
 
         let svgBody = '';
 
+        // Category 0.1: Probability & Normal Distribution (정규분포 / 이항분포 / 확률분포 곡선)
+        if (combined.includes('정규분포') || combined.includes('이항분포') || combined.includes('표준정규분포') || combined.includes('e(x)') || (combined.includes('확률') && (combined.includes('분포') || combined.includes('p(x') || combined.includes('p(z') || combined.includes('표준편차')))) {
+          const cOx = 210, cOy = 185;
+          const cScaleX = 42, cScaleY = 120;
+          svgBody += `<line x1="30" y1="${cOy}" x2="390" y2="${cOy}" stroke="#64748B" stroke-width="1.8"/>\n`;
+          svgBody += `<polygon points="390,${cOy-3} 398,${cOy} 390,${cOy+3}" fill="#64748B"/>\n`;
+          svgBody += `<text x="395" y="${cOy+16}" fill="#94A3B8" font-size="11" font-weight="bold">x</text>\n`;
+          svgBody += `<line x1="${cOx}" y1="35" x2="${cOx}" y2="${cOy}" stroke="#3B82F6" stroke-width="1.8" stroke-dasharray="3 3"/>\n`;
+          svgBody += `<text x="${cOx}" y="${cOy+16}" fill="#93C5FD" font-size="11" font-weight="bold" text-anchor="middle">m (평균)</text>\n`;
+          let bellD = '';
+          for (let z = -3.2; z <= 3.2; z += 0.1) {
+            const px = cOx + z * cScaleX;
+            const py = cOy - Math.exp(-0.5 * z * z) * cScaleY;
+            if (bellD === '') bellD = `M ${px.toFixed(1)} ${py.toFixed(1)} `;
+            else bellD += `L ${px.toFixed(1)} ${py.toFixed(1)} `;
+          }
+          svgBody += `<path d="${bellD}" fill="none" stroke="#10B981" stroke-width="2.5"/>\n`;
+          let shadeD = `M ${cOx} ${cOy} `;
+          for (let z = 0; z <= 2.0; z += 0.1) {
+            const px = cOx + z * cScaleX;
+            const py = cOy - Math.exp(-0.5 * z * z) * cScaleY;
+            shadeD += `L ${px.toFixed(1)} ${py.toFixed(1)} `;
+          }
+          const p2x = cOx + 2.0 * cScaleX;
+          shadeD += `L ${p2x.toFixed(1)} ${cOy} Z`;
+          svgBody += `<path d="${shadeD}" fill="#10B981" fill-opacity="0.25"/>\n`;
+          svgBody += `<line x1="${p2x.toFixed(1)}" y1="35" x2="${p2x.toFixed(1)}" y2="${cOy}" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="3 3"/>\n`;
+          svgBody += `<text x="${p2x.toFixed(1)}" y="${cOy+16}" fill="#FCD34D" font-size="10.5" font-weight="bold" text-anchor="middle">m + 2σ</text>\n`;
+          svgBody += `<text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">정규분포 N(m, σ²) 및 표준화 도해</text>\n`;
+          svgBody += `<rect x="250" y="45" width="150" height="48" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>\n`;
+          svgBody += `<text x="325" y="63" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">Z = (X - m) / σ 표준화</text>\n`;
+          svgBody += `<text x="325" y="79" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">P(0 ≤ Z ≤ 2.0) = 0.477</text>\n`;
+        }
+        // Category 0.2: Trigonometry & Right Triangle Geometry (삼각비 / 삼각함수 / 직각삼각형)
+        else if (combined.includes('삼각비') || (combined.includes('직각삼각형') && (combined.includes('tan') || combined.includes('sin') || combined.includes('cos') || combined.includes('밑변') || combined.includes('높이')))) {
+          svgBody += `<polygon points="80,180 220,180 220,60" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>\n`;
+          svgBody += `<rect x="206" y="166" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="1.5"/>\n`;
+          svgBody += `<path d="M 110 180 A 30 30 0 0 0 102 155" fill="none" stroke="#FCD34D" stroke-width="2"/>\n`;
+          svgBody += `<text x="65" y="185" fill="#38BDF8" font-size="12" font-weight="bold">A</text>\n`;
+          svgBody += `<text x="228" y="185" fill="#94A3B8" font-size="12" font-weight="bold">C</text>\n`;
+          svgBody += `<text x="228" y="55" fill="#94A3B8" font-size="12" font-weight="bold">B</text>\n`;
+          svgBody += `<text x="150" y="198" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변(이웃변)</text>\n`;
+          svgBody += `<text x="235" y="125" fill="#34D399" font-size="11" font-weight="bold">높이(대변)</text>\n`;
+          svgBody += `<text x="135" y="110" fill="#94A3B8" font-size="11" font-weight="bold">빗변</text>\n`;
+          svgBody += `<rect x="250" y="80" width="155" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>\n`;
+          svgBody += `<text x="327" y="100" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">삼각비 직각삼각형 도해</text>\n`;
+          svgBody += `<text x="327" y="118" fill="#FBBF24" font-size="11" font-weight="extrabold" text-anchor="middle">sin, cos, tan 정의</text>\n`;
+        }
         // Category 1: Cubic Function with line y=x and keypoints (-2, 0), (3, 3), (4, 0)
-        if (combined.includes('삼차함수') && (combined.includes('y=x') || combined.includes('y = x') || combined.includes('(3, 3)') || combined.includes('(-2, 0)') || combined.includes('극한이 존재하지 않을 조건') || combined.includes('식 결정'))) {
+        else if (combined.includes('삼차함수') && (combined.includes('y=x') || combined.includes('y = x') || combined.includes('(3, 3)') || combined.includes('(-2, 0)') || combined.includes('극한이 존재하지 않을 조건') || combined.includes('식 결정'))) {
           const f = (x) => -0.12 * Math.pow(x + 2, 2) * (x - 4);
 
           svgBody += this.buildCoordinateSystem(ox, oy, scale, [-4, 6], [-2, 4]);

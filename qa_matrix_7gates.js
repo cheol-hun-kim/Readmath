@@ -1442,8 +1442,8 @@ if (htmlContent.includes('max-height: 190px') || htmlContent.includes('max-heigh
   failGate(7, 'Solution Diagram Container', 'SVGs in printExamSheet must not have rigid max-height (180px/190px) to prevent clipped callout boxes');
 }
 
-// 7.6 AI Twin Problems Completeness & Mathematical Integrity Verification
-const twinIds = [302, 303, 304, 305];
+// 7.6 AI Twin Problems Completeness & Mathematical Integrity Verification (100% of all 18 problems)
+const twinIds = Object.keys(PROBLEMS_DB).map(Number);
 twinIds.forEach(tId => {
   const prob = PROBLEMS_DB[tId];
   if (!prob || !prob.twin_problem) {
