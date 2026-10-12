@@ -104,6 +104,55 @@
         font-size: 0.88em !important;
       }
     }
+    /* ================= KATEX FONT & SET NOTATION ARMOR ================= */
+    /* Strictly protect KaTeX elements from universal Pretendard font override */
+    .katex,
+    .katex .katex-html {
+      font-family: KaTeX_Main, "Times New Roman", serif !important;
+      text-rendering: auto;
+    }
+    .katex .mopen,
+    .katex .mclose,
+    .katex .mbin,
+    .katex .mrel,
+    .katex .mord,
+    .katex .mpunct,
+    .katex .minner {
+      font-family: KaTeX_Main, KaTeX_AMS, "Times New Roman", serif !important;
+    }
+    .katex .mathnormal {
+      font-family: KaTeX_Math, "Times New Roman", serif !important;
+      font-style: italic !important;
+    }
+    .katex .amsrm,
+    .katex .mathbb {
+      font-family: KaTeX_AMS, serif !important;
+    }
+    /* Baseline stabilization: prevents set symbols & braces from hanging below Korean text */
+    .katex {
+      vertical-align: -0.04em !important;
+      line-height: 1.2 !important;
+    }
+    .katex .mopen,
+    .katex .mclose {
+      vertical-align: baseline !important;
+      line-height: normal !important;
+    }
+    .katex .mbin,
+    .katex .mrel {
+      vertical-align: 0.02em !important;
+      line-height: 1 !important;
+    }
+    .katex .delimsizing {
+      vertical-align: middle !important;
+      line-height: 1 !important;
+    }
+    .katex .delimsizing.size1,
+    .katex .delimsizing.size2,
+    .katex .delimsizing.size3,
+    .katex .delimsizing.size4 {
+      font-family: KaTeX_Size1, KaTeX_Main, serif !important;
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
@@ -1577,8 +1626,16 @@
       str = str.replace(/[≠]/g, ' \\neq ');
       str = str.replace(/[≤≦]/g, ' \\le ');
       str = str.replace(/[≥≧]/g, ' \\ge ');
-      str = str.replace(/[∈]/g, ' \\in ');
+      str = str.replace(/[⊆]/g, ' \\subseteq ');
+      str = str.replace(/[⊇]/g, ' \\supseteq ');
+      str = str.replace(/[⊂]/g, ' \\subset ');
+      str = str.replace(/[⊃]/g, ' \\supset ');
+      str = str.replace(/[∪]/g, ' \\cup ');
+      str = str.replace(/[∩]/g, ' \\cap ');
       str = str.replace(/[∉]/g, ' \\notin ');
+      str = str.replace(/[∈]/g, ' \\in ');
+      str = str.replace(/[∅]/g, ' \\emptyset ');
+      str = str.replace(/[∖]/g, ' \\setminus ');
       str = str.replace(/[±]/g, ' \\pm ');
       str = str.replace(/[×]/g, ' \\times ');
       str = str.replace(/[÷]/g, ' \\div ');
@@ -1587,6 +1644,25 @@
       str = str.replace(/[≡]/g, ' \\equiv ');
       str = str.replace(/[∞]/g, ' \\infty ');
       str = str.replace(/[∘]/g, ' \\circ ');
+
+      // 4.1 Set Cardinality outside math: n(A), n(A_t), n(A \cup B), n(A \cap B)
+      str = replaceOutsideMath(str, /\bn\(([A-Za-z0-9_\\ \(\)\^]+)\)/g, (m, inner) => '$n(' + inner.trim() + ')$');
+
+      // 4.2 Set Operations outside math: A \cup B, A \cap B, A \setminus B
+      str = replaceOutsideMath(str, /([A-Za-z][A-Za-z0-9_]*(?:\^[cC])?)\s*\\(cup|cap|setminus)\s*([A-Za-z][A-Za-z0-9_]*(?:\^[cC])?)/g, (m, left, op, right) => {
+        return '$' + left + ' \\' + op + ' ' + right + '$';
+      });
+
+      // 4.3 Set Relations outside math: x \in A, x \notin B, A \subseteq B, A \subset B, A \supseteq B, A \supset B
+      str = replaceOutsideMath(str, /([a-zA-Z0-9_\(\)]+)\s*\\(notin|in|subseteq|supseteq|subset|supset)\s*([A-Za-z0-9_\(\)]+)/g, (m, left, rel, right) => {
+        return '$' + left + ' \\' + rel + ' ' + right + '$';
+      });
+
+      // 4.4 Set Builder & Roster Notation outside math: e.g. A = { 1, 2, 3 } or A_t = { x | f(x) = t, x > 0 } or { x | x > 0 }
+      str = replaceOutsideMath(str, /((?:[A-Za-z][A-Za-z0-9_]*\s*)?=\s*)?\{\s*([^{}\$]+?)\s*\}/g, (m, prefix, body) => {
+        let normalizedBody = body.replace(/\s*\|\s*/g, ' \\mid ');
+        return '$' + (prefix || '') + '\\{' + normalizedBody.trim() + '\\}$';
+      });
 
       // 5. Relations outside math
       str = replaceOutsideMath(str, /([a-zA-Z][a-zA-Z0-9_\(\)\^]*(?:\s*(?:=|\\neq|\\le|\\ge|<|>)\s*[a-zA-Z0-9_\(\)\^]+){2,})/g, (m) => {
@@ -1638,8 +1714,8 @@
       str = replaceOutsideMath(str, /(\\angle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
       str = replaceOutsideMath(str, /(\\triangle\s+[a-zA-Z0-9^_{}]+)/g, (m, p1) => ' $' + p1 + '$ ');
 
-      // 8. Standalone symbols & relations outside math
-      str = replaceOutsideMath(str, /\\(neq|ne|le|ge|in|notin|pm|mp|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
+      // 8. Standalone symbols & relations outside math (including all set operations & relations)
+      str = replaceOutsideMath(str, /\\(cup|cap|subseteq|supseteq|subset|supset|in|notin|emptyset|varnothing|setminus|neq|ne|le|ge|pm|mp|times|div|cdot|approx|implies|iff|quad|qquad)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\\(alpha|beta|gamma|delta|theta|lambda|mu|pi|rho|sigma|tau|phi|omega)\b/g, ' $\\$1$ ');
       str = replaceOutsideMath(str, /\b(theta|alpha|beta|phi|gamma|delta|lambda|sigma|omega)\b/gi, (m) => ' $\\' + m.toLowerCase() + '$ ');
       str = replaceOutsideMath(str, /[θ]/g, ' $\\theta$ ');
@@ -1654,7 +1730,16 @@
         return ' $' + match + '$ ';
       });
 
-      // 10. Clean redundant dollars (keep $$ intact, do not delete empty display math)
+      // 10. Merge adjacent math blocks connected by equality or operators for unified baseline
+      str = str.replace(/\$\s*=\s*\$/g, ' = ');
+      str = str.replace(/\$\s*\\neq\s*\$/g, ' \\neq ');
+      str = str.replace(/\$\s*\\le\s*\$/g, ' \\le ');
+      str = str.replace(/\$\s*\\ge\s*\$/g, ' \\ge ');
+      str = str.replace(/\$\s*\\in\s*\$/g, ' \\in ');
+      str = str.replace(/\$\s*\\cup\s*\$/g, ' \\cup ');
+      str = str.replace(/\$\s*\\cap\s*\$/g, ' \\cap ');
+
+      // 11. Clean redundant dollars (keep $$ intact, do not delete empty display math)
       return str.replace(/\${3,}/g, () => '$$').replace(/\$\s+\$/g, ' ');
     }
 
