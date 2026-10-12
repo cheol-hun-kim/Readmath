@@ -9801,13 +9801,22 @@
 
         // Category 0.1: Probability & Normal Distribution (정규분포 / 이항분포 / 확률분포 곡선)
         if (combined.includes('정규분포') || combined.includes('이항분포') || combined.includes('표준정규분포') || combined.includes('e(x)') || (combined.includes('확률') && (combined.includes('분포') || combined.includes('p(x') || combined.includes('p(z') || combined.includes('표준편차')))) {
+          const meanMatch = combined.match(/(?:평균|m|e\(x\))\s*=\s*(\d+(?:\.\d+)?)/i) || combined.match(/n\s*\(\s*(\d+(?:\.\d+)?)/i);
+          const mVal = meanMatch ? parseFloat(meanMatch[1]) : null;
+          const sigmaMatch = combined.match(/(?:표준편차|\bsigma\b|v\(x\))\s*=\s*(\d+(?:\.\d+)?)/i) || combined.match(/n\s*\(\s*\d+(?:\.\d+)?\s*,\s*(\d+(?:\.\d+)?)/i);
+          let sVal = null;
+          if (sigmaMatch) {
+            const rawS = parseFloat(sigmaMatch[1]);
+            sVal = (combined.includes('n(') || combined.includes('n (')) ? Math.sqrt(rawS) : rawS;
+          }
+
           const cOx = 210, cOy = 185;
           const cScaleX = 42, cScaleY = 120;
           svgBody += `<line x1="30" y1="${cOy}" x2="390" y2="${cOy}" stroke="#64748B" stroke-width="1.8"/>\n`;
           svgBody += `<polygon points="390,${cOy-3} 398,${cOy} 390,${cOy+3}" fill="#64748B"/>\n`;
           svgBody += `<text x="395" y="${cOy+16}" fill="#94A3B8" font-size="11" font-weight="bold">x</text>\n`;
           svgBody += `<line x1="${cOx}" y1="35" x2="${cOx}" y2="${cOy}" stroke="#3B82F6" stroke-width="1.8" stroke-dasharray="3 3"/>\n`;
-          svgBody += `<text x="${cOx}" y="${cOy+16}" fill="#93C5FD" font-size="11" font-weight="bold" text-anchor="middle">m (평균)</text>\n`;
+          svgBody += `<text x="${cOx}" y="${cOy+16}" fill="#93C5FD" font-size="11" font-weight="bold" text-anchor="middle">${mVal !== null ? 'm = ' + mVal : 'm (평균)'}</text>\n`;
           let bellD = '';
           for (let z = -3.2; z <= 3.2; z += 0.1) {
             const px = cOx + z * cScaleX;
@@ -9826,29 +9835,49 @@
           shadeD += `L ${p2x.toFixed(1)} ${cOy} Z`;
           svgBody += `<path d="${shadeD}" fill="#10B981" fill-opacity="0.25"/>\n`;
           svgBody += `<line x1="${p2x.toFixed(1)}" y1="35" x2="${p2x.toFixed(1)}" y2="${cOy}" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="3 3"/>\n`;
-          svgBody += `<text x="${p2x.toFixed(1)}" y="${cOy+16}" fill="#FCD34D" font-size="10.5" font-weight="bold" text-anchor="middle">m + 2σ</text>\n`;
+          const p2Label = (mVal !== null && sVal !== null) ? `${(mVal + 2 * sVal).toFixed(0)}` : 'm + 2σ';
+          svgBody += `<text x="${p2x.toFixed(1)}" y="${cOy+16}" fill="#FCD34D" font-size="10.5" font-weight="bold" text-anchor="middle">${p2Label}</text>\n`;
           svgBody += `<text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">정규분포 N(m, σ²) 및 표준화 도해</text>\n`;
           svgBody += `<rect x="250" y="45" width="150" height="48" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>\n`;
           svgBody += `<text x="325" y="63" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">Z = (X - m) / σ 표준화</text>\n`;
           svgBody += `<text x="325" y="79" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">P(0 ≤ Z ≤ 2.0) = 0.477</text>\n`;
         }
         // Category 0.2: Trigonometry & Right Triangle Geometry (삼각비 / 삼각함수 / 직각삼각형)
-        else if (combined.includes('삼각비') || (combined.includes('직각삼각형') && (combined.includes('tan') || combined.includes('sin') || combined.includes('cos') || combined.includes('밑변') || combined.includes('높이')))) {
-          svgBody += `<polygon points="80,180 220,180 220,60" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>\n`;
-          svgBody += `<rect x="206" y="166" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="1.5"/>\n`;
-          svgBody += `<path d="M 110 180 A 30 30 0 0 0 102 155" fill="none" stroke="#FCD34D" stroke-width="2"/>\n`;
-          svgBody += `<text x="65" y="185" fill="#38BDF8" font-size="12" font-weight="bold">A</text>\n`;
-          svgBody += `<text x="228" y="185" fill="#94A3B8" font-size="12" font-weight="bold">C</text>\n`;
-          svgBody += `<text x="228" y="55" fill="#94A3B8" font-size="12" font-weight="bold">B</text>\n`;
-          svgBody += `<text x="150" y="198" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변(이웃변)</text>\n`;
-          svgBody += `<text x="235" y="125" fill="#34D399" font-size="11" font-weight="bold">높이(대변)</text>\n`;
-          svgBody += `<text x="135" y="110" fill="#94A3B8" font-size="11" font-weight="bold">빗변</text>\n`;
-          svgBody += `<rect x="250" y="80" width="155" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>\n`;
-          svgBody += `<text x="327" y="100" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">삼각비 직각삼각형 도해</text>\n`;
-          svgBody += `<text x="327" y="118" fill="#FBBF24" font-size="11" font-weight="extrabold" text-anchor="middle">sin, cos, tan 정의</text>\n`;
+        else if (combined.includes('삼각비') || (combined.includes('직각삼각형') && (combined.includes('tan') || combined.includes('sin') || combined.includes('cos') || combined.includes('밑변') || combined.includes('높이') || combined.includes('피타고라스')))) {
+          const numbers = Array.from(combined.matchAll(/\b(\d+(?:\.\d+)?)\b/g)).map(m => parseFloat(m[1])).filter(n => n > 0 && n <= 100);
+          let b = 4, h = 3, hyp = 5;
+          if (numbers.length >= 2) {
+            if (numbers.length >= 3) {
+              const sorted = [...numbers].sort((x, y) => x - y);
+              b = sorted[0];
+              h = sorted[1];
+              hyp = sorted[2];
+            } else {
+              b = numbers[0];
+              h = numbers[1];
+              hyp = Math.sqrt(b * b + h * h);
+            }
+          }
+          const scaleT = Math.min(140 / Math.max(b, 1), 100 / Math.max(h, 1), 25);
+          const x0 = 80, y0 = 175;
+          const xB = x0 + b * scaleT;
+          const yA = y0 - h * scaleT;
+
+          svgBody += `<polygon points="${x0},${y0} ${xB},${y0} ${xB},${yA}" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5"/>\n`;
+          svgBody += `<rect x="${xB - 14}" y="${y0 - 14}" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="1.5"/>\n`;
+          svgBody += `<path d="M ${x0 + 25} ${y0} A 25 25 0 0 0 ${x0 + 20} ${y0 - 15}" fill="none" stroke="#FCD34D" stroke-width="2"/>\n`;
+          svgBody += `<text x="${x0 - 15}" y="${y0 + 5}" fill="#38BDF8" font-size="12" font-weight="bold">A</text>\n`;
+          svgBody += `<text x="${xB + 8}" y="${y0 + 5}" fill="#94A3B8" font-size="12" font-weight="bold">C</text>\n`;
+          svgBody += `<text x="${xB + 8}" y="${yA - 5}" fill="#94A3B8" font-size="12" font-weight="bold">B</text>\n`;
+          svgBody += `<text x="${(x0 + xB)/2}" y="${y0 + 18}" fill="#94A3B8" font-size="11" font-weight="bold" text-anchor="middle">밑변 = ${b}</text>\n`;
+          svgBody += `<text x="${xB + 8}" y="${(y0 + yA)/2}" fill="#34D399" font-size="11" font-weight="extrabold">높이 = ${h}</text>\n`;
+          svgBody += `<text x="${(x0 + xB)/2 - 15}" y="${(y0 + yA)/2 - 10}" fill="#F87171" font-size="11" font-weight="bold">빗변 = ${hyp.toFixed(1)}</text>\n`;
+          svgBody += `<rect x="250" y="70" width="145" height="52" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>\n`;
+          svgBody += `<text x="322" y="90" fill="#C7D2FE" font-size="10" font-weight="bold" text-anchor="middle">직각삼각형 기하 모델링</text>\n`;
+          svgBody += `<text x="322" y="108" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">a² + b² = c² (피타고라스)</text>\n`;
         }
         // Category 1: Cubic Function with line y=x and keypoints (-2, 0), (3, 3), (4, 0)
-        else if (combined.includes('삼차함수') && (combined.includes('y=x') || combined.includes('y = x') || combined.includes('(3, 3)') || combined.includes('(-2, 0)') || combined.includes('극한이 존재하지 않을 조건') || combined.includes('식 결정'))) {
+        else if (combined.includes('삼차함수') && (/\by\s*=\s*x\b(?!\^|[0-9a-z_])/i.test(combined) || combined.includes('(3, 3)') || combined.includes('(-2, 0)') || combined.includes('극한이 존재하지 않을 조건') || combined.includes('식 결정'))) {
           const f = (x) => -0.12 * Math.pow(x + 2, 2) * (x - 4);
 
           svgBody += this.buildCoordinateSystem(ox, oy, scale, [-4, 6], [-2, 4]);
@@ -9879,12 +9908,27 @@
         } else if (combined.includes('직육면체') || combined.includes('정육면체')) {
           svgBody += this.plot3DSolid('cube', {}, 200, 105, 30);
         }
-        // Category 4: Circle and Tangents
-        else if (combined.includes('원과') || combined.includes('원의 방정식') || combined.includes('반지름') || (combined.includes('원') && combined.includes('접선'))) {
-          svgBody += this.buildCoordinateSystem(200, 100, 28, [-4, 4], [-3, 3]);
-          svgBody += this.plotCircle(0, 0, 2.5, 200, 100, 28, '#047857', '#F0FDF4');
-          svgBody += this.renderKeypoint(0, 0, 200, 100, 28, 'O(0, 0)', '#2563EB', 3.5, 'bottom');
-          svgBody += this.renderKeypoint(2.5, 0, 200, 100, 28, '(r, 0)', '#DC2626', 4, 'right');
+        // Category 4: Circle and Tangents (원의 방정식)
+        else if (combined.includes('원과') || combined.includes('원의 방정식') || combined.includes('반지름') || (combined.includes('원') && combined.includes('접선')) || (combined.includes('(x') && combined.includes('^2') && combined.includes('(y')) || combined.includes('x^2 + y^2') || combined.includes('x^2+y^2')) {
+          const circleMatch = combined.match(/\(x(?:\s*([-+])\s*(\d*\.?\d+))?\)\s*(?:\^2|\^\{2\}|²)\s*\+\s*\(y(?:\s*([-+])\s*(\d*\.?\d+))?\)\s*(?:\^2|\^\{2\}|²)\s*=\s*(\d*\.?\d+)/i) ||
+                              combined.match(/x\s*(?:\^2|\^\{2\}|²)\s*\+\s*y\s*(?:\^2|\^\{2\}|²)\s*=\s*(\d*\.?\d+)/i);
+          let h = 0, k = 0, r = 2.5;
+          if (circleMatch) {
+            if (circleMatch.length >= 6 && circleMatch[5]) {
+              if (circleMatch[1] && circleMatch[2]) h = parseFloat((circleMatch[1] === '-' ? '' : '-') + circleMatch[2]);
+              if (circleMatch[3] && circleMatch[4]) k = parseFloat((circleMatch[3] === '-' ? '' : '-') + circleMatch[4]);
+              r = Math.sqrt(parseFloat(circleMatch[5]));
+            } else if (circleMatch[1]) {
+              r = Math.sqrt(parseFloat(circleMatch[1]));
+            }
+          }
+          const cOx = 180, cOy = 115;
+          const cScale = Math.min(30, Math.max(12, 75 / Math.max(r, 1)));
+          svgBody += this.buildCoordinateSystem(cOx, cOy, cScale, [Math.floor(h - r - 2), Math.ceil(h + r + 2)], [Math.floor(k - r - 2), Math.ceil(k + r + 2)]);
+          svgBody += this.plotCircle(h, k, r, cOx, cOy, cScale, '#047857', 'none');
+          svgBody += this.renderKeypoint(h, k, cOx, cOy, cScale, `C(${h}, ${k})`, '#2563EB', 4, 'bottom');
+          svgBody += `<line x1="${(cOx + h * cScale).toFixed(1)}" y1="${(cOy - k * cScale).toFixed(1)}" x2="${(cOx + (h + r) * cScale).toFixed(1)}" y2="${(cOy - k * cScale).toFixed(1)}" stroke="#10B981" stroke-width="1.8"/>\n`;
+          svgBody += `<text x="${(cOx + (h + r / 2) * cScale).toFixed(1)}" y="${(cOy - k * cScale - 6).toFixed(1)}" fill="#10B981" font-size="10" font-weight="bold" text-anchor="middle">r = ${r.toFixed(1)}</text>\n`;
         }
         // Category 5: Ellipse (타원)
         else if (combined.includes('타원')) {
@@ -10124,11 +10168,91 @@
         }
         // Category 11: Dynamic Analytical Function & Coordinate Extractor
         // (Extracts actual functions y = f(x) and coordinates from user-uploaded or photographed problems)
-        else if (combined.includes('y=') || combined.includes('y =') || combined.includes('f(x)=') || combined.includes('f(x) =')) {
+        else if (combined.includes('y=') || combined.includes('y =') || combined.includes('f(x)=') || combined.includes('f(x) =') || combined.includes('삼차함수') || combined.includes('이차함수') || combined.includes('유리함수') || combined.includes('로그함수') || combined.includes('지수함수')) {
           let hasDynamicPlot = false;
-          
-          // 1. Quadratic Function: y = ax^2 + bx + c
-          const quadMatch = combined.match(/y\s*=\s*([-+]?\s*\d*\.?\d*)\s*x\s*(?:\^2|\^\{2\}|²)(?:\s*([-+])\s*(\d*\.?\d*)\s*x)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+
+          // 1. Cubic Function: y = ax^3 + bx^2 + cx + d (도함수 수치해석 및 극값 자동 도출)
+          const cubicMatch = combined.match(/y\s*=\s*([-+]?\s*\d*\.?\d*)\s*x\s*(?:\^3|\^\{3\}|³)(?:\s*([-+])\s*(\d*\.?\d*)\s*x\s*(?:\^2|\^\{2\}|²))?(?:\s*([-+])\s*(\d*\.?\d*)\s*x)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+          if (cubicMatch) {
+            let aStr = (cubicMatch[1] || '').replace(/\s+/g, '');
+            let a = aStr === '-' ? -1 : aStr === '+' || aStr === '' ? 1 : parseFloat(aStr);
+            let b = 0;
+            if (cubicMatch[2]) b = parseFloat((cubicMatch[2] === '-' ? '-' : '') + (cubicMatch[3] || '1'));
+            let c = 0;
+            if (cubicMatch[4]) c = parseFloat((cubicMatch[4] === '-' ? '-' : '') + (cubicMatch[5] || '1'));
+            let d = 0;
+            if (cubicMatch[6] && cubicMatch[7]) d = parseFloat((cubicMatch[6] === '-' ? '-' : '') + cubicMatch[7]);
+
+            if (!isNaN(a) && a !== 0) {
+              const f = (x) => a * x * x * x + b * x * x + c * x + d;
+              const disc = (2 * b) * (2 * b) - 4 * (3 * a) * c;
+              svgBody += this.buildCoordinateSystem(ox, oy, scale, [-4, 5], [-3, 4]);
+              svgBody += this.plotFunction(f, [-3.5, 4.2], ox, oy, scale, '#047857', 2.5);
+
+              if (disc > 0) {
+                const r1 = (-2 * b - Math.sqrt(disc)) / (6 * a);
+                const r2 = (-2 * b + Math.sqrt(disc)) / (6 * a);
+                [r1, r2].forEach((r, idx) => {
+                  const yVal = f(r);
+                  if (Math.abs(r) <= 6 && Math.abs(yVal) <= 6) {
+                    svgBody += this.renderKeypoint(r, yVal, ox, oy, scale, `극값 (${r.toFixed(1)}, ${yVal.toFixed(1)})`, idx === 0 ? '#DC2626' : '#2563EB', 4, idx === 0 ? 'top' : 'bottom');
+                  }
+                });
+              }
+              hasDynamicPlot = true;
+            }
+          }
+
+          // 2. Rational Function: y = k / (x - p) + q (점근선 교점 및 직각쌍곡선 자동 도출)
+          const ratMatch = !hasDynamicPlot && combined.match(/y\s*=\s*(?:\\frac\{)?([0-9.-]+)(?:\}|\/)\(?(?:x(?:\s*([-+])\s*(\d*\.?\d+))?)\)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+          if (ratMatch) {
+            const num = parseFloat(ratMatch[1]) || 1;
+            const p = ratMatch[2] && ratMatch[3] ? parseFloat((ratMatch[2] === '-' ? '' : '-') + ratMatch[3]) : 0;
+            const q = ratMatch[4] && ratMatch[5] ? parseFloat((ratMatch[4] === '-' ? '-' : '') + ratMatch[5]) : 0;
+
+            const cOx = 180, cOy = 120, cScale = 22;
+            svgBody += this.buildCoordinateSystem(cOx, cOy, cScale, [Math.floor(p - 5), Math.ceil(p + 5)], [Math.floor(q - 4), Math.ceil(q + 4)]);
+
+            // Asymptotes
+            const vx = cOx + p * cScale;
+            const vy = cOy - q * cScale;
+            svgBody += `<line x1="${vx.toFixed(1)}" y1="20" x2="${vx.toFixed(1)}" y2="230" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3 3"/>\n`;
+            svgBody += `<line x1="20" y1="${vy.toFixed(1)}" x2="380" y2="${vy.toFixed(1)}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3 3"/>\n`;
+            svgBody += `<text x="${(vx + 6).toFixed(1)}" y="35" fill="#EF4444" font-size="9.5" font-weight="bold">x = ${p}</text>\n`;
+            svgBody += `<text x="375" y="${(vy - 6).toFixed(1)}" fill="#EF4444" font-size="9.5" font-weight="bold" text-anchor="end">y = ${q}</text>\n`;
+
+            // Hyperbolic Branches
+            const fRat = (x) => num / (x - p) + q;
+            svgBody += this.plotFunction(fRat, [p - 5.5, p - 0.25], cOx, cOy, cScale, '#38BDF8', 2.5);
+            svgBody += this.plotFunction(fRat, [p + 0.25, p + 5.5], cOx, cOy, cScale, '#38BDF8', 2.5);
+            svgBody += this.renderKeypoint(p, q, cOx, cOy, cScale, `점근선 교점 (${p}, ${q})`, '#F59E0B', 4.5, 'top');
+            hasDynamicPlot = true;
+          }
+
+          // 3. Logarithmic Function: y = a log_b (x - h) + k (수직 점근선 및 로그곡선 자동 도출)
+          const logMatch = !hasDynamicPlot && combined.match(/y\s*=\s*(?:([-+]?\s*\d*\.?\d*)\s*(?:[\*·]\s*)?)?(?:\\ln|\bln\b|\\log|\blog)(?:_\{?([0-9.]+)\}?)?\s*\(\s*x(?:\s*([-+])\s*(\d*\.?\d+))?\s*\)(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+          if (logMatch) {
+            const a = logMatch[1] ? parseFloat(logMatch[1].replace(/\s+/g, '')) || 1 : 1;
+            const base = logMatch[2] ? parseFloat(logMatch[2]) : (combined.includes('ln') ? Math.E : 10);
+            const h = logMatch[3] && logMatch[4] ? parseFloat((logMatch[3] === '-' ? '' : '-') + logMatch[4]) : 0;
+            const k = logMatch[5] && logMatch[6] ? parseFloat((logMatch[5] === '-' ? '-' : '') + logMatch[6]) : 0;
+
+            const cOx = 120, cOy = 125, cScale = 22;
+            svgBody += this.buildCoordinateSystem(cOx, cOy, cScale, [Math.floor(h - 2), Math.ceil(h + 8)], [Math.floor(k - 4), Math.ceil(k + 4)]);
+
+            // Vertical Asymptote x = h
+            const asympX = cOx + h * cScale;
+            svgBody += `<line x1="${asympX.toFixed(1)}" y1="20" x2="${asympX.toFixed(1)}" y2="230" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3 3"/>\n`;
+            svgBody += `<text x="${(asympX - 5).toFixed(1)}" y="35" fill="#EF4444" font-size="9.5" font-weight="bold" text-anchor="end">점근선 x = ${h}</text>\n`;
+
+            const fLog = (x) => a * (Math.log(x - h) / Math.log(base)) + k;
+            svgBody += this.plotFunction(fLog, [h + 0.15, h + 7.5], cOx, cOy, cScale, '#10B981', 2.5);
+            svgBody += this.renderKeypoint(h + 1, k, cOx, cOy, cScale, `(${h + 1}, ${k})`, '#3B82F6', 4.5, 'top');
+            hasDynamicPlot = true;
+          }
+
+          // 4. Quadratic Function: y = ax^2 + bx + c (꼭짓점 및 대칭축 자동 도출)
+          const quadMatch = !hasDynamicPlot && combined.match(/y\s*=\s*([-+]?\s*\d*\.?\d*)\s*x\s*(?:\^2|\^\{2\}|²)(?:\s*([-+])\s*(\d*\.?\d*)\s*x)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
           if (quadMatch) {
             let aStr = (quadMatch[1] || '').replace(/\s+/g, '');
             let a = aStr === '-' ? -1 : aStr === '+' || aStr === '' ? 1 : parseFloat(aStr);
@@ -10151,7 +10275,7 @@
             }
           }
 
-          // 2. Exponential Function: y = b^x or y = b^{x-h} + k
+          // 5. Exponential Function: y = b^x or y = b^{x-h} + k
           const expMatch = !hasDynamicPlot && combined.match(/y\s*=\s*(?:(\d*\.?\d*)\s*(?:[\*·]\s*)?)?([0-9.]+)\s*\^\s*\{?\s*(?:x(?:\s*([-+])\s*(\d*\.?\d+))?)\s*\}?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
           if (expMatch) {
             const coef = expMatch[1] ? parseFloat(expMatch[1]) : 1;
