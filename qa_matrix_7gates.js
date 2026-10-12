@@ -536,6 +536,24 @@ if (svgDivergenceErrors.length > 0) {
   failGate(3, 'SVG Diagram Parity & Cleanliness', svgDivergenceErrors.join('; '));
 }
 
+// 3.4 Cognitive Knowledge Graph Track Verification (Probability & Statistics Isolation)
+if (!htmlContent.includes("n12: { name: '경우의 수·확률'") || !htmlContent.includes("n15: { name: '정규분포·표준화'")) {
+  failGate(3, 'Cognitive DNA Graph Integrity', 'Probability & Statistics knowledge graph nodes (n12~n15) missing in KNOWLEDGE_NODES_DATA');
+}
+const diag303FnMatch = htmlContent.match(/function getCognitiveDiagnosisForProblem\([\s\S]*?\n    \}/);
+if (diag303FnMatch) {
+  const diagSandbox = {};
+  vm.createContext(diagSandbox);
+  vm.runInContext(diag303FnMatch[0], diagSandbox);
+  const diag303 = diagSandbox.getCognitiveDiagnosisForProblem(303);
+  if (diag303.targetId !== 'n15' || diag303.deficitId !== 'n14') {
+    failGate(3, 'Cognitive DNA Diagnosis', 'Problem 303 must map to targetId n15 and deficitId n14');
+  }
+  if (diag303.targetTitle.includes('삼각함수') || diag303.deficitTitle.includes('삼각비')) {
+    failGate(3, 'Cognitive DNA Diagnosis', 'Problem 303 (수능 확통 29번) must not contain trigonometry in its cognitive diagnosis');
+  }
+}
+
 passGate(3, 'Dynamic State Synchronization & 4-Way Prescription Matrix', [
   `Verified ${dbProblems.length} preloaded/live problem templates in PROBLEMS_DB`,
   '100% of clauses contain distinct 4-way prescriptions (visual, modeling, condition, concept)',
@@ -1155,6 +1173,15 @@ if (fs.existsSync(ADMIN_HTML_PATH)) {
   }
 }
 
+// 4.10 Normal Distribution Gaussian Bell Curve Accuracy Verification
+const p303Svg = PROBLEMS_DB[303] ? (PROBLEMS_DB[303].svg_diagram || PROBLEMS_DB[303].diagrams[0].svg) : '';
+if (p303Svg.includes('Q 210 40 210 40')) {
+  failGate(4, 'Normal Distribution SVG Precision', 'Problem 303 SVG contains sharp degenerate Bézier cusp Q 210 40 210 40; must be smooth Gaussian curve');
+}
+if (!p303Svg.includes('C 185 70 195 45 210 45 C 225 45 235 70') && !p303Svg.includes('210 45')) {
+  failGate(4, 'Normal Distribution SVG Precision', 'Problem 303 SVG must have horizontal tangent at peak (210, 45)');
+}
+
 if (geometryErrors.length > 0) {
   failGate(4, 'Exact Mathematical Geometry', geometryErrors.join('; '));
 }
@@ -1384,6 +1411,34 @@ if (!htmlContent.includes('line-height: 2.0; letter-spacing: -0.3px; color: #111
 }
 if (!htmlContent.includes('[수학적 시각화 직관 도해]')) {
   failGate(7, 'Solution Booklet Diagrams', 'Solution booklet must embed high-contrast mathematical visualization diagrams');
+}
+
+// 7.6 AI Twin Problems Completeness Verification
+const twinIds = [302, 303, 304, 305];
+twinIds.forEach(tId => {
+  const prob = PROBLEMS_DB[tId];
+  if (!prob || !prob.twin_problem) {
+    failGate(7, 'AI Twin Completeness', `Problem ${tId} missing twin_problem object`);
+  }
+  const twin = prob.twin_problem;
+  if (!twin.svg_diagram || !twin.svg_diagram.includes('<svg')) {
+    failGate(7, 'AI Twin Completeness', `Problem ${tId} twin missing svg_diagram`);
+  }
+  if (!Array.isArray(twin.solution_steps) || twin.solution_steps.length === 0) {
+    failGate(7, 'AI Twin Completeness', `Problem ${tId} twin missing solution_steps`);
+  }
+  if (!twin.answer || twin.answer.includes('판별') || twin.answer.includes('계산')) {
+    failGate(7, 'AI Twin Completeness', `Problem ${tId} twin has non-numeric placeholder answer`);
+  }
+});
+
+// 7.7 Mobile Landing Page Semantic Copy Line Breaking
+const landingPath = path.join(ROOT_DIR, 'landing.html');
+if (fs.existsSync(landingPath)) {
+  const landingHtml = fs.readFileSync(landingPath, 'utf8');
+  if (!landingHtml.includes('inline-block">외계어 같은 수식을</span>') || !landingHtml.includes('inline-block">일상의 언어로,</span>')) {
+    failGate(7, 'Mobile Hero Copy', 'landing.html must group "외계어 같은 수식을" and "일상의 언어로," into inline-block spans');
+  }
 }
 
 passGate(7, 'End-to-End Functional Simulation & Mobile Viewport Layout Integrity', [

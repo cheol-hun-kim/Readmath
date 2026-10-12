@@ -1567,19 +1567,41 @@
     }
 
     @media print {
-      body { background: white !important; color: black !important; padding: 0 !important; }
-      body > *:not(#printable-exam-area) { display: none !important; }
-      #printable-exam-area {
-        display: block !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm 12mm 10mm;
+      }
+      html, body {
         background: white !important;
         color: black !important;
-        font-family: 'Pretendard', sans-serif;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+        overflow: visible !important;
       }
-      .katex { color: black !important; font-size: 1.1em; }
+      body > *:not(#printable-exam-area) {
+        display: none !important;
+      }
+      #printable-exam-area {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        color: black !important;
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      }
+      .katex { color: black !important; font-size: 1.05em; }
+      .exam-page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+      .exam-avoid-break {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
     }
   </style>
 </head>
@@ -6618,11 +6640,62 @@
           "지수와 로그의 대칭성을 쉽게 파악하는 팁이 있나요?"
         ],
         twin_problem: {
-          title: "로그함수와 지수함수의 대칭 비례",
-          problem_text: "곡선 $y = \\log_4(2x+1)$ 위의 점 $A(a, b)$에 대하여 대칭점 $A'(b, a)$가 $y=2^{x}-1$ 위의 점 $B$와 원점 $O$에 대해 일직선상에 있을 때 성립하는 비례 관계를 구하시오.",
+          title: "지수·로그함수의 역함수 대칭과 중점 비례",
+          problem_text: "곡선 $y = \\log_4(2x+1)$ 위의 점 $A(a, b)$에 대하여 대칭점 $A'(b, a)$가 $y=2^{x}-1$ 위의 점 $B$와 원점 $O$에 대해 일직선상에 있고, 선분 $AB$의 중점의 좌표가 $(5, 3)$일 때, $a+b$의 값을 구하시오.",
           rca_identity: "밑수가 다른 지수·로그함수의 역함수 대칭성과 원점 직선 비례를 확인하는 쌍둥이 문항입니다.",
-          answer: "비례상수 $k$를 통한 좌표 일원화",
-          explanation: "원점과 두 점이 일직선에 있으므로 $B(kb, ka)$로 미지수를 축소하여 연립합니다."
+          answer: "$a+b = 6$",
+          explanation: "원점과 두 점이 일직선에 있으므로 $B(kb, ka)$로 미지수를 축소하고 중점 조건과 연립하여 $a=3, b=3$을 구합니다.",
+          solution_steps: [
+            {
+              step_number: 1,
+              title: "역함수 대칭점과 원점 직선 비례 설정",
+              content: "점 $A(a, b)$의 직선 $y=x$ 대칭점은 $A'(b, a)$입니다. 원점 $O$와 $A', B$가 일직선 위에 있으므로 $B(kb, ka)$ ($k>0$)로 좌표를 일원화합니다.",
+              formula: "$B = (kb, ka)$"
+            },
+            {
+              step_number: 2,
+              title: "중점 조건으로 연립방정식 도출",
+              content: "선분 $AB$의 중점이 $(5, 3)$이므로 $\\frac{a+kb}{2}=5 \\implies a+kb=10$, $\\frac{b+ka}{2}=3 \\implies b+ka=6$입니다.",
+              formula: "$a+kb=10, \\quad b+ka=6$"
+            },
+            {
+              step_number: 3,
+              title: "함수 방정식과의 연립으로 미지수 결정",
+              content: "$A(a, b)$가 $y=\\log_4(2x+1)$ 위에 있고 $B(kb, ka)$가 $y=2^x-1$ 위에 있음을 연립하면 $k=1$, $a=3$, $b=3$을 얻습니다.",
+              formula: "$a = 3, \\quad b = 3, \\quad k = 1$"
+            },
+            {
+              step_number: 4,
+              title: "최종 합 계산",
+              content: "$a=3, b=3$이므로 $a+b = 3+3 = 6$입니다.",
+              formula: "$a+b = 6$"
+            }
+          ],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="420" height="250" fill="#090D16" rx="10"/>
+              <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 지수·로그 역함수 대칭 &amp; 비례선 도해</text>
+              <line x1="20" y1="215" x2="400" y2="215" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="400,212 408,215 400,218" fill="#64748B"/>
+              <text x="398" y="228" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+              <line x1="60" y1="240" x2="60" y2="20" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="57,20 60,12 63,20" fill="#64748B"/>
+              <text x="48" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+              <text x="48" y="228" fill="#64748B" font-size="11">O</text>
+              <line x1="45" y1="230" x2="230" y2="45" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <text x="220" y="38" fill="#10B981" font-size="10" font-weight="bold">y = x</text>
+              <line x1="60" y1="215" x2="220" y2="55" stroke="#F43F5E" stroke-width="1.8" stroke-dasharray="4 2"/>
+              <path d="M 65 210 Q 110 185 160 160 Q 240 145 380 135" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+              <text x="320" y="128" fill="#38BDF8" font-size="10" font-weight="bold">y = log4(2x+1)</text>
+              <path d="M 70 215 Q 110 180 150 110 Q 170 55 190 20" fill="none" stroke="#C084FC" stroke-width="2.5"/>
+              <text x="180" y="35" fill="#C084FC" font-size="10" font-weight="bold">y = 2^x - 1</text>
+              <circle cx="160" cy="115" r="4.5" fill="#38BDF8"/>
+              <text x="168" y="118" fill="#38BDF8" font-size="10.5" font-weight="bold">A(3, 3)</text>
+              <circle cx="160" cy="115" r="7" fill="none" stroke="#C084FC" stroke-width="1.5"/>
+              <text x="168" y="132" fill="#C084FC" font-size="10" font-weight="bold">B(3, 3)</text>
+              <rect x="235" y="180" width="170" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+              <text x="320" y="197" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">O, A', B 일직선 비례 (k=1)</text>
+              <text x="320" y="213" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">a = 3, b = 3  =&gt;  a + b = 6</text>
+            </svg>`
         }
       },
 
@@ -6710,12 +6783,14 @@
               <text x="35" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
               <text x="32" y="214" fill="#64748B" font-size="11">O</text>
               <!-- Shaded Region up to X = 4920 (Z = 2.0) -->
-              <path d="M 45 200 Q 130 198 170 150 Q 210 40 210 40 Q 210 40 250 150 Q 280 180 310 195 L 310 200 Z" fill="#064E3B" fill-opacity="0.6"/>
-              <!-- Full Normal Curve -->
-              <path d="M 45 200 Q 130 198 170 150 Q 210 40 210 40 Q 210 40 250 150 Q 290 198 380 200" fill="none" stroke="#10B981" stroke-width="2.5"/>
-              <line x1="210" y1="200" x2="210" y2="40" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <path d="M 50 200 L 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 275 150 295 170 310 179 L 310 200 Z" fill="#064E3B" fill-opacity="0.6"/>
+              <!-- Full Smooth Gaussian Bell Curve (Zero apex cusp, horizontal tangent at peak) -->
+              <path d="M 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 280 160 320 199 370 199" fill="none" stroke="#10B981" stroke-width="2.5"/>
+              <line x1="210" y1="200" x2="210" y2="45" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <circle cx="210" cy="45" r="3.5" fill="#10B981"/>
               <text x="210" y="218" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">m = 4800 (Z = 0)</text>
-              <line x1="310" y1="200" x2="310" y2="185" stroke="#F43F5E" stroke-width="2.2"/>
+              <line x1="310" y1="200" x2="310" y2="179" stroke="#F43F5E" stroke-width="2.2"/>
+              <circle cx="310" cy="179" r="3.5" fill="#F43F5E"/>
               <text x="310" y="218" fill="#F43F5E" font-size="11" font-weight="extrabold" text-anchor="middle">4920 (Z = 2.0)</text>
               <rect x="110" y="110" width="160" height="32" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
               <text x="190" y="130" fill="#FDE047" font-size="11" font-weight="extrabold" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
@@ -6736,12 +6811,14 @@
               <text x="35" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
               <text x="32" y="214" fill="#64748B" font-size="11">O</text>
               <!-- Shaded Region up to X = 4920 (Z = 2.0) -->
-              <path d="M 45 200 Q 130 198 170 150 Q 210 40 210 40 Q 210 40 250 150 Q 280 180 310 195 L 310 200 Z" fill="#064E3B" fill-opacity="0.6"/>
-              <!-- Full Normal Curve -->
-              <path d="M 45 200 Q 130 198 170 150 Q 210 40 210 40 Q 210 40 250 150 Q 290 198 380 200" fill="none" stroke="#10B981" stroke-width="2.5"/>
-              <line x1="210" y1="200" x2="210" y2="40" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <path d="M 50 200 L 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 275 150 295 170 310 179 L 310 200 Z" fill="#064E3B" fill-opacity="0.6"/>
+              <!-- Full Smooth Gaussian Bell Curve (Zero apex cusp, horizontal tangent at peak) -->
+              <path d="M 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 280 160 320 199 370 199" fill="none" stroke="#10B981" stroke-width="2.5"/>
+              <line x1="210" y1="200" x2="210" y2="45" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <circle cx="210" cy="45" r="3.5" fill="#10B981"/>
               <text x="210" y="218" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">m = 4800 (Z = 0)</text>
-              <line x1="310" y1="200" x2="310" y2="185" stroke="#F43F5E" stroke-width="2.2"/>
+              <line x1="310" y1="200" x2="310" y2="179" stroke="#F43F5E" stroke-width="2.2"/>
+              <circle cx="310" cy="179" r="3.5" fill="#F43F5E"/>
               <text x="310" y="218" fill="#F43F5E" font-size="11" font-weight="extrabold" text-anchor="middle">4920 (Z = 2.0)</text>
               <rect x="110" y="110" width="160" height="32" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
               <text x="190" y="130" fill="#FDE047" font-size="11" font-weight="extrabold" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
@@ -6756,11 +6833,63 @@
           "이항분포가 정규분포로 근사되는 조건이 궁금해요"
         ],
         twin_problem: {
-          title: "주사위 조건부 시행과 정규분포",
-          problem_text: "주사위 눈이 $3$ 이하이면 동전을 $4$번, $3$ 초과이면 $2$번 던져 앞면 횟수를 센다. $9600$회 반복할 때의 기대값과 정규분포 표준화를 구하시오.",
+          title: "주사위 조건부 독립시행과 정규분포 표준화",
+          problem_text: "6 이하의 자연수 $a$에 대하여 한 개의 주사위와 한 개의 동전을 사용하여 다음 시행을 한다. 주사위를 던져 나온 눈이 $a$ 이하이면 동전을 4번 던져 앞면 횟수를 기록하고, 나온 눈이 $a$ 초과이면 동전을 4번 던져 앞면 횟수를 기록한다. 이 시행을 7200번 반복하여 기록한 수가 2인 횟수를 확률변수 $X$라 하자. $\\mathrm{E}(X) = 2400$일 때, $\\mathrm{P}(X \\le 2480)$의 값을 표준정규분포표를 이용하여 구한 값을 $k$라 하자. $1000 \\times k$의 값을 구하시오. (단, 표준정규분포에서 $P(0 \\le Z \\le 2.0) = 0.477$이다.)",
           rca_identity: "시행 횟수와 조건부 확률 기준을 변경한 정규분포 근사 쌍둥이 문제입니다.",
-          answer: "표준화 $Z$를 통한 확률 계산",
-          explanation: "독립시행의 1회 확률을 계산한 후 평균과 표준편차를 구하여 표준정규분포표를 이용합니다."
+          answer: "$1000 \\times k = 977$",
+          explanation: "독립시행의 1회 확률 $p=\\frac{a+12}{48}$를 계산하고 $E(X)=2400$에서 $a=4, p=1/3$을 구한 뒤, 분산 $V(X)=1600=40^2$으로부터 $Z=2.0$을 표준화하여 $0.5+0.477=0.977$을 도출합니다.",
+          solution_steps: [
+            {
+              step_number: 1,
+              title: "조건부 독립시행 확률로 1회 확률 도출",
+              content: "주사위 눈이 $a$ 이하일 확률은 $\\frac{a}{6}$이고 동전 4번 중 앞면 2번은 $\\binom{4}{2}(\\frac{1}{2})^4 = \\frac{6}{16}$입니다. 눈이 $a$ 초과일 확률은 $\\frac{6-a}{6}$이고 동전 4번 중 앞면 1번은 $\\binom{4}{1}(\\frac{1}{2})^4 = \\frac{4}{16}$입니다. 따라서 1회 시행 확률 $p = \\frac{a+12}{48}$입니다.",
+              formula: "$p = \\frac{a}{6}\\cdot\\frac{6}{16} + \\frac{6-a}{6}\\cdot\\frac{4}{16} = \\frac{a+12}{48}$"
+            },
+            {
+              step_number: 2,
+              title: "기대값을 통한 주사위 기준값 a 결정",
+              content: "시행 횟수 $n = 7200$에서 $\\mathrm{E}(X) = 7200 \\times \\frac{a+12}{48} = 150(a+12) = 2400$이므로 $a+12=16 \\implies a = 4$입니다. 따라서 $p = \\frac{16}{48} = \\frac{1}{3}$입니다.",
+              formula: "$a = 4, \\quad p = \\frac{1}{3}$"
+            },
+            {
+              step_number: 3,
+              title: "분산 계산 및 정규분포 근사",
+              content: "$\\mathrm{V}(X) = np(1-p) = 7200 \\times \\frac{1}{3} \\times \\frac{2}{3} = 1600 = 40^2$이므로 $X$는 근사적으로 $N(2400, 40^2)$를 따릅니다.",
+              formula: "$X \\sim N(2400, 40^2)$"
+            },
+            {
+              step_number: 4,
+              title: "표준화 및 최종 정답 계산",
+              content: "구하는 확률은 $\\mathrm{P}(X \\le 2480)$입니다. $Z = \\frac{2480 - 2400}{40} = 2.0$이므로 $\\mathrm{P}(Z \\le 2.0) = 0.5 + 0.477 = 0.977$입니다. 따라서 $1000 \\times k = 977$입니다.",
+              formula: "$k = 0.977 \\implies 1000 \\times k = 977$"
+            }
+          ],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="420" height="250" fill="#090D16" rx="10"/>
+              <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 정규분포 근사 &amp; Z=2.0 확률 도해</text>
+              <line x1="20" y1="200" x2="400" y2="200" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="400,197 408,200 400,203" fill="#64748B"/>
+              <text x="398" y="215" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+              <line x1="45" y1="230" x2="45" y2="20" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="42,20 45,12 48,20" fill="#64748B"/>
+              <text x="35" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+              <text x="32" y="214" fill="#64748B" font-size="11">O</text>
+              <!-- Shaded Region: X <= 2480 (Z <= 2.0) -->
+              <path d="M 50 200 L 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 275 150 295 170 310 179 L 310 200 Z" fill="#064E3B" fill-opacity="0.6"/>
+              <!-- Full Smooth Gaussian Bell Curve -->
+              <path d="M 50 199 C 100 199 140 160 165 110 C 185 70 195 45 210 45 C 225 45 235 70 255 110 C 280 160 320 199 370 199" fill="none" stroke="#10B981" stroke-width="2.5"/>
+              <line x1="210" y1="200" x2="210" y2="45" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <circle cx="210" cy="45" r="3.5" fill="#10B981"/>
+              <text x="210" y="218" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">m = 2400 (Z = 0)</text>
+              <line x1="310" y1="200" x2="310" y2="179" stroke="#F43F5E" stroke-width="2.2"/>
+              <circle cx="310" cy="179" r="3.5" fill="#F43F5E"/>
+              <text x="310" y="218" fill="#F43F5E" font-size="11" font-weight="extrabold" text-anchor="middle">2480 (Z = 2.0)</text>
+              <rect x="110" y="110" width="160" height="32" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+              <text x="190" y="130" fill="#FDE047" font-size="11" font-weight="extrabold" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
+              <rect x="235" y="30" width="170" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+              <text x="320" y="47" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">a = 4, σ = 40</text>
+              <text x="320" y="63" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">1000 × k = 977</text>
+            </svg>`
         }
       },
 
@@ -6914,11 +7043,60 @@
           "b=1에서 좌우 극한과 함숫값의 관계를 알고 싶어요"
         ],
         twin_problem: {
-          title: "역함수의 미분가능성과 접선 교점",
-          problem_text: "연속 증가함수의 역함수에 대하여 정점 $(0, 1)$에서 그은 접선의 개수 변화를 통해 불연속점을 판별하시오.",
-          rca_identity: "고정점을 지나는 직선의 회전과 초월함수의 접선 경계를 분석하는 쌍둥이 문제입니다.",
-          answer: "접선 기울기 $m$의 경계 판별",
-          explanation: "구간별 함수의 도함수를 구하고 정점과의 기울기 방정식을 풀어 접점의 개수를 확인합니다."
+          title: "역함수의 미분가능성과 접선의 기울기",
+          problem_text: "함수 $f(x) = x^3 + 3x + 1$의 역함수를 $g(x)$라 하자. 좌표평면 위의 점 $(1, 0)$에서 곡선 $y=g(x)$에 그은 접선의 기울기를 $m$이라 할 때, $60 \\times m$의 값을 구하시오.",
+          rca_identity: "역함수 미분법과 외부 점에서의 접선 방정식 연립을 확인하는 쌍둥이 문제입니다.",
+          answer: "$60 \\times m = 20$",
+          explanation: "곡선 위의 접점 $(f(t), t)$에서의 접선이 $(1, 0)$을 지난다는 방정식 $-t(3t^2+3) = 1-(t^3+3t+1)$을 풀어 $t=0$을 얻고, 기울기 $m = 1/f'(0) = 1/3$에서 $60m=20$을 도출합니다.",
+          solution_steps: [
+            {
+              step_number: 1,
+              title: "도함수 부호 판정과 역함수 존재 확인",
+              content: "$f'(x) = 3x^2+3 > 0$이므로 $f(x)$는 실수 전체에서 순증가하며 역함수 $g(x)$가 존재합니다.",
+              formula: "$f'(x) = 3x^2 + 3 > 0$"
+            },
+            {
+              step_number: 2,
+              title: "역함수 접선 기울기 및 방정식 구성",
+              content: "접점의 좌표를 $(f(t), t)$라 하면 $g'(f(t)) = \\frac{1}{f'(t)} = \\frac{1}{3t^2+3}$입니다. 점 $(1, 0)$을 지나는 접선 식은 $0 - t = \\frac{1}{3t^2+3}(1 - f(t))$입니다.",
+              formula: "$y - t = \\frac{1}{3t^2+3}(x - f(t))$"
+            },
+            {
+              step_number: 3,
+              title: "접점 매개변수 t의 유일해 결정",
+              content: "$-t(3t^2+3) = 1 - (t^3+3t+1) \\implies -3t^3-3t = -t^3-3t \\implies -2t^3=0 \\implies t=0$을 얻습니다.",
+              formula: "$t = 0 \\implies f(0) = 1$"
+            },
+            {
+              step_number: 4,
+              title: "접선 기울기 및 최종 정답 계산",
+              content: "$t=0$일 때 $m = \\frac{1}{f'(0)} = \\frac{1}{3}$입니다. 따라서 $60 \\times m = 60 \\times \\frac{1}{3} = 20$입니다.",
+              formula: "$60 \\times m = 20$"
+            }
+          ],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="420" height="250" fill="#090D16" rx="10"/>
+              <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 역함수 미분법 &amp; 점 (1, 0) 접선 도해</text>
+              <line x1="20" y1="210" x2="400" y2="210" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="400,207 408,210 400,213" fill="#64748B"/>
+              <text x="398" y="224" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+              <line x1="150" y1="240" x2="150" y2="20" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="147,20 150,12 153,20" fill="#64748B"/>
+              <text x="138" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+              <text x="138" y="224" fill="#64748B" font-size="11">O</text>
+              <line x1="45" y1="230" x2="230" y2="45" stroke="#10B981" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <text x="220" y="38" fill="#10B981" font-size="10" font-weight="bold">y = x</text>
+              <path d="M 120 240 Q 145 200 150 160 Q 155 120 170 30" fill="none" stroke="#C084FC" stroke-width="2"/>
+              <text x="180" y="45" fill="#C084FC" font-size="10" font-weight="bold">y = f(x)</text>
+              <path d="M 60 170 Q 150 155 190 150 Q 230 145 320 120" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+              <text x="310" y="112" fill="#38BDF8" font-size="10" font-weight="bold">y = g(x)</text>
+              <line x1="150" y1="210" x2="330" y2="150" stroke="#F43F5E" stroke-width="2"/>
+              <circle cx="190" cy="210" r="4.5" fill="#F43F5E"/>
+              <text x="190" y="226" fill="#F43F5E" font-size="10" font-weight="extrabold" text-anchor="middle">(1, 0)</text>
+              <rect x="235" y="180" width="170" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+              <text x="320" y="197" fill="#C7D2FE" font-size="9.5" font-weight="bold" text-anchor="middle">g'(1) = 1/f'(0) = 1/3</text>
+              <text x="320" y="213" fill="#FBBF24" font-size="10.5" font-weight="extrabold" text-anchor="middle">m = 1/3  =&gt;  60 × m = 20</text>
+            </svg>`
         }
       },
 
@@ -7052,11 +7230,64 @@
           "점 Q의 대칭 위치를 파악하는 방법을 알려주세요"
         ],
         twin_problem: {
-          title: "원의 지름과 벡터 내적",
-          problem_text: "지름이 $10$인 원 위의 점 $P$에 대하여 직각삼각형 $APB$를 작도하고, 벡터 관계식으로부터 두 벡터의 내적을 구하시오.",
-          rca_identity: "지름에 대한 원주각과 벡터의 중심 시점 통일 원리를 확인하는 쌍둥이 문제입니다.",
-          answer: "대칭성을 통한 벡터 내적 계산",
-          explanation: "원의 중심을 시점으로 하여 위치벡터로 변환한 후 삼각비를 대입하여 풀이합니다."
+          title: "원 위의 점과 위치벡터 내적의 최댓값",
+          problem_text: "중심이 원점 $O$이고 반지름의 길이가 $4$인 원 위의 서로 다른 두 점 $A, B$에 대하여 $|\\vec{OA} + \\vec{OB}| = 4\\sqrt{3}$이다. 원 위의 점 $P$에 대하여 내적 $\\vec{PA} \\cdot \\vec{PB}$의 최댓값 $M$과 최솟값 $m$의 합 $M+m$의 값을 구하시오.",
+          rca_identity: "원의 중심을 시점으로 변환하여 벡터 내적을 중심거리와 반지름으로 분해하는 쌍둥이 문제입니다.",
+          answer: "$M+m = 48$",
+          explanation: "선분 $AB$의 중점을 $M_0$이라 하면 $|\\vec{OM_0}| = 2\\sqrt{3}$이고 $\\vec{PA}\\cdot\\vec{PB} = |\\vec{PM_0}|^2 - |\\vec{M_0A}|^2$으로 분해되어, 최댓값 $(4+2\\sqrt{3})^2-4$와 최솟값 $(4-2\\sqrt{3})^2-4$의 합은 $48$입니다.",
+          solution_steps: [
+            {
+              step_number: 1,
+              title: "벡터 합 크기로부터 내적 도출",
+              content: "$|\\vec{OA}+\\vec{OB}|^2 = |\\vec{OA}|^2 + |\\vec{OB}|^2 + 2\\vec{OA}\\cdot\\vec{OB} = 16 + 16 + 2\\vec{OA}\\cdot\\vec{OB} = (4\\sqrt{3})^2 = 48$에서 $\\vec{OA}\\cdot\\vec{OB} = 8$을 얻습니다.",
+              formula: "$\\vec{OA}\\cdot\\vec{OB} = 8$"
+            },
+            {
+              step_number: 2,
+              title: "중점 위치벡터 및 선분 길이 계산",
+              content: "선분 $AB$의 중점 $M_0$에 대하여 $\\vec{OM_0} = \\frac{\\vec{OA}+\\vec{OB}}{2}$이므로 $|\\vec{OM_0}| = \\frac{4\\sqrt{3}}{2} = 2\\sqrt{3}$입니다. $|\\vec{M_0A}|^2 = |\\vec{OA}|^2 - |\\vec{OM_0}|^2 = 16 - 12 = 4$입니다.",
+              formula: "$|\\vec{OM_0}| = 2\\sqrt{3}, \\quad |\\vec{M_0A}|^2 = 4$"
+            },
+            {
+              step_number: 3,
+              title: "중점 시점 통일로 내적 분해",
+              content: "$\\vec{PA}\\cdot\\vec{PB} = (\\vec{PM_0}+\\vec{M_0A})\\cdot(\\vec{PM_0}-\\vec{M_0A}) = |\\vec{PM_0}|^2 - |\\vec{M_0A}|^2 = |\\vec{PM_0}|^2 - 4$로 단순화됩니다.",
+              formula: "$\\vec{PA}\\cdot\\vec{PB} = |\\vec{PM_0}|^2 - 4$"
+            },
+            {
+              step_number: 4,
+              title: "최댓값과 최솟값의 합 계산",
+              content: "원 위의 점 $P$에 대하여 $|\\vec{PM_0}|$의 범위는 $4-2\\sqrt{3} \\le |\\vec{PM_0}| \\le 4+2\\sqrt{3}$입니다. 따라서 $M = (4+2\\sqrt{3})^2-4 = 24+16\\sqrt{3}$, $m = (4-2\\sqrt{3})^2-4 = 24-16\\sqrt{3}$이므로 $M+m = 48$입니다.",
+              formula: "$M + m = 48$"
+            }
+          ],
+          svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="420" height="250" fill="#090D16" rx="10"/>
+              <text x="210" y="24" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle">[AI 쌍둥이 실전] 원과 위치벡터 중심 분해 도해</text>
+              <line x1="20" y1="130" x2="400" y2="130" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="400,127 408,130 400,133" fill="#64748B"/>
+              <text x="398" y="145" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+              <line x1="180" y1="240" x2="180" y2="20" stroke="#64748B" stroke-width="1.8"/>
+              <polygon points="177,20 180,12 183,20" fill="#64748B"/>
+              <text x="170" y="22" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+              <text x="168" y="145" fill="#64748B" font-size="11">O</text>
+              <circle cx="180" cy="130" r="75" fill="none" stroke="#38BDF8" stroke-width="2"/>
+              <circle cx="235" cy="78" r="4" fill="#C084FC"/>
+              <text x="242" y="80" fill="#C084FC" font-size="10" font-weight="bold">A</text>
+              <circle cx="235" cy="182" r="4" fill="#C084FC"/>
+              <text x="242" y="186" fill="#C084FC" font-size="10" font-weight="bold">B</text>
+              <line x1="235" y1="78" x2="235" y2="182" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2 2"/>
+              <circle cx="235" cy="130" r="4" fill="#F59E0B"/>
+              <text x="242" y="134" fill="#F59E0B" font-size="10" font-weight="bold">M0</text>
+              <line x1="180" y1="130" x2="235" y2="130" stroke="#F59E0B" stroke-width="2"/>
+              <circle cx="255" cy="130" r="4" fill="#10B981"/>
+              <text x="260" y="125" fill="#10B981" font-size="9" font-weight="bold">P(min)</text>
+              <circle cx="105" cy="130" r="4" fill="#EF4444"/>
+              <text x="75" y="125" fill="#EF4444" font-size="9" font-weight="bold">P(max)</text>
+              <rect x="250" y="180" width="155" height="42" rx="6" fill="#1E1B4B" stroke="#4F46E5" stroke-width="1.2"/>
+              <text x="327" y="197" fill="#C7D2FE" font-size="9" font-weight="bold" text-anchor="middle">|OM0| = 2√3, |M0A|^2 = 4</text>
+              <text x="327" y="213" fill="#FBBF24" font-size="10" font-weight="extrabold" text-anchor="middle">M + m = 48</text>
+            </svg>`
         }
       }
   };
@@ -11555,6 +11786,11 @@
       n9: { name: '연속과 미분계수', grade: '수2', pillar: '고2 수1·수2', summary: '함수의 극한, 좌극한·우극한 일치 연속성, 미분가능성과 접선의 기울기 정의', prereq: '고1 다항함수, 수2 극한의 성질', next: '수2 극값과 다항함수 추론, 미적분 초월함수 미분법', drillTip: '미분가능성은 연속이 전제되어야 하며, 좌미분계수와 우미분계수의 일치 여부를 항상 분리 검토하세요.' },
       n10: { name: '공간도형/정사영', grade: '기하', pillar: '고3/수능 킬러', summary: '삼수선의 정리, 이면각 크기 측정, 단면화 기법 및 평면 위로의 정사영 넓이 S\' = S·cosθ', prereq: '중3 피타고라스, 수1 삼각함수', next: '대학 수리논술 입체기하, 공간벡터 외적', drillTip: '3차원 공간도형을 그대로 보지 말고, 핵심 직선을 포함하는 2차원 평면으로 잘라 단면화하여 해석하세요.' },
       n11: { name: '역함수미분/교점', grade: '미적', pillar: '고3/수능 킬러', summary: '(f⁻¹)\'(b) = 1/f\'(a) 관계식, 원함수-역함수 교점 불연속 조건 및 음함수 미분', prereq: '고1 역함수 성질, 수2 미분계수', next: '수능 킬러 미적분 30번, 대학 고급미적분학', drillTip: 'y=x 대칭축과 원함수의 접선 기울기 k가 서로 역수 관계(k·m=1)가 됨을 활용해 접점을 우회 역추적하세요.' }
+    ,
+      n12: { name: '경우의 수·확률', grade: '중2', pillar: '확률과 통계', summary: '합의 법칙·곱의 법칙과 수학적 확률의 기본 정의 및 여사건의 성질', prereq: '중1 소인수분해와 약수·배수', next: '고1 순열과 조합, 확통 조건부확률', drillTip: '동시에 일어나는 사건(곱)과 동시에 일어나지 않는 사건(합)을 엄밀히 분류하세요.' },
+      n13: { name: '순열과 조합', grade: '고1', pillar: '확률과 통계', summary: '순서가 있는 나열 nPr과 순서 없는 선택 nCr, 중복조합 및 이항계수 원리', prereq: '중2 경우의 수·확률', next: '확통 조건부확률과 독립시행', drillTip: '자연수의 분할이나 조건부 배치는 먼저 대표 원소를 고르는 조합적 사고를 선행하세요.' },
+      n14: { name: '조건부확률·독립', grade: '확통', pillar: '확률과 통계', summary: 'P(B|A) = P(A∩B)/P(A), 사건의 독립과 종속 판별 및 독립시행의 확률 계산', prereq: '고1 순열과 조합, 중2 경우의 수·확률', next: '확통 이항분포와 정규분포', drillTip: '주사위나 동전 등 선행 조건에 따라 시행 횟수가 바뀌는 경우 수형도로 갈라 각 경로 확률의 합을 구하세요.' },
+      n15: { name: '정규분포·표준화', grade: '확통', pillar: '확률과 통계', summary: '이항분포 B(n, p)의 정규분포 N(m, σ²) 근사 및 표준화 변수 Z=(X-m)/σ 누적확률', prereq: '확통 조건부확률·독립, 고1 다항식 연산', next: '수능 확통 29/30번 킬러, 통계적 추정', drillTip: '분산 V(X)=np(1-p)에서 표준편차 σ를 구할 때 제곱근 계산 실수를 주의하고 정규분포 곡선의 대칭성을 활용하세요.' }
     };
 
     function getCognitiveDiagnosisForProblem(pId) {
@@ -11586,15 +11822,15 @@
         };
       } else if (id === 303) {
         return {
-          targetId: 'n8',
-          deficitId: 'n1',
-          activeChain: ['n1', 'n4', 'n8'],
-          targetTitle: '조건부확률과 삼각함수 결합 (수능 확통 29번)',
-          deficitTitle: '중3 삼각비와 피타고라스 정리',
-          deficitReason: '확률 변수의 기하학적 영역을 계산할 때 직각삼각형의 밑변/높이 삼각비 관계식 변환 지연.',
-          remedyTip: '직각삼각형의 특수각 비율을 이용해 표본공간의 전체 넓이와 사건 영역의 비를 신속히 단순화하세요.',
-          upstreamChain: ['n1 (삼각비/피타고라스)', 'n4 (평면좌표)', 'n8 (삼각함수 덧셈정리)'],
-          killerDifficulty: '정답률 14.1% 준킬러'
+          targetId: 'n15',
+          deficitId: 'n14',
+          activeChain: ['n12', 'n13', 'n14', 'n15'],
+          targetTitle: '이항분포의 정규분포 근사와 표준화 (수능 확통 29번)',
+          deficitTitle: '확통 조건부확률과 독립시행의 확률',
+          deficitReason: '주사위 눈 조건에 따라 동전 시행 횟수가 달라지는 복합 조건부 확률을 독립시행의 합으로 정리하는 과정에서 오류 발생.',
+          remedyTip: '조건부 확률 P(A)와 독립시행 횟수(5회 vs 3회)를 수형도로 가지를 친 후 각 확률을 더해 1회 확률 p=(a+4)/32를 명확히 확정하세요.',
+          upstreamChain: ['n12 (경우의 수·확률)', 'n13 (순열과 조합)', 'n14 (조건부확률·독립)'],
+          killerDifficulty: '정답률 14.1% 확통 킬러'
         };
       } else if (id === 3) {
         return {
@@ -11681,7 +11917,23 @@
       const deficitId = diag.deficitId;
       const activeSelected = selectedId || currentSelectedNodeId || deficitId;
 
-      const nodes = [
+      const isProbStat = (pId === 303);
+      const nodes = isProbStat ? [
+        // Column 1: 중등
+        { id: 'n12', name: '경우의 수·확률', grade: '중2', cx: 48, cy: 75 },
+        { id: 'n3',  name: '일차·이차함수', grade: '중3', cx: 48, cy: 165 },
+
+        // Column 2: 고1
+        { id: 'n13', name: '순열과 조합',   grade: '고1', cx: 135, cy: 75 },
+        { id: 'n4',  name: '평면좌표/기울기', grade: '고1', cx: 135, cy: 165 },
+
+        // Column 3: 고2 확통/수2
+        { id: 'n14', name: '조건부확률·독립', grade: '확통', cx: 222, cy: 75 },
+        { id: 'n9',  name: '연속과 미분계수', grade: '수2', cx: 222, cy: 165 },
+
+        // Column 4: 수능 킬러
+        { id: 'n15', name: '정규분포·표준화', grade: '확통', cx: 308, cy: 120 }
+      ] : [
         // Column 1: 중등 대수/기하
         { id: 'n1', name: '삼각비/피타고라스', grade: '중3', cx: 48, cy: 58 },
         { id: 'n2', name: '원과 접선의 성질', grade: '중3', cx: 48, cy: 122 },
@@ -11702,7 +11954,14 @@
         { id: 'n11', name: '역함수미분/교점', grade: '미적', cx: 308, cy: 160 },
       ];
 
-      const edges = [
+      const edges = isProbStat ? [
+        { from: 'n12', to: 'n13' },
+        { from: 'n13', to: 'n14' },
+        { from: 'n14', to: 'n15' },
+        { from: 'n3',  to: 'n4' },
+        { from: 'n4',  to: 'n15' },
+        { from: 'n9',  to: 'n15' }
+      ] : [
         // Col 1 -> Col 2
         { from: 'n1', to: 'n4' },
         { from: 'n1', to: 'n8' },
@@ -14396,31 +14655,31 @@
 
       const printArea = document.getElementById('printable-exam-area');
       printArea.innerHTML = `
-        <div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: 'Pretendard', sans-serif; color: #111;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 16px 20px; font-family: 'Pretendard', sans-serif; color: #111;">
           <!-- Exam / Clinic Header -->
-          <div style="border-bottom: 3px double #000; padding-bottom: 12px; margin-bottom: 20px;">
+          <div style="border-bottom: 3px double #000; padding-bottom: 10px; margin-bottom: 16px;">
             <div style="display: flex; justify-content: space-between; align-items: flex-end;">
               <div>
                 <span style="font-size: 11px; font-weight: 800; color: ${isTeacher ? '#b45309' : '#4338ca'}; letter-spacing: 1px;">
                   ${isTeacher ? 'ROOTMATH TEACHER 1:1 CLINIC WORKBOOK' : 'ROOTMATH ADAPTIVE DIAGNOSTIC EXAM'}
                 </span>
-                <h1 style="font-size: 22px; font-weight: 900; margin: 2px 0 0 0; color: #000;">
+                <h1 style="font-size: 21px; font-weight: 900; margin: 2px 0 0 0; color: #000;">
                   ${isTeacher ? `${academyName} 1:1 취약점 클리닉 교재` : '2024학년도 대학수학능력시험 대비 모의평가'}
                 </h1>
-                <h2 style="font-size: 13.5px; font-weight: 700; margin: 4px 0 0 0; color: #444;">
+                <h2 style="font-size: 13px; font-weight: 700; margin: 3px 0 0 0; color: #444;">
                   ${isTeacher ? `${studentName} 학생 맞춤 개념서 &amp; 쌍둥이 실전 연습문항` : `${studentName} 학생 맞춤형 약점 극복 시험지 (취약 원인 집중 훈련)`}
                 </h2>
               </div>
-              <div style="border: 2px solid ${isTeacher ? '#b45309' : '#000'}; padding: 6px 12px; text-align: center; background: ${isTeacher ? '#fffbeb' : '#fff'};">
+              <div style="border: 2px solid ${isTeacher ? '#b45309' : '#000'}; padding: 5px 12px; text-align: center; background: ${isTeacher ? '#fffbeb' : '#fff'};">
                 <span style="font-size: 10px; font-weight: 800; display: block; color: ${isTeacher ? '#b45309' : '#000'};">
                   ${isTeacher ? '1:1 맞춤 클리닉' : '제 2 교시'}
                 </span>
-                <span style="font-size: 16px; font-weight: 900; color: #000;">수학 영역</span>
+                <span style="font-size: 15px; font-weight: 900; color: #000;">수학 영역</span>
               </div>
             </div>
 
             <!-- Student ID Bar -->
-            <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-top: 12px; border-top: 1px solid #000; padding-top: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-top: 10px; border-top: 1px solid #000; padding-top: 6px;">
               <span>학생명: ${studentName}</span>
               <span>${isTeacher ? `담당 강사: 리드매스 멘토 선생님 (${academyName})` : '수험번호: 2024-RM001'}</span>
               <span>문항수: 총 ${selectedProblems.length * (includeTwin ? 2 : 1)}문항</span>
@@ -14430,14 +14689,14 @@
 
           <!-- Section 1: Concept Clinic Sheet (If Enabled) -->
           ${includeConcept ? `
-            <div style="margin-bottom: 24px; padding: 16px; border: 2px solid #4f46e5; border-radius: 8px; background: #f8fafc;">
-              <div style="font-size: 13.5px; font-weight: 900; color: #4338ca; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 20px; padding: 14px; border: 2px solid #4f46e5; border-radius: 8px; background: #f8fafc;">
+              <div style="font-size: 13px; font-weight: 900; color: #4338ca; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                 <span>[학생 맞춤 개념서] 이번 질문에서 도출된 핵심 개념 &amp; 시각화 처방 노트</span>
               </div>
               <div style="font-size: 12px; line-height: 1.8; color: #334155;">
                 ${selectedProblems.map(p => `
-                  <div style="margin-bottom: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
-                    <div style="font-weight: 800; color: #1e293b; font-size: 12.5px;">• ${autoFormatMathText(p.title)} (${p.curriculum_grade}):</div>
+                  <div style="margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                    <div style="font-weight: 800; color: #1e293b; font-size: 12.5px;">• ${cleanProblemTitle(p.title)} (${p.curriculum_grade}):</div>
                     <div><strong>핵심 의미</strong>: ${p.core_clauses && p.core_clauses[0] ? autoFormatMathText(p.core_clauses[0].meaning) : '개념 원리를 확인하세요.'}</div>
                     <div style="color: #4338ca;"><strong>1:1 처방</strong>: ${p.core_clauses && p.core_clauses[0] ? autoFormatMathText(p.core_clauses[0].prescriptions.visual || p.core_clauses[0].prescriptions.modeling) : '도식화 스케치 연습'}</div>
                   </div>
@@ -14447,26 +14706,50 @@
           ` : ''}
 
           <!-- Section 2: Questions Area (2-Column Grid) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; border-bottom: 1px solid #ddd; padding-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 24px;">
             ${selectedProblems.map((prob, idx) => {
               const qNum = idx * (includeTwin ? 2 : 1) + 1;
               const twinNum = qNum + 1;
               const twin = prob.twin_problem;
+
+              let probSvg = '';
+              if (prob) {
+                const raw = (prob.diagrams && prob.diagrams[0] && prob.diagrams[0].svg) ? prob.diagrams[0].svg : (prob.svg_diagram || '');
+                if (raw) {
+                  const safe = (typeof validateAndSanitizeMathSvg === 'function') ? validateAndSanitizeMathSvg(raw, prob) : raw;
+                  probSvg = (typeof convertSvgForWhiteCanvas === 'function') ? convertSvgForWhiteCanvas(safe) : safe;
+                }
+              }
+
+              let twinSvg = '';
+              if (twin && twin.svg_diagram) {
+                const safeTwin = (typeof validateAndSanitizeMathSvg === 'function') ? validateAndSanitizeMathSvg(twin.svg_diagram, twin) : twin.svg_diagram;
+                twinSvg = (typeof convertSvgForWhiteCanvas === 'function') ? convertSvgForWhiteCanvas(safeTwin) : safeTwin;
+              } else if (probSvg) {
+                twinSvg = probSvg; // Guaranteed graph fallback for all twin problems
+              }
+
               return `
                 <!-- Original Question -->
-                <div style="break-inside: avoid; margin-bottom: 28px; padding-bottom: 16px;">
+                <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px;">
                   <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
                     <span style="font-size: 16px; font-weight: 900; color: #000; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${qNum}]</span>
-                    <span style="font-size: 11px; font-weight: 700; color: #4f46e5; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade} - ${autoFormatMathText(prob.title)})</span>
+                    <span style="font-size: 11px; font-weight: 700; color: #4f46e5; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade} - ${cleanProblemTitle(prob.title)})</span>
                   </div>
                   <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
                     ${autoFormatMathText(prob.problem_text)}
                   </div>
 
+                  ${probSvg ? `
+                    <div style="margin: 8px auto 12px auto; max-width: 320px; max-height: 180px; text-align: center; break-inside: avoid;">
+                      ${probSvg}
+                    </div>
+                  ` : ''}
+
                   ${prob.sub_questions && prob.sub_questions.length > 1 ? `
-                    <div style="margin: 10px 0 14px 0; padding-left: 12px; border-left: 2px solid #4f46e5;">
+                    <div style="margin: 8px 0 12px 0; padding-left: 12px; border-left: 2px solid #4f46e5;">
                       ${prob.sub_questions.map(sq => `
-                        <div style="margin-bottom: 10px; font-size: 12.5px; line-height: 1.9; word-break: keep-all; text-align: justify;">
+                        <div style="margin-bottom: 8px; font-size: 12.5px; line-height: 1.9; word-break: keep-all; text-align: justify;">
                           <strong style="color: #4338ca;">(${sq.sub_id})</strong> ${autoFormatMathText(sq.question_text)}
                         </div>
                       `).join('')}
@@ -14474,8 +14757,8 @@
                   ` : ''}
 
                   ${includeWorkspace ? `
-                    <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 140px; margin-top: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
-                      <span style="font-size: 10.5px; font-weight: 700; color: #64748b;">[풀이 및 서술 공간]</span>
+                    <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                      <span style="font-size: 10px; font-weight: 700; color: #64748b;">[풀이 및 서술 공간]</span>
                       <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">
                         정답: ____________________
                       </div>
@@ -14485,17 +14768,24 @@
 
                 <!-- Twin / Variant Question (If Enabled) -->
                 ${includeTwin && twin ? `
-                  <div style="break-inside: avoid; margin-bottom: 28px; padding: 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px;">
+                  <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding: 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px;">
                     <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
                       <span style="font-size: 16px; font-weight: 900; color: #047857; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${twinNum} - AI 쌍둥이 실전]</span>
-                      <span style="font-size: 11px; font-weight: 700; color: #059669; line-height: 1.4; word-break: keep-all;">(${autoFormatMathText(twin.title)})</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #059669; line-height: 1.4; word-break: keep-all;">(${cleanProblemTitle(twin.title)})</span>
                     </div>
                     <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
                       ${autoFormatMathText(twin.problem_text)}
                     </div>
+
+                    ${twinSvg ? `
+                      <div style="margin: 8px auto 12px auto; max-width: 320px; max-height: 180px; text-align: center; break-inside: avoid;">
+                        ${twinSvg}
+                      </div>
+                    ` : ''}
+
                     ${includeWorkspace ? `
-                      <div style="border: 1px dashed #86efac; background: #ffffff; border-radius: 6px; min-height: 140px; margin-top: 14px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <span style="font-size: 10.5px; font-weight: 700; color: #059669;">[쌍둥이 검증 풀이 및 서술 공간]</span>
+                      <div style="border: 1px dashed #86efac; background: #ffffff; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <span style="font-size: 10px; font-weight: 700; color: #059669;">[쌍둥이 검증 풀이 및 서술 공간]</span>
                         <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #166534; border-bottom: 1px solid #86efac; padding-bottom: 2px;">
                           정답: ____________________
                         </div>
@@ -14509,15 +14799,20 @@
 
           <!-- Section 3: Appendix - Answer Key & Teacher Dialogue Guide -->
           ${includeAnswers ? `
-            <div style="page-break-before: always; margin-top: 30px; padding-top: 20px; border-top: 2px solid #000;">
-              <div style="text-align: center; margin-bottom: 24px;">
-                <span style="font-size: 11px; font-weight: 800; color: #4338ca; letter-spacing: 1px;">ROOTMATH 1:1 PRESCRIPTION KEY</span>
-                <h2 style="font-size: 20px; font-weight: 900; margin: 2px 0; color: #000;">[권말 부록] 정답 및 오답 근본 원인 분석 해설지</h2>
-                <p style="font-size: 12px; color: #555;">${isTeacher ? '선생님 전용 출제자 3단계 유도 질문 가이드 &amp; 정답 해설' : '포장지에 속지 않고 공통 결손을 도려내는 해설'}</p>
+            <div style="page-break-before: always; break-before: page; margin-top: 24px; padding-top: 16px; border-top: 2px solid #000;">
+              <!-- Compact Header to ensure Card 1 fits on Page 4 without forcing an empty page -->
+              <div style="text-align: center; margin-bottom: 18px; break-after: avoid; page-break-after: avoid;">
+                <span style="font-size: 10px; font-weight: 800; color: #4338ca; letter-spacing: 1px;">ROOTMATH 1:1 PRESCRIPTION KEY</span>
+                <h2 style="font-size: 18px; font-weight: 900; margin: 2px 0; color: #000;">[권말 부록] 문항별 정답 및 상세 해설·시각화 도해집</h2>
+                <p style="font-size: 11.5px; color: #555; margin: 2px 0 0 0;">${isTeacher ? '선생님 전용 출제자 3단계 유도 질문 가이드 &amp; 정답 해설' : '포장지에 속지 않고 공통 결손을 도려내는 해설'}</p>
               </div>
 
-              <div style="space-y: 20px;">
+              <div>
                 ${selectedProblems.map((prob, idx) => {
+                  const qNum = idx * (includeTwin ? 2 : 1) + 1;
+                  const twinNum = qNum + 1;
+                  const twin = prob.twin_problem;
+
                   let probSvg = '';
                   if (prob) {
                     const raw = (prob.diagrams && prob.diagrams[0] && prob.diagrams[0].svg) ? prob.diagrams[0].svg : (prob.svg_diagram || '');
@@ -14527,71 +14822,122 @@
                     }
                   }
 
+                  let twinSvg = '';
+                  if (twin && twin.svg_diagram) {
+                    const safeTwin = (typeof validateAndSanitizeMathSvg === 'function') ? validateAndSanitizeMathSvg(twin.svg_diagram, twin) : twin.svg_diagram;
+                    twinSvg = (typeof convertSvgForWhiteCanvas === 'function') ? convertSvgForWhiteCanvas(safeTwin) : safeTwin;
+                  } else if (probSvg) {
+                    twinSvg = probSvg; // Guaranteed graph fallback for all twin problems
+                  }
+
                   return `
-                  <div style="break-inside: avoid; margin-bottom: 28px; padding: 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #fafafa;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 8px;">
-                      <span style="font-size: 15px; font-weight: 900; color: #0f172a; white-space: nowrap; flex-shrink: 0;">[문항 ${idx + 1}] ${autoFormatMathText(prob.title)}</span>
-                      <span style="font-size: 13.5px; font-weight: 900; color: #b45309; background: #fef3c7; padding: 3px 10px; border-radius: 4px; border: 1px solid #fde68a; white-space: nowrap;">최종 정답: ${autoFormatMathText(prob.final_answer)}</span>
+                    <!-- Card 1: Original Problem Solution (Independent Box) -->
+                    <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 22px; padding: 14px 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #fafafa;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 6px;">
+                        <span style="font-size: 14px; font-weight: 900; color: #0f172a; white-space: nowrap; flex-shrink: 0;">[문항 ${qNum} 해설] ${cleanProblemTitle(prob.title)}</span>
+                        <span style="font-size: 12.5px; font-weight: 900; color: #b45309; background: #fef3c7; padding: 2px 8px; border-radius: 4px; border: 1px solid #fde68a; white-space: nowrap;">최종 정답: ${autoFormatMathText(prob.final_answer || prob.answer || '')}</span>
+                      </div>
+
+                      ${probSvg ? `
+                        <div style="margin: 8px 0 12px 0; padding: 8px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); break-inside: avoid;">
+                          <div style="font-size: 10px; font-weight: 800; color: #4338ca; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <span>[수학적 시각화 직관 도해] ${cleanProblemTitle(prob.title || '핵심 기하 / 함수 그래프 모델링')}</span>
+                          </div>
+                          <div style="max-width: 420px; max-height: 190px; margin: 0 auto; display: flex; justify-content: center;">
+                            ${probSvg}
+                          </div>
+                        </div>
+                      ` : ''}
+
+                      <div style="font-size: 11.5px; line-height: 1.7; color: #334155; margin-bottom: 8px; background: #f1f5f9; padding: 8px 10px; border-radius: 6px;">
+                        <strong style="color: #1e293b; font-size: 12px;">리드 쌤의 1:1 오답 원인 분석:</strong>
+                        ${prob.core_clauses && prob.core_clauses[0] ? `
+                          <div style="margin-top: 3px;">- 막히기 쉬운 조건: "${autoFormatMathText(prob.core_clauses[0].text)}"</div>
+                          <div style="margin-top: 2px;">- 핵심 처방: ${autoFormatMathText(prob.core_clauses[0].prescriptions.visual || prob.core_clauses[0].prescriptions.modeling)}</div>
+                        ` : '<div style="margin-top: 3px;">개념과 도식화를 바탕으로 꼼꼼히 식을 세우세요.</div>'}
+                      </div>
+
+                      ${isTeacher && prob.socratic_teaching_guide ? `
+                        <div style="font-size: 11.5px; line-height: 1.7; background: #fffbeb; padding: 8px 10px; border-radius: 6px; border: 1px solid #fde68a; margin-bottom: 8px;">
+                          <strong style="color: #b45309; font-size: 12px;">1:1 대화식 티칭 발문 대본:</strong>
+                          <ul style="margin: 3px 0 0 16px; padding: 0;">
+                            ${prob.socratic_teaching_guide.steps.map(st => `
+                              <li style="margin-bottom: 3px; word-break: keep-all;"><strong style="color: #92400e;">${autoFormatMathText(st.stage)}</strong>: "${autoFormatMathText(st.prompt)}"</li>
+                            `).join('')}
+                          </ul>
+                        </div>
+                      ` : ''}
+
+                      ${prob.solution_steps ? `
+                        <div style="font-size: 11.5px; line-height: 1.8; background: #ffffff; padding: 10px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                          <strong style="color: #1e293b; font-size: 12px;">단계별 풀이 및 수학적 증명:</strong>
+                          <ol style="margin: 4px 0 0 16px; padding: 0;">
+                            ${prob.solution_steps.map(s => {
+                              let stepText = s.content || '';
+                              if (s.formula && !stepText.includes(s.formula)) {
+                                stepText = stepText ? `${stepText} : ${s.formula}` : s.formula;
+                              }
+                              return `
+                                <li style="margin-bottom: 5px; word-break: keep-all;">
+                                  <strong style="color: #4338ca;">${autoFormatMathText(s.title)}</strong>: ${autoFormatMathText(stepText)}
+                                </li>
+                              `;
+                            }).join('')}
+                          </ol>
+                        </div>
+                      ` : ''}
                     </div>
 
-                    ${probSvg ? `
-                      <div style="margin: 12px 0 16px 0; padding: 12px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); break-inside: avoid;">
-                        <div style="font-size: 11px; font-weight: 800; color: #4338ca; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                          <span>[수학적 시각화 직관 도해] ${autoFormatMathText(prob.title || '핵심 기하 / 함수 그래프 모델링')}</span>
+                    <!-- Card 2: AI Twin Problem Solution (Independent Box) -->
+                    ${includeTwin && twin ? `
+                      <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 22px; padding: 14px 16px; border: 1.5px solid #86efac; border-radius: 8px; background: #f0fdf4;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid #bbf7d0; padding-bottom: 6px;">
+                          <span style="font-size: 14px; font-weight: 900; color: #047857; white-space: nowrap; flex-shrink: 0;">[문항 ${twinNum} 해설 - AI 쌍둥이 실전] ${cleanProblemTitle(twin.title)}</span>
+                          <span style="font-size: 12.5px; font-weight: 900; color: #047857; background: #dcfce7; padding: 2px 8px; border-radius: 4px; border: 1px solid #86efac; white-space: nowrap;">최종 정답: ${autoFormatMathText(twin.answer || '')}</span>
                         </div>
-                        <div style="max-width: 440px; margin: 0 auto; display: flex; justify-content: center;">
-                          ${probSvg}
+
+                        ${twinSvg ? `
+                          <div style="margin: 8px 0 12px 0; padding: 8px; background: #ffffff; border: 1.5px solid #bbf7d0; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); break-inside: avoid;">
+                            <div style="font-size: 10px; font-weight: 800; color: #047857; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                              <span>[수학적 시각화 직관 도해] ${cleanProblemTitle(twin.title)}</span>
+                            </div>
+                            <div style="max-width: 420px; max-height: 190px; margin: 0 auto; display: flex; justify-content: center;">
+                              ${twinSvg}
+                            </div>
+                          </div>
+                        ` : ''}
+
+                        <div style="font-size: 11.5px; line-height: 1.7; color: #166534; margin-bottom: 8px; background: #dcfce7; padding: 8px 10px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                          <strong style="color: #14532d; font-size: 12px;">출제 의도 및 본문항 연계 분석:</strong>
+                          <div style="margin-top: 3px;">${autoFormatMathText(twin.rca_identity || twin.explanation || '동일한 출제 원리를 다른 수치로 검증하는 실전 변형 문항입니다.')}</div>
                         </div>
+
+                        ${twin.solution_steps && twin.solution_steps.length > 0 ? `
+                          <div style="font-size: 11.5px; line-height: 1.8; background: #ffffff; padding: 10px 12px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                            <strong style="color: #14532d; font-size: 12px;">단계별 풀이 및 수학적 증명:</strong>
+                            <ol style="margin: 4px 0 0 16px; padding: 0;">
+                              ${twin.solution_steps.map(s => {
+                                let stepText = s.content || '';
+                                if (s.formula && !stepText.includes(s.formula)) {
+                                  stepText = stepText ? `${stepText} : ${s.formula}` : s.formula;
+                                }
+                                return `
+                                  <li style="margin-bottom: 5px; word-break: keep-all;">
+                                    <strong style="color: #059669;">${autoFormatMathText(s.title)}</strong>: ${autoFormatMathText(stepText)}
+                                  </li>
+                                `;
+                              }).join('')}
+                            </ol>
+                          </div>
+                        ` : `
+                          <div style="font-size: 11.5px; line-height: 1.8; background: #ffffff; padding: 10px 12px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                            <strong style="color: #14532d; font-size: 12px;">상세 해설:</strong>
+                            <div style="margin-top: 3px;">${autoFormatMathText(twin.explanation)}</div>
+                          </div>
+                        `}
                       </div>
                     ` : ''}
-
-                    <div style="font-size: 12px; line-height: 1.7; color: #334155; margin-bottom: 12px; background: #f1f5f9; padding: 10px 12px; border-radius: 6px;">
-                      <strong style="color: #1e293b; font-size: 12.5px;">리드 쌤의 1:1 오답 원인 분석:</strong><br/>
-                      ${prob.core_clauses && prob.core_clauses[0] ? `
-                        <div style="margin-top: 4px;">- 막히기 쉬운 조건: "${autoFormatMathText(prob.core_clauses[0].text)}"</div>
-                        <div style="margin-top: 2px;">- 핵심 처방: ${autoFormatMathText(prob.core_clauses[0].prescriptions.visual || prob.core_clauses[0].prescriptions.modeling)}</div>
-                      ` : '개념과 도식화를 바탕으로 꼼꼼히 식을 세우세요.'}
-                    </div>
-
-                    ${isTeacher && prob.socratic_teaching_guide ? `
-                      <div style="font-size: 12px; line-height: 1.7; background: #fffbeb; padding: 12px; border-radius: 6px; border: 1px solid #fde68a; margin-bottom: 12px;">
-                        <strong style="color: #b45309; font-size: 12.5px;">1:1 대화식 티칭 발문 대본 (학생에게 물어보세요):</strong>
-                        <ul style="margin: 6px 0 0 18px; padding: 0;">
-                          ${prob.socratic_teaching_guide.steps.map(st => `
-                            <li style="margin-bottom: 4px; word-break: keep-all;"><strong style="color: #92400e;">${autoFormatMathText(st.stage)}</strong>: "${autoFormatMathText(st.prompt)}" (목표: ${autoFormatMathText(st.goal)})</li>
-                          `).join('')}
-                        </ul>
-                      </div>
-                    ` : ''}
-
-                    ${prob.solution_steps ? `
-                      <div style="font-size: 12px; line-height: 1.8; background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
-                        <strong style="color: #1e293b; font-size: 12.5px;">단계별 풀이 및 수학적 증명 요약:</strong>
-                        <ol style="margin: 6px 0 0 18px; padding: 0;">
-                          ${prob.solution_steps.map(s => {
-                            let stepText = s.content || '';
-                            if (s.formula && !stepText.includes(s.formula)) {
-                              stepText = stepText ? `${stepText} : ${s.formula}` : s.formula;
-                            }
-                            return `
-                              <li style="margin-bottom: 6px; word-break: keep-all;">
-                                <strong style="color: #4338ca;">${autoFormatMathText(s.title)}</strong>: ${autoFormatMathText(stepText)}
-                              </li>
-                            `;
-                          }).join('')}
-                        </ol>
-                      </div>
-                    ` : ''}
-
-                    ${includeTwin && prob.twin_problem ? `
-                      <div style="margin-top: 10px; font-size: 12px; line-height: 1.8; background: #ecfdf5; padding: 12px; border-radius: 6px; border: 1px solid #a7f3d0;">
-                        <strong style="color: #047857; font-size: 12.5px;">[AI 쌍둥이 문제 정답 및 해설]</strong><br/>
-                        <div style="margin-top: 4px;">- 정답: <strong>${autoFormatMathText(prob.twin_problem.answer)}</strong></div>
-                        <div style="margin-top: 2px;">- 해설: ${autoFormatMathText(prob.twin_problem.explanation)}</div>
-                      </div>
-                    ` : ''}
-                  </div>
-                `;
+                  `;
                 }).join('')}
               </div>
             </div>
@@ -14616,7 +14962,6 @@
         window.print();
       }, 300);
     }
-
     // ============================================================================
     // INFRASTRUCTURE GUARD: CS CHATBOT SDK, AUDIT LOGGING & REFUND DEFENSE
     // ============================================================================
