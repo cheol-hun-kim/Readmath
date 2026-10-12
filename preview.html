@@ -7080,19 +7080,32 @@
               PROBLEMS_DB[String(numId)] = canonical;
               historyChanged = true;
             } else {
+              const isKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
               if (prob.svg_diagram) {
-                const cleaned = validateAndSanitizeMathSvg(prob.svg_diagram, prob);
-                if (cleaned && cleaned !== prob.svg_diagram) {
-                  prob.svg_diagram = cleaned;
+                if (isKk(prob.svg_diagram)) {
+                  prob.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
                   historyChanged = true;
+                } else {
+                  const cleaned = validateAndSanitizeMathSvg(prob.svg_diagram, prob);
+                  if (cleaned && cleaned !== prob.svg_diagram) {
+                    prob.svg_diagram = cleaned;
+                    historyChanged = true;
+                  }
                 }
               }
-              if (prob.diagrams && prob.diagrams[0]) {
-                const cleaned0 = validateAndSanitizeMathSvg(prob.diagrams[0].svg, prob);
-                if (cleaned0 && cleaned0 !== prob.diagrams[0].svg) {
-                  prob.diagrams[0].svg = cleaned0;
-                  historyChanged = true;
-                }
+              if (Array.isArray(prob.diagrams)) {
+                prob.diagrams.forEach(d => {
+                  if (d && isKk(d.svg)) {
+                    d.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
+                    historyChanged = true;
+                  } else if (d && d.svg) {
+                    const cleanedD = validateAndSanitizeMathSvg(d.svg, prob);
+                    if (cleanedD && cleanedD !== d.svg) {
+                      d.svg = cleanedD;
+                      historyChanged = true;
+                    }
+                  }
+                });
               }
               PROBLEMS_DB[prob.id] = prob;
             }
@@ -7749,16 +7762,31 @@
     }
 
     // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261009-0200';
+    const CURRENT_ENGINE_VERSION = '20261013-0100';
     try {
       if (typeof localStorage !== 'undefined') {
         const storedVer = localStorage.getItem('readmath_engine_version');
         if (storedVer !== CURRENT_ENGINE_VERSION) {
           localStorage.setItem('readmath_engine_version', CURRENT_ENGINE_VERSION);
-          // Retroactively clean user history in localStorage
+          // Retroactively clean user history in localStorage and evict stale dummy graphs
           let hist = JSON.parse(localStorage.getItem('rootmath_user_history') || '[]');
           if (Array.isArray(hist) && hist.length > 0) {
             hist = sanitizeMathObject(hist);
+            const isKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+            hist.forEach(prob => {
+              if (prob) {
+                if (isKk(prob.svg_diagram)) {
+                  prob.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
+                }
+                if (Array.isArray(prob.diagrams)) {
+                  prob.diagrams.forEach(d => {
+                    if (d && isKk(d.svg)) {
+                      d.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
+                    }
+                  });
+                }
+              }
+            });
             localStorage.setItem('rootmath_user_history', JSON.stringify(hist));
           }
           // Force cache bust reload once
@@ -8576,6 +8604,16 @@
         }
       }
 
+      // 3.1 Semantic Mismatch: Purge dummy (k, k) / (1/5)^(x-3) graph
+      if (svgString.includes('(k, k)') || svgString.includes('(k,k)') || svgString.includes('(k,  k)') || svgString.includes('y=x')) {
+        const probCombined = probData ? `${probData.title || ''} ${probData.problem_text || ''}`.toLowerCase() : '';
+        if (svgString.includes('(k, k)') || svgString.includes('(k,k)') || svgString.includes('(k,  k)')) {
+          if (!probCombined.includes('(k, k)') && !probCombined.includes('(k,k)')) {
+            defects.push('SEMANTIC_MISMATCH_DUMMY_KK_GRAPH: (k, k) dummy graph detected for problem that does not mention (k, k)');
+          }
+        }
+      }
+
       // 4. Inviolable Intersection Exactness Armor
       const intersectionTexts = Array.from(svgString.matchAll(/<text[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*>([\s\S]*?교점[\s\S]*?)<\/text>/gi));
       if (intersectionTexts.length > 0 && circleMatches.length > 0) {
@@ -9035,13 +9073,15 @@
         // Category 8.0: CSAT 22번 Exponential & Logarithmic Midpoint / Circumcenter Problem
         // (y = 2a^{x-2} - 8, y = 1/2 log_a x - 2, P(0, 2), midpoints C, D, BC = CP, 4a^6 = 25)
         else if (
+          combined.includes('지수함수와 로그함수의 그래프 및 중점의 자취') ||
+          combined.includes('중점의 자취') ||
           (
-            (combined.includes('2a^{x-2}') || combined.includes('2a^{x - 2}') || (combined.includes('a^{x-2}') && combined.includes('log_a'))) &&
-            (combined.includes('bc = cp') || combined.includes('bc=cp') || combined.includes('4a^6') || combined.includes('4a^{6}') || combined.includes('(0, 2)') || combined.includes('(0,2)') || combined.includes('중점') || combined.includes('c, d'))
+            (combined.includes('2a^{x-2}') || combined.includes('2a^{x - 2}') || combined.includes('2a^(x-2)') || (combined.includes('2a') && combined.includes('x-2')) || (combined.includes('a^{x-2}') && combined.includes('log'))) &&
+            (combined.includes('bc = cp') || combined.includes('bc=cp') || combined.includes('4a^6') || combined.includes('4a^{6}') || combined.includes('4a⁶') || combined.includes('(0, 2)') || combined.includes('(0,2)') || combined.includes('중점') || combined.includes('c, d') || combined.includes('c,d'))
           ) || (
-            combined.includes('2a^{x-2} - 8') && combined.includes('1/2 log_a')
+            combined.includes('4a^6') && combined.includes('2a')
           ) || (
-            combined.includes('2a^{x-2}') && combined.includes('bc = cp')
+            combined.includes('bc = cp') || combined.includes('bc=cp')
           )
         ) {
           const cOx = 85;
@@ -9148,15 +9188,6 @@
 
           // Shaded region label
           svgBody += `<text x="${(cOx + 24).toFixed(1)}" y="${(cOy - 2.5 * cScaleY).toFixed(1)}" fill="#93C5FD" font-size="10.5" font-weight="bold">밑면 영역 S</text>\n`;
-        }
-        // Category 8.2: Specific Canonical Problem y = (1/5)^(x-3) with line y = x and point (k, k)
-        else if ((combined.includes('(1/5)^') || combined.includes('(1/5)^{') || combined.includes('0.2^')) && (combined.includes('(k, k)') || combined.includes('(k,k)') || combined.includes('y = x') || combined.includes('y=x'))) {
-          const f = (x) => Math.pow(0.2, x - 3);
-          svgBody += this.buildCoordinateSystem(80, 150, 32, [-1, 7], [-1, 4]);
-          svgBody += this.plotLineYEqualsX(80, 150, 32, -0.5, 4.5, '#2563EB');
-          svgBody += this.plotFunction(f, [1.8, 6], 80, 150, 32, '#047857', 2.5);
-          const k = 2.15;
-          svgBody += this.renderKeypoint(k, k, 80, 150, 32, '(k, k)', '#DC2626', 4, 'top');
         }
         // Category 9: Quartic Function (W-shape canonical)
         else if (combined.includes('사차함수') && (combined.includes('w-shape') || (combined.includes('극솟값') && combined.includes('(-2, -2)')))) {
@@ -10049,6 +10080,11 @@
       if (!data.diagrams || !data.diagrams[idx]) return;
       currentDiagramIdx = idx;
       const target = data.diagrams[idx];
+      const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+      if (isDummyKk(target.svg)) {
+        target.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
+        safeSaveUserHistory(userSolvedHistory);
+      }
 
       const svgBox = document.getElementById('solution-svg-container');
       const captionEl = document.getElementById('solution-svg-caption');
@@ -10606,14 +10642,25 @@
 
       // Initialize Diagrams & Dynamic Diagram Tabs
       const svgViewport = document.getElementById('solution-svg-viewport') || document.getElementById('solution-svg-container');
+      const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
       if (data.diagrams && data.diagrams.length > 0) {
-        data.diagrams[0].svg = validateAndSanitizeMathSvg(data.diagrams[0].svg, data);
+        if (isDummyKk(data.diagrams[0].svg)) {
+          data.diagrams[0].svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
+          safeSaveUserHistory(userSolvedHistory);
+        } else {
+          data.diagrams[0].svg = validateAndSanitizeMathSvg(data.diagrams[0].svg, data);
+        }
         if (svgViewport) svgViewport.innerHTML = convertSvgForWhiteCanvas(data.diagrams[0].svg);
         document.getElementById('solution-svg-caption').innerHTML = autoFormatMathText(data.diagrams[0].caption || '');
         document.getElementById('diagram-badge-text').innerText = data.diagrams[0].badge || '직관적 이해';
         renderDiagramTabs(data);
       } else {
-        data.svg_diagram = validateAndSanitizeMathSvg(data.svg_diagram || '', data);
+        if (isDummyKk(data.svg_diagram)) {
+          data.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
+          safeSaveUserHistory(userSolvedHistory);
+        } else {
+          data.svg_diagram = validateAndSanitizeMathSvg(data.svg_diagram || '', data);
+        }
         if (svgViewport) svgViewport.innerHTML = convertSvgForWhiteCanvas(data.svg_diagram || '');
         document.getElementById('solution-svg-caption').innerHTML = autoFormatMathText(data.title || '문제 그래프 분석');
         document.getElementById('diagram-badge-text').innerText = '문제 도해';

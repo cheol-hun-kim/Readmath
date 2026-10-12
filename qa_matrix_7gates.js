@@ -716,6 +716,32 @@ if (outputDefects.length > 0) {
   geometryErrors.push(`Substituted diagram in MathSvgEngine contains defects: ${outputDefects.join(', ')}`);
 }
 
+// 4.7.1 CSAT 22번 Exponential/Log Midpoint & Circumcenter (Purge (k, k) Dummy Fallback)
+const dummyKkSvg = '<svg viewBox="0 0 400 200"><rect width="400" height="200" fill="#090D16"/><circle cx="148.8" cy="81.2" r="4" fill="#DC2626"/><text x="148.8" y="73.2">(k, k)</text></svg>';
+const csat22Prob = {
+  id: 1728749102931,
+  title: '지수함수와 로그함수의 그래프 및 중점의 자취',
+  problem_text: '22. 상수 a(a > 1)에 대하여 곡선 y = 2a^{x-2} - 8 위의 서로 다른 두 점 A, B와 곡선 y = \\frac{1}{2} \\log_a x - 2 위의 서로 다른 두 점 C, D가 있다. 점 P(0, 2)와 네 점 A, B, C, D가 다음 조건을 만족시킨다. (가) 두 선분 AP, BP의 중점은 각각 C, D이다. (나) \\overline{BC} = \\overline{CP} 4a^6의 값을 구하시오.',
+  diagrams: [{ id: 'd1', svg: dummyKkSvg }]
+};
+
+const kkDefects = inspectSvgFn(dummyKkSvg, csat22Prob);
+if (!kkDefects.some(d => d.includes('SEMANTIC_MISMATCH_DUMMY_KK_GRAPH'))) {
+  geometryErrors.push('MathSvgEngine failed to flag dummy (k, k) graph with SEMANTIC_MISMATCH_DUMMY_KK_GRAPH');
+}
+
+const csat22Sanitized = sanitizeSvgFn(csat22Prob.diagrams[0].svg, csat22Prob);
+if (csat22Sanitized.includes('(k, k)') || csat22Sanitized.includes('(k,k)')) {
+  geometryErrors.push('MathSvgEngine returned dummy (k, k) graph for CSAT 22번 problem');
+}
+if (!csat22Sanitized.includes('2a^{x-2} - 8') || !csat22Sanitized.includes('B(5, -3)') || !csat22Sanitized.includes('4a⁶ = 25')) {
+  geometryErrors.push('MathSvgEngine failed to generate exact analytical geometry for CSAT 22번');
+}
+const csat22Defects = inspectSvgFn(csat22Sanitized, csat22Prob);
+if (csat22Defects.length > 0) {
+  geometryErrors.push(`CSAT 22번 reconstructed diagram has defects: ${csat22Defects.join(', ')}`);
+}
+
 // 4.8 Axis-to-Grid Coordinate Alignment
 const axisErrors = [];
 if (!/y1=["']190["'].*?y2=["']190["']/.test(p1.diagrams[0].svg) || !/x1=["']160["'].*?x2=["']160["']/.test(p1.diagrams[0].svg)) {
