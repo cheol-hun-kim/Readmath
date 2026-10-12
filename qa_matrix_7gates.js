@@ -554,12 +554,25 @@ if (diag303FnMatch) {
   }
 }
 
+// 3.5 Cognitive Knowledge Graph Standby Mode & Zero Phantom Deficit Verification
+if (!htmlContent.includes("buildCognitiveKnowledgeDagSvg(null, null, true)")) {
+  failGate(3, 'Cognitive DNA Standby Mode', 'updateReportView must invoke buildCognitiveKnowledgeDagSvg(null, null, true) in empty state');
+}
+if (!htmlContent.includes("수학 인지 DNA 신경망 청사진") || !htmlContent.includes("진단 대기 중")) {
+  failGate(3, 'Cognitive DNA Standby Mode', 'Report empty state must display neutral Blueprint title and Standby badge');
+}
+const reportEmptyMatch = htmlContent.match(/if\s*\(items\.length\s*===\s*0\)\s*\{([\s\S]*?return;\s*\})/);
+if (reportEmptyMatch && reportEmptyMatch[1].includes("감지된 결손 지점:")) {
+  failGate(3, 'Zero Phantom Deficit Violation', 'Report empty state must NOT display false deficit alerts ("감지된 결손 지점:") when user has 0 solved items');
+}
+
 passGate(3, 'Dynamic State Synchronization & 4-Way Prescription Matrix', [
   `Verified ${dbProblems.length} preloaded/live problem templates in PROBLEMS_DB`,
   '100% of clauses contain distinct 4-way prescriptions (visual, modeling, condition, concept)',
   'Zero fallback collisions across all student failure modes',
   'Stale localStorage Immunity: DOMContentLoaded & openHistoryProblem protect canonical problems 1~6 with 100% fidelity',
-  'Authoritative Parity: 100% synchronization between diagrams[0].svg and svg_diagram across all database problems'
+  'Authoritative Parity: 100% synchronization between diagrams[0].svg and svg_diagram across all database problems',
+  'Zero Phantom Deficits: 100% clean neutral standby cognitive blueprint verified for empty state'
 ]);
 
 // ==============================================================================

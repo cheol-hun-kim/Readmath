@@ -11302,8 +11302,7 @@
 
       const items = userSolvedHistory;
       if (items.length === 0) {
-        const sampleId = getSampleProblemIdForGrade(currentGrade);
-        const dagSample = buildCognitiveKnowledgeDagSvg(sampleId);
+        const dagSample = buildCognitiveKnowledgeDagSvg(null, null, true);
         container.innerHTML = `
           <div class="text-center py-6 px-4 space-y-3 bg-slate-900/60 border border-slate-800/80 rounded-2xl">
             <div class="w-10 h-10 mx-auto rounded-full bg-indigo-950/80 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
@@ -11318,26 +11317,26 @@
             </button>
           </div>
 
-          <!-- 수학 인지 DNA 취약 신경망 미리보기 -->
-          <div class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 rounded-2xl p-3.5 space-y-2.5">
+          <!-- 수학 인지 DNA 신경망 청사진 (진단 대기 상태) -->
+          <div class="bg-gradient-to-br from-slate-900 via-indigo-950/30 to-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-400"></i> 수학 인지 DNA 취약 신경망 레이더
+              <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-400"></i> 수학 인지 DNA 신경망 청사진
               </span>
-              <button onclick="openKnowledgeDagModal(${sampleId})" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-600 text-white font-bold px-2 py-0.5 rounded-lg transition border border-indigo-400/40 flex items-center gap-1">
-                <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 상세 신경망 열기
+              <button onclick="openKnowledgeDagModal(null, true)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold px-2 py-0.5 rounded-lg transition border border-indigo-500/30 flex items-center gap-1">
+                <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 청사진 탐색
               </button>
             </div>
             <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-950/90 p-1">
               ${dagSample.svg}
             </div>
-            <div class="flex items-center justify-between pt-0.5">
-              <div class="text-[10.5px] text-slate-300">
-                감지된 결손 지점: <span class="font-bold text-amber-300">${dagSample.diagnosis.deficitTitle}</span>
+            <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 text-[11px] text-slate-400 leading-relaxed space-y-1">
+              <div class="font-bold text-indigo-300 flex items-center gap-1.5">
+                <i data-lucide="info" class="w-3.5 h-3.5 text-indigo-400"></i> 인지 DNA 결손 역추적 원리
               </div>
-              <button onclick="copyParentDagBriefingLink(${sampleId})" class="text-[10px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1">
-                <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
-              </button>
+              <p>
+                수학 문제를 풀다 막혔을 때 질문하면, AI가 해당 고난도 킬러 문제의 개념에서 출발하여 중등·초등 선행 기초까지 거슬러 올라가며 막힌 원인을 역추적합니다. 아직 오답 질문 데이터가 없어 결손 탐색 대기 상태입니다.
+              </p>
             </div>
           </div>
         `;
@@ -11910,12 +11909,24 @@
     let currentInspectedProblemId = 304;
     let currentSelectedNodeId = null;
 
-    function buildCognitiveKnowledgeDagSvg(activeProblemId = 304, selectedId = null) {
-      const pId = Number(activeProblemId) || 304;
-      const diag = getCognitiveDiagnosisForProblem(pId);
+    function buildCognitiveKnowledgeDagSvg(activeProblemId = 304, selectedId = null, isStandby = false) {
+      const isStandbyMode = isStandby || (activeProblemId === null);
+      const pId = isStandbyMode ? null : (Number(activeProblemId) || 304);
+      const diag = isStandbyMode ? {
+        targetId: null,
+        deficitId: null,
+        activeChain: [],
+        targetTitle: '수학 인지 DNA 신경망 청사진 (진단 대기)',
+        deficitTitle: '결손 없음 (진단 대기 중)',
+        deficitReason: '문제를 풀고 질문하면 AI가 수능 킬러부터 중등 선행 기초까지 오답 원인을 역추적하여 결손 지점을 표시합니다.',
+        remedyTip: '첫 문제를 풀고 질문을 시작해보세요.',
+        upstreamChain: [],
+        killerDifficulty: '진단 대기'
+      } : getCognitiveDiagnosisForProblem(pId);
+
       const targetId = diag.targetId;
       const deficitId = diag.deficitId;
-      const activeSelected = selectedId || currentSelectedNodeId || deficitId;
+      const activeSelected = selectedId || currentSelectedNodeId || (isStandbyMode ? null : deficitId);
 
       const isProbStat = (pId === 303);
       const nodes = isProbStat ? [
@@ -11996,10 +12007,12 @@
 
         const chain = diag.activeChain || [diag.deficitId, diag.targetId];
         let isHighlighted = false;
-        for (let i = 0; i < chain.length - 1; i++) {
-          if (chain[i] === e.from && chain[i + 1] === e.to) {
-            isHighlighted = true;
-            break;
+        if (!isStandbyMode && diag.deficitId && diag.targetId) {
+          for (let i = 0; i < chain.length - 1; i++) {
+            if (chain[i] === e.from && chain[i + 1] === e.to) {
+              isHighlighted = true;
+              break;
+            }
           }
         }
 
@@ -12029,12 +12042,12 @@
 
       let nodeSvg = '';
       nodes.forEach(n => {
-        const isTarget = (n.id === targetId);
-        const isDeficit = (n.id === deficitId);
+        const isTarget = !isStandbyMode && (n.id === targetId);
+        const isDeficit = !isStandbyMode && (n.id === deficitId);
         const isSelected = (n.id === activeSelected);
 
-        let circleColor = '#10B981'; // Mastered
-        let strokeColor = '#34D399';
+        let circleColor = isStandbyMode ? '#3B82F6' : '#10B981'; // Calm blueprint blue in standby, Mastered green in active
+        let strokeColor = isStandbyMode ? '#60A5FA' : '#34D399';
         let pulseAnim = '';
 
         if (isTarget) {
@@ -12095,13 +12108,21 @@
       };
     }
 
-    function openKnowledgeDagModal(pId) {
-      const targetPId = pId !== undefined ? Number(pId) : (currentProblemId || 304);
+    function openKnowledgeDagModal(pId, isStandby = false) {
+      const isStandbyMode = isStandby || (pId === null) || (userSolvedHistory.length === 0 && pId === undefined && !currentProblemId);
+      const targetPId = isStandbyMode ? null : (pId !== undefined && pId !== null ? Number(pId) : (currentProblemId || 304));
       currentInspectedProblemId = targetPId;
-      const diag = getCognitiveDiagnosisForProblem(targetPId);
-      currentSelectedNodeId = diag.deficitId;
+      const diag = isStandbyMode ? {
+        targetId: null,
+        deficitId: null,
+        activeChain: [],
+        targetTitle: '개념 인지 신경망 (진단 대기)',
+        deficitTitle: '결손 없음 (진단 대기 중)'
+      } : getCognitiveDiagnosisForProblem(targetPId);
 
-      const dagData = buildCognitiveKnowledgeDagSvg(targetPId, currentSelectedNodeId);
+      currentSelectedNodeId = isStandbyMode ? 'n4' : diag.deficitId;
+
+      const dagData = buildCognitiveKnowledgeDagSvg(targetPId, currentSelectedNodeId, isStandbyMode);
       const viewport = document.getElementById('knowledge-dag-svg-viewport');
       if (viewport) {
         viewport.innerHTML = dagData.svg;
@@ -12111,23 +12132,35 @@
     }
 
     function inspectKnowledgeNode(nodeId, nodeName, nodeGrade) {
-      const diag = getCognitiveDiagnosisForProblem(currentInspectedProblemId);
-      currentSelectedNodeId = nodeId || diag.deficitId;
+      const isStandbyMode = (currentInspectedProblemId === null);
+      const diag = isStandbyMode ? {
+        targetId: null,
+        deficitId: null,
+        activeChain: [],
+        targetTitle: '개념 인지 신경망 (진단 대기)',
+        deficitTitle: '결손 없음 (진단 대기 중)',
+        deficitReason: '문제를 풀고 질문하면 AI가 수능 킬러부터 중등 선행 기초까지 오답 원인을 역추적하여 결손 지점을 표시합니다.',
+        remedyTip: '첫 문제를 풀고 질문을 시작해보세요.',
+        upstreamChain: [],
+        killerDifficulty: '진단 대기'
+      } : getCognitiveDiagnosisForProblem(currentInspectedProblemId);
+
+      currentSelectedNodeId = nodeId || (isStandbyMode ? 'n4' : diag.deficitId);
       const node = KNOWLEDGE_NODES_DATA[currentSelectedNodeId];
       const card = document.getElementById('knowledge-dag-detail-card');
       if (!card || !node) return;
 
       const viewport = document.getElementById('knowledge-dag-svg-viewport');
       if (viewport) {
-        const dagData = buildCognitiveKnowledgeDagSvg(currentInspectedProblemId, currentSelectedNodeId);
+        const dagData = buildCognitiveKnowledgeDagSvg(currentInspectedProblemId, currentSelectedNodeId, isStandbyMode);
         viewport.innerHTML = dagData.svg;
       }
 
-      const isTarget = (currentSelectedNodeId === diag.targetId);
-      const isDeficit = (currentSelectedNodeId === diag.deficitId);
+      const isTarget = !isStandbyMode && (currentSelectedNodeId === diag.targetId);
+      const isDeficit = !isStandbyMode && (currentSelectedNodeId === diag.deficitId);
 
-      let badgeColor = 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40';
-      let statusText = '정상 마스터 개념';
+      let badgeColor = isStandbyMode ? 'bg-indigo-950/80 text-indigo-300 border-indigo-500/40' : 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40';
+      let statusText = isStandbyMode ? '개념 청사진 노드' : '정상 마스터 개념';
       if (isTarget) {
         badgeColor = 'bg-rose-950/80 text-rose-300 border-rose-500/40';
         statusText = '현재 풀이 목표 문항';
@@ -12137,7 +12170,16 @@
       }
 
       let extraDiagnosisHtml = '';
-      if (isDeficit) {
+      if (isStandbyMode) {
+        extraDiagnosisHtml = `
+          <div class="bg-indigo-950/30 border border-indigo-500/30 rounded-xl p-2.5 space-y-1">
+            <span class="text-[10px] font-extrabold text-indigo-300 flex items-center gap-1">
+              <i data-lucide="info" class="w-3 h-3 text-indigo-400"></i> 인지 신경망 연계 가이드:
+            </span>
+            <p class="text-[10.5px] text-slate-300 leading-relaxed font-medium">선수 개념 [${node.prereq || '기초 대수'}] ➔ 후속 심화 [${node.next || '수능 킬러'}]로 연계되는 핵심 노드입니다. 실제 문제를 질문하면 이 노드와의 결손 연계가 자동으로 진단됩니다.</p>
+          </div>
+        `;
+      } else if (isDeficit) {
         extraDiagnosisHtml = `
           <div class="bg-amber-950/30 border border-amber-500/40 rounded-xl p-2.5 space-y-1">
             <span class="text-[10px] font-extrabold text-amber-300 flex items-center gap-1">
@@ -12200,7 +12242,11 @@
     }
 
     function copyParentDagBriefingLink(pId) {
-      const targetPId = pId !== undefined ? Number(pId) : (currentProblemId || 304);
+      if (userSolvedHistory.length === 0 && (pId === undefined || pId === null) && !currentProblemId) {
+        alert('[안내] 아직 질문하거나 푼 문제가 없어 브리핑할 오답 분석 데이터가 없습니다.\n\n먼저 카메라로 문제를 질문하거나 예시 문제를 풀어보세요!');
+        return;
+      }
+      const targetPId = pId !== undefined && pId !== null ? Number(pId) : (currentProblemId || 304);
       const prob = PROBLEMS_DB[targetPId] || PROBLEMS_DB[304] || PROBLEMS_DB[1];
       const diag = getCognitiveDiagnosisForProblem(targetPId);
       const probTitle = prob.topic || prob.title || '수능/내신 고난도 문항';
