@@ -1426,7 +1426,23 @@ if (!htmlContent.includes('[수학적 시각화 직관 도해]')) {
   failGate(7, 'Solution Booklet Diagrams', 'Solution booklet must embed high-contrast mathematical visualization diagrams');
 }
 
-// 7.6 AI Twin Problems Completeness Verification
+// 7.5.1 Exam Sheet Zero-Spoiler Rule Verification
+const section2Match = htmlContent.match(/<!-- Section 2: Questions Area[\s\S]*?<!-- Section 3: Appendix/);
+if (section2Match) {
+  const section2Html = section2Match[0];
+  if (section2Html.includes('${probSvg') || section2Html.includes('${twinSvg') || section2Html.includes('<svg')) {
+    failGate(7, 'Exam Sheet Zero-Spoiler Rule', 'Section 2 (Questions Area) must NOT contain solution diagrams or spoiler SVGs');
+  }
+} else {
+  failGate(7, 'Exam Sheet Structure', 'Section 2 Questions Area or Section 3 Appendix marker not found in preview.html');
+}
+
+// 7.5.2 Solution Booklet Diagram Unclipped Container Verification
+if (htmlContent.includes('max-height: 190px') || htmlContent.includes('max-height: 180px')) {
+  failGate(7, 'Solution Diagram Container', 'SVGs in printExamSheet must not have rigid max-height (180px/190px) to prevent clipped callout boxes');
+}
+
+// 7.6 AI Twin Problems Completeness & Mathematical Integrity Verification
 const twinIds = [302, 303, 304, 305];
 twinIds.forEach(tId => {
   const prob = PROBLEMS_DB[tId];
@@ -1444,6 +1460,22 @@ twinIds.forEach(tId => {
     failGate(7, 'AI Twin Completeness', `Problem ${tId} twin has non-numeric placeholder answer`);
   }
 });
+
+// 7.6.1 Specific Twin Problem Mathematical Precision Checks
+const p302Twin = PROBLEMS_DB[302].twin_problem;
+if (!p302Twin.problem_text.includes('\\log_2(x-1)') || !p302Twin.answer.includes('4') || !p302Twin.svg_diagram.includes('(3, 1)')) {
+  failGate(7, 'Twin 302 Mathematical Precision', 'Problem 302 Twin must be mathematically sound: log_2(x-1), 2^x+2 with A(3, 1), B(2, 6), a+b=4');
+}
+
+const p303Twin = PROBLEMS_DB[303].twin_problem;
+if (p303Twin.problem_text.includes('동전을 4번 던져 앞면이 나오는 횟수이고, 동전을 4번 던져')) {
+  failGate(7, 'Twin 303 Mathematical Precision', 'Problem 303 Twin has duplicate 4번 던져 text; must be 4번 / 2번 for p=1/3');
+}
+
+const p304Twin = PROBLEMS_DB[304].twin_problem;
+if (!p304Twin.svg_diagram.includes('(1, 0)') || !p304Twin.svg_diagram.includes('60 × m = 20')) {
+  failGate(7, 'Twin 304 Mathematical Precision', 'Problem 304 Twin diagram must include tangent at (1, 0) and 60 × m = 20');
+}
 
 // 7.7 Mobile Landing Page Semantic Copy Line Breaking
 const landingPath = path.join(ROOT_DIR, 'landing.html');
