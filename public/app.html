@@ -2036,23 +2036,31 @@
           </div>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
-          <button onclick="filterHistory('all')" id="filter-btn-all" class="history-filter-btn bg-indigo-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 shadow-md transition">
-            전체 보기
-          </button>
-          <button onclick="filterHistory('visual')" id="filter-btn-visual" class="history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 transition">
-            그림/그래프
-          </button>
-          <button onclick="filterHistory('modeling')" id="filter-btn-modeling" class="history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 transition">
-            식 세우기
+        <!-- Filter Tabs & Quick Actions -->
+        <div class="flex items-center justify-between gap-1.5 pb-1">
+          <div class="flex gap-1 overflow-x-auto no-scrollbar py-0.5">
+            <button onclick="filterHistory('all')" id="filter-btn-all" class="history-filter-btn bg-indigo-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 shadow-md transition">
+              전체 보기
+            </button>
+            <button onclick="filterHistory('unresolved')" id="filter-btn-unresolved" class="history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition">
+              미해결
+            </button>
+            <button onclick="filterHistory('resolved')" id="filter-btn-resolved" class="history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition">
+              해결 완료
+            </button>
+          </div>
+          <button onclick="clearResolvedHistory()" class="bg-slate-800 hover:bg-emerald-950/80 text-emerald-400 hover:text-emerald-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg border border-emerald-500/30 shrink-0 flex items-center gap-1 transition" title="해결 완료(복습 완료)된 질문만 오답노트에서 정리/삭제">
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> 해결된 문제 정리
           </button>
         </div>
 
         <!-- Action Button: Generate Printable Exam Sheet -->
-        <button onclick="openExamSheetModal()" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-950/60 active:scale-95 transition border border-indigo-400/30">
-          <i data-lucide="printer" class="w-4 h-4 text-amber-300"></i>
-          <span>누적 오답/질문 모아 '나만의 맞춤형 시험지' 인쇄 (PDF)</span>
+        <button onclick="openExamSheetModal()" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold py-3 px-3.5 rounded-2xl text-xs flex items-center justify-between shadow-lg shadow-indigo-950/60 active:scale-95 transition border border-indigo-400/30">
+          <div class="flex items-center gap-2">
+            <i data-lucide="printer" class="w-4 h-4 text-amber-300"></i>
+            <span class="font-extrabold text-left">선택한 질문 모아 '개별 맞춤 시험지 + 해설지' 생성 (PDF)</span>
+          </div>
+          <span class="bg-amber-400/20 text-amber-300 text-[10px] font-black px-2 py-0.5 rounded-full border border-amber-400/40 shrink-0">PRO 킬러</span>
         </button>
 
         <!-- History Problem List Container -->
@@ -3364,28 +3372,51 @@
           </div>
         </div>
 
+        <!-- PRO Tier Value Banner -->
+        <div class="bg-gradient-to-r from-amber-500/15 via-indigo-500/15 to-purple-500/15 border border-amber-500/30 rounded-xl p-3 space-y-1 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-amber-300 flex items-center gap-1">
+              <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i> PRO 전용: 1:1 맞춤 시험지 &amp; 출제자 해설지 패스
+            </span>
+            <span class="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-400/30">이번 달 1회 무료 체험</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            내가 질문한 취약 문항을 기반으로 수능·모의고사 실전 2단 시험지와 <strong>ReadMath 시그니처 4-Way 번역 해설지</strong>가 1권의 책자(PDF)로 자동 생성됩니다.
+          </p>
+        </div>
+
         <div class="bg-slate-950 rounded-xl p-3 border border-slate-800 space-y-2">
-          <span class="text-xs font-bold text-slate-200 block mb-1">시험지에 포함할 질문 문항 선택:</span>
-          <div id="exam-sheet-problem-checklist" class="space-y-1.5 text-xs text-slate-300">
-            <!-- Dynamic checklist generated from PROBLEMS_DB -->
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-200">시험지에 포함할 질문 문항 선택:</span>
+            <div class="flex items-center gap-1.5 text-[10px]">
+              <button type="button" onclick="toggleAllExamProblems(true)" class="text-indigo-400 hover:text-indigo-300 font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-indigo-500/50 transition">전체 선택</button>
+              <button type="button" onclick="toggleAllExamProblems(false)" class="text-slate-400 hover:text-slate-200 font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-slate-500 transition">전체 해제</button>
+            </div>
+          </div>
+          <div id="exam-sheet-problem-checklist" class="space-y-1.5 text-xs text-slate-300 max-h-52 overflow-y-auto pr-1">
+            <!-- Dynamic checklist generated from userSolvedHistory + PROBLEMS_DB -->
+          </div>
+          <div id="exam-selection-summary" class="text-[11px] text-slate-400 flex items-center justify-between pt-1 border-t border-slate-800/80">
+            <span>선택된 질문: <strong id="exam-selected-count" class="text-indigo-400 font-mono">0</strong>개</span>
+            <span class="text-emerald-400 font-bold">생성될 시험지: <strong id="exam-total-items-count" class="text-emerald-300 font-mono">0</strong>문항</span>
           </div>
         </div>
 
         <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-3 space-y-2 text-xs">
           <span class="font-bold text-indigo-300 block">시험지 구성 옵션:</span>
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
             <input type="checkbox" id="exam-opt-workspace" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0">
             <span>충분한 풀이 여백 공간 포함 (수능 2단 편집 서식)</span>
           </label>
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
             <input type="checkbox" id="exam-opt-concept" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0">
             <span>취약 개념서 &amp; 오답 원인 처방 리포트 포함</span>
           </label>
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none" onchange="updateExamSelectionCount()">
             <input type="checkbox" id="exam-opt-twin" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0">
             <span>검증용 AI 쌍둥이/유사 실전 연습문항 추가 수록</span>
           </label>
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
             <input type="checkbox" id="exam-opt-answers" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0">
             <span>권말 부록: ReadMath 1:1 오답 원인 진단 및 해설지 포함</span>
           </label>
@@ -10604,8 +10635,9 @@
 
       container.innerHTML = items.map(item => {
         const hasSubQuestions = item.sub_questions && item.sub_questions.length > 0;
+        const isResolved = !!item.resolved;
         return `
-          <div id="history-card-${item.id}" data-category="visual" data-resolved="false" onclick="openHistoryProblem('${item.id}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
+          <div id="history-card-${item.id}" data-category="visual" data-resolved="${isResolved}" onclick="openHistoryProblem('${item.id}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1.5 min-w-0 flex-1 pr-2">
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded shrink-0">
@@ -10614,10 +10646,10 @@
                 <span class="text-xs font-bold text-slate-200 line-clamp-1">${cleanProblemTitle(item.title)}</span>
               </div>
               <div class="flex items-center gap-1 shrink-0">
-                <button onclick="event.stopPropagation(); toggleResolvedCard('${item.id}')" id="resolve-badge-${item.id}" class="text-[10px] text-slate-400 font-semibold flex items-center gap-1 hover:text-emerald-400 transition">
-                  <i data-lucide="circle" class="w-3 h-3 text-slate-500"></i> 미완료
+                <button onclick="event.stopPropagation(); toggleResolvedCard('${item.id}')" id="resolve-badge-${item.id}" class="text-[10px] ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700'} font-semibold flex items-center gap-1 px-1.5 py-0.5 rounded border transition" title="클릭하여 해결 완료 / 미완료 상태 변경">
+                  <i data-lucide="${isResolved ? 'check-circle-2' : 'circle'}" class="w-3 h-3 ${isResolved ? 'text-emerald-400' : 'text-slate-500'}"></i> ${isResolved ? '해결 완료' : '미완료'}
                 </button>
-                <button onclick="event.stopPropagation(); deleteHistoryItem('${item.id}')" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 삭제">
+                <button onclick="event.stopPropagation(); deleteHistoryItem('${item.id}')" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 영구 삭제">
                   <i data-lucide="trash-2" class="w-3 h-3"></i> 삭제
                 </button>
               </div>
@@ -10665,35 +10697,59 @@
     function toggleResolvedCard(id) {
       const card = document.getElementById('history-card-' + id);
       const badge = document.getElementById('resolve-badge-' + id);
-      if (!card || !badge) return;
-      const currentResolved = card.getAttribute('data-resolved') === 'true';
-      const newResolved = !currentResolved;
+      const target = (userSolvedHistory || []).find(it => String(it.id) === String(id));
+      if (!target) return;
 
-      card.setAttribute('data-resolved', newResolved ? 'true' : 'false');
-      if (newResolved) {
-        badge.className = 'text-[10px] text-emerald-400 font-semibold flex items-center gap-1';
-        badge.innerHTML = '<i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400"></i> 복습 완료';
-      } else {
-        badge.className = 'text-[10px] text-slate-400 font-semibold flex items-center gap-1 hover:text-emerald-400 transition';
-        badge.innerHTML = '<i data-lucide="circle" class="w-3 h-3 text-slate-500"></i> 미완료';
+      target.resolved = !target.resolved;
+      safeSaveUserHistory(userSolvedHistory);
+
+      if (card && badge) {
+        card.setAttribute('data-resolved', target.resolved ? 'true' : 'false');
+        if (target.resolved) {
+          card.classList.add('border-emerald-500/30', 'opacity-85');
+          card.classList.remove('border-slate-800');
+          badge.className = 'text-[10px] text-emerald-400 bg-emerald-950/60 border-emerald-500/40 font-semibold flex items-center gap-1 px-1.5 py-0.5 rounded border transition';
+          badge.innerHTML = '<i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-400"></i> 해결 완료';
+        } else {
+          card.classList.remove('border-emerald-500/30', 'opacity-85');
+          card.classList.add('border-slate-800');
+          badge.className = 'text-[10px] text-slate-400 bg-slate-800 border-slate-700 font-semibold flex items-center gap-1 px-1.5 py-0.5 rounded border transition';
+          badge.innerHTML = '<i data-lucide="circle" class="w-3 h-3 text-slate-500"></i> 미완료';
+        }
+        lucide.createIcons();
       }
-      lucide.createIcons();
+    }
+
+    function clearResolvedHistory() {
+      const resolvedList = (userSolvedHistory || []).filter(it => it.resolved);
+      if (resolvedList.length === 0) {
+        alert('현재 "해결 완료"로 표시된 질문이 없습니다.\n\n해결된 문제 카드의 [미완료] 버튼을 눌러 [해결 완료]로 표시한 후 정리해 보세요.');
+        return;
+      }
+      if (!confirm(`해결 완료된 질문 ${resolvedList.length}개를 오답노트에서 영구 삭제하시겠습니까?\n(아직 해결되지 않은 질문들은 안전하게 보관됩니다)`)) return;
+
+      safeSaveUserHistory((userSolvedHistory || []).filter(it => !it.resolved));
+      renderHistoryList();
+      updateReportView();
+      updateCameraHomeCards();
     }
 
     function filterHistory(type) {
       document.querySelectorAll('.history-filter-btn').forEach(btn => {
-        btn.className = 'history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 transition';
+        btn.className = 'history-filter-btn bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition';
       });
       const activeBtn = document.getElementById('filter-btn-' + type);
       if (activeBtn) activeBtn.className = 'history-filter-btn bg-indigo-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0 shadow-md transition';
 
-      userSolvedHistory.forEach(item => {
+      (userSolvedHistory || []).forEach(item => {
         const card = document.getElementById('history-card-' + item.id);
         if (!card) return;
         if (type === 'all') {
           card.classList.remove('hidden');
         } else if (type === 'resolved') {
-          if (card.getAttribute('data-resolved') === 'true') card.classList.remove('hidden'); else card.classList.add('hidden');
+          if (item.resolved) card.classList.remove('hidden'); else card.classList.add('hidden');
+        } else if (type === 'unresolved') {
+          if (!item.resolved) card.classList.remove('hidden'); else card.classList.add('hidden');
         } else {
           card.classList.remove('hidden');
         }
@@ -13956,20 +14012,57 @@
       const container = document.getElementById('exam-sheet-problem-checklist');
       if (!container) return;
 
-      const keys = Object.keys(PROBLEMS_DB).reverse();
-      container.innerHTML = keys.map(k => {
-        const item = PROBLEMS_DB[k];
+      // Selectable problems pool: user's asked history first, then PROBLEMS_DB
+      const historyList = (userSolvedHistory && userSolvedHistory.length > 0) ? userSolvedHistory : [];
+      const dbList = Object.keys(PROBLEMS_DB).map(k => PROBLEMS_DB[k]);
+
+      const seenIds = new Set();
+      const combinedPool = [];
+      historyList.forEach(item => {
+        if (!seenIds.has(String(item.id))) {
+          seenIds.add(String(item.id));
+          combinedPool.push({ ...item, isFromHistory: true });
+        }
+      });
+      dbList.forEach(item => {
+        if (!seenIds.has(String(item.id))) {
+          seenIds.add(String(item.id));
+          combinedPool.push({ ...item, isFromHistory: false });
+        }
+      });
+
+      container.innerHTML = combinedPool.map((item, idx) => {
+        const isChecked = idx < 10;
         return `
-          <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/40 cursor-pointer transition">
-            <input type="checkbox" name="exam_prob_select" value="${item.id}" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0" />
-            <span class="text-[10px] font-bold text-indigo-300 bg-indigo-950 border border-indigo-500/40 px-1.5 py-0.5 rounded shrink-0">${item.curriculum_grade}</span>
-            <span class="text-xs font-semibold text-slate-200 truncate">${item.title}</span>
+          <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/40 cursor-pointer transition select-none">
+            <input type="checkbox" name="exam_prob_select" value="${item.id}" ${isChecked ? 'checked' : ''} onchange="updateExamSelectionCount()" class="rounded border-slate-700 text-indigo-600 focus:ring-0" />
+            <span class="text-[10px] font-bold ${item.isFromHistory ? 'text-amber-300 bg-amber-950/80 border-amber-500/40' : 'text-indigo-300 bg-indigo-950 border-indigo-500/40'} border px-1.5 py-0.5 rounded shrink-0">
+              ${item.isFromHistory ? '내 질문' : (item.curriculum_grade || '공통')}
+            </span>
+            <span class="text-xs font-semibold text-slate-200 truncate flex-1">${cleanProblemTitle(item.title)}</span>
           </label>
         `;
       }).join('');
 
       openModal('exam');
+      updateExamSelectionCount();
       lucide.createIcons();
+    }
+
+    function toggleAllExamProblems(select) {
+      document.querySelectorAll('input[name="exam_prob_select"]').forEach(cb => {
+        cb.checked = select;
+      });
+      updateExamSelectionCount();
+    }
+
+    function updateExamSelectionCount() {
+      const selected = document.querySelectorAll('input[name="exam_prob_select"]:checked').length;
+      const includeTwin = document.getElementById('exam-opt-twin')?.checked ?? true;
+      const countEl = document.getElementById('exam-selected-count');
+      const totalEl = document.getElementById('exam-total-items-count');
+      if (countEl) countEl.textContent = selected;
+      if (totalEl) totalEl.textContent = selected * (includeTwin ? 2 : 1);
     }
 
     function printExamSheet() {
@@ -13988,7 +14081,10 @@
       const includeTwin = document.getElementById('exam-opt-twin')?.checked ?? true;
       const includeAnswers = document.getElementById('exam-opt-answers')?.checked ?? true;
 
-      const selectedProblems = selectedIds.map(id => PROBLEMS_DB[id]).filter(Boolean);
+      const selectedProblems = selectedIds.map(id => {
+        const inHistory = (userSolvedHistory || []).find(h => String(h.id) === String(id));
+        return inHistory || PROBLEMS_DB[id];
+      }).filter(Boolean);
 
       const printArea = document.getElementById('printable-exam-area');
       printArea.innerHTML = `
