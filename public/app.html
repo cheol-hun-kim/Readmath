@@ -7976,9 +7976,65 @@
       }
     });
 
+    // ==============================================================================
+    // Systemic Coding Term & Developer Jargon Purge Safety Guard
+    // (Inviolable runtime filter that prevents ANY coding or developer terms from reaching UI)
+    // ==============================================================================
+    const SystemicCodeTermPurgeGuard = (typeof window !== 'undefined' ? window : global).SystemicCodeTermPurgeGuard = {
+      // Mapping of technical/developer terms to student-friendly mathematical & educational Korean terms
+      codingTermsMap: [
+        { regex: /\b(Gemini\s*API|Gemini|Google\s*AI\s*Studio|AI\s*Studio)\b/gi, replacement: '인공지능 튜터' },
+        { regex: /\b(SVG\s*코드|SVG\s*도해|SVG|svg_diagram)\b/gi, replacement: '그래프 도해' },
+        { regex: /그래프\s*도해\s*코드/g, replacement: '그래프 도해' },
+        { regex: /\b(API)\b/g, replacement: '학습 인터페이스' },
+        { regex: /\b(JSON|json)\b/gi, replacement: '문항 데이터' },
+        { regex: /\b(KaTeX|MathJax)\b/gi, replacement: '수식 표기' },
+        { regex: /\b(RCA)\b/g, replacement: '원인 분석' },
+        { regex: /\b(B2B|B2C)\b/g, replacement: '교육 지원' },
+        { regex: /\b(Database|DB|localStorage|sessionStorage)\b/gi, replacement: '학습 보관함' },
+        { regex: /\b(undefined|null|NaN)\b|\[object\s+Object\]/g, replacement: '' },
+        { regex: /\b(console\.log|innerHTML|onClick|DOM)\b/g, replacement: '' },
+        { regex: /대치동\s*1타/g, replacement: '수학 전문 멘토' },
+        { regex: /1타\s*(?:강사)?/g, replacement: '수학 전문 멘토' },
+        { regex: /문해력/g, replacement: '조건 분석력' },
+        { regex: /독해력/g, replacement: '지문 분석력' },
+        { regex: /수식\s*모델링/g, replacement: '조건 식 세우기' },
+        { regex: /해석기하/g, replacement: '좌표 분석' }
+      ],
+
+      // Cleans any string from technical terms, leaked tags, and unrendered LaTeX backslashes
+      purgeCodingTerms(text) {
+        if (!text || typeof text !== 'string') return text || '';
+        if (text.trim().startsWith('<svg') && text.includes('</svg>')) {
+          return text;
+        }
+
+        let s = text;
+
+        // 1. Purge known technical and developer terms
+        this.codingTermsMap.forEach(({ regex, replacement }) => {
+          s = s.replace(regex, replacement);
+        });
+
+        // 2. Clean leaked stray HTML/SVG raw tag strings (e.g. <div>, </span>, <svg...>, </svg>)
+        s = s.replace(/&lt;(div|span|svg|path|circle|line|rect)[\s\S]*?&gt;/gi, '');
+
+        // 3. Clean raw escaped literals e.g. \" -> "
+        s = s.replace(/\\"/g, '"').replace(/\\'/g, "'");
+
+        // 4. Clean stray markdown code block artifacts on pure text
+        s = s.replace(/```(?:json|html|javascript|latex)?\s*([\s\S]*?)\s*```/gi, '$1');
+
+        return s;
+      }
+    };
+
     // Mathematical Text Sanitizer & Multi-Pass LaTeX Auto-Wrapper (Zero-Defect Guaranteed)
     function autoFormatMathText(text) {
       if (!text || typeof text !== 'string') return text || '';
+      if (typeof SystemicCodeTermPurgeGuard !== 'undefined' && typeof SystemicCodeTermPurgeGuard.purgeCodingTerms === 'function') {
+        text = SystemicCodeTermPurgeGuard.purgeCodingTerms(text);
+      }
       if (typeof sanitizeMathObject === 'function') {
         text = sanitizeMathObject(text);
       }
@@ -8210,12 +8266,19 @@
       str = str.replace(/\$\s*\\cap\s*\$/g, ' \\cap ');
 
       // 11. Clean redundant dollars (keep $$ intact, do not delete empty display math)
-      return str.replace(/\${3,}/g, () => '$$').replace(/\$\s+\$/g, ' ');
+      str = str.replace(/\${3,}/g, () => '$$').replace(/\$\s+\$/g, ' ');
+      if (typeof SystemicCodeTermPurgeGuard !== 'undefined' && typeof SystemicCodeTermPurgeGuard.purgeCodingTerms === 'function') {
+        str = SystemicCodeTermPurgeGuard.purgeCodingTerms(str);
+      }
+      return str;
     }
 
     // Plain Text Math Formatter & Snippet Cleaner (Strips LaTeX delimiters & symbols for clean UI display)
     function stripMathDelimiters(text) {
       if (!text || typeof text !== 'string') return text || '';
+      if (typeof SystemicCodeTermPurgeGuard !== 'undefined' && typeof SystemicCodeTermPurgeGuard.purgeCodingTerms === 'function') {
+        text = SystemicCodeTermPurgeGuard.purgeCodingTerms(text);
+      }
       return text
         .replace(/<[^>]+>/g, ' ')
         // 1. Degree & Angle representations (Crucial: convert to natural Korean Unicode ° and ∠)
@@ -8465,6 +8528,7 @@
       let node;
       const nodesToUpdate = [];
       const badGlyphRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/;
+      const codingTermsRegex = /\b(Gemini|AI Studio|API|RCA|B2B|B2C|KaTeX|MathJax|undefined|null|NaN|\[object Object\]|console\.log|SVG 코드)\b|1타\s*(?:강사)?|대치동\s*1타|수식\s*모델링|해석기하|문해력|독해력/i;
       while (node = walker.nextNode()) {
         if (node.parentElement && (
           node.parentElement.tagName === 'SCRIPT' ||
@@ -8474,7 +8538,7 @@
           continue;
         }
         const val = node.nodeValue;
-        if (val && badGlyphRegex.test(val)) {
+        if (val && (badGlyphRegex.test(val) || codingTermsRegex.test(val))) {
           nodesToUpdate.push(node);
         }
       }
@@ -8482,6 +8546,9 @@
       nodesToUpdate.forEach(n => {
         let s = n.nodeValue;
         s = s.replace(/[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]/g, '≠');
+        if (typeof SystemicCodeTermPurgeGuard !== 'undefined' && typeof SystemicCodeTermPurgeGuard.purgeCodingTerms === 'function') {
+          s = SystemicCodeTermPurgeGuard.purgeCodingTerms(s);
+        }
         if (n.nodeValue !== s) {
           n.nodeValue = s;
         }
@@ -10641,39 +10708,262 @@
       });
     }
 
-    function validateAndSanitizeMathSvg(rawSvg, probData, contextQuery, aiExplanation) {
-      // 0. If rawSvg is already an authoritative diagram in probData.diagrams, verify zero defects before returning!
-      if (probData && Array.isArray(probData.diagrams) && probData.diagrams.some(d => d.svg === rawSvg)) {
-        const defects = inspectMathSvgDefects(rawSvg, probData);
-        if (defects.length === 0) return rawSvg;
-      }
+    // ==============================================================================
+    // Systemic Mathematical Graph Consistency Guard
+    // (Inviolable gate: verifies graph against actual equation before ANY exposure)
+    // ==============================================================================
+    const SystemicMathGraphConsistencyGuard = (typeof window !== 'undefined' ? window : global).SystemicMathGraphConsistencyGuard = {
+      extractProblemMathSpecs(probData) {
+        if (!probData) return {};
+        const title = (probData.title || '').toLowerCase();
+        const text = (probData.problem_text || '').toLowerCase();
+        const steps = (probData.solution_steps || []).map(s => `${s.description || ''} ${s.formula || ''}`).join(' ').toLowerCase();
+        const combined = `${title} ${text} ${steps}`;
 
-      // 1. Authoritative diagrams for all database problems
-      if (probData && probData.diagrams && probData.diagrams.length > 0) {
-        const combinedHint = `${contextQuery || ''} ${aiExplanation || ''}`;
-        const authSvg = generateAuthoritativeMathSvg(probData, combinedHint);
-        if (authSvg) {
-          const defects = inspectMathSvgDefects(authSvg, probData);
-          if (defects.length === 0) return authSvg;
+        const specs = {
+          hasEquation: false,
+          type: 'general',
+          cubic: null,
+          rational: null,
+          logarithmic: null,
+          exponential: null,
+          quadratic: null,
+          circle: null,
+          normalDist: null,
+          rightTriangle: null
+        };
+
+        // 1. Normal Distribution
+        if (combined.includes('정규분포') || combined.includes('표준정규분포') || combined.includes('이항분포')) {
+          const mMatch = combined.match(/(?:평균|m|e\(x\))\s*=\s*(\d+(?:\.\d+)?)/i) || combined.match(/n\s*\(\s*(\d+(?:\.\d+)?)/i);
+          const sMatch = combined.match(/(?:표준편차|\bsigma\b|v\(x\))\s*=\s*(\d+(?:\.\d+)?)/i) || combined.match(/n\s*\(\s*\d+(?:\.\d+)?\s*,\s*(\d+(?:\.\d+)?)/i);
+          specs.type = 'normal';
+          specs.normalDist = {
+            m: mMatch ? parseFloat(mMatch[1]) : 0,
+            s: sMatch ? (combined.includes('n(') ? Math.sqrt(parseFloat(sMatch[1])) : parseFloat(sMatch[1])) : 1
+          };
+          specs.hasEquation = true;
+          return specs;
         }
+
+        // 2. Right Triangle
+        if (combined.includes('직각삼각형') || combined.includes('피타고라스') || (combined.includes('삼각비') && (combined.includes('밑변') || combined.includes('높이')))) {
+          const numbers = Array.from(combined.matchAll(/\b(\d+(?:\.\d+)?)\b/g)).map(m => parseFloat(m[1])).filter(n => n > 0 && n <= 100);
+          if (numbers.length >= 2) {
+            specs.type = 'right_triangle';
+            let b = numbers[0], h = numbers[1];
+            specs.rightTriangle = { b, h, hyp: Math.sqrt(b*b + h*h) };
+            specs.hasEquation = true;
+            return specs;
+          }
+        }
+
+        // 3. Circle Equation
+        const circleMatch = combined.match(/\(x(?:\s*([-+])\s*(\d*\.?\d+))?\)\s*(?:\^2|\^\{2\}|²)\s*\+\s*\(y(?:\s*([-+])\s*(\d*\.?\d+))?\)\s*(?:\^2|\^\{2\}|²)\s*=\s*(\d*\.?\d+)/i) ||
+                            combined.match(/x\s*(?:\^2|\^\{2\}|²)\s*\+\s*y\s*(?:\^2|\^\{2\}|²)\s*=\s*(\d*\.?\d+)/i);
+        if (circleMatch) {
+          let h = 0, k = 0, r = 2.5;
+          if (circleMatch.length >= 6 && circleMatch[5]) {
+            if (circleMatch[1] && circleMatch[2]) h = parseFloat((circleMatch[1] === '-' ? '' : '-') + circleMatch[2]);
+            if (circleMatch[3] && circleMatch[4]) k = parseFloat((circleMatch[3] === '-' ? '' : '-') + circleMatch[4]);
+            r = Math.sqrt(parseFloat(circleMatch[5]));
+          } else if (circleMatch[1]) {
+            r = Math.sqrt(parseFloat(circleMatch[1]));
+          }
+          specs.type = 'circle';
+          specs.circle = { h, k, r };
+          specs.hasEquation = true;
+          return specs;
+        }
+
+        // 4. Cubic Function
+        const cubicMatch = combined.match(/y\s*=\s*([-+]?\s*\d*\.?\d*)\s*x\s*(?:\^3|\^\{3\}|³)(?:\s*([-+])\s*(\d*\.?\d*)\s*x\s*(?:\^2|\^\{2\}|²))?(?:\s*([-+])\s*(\d*\.?\d*)\s*x)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+        if (cubicMatch) {
+          let aStr = (cubicMatch[1] || '').replace(/\s+/g, '');
+          let a = aStr === '-' ? -1 : aStr === '+' || aStr === '' ? 1 : parseFloat(aStr);
+          let b = 0;
+          if (cubicMatch[2]) b = parseFloat((cubicMatch[2] === '-' ? '-' : '') + (cubicMatch[3] || '1'));
+          let c = 0;
+          if (cubicMatch[4]) c = parseFloat((cubicMatch[4] === '-' ? '-' : '') + (cubicMatch[5] || '1'));
+          let d = 0;
+          if (cubicMatch[6] && cubicMatch[7]) d = parseFloat((cubicMatch[6] === '-' ? '-' : '') + cubicMatch[7]);
+
+          if (!isNaN(a) && a !== 0) {
+            specs.type = 'cubic';
+            const f = (x) => a * x * x * x + b * x * x + c * x + d;
+            const disc = (2 * b) * (2 * b) - 4 * (3 * a) * c;
+            let extrema = [];
+            if (disc > 0) {
+              const r1 = (-2 * b - Math.sqrt(disc)) / (6 * a);
+              const r2 = (-2 * b + Math.sqrt(disc)) / (6 * a);
+              extrema = [{ x: r1, y: f(r1) }, { x: r2, y: f(r2) }];
+            }
+            specs.cubic = { a, b, c, d, extrema };
+            specs.hasEquation = true;
+            return specs;
+          }
+        }
+
+        // 5. Rational Function
+        const ratMatch = combined.match(/y\s*=\s*(?:\\frac\{)?([0-9.-]+)(?:\}|\/)\(?(?:x(?:\s*([-+])\s*(\d*\.?\d+))?)\)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+        if (ratMatch) {
+          const num = parseFloat(ratMatch[1]) || 1;
+          const p = ratMatch[2] && ratMatch[3] ? parseFloat((ratMatch[2] === '-' ? '' : '-') + ratMatch[3]) : 0;
+          const q = ratMatch[4] && ratMatch[5] ? parseFloat((ratMatch[4] === '-' ? '-' : '') + ratMatch[5]) : 0;
+          specs.type = 'rational';
+          specs.rational = { num, p, q };
+          specs.hasEquation = true;
+          return specs;
+        }
+
+        // 6. Logarithmic Function
+        const logMatch = combined.match(/y\s*=\s*(?:([-+]?\s*\d*\.?\d*)\s*(?:[\*·]\s*)?)?(?:\\ln|\bln\b|\\log|\blog)(?:_\{?([0-9.]+)\}?)?\s*\(\s*x(?:\s*([-+])\s*(\d*\.?\d+))?\s*\)(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+        if (logMatch) {
+          const a = logMatch[1] ? parseFloat(logMatch[1].replace(/\s+/g, '')) || 1 : 1;
+          const base = logMatch[2] ? parseFloat(logMatch[2]) : (combined.includes('ln') ? Math.E : 10);
+          const h = logMatch[3] && logMatch[4] ? parseFloat((logMatch[3] === '-' ? '' : '-') + logMatch[4]) : 0;
+          const k = logMatch[5] && logMatch[6] ? parseFloat((logMatch[5] === '-' ? '-' : '') + logMatch[6]) : 0;
+          specs.type = 'logarithmic';
+          specs.logarithmic = { a, base, h, k };
+          specs.hasEquation = true;
+          return specs;
+        }
+
+        // 7. Quadratic Function
+        const quadMatch = combined.match(/y\s*=\s*([-+]?\s*\d*\.?\d*)\s*x\s*(?:\^2|\^\{2\}|²)(?:\s*([-+])\s*(\d*\.?\d*)\s*x)?(?:\s*([-+])\s*(\d*\.?\d+))?/i);
+        if (quadMatch) {
+          let aStr = (quadMatch[1] || '').replace(/\s+/g, '');
+          let a = aStr === '-' ? -1 : aStr === '+' || aStr === '' ? 1 : parseFloat(aStr);
+          let b = 0;
+          if (quadMatch[2]) b = parseFloat((quadMatch[2] === '-' ? '-' : '') + (quadMatch[3] || '1'));
+          let c = 0;
+          if (quadMatch[4] && quadMatch[5]) c = parseFloat((quadMatch[4] === '-' ? '-' : '') + quadMatch[5]);
+          if (!isNaN(a) && a !== 0) {
+            specs.type = 'quadratic';
+            const vx = -b / (2 * a);
+            const vy = a * vx * vx + b * vx + c;
+            specs.quadratic = { a, b, c, vx, vy };
+            specs.hasEquation = true;
+            return specs;
+          }
+        }
+
+        return specs;
+      },
+
+      // Strictly verifies whether candidate SVG matches mathematical equations
+      verifySvgMathematicalConsistency(candidateSvg, probData) {
+        if (!candidateSvg || typeof candidateSvg !== 'string' || !candidateSvg.includes('<svg')) {
+          return { isConsistent: false, reason: 'EMPTY_OR_NON_SVG' };
+        }
+
+        // Structural and geometric defect inspection
+        const defects = (typeof inspectMathSvgDefects === 'function') ? inspectMathSvgDefects(candidateSvg, probData) : [];
+        if (defects.length > 0) {
+          return { isConsistent: false, reason: 'DEFECTS_DETECTED: ' + defects.join('; ') };
+        }
+
+        // Dummy (k, k) placeholder rejection
+        if (typeof isDummyKk === 'function' && isDummyKk(candidateSvg)) {
+          return { isConsistent: false, reason: 'DUMMY_KK_DETECTED' };
+        }
+
+        const specs = this.extractProblemMathSpecs(probData);
+        if (!specs.hasEquation) {
+          return { isConsistent: true };
+        }
+
+        // Deep Equation-to-Graph semantic consistency checks
+        if (specs.type === 'cubic' && specs.cubic) {
+          if (specs.cubic.extrema && specs.cubic.extrema.length === 2) {
+            const e1 = specs.cubic.extrema[0];
+            const e2 = specs.cubic.extrema[1];
+            const hasE1 = candidateSvg.includes(e1.x.toFixed(1)) || candidateSvg.includes(`(${e1.x.toFixed(1)}`);
+            const hasE2 = candidateSvg.includes(e2.x.toFixed(1)) || candidateSvg.includes(`(${e2.x.toFixed(1)}`);
+            if (!hasE1 && !hasE2 && !candidateSvg.includes('극값') && !candidateSvg.includes('극대')) {
+              return { isConsistent: false, reason: 'CUBIC_EXTREMA_NOT_PLOTTED' };
+            }
+          }
+        } else if (specs.type === 'rational' && specs.rational) {
+          const { p, q } = specs.rational;
+          const hasAsymptoteP = candidateSvg.includes(`x = ${p}`) || candidateSvg.includes(`x=${p}`);
+          const hasAsymptoteQ = candidateSvg.includes(`y = ${q}`) || candidateSvg.includes(`y=${q}`);
+          if (!hasAsymptoteP && !hasAsymptoteQ && !candidateSvg.includes('점근선')) {
+            return { isConsistent: false, reason: 'RATIONAL_ASYMPTOTES_NOT_PLOTTED' };
+          }
+        } else if (specs.type === 'logarithmic' && specs.logarithmic) {
+          const { h } = specs.logarithmic;
+          if (!candidateSvg.includes(`x = ${h}`) && !candidateSvg.includes(`x=${h}`) && !candidateSvg.includes('점근선')) {
+            return { isConsistent: false, reason: 'LOG_ASYMPTOTE_NOT_PLOTTED' };
+          }
+        } else if (specs.type === 'circle' && specs.circle) {
+          const { h, k, r } = specs.circle;
+          const hasCenter = candidateSvg.includes(`(${h}, ${k})`) || candidateSvg.includes(`C(${h}, ${k})`) || (h === 0 && k === 0 && candidateSvg.includes('O(0, 0)'));
+          const hasRadius = candidateSvg.includes(r.toFixed(1)) || candidateSvg.includes(`r = ${r.toFixed(1)}`) || candidateSvg.includes('(r, 0)');
+          if (!hasCenter && !hasRadius && !candidateSvg.includes('<circle')) {
+            return { isConsistent: false, reason: 'CIRCLE_PARAMETERS_NOT_PLOTTED' };
+          }
+        } else if (specs.type === 'normal' && specs.normalDist) {
+          const { m } = specs.normalDist;
+          if (!candidateSvg.includes('정규분포') && !candidateSvg.includes(`m = ${m}`) && !candidateSvg.includes('m (평균)')) {
+            return { isConsistent: false, reason: 'NORMAL_DISTRIBUTION_NOT_PLOTTED' };
+          }
+        }
+
+        return { isConsistent: true };
+      },
+
+      // INVIOLABLE SAFETY GATE: Enforces 100% mathematical consistency before ANY exposure
+      enforceVerifiedMathGraph(probData, candidateSvg, topicHint = '') {
+        // Step 1: If candidateSvg is already consistent with the equation, safely return it!
+        if (candidateSvg && typeof candidateSvg === 'string' && candidateSvg.includes('<svg')) {
+          const check = this.verifySvgMathematicalConsistency(candidateSvg, probData);
+          if (check.isConsistent) {
+            return candidateSvg;
+          }
+        }
+
+        // Step 2: Check authoritative verified diagrams in probData.diagrams first
+        if (probData && Array.isArray(probData.diagrams) && probData.diagrams.length > 0) {
+          const authSvg = (typeof generateAuthoritativeMathSvg === 'function')
+            ? generateAuthoritativeMathSvg(probData, topicHint)
+            : (probData.diagrams[0] ? probData.diagrams[0].svg : null);
+          if (authSvg) {
+            const check = this.verifySvgMathematicalConsistency(authSvg, probData);
+            if (check.isConsistent) {
+              return authSvg;
+            }
+          }
+        }
+
+        // Step 3: Inconsistency, flaw, or missing graph detected!
+        // Immediately synthesize mathematically exact graph directly from equation via UniversalMathGraphEngine!
+        if (typeof UniversalMathGraphEngine !== 'undefined' && typeof UniversalMathGraphEngine.reconstructExactMathDiagram === 'function') {
+          const exactSvg = UniversalMathGraphEngine.reconstructExactMathDiagram(probData, candidateSvg || '');
+          return exactSvg;
+        }
+
+        return candidateSvg || '';
+      }
+    };
+
+    function validateAndSanitizeMathSvg(rawSvg, probData, contextQuery, aiExplanation) {
+      const combinedHint = `${contextQuery || ''} ${aiExplanation || ''}`;
+
+      // Inviolable Systemic Safety Guard: Verify equation consistency & enforce exact mathematical diagram
+      if (typeof SystemicMathGraphConsistencyGuard !== 'undefined' && typeof SystemicMathGraphConsistencyGuard.enforceVerifiedMathGraph === 'function') {
+        let candidate = rawSvg;
+        if ((!candidate || isDummyKk(candidate)) && probData) {
+          candidate = generateAuthoritativeMathSvg(probData, combinedHint) || probData.svg_diagram || '';
+        }
+        return SystemicMathGraphConsistencyGuard.enforceVerifiedMathGraph(probData, candidate, combinedHint);
       }
 
-      // 1.5. If rawSvg is already an authoritative handcrafted diagram (e.g. from twin_problem.svg_diagram or probData.svg_diagram)
-      if (rawSvg && typeof rawSvg === 'string' && rawSvg.includes('<svg') && !isDummyKk(rawSvg)) {
-        return rawSvg;
-      }
-
-      // 2. For user-uploaded, photographed, or dynamic problems:
-      // Always construct 100% exact analytical mathematical diagram via UniversalMathGraphEngine
+      // Fallback
       if (probData) {
         return UniversalMathGraphEngine.reconstructExactMathDiagram(probData, rawSvg || '');
       }
-
-      // 3. Standalone SVG without problem metadata: harmonize and snap
-      if (!rawSvg || typeof rawSvg !== 'string') return '';
-      let sanitizedSvg = harmonizeMathSvgGeometry(rawSvg);
-      sanitizedSvg = snapSvgKeypointsToCurves(sanitizedSvg);
-      return sanitizedSvg;
+      return rawSvg || '';
     }
 
 
@@ -11135,11 +11425,7 @@
       if (!data.diagrams || !data.diagrams[idx]) return;
       currentDiagramIdx = idx;
       const target = data.diagrams[idx];
-      const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
-      if (isDummyKk(target.svg)) {
-        target.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
-        safeSaveUserHistory(userSolvedHistory);
-      }
+      target.svg = validateAndSanitizeMathSvg(target.svg, data);
 
       const svgBox = document.getElementById('solution-svg-container');
       const captionEl = document.getElementById('solution-svg-caption');

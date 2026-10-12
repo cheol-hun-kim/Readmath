@@ -615,6 +615,8 @@ vm.runInContext(`
   this.isGradeMatch = isGradeMatch;
   this.getSampleProblemIdForGrade = getSampleProblemIdForGrade;
   this.ensureSvgCoordinateGrid = ensureSvgCoordinateGrid;
+  this.SystemicCodeTermPurgeGuard = SystemicCodeTermPurgeGuard;
+  this.SystemicMathGraphConsistencyGuard = SystemicMathGraphConsistencyGuard;
 `, runtimeSandbox);
 
 const inspectSvgFn = runtimeSandbox.inspectMathSvgDefects;
@@ -771,6 +773,43 @@ if ((!csat22Sanitized.includes('2aˣ⁻² - 8') && !csat22Sanitized.includes('2a
 const csat22Defects = inspectSvgFn(csat22Sanitized, csat22Prob);
 if (csat22Defects.length > 0) {
   geometryErrors.push(`CSAT 22번 reconstructed diagram has defects: ${csat22Defects.join(', ')}`);
+}
+
+// 4.7.2 Systemic Mathematical Graph Consistency Guard Enforcement
+const consistencyGuard = runtimeSandbox.SystemicMathGraphConsistencyGuard;
+if (!consistencyGuard || typeof consistencyGuard.enforceVerifiedMathGraph !== 'function') {
+  geometryErrors.push('SystemicMathGraphConsistencyGuard is not properly defined in runtime');
+} else {
+  // Test 1: Brand new cubic with flawed placeholder
+  const testCubicProb = {
+    title: '삼차함수의 극값 분석',
+    problem_text: '삼차함수 y = x^3 - 3x + 1의 극댓값과 극솟값을 구하시오.'
+  };
+  const cubicFlawed = '<svg viewBox="0 0 400 200"><rect fill="#090D16"/><text x="100" y="100">(k, k)</text></svg>';
+  const cubicEnforced = consistencyGuard.enforceVerifiedMathGraph(testCubicProb, cubicFlawed);
+  if (!cubicEnforced.includes('극값 (-1.0, 3.0)') || !cubicEnforced.includes('극값 (1.0, -1.0)')) {
+    geometryErrors.push('SystemicMathGraphConsistencyGuard failed to enforce exact extrema on arbitrary cubic function');
+  }
+
+  // Test 2: Brand new rational function with asymptotes
+  const testRationalProb = {
+    title: '유리함수 점근선',
+    problem_text: '유리함수 y = 4/(x - 2) + 3의 점근선의 교점을 구하시오.'
+  };
+  const ratEnforced = consistencyGuard.enforceVerifiedMathGraph(testRationalProb, '');
+  if (!ratEnforced.includes('x = 2') || !ratEnforced.includes('y = 3') || !ratEnforced.includes('(2, 3)')) {
+    geometryErrors.push('SystemicMathGraphConsistencyGuard failed to enforce asymptotes on arbitrary rational function');
+  }
+
+  // Test 3: Brand new circle
+  const testCircleProb = {
+    title: '원의 방정식',
+    problem_text: '원의 방정식 (x-3)^2 + (y+1)^2 = 16의 중심을 구하시오.'
+  };
+  const circleEnforced = consistencyGuard.enforceVerifiedMathGraph(testCircleProb, '');
+  if (!circleEnforced.includes('(3, -1)') || !circleEnforced.includes('r = 4.0')) {
+    geometryErrors.push('SystemicMathGraphConsistencyGuard failed to enforce center and radius on arbitrary circle equation');
+  }
 }
 
 // 4.8 Axis-to-Grid Coordinate Alignment
@@ -1232,7 +1271,10 @@ const sanitizerStressTests = [
   { in: '$\\cos\\theta = \\frac{1}{2}$', mustExact: '$\\cos\\theta = \\frac{1}{2}$' },
   { in: '• 지수·로그함수의 그래프와 외심의 기하학적 성질', mustHave: '지수·로그함수의 그래프와 외심의 기하학적 성질', mustNotHave: '\\cdot' },
   { in: '지수 \\cdot 로그함수의 그래프', mustHave: '지수·로그함수의 그래프', mustNotHave: '\\cdot' },
-  { in: '조건 (나)를 이용한 수직 조건: \\angleCDP = 90^\\circ', mustHave: '$\\angle CDP = 90^\\circ$', mustNotHave: '\\angleCDP = 90^\\circ' }
+  { in: '조건 (나)를 이용한 수직 조건: \\angleCDP = 90^\\circ', mustHave: '$\\angle CDP = 90^\\circ$', mustNotHave: '\\angleCDP = 90^\\circ' },
+  { in: 'Gemini API와 KaTeX 라이브러리로 생성된 RCA 및 B2B 분석 결과입니다. undefined', mustNotHave: 'Gemini' },
+  { in: '대치동 1타 강사의 수식 모델링과 해석기하 비법', mustHave: '수학 전문 멘토', mustNotHave: '1타 강사' },
+  { in: 'JSON 파싱 결과: [object Object] 및 null', mustNotHave: '[object Object]' }
 ];
 
 const sanitizerFailures = [];
