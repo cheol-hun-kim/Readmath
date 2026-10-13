@@ -8981,11 +8981,70 @@
     // 2. Encodes to clean JPEG (quality 0.82) reducing file size to 120KB-250KB (98% reduction)
     // 3. Normalizes iPhone HEIC/PNG to standard image/jpeg
     // 4. Guarantees sub-second uploads, zero quota crashes in localStorage, and maximum OCR clarity for Gemini Vision
-    function compressAndOptimizeImage(file, maxDimension = 1280, quality = 0.82) {
+    // Fast & Safe Downscaler for large base64 strings to prevent Safari iOS fetch memory crash
+    function ensureImageUnderSize(dataUrl, maxDim = 1024, quality = 0.75) {
       return new Promise((resolve) => {
-        if (!file) {
-          return resolve({ dataUrl: '', mimeType: 'image/jpeg' });
+        if (!dataUrl) return resolve('');
+        const img = new Image();
+        img.onload = () => {
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return resolve(dataUrl);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      });
+    }
+
+    async function compressAndOptimizeImage(file, maxDimension = 1280, quality = 0.82) {
+      if (!file) {
+        return { dataUrl: '', mimeType: 'image/jpeg' };
+      }
+
+      // 1. Hardware-accelerated createImageBitmap (supports iOS 15+ HEIC/HEIF decoding & zero memory spike)
+      if (typeof createImageBitmap === 'function') {
+        try {
+          const bitmap = await createImageBitmap(file);
+          let width = bitmap.width;
+          let height = bitmap.height;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(bitmap, 0, 0, width, height);
+            if (typeof bitmap.close === 'function') bitmap.close();
+            const compressed = canvas.toDataURL('image/jpeg', quality);
+            return { dataUrl: compressed, mimeType: 'image/jpeg' };
+          }
+        } catch (bitmapErr) {
+          console.warn('createImageBitmap fallback to Image element:', bitmapErr);
         }
+      }
+
+      // 2. Fallback to Image element with URL.createObjectURL
+      return new Promise((resolve) => {
         let blobUrl = '';
         try {
           blobUrl = URL.createObjectURL(file);
@@ -9398,6 +9457,19 @@
 }
 `;
 
+        // Ensure image base64 does not exceed Safari iOS WebKit memory & payload limits
+        let sendBase64 = rawBase64;
+        if (sendBase64 && sendBase64.length > 1.2 * 1024 * 1024) {
+          try {
+            const downscaled = await ensureImageUnderSize(currentUploadedImageBase64, 1024, 0.75);
+            if (downscaled && downscaled.includes(',')) {
+              sendBase64 = downscaled.split(',')[1];
+            }
+          } catch (recompErr) {
+            console.warn('Recompression bypassed:', recompErr);
+          }
+        }
+
         let response = null;
         const maxRetries = 2;
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -9411,8 +9483,8 @@
                     { text: prompt },
                     {
                       inlineData: {
-                        mimeType: currentUploadedImageMime,
-                        data: rawBase64
+                        mimeType: 'image/jpeg',
+                        data: sendBase64
                       }
                     }
                   ]
@@ -9500,7 +9572,12 @@
       } catch (err) {
         console.error('Solve Error:', err);
         closeModal('loading');
-        const userMsg = err && err.message ? err.message : '문제를 분석하는 중 오류가 발생했습니다.\n다시 시도해 주세요.';
+        let userMsg = err && err.message ? err.message : '';
+        if (userMsg === 'Load failed' || userMsg.includes('Failed to fetch') || userMsg.includes('NetworkError') || userMsg.includes('network') || userMsg.includes('fetch')) {
+          userMsg = '[네트워크 연결 및 업로드 안내]\n\nAI 분석 서버로 이미지를 전송하지 못했습니다.\n\n해결 방법:\n1. 학교/학원 와이파이나 방화벽에서 AI 서버 통신이 차단된 경우, 모바일 핫스팟/LTE로 연결해 보세요.\n2. 사파리(Safari) 콘텐츠 차단기(광고 차단 앱)가 켜져 있다면 일시 해제해 주세요.\n3. 사진 파일 용량이 너무 크다면 네모 박스로 문제 영역을 조금 더 작게 잘라서(Crop) 시도해 주세요.';
+        } else if (!userMsg) {
+          userMsg = '문제를 분석하는 중 오류가 발생했습니다.\n다시 시도해 주세요.';
+        }
         alert(userMsg);
       }
     }
@@ -11803,15 +11880,34 @@
 
     function renderSolutionStepsAndAnswer(data) {
       if (!data) return;
-      data = sanitizeMathObject(data);
+      if (typeof sanitizeMathObject === 'function') data = sanitizeMathObject(data);
       const stepsContainer = document.getElementById('solution-steps-container');
       const finalAnswerEl = document.getElementById('solution-final-answer');
       const finalAnswerTitle = document.getElementById('solution-final-answer-title');
+      if (!stepsContainer || !finalAnswerEl) return;
 
-      if (data.sub_questions && data.sub_questions.length > 1) {
+      const getSafeFormulaHtml = (formula) => {
+        if (formula == null || formula === '') return '';
+        const formulaStr = String(formula).trim();
+        if (!formulaStr) return '';
+        const wrapped = formulaStr.startsWith('$') ? formulaStr : ('$' + formulaStr + '$');
+        return `
+          <div class="step-formula-box bg-slate-950 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
+            ${autoFormatMathText(wrapped)}
+          </div>
+        `;
+      };
+
+      if (Array.isArray(data.sub_questions) && data.sub_questions.length > 1) {
         if (currentSubQuestionId === 'all') {
           // 1. Render All Sub-Questions Sequentially
-          stepsContainer.innerHTML = data.sub_questions.map(sq => `
+          stepsContainer.innerHTML = data.sub_questions.map(sq => {
+            if (!sq) return '';
+            const steps = Array.isArray(sq.solution_steps) && sq.solution_steps.length > 0
+              ? sq.solution_steps
+              : [{ step_number: 1, title: '문항 풀이', content: sq.explanation || sq.question_text || '', formula: sq.final_answer || '' }];
+
+            return `
             <div class="bg-slate-950/90 rounded-2xl p-3.5 border-2 border-indigo-500/30 space-y-2.5 mb-3.5 shadow-sm overflow-hidden w-full max-w-full min-w-0">
               <div class="flex items-center justify-between pb-1.5 border-b border-indigo-500/20">
                 <span class="text-xs font-black text-amber-300 flex items-center gap-1.5 shrink-0">
@@ -11819,22 +11915,21 @@
                 </span>
                 <span class="text-[10px] text-indigo-300 font-bold bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/30 shrink-0">단계별 풀이</span>
               </div>
-              <p class="text-xs text-slate-300 font-medium leading-relaxed">${autoFormatMathText(sq.question_text)}</p>
+              <p class="text-xs text-slate-300 font-medium leading-relaxed">${autoFormatMathText(sq.question_text || '')}</p>
               
               <div class="space-y-2 pt-1 w-full max-w-full min-w-0">
-                ${sq.solution_steps.map(s => `
+                ${steps.map(s => {
+                  if (!s) return '';
+                  return `
                   <div class="solution-step-card bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
-                    <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
+                    <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title || '풀이 과정')}</span>
                     <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
-                      ${formatStepContentHtml(s.content)}
+                      ${formatStepContentHtml(s.content || '')}
                     </div>
-                    ${s.formula ? `
-                      <div class="step-formula-box bg-slate-950 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
-                        ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
-                      </div>
-                    ` : ''}
+                    ${getSafeFormulaHtml(s.formula)}
                   </div>
-                `).join('')}
+                `;
+                }).join('')}
               </div>
 
               <!-- Sub-Question Final Answer Pill -->
@@ -11843,17 +11938,20 @@
                   <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> ${sq.sub_title || sq.sub_id + '번 문항'} 정답
                 </span>
                 <div class="text-xs sm:text-sm font-black text-amber-300 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
-                  ${autoFormatMathText(sq.final_answer)}
+                  ${autoFormatMathText(sq.final_answer || '')}
                 </div>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
 
           // Structured Multi-Subquestion Final Summary Card
           if (finalAnswerTitle) finalAnswerTitle.innerText = '소문항별 최종 정답 정리';
           finalAnswerEl.innerHTML = `
             <div class="space-y-2 pt-1">
-              ${data.sub_questions.map(sq => `
+              ${data.sub_questions.map(sq => {
+                if (!sq) return '';
+                return `
                 <div class="bg-slate-950/90 border border-indigo-500/30 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-indigo-400/50 transition">
                   <div class="flex items-center gap-2 shrink-0">
                     <span class="text-[11px] font-extrabold text-indigo-300 bg-indigo-900/60 border border-indigo-500/40 px-2.5 py-1 rounded-lg shrink-0 whitespace-nowrap">
@@ -11861,65 +11959,71 @@
                     </span>
                   </div>
                   <div class="text-xs sm:text-sm font-black text-amber-300 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
-                    ${autoFormatMathText(sq.final_answer)}
+                    ${autoFormatMathText(sq.final_answer || '')}
                   </div>
                 </div>
-              `).join('')}
+              `;
+              }).join('')}
             </div>
           `;
         } else {
           // 2. Render Single Selected Sub-Question
-          const sq = data.sub_questions.find(q => q.sub_id === currentSubQuestionId) || data.sub_questions[0];
-          
+          const sq = (Array.isArray(data.sub_questions) && data.sub_questions.find(q => q && q.sub_id === currentSubQuestionId)) || data.sub_questions[0] || {};
+          const steps = Array.isArray(sq.solution_steps) && sq.solution_steps.length > 0
+            ? sq.solution_steps
+            : [{ step_number: 1, title: '문항 풀이', content: sq.explanation || sq.question_text || '', formula: sq.final_answer || '' }];
+
           stepsContainer.innerHTML = `
             <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-3 mb-2.5">
               <span class="text-[10px] text-indigo-300 font-bold block mb-1">[${sq.sub_title || sq.sub_id + '번 문항'}] 문제:</span>
-              <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text)}</p>
+              <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text || '')}</p>
             </div>
-            ${sq.solution_steps.map(s => `
+            ${steps.map(s => {
+              if (!s) return '';
+              return `
               <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
-                <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
+                <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title || '풀이 과정')}</span>
                 <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
-                  ${formatStepContentHtml(s.content)}
+                  ${formatStepContentHtml(s.content || '')}
                 </div>
-                ${s.formula ? `
-                  <div class="step-formula-box bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
-                    ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
-                  </div>
-                ` : ''}
+                ${getSafeFormulaHtml(s.formula)}
               </div>
-            `).join('')}
+            `;
+            }).join('')}
           `;
 
           if (finalAnswerTitle) finalAnswerTitle.innerText = `${sq.sub_title || sq.sub_id + '번 문항'} 최종 정답`;
           finalAnswerEl.innerHTML = `
             <div class="bg-slate-950/90 border border-indigo-500/30 rounded-xl p-3.5 text-center">
               <div class="text-sm sm:text-base font-black text-amber-300 overflow-x-auto no-scrollbar py-1">
-                ${autoFormatMathText(sq.final_answer)}
+                ${autoFormatMathText(sq.final_answer || '')}
               </div>
             </div>
           `;
         }
       } else {
         // 3. Standard Single-Question Problem
-        stepsContainer.innerHTML = data.solution_steps.map(s => `
+        const steps = Array.isArray(data.solution_steps) && data.solution_steps.length > 0
+          ? data.solution_steps
+          : [{ step_number: 1, title: '문제 핵심 풀이', content: data.explanation || data.problem_text || '상세 풀이를 확인하세요.', formula: data.final_answer || '' }];
+
+        stepsContainer.innerHTML = steps.map(s => {
+          if (!s) return '';
+          return `
           <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
-            <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title)}</span>
+            <span class="text-xs font-bold text-indigo-400 block">${autoFormatMathText(s.title || '풀이 과정')}</span>
             <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
-              ${formatStepContentHtml(s.content)}
+              ${formatStepContentHtml(s.content || '')}
             </div>
-            ${s.formula ? `
-              <div class="step-formula-box bg-slate-900/90 rounded-xl p-2.5 mt-1 border border-slate-800 text-center text-xs text-indigo-200 overflow-x-auto no-scrollbar w-full max-w-full">
-                ${autoFormatMathText(s.formula.trim().startsWith('$') ? s.formula : ('$' + s.formula.trim() + '$'))}
-              </div>
-            ` : ''}
+            ${getSafeFormulaHtml(s.formula)}
           </div>
-        `).join('');
+        `;
+        }).join('');
 
         if (finalAnswerTitle) finalAnswerTitle.innerText = '최종 정답';
         let displayAnswer = data.final_answer;
-        if (!displayAnswer && data.solution_steps && data.solution_steps.length > 0) {
-          const lastStep = data.solution_steps[data.solution_steps.length - 1];
+        if (!displayAnswer && steps.length > 0) {
+          const lastStep = steps[steps.length - 1];
           displayAnswer = lastStep.formula || lastStep.content || '';
         }
         finalAnswerEl.innerHTML = `
@@ -11931,8 +12035,8 @@
         `;
       }
 
-      lucide.createIcons();
-      renderMathElements();
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements();
     }
 
     // ================= DYNAMIC DIAGRAM NAVIGATOR & ZOOM =================
@@ -12489,149 +12593,242 @@
 
     // ================= DYNAMIC PROBLEM VIEW RENDERER =================
     function openHistoryProblem(id, navigate = true) {
-      currentProblemId = id;
-      currentSubQuestionId = 'all';
-      currentDiagramIdx = 0;
-      
-      const numId = Number(id);
-      let data;
-      if (!isNaN(numId) && (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId])) {
-        // Enforce authoritative canonical code for 1~6 with zero stale localStorage pollution
-        const source = (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId]);
-        data = JSON.parse(JSON.stringify(source));
-        PROBLEMS_DB[numId] = data;
-        PROBLEMS_DB[String(numId)] = data;
-      } else {
-        data = PROBLEMS_DB[id] || userSolvedHistory.find(h => String(h.id) === String(id)) || PROBLEMS_DB[1];
-        data = sanitizeMathObject(data);
-        PROBLEMS_DB[id] = data;
-      }
-      const histIdx = userSolvedHistory.findIndex(h => String(h.id) === String(id));
-      if (histIdx !== -1) {
-        userSolvedHistory[histIdx] = data;
-        safeSaveUserHistory(userSolvedHistory);
-      }
-
-      if (typeof logContentAccessEvent === 'function') {
-        logContentAccessEvent('VIEW_SOLUTION', String(id), data ? data.title : '수학 문항 해설');
-      }
-
-      // Ensure data.diagrams exists
-      if (!data.diagrams || data.diagrams.length === 0) {
-        if (data.svg_diagram) {
-          data.diagrams = [{
-            id: 'd1',
-            title: data.title || '문제 정밀 도해',
-            badge: '실시간 정밀 도해',
-            caption: data.diagram_caption || data.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
-            svg: data.svg_diagram
-          }];
-        }
-      }
-
-      // Update Solution View
-      document.getElementById('solution-grade-tag-text').innerText = data.curriculum_badge || `${data.curriculum_grade} 기준 풀이`;
-      document.getElementById('solution-problem-box').innerHTML = autoFormatMathText(data.problem_text);
-      
-      const imgBox = document.getElementById('solution-uploaded-img-box');
-      const imgEl = document.getElementById('solution-uploaded-img');
-      if (data.imageUri) {
-        imgEl.src = data.imageUri;
-        imgBox.classList.remove('hidden');
-      } else {
-        imgBox.classList.add('hidden');
-      }
-
-      // Initialize Diagrams & Dynamic Diagram Tabs
-      const svgViewport = document.getElementById('solution-svg-viewport') || document.getElementById('solution-svg-container');
-      const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
-      const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
-      if (data.diagrams && data.diagrams.length > 0) {
-        if (isDummyKk(data.diagrams[0].svg) || isProb22(data)) {
-          data.diagrams[0].svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
-          safeSaveUserHistory(userSolvedHistory);
+      try {
+        currentProblemId = id;
+        currentSubQuestionId = 'all';
+        currentDiagramIdx = 0;
+        
+        const numId = Number(id);
+        let data;
+        if (!isNaN(numId) && (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId])) {
+          // Enforce authoritative canonical code for 1~6 with zero stale localStorage pollution
+          const source = (typeof CANONICAL_PROBLEMS_DB !== 'undefined' ? CANONICAL_PROBLEMS_DB[numId] : PROBLEMS_DB[numId]);
+          data = JSON.parse(JSON.stringify(source));
+          PROBLEMS_DB[numId] = data;
+          PROBLEMS_DB[String(numId)] = data;
         } else {
-          data.diagrams[0].svg = validateAndSanitizeMathSvg(data.diagrams[0].svg, data);
+          data = PROBLEMS_DB[id] || (Array.isArray(userSolvedHistory) ? userSolvedHistory.find(h => String(h.id) === String(id)) : null) || PROBLEMS_DB[1];
+          if (typeof sanitizeMathObject === 'function') {
+            data = sanitizeMathObject(data);
+          }
+          PROBLEMS_DB[id] = data;
         }
-        if (svgViewport) svgViewport.innerHTML = convertSvgForWhiteCanvas(data.diagrams[0].svg);
-        document.getElementById('solution-svg-caption').innerHTML = autoFormatMathText(data.diagrams[0].caption || '');
-        document.getElementById('diagram-badge-text').innerText = data.diagrams[0].badge || '직관적 이해';
-        renderDiagramTabs(data);
-      } else {
-        if (isDummyKk(data.svg_diagram) || isProb22(data)) {
-          data.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
-          safeSaveUserHistory(userSolvedHistory);
-        } else {
-          data.svg_diagram = validateAndSanitizeMathSvg(data.svg_diagram || '', data);
-        }
-        if (svgViewport) svgViewport.innerHTML = convertSvgForWhiteCanvas(data.svg_diagram || '');
-        document.getElementById('solution-svg-caption').innerHTML = autoFormatMathText(data.title || '문제 그래프 분석');
-        document.getElementById('diagram-badge-text').innerText = '문제 도해';
-        renderDiagramTabs(data);
-      }
-      
-      // Render Sub-Question Pills & Steps
-      renderSubQuestionPills(data);
-      renderSolutionStepsAndAnswer(data);
-      updatePreemptiveRadar(id);
-      updateTeacherCoachingBox(id);
 
-      // Render Diagnosis Clauses
-      const clauseContainer = document.getElementById('diagnosis-clauses-container');
-      const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0
-        ? data.core_clauses
-        : Array.isArray(data.clauses) && data.clauses.length > 0
-          ? data.clauses
-          : [{
-              id: 'c1',
-              text: data.problem_text ? data.problem_text.slice(0, 45) + '...' : '문제 조건',
-              meaning: '이 문제의 핵심 조건을 분석합니다.',
-              prescriptions: { visual: '그래프 개형과 교점을 확인하세요.', modeling: '수학적 등식 관계를 세우세요.', condition: '정의역과 제한 조건을 확인하세요.', concept: '관련 핵심 개념과 공식을 점검하세요.' }
+        if (!data) {
+          data = PROBLEMS_DB[1] || {};
+        }
+
+        // Normalize critical properties defensively
+        if (!data.title) data.title = '수학 문항 해설';
+        if (!data.problem_text) data.problem_text = '문제를 불러오는 중입니다.';
+        if (!data.curriculum_grade) data.curriculum_grade = currentGrade || '고3/N수';
+        if (!data.curriculum_badge) data.curriculum_badge = `${data.curriculum_grade} 기준 풀이`;
+
+        if (!Array.isArray(data.solution_steps) || data.solution_steps.length === 0) {
+          if (data.solution_steps && !Array.isArray(data.solution_steps)) {
+            data.solution_steps = [data.solution_steps];
+          } else {
+            data.solution_steps = [{
+              step_number: 1,
+              title: '문제 핵심 풀이 및 접근법',
+              content: data.explanation || data.problem_text || '상세 풀이를 확인하세요.',
+              formula: data.final_answer || ''
             }];
+          }
+        }
 
-      clauseContainer.innerHTML = clauses.map((c, idx) => `
-        <button onclick="selectClauseByIndex(${idx})" class="word-chip ${idx === 0 ? 'active-chip bg-indigo-600 border border-indigo-400 text-white font-bold' : 'bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200'} text-xs p-3 rounded-xl transition text-left w-full max-w-full leading-relaxed block shadow-xs" style="white-space: normal !important; word-break: keep-all; overflow-wrap: break-word; max-width: 100%;">
-          ${autoFormatMathText(c.text)}
-        </button>
-      `).join('');
+        if (Array.isArray(data.sub_questions)) {
+          data.sub_questions.forEach((sq, sIdx) => {
+            if (!sq) return;
+            if (!Array.isArray(sq.solution_steps) || sq.solution_steps.length === 0) {
+              sq.solution_steps = [{
+                step_number: 1,
+                title: `${sq.sub_title || (sIdx + 1) + '단계'} 풀이`,
+                content: sq.explanation || sq.question_text || '',
+                formula: sq.final_answer || ''
+              }];
+            }
+          });
+        }
 
-      selectedKeywordText = clauses[0].text;
-      document.getElementById('clause-meaning-text').innerHTML = autoFormatMathText(clauses[0].meaning);
+        const histIdx = Array.isArray(userSolvedHistory) ? userSolvedHistory.findIndex(h => String(h.id) === String(id)) : -1;
+        if (histIdx !== -1) {
+          userSolvedHistory[histIdx] = data;
+          if (typeof safeSaveUserHistory === 'function') {
+            safeSaveUserHistory(userSolvedHistory);
+          }
+        }
 
-      updatePrescriptionDisplay();
+        if (typeof logContentAccessEvent === 'function') {
+          try {
+            logContentAccessEvent('VIEW_SOLUTION', String(id), data ? data.title : '수학 문항 해설');
+          } catch (e) {
+            console.warn('logContentAccessEvent error:', e);
+          }
+        }
 
-      // Render Chat View Initial State
-      const chatBox = document.getElementById('chat-messages-container');
-      chatBox.innerHTML = `
-        <div class="flex gap-2.5 items-start">
-          <div class="w-7 h-7 rounded-lg bg-indigo-900 border border-indigo-500/40 flex items-center justify-center shrink-0 text-indigo-300 text-xs">
-            <i data-lucide="bot" class="w-3.5 h-3.5"></i>
-          </div>
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-xs max-w-[85%] space-y-1.5 shadow-md">
-            <span class="text-[10px] font-bold text-indigo-400">리드 쌤</span>
-            <p class="text-slate-200 leading-relaxed">${autoFormatMathText(data.welcomeMsg || '리드 쌤입니다! 이 문제를 풀 때 어떤 점이 가장 헷갈렸나요?')}</p>
-          </div>
-        </div>
-        <div class="pl-9 space-y-1.5">
-          <p class="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-            <i data-lucide="help-circle" class="w-3.5 h-3.5 text-indigo-400"></i> 터치해서 바로 질문하기:
-          </p>
-          <div class="flex flex-col gap-1.5">
-            ${(data.quickPrompts || ["제가 왜 틀렸는지 잘 모르겠어요. 찾아주세요", "이 문제 그림과 그래프를 다시 쉽게 설명해주세요"]).map(qp => `
-              <button onclick="sendChatMessage('${qp}')" class="bg-slate-900 hover:bg-indigo-950/80 border border-slate-800 hover:border-indigo-500/50 text-indigo-300 text-[11px] font-semibold py-1.5 px-2.5 rounded-xl text-left transition flex items-center justify-between">
-                <span>${qp}</span>
-                <i data-lucide="arrow-right" class="w-3 h-3 text-indigo-400 shrink-0"></i>
-              </button>
-            `).join('')}
-          </div>
-        </div>
-      `;
+        // Ensure data.diagrams exists
+        if (!Array.isArray(data.diagrams) || data.diagrams.length === 0) {
+          if (data.svg_diagram) {
+            data.diagrams = [{
+              id: 'd1',
+              title: data.title || '문제 정밀 도해',
+              badge: '실시간 정밀 도해',
+              caption: data.diagram_caption || data.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
+              svg: data.svg_diagram
+            }];
+          } else {
+            const fallbackSvg = typeof UniversalMathGraphEngine !== 'undefined' ? UniversalMathGraphEngine.reconstructExactMathDiagram(data, '') : '';
+            data.diagrams = [{
+              id: 'd1',
+              title: data.title || '문제 정밀 도해',
+              badge: '정밀 도해',
+              caption: '문제 조건 시각화 도해입니다.',
+              svg: fallbackSvg
+            }];
+          }
+        }
 
-      lucide.createIcons();
-      renderMathElements();
+        // Update Solution View
+        const gradeTagEl = document.getElementById('solution-grade-tag-text');
+        if (gradeTagEl) gradeTagEl.innerText = data.curriculum_badge || `${data.curriculum_grade} 기준 풀이`;
+        
+        const probBoxEl = document.getElementById('solution-problem-box');
+        if (probBoxEl) probBoxEl.innerHTML = autoFormatMathText(data.problem_text);
+        
+        const imgBox = document.getElementById('solution-uploaded-img-box');
+        const imgEl = document.getElementById('solution-uploaded-img');
+        if (imgBox && imgEl) {
+          if (data.imageUri) {
+            imgEl.src = data.imageUri;
+            imgBox.classList.remove('hidden');
+          } else {
+            imgBox.classList.add('hidden');
+          }
+        }
 
-      if (navigate) {
-        goToView('solution');
+        // Initialize Diagrams & Dynamic Diagram Tabs
+        const svgViewport = document.getElementById('solution-svg-viewport') || document.getElementById('solution-svg-container');
+        const isDummyKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
+        const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
+        if (data.diagrams && data.diagrams.length > 0) {
+          try {
+            if (isDummyKk(data.diagrams[0].svg) || isProb22(data)) {
+              if (typeof UniversalMathGraphEngine !== 'undefined') {
+                data.diagrams[0].svg = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
+              }
+              safeSaveUserHistory(userSolvedHistory);
+            } else if (typeof validateAndSanitizeMathSvg === 'function') {
+              data.diagrams[0].svg = validateAndSanitizeMathSvg(data.diagrams[0].svg, data);
+            }
+          } catch (errSvg) {
+            console.warn('SVG validation fallback:', errSvg);
+          }
+          if (svgViewport) svgViewport.innerHTML = typeof convertSvgForWhiteCanvas === 'function' ? convertSvgForWhiteCanvas(data.diagrams[0].svg) : data.diagrams[0].svg;
+          const captionEl = document.getElementById('solution-svg-caption');
+          if (captionEl) captionEl.innerHTML = autoFormatMathText(data.diagrams[0].caption || '');
+          const badgeEl = document.getElementById('diagram-badge-text');
+          if (badgeEl) badgeEl.innerText = data.diagrams[0].badge || '직관적 이해';
+          if (typeof renderDiagramTabs === 'function') renderDiagramTabs(data);
+        } else {
+          try {
+            if (isDummyKk(data.svg_diagram) || isProb22(data)) {
+              if (typeof UniversalMathGraphEngine !== 'undefined') {
+                data.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(data, '');
+              }
+              safeSaveUserHistory(userSolvedHistory);
+            } else if (typeof validateAndSanitizeMathSvg === 'function') {
+              data.svg_diagram = validateAndSanitizeMathSvg(data.svg_diagram || '', data);
+            }
+          } catch (errSvg) {
+            console.warn('SVG fallback:', errSvg);
+          }
+          if (svgViewport) svgViewport.innerHTML = typeof convertSvgForWhiteCanvas === 'function' ? convertSvgForWhiteCanvas(data.svg_diagram || '') : (data.svg_diagram || '');
+          const captionEl = document.getElementById('solution-svg-caption');
+          if (captionEl) captionEl.innerHTML = autoFormatMathText(data.title || '문제 그래프 분석');
+          const badgeEl = document.getElementById('diagram-badge-text');
+          if (badgeEl) badgeEl.innerText = '문제 도해';
+          if (typeof renderDiagramTabs === 'function') renderDiagramTabs(data);
+        }
+        
+        // Render Sub-Question Pills & Steps safely
+        if (typeof renderSubQuestionPills === 'function') {
+          try { renderSubQuestionPills(data); } catch (e) { console.error('renderSubQuestionPills error:', e); }
+        }
+        if (typeof renderSolutionStepsAndAnswer === 'function') {
+          try { renderSolutionStepsAndAnswer(data); } catch (e) { console.error('renderSolutionStepsAndAnswer error:', e); }
+        }
+        if (typeof updatePreemptiveRadar === 'function') {
+          try { updatePreemptiveRadar(id); } catch (e) { console.error('updatePreemptiveRadar error:', e); }
+        }
+        if (typeof updateTeacherCoachingBox === 'function') {
+          try { updateTeacherCoachingBox(id); } catch (e) { console.error('updateTeacherCoachingBox error:', e); }
+        }
+
+        // Render Diagnosis Clauses
+        const clauseContainer = document.getElementById('diagnosis-clauses-container');
+        if (clauseContainer) {
+          const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0
+            ? data.core_clauses
+            : Array.isArray(data.clauses) && data.clauses.length > 0
+              ? data.clauses
+              : [{
+                  id: 'c1',
+                  text: data.problem_text ? data.problem_text.slice(0, 45) + '...' : '문제 조건',
+                  meaning: '이 문제의 핵심 조건을 분석합니다.',
+                  prescriptions: { visual: '그래프 개형과 교점을 확인하세요.', modeling: '수학적 등식 관계를 세우세요.', condition: '정의역과 제한 조건을 확인하세요.', concept: '관련 핵심 개념과 공식을 점검하세요.' }
+                }];
+
+          clauseContainer.innerHTML = clauses.map((c, idx) => `
+            <button onclick="selectClauseByIndex(${idx})" class="word-chip ${idx === 0 ? 'active-chip bg-indigo-600 border border-indigo-400 text-white font-bold' : 'bg-slate-950 hover:bg-indigo-900/60 border border-slate-800 text-slate-200'} text-xs p-3 rounded-xl transition text-left w-full max-w-full leading-relaxed block shadow-xs" style="white-space: normal !important; word-break: keep-all; overflow-wrap: break-word; max-width: 100%;">
+              ${autoFormatMathText(c.text)}
+            </button>
+          `).join('');
+
+          selectedKeywordText = clauses[0].text;
+          const meaningEl = document.getElementById('clause-meaning-text');
+          if (meaningEl) meaningEl.innerHTML = autoFormatMathText(clauses[0].meaning);
+          if (typeof updatePrescriptionDisplay === 'function') updatePrescriptionDisplay();
+        }
+
+        // Render Chat View Initial State
+        const chatBox = document.getElementById('chat-messages-container');
+        if (chatBox) {
+          chatBox.innerHTML = `
+            <div class="flex gap-2.5 items-start">
+              <div class="w-7 h-7 rounded-lg bg-indigo-900 border border-indigo-500/40 flex items-center justify-center shrink-0 text-indigo-300 text-xs">
+                <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-3 text-xs max-w-[85%] space-y-1.5 shadow-md">
+                <span class="text-[10px] font-bold text-indigo-400">리드 쌤</span>
+                <p class="text-slate-200 leading-relaxed">${autoFormatMathText(data.welcomeMsg || '리드 쌤입니다! 이 문제를 풀 때 어떤 점이 가장 헷갈렸나요?')}</p>
+              </div>
+            </div>
+            <div class="pl-9 space-y-1.5">
+              <p class="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+                <i data-lucide="help-circle" class="w-3.5 h-3.5 text-indigo-400"></i> 터치해서 바로 질문하기:
+              </p>
+              <div class="flex flex-col gap-1.5">
+                ${(data.quickPrompts || ["제가 왜 틀렸는지 잘 모르겠어요. 찾아주세요", "이 문제 그림과 그래프를 다시 쉽게 설명해주세요"]).map(qp => `
+                  <button onclick="sendChatMessage('${qp}')" class="bg-slate-900 hover:bg-indigo-950/80 border border-slate-800 hover:border-indigo-500/50 text-indigo-300 text-[11px] font-semibold py-1.5 px-2.5 rounded-xl text-left transition flex items-center justify-between">
+                    <span>${qp}</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3 text-indigo-400 shrink-0"></i>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        if (typeof renderMathElements === 'function') renderMathElements();
+      } catch (err) {
+        console.error('Critical error in openHistoryProblem:', err);
+      } finally {
+        if (navigate) {
+          goToView('solution');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
     }
 
@@ -12769,7 +12966,7 @@
       const totalCountEl = document.getElementById('history-total-count');
       if (!container) return;
 
-      const items = userSolvedHistory;
+      const items = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
       if (totalCountEl) totalCountEl.innerText = `총 ${items.length}문제`;
 
       if (items.length === 0) {
@@ -12787,32 +12984,34 @@
             </button>
           </div>
         `;
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
         return;
       }
 
       container.innerHTML = items.map(item => {
-        const hasSubQuestions = item.sub_questions && item.sub_questions.length > 0;
+        if (!item) return '';
+        const safeId = String(item.id || '').replace(/'/g, "\\'");
+        const hasSubQuestions = Array.isArray(item.sub_questions) && item.sub_questions.length > 0;
         const isResolved = !!item.resolved;
         return `
-          <div id="history-card-${item.id}" data-category="visual" data-resolved="${isResolved}" onclick="openHistoryProblem('${item.id}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
+          <div id="history-card-${safeId}" data-category="visual" data-resolved="${isResolved}" onclick="openHistoryProblem('${safeId}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1.5 min-w-0 flex-1 pr-2">
                 <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded shrink-0">
                   ${item.curriculum_grade || currentGrade}
                 </span>
-                <span class="text-xs font-bold text-slate-200 line-clamp-1">${cleanProblemTitle(item.title)}</span>
+                <span class="text-xs font-bold text-slate-200 line-clamp-1">${typeof cleanProblemTitle === 'function' ? cleanProblemTitle(item.title || '') : (item.title || '문제 풀이')}</span>
               </div>
               <div class="flex items-center gap-1 shrink-0">
-                <button onclick="event.stopPropagation(); toggleResolvedCard('${item.id}')" id="resolve-badge-${item.id}" class="text-[10px] ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700'} font-semibold flex items-center gap-1 px-1.5 py-0.5 rounded border transition" title="클릭하여 해결 완료 / 미완료 상태 변경">
+                <button onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" id="resolve-badge-${safeId}" class="text-[10px] ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700'} font-semibold flex items-center gap-1 px-1.5 py-0.5 rounded border transition" title="클릭하여 해결 완료 / 미완료 상태 변경">
                   <i data-lucide="${isResolved ? 'check-circle-2' : 'circle'}" class="w-3 h-3 ${isResolved ? 'text-emerald-400' : 'text-slate-500'}"></i> ${isResolved ? '해결 완료' : '미완료'}
                 </button>
-                <button onclick="event.stopPropagation(); deleteHistoryItem('${item.id}')" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 영구 삭제">
+                <button onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="text-[10px] text-slate-400 hover:text-red-400 font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-red-950/40 border border-transparent hover:border-red-500/30 transition ml-1" title="오답노트 기록 영구 삭제">
                   <i data-lucide="trash-2" class="w-3 h-3"></i> 삭제
                 </button>
               </div>
             </div>
-            <p class="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed">${autoFormatMathText(item.problem_text)}</p>
+            <p class="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed">${autoFormatMathText(item.problem_text || '')}</p>
             
             ${hasSubQuestions ? `
               <div class="mt-2 pt-2 border-t border-slate-800/80 space-y-1.5">
@@ -12823,14 +13022,17 @@
                   <span class="text-[10px] text-indigo-400 font-semibold shrink-0">터치하여 다시 풀기 →</span>
                 </div>
                 <div class="grid grid-cols-1 gap-1.5 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80">
-                  ${item.sub_questions.map(sq => `
+                  ${item.sub_questions.map(sq => {
+                    if (!sq) return '';
+                    return `
                     <div class="flex items-start justify-between text-xs py-1 border-b border-slate-800/50 last:border-b-0 gap-2">
                       <span class="font-extrabold text-indigo-300 shrink-0 text-[11px] bg-indigo-950 px-1.5 py-0.5 rounded border border-indigo-700/40">[${sq.sub_title || sq.sub_id + '번'}]</span>
                       <div class="text-slate-100 font-bold text-right text-xs leading-normal flex-1">
                         ${autoFormatMathText(sq.final_answer || '')}
                       </div>
                     </div>
-                  `).join('')}
+                  `;
+                  }).join('')}
                 </div>
               </div>
             ` : `
@@ -12848,8 +13050,8 @@
         `;
       }).join('');
 
-      lucide.createIcons();
-      renderMathElements();
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements();
     }
 
     function toggleResolvedCard(id) {
