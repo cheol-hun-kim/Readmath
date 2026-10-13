@@ -2866,7 +2866,7 @@
             선생님 또는 학원에서 부여받은 고유 코드를 등록하면, 재원생 혜택(무제한 풀이) 적용 및 1:1 질문 연결이 지원됩니다.
           </p>
           <div id="teacher-connect-input-box" class="flex gap-1.5">
-            <input type="text" id="input-teacher-connect-code" placeholder="선생님 또는 학원 고유 코드 입력 (예: RM-TEACH-2026)" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            <input type="text" id="input-teacher-connect-code" placeholder="학원 또는 선생님 고유 코드 입력" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
             <button onclick="connectTeacherByCode()" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
               연결 등록
             </button>
@@ -2946,52 +2946,15 @@
         <div class="space-y-2">
           <label class="text-[11px] font-bold text-slate-300 block">학원 또는 선생님 고유 코드:</label>
           <div class="flex gap-1.5">
-            <input type="text" id="input-academy-modal-code" placeholder="예: ILWON-2027, OLYMPIAD-2026" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key === 'Enter') submitAcademyCodeFromModal()" />
+            <input type="text" id="input-academy-modal-code" placeholder="학원 또는 선생님께 발급받은 전용 코드 입력" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key === 'Enter') submitAcademyCodeFromModal()" />
             <button type="button" onclick="submitAcademyCodeFromModal()" class="px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
               등록하기
             </button>
           </div>
           <p class="text-[10px] text-slate-400 leading-snug">
-            * 학원 또는 담당 선생님께 전달받은 고유 코드를 입력하시면, <strong>무제한 문제 풀이</strong> 및 <strong>1:1 질문 전송</strong>이 즉시 활성화됩니다.
+            * 소속 학원 또는 담당 선생님께 직접 안내받으신 1:1 전용 인증 코드를 입력해 주세요.<br/>
+            * 정규 재원생 인증 시 <strong>무제한 문제 풀이</strong> 및 <strong>1:1 질문 전송</strong>이 즉시 활성화됩니다.
           </p>
-        </div>
-
-        <!-- Quick Select Partner Academies -->
-        <div class="space-y-2 pt-1 border-t border-slate-800/80">
-          <span class="text-[11px] font-bold text-slate-300 block">주요 제휴 학원 코드 바로 등록:</span>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <button type="button" onclick="quickApplyAcademyCode('ILWON-2027')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">일원 학원</span>
-                <span class="text-[9px] bg-emerald-950 text-emerald-300 px-1 rounded font-bold">무제한</span>
-              </div>
-              <span class="font-mono text-[9.5px] text-slate-400">ILWON-2027</span>
-            </button>
-
-            <button type="button" onclick="quickApplyAcademyCode('OLYMPIAD-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">대치 올림피아드</span>
-                <span class="text-[9px] bg-amber-950 text-amber-300 px-1 rounded font-bold">VIP</span>
-              </div>
-              <span class="font-mono text-[9.5px] text-slate-400">OLYMPIAD-2026</span>
-            </button>
-
-            <button type="button" onclick="quickApplyAcademyCode('MIRAE-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">목동 미래탐구</span>
-                <span class="text-[9px] bg-teal-950 text-teal-300 px-1 rounded font-bold">전용관</span>
-              </div>
-              <span class="font-mono text-[9.5px] text-slate-400">MIRAE-2026</span>
-            </button>
-
-            <button type="button" onclick="quickApplyAcademyCode('RM-TEACH-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">메가수학 (박지훈T)</span>
-                <span class="text-[9px] bg-indigo-950 text-indigo-300 px-1 rounded font-bold">1:1질문</span>
-              </div>
-              <span class="font-mono text-[9.5px] text-slate-400">RM-TEACH-2026</span>
-            </button>
-          </div>
         </div>
 
         <!-- Reset button (if connected) -->
@@ -15649,7 +15612,7 @@
         return true;
       }
 
-      alert('[유효하지 않은 코드]\n등록되지 않은 학원 또는 선생님 고유 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요.\n(예: ILWON-2027, OLYMPIAD-2026, MIRAE-2026, RM-TEACH-2026)');
+      alert('[유효하지 않은 코드]\n등록되지 않은 학원 또는 선생님 고유 코드입니다.\n발급받으신 코드 번호를 다시 한 번 확인해 주세요.');
       return false;
     }
 
@@ -15666,12 +15629,6 @@
       const code = input ? input.value.trim().toUpperCase() : '';
       if (applyAcademyOrTeacherCode(code)) {
         if (input) input.value = '';
-        closeModal('academy-connect');
-      }
-    }
-
-    function quickApplyAcademyCode(code) {
-      if (applyAcademyOrTeacherCode(code)) {
         closeModal('academy-connect');
       }
     }
@@ -15721,7 +15678,7 @@
 
     function sendQuestionToTeacher() {
       if (!studentProfile || !studentProfile.connectedTeacherCode) {
-        alert('[담당 선생님 미연결 안내]\n\n현재 등록된 담당 선생님이 없습니다.\n\n설정 페이지의 [담당 선생님 연결] 메뉴에서 선생님 고유 코드(예: RM-TEACH-2026)를 먼저 등록해 주세요.');
+        alert('[담당 선생님 미연결 안내]\n\n현재 등록된 담당 선생님이 없습니다.\n\n설정 페이지의 [소속 학원 및 선생님 등록] 메뉴에서 발급받으신 고유 코드를 먼저 등록해 주세요.');
         goToView('settings');
         return;
       }
