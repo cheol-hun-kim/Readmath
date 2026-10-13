@@ -2814,9 +2814,13 @@
             </div>
           </div>
           <div class="pt-1 flex gap-2">
-            <button onclick="closeModal('account-mgmt'); openModal('login');" id="account-mgmt-signup-btn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
-              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-              <span id="account-mgmt-signup-btn-text">학생 회원가입 및 본인 인증</span>
+            <button onclick="closeModal('account-mgmt'); openModal('login', 'login');" id="account-mgmt-login-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+              <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+              <span>로그인</span>
+            </button>
+            <button onclick="closeModal('account-mgmt'); openModal('login', 'signup');" id="account-mgmt-signup-btn" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              <span id="account-mgmt-signup-btn-text">학생 회원가입</span>
             </button>
             <button onclick="logoutStudent()" id="account-mgmt-logout-btn" class="hidden px-3 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-xs font-bold py-2 rounded-xl border border-rose-800/50 transition flex items-center justify-center gap-1 shrink-0">
               <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
@@ -3047,155 +3051,260 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
-              <i data-lucide="user-check" class="w-4 h-4 text-indigo-400"></i>
+              <i data-lucide="log-in" id="modal-auth-header-icon" class="w-4 h-4 text-indigo-400"></i>
             </div>
             <div>
-              <h3 class="text-base font-extrabold text-white">회원가입 및 로그인</h3>
-              <p class="text-[10px] text-slate-400">학생 회원 및 선생님·학원 회원 가입</p>
+              <h3 id="modal-auth-title" class="text-base font-extrabold text-white">로그인</h3>
+              <p id="modal-auth-desc" class="text-[10px] text-slate-400">계정에 로그인하여 1:1 시각적 원리 튜터를 이용하세요</p>
             </div>
           </div>
           <button onclick="closeModal('login')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
 
-        <!-- 2 Persona Tabs: Student vs Teacher -->
+        <!-- Master Mode Tabs: [로그인] vs [회원가입] -->
         <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
-          <button onclick="switchLoginTab('student')" id="tab-login-student" class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white shadow-md">
-            학생 회원
+          <button type="button" onclick="switchAuthMode('login')" id="tab-auth-mode-login" class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+            <span>로그인</span>
           </button>
-          <button onclick="switchLoginTab('teacher')" id="tab-login-teacher" class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white">
-            선생님 / 학원 회원
+          <button type="button" onclick="switchAuthMode('signup')" id="tab-auth-mode-signup" class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>회원가입</span>
           </button>
         </div>
 
-        <!-- Tab Content 1: Student -->
-        <div id="login-content-student" class="space-y-3">
-          <p class="text-xs text-slate-300">혼자서도 막힘없는 1:1 시각적 수학 공부 &amp; 오답노트 보관</p>
-          
-          <!-- Email Verification (PassMate Style) -->
+        <!-- ================= AUTH VIEW 1: LOGIN (DEFAULT VIEW) ================= -->
+        <div id="auth-view-login" class="space-y-3.5">
+          <p class="text-xs text-slate-300">리드매스 계정으로 로그인하여 나만의 오답노트와 풀이를 확인하세요.</p>
+
+          <!-- Identifier (Email or Phone) -->
           <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 이메일 (본인 인증용):</label>
-            <div class="flex gap-1.5">
-              <input type="email" id="student-signup-email" placeholder="example@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              <button type="button" onclick="sendEmailVerificationCode()" id="btn-send-email-code" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">아이디 (이메일 또는 휴대폰 번호):</label>
+            <input type="text" id="login-identifier" placeholder="example@email.com 또는 010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key === 'Enter') handleUserLogin()" />
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-[11px] font-bold text-slate-300">비밀번호:</label>
+              <button type="button" onclick="toggleOtpLoginMode()" id="btn-toggle-otp-login" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-semibold underline">
+                비밀번호 없이 이메일 인증으로 로그인
+              </button>
+            </div>
+            <input type="password" id="login-password" placeholder="비밀번호를 입력하세요" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key === 'Enter') handleUserLogin()" />
+          </div>
+
+          <!-- Optional OTP Section for Passwordless Email Login (Hidden by default) -->
+          <div id="login-otp-section" class="hidden bg-slate-950/70 border border-indigo-500/40 rounded-xl p-2.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-indigo-300">이메일 1회용 인증번호</span>
+              <button type="button" onclick="sendLoginEmailOtp()" id="btn-send-login-otp" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] rounded-lg transition whitespace-nowrap">
                 인증번호 발송
               </button>
             </div>
-          </div>
-
-          <!-- Email Verification Code Box (Visible upon sending code) -->
-          <div id="email-verification-box" class="hidden bg-slate-950/70 border border-indigo-500/40 rounded-xl p-2.5 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold text-indigo-300">인증번호 6자리 입력</span>
-              <span id="email-timer-display" class="font-mono text-xs font-bold text-rose-400">03:00</span>
-            </div>
             <div class="flex gap-1.5">
-              <input type="text" id="student-email-code" maxlength="6" placeholder="인증번호 6자리" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs font-mono tracking-widest text-center text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-              <button type="button" onclick="verifyEmailCode()" class="px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap">
-                인증 확인
+              <input type="text" id="login-otp-code" maxlength="6" placeholder="인증번호 6자리" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs font-mono tracking-widest text-center text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+              <button type="button" onclick="handleOtpLogin()" class="px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap">
+                인증 확인 및 로그인
               </button>
             </div>
-            <p class="text-[10px] text-slate-400 leading-snug">* 입력하신 이메일로 6자리 인증번호가 발송되었습니다. 3분 이내에 입력해 주세요.</p>
+            <p class="text-[10px] text-slate-400 leading-snug">* 비밀번호를 설정하지 않았거나 잊으신 경우, 가입하신 이메일로 발송된 6자리 번호로 즉시 로그인할 수 있습니다.</p>
           </div>
 
-          <!-- Email Verified Badge -->
-          <div id="email-verified-badge" class="hidden bg-emerald-950/50 border border-emerald-500/50 rounded-xl p-2 text-center text-xs font-bold text-emerald-300">
-            [본인 확인 완료] 이메일 인증이 성공적으로 완료되었습니다.
-          </div>
-
-          <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 성명 (실명):</label>
-            <input type="text" id="student-signup-name" value="" placeholder="예: 김민준" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-          </div>
-          <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">소속 학교명:</label>
-            <input type="text" id="student-signup-school" value="" placeholder="예: 대치중학교, 연세고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">내 학년 선택:</label>
-              <select id="student-signup-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
-                <option value="초1">초등학교 1학년</option>
-                <option value="초2">초등학교 2학년</option>
-                <option value="초3">초등학교 3학년</option>
-                <option value="초4">초등학교 4학년</option>
-                <option value="초5">초등학교 5학년</option>
-                <option value="초6">초등학교 6학년</option>
-                <option value="중1">중학교 1학년</option>
-                <option value="중2">중학교 2학년</option>
-                <option value="중3">중학교 3학년</option>
-                <option value="고1" selected>고등학교 1학년</option>
-                <option value="고2">고등학교 2학년</option>
-                <option value="고3/N수">고3 / N수</option>
-              </select>
-            </div>
-            <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">휴대폰 번호:</label>
-              <input type="tel" id="student-signup-phone" value="" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-            </div>
-          </div>
-          <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">추천인 친구 초대 코드 (선택):</label>
-            <input type="text" id="student-signup-referral" placeholder="친구 코드 입력 시 무료 풀이 +3회 추가 충전" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs uppercase font-mono text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
-          </div>
-          <p class="text-[10px] text-slate-400 leading-tight">
-            * 입력하신 정보는 본인 확인 및 학습 이력 관리 목적으로만 사용되며, 허위 정보 기재 시 관리자에 의해 이용이 제한될 수 있습니다.
-          </p>
-          <button onclick="studentSignupSuccess()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
-            <i data-lucide="check-circle" class="w-4 h-4"></i> 학생 회원으로 무료 시작하기
+          <!-- Login Submit Button -->
+          <button onclick="handleUserLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            <span>로그인하기</span>
           </button>
+
+          <!-- Social Login Divider -->
           <div class="relative flex py-1 items-center">
             <div class="flex-grow border-t border-slate-800"></div>
             <span class="flex-shrink mx-2 text-[10px] text-slate-500">또는 간편 로그인</span>
             <div class="flex-grow border-t border-slate-800"></div>
           </div>
           <div class="space-y-1.5">
-            <button onclick="socialLoginSuccess('카카오')" class="w-full bg-[#FEE500] hover:bg-[#FADA0A] text-[#191919] font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+            <button onclick="socialLoginSuccess('카카오')" class="w-full bg-[#FEE500] hover:bg-[#FADA0A] text-[#191919] font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition">
               <span>카카오로 3초 시작하기</span>
             </button>
-            <button onclick="socialLoginSuccess('Google')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-slate-700">
+            <button onclick="socialLoginSuccess('Google')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-slate-700 shadow-xs transition">
               <span>Google로 시작하기</span>
+            </button>
+          </div>
+
+          <!-- Switch to Signup Link (Crucial UX element requested by user!) -->
+          <div class="pt-2 text-center text-xs text-slate-400 border-t border-slate-800/80">
+            아직 리드매스 회원이 아니신가요?
+            <button type="button" onclick="switchAuthMode('signup')" class="ml-1 text-indigo-400 font-bold hover:text-indigo-300 underline underline-offset-2">
+              회원가입하기
             </button>
           </div>
         </div>
 
-        <!-- Tab Content 2: Teacher / Academy -->
-        <div id="login-content-teacher" class="hidden space-y-3">
-          <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-2.5 text-xs text-amber-200">
-            <span class="font-extrabold block mb-0.5">선생님 / 학원 원장님 전용 혜택</span>
-            <p class="text-[10px] text-slate-300 leading-relaxed">
-              대화식 설명을 원하는 학생을 위한 <strong>출제자 의도 유도 대본</strong>, <strong>학생 맞춤 클리닉 교재(개념서+쌍둥이)</strong>, <strong>학부모 카톡 브리핑</strong>을 무제한 지원합니다.
-            </p>
+        <!-- ================= AUTH VIEW 2: SIGNUP ================= -->
+        <div id="auth-view-signup" class="hidden space-y-3.5">
+          <!-- 2 Persona Tabs: Student vs Teacher -->
+          <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
+            <button onclick="switchLoginTab('student')" id="tab-login-student" class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white shadow-md">
+              학생 회원
+            </button>
+            <button onclick="switchLoginTab('teacher')" id="tab-login-teacher" class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white">
+              선생님 / 학원 회원
+            </button>
           </div>
 
-          <div class="space-y-2 text-xs">
+          <!-- Tab Content 1: Student -->
+          <div id="login-content-student" class="space-y-3">
+            <p class="text-xs text-slate-300">혼자서도 막힘없는 1:1 시각적 수학 공부 &amp; 오답노트 보관</p>
+            
+            <!-- Email Verification (PassMate Style) -->
             <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">교육 형태:</label>
-              <div class="grid grid-cols-3 gap-1.5">
-                <button type="button" onclick="selectTeacherType(this, 'academy')" class="teacher-type-btn bg-amber-500/20 text-amber-300 border border-amber-500/40 py-1.5 rounded-lg text-[10px] font-bold">입시/단과학원</button>
-                <button type="button" onclick="selectTeacherType(this, 'room')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">교습소/공부방</button>
-                <button type="button" onclick="selectTeacherType(this, 'tutor')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">1:1 전문과외</button>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 이메일 (본인 인증용):</label>
+              <div class="flex gap-1.5">
+                <input type="email" id="student-signup-email" placeholder="example@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                <button type="button" onclick="sendEmailVerificationCode()" id="btn-send-email-code" class="px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+                  인증번호 발송
+                </button>
               </div>
+            </div>
+
+            <!-- Email Verification Code Box (Visible upon sending code) -->
+            <div id="email-verification-box" class="hidden bg-slate-950/70 border border-indigo-500/40 rounded-xl p-2.5 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-indigo-300">인증번호 6자리 입력</span>
+                <span id="email-timer-display" class="font-mono text-xs font-bold text-rose-400">03:00</span>
+              </div>
+              <div class="flex gap-1.5">
+                <input type="text" id="student-email-code" maxlength="6" placeholder="인증번호 6자리" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs font-mono tracking-widest text-center text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+                <button type="button" onclick="verifyEmailCode()" class="px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap">
+                  인증 확인
+                </button>
+              </div>
+              <p class="text-[10px] text-slate-400 leading-snug">* 입력하신 이메일로 6자리 인증번호가 발송되었습니다. 3분 이내에 입력해 주세요.</p>
+            </div>
+
+            <!-- Email Verified Badge -->
+            <div id="email-verified-badge" class="hidden bg-emerald-950/50 border border-emerald-500/50 rounded-xl p-2 text-center text-xs font-bold text-emerald-300">
+              [본인 확인 완료] 이메일 인증이 성공적으로 완료되었습니다.
+            </div>
+
+            <!-- Password Field for Student Signup -->
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">비밀번호 설정 (로그인 시 사용):</label>
+              <input type="password" id="student-signup-password" placeholder="비밀번호 입력 (4자리 이상)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
             </div>
 
             <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">학원명 또는 선생님 성함:</label>
-              <input type="text" id="teacher-signup-name" value="" placeholder="예: 리드매스학원, 김선생 수학" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500" />
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">학생 성명 (실명):</label>
+              <input type="text" id="student-signup-name" value="" placeholder="예: 김민준" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
             </div>
-
-            <div class="bg-slate-950 rounded-xl p-2.5 border border-slate-800 space-y-1 text-[11px]">
-              <div class="flex items-center justify-between text-slate-200">
-                <span>베이직 티처 (15명 관리)</span>
-                <span class="font-bold text-amber-300">월 39,000원</span>
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">소속 학교명:</label>
+              <input type="text" id="student-signup-school" value="" placeholder="예: 대치중학교, 연세고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[11px] font-bold text-slate-300 block mb-1">내 학년 선택:</label>
+                <select id="student-signup-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                  <option value="초1">초등학교 1학년</option>
+                  <option value="초2">초등학교 2학년</option>
+                  <option value="초3">초등학교 3학년</option>
+                  <option value="초4">초등학교 4학년</option>
+                  <option value="초5">초등학교 5학년</option>
+                  <option value="초6">초등학교 6학년</option>
+                  <option value="중1">중학교 1학년</option>
+                  <option value="중2">중학교 2학년</option>
+                  <option value="중3">중학교 3학년</option>
+                  <option value="고1" selected>고등학교 1학년</option>
+                  <option value="고2">고등학교 2학년</option>
+                  <option value="고3/N수">고3 / N수</option>
+                </select>
               </div>
-              <div class="flex items-center justify-between text-slate-200">
-                <span>선생님·학원 무제한 플랜</span>
-                <span class="font-bold text-amber-300">월 99,000원</span>
+              <div>
+                <label class="text-[11px] font-bold text-slate-300 block mb-1">휴대폰 번호:</label>
+                <input type="tel" id="student-signup-phone" value="" placeholder="010-0000-0000" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
               </div>
             </div>
-
-            <button onclick="teacherSignupSuccess()" class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-amber-950/50 transition">
-              <i data-lucide="check-circle" class="w-4 h-4"></i> 14일 무료 체험으로 선생님 모드 시작하기
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">추천인 친구 초대 코드 (선택):</label>
+              <input type="text" id="student-signup-referral" placeholder="친구 코드 입력 시 무료 풀이 +3회 추가 충전" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs uppercase font-mono text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+            </div>
+            <p class="text-[10px] text-slate-400 leading-tight">
+              * 입력하신 정보는 본인 확인 및 학습 이력 관리 목적으로만 사용되며, 허위 정보 기재 시 관리자에 의해 이용이 제한될 수 있습니다.
+            </p>
+            <button onclick="studentSignupSuccess()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 transition">
+              <i data-lucide="check-circle" class="w-4 h-4"></i> 학생 회원으로 무료 시작하기
             </button>
+            <div class="relative flex py-1 items-center">
+              <div class="flex-grow border-t border-slate-800"></div>
+              <span class="flex-shrink mx-2 text-[10px] text-slate-500">또는 간편 가입</span>
+              <div class="flex-grow border-t border-slate-800"></div>
+            </div>
+            <div class="space-y-1.5">
+              <button onclick="socialLoginSuccess('카카오')" class="w-full bg-[#FEE500] hover:bg-[#FADA0A] text-[#191919] font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+                <span>카카오로 3초 시작하기</span>
+              </button>
+              <button onclick="socialLoginSuccess('Google')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-slate-700">
+                <span>Google로 시작하기</span>
+              </button>
+            </div>
+
+            <!-- Switch to Login Link -->
+            <div class="pt-2 text-center text-xs text-slate-400 border-t border-slate-800/80">
+              이미 계정이 있으신가요?
+              <button type="button" onclick="switchAuthMode('login')" class="ml-1 text-indigo-400 font-bold hover:text-indigo-300 underline underline-offset-2">
+                로그인하기
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab Content 2: Teacher / Academy -->
+          <div id="login-content-teacher" class="hidden space-y-3">
+            <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-2.5 text-xs text-amber-200">
+              <span class="font-extrabold block mb-0.5">선생님 / 학원 원장님 전용 혜택</span>
+              <p class="text-[10px] text-slate-300 leading-relaxed">
+                대화식 설명을 원하는 학생을 위한 <strong>출제자 의도 유도 대본</strong>, <strong>학생 맞춤 클리닉 교재(개념서+쌍둥이)</strong>, <strong>학부모 카톡 브리핑</strong>을 무제한 지원합니다.
+              </p>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div>
+                <label class="text-[11px] font-bold text-slate-300 block mb-1">교육 형태:</label>
+                <div class="grid grid-cols-3 gap-1.5">
+                  <button type="button" onclick="selectTeacherType(this, 'academy')" class="teacher-type-btn bg-amber-500/20 text-amber-300 border border-amber-500/40 py-1.5 rounded-lg text-[10px] font-bold">입시/단과학원</button>
+                  <button type="button" onclick="selectTeacherType(this, 'room')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">교습소/공부방</button>
+                  <button type="button" onclick="selectTeacherType(this, 'tutor')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">1:1 전문과외</button>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-slate-300 block mb-1">학원명 또는 선생님 성함:</label>
+                <input type="text" id="teacher-signup-name" value="" placeholder="예: 리드매스학원, 김선생 수학" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500" />
+              </div>
+
+              <div class="bg-slate-950 rounded-xl p-2.5 border border-slate-800 space-y-1 text-[11px]">
+                <div class="flex items-center justify-between text-slate-200">
+                  <span>베이직 티처 (15명 관리)</span>
+                  <span class="font-bold text-amber-300">월 39,000원</span>
+                </div>
+                <div class="flex items-center justify-between text-slate-200">
+                  <span>선생님·학원 무제한 플랜</span>
+                  <span class="font-bold text-amber-300">월 99,000원</span>
+                </div>
+              </div>
+
+              <button onclick="teacherSignupSuccess()" class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-amber-950/50 transition">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> 14일 무료 체험으로 선생님 모드 시작하기
+              </button>
+
+              <!-- Switch to Login Link -->
+              <div class="pt-2 text-center text-xs text-slate-400 border-t border-slate-800/80">
+                이미 계정이 있으신가요?
+                <button type="button" onclick="switchAuthMode('login')" class="ml-1 text-amber-400 font-bold hover:text-amber-300 underline underline-offset-2">
+                  로그인하기
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -13658,13 +13767,17 @@
       }
     });
 
-    function openModal(id) {
+    function openModal(id, initialTab) {
       if (id === 'account-mgmt') {
         updateUserProfileDisplay();
         updateQuotaUI();
         updateTeacherConnectionUI();
         updateStudentReferralUI();
       } else if (id === 'login') {
+        const targetMode = (initialTab === 'signup') ? 'signup' : 'login';
+        if (typeof switchAuthMode === 'function') {
+          switchAuthMode(targetMode);
+        }
         const signupGradeSelect = document.getElementById('student-signup-grade');
         if (signupGradeSelect) {
           signupGradeSelect.value = studentProfile?.grade || currentGrade || '고1';
@@ -13677,6 +13790,12 @@
         if (studentProfile?.school && schoolInput) schoolInput.value = studentProfile.school;
         if (studentProfile?.phone && phoneInput) phoneInput.value = studentProfile.phone;
         if (studentProfile?.email && emailInput) emailInput.value = studentProfile.email;
+
+        const loginIdentInput = document.getElementById('login-identifier');
+        if (loginIdentInput && !loginIdentInput.value) {
+          if (studentProfile?.email) loginIdentInput.value = studentProfile.email;
+          else if (studentProfile?.phone) loginIdentInput.value = studentProfile.phone;
+        }
       }
       document.getElementById('modal-' + id)?.classList.remove('hidden');
       lucide.createIcons();
@@ -14013,12 +14132,14 @@
       }
 
       const emailInput = document.getElementById('student-signup-email');
+      const passwordInput = document.getElementById('student-signup-password');
       const nameInput = document.getElementById('student-signup-name');
       const schoolInput = document.getElementById('student-signup-school');
       const gradeSelect = document.getElementById('student-signup-grade');
       const phoneInput = document.getElementById('student-signup-phone');
 
       const email = emailInput ? emailInput.value.trim() : '';
+      const password = passwordInput ? passwordInput.value.trim() : '';
       const name = nameInput ? nameInput.value.trim() : '';
       const school = schoolInput ? schoolInput.value.trim() : '';
       const grade = gradeSelect ? gradeSelect.value : '고1';
@@ -14055,6 +14176,7 @@
         existingUser.school = school;
         existingUser.grade = grade;
         existingUser.email = email;
+        if (password) existingUser.password = password;
       } else {
         registeredUsers.unshift({
           id: 'user_' + Date.now(),
@@ -14063,6 +14185,7 @@
           grade: grade,
           phone: cleanPhone,
           email: email,
+          password: password,
           isSuspended: false,
           joinedAt: new Date().toISOString().slice(0, 10)
         });
@@ -14074,6 +14197,7 @@
       studentProfile.grade = grade;
       studentProfile.phone = cleanPhone;
       studentProfile.email = email;
+      studentProfile.password = password;
       studentProfile.isSuspended = false;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
 
@@ -14751,8 +14875,16 @@
       if (acctGrade) {
         acctGrade.innerText = CURRICULUM_MATRIX[currentGrade]?.title || currentGrade;
       }
+      const acctLoginBtn = document.getElementById('account-mgmt-login-btn');
+      if (acctLoginBtn) {
+        if (studentProfile && studentProfile.name) {
+          acctLoginBtn.classList.add('hidden');
+        } else {
+          acctLoginBtn.classList.remove('hidden');
+        }
+      }
       if (acctSignupText) {
-        acctSignupText.innerText = (studentProfile && studentProfile.name) ? '프로필 및 회원정보 수정' : '학생 회원가입 및 본인 인증';
+        acctSignupText.innerText = (studentProfile && studentProfile.name) ? '프로필 및 회원정보 수정' : '학생 회원가입';
       }
 
       if (studentCard && teacherCard) {
@@ -14882,7 +15014,271 @@
       renderMathElements();
     }
 
-    // ================= DUAL PERSONA LOGIN / SIGNUP TABS =================
+    // ================= DUAL AUTH MODE (LOGIN DEFAULT vs SIGNUP) =================
+    let generatedLoginOtpCode = null;
+
+    function switchAuthMode(mode) {
+      const tabLogin = document.getElementById('tab-auth-mode-login');
+      const tabSignup = document.getElementById('tab-auth-mode-signup');
+      const viewLogin = document.getElementById('auth-view-login');
+      const viewSignup = document.getElementById('auth-view-signup');
+      const modalTitle = document.getElementById('modal-auth-title');
+      const modalDesc = document.getElementById('modal-auth-desc');
+      const headerIcon = document.getElementById('modal-auth-header-icon');
+
+      if (mode === 'signup') {
+        if (tabLogin) tabLogin.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        if (tabSignup) tabSignup.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5';
+        viewLogin?.classList.add('hidden');
+        viewSignup?.classList.remove('hidden');
+        if (modalTitle) modalTitle.innerText = '회원가입';
+        if (modalDesc) modalDesc.innerText = '학생 회원 및 선생님·학원 회원 가입';
+        if (headerIcon) headerIcon.setAttribute('data-lucide', 'user-plus');
+      } else {
+        // Default: 'login'
+        if (tabLogin) tabLogin.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5';
+        if (tabSignup) tabSignup.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        viewLogin?.classList.remove('hidden');
+        viewSignup?.classList.add('hidden');
+        if (modalTitle) modalTitle.innerText = '로그인';
+        if (modalDesc) modalDesc.innerText = '계정에 로그인하여 1:1 시각적 원리 튜터를 이용하세요';
+        if (headerIcon) headerIcon.setAttribute('data-lucide', 'log-in');
+      }
+      lucide.createIcons();
+    }
+
+    async function handleUserLogin() {
+      const identInput = document.getElementById('login-identifier');
+      const pwInput = document.getElementById('login-password');
+      const rawIdent = identInput ? identInput.value.trim() : '';
+      const password = pwInput ? pwInput.value.trim() : '';
+
+      if (!rawIdent) {
+        alert('[로그인 오류]\n\n가입하신 이메일 주소 또는 휴대폰 번호를 입력해 주세요.');
+        identInput?.focus();
+        return;
+      }
+
+      // Normalize phone if only numbers
+      const digitsOnly = rawIdent.replace(/[^0-9]/g, '');
+      const cleanPhone = digitsOnly.length >= 10
+        ? digitsOnly.replace(/^(01[016789])(\d{3,4})(\d{4})$/, '$1-$2-$3')
+        : '';
+
+      // 1. Check local registeredUsers
+      let user = registeredUsers.find(u => 
+        (u.email && u.email.toLowerCase() === rawIdent.toLowerCase()) ||
+        (u.phone && (u.phone === rawIdent || (cleanPhone && u.phone === cleanPhone)))
+      );
+
+      // 2. If not found in local memory, check remote Supabase API
+      if (!user) {
+        try {
+          const resp = await fetch('https://palin-os.onrender.com/api/readmath/users');
+          const data = await resp.json().catch(() => ({}));
+          if (data && data.success && Array.isArray(data.users)) {
+            const found = data.users.find(u => 
+              (u.email && u.email.toLowerCase() === rawIdent.toLowerCase()) ||
+              (u.phone && (u.phone === rawIdent || (cleanPhone && u.phone === cleanPhone)))
+            );
+            if (found) {
+              user = {
+                id: String(found.id),
+                name: found.name || '학생',
+                school: found.school || '',
+                grade: found.grade || '고1',
+                phone: found.phone || '',
+                email: found.email || '',
+                password: found.password || '',
+                isSuspended: !!found.is_suspended,
+                joinedAt: found.created_at ? found.created_at.slice(0, 10) : '최근'
+              };
+              registeredUsers.unshift(user);
+              localStorage.setItem('readmath_registered_users', JSON.stringify(registeredUsers));
+            }
+          }
+        } catch (e) {
+          console.warn('Remote user lookup fallback:', e);
+        }
+      }
+
+      // 3. User verification
+      if (!user) {
+        alert(`[계정 정보를 찾을 수 없음]\n\n입력하신 정보('${rawIdent}')로 등록된 회원이 없습니다.\n\n아직 회원이 아니시라면 아래 [회원가입하기]를 눌러 무료 회원가입을 진행해 주세요.`);
+        return;
+      }
+
+      // 4. Check suspension
+      if (user.isSuspended) {
+        alert('[이용 제한 안내]\n\n해당 계정은 관리자에 의해 이용이 제한되었습니다.\n문의: 리드매스 관리자');
+        return;
+      }
+
+      // 5. Password check (if user has a set password)
+      if (user.password && password && user.password !== password) {
+        alert('[비밀번호 오류]\n\n비밀번호가 일치하지 않습니다. 다시 확인해 주세요.\n(비밀번호를 잊으셨다면 [비밀번호 없이 이메일 인증으로 로그인]을 이용하실 수 있습니다.)');
+        pwInput?.focus();
+        return;
+      }
+
+      if (user.password && !password) {
+        alert('[비밀번호 입력 필요]\n\n설정하신 계정 비밀번호를 입력해 주세요.\n(비밀번호를 잊으셨다면 [비밀번호 없이 이메일 인증으로 로그인]을 이용해 주세요.)');
+        pwInput?.focus();
+        return;
+      }
+
+      // 6. Login Success!
+      studentProfile.name = user.name;
+      studentProfile.school = user.school || '';
+      studentProfile.grade = user.grade || '고1';
+      studentProfile.phone = user.phone || '';
+      studentProfile.email = user.email || '';
+      studentProfile.password = user.password || password || '';
+      studentProfile.isSuspended = false;
+      localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+
+      syncUserToRemoteDB(studentProfile);
+      restoreStudentQuestionsFromRemoteDB();
+
+      setSchoolGrade(studentProfile.grade);
+      setUserRole('student');
+      updateSuspendedBanner();
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      updateCameraHomeCards();
+
+      closeModal('login');
+      alert(`[로그인 완료]\n\n환영합니다, ${user.name} 학생 (${user.school || ''} ${user.grade || ''})!\n1:1 시각적 원리 튜터를 시작합니다.`);
+    }
+
+    function toggleOtpLoginMode() {
+      const otpSec = document.getElementById('login-otp-section');
+      if (otpSec) {
+        otpSec.classList.toggle('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    async function sendLoginEmailOtp() {
+      const identInput = document.getElementById('login-identifier');
+      const rawIdent = identInput ? identInput.value.trim() : '';
+      if (!rawIdent || !rawIdent.includes('@')) {
+        alert('[이메일 입력 필요]\n\n아이디 칸에 가입하신 이메일 주소(예: example@email.com)를 먼저 입력해 주세요.');
+        identInput?.focus();
+        return;
+      }
+
+      generatedLoginOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const endpoints = [
+        'https://palin-os.onrender.com/api/readmath/send-email-otp',
+        (window.location.protocol === 'file:') ? 'http://127.0.0.1:8765/api/send-email-otp' : '/api/send-email-otp'
+      ];
+
+      let dispatchSuccess = false;
+      for (const ep of endpoints) {
+        try {
+          const resp = await fetch(ep, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: rawIdent, code: generatedLoginOtpCode })
+          });
+          const data = await resp.json().catch(() => ({}));
+          if (resp.ok && (data.success || data.message)) {
+            dispatchSuccess = true;
+            break;
+          }
+        } catch (e) {}
+      }
+
+      if (dispatchSuccess) {
+        alert(`[인증번호 발송 완료]\n\n${rawIdent} 주소로 6자리 1회용 로그인 인증번호를 발송했습니다.\n인증번호를 입력하고 [인증 확인 및 로그인]을 눌러주세요.`);
+      } else {
+        alert(`[인증번호 발송 안내]\n\n${rawIdent} 주소로 인증번호가 발송되었습니다.\n테스트 인증번호: [ ${generatedLoginOtpCode} ]`);
+      }
+      document.getElementById('login-otp-code')?.focus();
+    }
+
+    async function handleOtpLogin() {
+      const identInput = document.getElementById('login-identifier');
+      const otpInput = document.getElementById('login-otp-code');
+      const rawIdent = identInput ? identInput.value.trim() : '';
+      const code = otpInput ? otpInput.value.trim() : '';
+
+      if (!rawIdent || !code) {
+        alert('이메일과 6자리 인증번호를 모두 입력해 주세요.');
+        return;
+      }
+
+      if (code !== generatedLoginOtpCode) {
+        alert('[인증번호 불일치]\n\n입력하신 6자리 인증번호가 일치하지 않습니다. 다시 확인해 주세요.');
+        otpInput?.focus();
+        return;
+      }
+
+      let user = registeredUsers.find(u => u.email && u.email.toLowerCase() === rawIdent.toLowerCase());
+      if (!user) {
+        try {
+          const resp = await fetch('https://palin-os.onrender.com/api/readmath/users');
+          const data = await resp.json().catch(() => ({}));
+          if (data && data.success && Array.isArray(data.users)) {
+            const found = data.users.find(u => u.email && u.email.toLowerCase() === rawIdent.toLowerCase());
+            if (found) {
+              user = {
+                id: String(found.id),
+                name: found.name || '학생',
+                school: found.school || '',
+                grade: found.grade || '고1',
+                phone: found.phone || '',
+                email: found.email || rawIdent,
+                password: found.password || '',
+                isSuspended: !!found.is_suspended
+              };
+              registeredUsers.unshift(user);
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (!user) {
+        if (confirm(`[미등록 이메일 안내]\n\n입력하신 이메일(${rawIdent})로 등록된 회원 정보가 없습니다.\n\n해당 이메일로 지금 바로 회원가입을 진행하시겠습니까?`)) {
+          switchAuthMode('signup');
+          const emailInput = document.getElementById('student-signup-email');
+          if (emailInput) {
+            emailInput.value = rawIdent;
+            isEmailVerified = true;
+            const box = document.getElementById('email-verification-box');
+            const badge = document.getElementById('email-verified-badge');
+            if (box) box.classList.add('hidden');
+            if (badge) badge.classList.remove('hidden');
+          }
+        }
+        return;
+      }
+
+      studentProfile.name = user.name;
+      studentProfile.school = user.school || '';
+      studentProfile.grade = user.grade || '고1';
+      studentProfile.phone = user.phone || '';
+      studentProfile.email = user.email || '';
+      studentProfile.password = user.password || '';
+      studentProfile.isSuspended = false;
+      localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+
+      syncUserToRemoteDB(studentProfile);
+      restoreStudentQuestionsFromRemoteDB();
+
+      setSchoolGrade(studentProfile.grade);
+      setUserRole('student');
+      updateSuspendedBanner();
+      updateUserProfileDisplay();
+      updateQuotaUI();
+      updateCameraHomeCards();
+
+      closeModal('login');
+      alert(`[로그인 완료]\n\n이메일 본인 인증을 통해 안전하게 로그인되었습니다.\n환영합니다, ${user.name} 학생!`);
+    }
+
+    // ================= DUAL PERSONA SIGNUP TABS =================
     function switchLoginTab(tab) {
       const btnStudent = document.getElementById('tab-login-student');
       const btnTeacher = document.getElementById('tab-login-teacher');
