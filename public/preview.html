@@ -14401,7 +14401,7 @@
           academy_name: '일원학원',
           academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
           director_name: '원장 직속',
-          director_phone: '02-555-7799',
+          director_phone: '010-5527-2979',
           brand_theme: 'royal_purple',
           logo_text: '일원',
           logo_img: ILWON_LOGO_BASE64,
@@ -14411,8 +14411,12 @@
       }
 
       if (cfg && cfg.is_whitelabel_active) {
-        if (!cfg.logo_img && (cfg.academy_id === 'ilwon' || (cfg.academy_name && cfg.academy_name.includes('일원')))) {
-          cfg.logo_img = ILWON_LOGO_BASE64;
+        if (cfg.academy_id === 'ilwon' || (cfg.academy_name && cfg.academy_name.includes('일원'))) {
+          if (!cfg.logo_img) cfg.logo_img = ILWON_LOGO_BASE64;
+          if (cfg.director_phone === '02-555-7799' || !cfg.director_phone) {
+            cfg.director_phone = '010-5527-2979';
+            try { localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(cfg)); } catch(e) {}
+          }
         }
       }
 
@@ -14514,8 +14518,14 @@
         if (resetBtn) resetBtn.classList.remove('hidden');
         if (registerBtnText) registerBtnText.innerText = '학원 변경';
         if (contactBox && wl?.director_phone) {
+          if ((wl.academy_id === 'ilwon' || (wl.academy_name && wl.academy_name.includes('일원'))) && (wl.director_phone === '02-555-7799' || !wl.director_phone)) {
+            wl.director_phone = '010-5527-2979';
+            try { localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(wl)); } catch(e) {}
+          }
           contactBox.classList.remove('hidden');
-          if (phoneEl) phoneEl.innerText = wl.director_phone;
+          if (phoneEl) {
+            phoneEl.innerHTML = `<a href="tel:${wl.director_phone.replace(/[^0-9]/g, '')}" class="hover:underline text-amber-300 font-bold">${wl.director_phone}</a>`;
+          }
         } else if (contactBox) {
           contactBox.classList.add('hidden');
         }
@@ -14585,7 +14595,7 @@
               academy_name: '일원학원',
               academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
               director_name: '원장 직속',
-              director_phone: '02-555-7799',
+              director_phone: '010-5527-2979',
               brand_theme: 'royal_purple',
               logo_text: '일원',
               logo_img: ILWON_LOGO_BASE64,
@@ -16286,7 +16296,7 @@
           academy_name: '일원학원',
           academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
           director_name: '원장 직속',
-          director_phone: '02-555-7799',
+          director_phone: '010-5527-2979',
           brand_theme: 'royal_purple',
           logo_text: '일원',
           logo_img: ILWON_LOGO_BASE64,
