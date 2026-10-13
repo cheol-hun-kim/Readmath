@@ -2353,19 +2353,25 @@
 
         <!-- Academy White-Label Branding Card (학원 전용 맞춤 브랜딩 카드) -->
         <div id="settings-whitelabel-card" class="rounded-xl p-3.5 bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 space-y-2">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0">
               <div id="settings-wl-icon" class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30 shrink-0 font-black text-xs">
                 <i data-lucide="award" class="w-4 h-4"></i>
               </div>
               <div class="min-w-0">
                 <h4 id="settings-wl-title" class="text-xs font-bold text-white truncate">소속 학원: ReadMath 기본</h4>
-                <p id="settings-wl-sub" class="text-[10.5px] text-slate-400 truncate">재원생 전용 VIP 수학 클리닉 연동 중</p>
+                <p id="settings-wl-sub" class="text-[10.5px] text-slate-400 truncate">공식 AI 수학 멘토 시스템</p>
               </div>
             </div>
-            <button onclick="resetWhiteLabelBrand()" id="btn-wl-reset" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2 py-1 rounded-lg border border-slate-700 transition shrink-0">
-              기본 복원
-            </button>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="openModal('academy-connect')" id="btn-wl-register" class="text-[11px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-2.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1">
+                <i data-lucide="building" class="w-3.5 h-3.5"></i>
+                <span id="btn-wl-register-text">학원 등록</span>
+              </button>
+              <button onclick="resetWhiteLabelBrand()" id="btn-wl-reset" class="hidden text-[10.5px] bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 transition">
+                기본 복원
+              </button>
+            </div>
           </div>
           <div id="settings-wl-contact-box" class="hidden text-[10px] bg-slate-950/80 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
             <span class="text-slate-400">원장 직통 상담:</span>
@@ -2918,6 +2924,92 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: ACADEMY CONNECT & WHITE-LABEL REGISTRATION ================= -->
+    <div id="modal-academy-connect" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col justify-end">
+      <div class="bg-slate-900 border-t border-slate-700 rounded-t-3xl p-5 space-y-4 max-h-[92%] overflow-y-auto">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <i data-lucide="building" class="w-4 h-4 text-indigo-400"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-extrabold text-white">소속 학원 및 선생님 등록</h3>
+              <p class="text-[10px] text-slate-400">고유 코드를 입력하여 재원생 무제한 혜택을 연동하세요</p>
+            </div>
+          </div>
+          <button onclick="closeModal('academy-connect')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <!-- Current Connection Status -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 space-y-1">
+          <span class="text-[10px] text-slate-400 block font-semibold">현재 연결 상태:</span>
+          <div class="flex items-center justify-between">
+            <span id="academy-modal-current-name" class="text-xs font-bold text-white">소속 학원: ReadMath 기본</span>
+            <span id="academy-modal-current-badge" class="text-[9.5px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-bold">기본 모드</span>
+          </div>
+        </div>
+
+        <!-- Code Input Box -->
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold text-slate-300 block">학원 또는 선생님 고유 코드:</label>
+          <div class="flex gap-1.5">
+            <input type="text" id="input-academy-modal-code" placeholder="예: ILWON-2027, OLYMPIAD-2026" class="flex-1 bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono uppercase text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" onkeydown="if(event.key === 'Enter') submitAcademyCodeFromModal()" />
+            <button type="button" onclick="submitAcademyCodeFromModal()" class="px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition whitespace-nowrap shadow-sm">
+              등록하기
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-snug">
+            * 학원 또는 담당 선생님께 전달받은 고유 코드를 입력하시면, <strong>무제한 문제 풀이</strong> 및 <strong>1:1 질문 전송</strong>이 즉시 활성화됩니다.
+          </p>
+        </div>
+
+        <!-- Quick Select Partner Academies -->
+        <div class="space-y-2 pt-1 border-t border-slate-800/80">
+          <span class="text-[11px] font-bold text-slate-300 block">주요 제휴 학원 코드 바로 등록:</span>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button type="button" onclick="quickApplyAcademyCode('ILWON-2027')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
+              <div class="flex items-center justify-between mb-0.5">
+                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">일원 학원</span>
+                <span class="text-[9px] bg-emerald-950 text-emerald-300 px-1 rounded font-bold">무제한</span>
+              </div>
+              <span class="font-mono text-[9.5px] text-slate-400">ILWON-2027</span>
+            </button>
+
+            <button type="button" onclick="quickApplyAcademyCode('OLYMPIAD-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
+              <div class="flex items-center justify-between mb-0.5">
+                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">대치 올림피아드</span>
+                <span class="text-[9px] bg-amber-950 text-amber-300 px-1 rounded font-bold">VIP</span>
+              </div>
+              <span class="font-mono text-[9.5px] text-slate-400">OLYMPIAD-2026</span>
+            </button>
+
+            <button type="button" onclick="quickApplyAcademyCode('MIRAE-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
+              <div class="flex items-center justify-between mb-0.5">
+                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">목동 미래탐구</span>
+                <span class="text-[9px] bg-teal-950 text-teal-300 px-1 rounded font-bold">전용관</span>
+              </div>
+              <span class="font-mono text-[9.5px] text-slate-400">MIRAE-2026</span>
+            </button>
+
+            <button type="button" onclick="quickApplyAcademyCode('RM-TEACH-2026')" class="p-2.5 bg-slate-950 hover:bg-indigo-950/40 border border-slate-800 hover:border-indigo-500/50 rounded-xl text-left transition group">
+              <div class="flex items-center justify-between mb-0.5">
+                <span class="font-bold text-white group-hover:text-indigo-300 text-[11px]">메가수학 (박지훈T)</span>
+                <span class="text-[9px] bg-indigo-950 text-indigo-300 px-1 rounded font-bold">1:1질문</span>
+              </div>
+              <span class="font-mono text-[9.5px] text-slate-400">RM-TEACH-2026</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reset button (if connected) -->
+        <div id="academy-modal-reset-box" class="hidden pt-1">
+          <button type="button" onclick="disconnectAcademyAndTeacher()" class="w-full py-2.5 bg-slate-800 hover:bg-rose-950/50 text-slate-300 hover:text-rose-300 font-bold text-xs rounded-xl border border-slate-700 transition">
+            소속 학원 연결 해제 (기본 모드로 복원)
+          </button>
         </div>
       </div>
     </div>
@@ -13644,28 +13736,54 @@
       const resetBtn = document.getElementById('btn-wl-reset');
       const contactBox = document.getElementById('settings-wl-contact-box');
       const phoneEl = document.getElementById('settings-wl-phone');
+      const registerBtnText = document.getElementById('btn-wl-register-text');
+      const modalCurrentName = document.getElementById('academy-modal-current-name');
+      const modalCurrentBadge = document.getElementById('academy-modal-current-badge');
+      const modalResetBox = document.getElementById('academy-modal-reset-box');
+
       if (!card) return;
 
       const wl = getWhiteLabelConfig();
-      if (wl && wl.is_whitelabel_active) {
-        if (titleEl) titleEl.innerText = `소속 학원: ${wl.academy_name}`;
-        if (subEl) subEl.innerText = `${wl.academy_slogan || '맞춤 수학 클리닉 연동 중'}`;
+      const isConnected = (wl && wl.is_whitelabel_active) || (studentProfile && studentProfile.connectedTeacherCode);
+
+      if (isConnected) {
+        const name = (wl && wl.is_whitelabel_active) ? wl.academy_name : (studentProfile?.connectedTeacherName || '소속 학원');
+        if (titleEl) titleEl.innerText = `소속 학원: ${name}`;
+        if (subEl) subEl.innerText = `${(wl && wl.academy_slogan) || '재원생 전용 VIP 수학 클리닉 연동 중'}`;
         if (resetBtn) resetBtn.classList.remove('hidden');
-        if (contactBox) contactBox.classList.remove('hidden');
-        if (phoneEl) phoneEl.innerText = wl.director_phone || '원장 직통';
+        if (registerBtnText) registerBtnText.innerText = '학원 변경';
+        if (contactBox && wl?.director_phone) {
+          contactBox.classList.remove('hidden');
+          if (phoneEl) phoneEl.innerText = wl.director_phone;
+        } else if (contactBox) {
+          contactBox.classList.add('hidden');
+        }
         if (iconEl) {
           iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
-          iconEl.innerText = wl.logo_text || '학원';
+          iconEl.innerText = (wl && wl.logo_text) || '학원';
         }
+        if (modalCurrentName) modalCurrentName.innerText = `소속 학원: ${name}`;
+        if (modalCurrentBadge) {
+          modalCurrentBadge.innerText = '인증 재원생 (무제한)';
+          modalCurrentBadge.className = 'text-[9.5px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-bold';
+        }
+        if (modalResetBox) modalResetBox.classList.remove('hidden');
       } else {
         if (titleEl) titleEl.innerText = '소속 학원: ReadMath 기본';
         if (subEl) subEl.innerText = '공식 AI 수학 멘토 시스템';
         if (resetBtn) resetBtn.classList.add('hidden');
+        if (registerBtnText) registerBtnText.innerText = '학원 등록';
         if (contactBox) contactBox.classList.add('hidden');
         if (iconEl) {
           iconEl.className = 'w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30 shrink-0 font-black text-xs';
           iconEl.innerHTML = '<i data-lucide="award" class="w-4 h-4"></i>';
         }
+        if (modalCurrentName) modalCurrentName.innerText = '소속 학원: ReadMath 기본';
+        if (modalCurrentBadge) {
+          modalCurrentBadge.innerText = '기본 모드';
+          modalCurrentBadge.className = 'text-[9.5px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-bold';
+        }
+        if (modalResetBox) modalResetBox.classList.add('hidden');
       }
       if (window.lucide) lucide.createIcons();
     }
@@ -13807,6 +13925,10 @@
           if (studentProfile?.email) loginIdentInput.value = studentProfile.email;
           else if (studentProfile?.phone) loginIdentInput.value = studentProfile.phone;
         }
+      } else if (id === 'academy-connect') {
+        updateWhiteLabelSettingsCard();
+        const codeInput = document.getElementById('input-academy-modal-code');
+        if (codeInput) codeInput.value = '';
       }
       document.getElementById('modal-' + id)?.classList.remove('hidden');
       lucide.createIcons();
@@ -15354,45 +15476,171 @@
       }
     }
 
-    function connectTeacherByCode() {
-      const input = document.getElementById('input-teacher-connect-code');
-      const code = input ? input.value.trim().toUpperCase() : '';
-
+    function applyAcademyOrTeacherCode(rawCode) {
+      const code = (rawCode || '').trim().toUpperCase();
       if (!code) {
         alert('[고유 코드 입력 필요]\n선생님 또는 학원에서 부여받은 고유 코드를 입력해 주세요.');
-        input?.focus();
-        return;
+        return false;
       }
 
-      if (code === 'ILWON-2027') {
+      if (code === 'ILWON-2027' || code.includes('ILWON')) {
         isProMember = true;
         remainingSolves = 999999;
         if (!studentProfile) studentProfile = {};
         studentProfile.isAcademyMember = true;
         studentProfile.connectedTeacherCode = 'ILWON-2027';
         studentProfile.connectedTeacherName = '일원 학원 (원장님 직속)';
+        if (!studentProfile.school || studentProfile.school === '미등록') {
+          studentProfile.school = '일원 학원';
+        }
         localStorage.setItem('rootmath_is_pro', 'true');
         localStorage.setItem('rootmath_user_solves', '999999');
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        syncUserToRemoteDB(studentProfile);
+
+        applyWhiteLabelBranding({
+          is_whitelabel_active: true,
+          academy_id: 'ilwon',
+          academy_code: 'ILWON-2027',
+          academy_name: '일원 학원 (원장 직속)',
+          academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
+          director_name: '원장 직속',
+          director_phone: '02-555-7799',
+          brand_theme: 'royal_purple',
+          logo_text: '일원',
+          print_watermark: '일원 학원 공식 인증 수학 클리닉'
+        });
+
         updateTeacherConnectionUI();
         updateUserProfileDisplay();
         updateQuotaUI();
-        if (input) input.value = '';
+        updateWhiteLabelSettingsCard();
 
-        alert('[일원 학원 재원생 인증 완료]\n\n일원 학원 정규 재원생 확인이 완료되었습니다!\n\n이제 모든 고난도 기출 킬러 문항과 1:1 대화, AI 쌍둥이 클리닉을 횟수 제한 없이 무제한으로 이용하실 수 있습니다.');
-        return;
+        alert('[일원 학원 재원생 인증 완료]\n\n일원 학원 정규 재원생 확인이 완료되었습니다!\n\n모든 고난도 기출 킬러 문항과 1:1 대화, AI 쌍둥이 클리닉을 횟수 제한 없이 무제한으로 이용하실 수 있습니다.');
+        return true;
       }
 
-      if (code === 'RM-TEACH-2026' || code.startsWith('RM-')) {
+      if (code === 'OLYMPIAD-2026' || code.includes('OLYMPIAD')) {
+        isProMember = true;
+        remainingSolves = 999999;
+        if (!studentProfile) studentProfile = {};
+        studentProfile.isAcademyMember = true;
+        studentProfile.connectedTeacherCode = 'OLYMPIAD-2026';
+        studentProfile.connectedTeacherName = '대치 올림피아드 수학학원 (김도형 대표원장)';
+        if (!studentProfile.school || studentProfile.school === '미등록') {
+          studentProfile.school = '대치 올림피아드';
+        }
+        localStorage.setItem('rootmath_is_pro', 'true');
+        localStorage.setItem('rootmath_user_solves', '999999');
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        syncUserToRemoteDB(studentProfile);
+
+        applyWhiteLabelBranding({
+          is_whitelabel_active: true,
+          academy_id: 'olympiad',
+          academy_code: 'OLYMPIAD-2026',
+          academy_name: '대치 올림피아드 수학학원',
+          academy_slogan: '대치동 상위 1% 수학 클리닉 전문관',
+          director_name: '김도형 대표원장',
+          director_phone: '02-555-1234',
+          brand_theme: 'navy_gold',
+          logo_text: 'DO',
+          print_watermark: '대치 올림피아드 수학학원 공식 인증 교재'
+        });
+
+        updateTeacherConnectionUI();
+        updateUserProfileDisplay();
+        updateQuotaUI();
+        updateWhiteLabelSettingsCard();
+
+        alert('[대치 올림피아드 재원생 등록 완료]\n\n대치 올림피아드 수학학원 재원생 등록이 완료되었습니다!\n\n재원생 무제한 문제 풀이 및 1:1 클리닉이 적용되었습니다.');
+        return true;
+      }
+
+      if (code === 'MIRAE-2026' || code.includes('MIRAE')) {
+        isProMember = true;
+        remainingSolves = 999999;
+        if (!studentProfile) studentProfile = {};
+        studentProfile.isAcademyMember = true;
+        studentProfile.connectedTeacherCode = 'MIRAE-2026';
+        studentProfile.connectedTeacherName = '목동 미래탐구 수학 (박미래 원장)';
+        if (!studentProfile.school || studentProfile.school === '미등록') {
+          studentProfile.school = '목동 미래탐구';
+        }
+        localStorage.setItem('rootmath_is_pro', 'true');
+        localStorage.setItem('rootmath_user_solves', '999999');
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        syncUserToRemoteDB(studentProfile);
+
+        applyWhiteLabelBranding({
+          is_whitelabel_active: true,
+          academy_id: 'mirae',
+          academy_code: 'MIRAE-2026',
+          academy_name: '목동 미래탐구 수학',
+          academy_slogan: '개념 시각화 & 서술형 완벽 대비반',
+          director_name: '박미래 원장',
+          director_phone: '02-2640-5678',
+          brand_theme: 'emerald',
+          logo_text: 'MT',
+          print_watermark: '목동 미래탐구 수학 전문 클리닉 인증'
+        });
+
+        updateTeacherConnectionUI();
+        updateUserProfileDisplay();
+        updateQuotaUI();
+        updateWhiteLabelSettingsCard();
+
+        alert('[목동 미래탐구 재원생 등록 완료]\n\n목동 미래탐구 수학 전문관 재원생 등록이 완료되었습니다!\n\n무제한 문제 풀이 및 클리닉 교재가 연동되었습니다.');
+        return true;
+      }
+
+      if (code === 'MEISTER-2026' || code.includes('MEISTER')) {
+        isProMember = true;
+        remainingSolves = 999999;
+        if (!studentProfile) studentProfile = {};
+        studentProfile.isAcademyMember = true;
+        studentProfile.connectedTeacherCode = 'MEISTER-2026';
+        studentProfile.connectedTeacherName = '송도 마이스터 고등관 (이수혁 총괄원장)';
+        if (!studentProfile.school || studentProfile.school === '미등록') {
+          studentProfile.school = '송도 마이스터';
+        }
+        localStorage.setItem('rootmath_is_pro', 'true');
+        localStorage.setItem('rootmath_user_solves', '999999');
+        localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        syncUserToRemoteDB(studentProfile);
+
+        applyWhiteLabelBranding({
+          is_whitelabel_active: true,
+          academy_id: 'meister',
+          academy_code: 'MEISTER-2026',
+          academy_name: '송도 마이스터 고등관',
+          academy_slogan: '수능 킬러 & 수리논술 핀포인트 처방',
+          director_name: '이수혁 총괄원장',
+          director_phone: '032-833-9988',
+          brand_theme: 'crimson',
+          logo_text: 'SM',
+          print_watermark: '송도 마이스터 고등관 전용 진단 처방서'
+        });
+
+        updateTeacherConnectionUI();
+        updateUserProfileDisplay();
+        updateQuotaUI();
+        updateWhiteLabelSettingsCard();
+
+        alert('[송도 마이스터 재원생 등록 완료]\n\n송도 마이스터 고등관 재원생 등록이 완료되었습니다!\n\n무제한 문제 풀이 및 수리논술 핀포인트 처방이 활성화되었습니다.');
+        return true;
+      }
+
+      if (code === 'RM-TEACH-2026' || code.startsWith('RM-TEACH') || code.startsWith('RM-')) {
         if (!studentProfile) studentProfile = {};
         studentProfile.connectedTeacherCode = code;
         studentProfile.connectedTeacherName = '박지훈 선생님 (메가수학)';
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+        syncUserToRemoteDB(studentProfile);
         updateTeacherConnectionUI();
         updateUserProfileDisplay();
-        if (input) input.value = '';
+        updateWhiteLabelSettingsCard();
 
-        // Auto-roster student into teacher list if not already present
         const studentName = studentProfile.name || '신규 학생';
         const alreadyInRoster = teacherStudents.some(s => s.name === studentName);
         if (!alreadyInRoster) {
@@ -15408,17 +15656,47 @@
           renderTeacherStudentList();
         }
 
-        alert(`[담당 선생님 연결 완료]\n\n${studentProfile.connectedTeacherName}과 성공적으로 연결되었습니다.\n\n이제 문제 풀이 화면 하단의 [담당 선생님께 이 문제 질문 전송] 버튼을 통해 언제든 1:1 질문을 보내실 수 있습니다.`);
-      } else {
-        alert('[유효하지 않은 코드]\n등록되지 않은 선생님 또는 학원 고유 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요.');
+        alert(`[담당 선생님 연결 완료]\n\n${studentProfile.connectedTeacherName}과 성공적으로 연결되었습니다.\n\n문제 풀이 화면 하단의 [담당 선생님께 이 문제 질문 전송] 버튼을 통해 언제든 1:1 질문을 보내실 수 있습니다.`);
+        return true;
       }
+
+      alert('[유효하지 않은 코드]\n등록되지 않은 학원 또는 선생님 고유 코드입니다.\n코드 번호를 다시 한 번 확인해 주세요.\n(예: ILWON-2027, OLYMPIAD-2026, MIRAE-2026, RM-TEACH-2026)');
+      return false;
+    }
+
+    function connectTeacherByCode() {
+      const input = document.getElementById('input-teacher-connect-code');
+      const code = input ? input.value.trim().toUpperCase() : '';
+      if (applyAcademyOrTeacherCode(code)) {
+        if (input) input.value = '';
+      }
+    }
+
+    function submitAcademyCodeFromModal() {
+      const input = document.getElementById('input-academy-modal-code');
+      const code = input ? input.value.trim().toUpperCase() : '';
+      if (applyAcademyOrTeacherCode(code)) {
+        if (input) input.value = '';
+        closeModal('academy-connect');
+      }
+    }
+
+    function quickApplyAcademyCode(code) {
+      if (applyAcademyOrTeacherCode(code)) {
+        closeModal('academy-connect');
+      }
+    }
+
+    function disconnectAcademyAndTeacher() {
+      disconnectTeacher();
+      closeModal('academy-connect');
     }
 
     function disconnectTeacher() {
       const isIlwon = studentProfile && studentProfile.connectedTeacherCode === 'ILWON-2027';
       const confirmMsg = isIlwon
         ? '일원 학원 재원생 등록을 해제하시겠습니까?\n해제 시 무제한 이용 혜택이 중단되고 기본 무료 체험(3회) 모드로 전환됩니다.'
-        : '담당 선생님과의 연결을 해제하시겠습니까?\n해제 시 실시간 질문 전송 기능이 비활성화됩니다.';
+        : '소속 학원 또는 담당 선생님과의 연결을 해제하시겠습니까?\n해제 시 기본 리드매스 모드로 전환됩니다.';
 
       if (!confirm(confirmMsg)) {
         return;
@@ -15434,10 +15712,14 @@
       studentProfile.connectedTeacherCode = null;
       studentProfile.connectedTeacherName = null;
       localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
+      localStorage.removeItem('rootmath_whitelabel_config');
+      applyWhiteLabelBranding(DEFAULT_BRAND_CONFIG);
+
       updateTeacherConnectionUI();
       updateUserProfileDisplay();
       updateQuotaUI();
-      alert('[연결 해제 완료]\n연결이 정상적으로 해제되었습니다.');
+      updateWhiteLabelSettingsCard();
+      alert('[연결 해제 완료]\n기본 리드매스 모드로 정상 복원되었습니다.');
     }
 
     function copyTeacherCode() {
