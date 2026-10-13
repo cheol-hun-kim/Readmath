@@ -4093,6 +4093,38 @@
       userSolvedHistory = [];
     }
 
+    // Inviolable Question Deletion & Cloud Resurrection Armor
+    function getDeletedQuestionIds() {
+      try {
+        const raw = JSON.parse(localStorage.getItem('rootmath_deleted_question_ids') || '[]');
+        return new Set(Array.isArray(raw) ? raw.map(String) : []);
+      } catch (e) {
+        return new Set();
+      }
+    }
+
+    function markQuestionDeletedLocally(id) {
+      if (!id) return;
+      try {
+        const set = getDeletedQuestionIds();
+        set.add(String(id));
+        localStorage.setItem('rootmath_deleted_question_ids', JSON.stringify(Array.from(set)));
+      } catch (e) {}
+    }
+
+    function clearAllQuestionsLocally() {
+      try {
+        localStorage.setItem('rootmath_all_questions_cleared_at', Date.now().toString());
+        const set = getDeletedQuestionIds();
+        if (Array.isArray(userSolvedHistory)) {
+          userSolvedHistory.forEach(item => {
+            if (item && item.id) set.add(String(item.id));
+          });
+        }
+        localStorage.setItem('rootmath_deleted_question_ids', JSON.stringify(Array.from(set)));
+      } catch (e) {}
+    }
+
     // One-time sanitization: clear legacy fixed mock data (IDs 1, 2, 3) left over from earlier testing
     try {
       const legacyCleaned = localStorage.getItem('rootmath_cleaned_v2');
@@ -8688,10 +8720,30 @@
 
     function deleteHistoryItem(id) {
       if (!confirm('이 오답노트 질문 기록을 삭제하시겠습니까?')) return;
-      safeSaveUserHistory(userSolvedHistory.filter(item => String(item.id) !== String(id)));
+      const strId = String(id);
+      
+      // 1. Mark permanently deleted in client blacklist (immune to stale cloud sync)
+      markQuestionDeletedLocally(strId);
+      
+      // 2. Remove from active PROBLEMS_DB memory
+      delete PROBLEMS_DB[id];
+      delete PROBLEMS_DB[strId];
+      
+      // 3. Remove from local history & persist
+      safeSaveUserHistory(userSolvedHistory.filter(item => String(item.id) !== strId));
       renderHistoryList();
       updateReportView();
       updateCameraHomeCards();
+
+      // 4. Request remote database deletion asynchronously
+      try {
+        const studentName = studentProfile?.name?.trim() || '';
+        fetch('https://palin-os.onrender.com/api/readmath/questions/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student_name: studentName, problem_id: strId })
+        }).catch(() => {});
+      } catch (e) {}
     }
 
     function clearAllHistory() {
@@ -8700,10 +8752,35 @@
         return;
       }
       if (!confirm('오답노트에 저장된 모든 질문 기록을 비우시겠습니까?\n(약점 리포트 통계도 함께 초기화됩니다)')) return;
+      
+      // 1. Mark all questions deleted locally with timestamp guard
+      clearAllQuestionsLocally();
+      
+      // 2. Clean memory PROBLEMS_DB of dynamic items
+      (userSolvedHistory || []).forEach(item => {
+        if (item && item.id && !CANONICAL_PROBLEMS_DB[item.id]) {
+          delete PROBLEMS_DB[item.id];
+          delete PROBLEMS_DB[String(item.id)];
+        }
+      });
+      
+      // 3. Clear history & persist
       safeSaveUserHistory([]);
       renderHistoryList();
       updateReportView();
       updateCameraHomeCards();
+
+      // 4. Request remote database full purge asynchronously
+      try {
+        const studentName = studentProfile?.name?.trim() || '';
+        if (studentName) {
+          fetch('https://palin-os.onrender.com/api/readmath/questions/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_name: studentName, clear_all: true })
+          }).catch(() => {});
+        }
+      } catch (e) {}
     }
 
     // Live DOM Text Node Scanner & Tofu/Hanja/Quad-Equal Sanitizer (Safe Static Runner)
@@ -9480,9 +9557,26 @@
         const resp = await fetch(`https://palin-os.onrender.com/api/readmath/questions?student_name=${encodeURIComponent(studentProfile.name.trim())}&limit=50`);
         const data = await resp.json().catch(() => ({}));
         if (data && data.success && Array.isArray(data.questions) && data.questions.length > 0) {
+          const deletedIds = getDeletedQuestionIds();
+          const clearedAt = Number(localStorage.getItem('rootmath_all_questions_cleared_at') || 0);
           let updated = false;
+
           data.questions.forEach(q => {
             const probId = q.problem_id || ('remote_' + q.id);
+            const strId = String(probId);
+            const rawId = String(q.id);
+
+            // Inviolable User Deletion Armor: NEVER resurrect questions deleted by the student
+            if (deletedIds.has(strId) || deletedIds.has(rawId) || deletedIds.has('remote_' + rawId)) {
+              return;
+            }
+            if (clearedAt > 0 && q.created_at) {
+              const qTime = new Date(q.created_at).getTime();
+              if (!isNaN(qTime) && qTime <= clearedAt) {
+                return;
+              }
+            }
+
             if (!PROBLEMS_DB[probId]) {
               PROBLEMS_DB[probId] = {
                 id: probId,
@@ -9496,7 +9590,7 @@
                 diagnosis: q.diagnosis || null,
                 created_at: q.created_at
               };
-              const alreadyInHistory = userSolvedHistory.some(h => String(h.id) === String(probId));
+              const alreadyInHistory = userSolvedHistory.some(h => String(h.id) === strId);
               if (!alreadyInHistory) {
                 userSolvedHistory.push(PROBLEMS_DB[probId]);
                 updated = true;
@@ -12603,6 +12697,23 @@
       }
       if (!confirm(`해결 완료된 질문 ${resolvedList.length}개를 오답노트에서 영구 삭제하시겠습니까?\n(아직 해결되지 않은 질문들은 안전하게 보관됩니다)`)) return;
 
+      const sName = studentProfile?.name?.trim() || '';
+      resolvedList.forEach(item => {
+        if (item && item.id) {
+          const strId = String(item.id);
+          markQuestionDeletedLocally(strId);
+          delete PROBLEMS_DB[item.id];
+          delete PROBLEMS_DB[strId];
+          try {
+            fetch('https://palin-os.onrender.com/api/readmath/questions/delete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ student_name: sName, problem_id: strId })
+            }).catch(() => {});
+          } catch (e) {}
+        }
+      });
+
       safeSaveUserHistory((userSolvedHistory || []).filter(it => !it.resolved));
       renderHistoryList();
       updateReportView();
@@ -13601,16 +13712,19 @@
     }
 
     // ================= WHITE-LABEL ACADEMY BRANDING ENGINE =================
+    const ILWON_LOGO_BASE64 = 'data:image/png;base64,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';
+
     const DEFAULT_BRAND_CONFIG = {
       is_whitelabel_active: false,
       academy_id: 'default',
-      academy_code: 'ILWON-2027',
+      academy_code: '',
       academy_name: 'ReadMath',
       academy_slogan: '수학은 해석의 대상이다',
       director_name: '대표 원장',
       director_phone: '010-0000-0000',
       brand_theme: 'indigo',
       logo_text: 'RM',
+      logo_img: null,
       print_watermark: 'ReadMath 1:1 취약점 클리닉 교재'
     };
 
@@ -13623,7 +13737,31 @@
     }
 
     function applyWhiteLabelBranding(config = null) {
-      const cfg = config || getWhiteLabelConfig();
+      let cfg = config || getWhiteLabelConfig();
+      const isIlwonStudent = studentProfile && (studentProfile.connectedTeacherCode === 'ILWON-2027' || studentProfile.isAcademyMember);
+      if (isIlwonStudent && (!cfg || !cfg.is_whitelabel_active)) {
+        cfg = {
+          is_whitelabel_active: true,
+          academy_id: 'ilwon',
+          academy_code: 'ILWON-2027',
+          academy_name: '일원학원',
+          academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
+          director_name: '원장 직속',
+          director_phone: '02-555-7799',
+          brand_theme: 'royal_purple',
+          logo_text: '일원',
+          logo_img: ILWON_LOGO_BASE64,
+          print_watermark: '일원학원 공식 인증 수학 클리닉'
+        };
+        try { localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(cfg)); } catch(e) {}
+      }
+
+      if (cfg && cfg.is_whitelabel_active) {
+        if (!cfg.logo_img && (cfg.academy_id === 'ilwon' || (cfg.academy_name && cfg.academy_name.includes('일원')))) {
+          cfg.logo_img = ILWON_LOGO_BASE64;
+        }
+      }
+
       const titleEl = document.getElementById('app-brand-title');
       const subEl = document.getElementById('app-brand-subtitle');
       const vipBadge = document.getElementById('app-brand-vip-badge');
@@ -13671,8 +13809,14 @@
       }
 
       if (logoBox) {
-        logoBox.className = `w-8 h-8 rounded-xl bg-gradient-to-tr ${gradientClass} flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1 font-black text-white tracking-wider border border-white/20`;
-        logoBox.innerText = cfg.logo_text || '학원';
+        const logoSrc = cfg.logo_img || ((cfg.academy_id === 'ilwon' || (cfg.academy_name && cfg.academy_name.includes('일원'))) ? ILWON_LOGO_BASE64 : null);
+        if (logoSrc) {
+          logoBox.className = 'w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-md shadow-indigo-600/20 shrink-0 cursor-pointer select-none active:scale-95 p-0.5 border border-slate-700/60 overflow-hidden';
+          logoBox.innerHTML = `<img src="${logoSrc}" alt="${cfg.academy_name || '학원 로고'}" class="w-full h-full object-contain" />`;
+        } else {
+          logoBox.className = `w-8 h-8 rounded-xl bg-gradient-to-tr ${gradientClass} flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1 font-black text-white tracking-wider border border-white/20`;
+          logoBox.innerText = cfg.logo_text || '학원';
+        }
       }
 
       // 2. Grant Academy Member Unlimited Quota
@@ -13722,8 +13866,14 @@
           contactBox.classList.add('hidden');
         }
         if (iconEl) {
-          iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
-          iconEl.innerText = (wl && wl.logo_text) || '학원';
+          const logoSrc = (wl && wl.logo_img) || ((wl && (wl.academy_id === 'ilwon' || (wl.academy_name && wl.academy_name.includes('일원')))) ? ILWON_LOGO_BASE64 : null);
+          if (logoSrc) {
+            iconEl.className = 'w-8 h-8 rounded-lg bg-white flex items-center justify-center border border-slate-700/50 shrink-0 overflow-hidden p-0.5';
+            iconEl.innerHTML = `<img src="${logoSrc}" alt="${name}" class="w-full h-full object-contain" />`;
+          } else {
+            iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
+            iconEl.innerText = (wl && wl.logo_text) || '학원';
+          }
         }
         if (modalCurrentName) modalCurrentName.innerText = `소속 학원: ${name}`;
         if (modalCurrentBadge) {
@@ -13773,7 +13923,21 @@
 
         if (academyCode || customName) {
           let matched = null;
-          if (academyCode && academyCode.toUpperCase().includes('OLYMPIAD')) {
+          if (academyCode && academyCode.toUpperCase().includes('ILWON')) {
+            matched = {
+              is_whitelabel_active: true,
+              academy_id: 'ilwon',
+              academy_code: 'ILWON-2027',
+              academy_name: '일원학원',
+              academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
+              director_name: '원장 직속',
+              director_phone: '02-555-7799',
+              brand_theme: 'royal_purple',
+              logo_text: '일원',
+              logo_img: ILWON_LOGO_BASE64,
+              print_watermark: '일원학원 공식 인증 수학 클리닉'
+            };
+          } else if (academyCode && academyCode.toUpperCase().includes('OLYMPIAD')) {
             matched = {
               is_whitelabel_active: true,
               academy_id: 'olympiad',
@@ -15461,18 +15625,21 @@
         localStorage.setItem('rootmath_student_profile', JSON.stringify(studentProfile));
         syncUserToRemoteDB(studentProfile);
 
-        applyWhiteLabelBranding({
+        const ilwonBrandConfig = {
           is_whitelabel_active: true,
           academy_id: 'ilwon',
           academy_code: 'ILWON-2027',
-          academy_name: '일원 학원 (원장 직속)',
+          academy_name: '일원학원',
           academy_slogan: '일원 정규 재원생 VIP 무제한 클리닉',
           director_name: '원장 직속',
           director_phone: '02-555-7799',
           brand_theme: 'royal_purple',
           logo_text: '일원',
-          print_watermark: '일원 학원 공식 인증 수학 클리닉'
-        });
+          logo_img: ILWON_LOGO_BASE64,
+          print_watermark: '일원학원 공식 인증 수학 클리닉'
+        };
+        localStorage.setItem('rootmath_whitelabel_config', JSON.stringify(ilwonBrandConfig));
+        applyWhiteLabelBranding(ilwonBrandConfig);
 
         updateTeacherConnectionUI();
         updateUserProfileDisplay();
