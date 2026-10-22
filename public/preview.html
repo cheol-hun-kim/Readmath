@@ -760,6 +760,49 @@
       color: #DC2626 !important;
     }
 
+    /* Vault & Battle Lounge in Day Mode */
+    body.theme-day #view-vault {
+      color: #0F172A !important;
+    }
+    body.theme-day #view-vault h2,
+    body.theme-day #view-vault h3,
+    body.theme-day #view-vault h4 {
+      color: #0F172A !important;
+      font-weight: 800 !important;
+    }
+    body.theme-day #view-vault p {
+      color: #334155 !important;
+    }
+    body.theme-day #view-vault > div,
+    body.theme-day #vault-panel-concepts > div,
+    body.theme-day #vault-panel-exams > div,
+    body.theme-day #vault-panel-battle > div {
+      background-color: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+    }
+    body.theme-day #vault-concepts-list > div,
+    body.theme-day #vault-exams-list > div,
+    body.theme-day #vault-share-problems-list > div {
+      background-color: #F8FAFC !important;
+      border-color: #E2E8F0 !important;
+    }
+    body.theme-day #vault-concepts-list > div:hover,
+    body.theme-day #vault-exams-list > div:hover {
+      background-color: #FFFFFF !important;
+      border-color: #818CF8 !important;
+    }
+    body.theme-day #dag-problem-selector-container button {
+      background-color: #F1F5F9 !important;
+      border-color: #CBD5E1 !important;
+      color: #334155 !important;
+    }
+    body.theme-day #dag-problem-selector-container button.bg-indigo-600 {
+      background-color: #4F46E5 !important;
+      color: #FFFFFF !important;
+      border-color: #6366F1 !important;
+    }
+
     /* Typography in Day Mode */
     body.theme-day .text-white {
       color: #0F172A !important;
@@ -2172,7 +2215,7 @@
           </div>
         </div>
 
-        <!-- Bottom Actions (Decomposition, Chat, Share, Challenge & Teacher Question) -->
+        <!-- Bottom Actions (Pure Focus: Decomposition, Chat & Teacher Question) -->
         <div class="space-y-2 pt-1">
           <div class="grid grid-cols-2 gap-2">
             <button onclick="goToView('diagnosis')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition">
@@ -2182,18 +2225,7 @@
               <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i> 리드 쌤과 1:1 대화
             </button>
           </div>
-          <!-- Peer Referral Viral Actions (Strategy 1 & 3) -->
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="shareSolutionKakao()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold py-2.5 px-2 rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition">
-              <i data-lucide="share-2" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>시각화 해설 공유</span>
-            </button>
-            <button onclick="sendTwinChallenge()" class="bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 border border-indigo-500/40 font-bold py-2.5 px-2 rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition">
-              <i data-lucide="swords" class="w-3.5 h-3.5 text-indigo-400"></i>
-              <span>1:1 쌍둥이 대결 챌린지</span>
-            </button>
-          </div>
-          <button onclick="sendQuestionToTeacher()" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+          <button onclick="sendQuestionToTeacher()" class="w-full bg-slate-900 hover:bg-slate-850 text-amber-300 border border-amber-500/40 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
             <i data-lucide="send" class="w-3.5 h-3.5 text-amber-400"></i>
             <span>담당 선생님께 이 문제 질문 전송</span>
           </button>
@@ -2499,6 +2531,120 @@
           <!-- Right Column: Dynamic Report & Cognitive DNA Radar -->
           <div id="report-dynamic-container" class="space-y-3.5">
             <!-- Populated dynamically via updateReportView() -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 6-2. VAULT & BATTLE LOUNGE VIEW (내 보관함 & 배틀 라운지) ================= -->
+      <div id="view-vault" class="hidden space-y-3.5">
+        <!-- Top Nav & Header -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+          <div>
+            <h2 class="text-base md:text-lg font-black text-white flex items-center gap-2">
+              <i data-lucide="archive" class="w-5 h-5 text-indigo-400"></i>
+              <span>내 보관함 & 배틀 라운지</span>
+            </h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">나만을 위한 맞춤 개념서, AI 변형 시험지 & 1:1 쌍둥이 실시간 배틀</p>
+          </div>
+          <span id="vault-total-items-badge" class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2.5 py-1 rounded-xl shadow-xs">
+            보관 0건
+          </span>
+        </div>
+
+        <!-- 3 Sub-Tabs inside Vault -->
+        <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs gap-1">
+          <button onclick="switchVaultSubTab('concepts')" id="tab-vault-concepts" class="flex-1 py-2 font-bold rounded-lg transition bg-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <span>맞춤 개념서</span>
+          </button>
+          <button onclick="switchVaultSubTab('exams')" id="tab-vault-exams" class="flex-1 py-2 font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+            <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+            <span>맞춤 시험지</span>
+          </button>
+          <button onclick="switchVaultSubTab('battle')" id="tab-vault-battle" class="flex-1 py-2 font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+            <i data-lucide="swords" class="w-3.5 h-3.5"></i>
+            <span>1:1 쌍둥이 배틀</span>
+          </button>
+        </div>
+
+        <!-- VAULT SUB-PANEL 1: 맞춤 개념서 (나만을 위한 10분 개념 클리닉) -->
+        <div id="vault-panel-concepts" class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> 나의 결손 맞춤 개념서 컬렉션
+            </span>
+            <button onclick="openKnowledgeDagModal()" class="text-[11px] text-indigo-400 hover:text-indigo-300 font-bold hover:underline flex items-center gap-1">
+              <i data-lucide="git-branch" class="w-3 h-3"></i> 신경망 레이더에서 추가 생성
+            </button>
+          </div>
+          <div id="vault-concepts-list" class="space-y-3">
+            <!-- Populated dynamically via renderVaultConcepts() -->
+          </div>
+        </div>
+
+        <!-- VAULT SUB-PANEL 2: 맞춤 시험지 (AI 쌍둥이 변형문제 & 시험지/해설지) -->
+        <div id="vault-panel-exams" class="hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-400"></i> 나의 AI 쌍둥이 맞춤 시험지 & 해설지
+            </span>
+            <button onclick="openTwinProblemModal()" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-bold hover:underline flex items-center gap-1">
+              <i data-lucide="plus-circle" class="w-3 h-3"></i> 새 쌍둥이 시험지 생성
+            </button>
+          </div>
+          <div id="vault-exams-list" class="space-y-3">
+            <!-- Populated dynamically via renderVaultExams() -->
+          </div>
+        </div>
+
+        <!-- VAULT SUB-PANEL 3: 1:1 쌍둥이 실시간 배틀 & 시각 해설 공유 라운지 -->
+        <div id="vault-panel-battle" class="hidden space-y-3.5">
+          <!-- Live Battle Banner -->
+          <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-indigo-500/50 rounded-2xl p-4 md:p-5 space-y-3 shadow-lg">
+            <div class="flex items-center justify-between pb-2 border-b border-indigo-500/30">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                  <i data-lucide="swords" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs md:text-sm font-black text-white">실시간 1:1 쌍둥이 스피드 배틀</h3>
+                  <p class="text-[10px] text-slate-300">나와 친구 모두 처음 보는 취약점 문제가 동시 생성되어 먼저 푸는 사람이 승리!</p>
+                </div>
+              </div>
+              <span class="bg-purple-950 text-purple-300 border border-purple-500/40 text-[9px] font-extrabold px-2 py-0.5 rounded-full">실시간 매칭</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1">
+                <span class="text-[10.5px] text-amber-400 font-bold flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> 배틀 규칙</span>
+                <p class="text-[10px] text-slate-300 leading-relaxed">양측에 동일한 취약점 변형 문제가 3초 카운트다운 후 동시 공개됩니다. 계산 과정과 최종 정답을 먼저 맞히면 승리합니다.</p>
+              </div>
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1">
+                <span class="text-[10.5px] text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> 참가자 현황</span>
+                <p class="text-[10px] text-slate-300 leading-relaxed">플레이어 1: <strong class="text-white">나 (도전자)</strong> vs 플레이어 2: <strong class="text-purple-300">친구 초대 대기 중</strong></p>
+              </div>
+            </div>
+            <button onclick="startLiveTwinBattleGame()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-950/50 active:scale-95 transition">
+              <i data-lucide="swords" class="w-4 h-4"></i>
+              <span>1:1 쌍둥이 배틀 룸 생성 & 친구 초대하기</span>
+            </button>
+          </div>
+
+          <!-- Visual Solution Share Lounge -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                  <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">시각화 해설 공유 라운지</h4>
+                  <p class="text-[10px] text-slate-400">내가 푼 문제의 직관적 그래프 해설을 친구에게 1-Click 공유</p>
+                </div>
+              </div>
+            </div>
+            <div id="vault-share-problems-list" class="space-y-2">
+              <!-- Populated dynamically via renderVaultShareList() -->
+            </div>
           </div>
         </div>
       </div>
@@ -3037,6 +3183,11 @@
           <span class="text-[10px] font-bold">약점 리포트</span>
         </button>
 
+        <button onclick="goToView('vault')" id="tab-vault" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+          <i data-lucide="archive" class="w-5 h-5"></i>
+          <span class="text-[10px] font-bold">내 보관함</span>
+        </button>
+
         <button onclick="goToView('settings')" id="tab-settings" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
           <i data-lucide="settings" class="w-5 h-5"></i>
           <span class="text-[10px] font-bold">설정</span>
@@ -3429,19 +3580,32 @@
                 <i data-lucide="git-branch" class="w-4 h-4 text-purple-400"></i>
               </div>
               <div class="min-w-0">
-                <h3 class="text-sm font-extrabold text-white">수학 인지 DNA 신경망 지식그래프</h3>
-                <p class="text-[10px] text-slate-400">중3 -> 고1 -> 고2 -> 수능 킬러 개념 결손 역추적 진단</p>
+                <h3 class="text-sm font-extrabold text-white">수학 인지 DNA 취약 신경망 레이더</h3>
+                <p class="text-[10px] text-slate-400">각 문항별로 나의 결함이 어디서 어떻게 시작된 것인지 개별 역추적</p>
               </div>
             </div>
           </div>
 
           <div class="flex items-center gap-1 shrink-0">
             <button onclick="copyParentDagBriefingLink()" class="px-2 py-1 rounded-lg bg-indigo-950 hover:bg-indigo-900 text-indigo-300 text-[10px] font-bold transition border border-indigo-600/40 flex items-center gap-1" title="학부모 브리핑 요약 복사">
-              <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
+              <i data-lucide="share-2" class="w-3 h-3"></i> 브리핑 복사
             </button>
             <button onclick="closeModal('knowledge-dag')" class="p-1 text-slate-400 hover:text-white ml-1">
               <i data-lucide="x" class="w-5 h-5"></i>
             </button>
+          </div>
+        </div>
+
+        <!-- Problem Selector Bar: Choose which question to inspect individually -->
+        <div class="space-y-1.5 pb-1 shrink-0">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="text-slate-400 font-bold flex items-center gap-1">
+              <i data-lucide="layers" class="w-3 h-3 text-indigo-400"></i> 분석 대상 문항 선택:
+            </span>
+            <span class="text-[10px] text-indigo-400 font-semibold">문항별 개별 인지 결손 분석</span>
+          </div>
+          <div id="dag-problem-selector-container" class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
+            <!-- Populated dynamically via renderDagProblemSelector() -->
           </div>
         </div>
 
@@ -14716,7 +14880,7 @@
 
     // ================= NAVIGATION & MODALS =================
     function goToView(viewId) {
-      const views = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'settings', 'teacher'];
+      const views = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
       views.forEach(v => {
         const el = document.getElementById('view-' + v);
         if (el) el.classList.add('hidden');
@@ -14725,8 +14889,8 @@
       const target = document.getElementById('view-' + viewId);
       if (target) target.classList.remove('hidden');
 
-      // Update Bottom Nav Highlighting
-      const tabs = ['camera', 'history', 'report', 'settings'];
+      // Update Bottom Nav Highlighting (5 Tabs)
+      const tabs = ['camera', 'history', 'report', 'vault', 'settings'];
       tabs.forEach(t => {
         const tabEl = document.getElementById('tab-' + t);
         if (tabEl) {
@@ -14750,6 +14914,8 @@
         updateReportView();
       } else if (viewId === 'camera') {
         updateCameraHomeCards();
+      } else if (viewId === 'vault') {
+        renderVaultView();
       }
 
       document.getElementById('screen-container').scrollTop = 0;
@@ -15110,6 +15276,66 @@
       };
     }
 
+    function renderDagProblemSelector() {
+      const container = document.getElementById('dag-problem-selector-container');
+      if (!container) return;
+
+      const candidates = [];
+      const seenIds = new Set();
+
+      (userSolvedHistory || []).forEach(p => {
+        const numId = Number(p.id);
+        if (!seenIds.has(numId)) {
+          seenIds.add(numId);
+          candidates.push({ id: numId, title: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(p.title) : p.title), grade: p.curriculum_grade || '기출' });
+        }
+      });
+
+      const coreList = [
+        { id: 304, title: '미적분 30번 (역함수 미분 킬러)', grade: '고3' },
+        { id: 302, title: '공통 22번 (삼차함수 극값 추론)', grade: '고3' },
+        { id: 303, title: '확통 29번 (조건부확률 독립시행)', grade: '고3' },
+        { id: 3, title: '한양대 수리논술 (공간도형 삼각함수)', grade: '논술' },
+        { id: 6, title: '삼차함수 접선과 극값 (변곡점 대칭)', grade: '고2' },
+        { id: 2, title: '두 직선의 직교 조건과 기울기', grade: '고1' }
+      ];
+
+      coreList.forEach(c => {
+        if (!seenIds.has(c.id)) {
+          seenIds.add(c.id);
+          candidates.push(c);
+        }
+      });
+
+      const activeId = currentInspectedProblemId || 304;
+
+      container.innerHTML = candidates.map(c => {
+        const isActive = (c.id === activeId);
+        return `
+          <button type="button" onclick="switchDagInspectedProblem(${c.id})" class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold shrink-0 transition flex items-center gap-1.5 whitespace-nowrap ${isActive ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80'}">
+            <span class="text-[9px] px-1 py-0.2 rounded ${isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-900 text-indigo-300'}">${c.grade}</span>
+            <span>${c.title}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function switchDagInspectedProblem(pId) {
+      currentInspectedProblemId = Number(pId);
+      const diag = getCognitiveDiagnosisForProblem(currentInspectedProblemId);
+      currentSelectedNodeId = diag.deficitId || 'n6';
+
+      const viewport = document.getElementById('knowledge-dag-svg-viewport');
+      if (viewport) {
+        const dagData = buildCognitiveKnowledgeDagSvg(currentInspectedProblemId, currentSelectedNodeId, false);
+        viewport.innerHTML = dagData.svg;
+      }
+
+      renderDagProblemSelector();
+      inspectKnowledgeNode(currentSelectedNodeId);
+      if (window.lucide) lucide.createIcons();
+    }
+
     function openKnowledgeDagModal(pId, isStandby = false) {
       const isStandbyMode = isStandby || (pId === null) || (userSolvedHistory.length === 0 && pId === undefined && !currentProblemId);
       const targetPId = isStandbyMode ? null : (pId !== undefined && pId !== null ? Number(pId) : (currentProblemId || 304));
@@ -15129,8 +15355,10 @@
       if (viewport) {
         viewport.innerHTML = dagData.svg;
       }
+      renderDagProblemSelector();
       inspectKnowledgeNode(currentSelectedNodeId);
       openModal('knowledge-dag');
+      if (window.lucide) lucide.createIcons();
     }
 
     function inspectKnowledgeNode(nodeId, nodeName, nodeGrade) {
@@ -15205,6 +15433,64 @@
         `;
       }
 
+      // 3-Step Human Narrative Card: What broke, Why it broke, How to fix
+      let threeStepDiagnosisCard = '';
+      if (!isStandbyMode && diag) {
+        threeStepDiagnosisCard = `
+          <div class="bg-gradient-to-br from-indigo-950/60 via-slate-900 to-amber-950/40 border border-indigo-500/40 rounded-xl p-3 space-y-2.5 shadow-sm">
+            <div class="flex items-center justify-between border-b border-indigo-500/30 pb-1.5">
+              <span class="text-[11px] font-extrabold text-white flex items-center gap-1.5">
+                <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i> 이 문제를 틀린 진짜 이유 (인지 3단계 역추적)
+              </span>
+              <span class="text-[9.5px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold px-2 py-0.5 rounded-full">
+                ${diag.killerDifficulty || '킬러 문항'}
+              </span>
+            </div>
+
+            <div class="space-y-1.5 text-[10.5px]">
+              <!-- Step 1: Direct Deficit -->
+              <div class="flex items-start gap-2 bg-slate-950/80 p-2 rounded-lg border border-rose-500/30">
+                <span class="w-4 h-4 rounded-full bg-rose-500/20 text-rose-400 font-black text-[9px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <div>
+                  <strong class="text-rose-300">[결손 발생] ${diag.deficitTitle}</strong>
+                  <p class="text-slate-300 mt-0.5 leading-snug">${diag.deficitReason}</p>
+                </div>
+              </div>
+
+              <!-- Step 2: Root Cause Habit -->
+              <div class="flex items-start gap-2 bg-slate-950/80 p-2 rounded-lg border border-amber-500/30">
+                <span class="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 font-black text-[9px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <div>
+                  <strong class="text-amber-300">[선행 뿌리] ${(diag.upstreamChain && diag.upstreamChain.length) ? diag.upstreamChain[0] : '중학 연계 개념'}</strong>
+                  <p class="text-slate-300 mt-0.5 leading-snug">수식을 직관적 도형·그래프 개형으로 번역하지 않고 계산식으로만 풀려던 습관에서 비롯되었습니다.</p>
+                </div>
+              </div>
+
+              <!-- Step 3: Domino Threat & Remedy -->
+              <div class="flex items-start gap-2 bg-slate-950/80 p-2 rounded-lg border border-indigo-500/30">
+                <span class="w-4 h-4 rounded-full bg-indigo-500/20 text-indigo-400 font-black text-[9px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <div>
+                  <strong class="text-indigo-300">[도미노 파급 경고 & 즉각 처방]</strong>
+                  <p class="text-slate-300 mt-0.5 leading-snug">${diag.remedyTip}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 Direct Action Buttons: Create Concept & Create Exam Sheet into Vault -->
+            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80">
+              <button onclick="createCustomConceptForDeficit(${currentInspectedProblemId}, '${currentSelectedNodeId}')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-2 px-2 rounded-xl text-[10.5px] flex items-center justify-center gap-1 shadow-md shadow-indigo-600/30 active:scale-95 transition">
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                <span>📘 10분 개념서 생성 & 보관</span>
+              </button>
+              <button onclick="createCustomClinicExamForDeficit(${currentInspectedProblemId}, '${currentSelectedNodeId}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2 px-2 rounded-xl text-[10.5px] flex items-center justify-center gap-1 shadow-md shadow-emerald-600/30 active:scale-95 transition">
+                <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+                <span>📝 클리닉 시험지 생성 & 보관</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
       card.innerHTML = `
         <div class="flex items-center justify-between pb-1 border-b border-slate-800 gap-2">
           <div class="flex items-center gap-1.5 min-w-0">
@@ -15216,7 +15502,7 @@
 
         <p class="text-[10.5px] text-slate-300 leading-relaxed font-medium">${node.summary}</p>
 
-        ${extraDiagnosisHtml}
+        ${threeStepDiagnosisCard || extraDiagnosisHtml}
 
         <div class="grid grid-cols-2 gap-2 pt-1 text-[10px]">
           <div class="bg-slate-900/90 p-2 rounded-xl border border-slate-800 space-y-0.5">
@@ -18948,6 +19234,389 @@
 
       closeModal('exam-bounty');
       alert(`[시험지 제보 접수 완료]\n\n1. [의대관 시크릿 킬러 문항 팩 10제]가 즉시 해금되었습니다.\n2. [우리 학교 킬러 변형 족집게 모의고사 생성권 3회]가 충전되었습니다.\n3. [학교 기출 개척자] 칭호가 프로필에 반영되었습니다.\n\n소중한 학교 데이터 기여에 감사드립니다.`);
+    }
+
+
+    // ================= VAULT & BATTLE SYSTEM CONTROLLER =================
+    let userVaultConcepts = [];
+    let userVaultExams = [];
+
+    function initVaultStorage() {
+      try {
+        const storedC = localStorage.getItem('rootmath_vault_concepts');
+        userVaultConcepts = storedC ? JSON.parse(storedC) : [];
+        const storedE = localStorage.getItem('rootmath_vault_exams');
+        userVaultExams = storedE ? JSON.parse(storedE) : [];
+      } catch (e) {
+        userVaultConcepts = [];
+        userVaultExams = [];
+      }
+    }
+
+    function saveVaultStorage() {
+      try {
+        localStorage.setItem('rootmath_vault_concepts', JSON.stringify(userVaultConcepts));
+        localStorage.setItem('rootmath_vault_exams', JSON.stringify(userVaultExams));
+      } catch (e) {}
+      updateVaultBadge();
+    }
+
+    function updateVaultBadge() {
+      const totalCount = (userVaultConcepts.length || 0) + (userVaultExams.length || 0);
+      const badge = document.getElementById('vault-total-items-badge');
+      if (badge) badge.innerText = '보관 ' + totalCount + '건';
+    }
+
+    function switchVaultSubTab(tab) {
+      const tabs = ['concepts', 'exams', 'battle'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tab-vault-' + t);
+        const panel = document.getElementById('vault-panel-' + t);
+        if (btn) {
+          if (t === tab) {
+            btn.className = 'flex-1 py-2 font-bold rounded-lg transition bg-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5';
+          } else {
+            btn.className = 'flex-1 py-2 font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+          }
+        }
+        if (panel) {
+          if (t === tab) panel.classList.remove('hidden');
+          else panel.classList.add('hidden');
+        }
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderVaultView() {
+      initVaultStorage();
+      updateVaultBadge();
+      renderVaultConcepts();
+      renderVaultExams();
+      renderVaultShareList();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function createCustomConceptForDeficit(pId, nodeId) {
+      initVaultStorage();
+      const prob = PROBLEMS_DB[pId] || PROBLEMS_DB[304] || PROBLEMS_DB[1];
+      const diag = getCognitiveDiagnosisForProblem(pId);
+      const node = KNOWLEDGE_NODES_DATA[nodeId] || KNOWLEDGE_NODES_DATA[diag.deficitId] || KNOWLEDGE_NODES_DATA['n6'];
+
+      const newConcept = {
+        id: 'c_' + Date.now(),
+        problemId: pId,
+        nodeId: nodeId,
+        title: '[' + (node.grade || '고1') + ' 맞춤 개념서] ' + (node.name || '개념 클리닉') + ' 10분 마스터',
+        deficitTitle: diag.deficitTitle,
+        pillar: node.pillar,
+        grade: node.grade,
+        summary: node.summary,
+        drillTip: node.drillTip,
+        remedyTip: diag.remedyTip,
+        createdAt: new Date().toLocaleDateString('ko-KR'),
+        mastered: false
+      };
+
+      userVaultConcepts.unshift(newConcept);
+      saveVaultStorage();
+      alert('✓ [내 보관함]에 "' + newConcept.title + '"이(가) 저장되었습니다!\n\n[내 보관함] 탭의 [맞춤 개념서]에서 언제든지 시각화 원리를 복습할 수 있습니다.');
+      updateVaultBadge();
+    }
+
+    function createCustomClinicExamForDeficit(pId, nodeId) {
+      initVaultStorage();
+      const prob = PROBLEMS_DB[pId] || PROBLEMS_DB[304] || PROBLEMS_DB[1];
+      const diag = getCognitiveDiagnosisForProblem(pId);
+      const node = KNOWLEDGE_NODES_DATA[nodeId] || KNOWLEDGE_NODES_DATA[diag.deficitId] || KNOWLEDGE_NODES_DATA['n6'];
+
+      const newExam = {
+        id: 'e_' + Date.now(),
+        problemId: pId,
+        nodeId: nodeId,
+        title: '[1:1 결손 완치 시험지] ' + (node.name || '핵심 원리') + ' 극복 3제',
+        deficitTitle: diag.deficitTitle,
+        grade: prob.curriculum_grade || currentGrade,
+        questionCount: 3,
+        createdAt: new Date().toLocaleDateString('ko-KR'),
+        questions: [
+          {
+            qNum: 1,
+            title: (node.name || '개념') + ' 기본 시각화 확인',
+            text: '함수 $y = f(x)$의 그래프가 점 $(1, 3)$을 지날 때, 역함수 $y = f^{-1}(x)$의 그래프가 반드시 지나는 점의 좌표를 구하시오.',
+            ans: '$(3, 1)$',
+            tip: '$y = x$ 대칭 원리를 적용하여 $x$좌표와 $y$좌표를 맞바꿉니다.'
+          },
+          {
+            qNum: 2,
+            title: (node.name || '개념') + ' 심화 변형 문항',
+            text: '이차함수 $f(x) = x^2 - 4x + 5$ ($x \ge 2$)에 대하여 함수 $y = f(x)$와 역함수 $y = f^{-1}(x)$의 그래프가 만나는 두 점 사이의 거리를 구하시오.',
+            ans: '$\sqrt{2}$',
+            tip: '역함수와의 교점은 직선 $y = x$와의 교점과 일치합니다.'
+          },
+          {
+            qNum: 3,
+            title: (node.name || '개념') + ' 수능 실전 연계 문항',
+            text: '실수 전체의 집합에서 미분가능한 함수 $f(x)$의 역함수를 $g(x)$라 할 때, $f(2) = 5, f\'(2) = 3$이다. $g\'(5)$의 값을 구하시오.',
+            ans: '$\frac{1}{3}$',
+            tip: '역함수 미분법 공식 $(g\'(5) = \frac{1}{f\'(2)})$을 시각적 기울기로 해석합니다.'
+          }
+        ]
+      };
+
+      userVaultExams.unshift(newExam);
+      saveVaultStorage();
+      alert('✓ [내 보관함]에 "' + newExam.title + '"이(가) 저장되었습니다!\n\n[내 보관함] 탭의 [맞춤 시험지]에서 인쇄하거나 지금 바로 풀어볼 수 있습니다.');
+      updateVaultBadge();
+    }
+
+    function toggleConceptMastered(cId) {
+      initVaultStorage();
+      const item = userVaultConcepts.find(c => c.id === cId);
+      if (item) {
+        item.mastered = !item.mastered;
+        saveVaultStorage();
+        renderVaultConcepts();
+      }
+    }
+
+    function deleteVaultConcept(cId) {
+      if (!confirm('이 맞춤 개념서를 보관함에서 삭제하시겠습니까?')) return;
+      initVaultStorage();
+      userVaultConcepts = userVaultConcepts.filter(c => c.id !== cId);
+      saveVaultStorage();
+      renderVaultConcepts();
+    }
+
+    function deleteVaultExam(eId) {
+      if (!confirm('이 맞춤 시험지를 보관함에서 삭제하시겠습니까?')) return;
+      initVaultStorage();
+      userVaultExams = userVaultExams.filter(e => e.id !== eId);
+      saveVaultStorage();
+      renderVaultExams();
+    }
+
+    function renderVaultConcepts() {
+      const container = document.getElementById('vault-concepts-list');
+      if (!container) return;
+
+      if (!userVaultConcepts || userVaultConcepts.length === 0) {
+        container.innerHTML = `
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 text-center space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-950/80 border border-indigo-500/40 flex items-center justify-center mx-auto text-indigo-400">
+              <i data-lucide="book-open" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">보관된 맞춤 개념서가 아직 없습니다</h4>
+              <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+                신경망 레이더에서 나의 결손 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 나만을 위한 핵심 개념서가 이곳에 체계적으로 보관됩니다.
+              </p>
+            </div>
+            <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
+              <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
+              <span>신경망 레이더에서 첫 개념서 만들기</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = userVaultConcepts.map(c => `
+        <div class="bg-slate-900 border ${c.mastered ? 'border-emerald-500/50' : 'border-slate-800'} rounded-2xl p-4 space-y-2.5 shadow-sm transition hover:border-indigo-500/50">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-800/80 gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9.5px] font-bold px-2 py-0.5 rounded-full shrink-0">${c.grade} · ${c.pillar}</span>
+              <h4 class="text-xs font-black text-white truncate">${c.title}</h4>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button onclick="toggleConceptMastered('${c.id}')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold border transition flex items-center gap-1 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'}">
+                <i data-lucide="${c.mastered ? 'check-circle-2' : 'circle'}" class="w-3 h-3"></i>
+                <span>${c.mastered ? '복습 완료' : '미완료'}</span>
+              </button>
+              <button onclick="deleteVaultConcept('${c.id}')" class="p-1 text-slate-500 hover:text-red-400 transition" title="개념서 삭제">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed font-medium">${c.summary}</p>
+          <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-2.5 text-[10.5px] space-y-1">
+            <span class="text-amber-300 font-bold flex items-center gap-1">
+              <i data-lucide="compass" class="w-3 h-3 text-amber-400"></i> 왜 수능 킬러까지 연계되는가?
+            </span>
+            <p class="text-slate-200 leading-relaxed">${c.remedyTip}</p>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 저장일: ${c.createdAt}</span>
+            <span class="text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="sparkles" class="w-2.5 h-2.5"></i> 1:1 맞춤 제작</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderVaultExams() {
+      const container = document.getElementById('vault-exams-list');
+      if (!container) return;
+
+      if (!userVaultExams || userVaultExams.length === 0) {
+        container.innerHTML = `
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 text-center space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400">
+              <i data-lucide="file-check" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">보관된 맞춤 시험지가 아직 없습니다</h4>
+              <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+                신경망 레이더나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 결손을 완치하기 위한 맞춤 시험지가 보관됩니다.
+              </p>
+            </div>
+            <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>신경망에서 첫 맞춤 시험지 만들기</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = userVaultExams.map(e => `
+        <div class="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-4 space-y-3 shadow-sm transition">
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-800/80 gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold px-2 py-0.5 rounded-full shrink-0">${e.grade} · 총 ${e.questionCount}문항</span>
+              <h4 class="text-xs font-black text-white truncate">${e.title}</h4>
+            </div>
+            <button onclick="deleteVaultExam('${e.id}')" class="p-1 text-slate-500 hover:text-red-400 transition" title="시험지 삭제">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed font-medium">취약 결손 단원 [<strong>${e.deficitTitle}</strong>]을(를) 완벽히 극복하기 위해 AI가 단계별로 설계한 맞춤형 시험지입니다.</p>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="openInteractiveExamRunner('${e.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/30 transition">
+              <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              <span>▶️ 지금 풀기</span>
+            </button>
+            <button onclick="openPrintableExamModal('${e.id}')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-indigo-400"></i>
+              <span>🖨️ 시험지/해설지 인쇄</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderVaultShareList() {
+      const container = document.getElementById('vault-share-problems-list');
+      if (!container) return;
+
+      const items = (userSolvedHistory && userSolvedHistory.length > 0) ? userSolvedHistory.slice(0, 4) : [
+        PROBLEMS_DB[1], PROBLEMS_DB[2], PROBLEMS_DB[304]
+      ];
+
+      container.innerHTML = items.map(p => {
+        const pTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(p.title) : (p.title || '문제 풀이');
+        return `
+          <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-0.5">
+                <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9px] font-bold px-1.5 py-0.2 rounded">${p.curriculum_grade || currentGrade}</span>
+                <span class="text-xs font-bold text-white truncate">${pTitle}</span>
+              </div>
+              <p class="text-[10px] text-slate-400 truncate">${formatSnippetText(p.problem_text || '', 40)}</p>
+            </div>
+            <button onclick="copyVisualShareLink(${p.id})" class="px-2.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold rounded-lg transition shrink-0 flex items-center gap-1">
+              <i data-lucide="link" class="w-3 h-3"></i>
+              <span>해설 링크 복사</span>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copyVisualShareLink(pId) {
+      const shareUrl = window.location.origin + window.location.pathname + '?share=' + pId;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('✓ 친구에게 보낼 [시각화 해설 공유 링크]가 복사되었습니다!\n\n' + shareUrl);
+        }).catch(() => {
+          prompt('아래 공유 링크를 복사하여 친구에게 보내세요:', shareUrl);
+        });
+      } else {
+        prompt('아래 공유 링크를 복사하여 친구에게 보내세요:', shareUrl);
+      }
+    }
+
+    function openPrintableExamModal(eId) {
+      initVaultStorage();
+      const exam = userVaultExams.find(e => e.id === eId) || userVaultExams[0];
+      if (!exam) return;
+
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('팝업 차단이 감지되었습니다. 팝업을 허용해주세요.');
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${exam.title}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #111827; }
+            .header { border-bottom: 2px solid #111827; padding-bottom: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+            .title { font-size: 20px; font-weight: 900; }
+            .meta { font-size: 12px; color: #4B5563; }
+            .question-box { margin-bottom: 30px; page-break-inside: avoid; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; }
+            .q-header { font-size: 13px; font-weight: bold; color: #4338CA; margin-bottom: 8px; }
+            .q-text { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+            .solution-toggle { font-size: 12px; font-weight: bold; color: #047857; margin-top: 10px; border-top: 1px dashed #E5E7EB; padding-top: 8px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <div class="title">${exam.title}</div>
+              <div class="meta">리드매스(ReadMath) AI 맞춤 결손 완치 시험지 | 출제: ${exam.createdAt}</div>
+            </div>
+            <button class="no-print" onclick="window.print()" style="padding: 8px 16px; background: #4338CA; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">인쇄하기</button>
+          </div>
+          ${exam.questions.map(q => `
+            <div class="question-box">
+              <div class="q-header">문항 ${q.qNum}. ${q.title}</div>
+              <div class="q-text">${q.text}</div>
+              <div class="solution-toggle">
+                [정답 및 시각 해석 팁] 정답: ${q.ans} <br/>
+                풀이 원리: ${q.tip}
+              </div>
+            </div>
+          `).join('')}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
+    function openInteractiveExamRunner(eId) {
+      initVaultStorage();
+      const exam = userVaultExams.find(e => e.id === eId);
+      if (!exam) return;
+      alert('[맞춤 시험지 시작]\n\n"' + exam.title + '" (총 ' + exam.questionCount + '문항)\n\n지금부터 시험을 시작합니다. 각 문항의 시각적 원리를 점검하세요.');
+    }
+
+    function startLiveTwinBattleGame() {
+      const roomCode = 'BATTLE-' + Math.floor(1000 + Math.random() * 9000);
+      const inviteUrl = window.location.origin + window.location.pathname + '?battle=' + roomCode;
+      
+      const confirmBattle = confirm(`[1:1 쌍둥이 실시간 배틀 룸 생성 완료]\n\n배틀 룸 코드: ${roomCode}\n\n친구 초대 링크:\n${inviteUrl}\n\n지금 바로 배틀 시뮬레이션을 시작하시겠습니까?\n(확인을 누르면 3초 카운트다운 후 미지의 쌍둥이 문제가 공개됩니다!)`);
+      
+      if (!confirmBattle) return;
+
+      alert('3... 2... 1... START!\n\n[쌍둥이 실시간 배틀 문제]\n\n두 점 A(-1, 2)와 B(3, 4)를 잇는 선분의 수직이등분선의 방정식을 구하시오.\n\n(친구와 동시에 카운트다운 타이머가 작동 중입니다!)');
+      
+      const userAns = prompt('정답(기울기와 절편)을 입력하세요:');
+      if (userAns) {
+        alert('🎉 축하합니다! 상대보다 2.4초 빠르게 정답을 맞혀 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
+      }
     }
 
 </script>
