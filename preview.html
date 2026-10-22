@@ -323,14 +323,17 @@
       color: #0F172A !important; /* Crisp dark slate / black, NEVER white */
     }
 
-    /* 2. Slate text contrast normalization */
+    /* 2. Slate text contrast normalization: Inviolable Pitch Black Ink */
     body.theme-day .text-slate-100,
     body.theme-day .text-slate-200,
     body.theme-day .text-slate-300 {
-      color: #1E293B !important;
+      color: #0F172A !important; /* Pitch Black Ink, NEVER washed-out gray */
     }
     body.theme-day .text-slate-400 {
-      color: #334155 !important;
+      color: #1E293B !important; /* Deep Dark Charcoal */
+    }
+    body.theme-day .text-slate-500 {
+      color: #334155 !important; /* Legible Dark Slate */
     }
 
     /* 3. Strict 2-Tone Color Rule: Deep navy/blue point with warm orange accent. NEVER faint lavender! */
@@ -346,17 +349,23 @@
     body.theme-day .text-amber-300,
     body.theme-day .text-amber-400 {
       color: #92400E !important; /* Deep Warm Amber */
+      font-weight: 700 !important;
     }
 
-    /* 4. Concept formula box in Day Mode (Zero invisible text) */
+    /* 4. Concept formula box in Day Mode (Zero invisible text, Prominent Size) */
     body.theme-day .concept-formula-box,
     body.theme-day div.concept-formula-box {
       background-color: #F1F5F9 !important;
-      border: 1px solid #CBD5E1 !important;
+      border: 1.5px solid #CBD5E1 !important;
       color: #0F172A !important;
+      font-size: 1.05rem !important;
     }
     body.theme-day .concept-formula-box .katex,
     body.theme-day .concept-formula-box * {
+      color: #0F172A !important;
+    }
+    body.theme-day .katex,
+    body.theme-day .katex * {
       color: #0F172A !important;
     }
 
@@ -832,8 +841,9 @@
       color: #0F172A !important;
       font-weight: 800 !important;
     }
-    body.theme-day #view-vault p {
-      color: #334155 !important;
+    body.theme-day #view-vault p,
+    body.theme-day #view-vault li {
+      color: #0F172A !important;
     }
     body.theme-day #view-vault > div,
     body.theme-day #vault-panel-concepts > div,
@@ -865,32 +875,59 @@
       border-color: #6366F1 !important;
     }
 
-    /* Typography in Day Mode */
-    body.theme-day .text-white {
-      color: #0F172A !important;
-    }
+    /* Typography in Day Mode: High Contrast Ink Armor */
+    body.theme-day .text-white,
     body.theme-day .text-slate-100,
-    body.theme-day .text-slate-200 {
-      color: #1E293B !important;
-    }
+    body.theme-day .text-slate-200,
     body.theme-day .text-slate-300 {
-      color: #334155 !important;
+      color: #0F172A !important; /* Pitch Black Ink */
     }
     body.theme-day .text-slate-400 {
-      color: #64748B !important;
+      color: #1E293B !important; /* Deep Dark Charcoal */
     }
     body.theme-day .text-slate-500 {
-      color: #94A3B8 !important;
+      color: #334155 !important; /* Legible Dark Slate */
     }
     body.theme-day .text-indigo-200,
     body.theme-day .text-indigo-300,
     body.theme-day .text-indigo-400 {
-      color: #4338CA !important;
+      color: #1E1B4B !important; /* Deep Navy Point */
+      font-weight: 700 !important;
     }
     body.theme-day .text-amber-200,
     body.theme-day .text-amber-300,
     body.theme-day .text-amber-400 {
-      color: #B45309 !important;
+      color: #92400E !important; /* Deep Warm Amber Point */
+      font-weight: 700 !important;
+    }
+
+    /* Enhanced Concept Book & Card Typography */
+    #vault-concepts-list p,
+    #vault-concepts-list li {
+      font-size: 13.5px !important;
+      line-height: 1.65 !important;
+    }
+    #vault-concepts-list h4 {
+      font-size: 15.5px !important;
+      font-weight: 800 !important;
+    }
+    #vault-concepts-list .concept-formula-box {
+      font-size: 15.5px !important;
+      font-weight: 700 !important;
+      padding: 10px 14px !important;
+    }
+    body.theme-day #vault-concepts-list .concept-formula-box {
+      background-color: #F1F5F9 !important;
+      border: 1.5px solid #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.theme-day .grid [onclick*="openHistoryProblem"] {
+      background-color: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+    }
+    body.theme-day .grid [onclick*="openHistoryProblem"]:hover {
+      border-color: #6366F1 !important;
+      background-color: #F8FAFC !important;
     }
     body.theme-day .border-slate-800,
     body.theme-day .border-slate-700 {
@@ -9308,6 +9345,8 @@
         { regex: /\b(RCA)\b/g, replacement: '원인 분석' },
         { regex: /\b(B2B|B2C)\b/g, replacement: '교육 지원' },
         { regex: /\b(Database|DB|localStorage|sessionStorage)\b/gi, replacement: '학습 보관함' },
+        { regex: /(^|[^\\])\bright\s*\)/g, replacement: '$1)' },
+        { regex: /(^|[^\\])\bleft\s*\(/g, replacement: '$1(' },
         { regex: /\b(undefined|null|NaN)\b|\[object\s+Object\]/g, replacement: '' },
         { regex: /\b(console\.log|innerHTML|onClick|DOM)\b/g, replacement: '' },
         { regex: /대치동\s*1타/g, replacement: '수학 전문 멘토' },
@@ -9355,6 +9394,12 @@
         text = sanitizeMathObject(text);
       }
       let str = text.trim();
+
+      // 0. Protect & normalize canonical vertex coordinate and clean leaked LaTeX brackets
+      str = str.replace(/꼭짓점[\s\S]*?(?:최댓값|최솟값)[^\.\n]*[\.\n]?/g, () => '꼭짓점의 좌표: $V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)$에서 최댓값 또는 최솟값을 갖습니다.');
+      str = str.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
+      str = str.replace(/\\right\s*\)/g, (m, offset, full) => full.slice(0, offset).includes('\\left') ? '\\right)' : ')');
+      str = str.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
 
       // 0. Space normalization for control words (inside or outside math): \anglePBC -> \angle PBC, \sinX -> \sin X
       str = str.replace(/\\(angle|triangle|perp|parallel|sin|cos|tan|log|ln|lim|det)\s*([A-Za-z]{1,4})\b/g, '\\$1 $2');
@@ -9929,11 +9974,14 @@
         let formula = raw.replace(/^ParseError:\s*KaTeX parse error:[^:]*:\s*/i, '')
                          .replace(/^KaTeX parse error:[^:]*:\s*/i, '')
                          .trim();
+        formula = formula.replace(/^\.\.\.\s*/, '').replace(/\s*\.\.\.$/, '');
+        formula = formula.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
+        formula = formula.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
         const readable = (typeof stripMathDelimiters === 'function') 
           ? stripMathDelimiters(formula) 
           : formula.replace(/\\([a-zA-Z]+)/g, '$1');
         const span = document.createElement('span');
-        span.className = 'math-healed-symbol font-sans font-medium text-slate-800 dark:text-slate-200 tracking-normal';
+        span.className = 'math-healed-symbol font-sans font-bold text-slate-900 dark:text-slate-100 tracking-normal';
         span.textContent = readable;
         span.setAttribute('data-healed-math', 'true');
         errEl.replaceWith(span);
@@ -15155,18 +15203,18 @@
             </div>
             <div class="grid grid-cols-${recent.length > 1 ? '2' : '1'} gap-2.5 flex-1 items-stretch">
               ${recent.map(p => `
-                <div onclick="openHistoryProblem('${p.id}')" class="bg-slate-950/70 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-3 cursor-pointer transition flex flex-col justify-between group shadow-xs">
+                <div onclick="openHistoryProblem('${p.id}')" class="bg-slate-950/70 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-3.5 cursor-pointer transition flex flex-col justify-between group shadow-xs">
                   <div>
-                    <div class="flex items-center justify-between gap-1 mb-1.5">
-                      <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9.5px] font-bold px-1.5 py-0.5 rounded leading-none">${p.curriculum_grade || currentGrade}</span>
-                      <i data-lucide="chevron-right" class="w-3 h-3 text-slate-500 group-hover:text-indigo-400 transition shrink-0"></i>
+                    <div class="flex items-center justify-between gap-1 mb-2">
+                      <span class="bg-indigo-950 text-indigo-200 dark:text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2 py-0.5 rounded leading-none">${p.curriculum_grade || currentGrade}</span>
+                      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition shrink-0"></i>
                     </div>
-                    <p class="text-xs font-bold text-slate-200 line-clamp-1 group-hover:text-indigo-300 transition">${cleanProblemTitle(p.title)}</p>
-                    <p class="text-[10.5px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${formatSnippetText(p.problem_text, 44)}</p>
+                    <p class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition">${cleanProblemTitle(p.title)}</p>
+                    <p class="text-xs text-slate-800 dark:text-slate-300 mt-1.5 line-clamp-2 leading-relaxed font-medium">${formatSnippetText(p.problem_text, 44)}</p>
                   </div>
-                  <div class="pt-2 mt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400">
-                    <span class="flex items-center gap-1"><i data-lucide="sparkles" class="w-2.5 h-2.5 text-amber-400"></i> 해설 보기</span>
-                    <span class="text-indigo-400 font-semibold group-hover:underline">클릭 →</span>
+                  <div class="pt-2.5 mt-2.5 border-t border-slate-200 dark:border-slate-800/60 flex items-center justify-between text-xs">
+                    <span class="flex items-center gap-1.5 text-slate-900 dark:text-slate-100 font-extrabold"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> 해설 보기</span>
+                    <span class="text-indigo-700 dark:text-indigo-400 font-black group-hover:underline">클릭 →</span>
                   </div>
                 </div>
               `).join('')}
@@ -19812,6 +19860,12 @@
       if (typeof str !== 'string' || !str) return str || '';
       let res = str;
 
+      // 0. Protect & normalize canonical vertex coordinate and clean leaked LaTeX brackets
+      res = res.replace(/꼭짓점[\s\S]*?(?:최댓값|최솟값)[^\.\n]*[\.\n]?/g, () => '꼭짓점의 좌표: $V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)$에서 최댓값 또는 최솟값을 갖습니다.');
+      res = res.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
+      res = res.replace(/\\right\s*\)/g, (m, offset, full) => full.slice(0, offset).includes('\\left') ? '\\right)' : ')');
+      res = res.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
+
       // 1. Fix ASCII form-feed (\x0c) or unicode female symbol (♀) caused by \f -> form-feed
       res = res.replace(/([\x0c\u2640]|\\f)rac/g, '\\frac');
 
@@ -20092,16 +20146,16 @@
           if (Array.isArray(concepts)) {
             concepts.forEach(c => {
               if (c.title) c.title = universalMathSanitizer(c.title);
-              if (c.formula) c.formula = universalMathSanitizer(c.formula);
+              if (c.formula) c.formula = c.formula.replace(/\$/g, '').trim();
               if (Array.isArray(c.corePrinciples)) {
                 c.corePrinciples = c.corePrinciples.map(p => {
                   let cleaned = p;
-                  cleaned = cleaned.replace(/V\s*\$?\\left\$?\s*\(\s*-\s*\$?\\frac/g, 'V\\left(-\\frac');
-                  cleaned = cleaned.replace(/right\s*\)\s*\$?/g, '\\right)');
-                  cleaned = cleaned.replace(/\s*\\right\$\s*\)/g, '\\right)');
-                  cleaned = cleaned.replace(/\$\s*\\left\s*\$/g, '\\left');
-                  cleaned = cleaned.replace(/\$\s*\\right\s*\$/g, '\\right');
-                  cleaned = cleaned.replace(/(\\left\([^\$]*?)\$([^\$]*?)\$([^\$]*?\\right\))/g, '$1$2$3');
+                  if (cleaned.includes('꼭짓점') && (cleaned.includes('2a') || cleaned.includes('4a') || cleaned.includes('right') || cleaned.includes('left') || cleaned.includes('최댓값') || cleaned.includes('최솟값'))) {
+                    return '꼭짓점의 좌표: $V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)$에서 최댓값 또는 최솟값을 갖습니다.';
+                  }
+                  cleaned = cleaned.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
+                  cleaned = cleaned.replace(/\\right\s*\)/g, (m, offset, full) => full.slice(0, offset).includes('\\left') ? '\\right)' : ')');
+                  cleaned = cleaned.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
                   return autoFormatMathText(universalMathSanitizer(cleaned));
                 });
               }
@@ -20353,91 +20407,91 @@
         return `
           <div class="bg-slate-900 border ${c.mastered ? 'border-emerald-500/50' : 'border-slate-800'} rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm transition hover:border-indigo-500/40">
             <!-- Header Row -->
-            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80 gap-2">
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-slate-800/80 gap-2">
               <div class="flex items-center gap-2 min-w-0">
-                <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">${c.grade || '고1'} · ${c.pillar || '공통'}</span>
-                <h4 class="text-sm font-black text-white truncate">${c.title}</h4>
+                <span class="bg-indigo-950 text-indigo-200 dark:text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2.5 py-0.5 rounded-full shrink-0">${c.grade || '고1'} · ${c.pillar || '공통'}</span>
+                <h4 class="text-base font-black text-slate-900 dark:text-white truncate">${c.title}</h4>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="toggleConceptMastered('${c.id}')" class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold border transition flex items-center gap-1 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'}">
+                <button type="button" onclick="toggleConceptMastered('${c.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition flex items-center gap-1.5 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'}">
                   <i data-lucide="${c.mastered ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5"></i>
                   <span>${c.mastered ? '복습 완료' : '미완료'}</span>
                 </button>
-                <button type="button" onclick="deleteVaultConcept('${c.id}')" class="p-1 text-slate-500 hover:text-red-400 transition" title="개념서 삭제">
+                <button type="button" onclick="deleteVaultConcept('${c.id}')" class="p-1.5 text-slate-500 hover:text-red-400 transition" title="개념서 삭제">
                   <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
               </div>
             </div>
 
             <!-- 1. 핵심 개념 정의 및 인지 원리 -->
-            <div class="space-y-1.5">
-              <div class="flex items-center gap-1.5 text-indigo-400 font-extrabold text-xs">
-                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-indigo-950 dark:text-indigo-400 font-black text-sm">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
                 <span>1. 핵심 개념 정의 및 인지 원리</span>
               </div>
-              <p class="text-xs text-slate-200 leading-relaxed font-medium pl-1">${autoFormatMathText(universalMathSanitizer(c.summary || ''))}</p>
-              ${c.formula ? `<div class="concept-formula-box bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 text-center font-mono text-xs text-indigo-300">$$${universalMathSanitizer(c.formula)}$$</div>` : ''}
-              <ul class="space-y-1 pl-1 text-[11px] text-slate-300">
-                ${principles.map(p => `<li class="flex items-start gap-1.5"><span class="text-indigo-400 font-bold">•</span><span>${autoFormatMathText(universalMathSanitizer(p))}</span></li>`).join('')}
+              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 leading-relaxed font-semibold pl-1">${autoFormatMathText(universalMathSanitizer(c.summary || ''))}</p>
+              ${c.formula ? `<div class="concept-formula-box bg-slate-950 px-4 py-3 rounded-xl border border-slate-800 text-center font-mono text-base font-bold text-indigo-950 dark:text-indigo-300 my-2 shadow-xs">$$${c.formula.replace(/\$/g, '').trim()}$$</div>` : ''}
+              <ul class="space-y-1.5 pl-1 text-[13.5px] text-slate-900 dark:text-slate-100">
+                ${principles.map(p => `<li class="flex items-start gap-2"><span class="text-indigo-600 dark:text-indigo-400 font-black shrink-0 mt-0.5">•</span><span class="font-medium">${autoFormatMathText(universalMathSanitizer(p))}</span></li>`).join('')}
               </ul>
             </div>
 
             <!-- 2. 정확한 수학 시각화 그래프/기하 다이어그램 -->
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between text-xs">
-                <span class="flex items-center gap-1.5 text-amber-400 font-extrabold">
-                  <i data-lucide="line-chart" class="w-3.5 h-3.5"></i>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-sm">
+                <span class="flex items-center gap-2 text-amber-900 dark:text-amber-400 font-black">
+                  <i data-lucide="line-chart" class="w-4 h-4"></i>
                   <span>2. 수학 시각화 정밀 다이어그램</span>
                 </span>
-                <span class="text-[9.5px] text-slate-400">오차 없는 데카르트 좌표계</span>
+                <span class="text-xs text-slate-700 dark:text-slate-400 font-medium">오차 없는 데카르트 좌표계</span>
               </div>
-              <div class="rounded-xl overflow-hidden border border-slate-800 p-1 shadow-inner bg-slate-950">
+              <div class="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-800 p-1.5 shadow-inner bg-slate-950">
                 ${renderSvg}
               </div>
             </div>
 
             <!-- 3. 수능·내신 킬러 연결 고리 & 왜 막히는가? -->
-            <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-3 text-[11px] space-y-1.5">
-              <span class="text-amber-300 font-extrabold flex items-center gap-1.5 text-xs">
-                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-400"></i>
+            <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-500/30 rounded-xl p-3.5 space-y-2">
+              <div class="text-amber-900 dark:text-amber-300 font-black flex items-center gap-2 text-sm">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
                 <span>3. 수능 킬러 연계 분석: 상위권도 여기서 막히는 이유</span>
               </div>
-              <p class="text-slate-200 leading-relaxed font-medium">${autoFormatMathText(universalMathSanitizer(c.killerConnection || c.remedyTip || ''))}</p>
+              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 leading-relaxed font-medium">${autoFormatMathText(universalMathSanitizer(c.killerConnection || c.remedyTip || ''))}</p>
             </div>
 
             <!-- 4. 실전 3대 마스터 행동 강령 -->
-            <div class="bg-indigo-950/20 border border-indigo-500/30 rounded-xl p-3 text-[11px] space-y-1.5">
-              <span class="text-indigo-300 font-extrabold flex items-center gap-1.5 text-xs">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 rounded-xl p-3.5 space-y-2">
+              <div class="text-indigo-950 dark:text-indigo-300 font-black flex items-center gap-2 text-sm">
+                <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
                 <span>4. 실전 3대 마스터 행동 강령</span>
               </div>
-              <ul class="space-y-1 text-slate-200 font-medium">
-                ${rules.map(r => `<li class="flex items-start gap-1.5"><span class="text-indigo-400 font-black">✓</span><span>${autoFormatMathText(universalMathSanitizer(r))}</span></li>`).join('')}
+              <ul class="space-y-1.5 text-[13.5px] text-slate-900 dark:text-slate-100 font-medium">
+                ${rules.map(r => `<li class="flex items-start gap-2"><span class="text-indigo-600 dark:text-indigo-400 font-black shrink-0 mt-0.5">✓</span><span>${autoFormatMathText(universalMathSanitizer(r))}</span></li>`).join('')}
               </ul>
             </div>
 
             <!-- 5. 1:1 클리닉 확인 예제 & 자가 점검 -->
-            <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 text-[11px] space-y-2">
+            <div class="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 space-y-2.5">
               <div class="flex items-center justify-between">
-                <span class="text-white font-extrabold flex items-center gap-1.5 text-xs">
-                  <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span class="text-slate-900 dark:text-white font-black flex items-center gap-2 text-sm">
+                  <i data-lucide="check-square" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                   <span>5. 1:1 클리닉 자가 진단 예제</span>
                 </span>
-                <button type="button" onclick="document.getElementById('concept-ex-sol-${idx}').classList.toggle('hidden')" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold underline cursor-pointer">
+                <button type="button" onclick="document.getElementById('concept-ex-sol-${idx}').classList.toggle('hidden')" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-bold cursor-pointer">
                   풀이 확인 / 접기
                 </button>
               </div>
-              <p class="text-slate-200 font-medium leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.question || ''))}</p>
-              <div id="concept-ex-sol-${idx}" class="hidden pt-2 border-t border-slate-800/80 space-y-1 text-[10.5px]">
-                <div class="text-emerald-400 font-bold">정답: ${autoFormatMathText(universalMathSanitizer(ex.answer || ''))}</div>
-                <p class="text-slate-300 leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.solution || ''))}</p>
+              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 font-semibold leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.question || ''))}</p>
+              <div id="concept-ex-sol-${idx}" class="hidden pt-2.5 border-t border-slate-300 dark:border-slate-800/80 space-y-1.5 text-[13px]">
+                <div class="text-emerald-700 dark:text-emerald-400 font-bold">정답: ${autoFormatMathText(universalMathSanitizer(ex.answer || ''))}</div>
+                <p class="text-slate-900 dark:text-slate-200 leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.solution || ''))}</p>
               </div>
             </div>
 
             <!-- Footer Meta -->
-            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800/60">
-              <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 생성일: ${c.createdAt}</span>
-              <span class="text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> 리드매스 1:1 인지 특화 개념서</span>
+            <div class="flex items-center justify-between text-xs text-slate-700 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800/60">
+              <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 생성일: ${c.createdAt}</span>
+              <span class="text-indigo-700 dark:text-indigo-400 font-extrabold flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> 리드매스 1:1 인지 특화 개념서</span>
             </div>
           </div>
         `;
