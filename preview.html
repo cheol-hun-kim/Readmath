@@ -309,6 +309,79 @@
       border-color: #E2E8F0 !important;
     }
 
+    /* ================= UNIVERSAL INVIOLABLE DAY MODE CONTRAST ARMOR ================= */
+    /* 1. Eliminate White-on-White text completely */
+    body.theme-day .text-white,
+    body.theme-day [class*="text-white"],
+    body.theme-day strong.text-white,
+    body.theme-day span.text-white,
+    body.theme-day h1.text-white,
+    body.theme-day h2.text-white,
+    body.theme-day h3.text-white,
+    body.theme-day h4.text-white,
+    body.theme-day p.text-white {
+      color: #0F172A !important; /* Crisp dark slate / black, NEVER white */
+    }
+
+    /* 2. Slate text contrast normalization */
+    body.theme-day .text-slate-100,
+    body.theme-day .text-slate-200,
+    body.theme-day .text-slate-300 {
+      color: #1E293B !important;
+    }
+    body.theme-day .text-slate-400 {
+      color: #334155 !important;
+    }
+
+    /* 3. Strict 2-Tone Color Rule: Deep navy/blue point with warm orange accent. NEVER faint lavender! */
+    body.theme-day .text-indigo-300,
+    body.theme-day .text-indigo-400,
+    body.theme-day .text-purple-300,
+    body.theme-day .text-purple-400,
+    body.theme-day [class*="text-indigo-300"],
+    body.theme-day [class*="text-purple-300"] {
+      color: #1E1B4B !important; /* Deep Navy, 100% sharp contrast on light background */
+      font-weight: 700 !important;
+    }
+    body.theme-day .text-amber-300,
+    body.theme-day .text-amber-400 {
+      color: #92400E !important; /* Deep Warm Amber */
+    }
+
+    /* 4. Concept formula box in Day Mode (Zero invisible text) */
+    body.theme-day .concept-formula-box,
+    body.theme-day div.concept-formula-box {
+      background-color: #F1F5F9 !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+    body.theme-day .concept-formula-box .katex,
+    body.theme-day .concept-formula-box * {
+      color: #0F172A !important;
+    }
+
+    /* 5. 1:1 Twin Battle Card in Day Mode */
+    body.theme-day #vault-panel-battle .bg-gradient-to-br {
+      background-image: none !important;
+      background-color: #FFFFFF !important;
+      border: 1.5px solid #C7D2FE !important;
+    }
+    body.theme-day #vault-panel-battle [class*="bg-slate-950"] {
+      background-color: #F8FAFC !important;
+      border: 1px solid #E2E8F0 !important;
+    }
+    body.theme-day #vault-panel-battle strong.text-white {
+      color: #0F172A !important;
+    }
+    body.theme-day #vault-panel-battle strong.text-indigo-400,
+    body.theme-day #vault-panel-battle strong.text-purple-300 {
+      color: #312E81 !important; /* Deep Indigo Navy, NEVER faint lavender */
+      font-weight: 800 !important;
+    }
+    body.theme-day #vault-panel-battle p.text-slate-300 {
+      color: #334155 !important;
+    }
+
     /* Drop-zone camera upload box in Day Mode */
     body.theme-day #drop-zone {
       background-color: #FFFFFF !important;
@@ -2865,7 +2938,7 @@
               </div>
               <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-1">
                 <span class="text-[10.5px] text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> 참가자 현황</span>
-                <p class="text-[10px] text-slate-300 leading-relaxed">플레이어 1: <strong class="text-white">나 (도전자)</strong> vs 플레이어 2: <strong class="text-purple-300">친구 초대 대기 중</strong></p>
+                <p class="text-[10px] text-slate-300 leading-relaxed">플레이어 1: <strong class="text-white">나 (도전자)</strong> vs 플레이어 2: <strong class="text-indigo-400 font-bold">친구 초대 대기 중</strong></p>
               </div>
             </div>
             <button onclick="startLiveTwinBattleGame()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-950/50 active:scale-95 transition">
@@ -9358,6 +9431,9 @@
 
       // 1. Pre-pass Environments outside math: Wrap whole \begin{env}...\end{env} in display math $$...$$
       str = replaceOutsideMath(str, /(\\begin\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\}[\s\S]*?\\end\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\})/g, (m) => ' $$' + m.trim() + '$$ ');
+
+      // 1.5 Pre-pass Coordinate & Delimited Brackets \left( ... \right) outside math
+      str = replaceOutsideMath(str, /([A-Za-z]?\s*\\left\([\s\S]*?\\right\))/g, function(m) { return ' $' + m.trim() + '$ '; });
 
       // 2. Pre-pass Fractions, Roots, and Overlines outside math (to protect nested \sin, \cos etc.)
       str = replaceOutsideMath(str, /(\\frac\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
@@ -20018,7 +20094,16 @@
               if (c.title) c.title = universalMathSanitizer(c.title);
               if (c.formula) c.formula = universalMathSanitizer(c.formula);
               if (Array.isArray(c.corePrinciples)) {
-                c.corePrinciples = c.corePrinciples.map(p => universalMathSanitizer(p));
+                c.corePrinciples = c.corePrinciples.map(p => {
+                  let cleaned = p;
+                  cleaned = cleaned.replace(/V\s*\$?\\left\$?\s*\(\s*-\s*\$?\\frac/g, 'V\\left(-\\frac');
+                  cleaned = cleaned.replace(/right\s*\)\s*\$?/g, '\\right)');
+                  cleaned = cleaned.replace(/\s*\\right\$\s*\)/g, '\\right)');
+                  cleaned = cleaned.replace(/\$\s*\\left\s*\$/g, '\\left');
+                  cleaned = cleaned.replace(/\$\s*\\right\s*\$/g, '\\right');
+                  cleaned = cleaned.replace(/(\\left\([^\$]*?)\$([^\$]*?)\$([^\$]*?\\right\))/g, '$1$2$3');
+                  return autoFormatMathText(universalMathSanitizer(cleaned));
+                });
               }
               if (c.practiceExample) {
                 c.practiceExample.question = universalMathSanitizer(c.practiceExample.question);
@@ -20291,7 +20376,7 @@
                 <span>1. 핵심 개념 정의 및 인지 원리</span>
               </div>
               <p class="text-xs text-slate-200 leading-relaxed font-medium pl-1">${autoFormatMathText(universalMathSanitizer(c.summary || ''))}</p>
-              ${c.formula ? `<div class="bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 text-center font-mono text-xs text-indigo-300">$$${universalMathSanitizer(c.formula)}$$</div>` : ''}
+              ${c.formula ? `<div class="concept-formula-box bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 text-center font-mono text-xs text-indigo-300">$$${universalMathSanitizer(c.formula)}$$</div>` : ''}
               <ul class="space-y-1 pl-1 text-[11px] text-slate-300">
                 ${principles.map(p => `<li class="flex items-start gap-1.5"><span class="text-indigo-400 font-bold">•</span><span>${autoFormatMathText(universalMathSanitizer(p))}</span></li>`).join('')}
               </ul>
@@ -20467,60 +20552,416 @@
         return;
       }
 
+      const rawGrade = exam.grade || '고1';
+      const cleanGrade = rawGrade.replace(/[^0-9고중초N수]/g, '').trim() || '고1';
+      const questions = Array.isArray(exam.questions) ? exam.questions : [];
+
+      function getChoicesHtml(q) {
+        if (q.options && q.options.length === 5) {
+          return `
+            <div class="mock-choices-row">
+              <span>① ${q.options[0]}</span>
+              <span>② ${q.options[1]}</span>
+              <span>③ ${q.options[2]}</span>
+              <span>④ ${q.options[3]}</span>
+              <span>⑤ ${q.options[4]}</span>
+            </div>`;
+        }
+        let choices = [];
+        const ans = q.ans || '';
+        if (ans.includes('(3, 1)')) {
+          choices = ['$(1, 3)$', '$(3, 1)$', '$(-1, 3)$', '$(3, -1)$', '$(1, -3)$'];
+        } else if (ans.includes('\\sqrt{2}')) {
+          choices = ['$1$', '$\\sqrt{2}$', '$2$', '$2\\sqrt{2}$', '$4$'];
+        } else if (ans.includes('\\frac{1}{3}')) {
+          choices = ['$\\frac{1}{6}$', '$\\frac{1}{3}$', '$\\frac{1}{2}$', '$\\frac{2}{3}$', '$1$'];
+        } else if (ans.includes('k = 5')) {
+          choices = ['$1$', '$3$', '$5$', '$7$', '$9$'];
+        } else if (ans.includes('k = 35')) {
+          choices = ['$25$', '$30$', '$35$', '$40$', '$45$'];
+        } else if (ans.includes('k = 2')) {
+          choices = ['$-1$', '$0$', '$1$', '$2$', '$3$'];
+        } else if (ans.includes('a = 7')) {
+          choices = ['$3$', '$5$', '$7$', '$9$', '$11$'];
+        }
+
+        if (choices.length === 5) {
+          return `
+            <div class="mock-choices-row">
+              <span>① ${choices[0]}</span>
+              <span>② ${choices[1]}</span>
+              <span>③ ${choices[2]}</span>
+              <span>④ ${choices[3]}</span>
+              <span>⑤ ${choices[4]}</span>
+            </div>`;
+        }
+
+        return `
+          <div class="mock-subjective-box">
+            <span>【 답안 작성란 】</span>
+            <span class="sub-dot-line"></span>
+          </div>`;
+      }
+
+      function renderQuestionItem(q) {
+        const cleanText = autoFormatMathText(universalMathSanitizer(q.text || ''));
+        const points = q.points || (q.qNum <= 3 ? 3 : 4);
+        return `
+          <div class="mock-question-item">
+            <div class="mock-q-body">
+              <span class="mock-q-num">${q.qNum}.</span>
+              <span class="mock-q-text">${cleanText}</span>
+              <span class="mock-q-score">[${points}점]</span>
+            </div>
+            ${getChoicesHtml(q)}
+          </div>
+        `;
+      }
+
+      // Pagination: 4 questions per page (2 in left col, 2 in right col)
+      const PAGE_SIZE = 4;
+      const totalPages = Math.ceil(questions.length / PAGE_SIZE) || 1;
+      const pagesHtml = [];
+
+      for (let p = 0; p < totalPages; p++) {
+        const pageQs = questions.slice(p * PAGE_SIZE, (p + 1) * PAGE_SIZE);
+        const mid = Math.ceil(pageQs.length / 2);
+        const leftCols = pageQs.slice(0, mid);
+        const rightCols = pageQs.slice(mid);
+        const pageNum = p + 1;
+
+        pagesHtml.push(`
+          <div class="exam-sheet-page" ${p > 0 ? 'style="page-break-before: always; margin-top: 24px;"' : ''}>
+            <div class="mock-header">
+              <div class="mock-grade-oval">${cleanGrade}</div>
+              <div class="mock-subject-title">수  학  영  역</div>
+              <div class="mock-page-num">${pageNum}</div>
+            </div>
+            <div class="mock-double-rule"></div>
+
+            <div class="mock-two-columns">
+              <div class="mock-col">
+                ${leftCols.map(renderQuestionItem).join('')}
+              </div>
+              <div class="mock-col-divider"></div>
+              <div class="mock-col">
+                ${rightCols.map(renderQuestionItem).join('')}
+              </div>
+            </div>
+
+            <div class="mock-footer">
+              <span>리드매스(ReadMath) 인지 결손 완치 모의평가</span>
+              <span>${exam.title} | 발행일: ${exam.createdAt} | (${pageNum}/${totalPages})</span>
+            </div>
+          </div>
+        `);
+      }
+
+      // Solution Booklet (정답 및 해설지)
+      const solMid = Math.ceil(questions.length / 2);
+      const leftSol = questions.slice(0, solMid);
+      const rightSol = questions.slice(solMid);
+
+      const solutionHtml = `
+        <div class="solution-page-wrapper exam-solution-page">
+          <div class="mock-header">
+            <div class="mock-grade-oval">${cleanGrade}</div>
+            <div class="mock-subject-title">정  답  및  해  설</div>
+            <div class="mock-page-num">해설</div>
+          </div>
+          <div class="mock-double-rule"></div>
+
+          <div class="mock-two-columns">
+            <div class="mock-col">
+              ${leftSol.map(q => {
+                const cAns = autoFormatMathText(universalMathSanitizer(q.ans || ''));
+                const cTip = autoFormatMathText(universalMathSanitizer(q.tip || ''));
+                return `
+                  <div class="solution-item">
+                    <div class="solution-header-bar">
+                      <span class="sol-q-title">문항 ${q.qNum}. ${q.title || '문항 해설'}</span>
+                      <span class="sol-ans-pill">정답: ${cAns}</span>
+                    </div>
+                    <div class="sol-principle-text">
+                      <strong>[해설 원리 및 인지 결손 극복]</strong><br/>
+                      ${cTip}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+            <div class="mock-col-divider"></div>
+            <div class="mock-col">
+              ${rightSol.map(q => {
+                const cAns = autoFormatMathText(universalMathSanitizer(q.ans || ''));
+                const cTip = autoFormatMathText(universalMathSanitizer(q.tip || ''));
+                return `
+                  <div class="solution-item">
+                    <div class="solution-header-bar">
+                      <span class="sol-q-title">문항 ${q.qNum}. ${q.title || '문항 해설'}</span>
+                      <span class="sol-ans-pill">정답: ${cAns}</span>
+                    </div>
+                    <div class="sol-principle-text">
+                      <strong>[해설 원리 및 인지 결손 극복]</strong><br/>
+                      ${cTip}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
       printWindow.document.write(`
         <!DOCTYPE html>
         <html lang="ko">
         <head>
           <meta charset="UTF-8">
-          <title>${exam.title}</title>
+          <title>${exam.title} - 리드매스 전국 표준 모의고사 시험지</title>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
           ${'<' + 'script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js">' + '<' + '/script>'}
           ${'<' + 'script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js">' + '<' + '/script>'}
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', Roboto, sans-serif; padding: 36px 40px; color: #0F172A; line-height: 1.6; max-width: 860px; margin: 0 auto; background: #fff; }
-            .header { border-bottom: 2px solid #0F172A; padding-bottom: 14px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .title { font-size: 20px; font-weight: 900; color: #0F172A; letter-spacing: -0.5px; }
-            .meta { font-size: 12px; color: #64748B; font-weight: 600; margin-top: 4px; }
-            .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
-            .question-box { margin-bottom: 24px; page-break-inside: avoid; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 20px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-            .q-header { font-size: 14px; font-weight: 800; color: #1E293B; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px; }
-            .q-text { font-size: 14px; line-height: 1.8; margin-bottom: 14px; color: #1E293B; }
-            .solution-toggle { font-size: 12.5px; font-weight: 500; color: #0F172A; margin-top: 12px; border-top: 1px dashed #CBD5E1; padding-top: 10px; background: #F8FAFC; border-radius: 8px; padding: 10px 14px; }
-            .solution-toggle strong { color: #047857; font-weight: 800; }
+            @page {
+              size: A4 portrait;
+              margin: 14mm 12mm 14mm 12mm;
+            }
+            * {
+              box-sizing: border-box;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            body {
+              font-family: 'Batang', 'Times New Roman', -apple-system, BlinkMacSystemFont, 'Pretendard', serif;
+              color: #000000;
+              background-color: #FFFFFF;
+              margin: 0;
+              padding: 20px 24px;
+              line-height: 1.55;
+            }
+
+            /* Screen-only top action bar */
+            .screen-action-bar {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #0F172A;
+              color: #FFFFFF;
+              padding: 10px 18px;
+              border-radius: 12px;
+              margin-bottom: 24px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+            }
+            .screen-action-bar button {
+              background: #4338CA;
+              color: white;
+              border: none;
+              padding: 8px 16px;
+              border-radius: 8px;
+              font-weight: 800;
+              font-size: 13px;
+              cursor: pointer;
+            }
+
             @media print {
               .no-print { display: none !important; }
               body { padding: 0; }
-              .question-box { border-color: #CBD5E1; box-shadow: none; }
+              .exam-sheet-page { page-break-after: always; }
+              .exam-solution-page { page-break-before: always; }
+            }
+
+            /* Authentic Korean Mock Exam Header */
+            .mock-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+              padding-bottom: 4px;
+              position: relative;
+            }
+            .mock-grade-oval {
+              border: 1.8px solid #000000;
+              border-radius: 9999px;
+              padding: 2px 14px;
+              font-size: 16px;
+              font-weight: 900;
+              letter-spacing: 2px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+              line-height: 1.2;
+            }
+            .mock-subject-title {
+              font-size: 26px;
+              font-weight: 900;
+              letter-spacing: 16px;
+              margin-left: 16px;
+              text-align: center;
+              flex: 1;
+            }
+            .mock-page-num {
+              font-size: 26px;
+              font-weight: 900;
+              font-family: 'Times New Roman', serif;
+              width: 45px;
+              text-align: right;
+            }
+
+            /* Iconic Mock Exam Double Rule */
+            .mock-double-rule {
+              border-top: 2.5px solid #000000;
+              border-bottom: 0.8px solid #000000;
+              height: 4px;
+              margin-top: 6px;
+              margin-bottom: 20px;
+            }
+
+            /* Two-Column Mock Exam Grid */
+            .mock-two-columns {
+              display: flex;
+              gap: 28px;
+              min-height: 780px;
+            }
+            .mock-col {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              gap: 36px;
+            }
+            .mock-col-divider {
+              width: 0.8px;
+              background-color: #000000;
+              align-self: stretch;
+            }
+
+            /* Question Formatting */
+            .mock-question-item {
+              page-break-inside: avoid;
+              break-inside: avoid;
+            }
+            .mock-q-body {
+              font-size: 13.5px;
+              line-height: 1.75;
+              text-align: justify;
+            }
+            .mock-q-num {
+              font-size: 14.5px;
+              font-weight: 900;
+              margin-right: 4px;
+            }
+            .mock-q-text {
+              font-weight: 500;
+            }
+            .mock-q-score {
+              font-weight: 800;
+              font-size: 12.5px;
+              margin-left: 6px;
+              letter-spacing: -0.5px;
+            }
+
+            /* 5 Multiple Choice Options Row */
+            .mock-choices-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 14px;
+              padding: 0 4px;
+              font-size: 12.5px;
+              font-weight: 500;
+            }
+            .mock-choices-row span {
+              display: inline-flex;
+              align-items: center;
+              gap: 3px;
+            }
+
+            /* Subjective Answer Blank */
+            .mock-subjective-box {
+              margin-top: 14px;
+              border: 1px dashed #475569;
+              border-radius: 4px;
+              padding: 8px 12px;
+              font-size: 12px;
+              color: #334155;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background-color: #FAFAFA;
+            }
+            .sub-dot-line {
+              border-bottom: 1px dotted #94A3B8;
+              width: 140px;
+              height: 12px;
+            }
+
+            /* Footer meta */
+            .mock-footer {
+              margin-top: 36px;
+              padding-top: 8px;
+              border-top: 0.8px solid #CBD5E1;
+              display: flex;
+              justify-content: space-between;
+              font-size: 11px;
+              color: #64748B;
+              font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+            }
+
+            /* Solution Section */
+            .solution-page-wrapper {
+              margin-top: 36px;
+              page-break-before: always;
+            }
+            .solution-item {
+              page-break-inside: avoid;
+              break-inside: avoid;
+              border: 1px solid #E2E8F0;
+              border-radius: 8px;
+              padding: 12px 14px;
+              background: #FAFAFA;
+            }
+            .solution-header-bar {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: 1px solid #E2E8F0;
+              padding-bottom: 6px;
+              margin-bottom: 8px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+            }
+            .sol-q-title {
+              font-size: 13px;
+              font-weight: 800;
+              color: #0F172A;
+            }
+            .sol-ans-pill {
+              background: #0F172A;
+              color: #FFFFFF;
+              padding: 2px 10px;
+              border-radius: 9999px;
+              font-size: 12px;
+              font-weight: 800;
+            }
+            .sol-principle-text {
+              font-size: 12.5px;
+              line-height: 1.7;
+              color: #1E293B;
             }
           </style>
         </head>
         <body>
-          <div class="header">
+          <!-- Action Bar -->
+          <div class="screen-action-bar no-print">
             <div>
-              <span class="badge">${exam.grade} 1:1 맞춤 클리닉</span>
-              <div class="title" style="margin-top: 6px;">${exam.title}</div>
-              <div class="meta">리드매스(ReadMath) 인지 결손 완치 시험지 | 출제: ${exam.createdAt} | 총 ${exam.questionCount}문항</div>
+              <strong>리드매스 전국 표준 모의고사 시험지</strong>
+              <span style="font-size: 12px; color: #94A3B8; margin-left: 8px;">${exam.title} (${cleanGrade})</span>
             </div>
-            <button class="no-print" onclick="window.print()" style="padding: 9px 18px; background: #4338CA; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; box-shadow: 0 2px 4px rgba(67, 56, 202, 0.2);">🖨️ 인쇄하기</button>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="window.print()">🖨️ 인쇄하기 (A4/B4 모의고사 규격)</button>
+              <button onclick="window.close()" style="background: #334155;">닫기</button>
+            </div>
           </div>
 
-          ${exam.questions.map(q => {
-            const cleanText = autoFormatMathText(universalMathSanitizer(q.text));
-            const cleanAns = autoFormatMathText(universalMathSanitizer(q.ans));
-            const cleanTip = autoFormatMathText(universalMathSanitizer(q.tip));
-            return `
-            <div class="question-box">
-              <div class="q-header">
-                <span>문항 ${q.qNum}. ${q.title}</span>
-                <span style="font-size: 11px; color: #64748B; font-weight: 600;">[배점 4점]</span>
-              </div>
-              <div class="q-text">${cleanText}</div>
-              <div class="solution-toggle">
-                <div><strong>[정답]</strong> ${cleanAns}</div>
-                <div style="margin-top: 4px; color: #334155; font-size: 12px;"><strong>[해설 원리]</strong> ${cleanTip}</div>
-              </div>
-            </div>
-          `;}).join('')}
+          ${pagesHtml.join('')}
+
+          ${solutionHtml}
 
           ${'<' + 'script>'}
             function triggerMathRender() {
