@@ -9894,6 +9894,9 @@
         const result = await response.json();
         
         if (result.error) {
+          if (result.error.code === 402 || (result.error.message && result.error.message.includes('prepayment'))) {
+            throw new Error('[AI 서버 점검 안내]\n현재 AI 연산 엔진 크레딧 충전 및 정기 점검이 진행 중입니다.\n원장 직통상담(010-5527-2979)으로 문의해 주시면 즉시 조치됩니다.');
+          }
           if (result.error.code === 429 || result.error.status === 'RESOURCE_EXHAUSTED') {
             throw new Error('현재 많은 학생이 동시에 문제를 분석하고 있어 AI 서버가 혼잡합니다. 약 10초 후 다시 시도해 주세요.');
           }

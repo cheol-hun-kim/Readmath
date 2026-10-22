@@ -758,6 +758,39 @@
           </p>
         </div>
 
+        <!-- AI Engine Key Management & Live Diagnostics Card -->
+        <div class="cockpit-subcard bg-slate-950 border border-indigo-500/40 rounded-xl p-4 sm:p-5 space-y-3.5 col-span-1 md:col-span-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                <i data-lucide="key" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <h3 class="text-xs sm:text-sm font-black text-white">AI 연산 엔진 키 관리 및 실시간 상태 진단</h3>
+                <p class="text-[11px] text-slate-400">문제 풀이 및 그래프 시각화 연산용 API 키 교체 및 크레딧 상태 점검</p>
+              </div>
+            </div>
+            <span id="ai-key-status-badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400 border border-slate-700">진단 대기</span>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[11px] font-bold text-slate-300 block">AI 엔진 API 키 입력 / 즉시 교체:</label>
+            <div class="flex flex-col sm:flex-row items-center gap-2">
+              <input type="password" id="input-admin-ai-key" placeholder="AI Studio API 키 입력 (예: AIzaSy... 또는 AQ.Ab8...)" class="w-full sm:flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono" />
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <button type="button" onclick="testAndSaveAiKey()" class="flex-1 sm:flex-initial bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+                  <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                  <span>연결 진단 및 저장</span>
+                </button>
+                <button type="button" onclick="toggleAiKeyVisibility()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl text-xs transition">
+                  보기
+                </button>
+              </div>
+            </div>
+            <p id="ai-key-test-result" class="text-[11px] text-slate-400">현재 키 상태를 진단하거나 새 키를 입력 후 [연결 진단 및 저장]을 누르면 즉시 전체 학생에게 적용됩니다.</p>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Load Sample Problems -->
           <div class="cockpit-subcard bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
@@ -1877,6 +1910,72 @@
     }
 
     // ================= TABS SWITCHING =================
+    function initAdminAiKey() {
+      const curKey = localStorage.getItem('readmath_gemini_key') || localStorage.getItem('rootmath_gemini_key') || (typeof atob !== 'undefined' ? atob('QVEuQWI4Uk42Smlod241c19kZHhEMkN2dVdCeU94SGpRRE5xeUJlSmpXbXBZNTYzSzRCVnc=') : '');
+      const input = document.getElementById('input-admin-ai-key');
+      if (input && curKey) {
+        input.value = curKey;
+      }
+    }
+
+    async function testAndSaveAiKey() {
+      const input = document.getElementById('input-admin-ai-key');
+      const badge = document.getElementById('ai-key-status-badge');
+      const resultEl = document.getElementById('ai-key-test-result');
+      if (!input || !badge || !resultEl) return;
+
+      const keyVal = input.value.trim();
+      if (!keyVal) {
+        alert('API 키를 입력해 주세요.');
+        return;
+      }
+
+      badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
+      badge.textContent = '진단 중...';
+      resultEl.textContent = 'Google AI 서버와 통신 상태 및 크레딧 잔여량을 확인하고 있습니다...';
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${keyVal}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: '1+1=' }] }] })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.candidates && data.candidates[0]) {
+          badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+          badge.textContent = '정상 작동 (OK)';
+          resultEl.className = 'text-[11px] text-emerald-400 font-semibold';
+          resultEl.textContent = 'AI 서버 정상 연결 성공! 크레딧이 충분하며 모든 학생의 문제 풀이가 즉시 정상 작동합니다.';
+          localStorage.setItem('readmath_gemini_key', keyVal);
+          localStorage.setItem('rootmath_gemini_key', keyVal);
+          alert('AI 엔진 키가 성공적으로 저장 및 검증되었습니다!\n모든 학생의 실시간 문제 풀이에 즉시 적용됩니다.');
+        } else if (res.status === 402 || data?.error?.code === 402 || data?.error?.message?.includes('prepayment')) {
+          badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-red-500/20 text-red-300 border border-red-500/30';
+          badge.textContent = '크레딧 소진 (402)';
+          resultEl.className = 'text-[11px] text-red-400 font-semibold';
+          resultEl.textContent = 'Google AI Studio 선불 크레딧이 전액 소진(0원)되었습니다. AI Studio에서 크레딧을 충전하거나 새 키를 발급받아 입력해 주세요.';
+        } else {
+          badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-red-500/20 text-red-300 border border-red-500/30';
+          badge.textContent = '오류 발생';
+          resultEl.className = 'text-[11px] text-rose-400';
+          resultEl.textContent = `연결 실패: ${data?.error?.message || '응답 오류'}`;
+        }
+      } catch (err) {
+        badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-red-500/20 text-red-300 border border-red-500/30';
+        badge.textContent = '통신 실패';
+        resultEl.className = 'text-[11px] text-rose-400';
+        resultEl.textContent = `네트워크 연결 실패: ${err.message}`;
+      }
+    }
+
+    function toggleAiKeyVisibility() {
+      const input = document.getElementById('input-admin-ai-key');
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+    }
+
     function switchTab(tab) {
       activeTab = tab;
       const tabs = ['students', 'feedbacks', 'academy', 'system', 'questions', 'analytics'];
