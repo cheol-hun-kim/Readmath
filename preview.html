@@ -16,6 +16,40 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
+
+    /* Universal Mobile Readability Boost */
+    html {
+      font-size: 15px;
+    }
+    @media (min-width: 640px) {
+      html {
+        font-size: 16px;
+      }
+    }
+    .text-\[9px\], .text-\[9\.5px\], .text-\[10px\], .text-\[10\.5px\] {
+      font-size: 11.5px !important;
+      line-height: 1.35 !important;
+    }
+    .text-\[11px\], .text-xs {
+      font-size: 13px !important;
+    }
+    .text-sm {
+      font-size: 14.5px !important;
+    }
+
+    /* Universal Inviolable Rule: NEVER allow dark text on dark backgrounds in default mode */
+    body:not(.theme-day) .text-slate-900,
+    body:not(.theme-day) .text-slate-800,
+    body:not(.theme-day) .text-slate-700,
+    body:not(.theme-day) .text-indigo-950,
+    body:not(.theme-day) .text-amber-900 {
+      color: #f1f5f9 !important;
+    }
+    body:not(.theme-day) .border-slate-200,
+    body:not(.theme-day) .border-slate-300 {
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap');
     * { font-family: 'Pretendard', sans-serif; user-select: none; word-break: keep-all; }
     button { white-space: nowrap; }
@@ -2686,12 +2720,12 @@
         </div>
 
         <!-- Action Button: Generate Printable Exam Sheet -->
-        <button onclick="openExamSheetModal()" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold py-3 px-3.5 rounded-2xl text-xs flex items-center justify-between shadow-lg shadow-indigo-950/60 active:scale-95 transition border border-indigo-400/30">
-          <div class="flex items-center gap-2">
-            <i data-lucide="printer" class="w-4 h-4 text-amber-300"></i>
-            <span class="font-extrabold text-left">선택한 질문 모아 '개별 맞춤 시험지 + 해설지' 생성 (PDF)</span>
+        <button onclick="openExamSheetModal()" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-between gap-2 shadow-lg shadow-indigo-950/60 active:scale-95 transition border border-indigo-400/30 overflow-hidden">
+          <div class="flex items-center gap-1.5 min-w-0 flex-1">
+            <i data-lucide="printer" class="w-4 h-4 text-amber-300 shrink-0"></i>
+            <span class="font-extrabold text-left truncate">선택 질문 맞춤 시험지·해설지 생성 (PDF)</span>
           </div>
-          <span class="pro-killer-badge bg-amber-400 text-slate-950 font-black text-[10.5px] px-2.5 py-0.5 rounded-full border border-amber-500/50 shrink-0 shadow-xs">PRO 킬러</span>
+          <span class="pro-killer-badge bg-amber-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full border border-amber-500/50 shrink-0 shadow-xs whitespace-nowrap">PRO 킬러</span>
         </button>
 
         <!-- History Problem List Container -->
@@ -2802,7 +2836,7 @@
               <i data-lucide="archive" class="w-5 h-5 text-indigo-400"></i>
               <span>내 보관함 & 배틀 라운지</span>
             </h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">나만을 위한 맞춤 개념서, AI 변형 시험지 & 1:1 쌍둥이 실시간 배틀</p>
+            
           </div>
           <span id="vault-total-items-badge" class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2.5 py-1 rounded-xl shadow-xs">
             보관 0건
@@ -9981,7 +10015,7 @@
           ? stripMathDelimiters(formula) 
           : formula.replace(/\\([a-zA-Z]+)/g, '$1');
         const span = document.createElement('span');
-        span.className = 'math-healed-symbol font-sans font-bold text-slate-900 dark:text-slate-100 tracking-normal';
+        span.className = 'math-healed-symbol font-sans font-bold text-slate-100 tracking-normal';
         span.textContent = readable;
         span.setAttribute('data-healed-math', 'true');
         errEl.replaceWith(span);
@@ -15209,12 +15243,12 @@
                       <span class="bg-indigo-950 text-indigo-200 dark:text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2 py-0.5 rounded leading-none">${p.curriculum_grade || currentGrade}</span>
                       <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition shrink-0"></i>
                     </div>
-                    <p class="text-sm font-bold text-slate-900 dark:text-slate-100 line-clamp-1 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition">${cleanProblemTitle(p.title)}</p>
-                    <p class="text-xs text-slate-800 dark:text-slate-300 mt-1.5 line-clamp-2 leading-relaxed font-medium">${formatSnippetText(p.problem_text, 44)}</p>
+                    <p class="text-sm font-bold text-white line-clamp-2 group-hover:text-indigo-400 transition leading-snug">${cleanProblemTitle(p.title)}</p>
+                    <p class="text-xs text-slate-300 mt-1.5 line-clamp-2 leading-relaxed font-medium">${formatSnippetText(p.problem_text, 44)}</p>
                   </div>
-                  <div class="pt-2.5 mt-2.5 border-t border-slate-200 dark:border-slate-800/60 flex items-center justify-between text-xs">
-                    <span class="flex items-center gap-1.5 text-slate-900 dark:text-slate-100 font-extrabold"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> 해설 보기</span>
-                    <span class="text-indigo-700 dark:text-indigo-400 font-black group-hover:underline">클릭 →</span>
+                  <div class="pt-2.5 mt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                    <span class="flex items-center gap-1.5 text-white font-extrabold"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> 해설 보기</span>
+                    <span class="text-indigo-400 font-black group-hover:underline">클릭 →</span>
                   </div>
                 </div>
               `).join('')}
@@ -20410,7 +20444,7 @@
             <div class="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-slate-800/80 gap-2">
               <div class="flex items-center gap-2 min-w-0">
                 <span class="bg-indigo-950 text-indigo-200 dark:text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2.5 py-0.5 rounded-full shrink-0">${c.grade || '고1'} · ${c.pillar || '공통'}</span>
-                <h4 class="text-base font-black text-slate-900 dark:text-white truncate">${c.title}</h4>
+                <h4 class="text-base font-black text-white truncate">${c.title}</h4>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
                 <button type="button" onclick="toggleConceptMastered('${c.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition flex items-center gap-1.5 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'}">
@@ -20425,13 +20459,13 @@
 
             <!-- 1. 핵심 개념 정의 및 인지 원리 -->
             <div class="space-y-2">
-              <div class="flex items-center gap-2 text-indigo-950 dark:text-indigo-400 font-black text-sm">
+              <div class="flex items-center gap-2 text-indigo-400 font-black text-sm">
                 <i data-lucide="book-open" class="w-4 h-4"></i>
                 <span>1. 핵심 개념 정의 및 인지 원리</span>
               </div>
-              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 leading-relaxed font-semibold pl-1">${autoFormatMathText(universalMathSanitizer(c.summary || ''))}</p>
-              ${c.formula ? `<div class="concept-formula-box bg-slate-950 px-4 py-3 rounded-xl border border-slate-800 text-center font-mono text-base font-bold text-indigo-950 dark:text-indigo-300 my-2 shadow-xs">$$${c.formula.replace(/\$/g, '').trim()}$$</div>` : ''}
-              <ul class="space-y-1.5 pl-1 text-[13.5px] text-slate-900 dark:text-slate-100">
+              <p class="text-[13.5px] text-slate-100 leading-relaxed font-semibold pl-1">${autoFormatMathText(universalMathSanitizer(c.summary || ''))}</p>
+              ${c.formula ? `<div class="concept-formula-box bg-slate-950 px-4 py-3 rounded-xl border border-slate-800 text-center font-mono text-base font-bold text-indigo-300 my-2 shadow-xs">$$${c.formula.replace(/\$/g, '').trim()}$$</div>` : ''}
+              <ul class="space-y-1.5 pl-1 text-[13.5px] text-slate-100">
                 ${principles.map(p => `<li class="flex items-start gap-2"><span class="text-indigo-600 dark:text-indigo-400 font-black shrink-0 mt-0.5">•</span><span class="font-medium">${autoFormatMathText(universalMathSanitizer(p))}</span></li>`).join('')}
               </ul>
             </div>
@@ -20439,13 +20473,13 @@
             <!-- 2. 정확한 수학 시각화 그래프/기하 다이어그램 -->
             <div class="space-y-2">
               <div class="flex items-center justify-between text-sm">
-                <span class="flex items-center gap-2 text-amber-900 dark:text-amber-400 font-black">
+                <span class="flex items-center gap-2 text-amber-400 font-black">
                   <i data-lucide="line-chart" class="w-4 h-4"></i>
                   <span>2. 수학 시각화 정밀 다이어그램</span>
                 </span>
-                <span class="text-xs text-slate-700 dark:text-slate-400 font-medium">오차 없는 데카르트 좌표계</span>
+                <span class="text-xs text-slate-400 font-medium">오차 없는 데카르트 좌표계</span>
               </div>
-              <div class="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-800 p-1.5 shadow-inner bg-slate-950">
+              <div class="rounded-xl overflow-hidden border border-slate-800 p-1.5 shadow-inner bg-slate-950">
                 ${renderSvg}
               </div>
             </div>
@@ -20456,16 +20490,16 @@
                 <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
                 <span>3. 수능 킬러 연계 분석: 상위권도 여기서 막히는 이유</span>
               </div>
-              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 leading-relaxed font-medium">${autoFormatMathText(universalMathSanitizer(c.killerConnection || c.remedyTip || ''))}</p>
+              <p class="text-[13.5px] text-slate-100 leading-relaxed font-medium">${autoFormatMathText(universalMathSanitizer(c.killerConnection || c.remedyTip || ''))}</p>
             </div>
 
             <!-- 4. 실전 3대 마스터 행동 강령 -->
             <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 rounded-xl p-3.5 space-y-2">
-              <div class="text-indigo-950 dark:text-indigo-300 font-black flex items-center gap-2 text-sm">
+              <div class="text-indigo-300 font-black flex items-center gap-2 text-sm">
                 <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
                 <span>4. 실전 3대 마스터 행동 강령</span>
               </div>
-              <ul class="space-y-1.5 text-[13.5px] text-slate-900 dark:text-slate-100 font-medium">
+              <ul class="space-y-1.5 text-[13.5px] text-slate-100 font-medium">
                 ${rules.map(r => `<li class="flex items-start gap-2"><span class="text-indigo-600 dark:text-indigo-400 font-black shrink-0 mt-0.5">✓</span><span>${autoFormatMathText(universalMathSanitizer(r))}</span></li>`).join('')}
               </ul>
             </div>
@@ -20473,7 +20507,7 @@
             <!-- 5. 1:1 클리닉 확인 예제 & 자가 점검 -->
             <div class="bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 space-y-2.5">
               <div class="flex items-center justify-between">
-                <span class="text-slate-900 dark:text-white font-black flex items-center gap-2 text-sm">
+                <span class="text-white font-black flex items-center gap-2 text-sm">
                   <i data-lucide="check-square" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
                   <span>5. 1:1 클리닉 자가 진단 예제</span>
                 </span>
@@ -20481,15 +20515,15 @@
                   풀이 확인 / 접기
                 </button>
               </div>
-              <p class="text-[13.5px] text-slate-900 dark:text-slate-100 font-semibold leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.question || ''))}</p>
-              <div id="concept-ex-sol-${idx}" class="hidden pt-2.5 border-t border-slate-300 dark:border-slate-800/80 space-y-1.5 text-[13px]">
+              <p class="text-[13.5px] text-slate-100 font-semibold leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.question || ''))}</p>
+              <div id="concept-ex-sol-${idx}" class="hidden pt-2.5 border-t border-slate-800/80 space-y-1.5 text-[13px]">
                 <div class="text-emerald-700 dark:text-emerald-400 font-bold">정답: ${autoFormatMathText(universalMathSanitizer(ex.answer || ''))}</div>
-                <p class="text-slate-900 dark:text-slate-200 leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.solution || ''))}</p>
+                <p class="text-slate-200 leading-relaxed">${autoFormatMathText(universalMathSanitizer(ex.solution || ''))}</p>
               </div>
             </div>
 
             <!-- Footer Meta -->
-            <div class="flex items-center justify-between text-xs text-slate-700 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800/60">
+            <div class="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800/60">
               <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 생성일: ${c.createdAt}</span>
               <span class="text-indigo-700 dark:text-indigo-400 font-extrabold flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> 리드매스 1:1 인지 특화 개념서</span>
             </div>
