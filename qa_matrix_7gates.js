@@ -662,6 +662,8 @@ vm.runInContext(`
   this.ensureSvgCoordinateGrid = ensureSvgCoordinateGrid;
   this.SystemicCodeTermPurgeGuard = SystemicCodeTermPurgeGuard;
   this.SystemicMathGraphConsistencyGuard = SystemicMathGraphConsistencyGuard;
+  this.universalMathSanitizer = universalMathSanitizer;
+  this.generateExactMathCartesianSvg = generateExactMathCartesianSvg;
 `, runtimeSandbox);
 
 const inspectSvgFn = runtimeSandbox.inspectMathSvgDefects;
@@ -1335,6 +1337,63 @@ sanitizerStressTests.forEach((t, idx) => {
     sanitizerFailures.push(`Test #${idx + 1} ("${t.in}"): output "${out}" does not match exact "${t.mustExact}"`);
   }
 });
+
+if (sanitizerFailures.length > 0) {
+  failGate(5, 'Inviolable Runtime Math Sanitizer', sanitizerFailures.join('; '));
+}
+
+// 5.1 Universal Math Sanitizer & Formula Wrapping Audit
+const universalSanitizerFn = runtimeSandbox.universalMathSanitizer;
+if (typeof universalSanitizerFn !== 'function') {
+  failGate(5, 'universalMathSanitizer Existence', 'universalMathSanitizer is not defined in runtime');
+}
+
+const universalSanitizerTests = [
+  {
+    in: "역함수 미분법 공식 (g'(5) =\\frac{1}{f'(2)})을 시각적 기울기로 해석합니다.",
+    mustHave: "($g'(5) =\\frac{1}{f'(2)}$)"
+  },
+  {
+    in: "꼭짓점의 좌표: V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)에서 최댓값을 갖습니다.",
+    mustHave: "$V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)$"
+  },
+  {
+    in: "대칭축의 방정식: x = -\\frac{b}{2a}를 기준으로 완벽히 대칭입니다.",
+    mustHave: "$x = -\\frac{b}{2a}$"
+  },
+  {
+    in: "구간 조건 (x \\ge 2)에서 정의된 함수",
+    mustHave: "($x \\ge 2$)"
+  }
+];
+
+universalSanitizerTests.forEach((t, idx) => {
+  const out = universalSanitizerFn(t.in);
+  if (!out.includes(t.mustHave)) {
+    sanitizerFailures.push(`Universal Test #${idx + 1} ("${t.in}"): output "${out}" missing expected "${t.mustHave}"`);
+  }
+});
+
+// 5.2 Exact Cartesian Plotting Engine Audit (Zero Bezier Sketches)
+const genExactSvgFn = runtimeSandbox.generateExactMathCartesianSvg;
+if (typeof genExactSvgFn !== 'function') {
+  failGate(5, 'generateExactMathCartesianSvg Existence', 'generateExactMathCartesianSvg is not defined in runtime');
+} else {
+  ['quadratic', 'inverse', 'general'].forEach(t => {
+    const svg = genExactSvgFn(t);
+    if (!svg || svg.includes('Q ')) {
+      sanitizerFailures.push(`generateExactMathCartesianSvg('${t}') must NOT contain crude Bezier approximations ("Q ")`);
+    }
+    if (!svg.includes('대칭축 x =') && t === 'quadratic') {
+      sanitizerFailures.push(`generateExactMathCartesianSvg('quadratic') missing exact symmetry axis`);
+    }
+  });
+}
+
+// 5.3 History Header Cleanliness Audit (Zero Duplicate Cause Badges on Top)
+if (htmlContent.includes('${diagBadgeHtml}')) {
+  sanitizerFailures.push('preview.html history card header must NOT contain duplicate diagBadgeHtml cause badges');
+}
 
 if (sanitizerFailures.length > 0) {
   failGate(5, 'Inviolable Runtime Math Sanitizer', sanitizerFailures.join('; '));
