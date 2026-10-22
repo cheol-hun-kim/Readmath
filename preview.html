@@ -3805,85 +3805,74 @@
       </div>
     </div>
 
-    <!-- ================= MODAL: MATHEMATICAL COGNITIVE KNOWLEDGE DAG (FIXED VIEWPORT & ALWAYS CLOSEABLE) ================= -->
+    <!-- ================= MODAL: MATHEMATICAL COGNITIVE KNOWLEDGE DAG (UNIFIED SCROLLING & CLEAN VIEW) ================= -->
     <div id="modal-knowledge-dag" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="if(event.target === this) closeModal('knowledge-dag')">
-      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl p-3.5 sm:p-5 space-y-2.5 w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto" onclick="event.stopPropagation()">
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl p-4 sm:p-6 space-y-4 w-full max-w-3xl max-h-[92vh] overflow-y-auto shadow-2xl my-auto" onclick="event.stopPropagation()">
         
-        <!-- Header with Title & Action Controls (Always Sticky & Prominently Closeable) -->
-        <div class="flex items-center justify-between pb-2 border-b border-slate-800 shrink-0">
+        <!-- Header with Title & Action Controls (Sticky at top of modal scroll) -->
+        <div class="sticky top-0 bg-slate-900/95 backdrop-blur-md z-30 pb-3 border-b border-slate-800 -mx-4 -mt-4 px-4 pt-4 sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6 rounded-t-2xl md:rounded-t-3xl flex items-center justify-between">
           <div class="min-w-0 flex-1 pr-2">
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-lg bg-purple-500/20 flex items-center justify-center shrink-0">
-                <i data-lucide="git-branch" class="w-4 h-4 text-purple-400"></i>
+              <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="git-branch" class="w-4.5 h-4.5 text-purple-400"></i>
               </div>
               <div class="min-w-0">
-                <h3 class="text-sm font-extrabold text-white">수학 인지 DNA 취약 신경망 레이더</h3>
-                <p class="text-[10px] text-slate-400 truncate">각 문항별로 나의 결함이 어디서 어떻게 시작된 것인지 개별 역추적</p>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-sm sm:text-base font-extrabold text-white">수학 인지 DNA 신경망 상세 분석</h3>
+                  <span id="dag-modal-problem-badge" class="text-[10.5px] bg-indigo-950 text-indigo-300 border border-indigo-500/40 px-2.5 py-0.5 rounded-full font-bold max-w-[220px] sm:max-w-sm truncate">문항 분석</span>
+                </div>
+                <p class="text-[10.5px] text-slate-400 truncate mt-0.5">이 문항의 결함이 어디서 시작되었는지 초·중·고 선행 개념으로 역추적합니다</p>
               </div>
             </div>
           </div>
 
           <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="copyParentDagBriefingLink()" class="px-2.5 py-1 rounded-lg bg-indigo-950 hover:bg-indigo-900 text-indigo-300 text-[10.5px] font-bold transition border border-indigo-600/40 flex items-center gap-1 cursor-pointer" title="학부모 브리핑 복사">
-              <i data-lucide="share-2" class="w-3 h-3"></i> <span class="hidden sm:inline">브리핑</span>
+            <button type="button" onclick="openDagFullscreen()" class="px-2.5 py-1.5 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-indigo-300 hover:text-white text-xs font-bold transition border border-indigo-600/40 flex items-center gap-1.5 cursor-pointer shadow-xs" title="전체화면으로 크게 보기">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">전체화면</span>
             </button>
-            <button onclick="closeModal('knowledge-dag')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold transition border border-slate-700 flex items-center gap-1 shadow-xs cursor-pointer" title="닫기 (ESC 또는 바깥 클릭)">
+            <button type="button" onclick="copyParentDagBriefingLink()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-bold transition border border-slate-700 flex items-center gap-1.5 cursor-pointer" title="학부모 브리핑 복사">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">브리핑</span>
+            </button>
+            <button type="button" onclick="closeModal('knowledge-dag')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold transition border border-slate-700 flex items-center gap-1.5 shadow-xs cursor-pointer" title="닫기 (ESC 또는 바깥 클릭)">
               <i data-lucide="x" class="w-4 h-4"></i>
               <span>닫기</span>
             </button>
           </div>
         </div>
 
-        <!-- Problem Selector Bar: Choose which question to inspect individually -->
-        <div class="space-y-1 pb-0.5 shrink-0">
-          <div class="flex items-center justify-between text-[10.5px]">
-            <span class="text-slate-400 font-bold flex items-center gap-1">
-              <i data-lucide="layers" class="w-3 h-3 text-indigo-400"></i> 분석 대상 문항 선택:
-            </span>
-            <span class="text-[9.5px] text-indigo-400 font-semibold">문항별 개별 인지 결손 분석</span>
-          </div>
-          <div id="dag-problem-selector-container" class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
-            <!-- Populated dynamically via renderDagProblemSelector() -->
-          </div>
-        </div>
-
-        <!-- Legend Bar (Compact) -->
-        <div class="flex items-center justify-between bg-slate-950/80 px-2.5 py-1 rounded-xl border border-slate-800 text-[9.5px] shrink-0">
+        <!-- Legend Bar (Compact & Clear) -->
+        <div class="flex items-center justify-between bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-[10px] shrink-0">
           <div class="flex items-center gap-3">
             <span class="flex items-center gap-1 text-emerald-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 마스터
+              <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 정상 마스터
             </span>
             <span class="flex items-center gap-1 text-amber-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-amber-500 inline-block animate-pulse"></span> 결손 원인
+              <span class="w-2 h-2 rounded-full bg-amber-500 inline-block animate-pulse"></span> 결손 원인 (취약점)
             </span>
             <span class="flex items-center gap-1 text-rose-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span> 목표 문항
+              <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span> 목표 해결 문항
             </span>
           </div>
-          <span class="text-slate-400 text-[9px]">노드 터치 시 개별 역추적</span>
+          <span class="text-slate-400 text-[9.5px]">원형 노드 터치 시 해당 개념 진단으로 즉시 이동</span>
         </div>
 
-        <!-- SVG DAG Container (Optimized Aspect Ratio & Max Height) -->
-        <div class="relative shrink-0 bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 flex items-center justify-center h-[230px] sm:h-[270px] md:h-[300px] shadow-inner cursor-pointer group transition hover:border-indigo-500/60" onclick="openDagFullscreen()" title="클릭하여 전체화면으로 크게 보기">
-          <!-- Fullscreen Expand Badge -->
-          <div class="absolute top-2.5 right-2.5 bg-indigo-600/90 hover:bg-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-md flex items-center gap-1 transition pointer-events-none group-hover:scale-105 z-10">
-            <i data-lucide="maximize-2" class="w-3 h-3"></i>
-            <span>전체화면 확대</span>
-          </div>
+        <!-- SVG DAG Container (Clean Visual Display, NOT a giant button) -->
+        <div class="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 sm:p-3 flex items-center justify-center h-[260px] sm:h-[300px] md:h-[340px] shadow-inner shrink-0">
           <div id="knowledge-dag-svg-viewport" class="w-full h-full flex items-center justify-center">
             <!-- Dynamic SVG injected -->
           </div>
         </div>
 
-        <!-- Bottom Dynamic Node / Deficit Diagnostic Card (Scrollable inside modal) -->
-        <div id="knowledge-dag-detail-card" class="bg-slate-950/90 border border-slate-800 rounded-xl p-3 flex-1 min-h-[140px] overflow-y-auto space-y-2 text-[11px]" style="scrollbar-width: thin; scrollbar-color: #475569 transparent;">
-          <!-- Populated dynamically -->
+        <!-- Bottom Dynamic Node / Deficit Diagnostic Card (Flows naturally without an inner cramped scrollbar) -->
+        <div id="knowledge-dag-detail-card" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 text-[11px] transition-all">
+          <!-- Populated dynamically via inspectKnowledgeNode() -->
         </div>
 
       </div>
     </div>
 
-    
     <!-- ================= MODAL: KNOWLEDGE DAG FULLSCREEN VIEW (RESPONSIVE ON ALL DEVICES) ================= -->
     <div id="modal-dag-fullscreen" class="hidden fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-md flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden" onclick="if(event.target === this) closeModal('dag-fullscreen')">
       <!-- Top Bar -->
@@ -14489,6 +14478,17 @@
                 <span class="text-[10px] text-indigo-400 font-semibold shrink-0">터치하여 다시 풀기 →</span>
               </div>
             `}
+            <!-- Action Row: Dedicated DAG Inspection & Re-solve Buttons -->
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
+              <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-2.5 rounded-xl text-[11px] font-extrabold bg-gradient-to-r from-purple-900/60 to-indigo-900/60 hover:from-purple-800 hover:to-indigo-800 text-purple-200 border border-purple-500/40 hover:border-purple-400 flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer active:scale-95" title="이 문항의 초·중·고 인지 결함 연계망 분석">
+                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-purple-400"></i>
+                <span>취약 신경망 분석</span>
+              </button>
+              <button type="button" onclick="openHistoryProblem('${safeId}')" class="py-1.5 px-3 rounded-xl text-[11px] font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1 transition shrink-0 cursor-pointer">
+                <span>다시 풀기</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
+            </div>
           </div>
         `;
       }).join('');
@@ -14628,7 +14628,28 @@
       });
     }
 
-    // ================= DYNAMIC WEAKNESS REPORT CONTROLLER =================
+    // ================= DYNAMIC WEAKNESS REPORT CONTROLLER & DAG SELECTION =================
+    let selectedReportProblemId = null;
+
+    function inspectProblemDagInReport(pId) {
+      selectedReportProblemId = (pId !== undefined && pId !== null) ? (isNaN(pId) ? pId : Number(pId)) : null;
+      currentInspectedProblemId = selectedReportProblemId;
+      goToView('report');
+      setTimeout(() => {
+        const section = document.getElementById('report-dag-card-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          section.classList.add('ring-2', 'ring-purple-500');
+          setTimeout(() => section.classList.remove('ring-2', 'ring-purple-500'), 1500);
+        }
+      }, 120);
+    }
+
+    function resetReportProblemSelection() {
+      selectedReportProblemId = null;
+      updateReportView();
+    }
+
     function updateReportView() {
       const container = document.getElementById('report-dynamic-container');
       if (!container) return;
@@ -14765,9 +14786,104 @@
       const topInfo = categoryLabels[topCat];
       const topPct = Math.round((maxCount / total) * 100);
 
-      const diagnosedItem = items.find(p => p && p.diagnosis && p.diagnosis.category);
-      const activeProbId = diagnosedItem?.id || items[0]?.id || currentProblemId || 304;
-      const dagData = buildCognitiveKnowledgeDagSvg(activeProbId);
+      // Check if user has explicitly chosen a problem from Wrong Answer Note
+      const activeProbId = selectedReportProblemId;
+      let dagSectionHtml = '';
+
+      if (!activeProbId) {
+        // Standby State: User has not selected a problem from Wrong Answer Note yet
+        dagSectionHtml = `
+          <div id="report-dag-card-section" class="bg-gradient-to-br from-slate-900 via-indigo-950/20 to-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-md">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                  <i data-lucide="git-branch" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs font-black text-white">수학 인지 DNA 취약 신경망 레이더</h3>
+                  <p class="text-[10px] text-slate-400">문항별 개별 인지 결손 역추적 시스템</p>
+                </div>
+              </div>
+              <span class="text-[9.5px] bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-bold">진단 대기 상태</span>
+            </div>
+
+            <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80 text-center space-y-2.5">
+              <div class="w-10 h-10 mx-auto rounded-full bg-indigo-950/80 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
+              </div>
+              <h4 class="text-xs font-extrabold text-white">분석할 오답 문항을 오답노트에서 선택해주세요</h4>
+              <p class="text-[11px] text-slate-400 leading-relaxed max-w-sm mx-auto">
+                모든 문제의 원인이 뒤섞이지 않도록, <strong>오답노트에서 특정 문제를 선택</strong>하시면 해당 문항의 초·중·고 인지 결함 연계망이 개별 작동합니다.
+              </p>
+              <div class="pt-1 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <button type="button" onclick="goToView('history')" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                  <span>오답노트에서 문항 선택하기</span>
+                </button>
+              </div>
+              ${items.length > 0 ? `
+                <div class="pt-2 border-t border-slate-800/60 flex items-center justify-center gap-1.5 flex-wrap text-[10.5px]">
+                  <span class="text-slate-400 font-bold">최근 질문 바로 분석:</span>
+                  ${items.slice(0, 3).map(p => {
+                    const cleanT = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(p.title || '문제') : (p.title || '문제');
+                    return `<button type="button" onclick="inspectProblemDagInReport('${p.id}')" class="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-indigo-950 text-indigo-300 font-bold border border-slate-800 hover:border-indigo-500/50 transition truncate max-w-[130px]">${cleanT}</button>`;
+                  }).join('')}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      } else {
+        // Active State: Specific problem selected
+        const probObj = items.find(p => String(p.id) === String(activeProbId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[activeProbId] : null);
+        const rawTitle = probObj?.title || '선택한 오답 문항';
+        const displayTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle;
+        const dagData = buildCognitiveKnowledgeDagSvg(activeProbId);
+
+        dagSectionHtml = `
+          <div id="report-dag-card-section" class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border-2 border-indigo-500/60 rounded-2xl p-4 space-y-3 shadow-xl transition-all">
+            <div class="flex items-center justify-between pb-2 border-b border-indigo-500/30 gap-2">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+                    <i data-lucide="git-branch" class="w-4 h-4"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <h3 class="text-xs font-black text-white">수학 인지 DNA 신경망</h3>
+                      <span class="text-[9.5px] bg-emerald-500/20 text-emerald-300 font-extrabold px-1.5 py-0.2 rounded border border-emerald-500/40">분석 작동 중</span>
+                    </div>
+                    <p class="text-[10.5px] text-indigo-300 font-bold truncate mt-0.5">${displayTitle}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="goToView('history')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded-lg border border-slate-700 transition cursor-pointer" title="오답노트로 돌아가 다른 문항 선택">
+                  <span>다른 문항</span>
+                </button>
+                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold px-2.5 py-1 rounded-lg transition shadow-xs flex items-center gap-1 cursor-pointer">
+                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                  <span>상세보기</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- SVG Container -->
+            <div class="math-dag-container rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-1 shadow-inner h-[230px] sm:h-[260px] flex items-center justify-center">
+              ${dagData.svg}
+            </div>
+
+            <div class="flex items-center justify-between pt-0.5">
+              <div class="text-[10.5px] text-slate-300">
+                감지된 결손 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
+              </div>
+              <button type="button" onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1 cursor-pointer">
+                <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
+              </button>
+            </div>
+          </div>
+        `;
+      }
 
       container.innerHTML = `
         <div class="bg-indigo-950/60 border border-indigo-500/40 rounded-2xl p-4 space-y-2 text-center">
@@ -14780,30 +14896,8 @@
           </p>
         </div>
 
-        <!-- 수학 인지 DNA 취약 신경망 레이더 Card -->
-        <div class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 rounded-2xl p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-              <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-400"></i> 수학 인지 DNA 취약 신경망 레이더
-            </span>
-            <button onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-2.5 py-1 rounded-lg transition border border-indigo-500 flex items-center gap-1 shadow-xs">
-              <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 상세 신경망 열기
-            </button>
-          </div>
-          <div class="math-dag-container rounded-xl overflow-hidden border p-1 shadow-inner">
-            ${dagData.svg}
-          </div>
-          <div class="flex items-center justify-between pt-0.5">
-            <div class="text-[10.5px] text-slate-300">
-              감지된 결손 지점: <span class="font-bold text-amber-300">${dagData.diagnosis.deficitTitle}</span>
-            </div>
-            <button onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1">
-              <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2.5">
+        ${dagSectionHtml}
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
               <i data-lucide="pie-chart" class="w-3.5 h-3.5 text-indigo-400"></i> 원인별 오답 분석 분포
@@ -15731,8 +15825,8 @@
     }
 
     function openKnowledgeDagModal(pId, isStandby = false) {
-      const isStandbyMode = isStandby || (pId === null) || (userSolvedHistory.length === 0 && pId === undefined && !currentProblemId);
-      const targetPId = isStandbyMode ? null : (pId !== undefined && pId !== null ? Number(pId) : (currentProblemId || 304));
+      const isStandbyMode = isStandby || (pId === null) || (userSolvedHistory.length === 0 && pId === undefined && !currentProblemId && !selectedReportProblemId);
+      const targetPId = isStandbyMode ? null : (pId !== undefined && pId !== null ? Number(pId) : (selectedReportProblemId || currentProblemId || 304));
       currentInspectedProblemId = targetPId;
       const diag = isStandbyMode ? {
         targetId: null,
@@ -15744,12 +15838,19 @@
 
       currentSelectedNodeId = isStandbyMode ? 'n4' : diag.deficitId;
 
+      // Update problem title badge in modal header
+      const badgeEl = document.getElementById('dag-modal-problem-badge');
+      if (badgeEl) {
+        const probObj = (userSolvedHistory || []).find(h => String(h.id) === String(targetPId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[targetPId] : null);
+        const rawTitle = probObj?.title || diag.targetTitle || '문항 분석';
+        badgeEl.innerText = (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle);
+      }
+
       const dagData = buildCognitiveKnowledgeDagSvg(targetPId, currentSelectedNodeId, isStandbyMode);
       const viewport = document.getElementById('knowledge-dag-svg-viewport');
       if (viewport) {
         viewport.innerHTML = dagData.svg;
       }
-      renderDagProblemSelector();
       inspectKnowledgeNode(currentSelectedNodeId);
       openModal('knowledge-dag');
       if (window.lucide) lucide.createIcons();
@@ -15920,6 +16021,11 @@
       `;
 
       card.scrollTop = 0;
+      try {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        card.classList.add('ring-2', 'ring-indigo-500/70');
+        setTimeout(() => card.classList.remove('ring-2', 'ring-indigo-500/70'), 800);
+      } catch (e) {}
       if (window.lucide) lucide.createIcons();
     }
 
