@@ -18680,11 +18680,9 @@
         return { tier: 'Standby', name: '진단 대기', score: 0, badgeBg: 'bg-slate-800 text-slate-400 border-slate-700', icon: 'shield' };
       }
 
-      // Real calculations based on actual questions solved and remediated
-      let score = Math.min(historyLen * 15, 60);
-      const remediatedCount = userSolvedHistory.filter(h => h.is_remediated || (h.diagnosis && h.diagnosis.remediated)).length;
-      score += Math.min(remediatedCount * 10, 40);
-      score = Math.min(score, 100);
+      // Authentic calculation: Exact percentage of resolved problems (Zero Mock Multipliers)
+      const resolvedCount = userSolvedHistory.filter(h => h && h.resolved).length;
+      const score = Math.round((resolvedCount / historyLen) * 100);
 
       const matched = COGNITIVE_MASTERY_TIERS.find(t => score >= t.minPct) || COGNITIVE_MASTERY_TIERS[COGNITIVE_MASTERY_TIERS.length - 1];
       return { ...matched, score };

@@ -207,6 +207,40 @@ if (/\*\*[^*]+\*\*/.test(previewVisibleText)) {
   failGate(1, 'UI Raw Markdown Asterisks', 'Raw unrendered markdown asterisks (**) found in user-facing UI!');
 }
 
+// 1.7 Inviolable Zero-Mock-Data & Anti-Fabrication Armor
+const forbiddenMockPatterns = [
+  { pattern: /이차함수\s*축의\s*경우\s*분류\s*\(조건\s*놓침\s*결손\)\s*분석\s*완료/, desc: 'Hardcoded fake killer topic in school hub card' },
+  { pattern: /두\s*직선의\s*수직과\s*거리\s*최소\s*\(식\s*세우기\s*결손\)\s*분석\s*완료/, desc: 'Hardcoded fake killer topic in school hub card' },
+  { pattern: /삼차함수\s*접선\s*및\s*대칭성\s*\(그림\/그래프\s*결손\)\s*분석\s*완료/, desc: 'Hardcoded fake killer topic in school hub card' },
+  { pattern: /Math\.min\s*\(\s*historyLen\s*\*\s*15\s*,\s*60\s*\)/, desc: 'Artificial mock score multiplier (historyLen * 15, 60)' },
+  { pattern: /<span\s+id="school-active-exam-count"[^>]*>킬러\s*기출\s*연동<\/span>/, desc: 'Hardcoded fake exam count status in raw HTML' }
+];
+
+const mockViolations = [];
+forbiddenMockPatterns.forEach(({ pattern, desc }) => {
+  if (pattern.test(htmlContent)) {
+    mockViolations.push(`${desc} (matched: ${pattern})`);
+  }
+});
+if (mockViolations.length > 0) {
+  failGate(1, 'Zero-Mock-Data & Anti-Fabrication Armor', mockViolations.join('; '));
+}
+
+// 1.8 Universal High-Contrast Color & Day Mode Armor
+const contrastViolations = [];
+if (!htmlContent.includes('.pro-killer-badge') || !htmlContent.includes('background-color: #F59E0B !important')) {
+  contrastViolations.push('Missing explicit high-contrast armor for .pro-killer-badge in Day Mode');
+}
+if (!htmlContent.includes('.math-dag-container') || !htmlContent.includes('.math-dag-svg')) {
+  contrastViolations.push('Missing adaptive theme classes (.math-dag-container, .math-dag-svg) for cognitive neural network');
+}
+if (!htmlContent.includes('#history-list-container [class*="bg-blue-950"]')) {
+  contrastViolations.push('Missing high-contrast Day Mode palette for history notebook category badges');
+}
+if (contrastViolations.length > 0) {
+  failGate(1, 'High-Contrast Color Armor', contrastViolations.join('; '));
+}
+
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
   'Zero developer jargon (Gemini, API, AI Studio, RCA, B2B, KaTeX, 수식 모델링, 해석기하) completely purged from user UI',
@@ -217,7 +251,9 @@ passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'Service Worker unregister/purge guard verified',
   'Zero intrusive floating zoom badges inside #solution-svg-container verified',
   'Landing page zero unrendered LaTeX dollars ($) and zero raw markdown asterisks (**) verified',
-  'Landing page zero KaTeX and zero 1타 강사 jargon verified'
+  'Landing page zero KaTeX and zero 1타 강사 jargon verified',
+  'Zero mock-data & fake topic placeholders verified',
+  'Universal High-Contrast Day Mode Color Armor verified'
 ]);
 
 // ==============================================================================
