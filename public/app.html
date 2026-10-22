@@ -957,35 +957,43 @@
       stroke: #94A3B8 !important;
     }
 
-    /* History Card Tag Day Mode High Contrast */
+    /* History Card Day Mode: Calm, 2-Tone (Deep Indigo + Slate Monochrome), Zero Rainbow Clutter */
+    body.theme-day #history-list-container > div,
+    body.theme-day #history-list-container [id^="history-card-"] {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #0F172A !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+    }
+    body.theme-day #history-list-container > div:hover,
+    body.theme-day #history-list-container [id^="history-card-"]:hover {
+      border-color: #6366F1 !important;
+      box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.12) !important;
+    }
+    body.theme-day #history-list-container h4,
+    body.theme-day #history-list-container p {
+      color: #0F172A !important;
+    }
+    body.theme-day #history-list-container .text-slate-400 {
+      color: #64748B !important;
+    }
+    body.theme-day #history-list-container [class*="bg-slate-950"] {
+      background-color: #F8FAFC !important;
+      border-color: #E2E8F0 !important;
+    }
+    body.theme-day #history-list-container [class*="bg-slate-950"] * {
+      color: #0F172A !important;
+    }
     body.theme-day #history-list-container [class*="bg-blue-950"],
-    body.theme-day #history-list-container .bg-blue-950\/80 {
-      background-color: #EFF6FF !important;
-      color: #1D4ED8 !important;
-      border-color: #93C5FD !important;
+    body.theme-day #history-list-container [class*="bg-slate-800"] {
+      background-color: #F1F5F9 !important;
+      color: #0F172A !important;
+      border-color: #CBD5E1 !important;
     }
-    body.theme-day #history-list-container [class*="bg-amber-950"],
-    body.theme-day #history-list-container .bg-amber-950\/80 {
-      background-color: #FFFBEB !important;
-      color: #B45309 !important;
-      border-color: #FCD34D !important;
-    }
-    body.theme-day #history-list-container [class*="bg-purple-950"],
-    body.theme-day #history-list-container .bg-purple-950\/80 {
-      background-color: #FAF5FF !important;
-      color: #6D28D9 !important;
-      border-color: #D8B4FE !important;
-    }
-    body.theme-day #history-list-container [class*="bg-rose-950"],
-    body.theme-day #history-list-container .bg-rose-950\/80 {
-      background-color: #FFF1F2 !important;
-      color: #BE123C !important;
-      border-color: #FECDD3 !important;
-    }
-    body.theme-day #history-list-container [class*="bg-emerald-950"] {
-      background-color: #ECFDF5 !important;
-      color: #047857 !important;
-      border-color: #6EE7B7 !important;
+    body.theme-day #history-list-container .bg-indigo-600 {
+      background-color: #4338CA !important;
+      color: #FFFFFF !important;
+      border-color: #3730A3 !important;
     }
 
     /* Colored badge backgrounds in Day Mode */
@@ -14380,17 +14388,17 @@
       }
 
       const catBadgeMap = {
-        visual: { title: '그림/그래프', short: '그림/그래프', cls: 'bg-blue-950/80 text-blue-300 border-blue-500/40', icon: 'image', activeCls: 'bg-blue-600 text-white border-blue-400 shadow-sm' },
-        modeling: { title: '식 세우기', short: '식 세우기', cls: 'bg-amber-950/80 text-amber-300 border-amber-500/40', icon: 'binary', activeCls: 'bg-amber-600 text-white border-amber-400 shadow-sm' },
-        condition: { title: '조건 놓침', short: '조건 놓침', cls: 'bg-purple-950/80 text-purple-300 border-purple-500/40', icon: 'alert-triangle', activeCls: 'bg-purple-600 text-white border-purple-400 shadow-sm' },
-        concept: { title: '개념/공식', short: '개념/공식', cls: 'bg-rose-950/80 text-rose-300 border-rose-500/40', icon: 'book-open', activeCls: 'bg-rose-600 text-white border-rose-400 shadow-sm' }
+        visual: { title: '그림/그래프', short: '그림/그래프', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'image', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
+        modeling: { title: '식 세우기', short: '식 세우기', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'binary', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
+        condition: { title: '조건 놓침', short: '조건 놓침', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'alert-triangle', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
+        concept: { title: '개념/공식', short: '개념/공식', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'book-open', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' }
       };
 
       container.innerHTML = items.map(item => {
         if (!item) return '';
         const safeId = String(item.id || '').replace(/'/g, "\\'");
         const hasSubQuestions = Array.isArray(item.sub_questions) && item.sub_questions.length > 0;
-        const isResolved = !!item.resolved;
+        const isResolved = !item.resolved;
         const diag = item.diagnosis;
         const selectedCats = Array.isArray(diag?.categories) && diag.categories.length > 0
           ? diag.categories
@@ -14399,7 +14407,7 @@
 
         const diagBadgeHtml = hasDiagnosis
           ? selectedCats.map(c => {
-              const info = catBadgeMap[c] || { title: c, cls: 'bg-indigo-950/80 text-indigo-300 border-indigo-500/40', icon: 'tag' };
+              const info = catBadgeMap[c] || { title: c, cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'tag' };
               return `<span class="h-6 px-2 rounded-lg text-[10.5px] font-bold ${info.cls} border inline-flex items-center justify-center gap-1 leading-none shrink-0" title="오답 원인: ${info.title}">
                 <i data-lucide="${info.icon}" class="w-2.5 h-2.5 shrink-0"></i>
                 <span>${info.title}</span>
@@ -14410,33 +14418,34 @@
              </span>`;
 
         return `
-          <div id="history-card-${safeId}" data-category="${hasDiagnosis ? selectedCats[0] : 'none'}" data-resolved="${isResolved}" onclick="openHistoryProblem('${safeId}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 space-y-2.5 cursor-pointer transition shadow-xs">
-            <!-- Header Row: Badges on left, action buttons on right (Exact matching 24px height & baseline) -->
+          <div id="history-card-${safeId}" data-category="${hasDiagnosis ? selectedCats[0] : 'none'}" data-resolved="${isResolved}" onclick="openHistoryProblem('${safeId}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 sm:p-4 space-y-2.5 cursor-pointer transition shadow-xs">
+            <!-- Header Row: Badges on left, action buttons on right -->
             <div class="flex items-center justify-between gap-2 pb-2 border-b border-slate-800/60">
               <div class="flex items-center gap-1.5 flex-wrap min-w-0">
-                <span class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold bg-indigo-950 text-indigo-300 border border-indigo-500/40 inline-flex items-center justify-center leading-none shrink-0">
+                <span class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold bg-slate-800 text-slate-200 border border-slate-700 inline-flex items-center justify-center leading-none shrink-0">
                   ${item.curriculum_grade || currentGrade}
                 </span>
                 ${diagBadgeHtml}
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" id="resolve-badge-${safeId}" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700 hover:text-slate-200'} border inline-flex items-center justify-center gap-1 leading-none transition" title="클릭하여 해결 완료 / 미완료 상태 변경">
+                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" id="resolve-badge-${safeId}" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700 hover:text-slate-200'} border inline-flex items-center justify-center gap-1 leading-none transition cursor-pointer" title="해결 상태 변경">
                   <i data-lucide="${isResolved ? 'check-circle-2' : 'circle'}" class="w-3 h-3 ${isResolved ? 'text-emerald-400' : 'text-slate-500'} shrink-0"></i>
                   <span>${isResolved ? '해결 완료' : '미완료'}</span>
                 </button>
-                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold text-slate-400 hover:text-red-400 bg-slate-800/80 hover:bg-red-950/50 border border-slate-700/80 hover:border-red-500/40 inline-flex items-center justify-center gap-1 leading-none transition" title="오답노트 기록 영구 삭제">
+                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold text-slate-400 hover:text-red-400 bg-slate-800/80 hover:bg-red-950/50 border border-slate-700/80 hover:border-red-500/40 inline-flex items-center justify-center gap-1 leading-none transition cursor-pointer" title="오답노트 기록 영구 삭제">
                   <i data-lucide="trash-2" class="w-3 h-3 shrink-0"></i>
                   <span>삭제</span>
                 </button>
               </div>
             </div>
-            <!-- Title Row: Full width, clean, prominent without displacing right action buttons -->
+
+            <!-- Title Row -->
             <div class="pt-0.5">
               <h4 class="text-xs font-bold text-slate-200 line-clamp-1 leading-snug">${typeof cleanProblemTitle === 'function' ? cleanProblemTitle(item.title || '') : (item.title || '문제 풀이')}</h4>
             </div>
             <p class="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed">${autoFormatMathText(item.problem_text || '')}</p>
 
-            <!-- Compact Single-Line Cause Selector (Aligned exact 24px height chips) -->
+            <!-- Cause Selector Row: High-contrast 2-tone pills -->
             <div class="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px]" onclick="event.stopPropagation()">
               <div class="flex items-center gap-1 text-slate-400 font-semibold text-[10.5px]">
                 <i data-lucide="tag" class="w-3 h-3 text-indigo-400 shrink-0"></i>
@@ -14447,7 +14456,7 @@
                   const info = catBadgeMap[k];
                   const isSelected = selectedCats.includes(k);
                   return `
-                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="h-6 px-2 rounded-lg text-[10.5px] font-bold border inline-flex items-center justify-center gap-1 leading-none transition select-none ${isSelected ? (info.activeCls) : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'}">
+                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="h-6 px-2 rounded-lg text-[10.5px] font-bold border inline-flex items-center justify-center gap-1 leading-none transition select-none cursor-pointer ${isSelected ? (info.activeCls) : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'}">
                       <i data-lucide="${info.icon}" class="w-2.5 h-2.5 shrink-0"></i>
                       <span>${info.short}</span>
                     </button>
@@ -14455,14 +14464,13 @@
                 }).join('')}
               </div>
             </div>
-            
+
             ${hasSubQuestions ? `
               <div class="mt-2 pt-2 border-t border-slate-800/80 space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] text-slate-400">
                   <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
                     <i data-lucide="check-check" class="w-3.5 h-3.5 text-indigo-400"></i> 문항별 최종 정답
                   </span>
-                  <span class="text-[10px] text-indigo-400 font-semibold shrink-0">터치하여 다시 풀기 →</span>
                 </div>
                 <div class="grid grid-cols-1 gap-1.5 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80">
                   ${item.sub_questions.map(sq => {
@@ -14486,16 +14494,16 @@
                     ${autoFormatMathText(item.final_answer || '')}
                   </div>
                 </div>
-                <span class="text-[10px] text-indigo-400 font-semibold shrink-0">터치하여 다시 풀기 →</span>
               </div>
             `}
-            <!-- Action Row: Dedicated DAG Inspection & Re-solve Buttons -->
+
+            <!-- Dedicated Single Action Row (Zero Redundancy, Zero Duplicate "다시 풀기") -->
             <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
-              <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-2.5 rounded-xl text-[11px] font-extrabold bg-gradient-to-r from-purple-900/60 to-indigo-900/60 hover:from-purple-800 hover:to-indigo-800 text-purple-200 border border-purple-500/40 hover:border-purple-400 flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer active:scale-95" title="이 문항의 초·중·고 인지 결함 연계망 분석">
-                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-purple-400"></i>
+              <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-500 flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer active:scale-95" title="이 문항의 초·중·고 인지 결함 연계망 분석">
+                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-200"></i>
                 <span>취약 신경망 분석</span>
               </button>
-              <button type="button" onclick="openHistoryProblem('${safeId}')" class="py-1.5 px-3 rounded-xl text-[11px] font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1 transition shrink-0 cursor-pointer">
+              <button type="button" onclick="openHistoryProblem('${safeId}')" class="py-1.5 px-3.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 flex items-center gap-1 transition shrink-0 cursor-pointer">
                 <span>다시 풀기</span>
                 <i data-lucide="arrow-right" class="w-3 h-3"></i>
               </button>
@@ -14504,7 +14512,7 @@
         `;
       }).join('');
 
-      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+            if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
       if (typeof renderMathElements === 'function') renderMathElements();
     }
 
@@ -19807,13 +19815,70 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    function createCustomConceptForDeficit(pId, nodeId) {
-      initVaultStorage();
+    // ================= AUTHORITATIVE 10-MINUTE CONCEPT BOOK GENERATOR ENGINE =================
+    function buildComprehensiveConceptBook(nodeId, pId) {
       const prob = PROBLEMS_DB[pId] || PROBLEMS_DB[304] || PROBLEMS_DB[1];
       const diag = getCognitiveDiagnosisForProblem(pId);
-      const node = KNOWLEDGE_NODES_DATA[nodeId] || KNOWLEDGE_NODES_DATA[diag.deficitId] || KNOWLEDGE_NODES_DATA['n6'];
+      const node = KNOWLEDGE_NODES_DATA[nodeId] || KNOWLEDGE_NODES_DATA[diag.deficitId] || KNOWLEDGE_NODES_DATA['n3'];
 
-      const newConcept = {
+      let conceptSvg = '';
+      if (nodeId === 'n3' || (node.name && node.name.includes('이차함수'))) {
+        conceptSvg = `
+          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="30" y1="160" x2="360" y2="160" stroke="#475569" stroke-width="1.2"/>
+            <text x="365" y="164" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
+            <text x="76" y="15" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+            <text x="68" y="174" fill="#64748B" font-size="10">O</text>
+            <line x1="180" y1="25" x2="180" y2="175" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="185" y="40" fill="#F59E0B" font-size="10" font-weight="bold">대칭축 x = -b/(2a)</text>
+            <path d="M 60 176 Q 180 -50 300 176" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
+            <circle cx="180" cy="45" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.5"/>
+            <text x="188" y="55" fill="#F8FAFC" font-size="10.5" font-weight="extrabold">꼭짓점 V(p, q)</text>
+            <circle cx="80" cy="148" r="3.5" fill="#38BDF8"/>
+            <text x="45" y="145" fill="#38BDF8" font-size="9.5" font-weight="bold">y절편 (0, c)</text>
+            <rect x="235" y="85" width="130" height="38" rx="6" fill="#1E293B" stroke="#334155"/>
+            <text x="242" y="100" fill="#FDE047" font-size="9.5" font-weight="bold">D > 0: 서로 다른 두 실근</text>
+            <text x="242" y="115" fill="#94A3B8" font-size="9">D = 0 (접함), D < 0 (공중 부양)</text>
+          </svg>
+        `;
+      } else if (nodeId === 'n6' || (node.name && node.name.includes('역함수'))) {
+        conceptSvg = `
+          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="30" y1="170" x2="360" y2="170" stroke="#475569" stroke-width="1.2"/>
+            <text x="365" y="174" fill="#94A3B8" font-size="11">x</text>
+            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
+            <text x="76" y="15" fill="#94A3B8" font-size="11">y</text>
+            <line x1="40" y1="180" x2="280" y2="20" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="285" y="25" fill="#F59E0B" font-size="10" font-weight="bold">직선 y = x</text>
+            <path d="M 90 170 Q 140 160 270 90" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
+            <text x="275" y="95" fill="#60A5FA" font-size="10" font-weight="bold">y = f(x)</text>
+            <path d="M 170 90 Q 160 140 90 270" fill="none" stroke="#A78BFA" stroke-width="2.5"/>
+            <text x="175" y="85" fill="#A78BFA" font-size="10" font-weight="bold">y = f⁻¹(x)</text>
+            <circle cx="130" cy="155" r="4" fill="#38BDF8"/>
+            <text x="135" y="153" fill="#38BDF8" font-size="9">(a, b)</text>
+            <circle cx="155" cy="130" r="4" fill="#C084FC"/>
+            <text x="160" y="128" fill="#C084FC" font-size="9">(b, a)</text>
+            <line x1="130" y1="155" x2="155" y2="130" stroke="#CBD5E1" stroke-dasharray="2 2"/>
+          </svg>
+        `;
+      } else {
+        conceptSvg = `
+          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="30" y1="160" x2="360" y2="160" stroke="#475569" stroke-width="1.2"/>
+            <text x="365" y="164" fill="#94A3B8" font-size="11">x</text>
+            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
+            <text x="76" y="15" fill="#94A3B8" font-size="11">y</text>
+            <path d="M 90 150 Q 180 30 310 130" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
+            <circle cx="180" cy="70" r="4.5" fill="#EF4444"/>
+            <text x="190" y="72" fill="#F8FAFC" font-size="10.5" font-weight="bold">핵심 특이점 / 극값</text>
+            <rect x="220" y="25" width="145" height="32" rx="6" fill="#1E293B" stroke="#334155"/>
+            <text x="228" y="45" fill="#38BDF8" font-size="10" font-weight="bold">${node.name} 시각화 모델</text>
+          </svg>
+        `;
+      }
+
+      return {
         id: 'c_' + Date.now(),
         problemId: pId,
         nodeId: nodeId,
@@ -19822,16 +19887,37 @@
         pillar: node.pillar,
         grade: node.grade,
         summary: node.summary,
-        drillTip: node.drillTip,
-        remedyTip: diag.remedyTip,
+        svg: conceptSvg,
+        formula: 'y = a(x - p)^2 + q \\quad (a \\ne 0)',
+        corePrinciples: [
+          '대칭축의 방정식: x = -\\frac{b}{2a}를 기준으로 좌우가 완벽히 대칭을 이룹니다.',
+          '꼭짓점의 좌표: V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)에서 최댓값 또는 최솟값을 갖습니다.',
+          '판별식 D = b^2 - 4ac의 부호에 따라 x축과의 위치 관계(두 점, 접함, 만나지 않음)가 결정됩니다.'
+        ],
+        killerConnection: '수능 킬러 문항에서는 이차함수가 독립적으로 출제되지 않고, 합성함수 g(f(x))나 절댓값 함수 |f(x) - t|의 형태로 결합됩니다. 이때 학생들이 가장 많이 범하는 실수는 대칭축이 제한 구간 [a, b]의 내부에 있는지 외부에 있는지 확인하지 않고 무작정 미분식만 세우다 오답을 내는 것입니다.',
+        masterRules: [
+          '황금 법칙 1 [시각화 우선]: 계산식으로 들어가기 전 반드시 대칭축 x = -b/(2a)를 좌표평면에 스케치할 것.',
+          '황금 법칙 2 [경계 조건 분기]: 주어진 구간의 양 끝점이 축의 왼쪽/오른쪽/축 포함인지 3개 케이스로 분류할 것.',
+          '황금 법칙 3 [판별식 연립]: 근의 분리 문제에서는 판별식 D, 대칭축의 위치, 경계 함숫값 부호(f(k)) 3종을 반드시 연립할 것.'
+        ],
+        practiceExample: {
+          question: '이차함수 f(x) = x^2 - 4x + k의 최솟값이 3일 때, 실수 k의 값과 f(x)의 그래프의 꼭짓점 좌표를 구하시오.',
+          solution: 'f(x) = (x - 2)^2 + k - 4로 변형되므로 대칭축은 x = 2이고 꼭짓점은 (2, k - 4)입니다. 아래로 볼록한 포물선이므로 x = 2에서 최솟값 k - 4를 갖습니다. 따라서 k - 4 = 3에서 k = 7이며, 꼭짓점은 (2, 3)입니다.',
+          answer: 'k = 7, 꼭짓점 (2, 3)'
+        },
         createdAt: new Date().toLocaleDateString('ko-KR'),
         mastered: false
       };
+    }
 
+    function createCustomConceptForDeficit(pId, nodeId) {
+      initVaultStorage();
+      const newConcept = buildComprehensiveConceptBook(nodeId, pId);
       userVaultConcepts.unshift(newConcept);
       saveVaultStorage();
-      alert('✓ [내 보관함]에 "' + newConcept.title + '"이(가) 저장되었습니다!\n\n[내 보관함] 탭의 [맞춤 개념서]에서 언제든지 시각화 원리를 복습할 수 있습니다.');
+      alert('✓ [내 보관함]에 "' + newConcept.title + '"이(가) 저장되었습니다!\n\n[내 보관함] 탭의 [맞춤 개념서]에서 정밀 수식과 수학 그래프를 복습할 수 있습니다.');
       updateVaultBadge();
+      renderVaultConcepts();
     }
 
     function createCustomClinicExamForDeficit(pId, nodeId) {
@@ -19855,21 +19941,21 @@
             title: (node.name || '개념') + ' 기본 시각화 확인',
             text: '함수 $y = f(x)$의 그래프가 점 $(1, 3)$을 지날 때, 역함수 $y = f^{-1}(x)$의 그래프가 반드시 지나는 점의 좌표를 구하시오.',
             ans: '$(3, 1)$',
-            tip: '$y = x$ 대칭 원리를 적용하여 $x$좌표와 $y$좌표를 맞바꿉니다.'
+            tip: '역함수는 $y = x$ 대칭이므로, 점 $(a, b)$가 $f(x)$ 위에 있으면 반드시 점 $(b, a)$가 역함수 위에 존재합니다.'
           },
           {
             qNum: 2,
             title: (node.name || '개념') + ' 심화 변형 문항',
-            text: '이차함수 $f(x) = x^2 - 4x + 5$ ($x \ge 2$)에 대하여 함수 $y = f(x)$와 역함수 $y = f^{-1}(x)$의 그래프가 만나는 두 점 사이의 거리를 구하시오.',
-            ans: '$\sqrt{2}$',
-            tip: '역함수와의 교점은 직선 $y = x$와의 교점과 일치합니다.'
+            text: '이차함수 $f(x) = x^2 - 4x + 5$ ($x \\ge 2$)에 대하여 함수 $y = f(x)$와 역함수 $y = f^{-1}(x)$의 그래프가 만나는 두 점 사이의 거리를 구하시오.',
+            ans: '$\\sqrt{2}$',
+            tip: '증가함수와 역함수의 교점은 직선 $y = x$ 위에 존재하므로 $x^2 - 4x + 5 = x$를 연립하여 두 교점 $(1, 1)$, $(2, 2)$ 중 $x \\ge 2$ 조건을 만족하는 점과의 거리를 계산합니다.'
           },
           {
             qNum: 3,
             title: (node.name || '개념') + ' 수능 실전 연계 문항',
-            text: '실수 전체의 집합에서 미분가능한 함수 $f(x)$의 역함수를 $g(x)$라 할 때, $f(2) = 5, f\'(2) = 3$이다. $g\'(5)$의 값을 구하시오.',
-            ans: '$\frac{1}{3}$',
-            tip: '역함수 미분법 공식 $(g\'(5) = \frac{1}{f\'(2)})$을 시각적 기울기로 해석합니다.'
+            text: '실수 전체의 집합에서 미분가능한 함수 $f(x)$의 역함수를 $g(x)$라 할 때, $f(2) = 5, f\'(2) = 3$이다. 역함수의 미분계수 $g\'(5)$의 값을 구하시오.',
+            ans: '$\\frac{1}{3}$',
+            tip: '역함수 미분법 공식 $g\'(b) = \\frac{1}{f\'(a)}$ (단, $b = f(a)$)에 따라 $g\'(5) = \\frac{1}{f\'(2)} = \\frac{1}{3}$로 계산합니다.'
           }
         ]
       };
@@ -19878,6 +19964,7 @@
       saveVaultStorage();
       alert('✓ [내 보관함]에 "' + newExam.title + '"이(가) 저장되었습니다!\n\n[내 보관함] 탭의 [맞춤 시험지]에서 인쇄하거나 지금 바로 풀어볼 수 있습니다.');
       updateVaultBadge();
+      renderVaultExams();
     }
 
     function toggleConceptMastered(cId) {
@@ -19919,7 +20006,7 @@
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 개념서가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                신경망 레이더에서 나의 결손 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 나만을 위한 핵심 개념서가 이곳에 체계적으로 보관됩니다.
+                신경망 레이더에서 나의 결손 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
@@ -19928,39 +20015,110 @@
             </button>
           </div>
         `;
+        if (window.lucide) lucide.createIcons();
         return;
       }
 
-      container.innerHTML = userVaultConcepts.map(c => `
-        <div class="bg-slate-900 border ${c.mastered ? 'border-emerald-500/50' : 'border-slate-800'} rounded-2xl p-4 space-y-2.5 shadow-sm transition hover:border-indigo-500/50">
-          <div class="flex items-center justify-between pb-1.5 border-b border-slate-800/80 gap-2">
-            <div class="flex items-center gap-2 min-w-0">
-              <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[9.5px] font-bold px-2 py-0.5 rounded-full shrink-0">${c.grade} · ${c.pillar}</span>
-              <h4 class="text-xs font-black text-white truncate">${c.title}</h4>
+      container.innerHTML = userVaultConcepts.map((c, idx) => {
+        const principles = Array.isArray(c.corePrinciples) ? c.corePrinciples : [c.summary || '핵심 원리'];
+        const rules = Array.isArray(c.masterRules) ? c.masterRules : ['수식 계산 전 그래프를 먼저 스케치하세요.'];
+        const ex = c.practiceExample || { question: '개념 확인 기본 예제', solution: '공식을 적용하여 도출합니다.', answer: '정답 확인' };
+
+        return `
+          <div class="bg-slate-900 border ${c.mastered ? 'border-emerald-500/50' : 'border-slate-800'} rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm transition hover:border-indigo-500/40">
+            <!-- Header Row -->
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80 gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">${c.grade || '고1'} · ${c.pillar || '공통'}</span>
+                <h4 class="text-sm font-black text-white truncate">${c.title}</h4>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="toggleConceptMastered('${c.id}')" class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold border transition flex items-center gap-1 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'}">
+                  <i data-lucide="${c.mastered ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5"></i>
+                  <span>${c.mastered ? '복습 완료' : '미완료'}</span>
+                </button>
+                <button type="button" onclick="deleteVaultConcept('${c.id}')" class="p-1 text-slate-500 hover:text-red-400 transition" title="개념서 삭제">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
             </div>
-            <div class="flex items-center gap-1 shrink-0">
-              <button onclick="toggleConceptMastered('${c.id}')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold border transition flex items-center gap-1 ${c.mastered ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'}">
-                <i data-lucide="${c.mastered ? 'check-circle-2' : 'circle'}" class="w-3 h-3"></i>
-                <span>${c.mastered ? '복습 완료' : '미완료'}</span>
-              </button>
-              <button onclick="deleteVaultConcept('${c.id}')" class="p-1 text-slate-500 hover:text-red-400 transition" title="개념서 삭제">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
+
+            <!-- 1. 핵심 개념 정의 및 인지 원리 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-1.5 text-indigo-400 font-extrabold text-xs">
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                <span>1. 핵심 개념 정의 및 인지 원리</span>
+              </div>
+              <p class="text-xs text-slate-200 leading-relaxed font-medium pl-1">${c.summary}</p>
+              ${c.formula ? `<div class="bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 text-center font-mono text-xs text-indigo-300">$$${c.formula}$$</div>` : ''}
+              <ul class="space-y-1 pl-1 text-[11px] text-slate-300">
+                ${principles.map(p => `<li class="flex items-start gap-1.5"><span class="text-indigo-400 font-bold">•</span><span>${p}</span></li>`).join('')}
+              </ul>
+            </div>
+
+            <!-- 2. 정확한 수학 시각화 그래프/기하 다이어그램 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="flex items-center gap-1.5 text-amber-400 font-extrabold">
+                  <i data-lucide="line-chart" class="w-3.5 h-3.5"></i>
+                  <span>2. 수학 시각화 정밀 다이어그램</span>
+                </span>
+                <span class="text-[9.5px] text-slate-400">오차 없는 데카르트 좌표계</span>
+              </div>
+              <div class="rounded-xl overflow-hidden border border-slate-800 p-1 shadow-inner bg-slate-950">
+                ${c.svg || ''}
+              </div>
+            </div>
+
+            <!-- 3. 수능·내신 킬러 연결 고리 & 왜 막히는가? -->
+            <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-3 text-[11px] space-y-1.5">
+              <span class="text-amber-300 font-extrabold flex items-center gap-1.5 text-xs">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>3. 수능 킬러 연계 분석: 상위권도 여기서 막히는 이유</span>
+              </span>
+              <p class="text-slate-200 leading-relaxed font-medium">${c.killerConnection || c.remedyTip}</p>
+            </div>
+
+            <!-- 4. 실전 3대 마스터 행동 강령 -->
+            <div class="bg-indigo-950/20 border border-indigo-500/30 rounded-xl p-3 text-[11px] space-y-1.5">
+              <span class="text-indigo-300 font-extrabold flex items-center gap-1.5 text-xs">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span>4. 실전 3대 마스터 행동 강령</span>
+              </span>
+              <ul class="space-y-1 text-slate-200 font-medium">
+                ${rules.map(r => `<li class="flex items-start gap-1.5"><span class="text-indigo-400 font-black">✓</span><span>${r}</span></li>`).join('')}
+              </ul>
+            </div>
+
+            <!-- 5. 1:1 클리닉 확인 예제 & 자가 점검 -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 text-[11px] space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-white font-extrabold flex items-center gap-1.5 text-xs">
+                  <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>5. 1:1 클리닉 자가 진단 예제</span>
+                </span>
+                <button type="button" onclick="document.getElementById('concept-ex-sol-${idx}').classList.toggle('hidden')" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold underline cursor-pointer">
+                  풀이 확인 / 접기
+                </button>
+              </div>
+              <p class="text-slate-200 font-medium leading-relaxed">${ex.question}</p>
+              <div id="concept-ex-sol-${idx}" class="hidden pt-2 border-t border-slate-800/80 space-y-1 text-[10.5px]">
+                <div class="text-emerald-400 font-bold">정답: ${ex.answer}</div>
+                <p class="text-slate-300 leading-relaxed">${ex.solution}</p>
+              </div>
+            </div>
+
+            <!-- Footer Meta -->
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800/60">
+              <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 생성일: ${c.createdAt}</span>
+              <span class="text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> 리드매스 1:1 인지 특화 개념서</span>
             </div>
           </div>
-          <p class="text-[11px] text-slate-300 leading-relaxed font-medium">${c.summary}</p>
-          <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-2.5 text-[10.5px] space-y-1">
-            <span class="text-amber-300 font-bold flex items-center gap-1">
-              <i data-lucide="compass" class="w-3 h-3 text-amber-400"></i> 왜 수능 킬러까지 연계되는가?
-            </span>
-            <p class="text-slate-200 leading-relaxed">${c.remedyTip}</p>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
-            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 저장일: ${c.createdAt}</span>
-            <span class="text-indigo-400 font-bold flex items-center gap-1"><i data-lucide="sparkles" class="w-2.5 h-2.5"></i> 1:1 맞춤 제작</span>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements();
     }
 
     function renderVaultExams() {
@@ -19985,6 +20143,7 @@
             </button>
           </div>
         `;
+        if (window.lucide) lucide.createIcons();
         return;
       }
 
@@ -20012,6 +20171,7 @@
           </div>
         </div>
       `).join('');
+      if (window.lucide) lucide.createIcons();
     }
 
     function renderVaultShareList() {
@@ -20040,6 +20200,7 @@
           </div>
         `;
       }).join('');
+      if (window.lucide) lucide.createIcons();
     }
 
     function copyVisualShareLink(pId) {
@@ -20068,45 +20229,80 @@
 
       printWindow.document.write(`
         <!DOCTYPE html>
-        <html>
+        <html lang="ko">
         <head>
+          <meta charset="UTF-8">
           <title>${exam.title}</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+          ${'<' + 'script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js">' + '<' + '/script>'}
+          ${'<' + 'script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js">' + '<' + '/script>'}
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #111827; }
-            .header { border-bottom: 2px solid #111827; padding-bottom: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .title { font-size: 20px; font-weight: 900; }
-            .meta { font-size: 12px; color: #4B5563; }
-            .question-box { margin-bottom: 30px; page-break-inside: avoid; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; }
-            .q-header { font-size: 13px; font-weight: bold; color: #4338CA; margin-bottom: 8px; }
-            .q-text { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
-            .solution-toggle { font-size: 12px; font-weight: bold; color: #047857; margin-top: 10px; border-top: 1px dashed #E5E7EB; padding-top: 8px; }
-            @media print { .no-print { display: none; } }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', Roboto, sans-serif; padding: 36px 40px; color: #0F172A; line-height: 1.6; max-width: 860px; margin: 0 auto; background: #fff; }
+            .header { border-bottom: 2px solid #0F172A; padding-bottom: 14px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+            .title { font-size: 20px; font-weight: 900; color: #0F172A; letter-spacing: -0.5px; }
+            .meta { font-size: 12px; color: #64748B; font-weight: 600; margin-top: 4px; }
+            .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
+            .question-box { margin-bottom: 24px; page-break-inside: avoid; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 20px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+            .q-header { font-size: 14px; font-weight: 800; color: #1E293B; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px; }
+            .q-text { font-size: 14px; line-height: 1.8; margin-bottom: 14px; color: #1E293B; }
+            .solution-toggle { font-size: 12.5px; font-weight: 500; color: #0F172A; margin-top: 12px; border-top: 1px dashed #CBD5E1; padding-top: 10px; background: #F8FAFC; border-radius: 8px; padding: 10px 14px; }
+            .solution-toggle strong { color: #047857; font-weight: 800; }
+            @media print {
+              .no-print { display: none !important; }
+              body { padding: 0; }
+              .question-box { border-color: #CBD5E1; box-shadow: none; }
+            }
           </style>
         </head>
         <body>
           <div class="header">
             <div>
-              <div class="title">${exam.title}</div>
-              <div class="meta">리드매스(ReadMath) AI 맞춤 결손 완치 시험지 | 출제: ${exam.createdAt}</div>
+              <span class="badge">${exam.grade} 1:1 맞춤 클리닉</span>
+              <div class="title" style="margin-top: 6px;">${exam.title}</div>
+              <div class="meta">리드매스(ReadMath) 인지 결손 완치 시험지 | 출제: ${exam.createdAt} | 총 ${exam.questionCount}문항</div>
             </div>
-            <button class="no-print" onclick="window.print()" style="padding: 8px 16px; background: #4338CA; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">인쇄하기</button>
+            <button class="no-print" onclick="window.print()" style="padding: 9px 18px; background: #4338CA; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; box-shadow: 0 2px 4px rgba(67, 56, 202, 0.2);">🖨️ 인쇄하기</button>
           </div>
+
           ${exam.questions.map(q => `
             <div class="question-box">
-              <div class="q-header">문항 ${q.qNum}. ${q.title}</div>
+              <div class="q-header">
+                <span>문항 ${q.qNum}. ${q.title}</span>
+                <span style="font-size: 11px; color: #64748B; font-weight: 600;">[배점 4점]</span>
+              </div>
               <div class="q-text">${q.text}</div>
               <div class="solution-toggle">
-                [정답 및 시각 해석 팁] 정답: ${q.ans} <br/>
-                풀이 원리: ${q.tip}
+                <div><strong>[정답]</strong> ${q.ans}</div>
+                <div style="margin-top: 4px; color: #334155; font-size: 12px;"><strong>[해설 원리]</strong> ${q.tip}</div>
               </div>
             </div>
           `).join('')}
+
+          ${'<' + 'script>'}
+            function triggerMathRender() {
+              if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                  delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                  ],
+                  throwOnError: false
+                });
+              } else {
+                setTimeout(triggerMathRender, 50);
+              }
+            }
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', triggerMathRender);
+            } else {
+              triggerMathRender();
+            }
+          ${'<' + '/script>'}
         </body>
         </html>
       `);
       printWindow.document.close();
     }
-
     function openInteractiveExamRunner(eId) {
       initVaultStorage();
       const exam = userVaultExams.find(e => e.id === eId);

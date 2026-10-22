@@ -428,6 +428,15 @@ if (snippetIssues.length > 0) {
   failGate(2, 'Snippet & Plaintext Math Sanitizer Integrity', snippetIssues.join('; '));
 }
 
+
+// 2.X Vault Clinic & Printable Exam Math Purity Guard
+if (htmlContent.includes('\x0c') || htmlContent.includes('♀rac') || htmlContent.includes('$sqrt{') || htmlContent.includes('$ge')) {
+  failGate(2, 'Vault Math Escaping', 'Found unescaped form-feed or raw unescaped LaTeX in custom clinic exam generator');
+}
+if (!htmlContent.includes('buildComprehensiveConceptBook')) {
+  failGate(2, 'Authoritative Concept Book', 'Missing buildComprehensiveConceptBook engine in preview.html');
+}
+
 passGate(2, 'Database Mathematical Purity & Zero Exposed Jargon', [
   `All ${Object.keys(PROBLEMS_DB).length} problems in database audited across 100% of fields`,
   '0 unescaped LaTeX backslash commands outside math ($...$)',
