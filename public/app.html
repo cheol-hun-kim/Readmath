@@ -742,36 +742,46 @@
       border-color: #E2E8F0 !important;
     }
 
-    /* CRITICAL CONTRAST FIX: Solid action buttons & badges MUST preserve crisp white text (STRICTLY NON-TRANSLUCENT) */
-    body.theme-day button[class*="bg-indigo-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-indigo-500"]:not([class*="/"]),
-    body.theme-day button[class*="bg-indigo-700"]:not([class*="/"]),
-    body.theme-day button[class*="bg-amber-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-amber-500"]:not([class*="/"]),
-    body.theme-day button[class*="bg-emerald-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-emerald-500"]:not([class*="/"]),
-    body.theme-day button[class*="bg-teal-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-blue-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-red-600"]:not([class*="/"]),
-    body.theme-day button[class*="bg-purple-600"]:not([class*="/"]),
-    body.theme-day a[class*="bg-indigo-600"]:not([class*="/"]),
+    /* CRITICAL UNIVERSAL HIGH-CONTRAST LAW:
+       Dark saturated buttons (indigo, blue, purple, emerald, teal, red, 500/600/700)
+       -> ALWAYS PURE WHITE TEXT (#FFFFFF) and WHITE ICONS (#FFFFFF stroke)
+    */
+    body.theme-day button[class*="bg-indigo-600"],
+    body.theme-day button[class*="bg-indigo-500"],
+    body.theme-day button[class*="bg-indigo-700"],
+    body.theme-day button[class*="bg-blue-600"],
+    body.theme-day button[class*="bg-blue-500"],
+    body.theme-day button[class*="bg-purple-600"],
+    body.theme-day button[class*="bg-purple-500"],
+    body.theme-day button[class*="bg-emerald-600"],
+    body.theme-day button[class*="bg-emerald-500"],
+    body.theme-day button[class*="bg-teal-600"],
+    body.theme-day button[class*="bg-teal-500"],
+    body.theme-day button[class*="bg-red-600"],
+    body.theme-day button[class*="bg-red-500"],
+    body.theme-day a[class*="bg-indigo-600"],
+    body.theme-day a[class*="bg-indigo-500"],
     body.theme-day .grade-btn-active {
       color: #FFFFFF !important;
     }
-    body.theme-day button[class*="bg-indigo-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-indigo-500"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-indigo-700"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-amber-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-amber-500"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-emerald-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-emerald-500"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-teal-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-blue-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-red-600"]:not([class*="/"]) *,
-    body.theme-day button[class*="bg-purple-600"]:not([class*="/"]) *,
-    body.theme-day a[class*="bg-indigo-600"]:not([class*="/"]) *,
+    body.theme-day button[class*="bg-indigo-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-indigo-500"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-indigo-700"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-blue-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-blue-500"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-purple-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-purple-500"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-emerald-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-emerald-500"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-teal-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-teal-500"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-red-600"] *:not(.pro-killer-badge),
+    body.theme-day button[class*="bg-red-500"] *:not(.pro-killer-badge),
+    body.theme-day a[class*="bg-indigo-600"] *:not(.pro-killer-badge),
+    body.theme-day a[class*="bg-indigo-500"] *:not(.pro-killer-badge),
     body.theme-day .grade-btn-active * {
       color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
     }
     body.theme-day button[class*="bg-gradient-to-r"],
     body.theme-day button[class*="bg-gradient-to-b"] {
@@ -14274,7 +14284,7 @@
             <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
               <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-400"></i> 수학 인지 DNA 취약 신경망 레이더
             </span>
-            <button onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-600 text-white font-bold px-2 py-0.5 rounded-lg transition border border-indigo-400/40 flex items-center gap-1">
+            <button onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-2.5 py-1 rounded-lg transition border border-indigo-500 flex items-center gap-1 shadow-xs">
               <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 상세 신경망 열기
             </button>
           </div>
