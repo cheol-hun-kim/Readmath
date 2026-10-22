@@ -14387,11 +14387,12 @@
         return;
       }
 
+      // Clean, professional, text-only 2-tone badge mapping (No cluttered icons)
       const catBadgeMap = {
-        visual: { title: '그림/그래프', short: '그림/그래프', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'image', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
-        modeling: { title: '식 세우기', short: '식 세우기', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'binary', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
-        condition: { title: '조건 놓침', short: '조건 놓침', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'alert-triangle', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' },
-        concept: { title: '개념/공식', short: '개념/공식', cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'book-open', activeCls: 'bg-indigo-600 text-white border-indigo-700 shadow-xs' }
+        visual: { title: '그림/그래프', short: '그림/그래프' },
+        modeling: { title: '식 세우기', short: '식 세우기' },
+        condition: { title: '조건 놓침', short: '조건 놓침' },
+        concept: { title: '개념/공식', short: '개념/공식' }
       };
 
       container.innerHTML = items.map(item => {
@@ -14405,72 +14406,72 @@
           : (diag?.category && catBadgeMap[diag.category] ? [diag.category] : []);
         const hasDiagnosis = selectedCats.length > 0;
 
+        // Clean text-only badges (No emojis, no cluttered icons, fits seamlessly on 1 line)
         const diagBadgeHtml = hasDiagnosis
           ? selectedCats.map(c => {
-              const info = catBadgeMap[c] || { title: c, cls: 'bg-slate-800 text-slate-200 border-slate-700', icon: 'tag' };
-              return `<span class="h-6 px-2 rounded-lg text-[10.5px] font-bold ${info.cls} border inline-flex items-center justify-center gap-1 leading-none shrink-0" title="오답 원인: ${info.title}">
-                <i data-lucide="${info.icon}" class="w-2.5 h-2.5 shrink-0"></i>
-                <span>${info.title}</span>
+              const info = catBadgeMap[c] || { title: c };
+              return `<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-800 border border-slate-300 shrink-0 select-none" title="오답 원인: ${info.title}">
+                ${info.title}
               </span>`;
             }).join(' ')
-          : `<span class="h-6 px-2 rounded-lg text-[10.5px] font-medium bg-slate-800 text-slate-400 border border-slate-700/60 inline-flex items-center justify-center leading-none shrink-0" title="오답 원인이 아직 선택되지 않았습니다">
+          : `<span class="px-2 py-0.5 rounded text-[10.5px] font-medium bg-slate-100 text-slate-500 border border-slate-300 shrink-0">
                원인 미선택
              </span>`;
 
         return `
-          <div id="history-card-${safeId}" data-category="${hasDiagnosis ? selectedCats[0] : 'none'}" data-resolved="${isResolved}" onclick="openHistoryProblem('${safeId}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 sm:p-4 space-y-2.5 cursor-pointer transition shadow-xs">
-            <!-- Header Row: Badges on left, action buttons on right -->
-            <div class="flex items-center justify-between gap-2 pb-2 border-b border-slate-800/60">
-              <div class="flex items-center gap-1.5 flex-wrap min-w-0">
-                <span class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold bg-slate-800 text-slate-200 border border-slate-700 inline-flex items-center justify-center leading-none shrink-0">
+          <div id="history-card-${safeId}" data-category="${hasDiagnosis ? selectedCats[0] : 'none'}" data-resolved="${isResolved}" onclick="openHistoryProblem('${safeId}')" class="bg-slate-900 hover:bg-slate-850 border ${isResolved ? 'border-emerald-500/30 opacity-85' : 'border-slate-800'} hover:border-indigo-500/50 rounded-2xl p-3.5 sm:p-4 space-y-3 cursor-pointer transition shadow-xs">
+            
+            <!-- 1. Header Row: Guaranteed SINGLE ROW (No jagged 2-3 lines wrapping, no icons) -->
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800/60 gap-2 whitespace-nowrap overflow-hidden">
+              <!-- Left Badges: Single row with clean spacing -->
+              <div class="flex items-center gap-1.5 shrink-0 overflow-x-auto" style="scrollbar-width: none;">
+                <span class="px-2 py-0.5 rounded text-[11px] font-extrabold bg-slate-800 text-white border border-slate-700 shrink-0">
                   ${item.curriculum_grade || currentGrade}
                 </span>
                 ${diagBadgeHtml}
               </div>
+              
+              <!-- Right Actions: Single row, clean compact text -->
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" id="resolve-badge-${safeId}" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700 hover:text-slate-200'} border inline-flex items-center justify-center gap-1 leading-none transition cursor-pointer" title="해결 상태 변경">
-                  <i data-lucide="${isResolved ? 'check-circle-2' : 'circle'}" class="w-3 h-3 ${isResolved ? 'text-emerald-400' : 'text-slate-500'} shrink-0"></i>
-                  <span>${isResolved ? '해결 완료' : '미완료'}</span>
+                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" id="resolve-badge-${safeId}" class="px-2 py-0.5 rounded text-[11px] font-bold ${isResolved ? 'text-emerald-400 bg-emerald-950/60 border-emerald-500/40' : 'text-slate-400 bg-slate-800 border-slate-700 hover:text-slate-200'} border transition cursor-pointer shrink-0" title="해결 상태 변경">
+                  ${isResolved ? '해결 완료' : '미완료'}
                 </button>
-                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="h-6 px-2.5 rounded-lg text-[10.5px] font-bold text-slate-400 hover:text-red-400 bg-slate-800/80 hover:bg-red-950/50 border border-slate-700/80 hover:border-red-500/40 inline-flex items-center justify-center gap-1 leading-none transition cursor-pointer" title="오답노트 기록 영구 삭제">
-                  <i data-lucide="trash-2" class="w-3 h-3 shrink-0"></i>
-                  <span>삭제</span>
+                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-400 hover:text-red-400 bg-slate-800/80 hover:bg-red-950/50 border border-slate-700/80 hover:border-red-500/40 transition cursor-pointer shrink-0" title="오답노트 기록 영구 삭제">
+                  삭제
                 </button>
               </div>
             </div>
 
-            <!-- Title Row -->
+            <!-- 2. Problem Title Row -->
             <div class="pt-0.5">
               <h4 class="text-xs font-bold text-slate-200 line-clamp-1 leading-snug">${typeof cleanProblemTitle === 'function' ? cleanProblemTitle(item.title || '') : (item.title || '문제 풀이')}</h4>
             </div>
             <p class="text-xs font-bold text-slate-200 line-clamp-2 leading-relaxed">${autoFormatMathText(item.problem_text || '')}</p>
 
-            <!-- Cause Selector Row: High-contrast 2-tone pills -->
-            <div class="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px]" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1 text-slate-400 font-semibold text-[10.5px]">
-                <i data-lucide="tag" class="w-3 h-3 text-indigo-400 shrink-0"></i>
-                <span>오답 원인:</span>
+            <!-- 3. Cause Selector: Symmetrical 4-Column Grid (NO 3-on-line-1, 1-on-line-2 awkward wrap!) -->
+            <div class="pt-2 border-t border-slate-800/60 space-y-1.5" onclick="event.stopPropagation()">
+              <div class="flex items-center justify-between text-[11px] text-slate-400">
+                <span class="font-bold text-[11px]">오답 원인 진단:</span>
+                <span class="text-[10px] text-slate-500">선택 시 약점 통계 반영</span>
               </div>
-              <div class="flex items-center gap-1 flex-wrap justify-end">
+              <div class="grid grid-cols-4 gap-1.5">
                 ${Object.keys(catBadgeMap).map(k => {
                   const info = catBadgeMap[k];
                   const isSelected = selectedCats.includes(k);
                   return `
-                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="h-6 px-2 rounded-lg text-[10.5px] font-bold border inline-flex items-center justify-center gap-1 leading-none transition select-none cursor-pointer ${isSelected ? (info.activeCls) : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'}">
-                      <i data-lucide="${info.icon}" class="w-2.5 h-2.5 shrink-0"></i>
-                      <span>${info.short}</span>
+                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="py-1.5 rounded-lg text-[11px] font-bold border transition text-center select-none cursor-pointer ${isSelected ? 'bg-indigo-600 text-white font-extrabold border-indigo-700 shadow-xs' : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'}">
+                      ${info.short}
                     </button>
                   `;
                 }).join('')}
               </div>
             </div>
 
+            <!-- 4. Sub-Questions or Final Answer (Zero Duplicate "다시 풀기") -->
             ${hasSubQuestions ? `
               <div class="mt-2 pt-2 border-t border-slate-800/80 space-y-1.5">
-                <div class="flex items-center justify-between text-[11px] text-slate-400">
-                  <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
-                    <i data-lucide="check-check" class="w-3.5 h-3.5 text-indigo-400"></i> 문항별 최종 정답
-                  </span>
+                <div class="text-xs font-bold text-indigo-400">
+                  문항별 최종 정답
                 </div>
                 <div class="grid grid-cols-1 gap-1.5 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80">
                   ${item.sub_questions.map(sq => {
@@ -14497,22 +14498,20 @@
               </div>
             `}
 
-            <!-- Dedicated Single Action Row (Zero Redundancy, Zero Duplicate "다시 풀기") -->
+            <!-- 5. Dedicated Single Action Row (Zero Redundancy, Zero Duplicate "다시 풀기") -->
             <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
               <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-500 flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer active:scale-95" title="이 문항의 초·중·고 인지 결함 연계망 분석">
-                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-indigo-200"></i>
                 <span>취약 신경망 분석</span>
               </button>
               <button type="button" onclick="openHistoryProblem('${safeId}')" class="py-1.5 px-3.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 flex items-center gap-1 transition shrink-0 cursor-pointer">
                 <span>다시 풀기</span>
-                <i data-lucide="arrow-right" class="w-3 h-3"></i>
               </button>
             </div>
           </div>
         `;
       }).join('');
 
-            if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
       if (typeof renderMathElements === 'function') renderMathElements();
     }
 
@@ -19756,11 +19755,204 @@
     }
 
 
+    // ================= INVIOLABLE UNIVERSAL MATHEMATICAL SANITIZER & REPAIR ENGINE =================
+    function universalMathSanitizer(str) {
+      if (typeof str !== 'string' || !str) return str || '';
+      let res = str;
+
+      // 1. Fix ASCII form-feed (\x0c) or unicode female symbol (♀) caused by \f -> form-feed
+      res = res.replace(/([\x0c\u2640]|\\f)rac/g, '\\frac');
+
+      // 2. Fix stripped backslashes before common LaTeX commands
+      res = res.replace(/(^|[^\\])sqrt(\d+|\{[^}]+\})/g, '$1\\sqrt{$2}');
+      res = res.replace(/(^|[^\\])frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1\\frac{$2}{$3}');
+
+      // 3. Fix stripped ge / le inside parentheses: (xge2), (xle2)
+      res = res.replace(/\(([^()]*?)([a-zA-Z0-9])\s*ge\s*([a-zA-Z0-9]+)([^()]*?)\)/g, '($1$2 \\ge $3$4)');
+      res = res.replace(/\(([^()]*?)([a-zA-Z0-9])\s*le\s*([a-zA-Z0-9]+)([^()]*?)\)/g, '($1$2 \\le $3$4)');
+
+      // 4. Wrap naked \frac or \sqrt with numbers outside $ in math mode
+      res = res.replace(/(^|[^$])(\\frac\{[^{}]+\}\{[^{}]+\})([^$]|$)/g, '$1$$$2$$$3');
+      res = res.replace(/(^|[^$])(\\sqrt\{[^{}]+\})([^$]|$)/g, '$1$$$2$$$3');
+
+      // Clean accidental double dollars
+      res = res.replace(/\$\$\$/g, '$');
+
+      return res;
+    }
+
+    // Mathematically Exact Coordinate & Function Plotting Engine (Zero Bezier Sketches)
+    function generateExactMathCartesianSvg(type, config) {
+      config = config || {};
+      const width = 380;
+      const height = 210;
+      const originX = 140;
+      const originY = 150;
+      const scale = 25; // 25px per unit
+
+      function toSvgX(x) { return originX + x * scale; }
+      function toSvgY(y) { return originY - y * scale; }
+
+      let elements = [];
+      // Grid lines
+      for (let x = -4; x <= 8; x++) {
+        const sx = toSvgX(x);
+        if (sx >= 20 && sx <= width - 20) {
+          elements.push(`<line x1="${sx}" y1="20" x2="${sx}" y2="190" stroke="#1E293B" stroke-width="1"/>`);
+        }
+      }
+      for (let y = -2; y <= 6; y++) {
+        const sy = toSvgY(y);
+        if (sy >= 20 && sy <= 190) {
+          elements.push(`<line x1="20" y1="${sy}" x2="${width - 20}" y2="${sy}" stroke="#1E293B" stroke-width="1"/>`);
+        }
+      }
+
+      // Metric Axes
+      elements.push(`<line x1="20" y1="${originY}" x2="${width - 20}" y2="${originY}" stroke="#64748B" stroke-width="1.5"/>`);
+      elements.push(`<line x1="${originX}" y1="195" x2="${originX}" y2="15" stroke="#64748B" stroke-width="1.5"/>`);
+      elements.push(`<text x="${width - 15}" y="${originY + 4}" fill="#94A3B8" font-size="11" font-weight="bold">x</text>`);
+      elements.push(`<text x="${originX - 4}" y="12" fill="#94A3B8" font-size="11" font-weight="bold">y</text>`);
+      elements.push(`<text x="${originX - 12}" y="${originY + 14}" fill="#64748B" font-size="10">O</text>`);
+
+      // Integer tick marks on x and y axes
+      for (let x = -3; x <= 8; x++) {
+        if (x === 0) continue;
+        const sx = toSvgX(x);
+        if (sx >= 25 && sx <= width - 25) {
+          elements.push(`<line x1="${sx}" y1="${originY - 3}" x2="${sx}" y2="${originY + 3}" stroke="#64748B" stroke-width="1.2"/>`);
+          elements.push(`<text x="${sx}" y="${originY + 13}" fill="#64748B" font-size="9" text-anchor="middle">${x}</text>`);
+        }
+      }
+      for (let y = -1; y <= 5; y++) {
+        if (y === 0) continue;
+        const sy = toSvgY(y);
+        if (sy >= 25 && sy <= 185) {
+          elements.push(`<line x1="${originX - 3}" y1="${sy}" x2="${originX + 3}" y2="${sy}" stroke="#64748B" stroke-width="1.2"/>`);
+          elements.push(`<text x="${originX - 8}" y="${sy + 3}" fill="#64748B" font-size="9" text-anchor="end">${y}</text>`);
+        }
+      }
+
+      if (type === 'quadratic') {
+        const a = config.a !== undefined ? config.a : 0.4;
+        const p = config.p !== undefined ? config.p : 2;
+        const q = config.q !== undefined ? config.q : 1;
+        const pts = [];
+        for (let x = -2.5; x <= 6.5; x += 0.05) {
+          const y = a * Math.pow(x - p, 2) + q;
+          const sx = toSvgX(x);
+          const sy = toSvgY(y);
+          if (sy >= 15 && sy <= 195) {
+            pts.push((pts.length === 0 ? 'M ' : 'L ') + sx.toFixed(1) + ' ' + sy.toFixed(1));
+          }
+        }
+        elements.push(`<path d="${pts.join(' ')}" fill="none" stroke="#60A5FA" stroke-width="2.5"/>`);
+        // Symmetry axis
+        elements.push(`<line x1="${toSvgX(p)}" y1="20" x2="${toSvgX(p)}" y2="190" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>`);
+        elements.push(`<text x="${toSvgX(p) + 6}" y="32" fill="#F59E0B" font-size="10" font-weight="bold">대칭축 x = ${p}</text>`);
+        // Vertex
+        elements.push(`<circle cx="${toSvgX(p)}" cy="${toSvgY(q)}" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.5"/>`);
+        elements.push(`<text x="${toSvgX(p) + 8}" y="${toSvgY(q) + 4}" fill="#F8FAFC" font-size="10.5" font-weight="extrabold">꼭짓점 (${p}, ${q})</text>`);
+      } else if (type === 'rational' || type === 'inverse') {
+        // Line y = x
+        elements.push(`<line x1="${toSvgX(-1)}" y1="${toSvgY(-1)}" x2="${toSvgX(6)}" y2="${toSvgY(6)}" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>`);
+        elements.push(`<text x="${toSvgX(5.5) + 4}" y="${toSvgY(5.5) - 4}" fill="#F59E0B" font-size="10" font-weight="bold">y = x</text>`);
+        const ptsF = [];
+        const ptsInv = [];
+        for (let x = 0; x <= 4.5; x += 0.05) {
+          const y = 0.25 * x * x + 1;
+          const sxF = toSvgX(x);
+          const syF = toSvgY(y);
+          if (syF >= 20 && syF <= 190 && sxF >= 20 && sxF <= width - 20) {
+            ptsF.push((ptsF.length === 0 ? 'M ' : 'L ') + sxF.toFixed(1) + ' ' + syF.toFixed(1));
+          }
+          const sxInv = toSvgX(y);
+          const syInv = toSvgY(x);
+          if (syInv >= 20 && syInv <= 190 && sxInv >= 20 && sxInv <= width - 20) {
+            ptsInv.push((ptsInv.length === 0 ? 'M ' : 'L ') + sxInv.toFixed(1) + ' ' + syInv.toFixed(1));
+          }
+        }
+        elements.push(`<path d="${ptsF.join(' ')}" fill="none" stroke="#60A5FA" stroke-width="2.5"/>`);
+        elements.push(`<text x="${toSvgX(3.5)}" y="${toSvgY(4.2)}" fill="#60A5FA" font-size="10" font-weight="bold">y = f(x)</text>`);
+        elements.push(`<path d="${ptsInv.join(' ')}" fill="none" stroke="#A78BFA" stroke-width="2.5"/>`);
+        elements.push(`<text x="${toSvgX(4.2)}" y="${toSvgY(2.2)}" fill="#A78BFA" font-size="10" font-weight="bold">y = f⁻¹(x)</text>`);
+        // Intersection
+        elements.push(`<circle cx="${toSvgX(2)}" cy="${toSvgY(2)}" r="4" fill="#34D399" stroke="#FFFFFF" stroke-width="1"/>`);
+        elements.push(`<text x="${toSvgX(2) + 6}" y="${toSvgY(2) + 12}" fill="#34D399" font-size="9" font-weight="bold">교점 (2, 2)</text>`);
+      } else {
+        // General smooth function
+        const pts = [];
+        for (let x = -2; x <= 4.5; x += 0.05) {
+          const y = 0.25 * (x + 1) * (x - 1) * (x - 3) + 2;
+          const sx = toSvgX(x);
+          const sy = toSvgY(y);
+          if (sy >= 20 && sy <= 190) {
+            pts.push((pts.length === 0 ? 'M ' : 'L ') + sx.toFixed(1) + ' ' + sy.toFixed(1));
+          }
+        }
+        elements.push(`<path d="${pts.join(' ')}" fill="none" stroke="#60A5FA" stroke-width="2.5"/>`);
+        elements.push(`<circle cx="${toSvgX(1)}" cy="${toSvgY(2)}" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.5"/>`);
+        elements.push(`<text x="${toSvgX(1) + 8}" y="${toSvgY(2) - 4}" fill="#F8FAFC" font-size="10.5" font-weight="extrabold">변곡점 (1, 2)</text>`);
+      }
+
+      return `<svg viewBox="0 0 ${width} ${height}" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">${elements.join('')}</svg>`;
+    }
+
+    // Auto-repair corruptions from localStorage on load
+    function repairCorruptedVaultLocalStorage() {
+      try {
+        const keys = ['rootmath_vault_exams', 'rootmath_vault_exams_v1'];
+        keys.forEach(k => {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const exams = JSON.parse(raw);
+            if (Array.isArray(exams)) {
+              exams.forEach(e => {
+                if (e.title) e.title = universalMathSanitizer(e.title);
+                if (Array.isArray(e.questions)) {
+                  e.questions.forEach(q => {
+                    if (q.title) q.title = universalMathSanitizer(q.title);
+                    if (q.text) q.text = universalMathSanitizer(q.text);
+                    if (q.ans) q.ans = universalMathSanitizer(q.ans);
+                    if (q.tip) q.tip = universalMathSanitizer(q.tip);
+                  });
+                }
+              });
+              localStorage.setItem(k, JSON.stringify(exams));
+            }
+          }
+        });
+
+        const rawC = localStorage.getItem('rootmath_vault_concepts');
+        if (rawC) {
+          const concepts = JSON.parse(rawC);
+          if (Array.isArray(concepts)) {
+            concepts.forEach(c => {
+              if (c.title) c.title = universalMathSanitizer(c.title);
+              if (c.formula) c.formula = universalMathSanitizer(c.formula);
+              if (Array.isArray(c.corePrinciples)) {
+                c.corePrinciples = c.corePrinciples.map(p => universalMathSanitizer(p));
+              }
+              if (c.practiceExample) {
+                c.practiceExample.question = universalMathSanitizer(c.practiceExample.question);
+                c.practiceExample.solution = universalMathSanitizer(c.practiceExample.solution);
+                c.practiceExample.answer = universalMathSanitizer(c.practiceExample.answer);
+              }
+            });
+            localStorage.setItem('rootmath_vault_concepts', JSON.stringify(concepts));
+          }
+        }
+      } catch (err) {
+        console.warn('[RootMath] Vault storage auto-repair note:', err);
+      }
+    }
+
     // ================= VAULT & BATTLE SYSTEM CONTROLLER =================
     let userVaultConcepts = [];
     let userVaultExams = [];
 
     function initVaultStorage() {
+      repairCorruptedVaultLocalStorage();
       try {
         const storedC = localStorage.getItem('rootmath_vault_concepts');
         userVaultConcepts = storedC ? JSON.parse(storedC) : [];
@@ -19823,59 +20015,11 @@
 
       let conceptSvg = '';
       if (nodeId === 'n3' || (node.name && node.name.includes('이차함수'))) {
-        conceptSvg = `
-          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="160" x2="360" y2="160" stroke="#475569" stroke-width="1.2"/>
-            <text x="365" y="164" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
-            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
-            <text x="76" y="15" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
-            <text x="68" y="174" fill="#64748B" font-size="10">O</text>
-            <line x1="180" y1="25" x2="180" y2="175" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <text x="185" y="40" fill="#F59E0B" font-size="10" font-weight="bold">대칭축 x = -b/(2a)</text>
-            <path d="M 60 176 Q 180 -50 300 176" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
-            <circle cx="180" cy="45" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.5"/>
-            <text x="188" y="55" fill="#F8FAFC" font-size="10.5" font-weight="extrabold">꼭짓점 V(p, q)</text>
-            <circle cx="80" cy="148" r="3.5" fill="#38BDF8"/>
-            <text x="45" y="145" fill="#38BDF8" font-size="9.5" font-weight="bold">y절편 (0, c)</text>
-            <rect x="235" y="85" width="130" height="38" rx="6" fill="#1E293B" stroke="#334155"/>
-            <text x="242" y="100" fill="#FDE047" font-size="9.5" font-weight="bold">D > 0: 서로 다른 두 실근</text>
-            <text x="242" y="115" fill="#94A3B8" font-size="9">D = 0 (접함), D < 0 (공중 부양)</text>
-          </svg>
-        `;
+        conceptSvg = generateExactMathCartesianSvg('quadratic', { a: 0.4, p: 2, q: 1 });
       } else if (nodeId === 'n6' || (node.name && node.name.includes('역함수'))) {
-        conceptSvg = `
-          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="170" x2="360" y2="170" stroke="#475569" stroke-width="1.2"/>
-            <text x="365" y="174" fill="#94A3B8" font-size="11">x</text>
-            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
-            <text x="76" y="15" fill="#94A3B8" font-size="11">y</text>
-            <line x1="40" y1="180" x2="280" y2="20" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <text x="285" y="25" fill="#F59E0B" font-size="10" font-weight="bold">직선 y = x</text>
-            <path d="M 90 170 Q 140 160 270 90" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
-            <text x="275" y="95" fill="#60A5FA" font-size="10" font-weight="bold">y = f(x)</text>
-            <path d="M 170 90 Q 160 140 90 270" fill="none" stroke="#A78BFA" stroke-width="2.5"/>
-            <text x="175" y="85" fill="#A78BFA" font-size="10" font-weight="bold">y = f⁻¹(x)</text>
-            <circle cx="130" cy="155" r="4" fill="#38BDF8"/>
-            <text x="135" y="153" fill="#38BDF8" font-size="9">(a, b)</text>
-            <circle cx="155" cy="130" r="4" fill="#C084FC"/>
-            <text x="160" y="128" fill="#C084FC" font-size="9">(b, a)</text>
-            <line x1="130" y1="155" x2="155" y2="130" stroke="#CBD5E1" stroke-dasharray="2 2"/>
-          </svg>
-        `;
+        conceptSvg = generateExactMathCartesianSvg('inverse');
       } else {
-        conceptSvg = `
-          <svg viewBox="0 0 380 200" class="w-full h-44 bg-slate-950 rounded-xl select-none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="160" x2="360" y2="160" stroke="#475569" stroke-width="1.2"/>
-            <text x="365" y="164" fill="#94A3B8" font-size="11">x</text>
-            <line x1="80" y1="190" x2="80" y2="20" stroke="#475569" stroke-width="1.2"/>
-            <text x="76" y="15" fill="#94A3B8" font-size="11">y</text>
-            <path d="M 90 150 Q 180 30 310 130" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
-            <circle cx="180" cy="70" r="4.5" fill="#EF4444"/>
-            <text x="190" y="72" fill="#F8FAFC" font-size="10.5" font-weight="bold">핵심 특이점 / 극값</text>
-            <rect x="220" y="25" width="145" height="32" rx="6" fill="#1E293B" stroke="#334155"/>
-            <text x="228" y="45" fill="#38BDF8" font-size="10" font-weight="bold">${node.name} 시각화 모델</text>
-          </svg>
-        `;
+        conceptSvg = generateExactMathCartesianSvg('general', { title: node.name });
       }
 
       return {
@@ -20264,19 +20408,23 @@
             <button class="no-print" onclick="window.print()" style="padding: 9px 18px; background: #4338CA; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; box-shadow: 0 2px 4px rgba(67, 56, 202, 0.2);">🖨️ 인쇄하기</button>
           </div>
 
-          ${exam.questions.map(q => `
+          ${exam.questions.map(q => {
+            const cleanText = universalMathSanitizer(q.text);
+            const cleanAns = universalMathSanitizer(q.ans);
+            const cleanTip = universalMathSanitizer(q.tip);
+            return `
             <div class="question-box">
               <div class="q-header">
                 <span>문항 ${q.qNum}. ${q.title}</span>
                 <span style="font-size: 11px; color: #64748B; font-weight: 600;">[배점 4점]</span>
               </div>
-              <div class="q-text">${q.text}</div>
+              <div class="q-text">${cleanText}</div>
               <div class="solution-toggle">
-                <div><strong>[정답]</strong> ${q.ans}</div>
-                <div style="margin-top: 4px; color: #334155; font-size: 12px;"><strong>[해설 원리]</strong> ${q.tip}</div>
+                <div><strong>[정답]</strong> ${cleanAns}</div>
+                <div style="margin-top: 4px; color: #334155; font-size: 12px;"><strong>[해설 원리]</strong> ${cleanTip}</div>
               </div>
             </div>
-          `).join('')}
+          `;}).join('')}
 
           ${'<' + 'script>'}
             function triggerMathRender() {
