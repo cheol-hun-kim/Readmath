@@ -4607,6 +4607,112 @@
           </div>
         </div>
 
+                <!-- N-Booklet & Exam Mode Selector -->
+        <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 grid grid-cols-2 gap-1 text-xs">
+          <button type="button" id="btn-mode-standard" onclick="switchExamMode('standard')" class="py-2 rounded-lg font-extrabold text-slate-300 bg-slate-900 border border-slate-700 hover:text-white transition flex items-center justify-center gap-1.5">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> 단기 맞춤 시험지
+          </button>
+          <button type="button" id="btn-mode-weekly" onclick="switchExamMode('weekly')" class="py-2 rounded-lg font-extrabold text-indigo-300 bg-indigo-950/80 border border-indigo-500/50 shadow-xs hover:text-white transition flex items-center justify-center gap-1.5">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> 🔥 7-Days 주간 맞춤 N-제
+          </button>
+        </div>
+
+        <!-- 7-Days Weekly N-Booklet Detailed Options Panel -->
+        <div id="weekly-n-options-panel" class="bg-gradient-to-br from-indigo-950/50 via-slate-900 to-purple-950/30 border border-indigo-500/40 rounded-2xl p-4 space-y-3.5 text-xs">
+          <div class="flex items-center justify-between border-b border-indigo-500/20 pb-2">
+            <span class="font-extrabold text-white flex items-center gap-1.5 text-xs">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> 7-Days 위클리 플래너 N-제 설정
+            </span>
+            <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-400/30">
+              우측 날개 DAY 1~7 색인 탭 기본 탑재
+            </span>
+          </div>
+
+          <!-- 1. Daily Goal Selector (10 / 20 / 30 / 40 / 50) -->
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1.5 flex items-center justify-between">
+              <span>1일 목표량 선택 (7일 완독 플랜):</span>
+              <span id="weekly-plan-badge" class="text-amber-400 font-mono font-bold">주 140제 (스탠다드)</span>
+            </label>
+            <div class="grid grid-cols-5 gap-1.5">
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_daily_goal" value="10" onchange="onWeeklyGoalChange(10)" class="peer sr-only" />
+                <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
+                  <div class="font-black text-sm">10제</div>
+                  <div class="text-[9.5px] mt-0.5 text-slate-400">주 70제</div>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_daily_goal" value="20" checked onchange="onWeeklyGoalChange(20)" class="peer sr-only" />
+                <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
+                  <div class="font-black text-sm">20제</div>
+                  <div class="text-[9.5px] mt-0.5 text-amber-400 font-bold">주 140제</div>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_daily_goal" value="30" onchange="onWeeklyGoalChange(30)" class="peer sr-only" />
+                <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
+                  <div class="font-black text-sm">30제</div>
+                  <div class="text-[9.5px] mt-0.5 text-slate-400">주 210제</div>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_daily_goal" value="40" onchange="onWeeklyGoalChange(40)" class="peer sr-only" />
+                <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
+                  <div class="font-black text-sm">40제</div>
+                  <div class="text-[9.5px] mt-0.5 text-slate-400">주 280제</div>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_daily_goal" value="50" onchange="onWeeklyGoalChange(50)" class="peer sr-only" />
+                <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
+                  <div class="font-black text-sm">50제</div>
+                  <div class="text-[9.5px] mt-0.5 text-rose-400 font-bold">주 350제</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. Arrangement Mode: Thematic vs Daily Mock -->
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1.5">문항 배열 방식:</label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_layout_mode" value="thematic" checked class="peer sr-only" />
+                <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950/70 text-slate-300 hover:border-slate-700 transition flex flex-col justify-between h-full">
+                  <div class="font-bold text-xs text-white flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span> 유형별 집중 격파형
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-normal">
+                    Day별로 취약 단원(삼각함수, 미분, 수열 등)을 테마별로 몰아서 정복
+                  </p>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="weekly_layout_mode" value="mock" class="peer sr-only" />
+                <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-950/70 text-slate-300 hover:border-slate-700 transition flex flex-col justify-between h-full">
+                  <div class="font-bold text-xs text-white flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span> 실전 모의고사 분산형
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-normal">
+                    Day 1~7 매일 수능/내신 전 범위가 고르게 섞여 실전 감각 및 시간 훈련
+                  </p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3. Page Edge Tab and Detail Options -->
+          <div class="pt-2 border-t border-indigo-500/20 flex items-center justify-between text-[11px]">
+            <label class="flex items-center gap-2 text-slate-300 cursor-pointer select-none">
+              <input type="checkbox" id="weekly-opt-edge-tabs" checked class="rounded border-slate-700 text-indigo-600 focus:ring-0" />
+              <span>우측 날개 계단식 DAY 1~7 색인 탭(Thumb Index) 인쇄</span>
+            </label>
+            <span class="text-indigo-300 font-mono font-bold" id="weekly-subscription-price">월 구독 49,000원</span>
+          </div>
+        </div>
+
+
         <!-- PRO Tier Value Banner -->
         <div class="bg-gradient-to-r from-amber-500/15 via-indigo-500/15 to-purple-500/15 border border-amber-500/30 rounded-xl p-3 space-y-1 text-xs">
           <div class="flex items-center justify-between">
@@ -19116,6 +19222,48 @@
     }
 
     // ================= EXAM SHEET GENERATOR & PRINT ENGINE =================
+    
+    let currentExamGenMode = 'weekly'; // 'weekly' or 'standard'
+    let currentWeeklyGoal = 20;
+
+    function switchExamMode(mode) {
+      currentExamGenMode = mode;
+      const btnStd = document.getElementById('btn-mode-standard');
+      const btnWk = document.getElementById('btn-mode-weekly');
+      const panel = document.getElementById('weekly-n-options-panel');
+      
+      if (mode === 'weekly') {
+        if (btnWk) btnWk.className = "py-2 rounded-lg font-extrabold text-indigo-300 bg-indigo-950/80 border border-indigo-500/50 shadow-xs hover:text-white transition flex items-center justify-center gap-1.5";
+        if (btnStd) btnStd.className = "py-2 rounded-lg font-extrabold text-slate-400 bg-slate-950 border border-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
+        if (panel) panel.style.display = "block";
+      } else {
+        if (btnStd) btnStd.className = "py-2 rounded-lg font-extrabold text-indigo-300 bg-indigo-950/80 border border-indigo-500/50 shadow-xs hover:text-white transition flex items-center justify-center gap-1.5";
+        if (btnWk) btnWk.className = "py-2 rounded-lg font-extrabold text-slate-400 bg-slate-950 border border-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
+        if (panel) panel.style.display = "none";
+      }
+      updateExamSelectionCount();
+    }
+
+    function onWeeklyGoalChange(val) {
+      currentWeeklyGoal = parseInt(val, 10) || 20;
+      const badge = document.getElementById('weekly-plan-badge');
+      const price = document.getElementById('weekly-subscription-price');
+      const planNames = {
+        10: { name: '주 70제 (라이트 루틴)', price: '월 구독 29,000원' },
+        20: { name: '주 140제 (스탠다드)', price: '월 구독 49,000원' },
+        30: { name: '주 210제 (집중 공략)', price: '월 구독 69,000원' },
+        40: { name: '주 280제 (상위권 도약)', price: '월 구독 89,000원' },
+        50: { name: '주 350제 (의치한 킬러 마스터)', price: '월 구독 119,000원' }
+      };
+      if (badge && planNames[currentWeeklyGoal]) {
+        badge.textContent = planNames[currentWeeklyGoal].name;
+      }
+      if (price && planNames[currentWeeklyGoal]) {
+        price.textContent = planNames[currentWeeklyGoal].price;
+      }
+      updateExamSelectionCount();
+    }
+
     function openExamSheetModal() {
       const container = document.getElementById('exam-sheet-problem-checklist');
       if (!container) return;
@@ -19189,6 +19337,11 @@
       const includeTwin = document.getElementById('exam-opt-twin')?.checked ?? true;
       const includeAnswers = document.getElementById('exam-opt-answers')?.checked ?? true;
 
+      const isWeekly = (typeof currentExamGenMode !== 'undefined' && currentExamGenMode === 'weekly');
+      const weeklyGoal = (typeof currentWeeklyGoal !== 'undefined' ? currentWeeklyGoal : 20);
+      const layoutMode = document.querySelector('input[name="weekly_layout_mode"]:checked')?.value || 'thematic';
+      const includeEdgeTabs = document.getElementById('weekly-opt-edge-tabs')?.checked ?? true;
+
       const selectedProblems = selectedIds.map(id => {
         const inHistory = (userSolvedHistory || []).find(h => String(h.id) === String(id));
         return inHistory || PROBLEMS_DB[id];
@@ -19198,22 +19351,28 @@
       printArea.innerHTML = `
         <div style="max-width: 800px; margin: 0 auto; padding: 16px 20px; font-family: 'Pretendard', sans-serif; color: #111;">
           <!-- Exam / Clinic Header -->
-          <div style="border-bottom: 3px double #000; padding-bottom: 10px; margin-bottom: 16px;">
+          <div style="border-bottom: 3px double #000; padding-bottom: 10px; margin-bottom: 16px; position: relative;">
+            ${isWeekly && includeEdgeTabs ? `
+              <div class="day-thumb-tab" style="position: absolute; right: -20px; top: 10px; width: 34px; height: 52px; background-color: #0f172a; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px 0 0 6px; box-shadow: -2px 0 6px rgba(0,0,0,0.2);">
+                <span style="font-size: 8px; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px; line-height: 1;">WEEK</span>
+                <span style="font-size: 14px; font-weight: 900; line-height: 1.1; color: #ffffff;">7D</span>
+              </div>
+            ` : ''}
             <div style="display: flex; justify-content: space-between; align-items: flex-end;">
               <div>
-                <span style="font-size: 11px; font-weight: 800; color: ${isTeacher ? '#b45309' : '#4338ca'}; letter-spacing: 1px;">
-                  ${isTeacher ? 'ROOTMATH TEACHER 1:1 CLINIC WORKBOOK' : 'ROOTMATH ADAPTIVE DIAGNOSTIC EXAM'}
+                <span style="font-size: 11px; font-weight: 800; color: ${isWeekly ? '#0f172a' : (isTeacher ? '#b45309' : '#4338ca')}; letter-spacing: 1px;">
+                  ${isWeekly ? 'READMATH 7-DAYS WEEKLY PLANNER N-BOOKLET' : (isTeacher ? 'ROOTMATH TEACHER 1:1 CLINIC WORKBOOK' : 'ROOTMATH ADAPTIVE DIAGNOSTIC EXAM')}
                 </span>
                 <h1 style="font-size: 21px; font-weight: 900; margin: 2px 0 0 0; color: #000;">
-                  ${isTeacher ? `${academyName} 1:1 취약점 클리닉 교재` : `2024학년도 ${studentProfile?.school || '낙생고등학교'} 제1학기 지필평가 대비 파이널 봉투 모의고사`}
+                  ${isWeekly ? `${studentName} 학생 맞춤 주간 N-제 (1일 ${weeklyGoal}제 · 주 ${weeklyGoal * 7}제 완독 플랜)` : (isTeacher ? `${academyName} 1:1 취약점 클리닉 교재` : `2024학년도 ${studentProfile?.school || '낙생고등학교'} 제1학기 지필평가 대비 파이널 봉투 모의고사`)}
                 </h1>
                 <h2 style="font-size: 13px; font-weight: 700; margin: 3px 0 0 0; color: #444;">
-                  ${isTeacher ? `${studentName} 학생 맞춤 개념서 &amp; 쌍둥이 실전 연습문항` : `${studentName} 학생 맞춤형 약점 극복 시험지 (취약 원인 집중 훈련)`}
+                  ${isWeekly ? `${academyName} | ${layoutMode === 'thematic' ? '유형별 핀셋 집중 격파 모드' : '실전 모의고사 분산형 모드'} | 우측 날개 DAY 1~7 색인 탭 수록` : (isTeacher ? `${studentName} 학생 맞춤 개념서 &amp; 쌍둥이 실전 연습문항` : `${studentName} 학생 맞춤형 약점 극복 시험지 (취약 원인 집중 훈련)`)}
                 </h2>
               </div>
-              <div style="border: 2px solid ${isTeacher ? '#b45309' : '#000'}; padding: 5px 12px; text-align: center; background: ${isTeacher ? '#fffbeb' : '#fff'};">
-                <span style="font-size: 10px; font-weight: 800; display: block; color: ${isTeacher ? '#b45309' : '#000'};">
-                  ${isTeacher ? '1:1 맞춤 클리닉' : '제 2 교시'}
+              <div style="border: 2px solid ${isWeekly ? '#0f172a' : (isTeacher ? '#b45309' : '#000')}; padding: 5px 12px; text-align: center; background: ${isWeekly ? '#f8fafc' : (isTeacher ? '#fffbeb' : '#fff')};">
+                <span style="font-size: 10px; font-weight: 800; display: block; color: ${isWeekly ? '#0f172a' : (isTeacher ? '#b45309' : '#000')};">
+                  ${isWeekly ? '주간 플래너' : (isTeacher ? '1:1 맞춤 클리닉' : '제 2 교시')}
                 </span>
                 <span style="font-size: 15px; font-weight: 900; color: #000;">수학 영역</span>
               </div>
@@ -19222,9 +19381,9 @@
             <!-- Student ID Bar -->
             <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-top: 10px; border-top: 1px solid #000; padding-top: 6px;">
               <span>학생명: ${studentName}</span>
-              <span>${isTeacher ? `담당 강사: 리드매스 멘토 선생님 (${academyName})` : '수험번호: 2024-RM001'}</span>
-              <span>문항수: 총 ${selectedProblems.length * (includeTwin ? 2 : 1)}문항</span>
-              <span>서식: 수능 2단 편집 / 서술형</span>
+              <span>${isWeekly ? `소속: ${academyName}` : (isTeacher ? `담당 강사: 리드매스 멘토 선생님 (${academyName})` : '수험번호: 2024-RM001')}</span>
+              <span>${isWeekly ? `플랜: 1일 ${weeklyGoal}제 (주 ${weeklyGoal * 7}제)` : `문항수: 총 ${selectedProblems.length * (includeTwin ? 2 : 1)}문항`}</span>
+              <span>서식: 2단 편집 / 우측 절색인 인쇄</span>
             </div>
           </div>
 
@@ -19246,69 +19405,138 @@
             </div>
           ` : ''}
 
-          <!-- Section 2: Questions Area (2-Column Grid) -->
+          <!-- Section 2: Questions Area (2-Column Grid with DAY 1~7 Partition) -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 24px;">
-            ${selectedProblems.map((prob, idx) => {
-              const qNum = idx * (includeTwin ? 2 : 1) + 1;
-              const twinNum = qNum + 1;
-              const twin = prob.twin_problem;
+            ${(() => {
+              if (isWeekly) {
+                // 7-Days Weekly N-Booklet Partition
+                const daysHtml = [];
+                const totalItems = selectedProblems.length;
+                const itemsPerDay = Math.max(1, Math.ceil(totalItems / 7));
 
-              return `
-                <!-- Original Question -->
-                <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px;">
-                  <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
-                    <span style="font-size: 16px; font-weight: 900; color: #000; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${qNum}]</span>
-                    <span style="font-size: 11px; font-weight: 700; color: #4f46e5; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade} - ${cleanProblemTitle(prob.title)})</span>
-                  </div>
-                  <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
-                    ${autoFormatMathText(prob.problem_text)}
-                  </div>
+                for (let d = 0; d < 7; d++) {
+                  const dayNum = d + 1;
+                  const dayProblems = [];
+                  for (let i = 0; i < itemsPerDay; i++) {
+                    const probIdx = (d * itemsPerDay + i) % totalItems;
+                    dayProblems.push(selectedProblems[probIdx]);
+                  }
 
-                  ${prob.sub_questions && prob.sub_questions.length > 1 ? `
-                    <div style="margin: 8px 0 12px 0; padding-left: 12px; border-left: 2px solid #4f46e5;">
-                      ${prob.sub_questions.map(sq => `
-                        <div style="margin-bottom: 8px; font-size: 12.5px; line-height: 1.9; word-break: keep-all; text-align: justify;">
-                          <strong style="color: #4338ca;">(${sq.sub_id})</strong> ${autoFormatMathText(sq.question_text)}
+                  const dayHeaderHtml = `
+                    <div style="grid-column: 1 / -1; break-inside: avoid; page-break-inside: avoid; ${d > 0 ? 'page-break-before: always; margin-top: 28px;' : 'margin-top: 10px;'} position: relative; margin-bottom: 16px;">
+                      ${includeEdgeTabs ? `
+                        <div class="day-thumb-tab" style="position: absolute; right: -24px; top: ${60 + d * 52}px; width: 34px; height: 50px; background-color: #0f172a; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px 0 0 6px; box-shadow: -2px 0 6px rgba(0,0,0,0.25);">
+                          <span style="font-size: 8px; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px; line-height: 1;">DAY</span>
+                          <span style="font-size: 15px; font-weight: 900; line-height: 1.1; color: #ffffff;">${dayNum}</span>
                         </div>
-                      `).join('')}
-                    </div>
-                  ` : ''}
-
-                  ${includeWorkspace ? `
-                    <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
-                      <span style="font-size: 10px; font-weight: 700; color: #64748b;">[풀이 및 서술 공간]</span>
-                      <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">
-                        정답: ____________________
+                      ` : ''}
+                      <div style="background: #f8fafc; border: 1.5px solid #0f172a; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <span style="background: #0f172a; color: #ffffff; font-weight: 900; font-size: 13px; padding: 3px 10px; border-radius: 5px;">DAY ${dayNum}</span>
+                          <span style="font-size: 13px; font-weight: 800; color: #0f172a;">${layoutMode === 'thematic' ? `[테마 ${dayNum}] 취약 단원 집중 정복` : `[실전 모의 ${dayNum}회] 일일 실전 믹스 트레이닝`}</span>
+                        </div>
+                        <div style="font-size: 11px; color: #475569; display: flex; gap: 12px; font-weight: 600;">
+                          <span>학습일: _____월 _____일</span>
+                          <span>소요시간: _____분</span>
+                          <span>득점: _____ / 100</span>
+                        </div>
                       </div>
                     </div>
-                  ` : ''}
-                </div>
+                  `;
+                  daysHtml.push(dayHeaderHtml);
 
-                <!-- Twin / Variant Question (If Enabled) -->
-                ${includeTwin && twin ? `
-                  <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding: 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px;">
+                  dayProblems.forEach((prob, pIdx) => {
+                    const globalQNum = d * weeklyGoal + (pIdx + 1);
+                    const twin = prob.twin_problem;
+
+                    daysHtml.push(`
+                      <!-- Question Item -->
+                      <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px;">
+                        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
+                          <span style="font-size: 16px; font-weight: 900; color: #000; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[DAY ${dayNum}-${pIdx + 1}]</span>
+                          <span style="font-size: 11px; font-weight: 700; color: #0f172a; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade || '공통'} - ${cleanProblemTitle(prob.title)})</span>
+                        </div>
+                        <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
+                          ${autoFormatMathText(prob.problem_text)}
+                        </div>
+
+                        ${includeWorkspace ? `
+                          <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 120px; margin-top: 10px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <span style="font-size: 10px; font-weight: 700; color: #64748b;">[DAY ${dayNum} 풀이 및 서술 공간]</span>
+                            <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">
+                              정답: ____________________
+                            </div>
+                          </div>
+                        ` : ''}
+                      </div>
+                    `);
+                  });
+                }
+                return daysHtml.join('');
+              }
+
+              // Standard Mode
+              return selectedProblems.map((prob, idx) => {
+                const qNum = idx * (includeTwin ? 2 : 1) + 1;
+                const twinNum = qNum + 1;
+                const twin = prob.twin_problem;
+
+                return `
+                  <!-- Original Question -->
+                  <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding-bottom: 14px;">
                     <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
-                      <span style="font-size: 16px; font-weight: 900; color: #047857; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${twinNum} - AI 쌍둥이 실전]</span>
-                      <span style="font-size: 11px; font-weight: 700; color: #059669; line-height: 1.4; word-break: keep-all;">(${cleanProblemTitle(twin.title)})</span>
+                      <span style="font-size: 16px; font-weight: 900; color: #000; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${qNum}]</span>
+                      <span style="font-size: 11px; font-weight: 700; color: #4f46e5; line-height: 1.4; word-break: keep-all;">(${prob.curriculum_grade} - ${cleanProblemTitle(prob.title)})</span>
                     </div>
                     <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
-                      ${autoFormatMathText(twin.problem_text)}
+                      ${autoFormatMathText(prob.problem_text)}
                     </div>
 
+                    ${prob.sub_questions && prob.sub_questions.length > 1 ? `
+                      <div style="margin: 8px 0 12px 0; padding-left: 12px; border-left: 2px solid #4f46e5;">
+                        ${prob.sub_questions.map(sq => `
+                          <div style="margin-bottom: 8px; font-size: 12.5px; line-height: 1.9; word-break: keep-all; text-align: justify;">
+                            <strong style="color: #4338ca;">(${sq.sub_id})</strong> ${autoFormatMathText(sq.question_text)}
+                          </div>
+                        `).join('')}
+                      </div>
+                    ` : ''}
+
                     ${includeWorkspace ? `
-                      <div style="border: 1px dashed #86efac; background: #ffffff; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <span style="font-size: 10px; font-weight: 700; color: #059669;">[쌍둥이 검증 풀이 및 서술 공간]</span>
-                        <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #166534; border-bottom: 1px solid #86efac; padding-bottom: 2px;">
+                      <div style="border: 1px dashed #94a3b8; background: #fafafa; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <span style="font-size: 10px; font-weight: 700; color: #64748b;">[풀이 및 서술 공간]</span>
+                        <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;">
                           정답: ____________________
                         </div>
                       </div>
                     ` : ''}
                   </div>
-                ` : ''}
-              `;
-            }).join('')}
-          </div>
 
+                  <!-- Twin / Variant Question (If Enabled) -->
+                  ${includeTwin && twin ? `
+                    <div style="break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; padding: 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px;">
+                      <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px;">
+                        <span style="font-size: 16px; font-weight: 900; color: #047857; white-space: nowrap; flex-shrink: 0; letter-spacing: -0.5px;">[문항 ${twinNum} - AI 쌍둥이 실전]</span>
+                        <span style="font-size: 11px; font-weight: 700; color: #059669; line-height: 1.4; word-break: keep-all;">(${cleanProblemTitle(twin.title)})</span>
+                      </div>
+                      <div style="font-size: 13.5px; line-height: 2.0; letter-spacing: -0.3px; color: #111; word-break: keep-all; text-align: justify; margin-bottom: 14px; font-weight: 500;">
+                        ${autoFormatMathText(twin.problem_text)}
+                      </div>
+
+                      ${includeWorkspace ? `
+                        <div style="border: 1px dashed #86efac; background: #ffffff; border-radius: 6px; min-height: 130px; margin-top: 12px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                          <span style="font-size: 10px; font-weight: 700; color: #059669;">[쌍둥이 검증 풀이 및 서술 공간]</span>
+                          <div style="align-self: flex-end; font-size: 11px; font-weight: 700; color: #166534; border-bottom: 1px solid #86efac; padding-bottom: 2px;">
+                            정답: ____________________
+                          </div>
+                        </div>
+                      ` : ''}
+                    </div>
+                  ` : ''}
+                `;
+              }).join('');
+            })()}
+          </div>
           <!-- Section 3: Appendix - Answer Key & Teacher Dialogue Guide -->
           ${includeAnswers ? `
             <div style="page-break-before: always; break-before: page; margin-top: 24px; padding-top: 16px; border-top: 2px solid #000;">
