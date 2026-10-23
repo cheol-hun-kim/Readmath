@@ -4715,6 +4715,45 @@
           </p>
         </div>
 
+                <!-- Granular Curriculum & Exam Scope Selector (과목/대단원/소단원 핀셋 설정) -->
+        <div class="bg-slate-950 rounded-2xl p-3.5 border border-slate-800 space-y-3 text-xs">
+          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+            <span class="font-extrabold text-white flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i> 내신·수능 시험범위 핀셋 선택 (대/중/소단원)
+            </span>
+            <span id="scope-selection-summary" class="text-[10px] text-indigo-300 font-bold bg-indigo-950 border border-indigo-500/40 px-2 py-0.5 rounded-full">
+              수학 II: 1학기 기말고사 범위
+            </span>
+          </div>
+
+          <!-- Subject Selector Tabs -->
+          <div class="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none text-[11px]">
+            <button type="button" onclick="selectCurriculumSubject('common')" id="sub-tab-common" class="px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap">공통수학 (고1)</button>
+            <button type="button" onclick="selectCurriculumSubject('math1')" id="sub-tab-math1" class="px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap">수학 I</button>
+            <button type="button" onclick="selectCurriculumSubject('math2')" id="sub-tab-math2" class="px-2.5 py-1 rounded-lg font-bold bg-indigo-600 text-white border border-indigo-500 hover:text-white transition whitespace-nowrap">수학 II</button>
+            <button type="button" onclick="selectCurriculumSubject('calculus')" id="sub-tab-calculus" class="px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap">미적분</button>
+            <button type="button" onclick="selectCurriculumSubject('prob_stat')" id="sub-tab-prob_stat" class="px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap">확률과 통계</button>
+            <button type="button" onclick="selectCurriculumSubject('geometry')" id="sub-tab-geometry" class="px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap">기하</button>
+          </div>
+
+          <!-- Quick Exam Preset Buttons -->
+          <div class="flex items-center justify-between text-[11px] pt-0.5">
+            <span class="text-slate-400 font-semibold text-[10.5px]">원클릭 시험범위:</span>
+            <div class="flex items-center gap-1 text-[10px]">
+              <button type="button" onclick="applyScopePreset('1_mid')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-indigo-400 text-slate-300 font-semibold">1학기 중간</button>
+              <button type="button" onclick="applyScopePreset('1_final')" class="px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/60 text-indigo-300 font-bold">1학기 기말</button>
+              <button type="button" onclick="applyScopePreset('2_mid')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-indigo-400 text-slate-300 font-semibold">2학기 중간</button>
+              <button type="button" onclick="applyScopePreset('2_final')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-indigo-400 text-slate-300 font-semibold">2학기 기말</button>
+              <button type="button" onclick="applyScopePreset('all')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-indigo-400 text-amber-300 font-bold">전범위</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Unit Checkbox Tree -->
+          <div id="curriculum-units-tree" class="max-h-36 overflow-y-auto space-y-2 pr-1 border-t border-slate-800/80 pt-2">
+            <!-- Dynamically populated from CURRICULUM_TAXONOMY -->
+          </div>
+        </div>
+
         <div class="bg-slate-950 rounded-xl p-3 border border-slate-800 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-200">시험지에 포함할 질문 문항 선택:</span>
@@ -19212,6 +19251,116 @@
 
     // ================= EXAM SHEET GENERATOR & PRINT ENGINE =================
     
+    
+    // ================= CURRICULUM TAXONOMY & SCOPE ENGINE =================
+    const CURRICULUM_TAXONOMY = {"version": "2024_2028_standard", "subjects": {"common": {"name": "공통수학 (고1)", "presets": {"1_mid": ["다항식의 연산", "나머지정리와 인수분해", "복소수와 이차방정식", "이차방정식과 이차함수"], "1_final": ["여러 가지 방정식", "여러 가지 부등식", "평면좌표", "직선의 방정식", "원의 방정식"], "2_mid": ["도형의 이동", "집합", "명제"], "2_final": ["함수", "유리함수와 무리함수", "경우의 수", "순열과 조합"], "all": ["전범위"]}, "major_units": [{"id": "c_poly", "title": "I. 다항식", "sub_units": ["다항식의 연산", "나머지정리와 인수분해"]}, {"id": "c_eqn", "title": "II. 방정식과 부등식", "sub_units": ["복소수와 이차방정식", "이차방정식과 이차함수", "여러 가지 방정식", "여러 가지 부등식"]}, {"id": "c_geom", "title": "III. 도형의 방정식", "sub_units": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"]}, {"id": "c_set", "title": "IV. 집합과 명제", "sub_units": ["집합의 뜻과 연산", "명제와 절대부등식"]}, {"id": "c_func", "title": "V. 함수와 그래프", "sub_units": ["함수의 뜻과 그래프 (합성·역함수)", "유리함수와 무리함수"]}, {"id": "c_comb", "title": "VI. 경우의 수", "sub_units": ["합과 곱의 법칙", "순열과 조합"]}]}, "math1": {"name": "수학 I (고2)", "presets": {"1_mid": ["지수와 로그", "지수함수와 로그함수", "지수·로그함수의 활용"], "1_final": ["삼각함수의 뜻과 그래프", "삼각함수의 활용 (사인·코사인법칙)"], "2_mid": ["등차수열과 등비수열", "수열의 합 (시그마)"], "2_final": ["수학적 귀납법", "수열의 귀납적 정의 역추적"], "all": ["전범위"]}, "major_units": [{"id": "m1_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]}, {"id": "m1_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]}, {"id": "m1_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 킬러 역추적"]}]}, "math2": {"name": "수학 II (고2)", "presets": {"1_mid": ["함수의 극한", "함수의 연속", "미분계수와 도함수"], "1_final": ["접선의 방정식과 평균값 정리", "함수의 증가·감소와 극대·극소", "삼·사차함수 그래프 추론"], "2_mid": ["방정식과 부등식의 활용", "속도와 가속도", "부정적분과 정적분의 계산"], "2_final": ["정적분으로 정의된 함수", "곡선 사이의 넓이", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "m2_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]}, {"id": "m2_diff", "title": "II. 다항함수의 미분법", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"]}, {"id": "m2_integ", "title": "III. 다항함수의 적분법", "sub_units": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)", "정적분의 넓이 및 속도와 거리"]}]}, "calculus": {"name": "미적분 (고3)", "presets": {"1_mid": ["수열의 극한", "급수와 등비급수의 도형 활용", "여러 가지 함수의 미분법"], "1_final": ["여러 가지 미분법 (합성·역함수·음함수)", "도함수의 활용 (초월함수 극대극소·변곡점)"], "2_mid": ["치환적분법과 부분적분법", "정적분의 치환·부분적분"], "2_final": ["정적분과 급수", "넓이와 입체도형의 부피", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "calc_seq", "title": "I. 수열의 극한", "sub_units": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"]}, {"id": "calc_diff", "title": "II. 여러 가지 미분법", "sub_units": ["초월함수의 극한과 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"]}, {"id": "calc_integ", "title": "III. 적분법", "sub_units": ["치환적분법과 부분적분법", "정적분의 활용 (넓이·입체부피·속도거리)"]}]}, "prob_stat": {"name": "확률과 통계", "presets": {"1_mid": ["원순열과 중복순열", "같은 것이 있는 순열", "중복조합과 이항정리"], "1_final": ["확률의 뜻과 덧셈정리", "조건부확률과 사건의 독립과 종속"], "2_mid": ["이산확률분포와 이항분포", "연속확률변수와 정규분포"], "2_final": ["정규분포의 표준화", "모평균의 추정과 신뢰도"], "all": ["전범위"]}, "major_units": [{"id": "ps_comb", "title": "I. 경우의 수", "sub_units": ["여러 가지 순열", "중복조합과 이항정리"]}, {"id": "ps_prob", "title": "II. 확률", "sub_units": ["확률의 성질과 덧셈정리", "조건부확률과 독립시행"]}, {"id": "ps_stat", "title": "III. 통계", "sub_units": ["확률변수와 이항분포", "정규분포와 표준화", "통계적 추정 (모평균 신뢰구간)"]}]}, "geometry": {"name": "기하", "presets": {"1_mid": ["포물선", "타원", "쌍곡선"], "1_final": ["이차곡선의 접선", "벡터의 연산과 성분"], "2_mid": ["평면벡터의 내적", "직선과 원의 벡터방정식"], "2_final": ["삼수선의 정리와 정사영", "공간좌표와 구의 방정식"], "all": ["전범위"]}, "major_units": [{"id": "geo_curve", "title": "I. 이차곡선", "sub_units": ["포물선의 정의와 방정식", "타원의 정의와 방정식", "쌍곡선의 정의와 방정식", "이차곡선의 접선의 방정식"]}, {"id": "geo_vector", "title": "II. 평면벡터", "sub_units": ["벡터의 덧셈과 뺄셈", "평면벡터의 성분과 크기", "평면벡터의 내적과 수직·평행"]}, {"id": "geo_space", "title": "III. 공간도형과 공간좌표", "sub_units": ["위치관계와 삼수선의 정리", "정사영의 넓이", "공간좌표와 두 점 사이의 거리", "구의 방정식"]}]}}};
+    let currentSelectedSubject = 'math2';
+    let currentSelectedScope = new Set(['접선의 방정식과 평균값 정리', '함수의 증가·감소와 극대·극소', '삼·사차함수 그래프 추론']);
+
+    function selectCurriculumSubject(subKey) {
+      currentSelectedSubject = subKey;
+      const allTabs = ['common', 'math1', 'math2', 'calculus', 'prob_stat', 'geometry'];
+      allTabs.forEach(k => {
+        const btn = document.getElementById('sub-tab-' + k);
+        if (btn) {
+          if (k === subKey) {
+            btn.className = "px-2.5 py-1 rounded-lg font-bold bg-indigo-600 text-white border border-indigo-500 hover:text-white transition whitespace-nowrap";
+          } else {
+            btn.className = "px-2.5 py-1 rounded-lg font-bold bg-slate-900 text-slate-400 border border-slate-800 hover:text-white transition whitespace-nowrap";
+          }
+        }
+      });
+
+      // Default to 1st final preset
+      applyScopePreset('1_final');
+    }
+
+    function applyScopePreset(presetKey) {
+      const sub = CURRICULUM_TAXONOMY.subjects[currentSelectedSubject];
+      if (!sub) return;
+
+      currentSelectedScope.clear();
+      if (presetKey === 'all') {
+        sub.major_units.forEach(mu => {
+          mu.sub_units.forEach(su => currentSelectedScope.add(su));
+        });
+      } else {
+        const presetUnits = sub.presets[presetKey] || [];
+        presetUnits.forEach(u => currentSelectedScope.add(u));
+      }
+
+      renderCurriculumUnitsTree();
+      updateScopeSummaryBadge(presetKey);
+      filterProblemsByScope();
+    }
+
+    function toggleScopeUnit(unitName, checked) {
+      if (checked) {
+        currentSelectedScope.add(unitName);
+      } else {
+        currentSelectedScope.delete(unitName);
+      }
+      updateScopeSummaryBadge('custom');
+      filterProblemsByScope();
+    }
+
+    function updateScopeSummaryBadge(presetKey) {
+      const summaryEl = document.getElementById('scope-selection-summary');
+      if (!summaryEl) return;
+      const sub = CURRICULUM_TAXONOMY.subjects[currentSelectedSubject];
+      const presetNames = {
+        '1_mid': '1학기 중간 범위',
+        '1_final': '1학기 기말 범위',
+        '2_mid': '2학기 중간 범위',
+        '2_final': '2학기 기말 범위',
+        'all': '전범위',
+        'custom': `${currentSelectedScope.size}개 소단원 선택`
+      };
+      summaryEl.textContent = `${sub.name}: ${presetNames[presetKey] || '선택 범위'}`;
+    }
+
+    function renderCurriculumUnitsTree() {
+      const container = document.getElementById('curriculum-units-tree');
+      if (!container) return;
+      const sub = CURRICULUM_TAXONOMY.subjects[currentSelectedSubject];
+      if (!sub) return;
+
+      container.innerHTML = sub.major_units.map(mu => {
+        return `
+          <div class="bg-slate-900/80 rounded-xl p-2.5 border border-slate-800 space-y-1.5">
+            <div class="font-extrabold text-slate-200 text-xs flex items-center justify-between">
+              <span class="text-indigo-300 font-bold">${mu.title}</span>
+              <span class="text-[10px] text-slate-500 font-mono">${mu.sub_units.length}개 소단원</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 pt-1">
+              ${mu.sub_units.map(su => {
+                const isChecked = currentSelectedScope.has(su);
+                return `
+                  <label class="flex items-center gap-1.5 p-1.5 rounded-lg bg-slate-950 border ${isChecked ? 'border-indigo-500/60 bg-indigo-950/40 text-white' : 'border-slate-800 text-slate-400'} cursor-pointer transition select-none hover:border-slate-700">
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleScopeUnit('${su}', this.checked)" class="rounded border-slate-700 text-indigo-600 focus:ring-0 w-3.5 h-3.5" />
+                    <span class="text-[10.5px] font-medium truncate">${su}</span>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterProblemsByScope() {
+      const items = document.querySelectorAll('input[name="exam_prob_select"]');
+      let visibleCount = 0;
+      items.forEach(item => {
+        const parentLabel = item.closest('label');
+        if (parentLabel) {
+          parentLabel.style.display = 'flex';
+          visibleCount++;
+        }
+      });
+      updateExamSelectionCount();
+    }
+
     let currentExamGenMode = 'weekly'; // 'weekly' or 'standard'
     let currentWeeklyGoal = 20;
 
