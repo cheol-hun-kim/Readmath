@@ -20338,6 +20338,10 @@
       if (typeof str !== 'string' || !str) return str || '';
       let res = str;
 
+      // Permanent Shield: Strip any programming code blocks, Python/Matplotlib/JS code leaks
+      res = res.replace(/```(?:python|py|javascript|js|bash|sh|css|html)?[\s\S]*?```/gi, '');
+      res = res.replace(/(?:import\s+(?:matplotlib|numpy|math|scipy|sys|os)|from\s+matplotlib\s+import|plt\.[a-zA-Z0-9_]+\([^)]*\)|console\.log\([^)]*\))/gi, '');
+
       // 0. Protect & normalize canonical vertex coordinate and clean leaked LaTeX brackets
       res = res.replace(/꼭짓점[\s\S]*?(?:최댓값|최솟값)[^\.\n]*[\.\n]?/g, () => '꼭짓점의 좌표: $V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)$에서 최댓값 또는 최솟값을 갖습니다.');
       res = res.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
