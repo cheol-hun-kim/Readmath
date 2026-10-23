@@ -4715,7 +4715,93 @@
           </p>
         </div>
 
-                <!-- Granular Curriculum & Exam Scope Selector (과목/대단원/소단원 핀셋 설정) -->
+                        <!-- School Teachers Team & Supplementary Workbook Intelligence Selector -->
+        <div class="bg-slate-950 rounded-2xl p-3.5 border border-slate-800 space-y-3 text-xs">
+          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+            <span class="font-extrabold text-white flex items-center gap-1.5">
+              <i data-lucide="users" class="w-4 h-4 text-amber-400"></i> 학교별 출제 수학교사진 &amp; 부교재 실시간 매칭
+            </span>
+            <span id="teacher-match-status-badge" class="text-[10px] text-emerald-300 font-bold bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 출제진 2명 매칭 완료
+            </span>
+          </div>
+
+          <!-- School, Grade & Class Quick Picker -->
+          <div class="grid grid-cols-3 gap-2 text-[11px]">
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">소속 고등학교:</label>
+              <select id="intel-school-select" onchange="onIntelSchoolChange()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                <option value="naksaeng" selected>낙생고등학교</option>
+                <option value="daejin">분당대진고등학교</option>
+                <option value="seohyun">서현고등학교</option>
+                <option value="bundang">분당고등학교</option>
+                <option value="jungang">성남중앙고등학교</option>
+                <option value="bopyeong">보평고등학교</option>
+                <option value="yatap">야탑고등학교</option>
+                <option value="custom">+ 기타 분당 고교 직접입력</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">학년:</label>
+              <select id="intel-grade-select" onchange="onIntelSchoolChange()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                <option value="1">1학년 (공통수학)</option>
+                <option value="2" selected>2학년 (수I · 수II)</option>
+                <option value="3">3학년 (수능 · 선택)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">내 담당 반:</label>
+              <select id="intel-class-select" onchange="onIntelSchoolChange()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                <option value="1">1반</option>
+                <option value="2">2반</option>
+                <option value="3" selected>3반</option>
+                <option value="4">4반</option>
+                <option value="5">5반</option>
+                <option value="6">6반</option>
+                <option value="7">7반</option>
+                <option value="8">8반</option>
+                <option value="9">9반</option>
+                <option value="10">10반</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Teachers Multi-Select Chips (2~3 Teachers Co-authoring) -->
+          <div>
+            <div class="flex items-center justify-between text-[11px] mb-1.5">
+              <span class="text-slate-300 font-bold flex items-center gap-1">
+                <i data-lucide="user-check" class="w-3.5 h-3.5 text-indigo-400"></i> 담당 출제 교사진 (복수 분담 선택):
+              </span>
+              <button type="button" onclick="openCrowdsourceModal('teacher')" class="text-[10px] text-amber-400 hover:text-amber-300 hover:underline flex items-center gap-0.5">
+                <i data-lucide="plus-circle" class="w-3 h-3"></i> 우리 선생님 직접 제보
+              </button>
+            </div>
+            <div id="intel-teachers-container" class="flex flex-wrap items-center gap-1.5">
+              <!-- Dynamically populated teacher chips -->
+            </div>
+            <div id="intel-teacher-alert-box" class="mt-1 text-[10px] text-amber-300/90 bg-amber-950/40 border border-amber-800/40 rounded-lg px-2.5 py-1 hidden">
+              <i data-lucide="alert-triangle" class="w-3 h-3 inline mr-1 text-amber-400"></i>
+              <span id="intel-teacher-alert-text">선생님 변동 감지: 올해 신규 교사진으로 변경되었습니다.</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Supplementary Workbooks Chips -->
+          <div>
+            <div class="flex items-center justify-between text-[11px] mb-1.5">
+              <span class="text-slate-300 font-bold flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i> 학교 채택 부교재 &amp; 수업 프린트:
+              </span>
+              <button type="button" onclick="openCrowdsourceModal('workbook')" class="text-[10px] text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-0.5">
+                <i data-lucide="plus-circle" class="w-3 h-3"></i> 부교재 직접 제보
+              </button>
+            </div>
+            <div id="intel-workbooks-container" class="flex flex-wrap items-center gap-1.5">
+              <!-- Dynamically populated workbook chips -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Granular Curriculum & Exam Scope Selector (과목/대단원/소단원 핀셋 설정) -->
         <div class="bg-slate-950 rounded-2xl p-3.5 border border-slate-800 space-y-3 text-xs">
           <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <span class="font-extrabold text-white flex items-center gap-1.5">
@@ -19252,7 +19338,189 @@
     // ================= EXAM SHEET GENERATOR & PRINT ENGINE =================
     
     
-        // ================= CURRICULUM TAXONOMY & SCOPE ENGINE =================
+        
+    // ================= SCHOOL & TEACHER INTELLIGENCE ENGINE =================
+    const DEFAULT_SCHOOL_INTEL_DB = {"version": "2026_bundang_v1", "updated_at": "2026-10-23T14:00:00", "schools": {"naksaeng": {"name": "낙생고등학교", "region": "성남시 분당구 백현동", "grades": {"1": {"teachers": [{"name": "김OO", "role": "다항식·방정식 (1~5반)", "source": "EBS 올림포스 고난도", "source_status": "secured", "style": "수능/평가원 킬러 및 올림포스 고난도 변형 출제"}, {"name": "이OO", "role": "도형·함수 (6~10반)", "source": "학교 자체 심화 프린트", "source_status": "secured", "style": "자체 제작 기출 변형 및 서술형 배점 높음"}], "workbooks": ["EBS 올림포스 고난도", "학교 자체 고난도 프린트", "블랙라벨"], "reports_count": 14, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "박OO", "role": "수학I 지수로그·수열 (공통)", "source": "EBS 수능특강 수학I", "source_status": "secured", "style": "평가원 준킬러 숫자/조건 변형 극선호"}, {"name": "최OO", "role": "수학I 삼각함수·그래프 (공통)", "source": "마더텅 4개년 기출", "source_status": "secured", "style": "그래프 추론 및 합답형(ㄱ,ㄴ,ㄷ) 빈출"}], "workbooks": ["EBS 수능특강", "마더텅 수능기출", "수능완성"], "reports_count": 19, "last_reported": "2026-10-23"}}}, "daejin": {"name": "분당대진고등학교", "region": "성남시 분당구 분당동", "grades": {"1": {"teachers": [{"name": "정OO", "role": "공통수학 전반 (1~4반)", "source": "블랙라벨", "source_status": "secured", "style": "블랙라벨 Step 2, 3 단계 변형 집중 출제"}, {"name": "한OO", "role": "공통수학 전반 (5~8반)", "source": "학교 수업 심화 프린트", "source_status": "secured", "style": "프린트 유사 문항 서술형 70% 반영"}], "workbooks": ["블랙라벨", "학교 수업 심화 프린트"], "reports_count": 9, "last_reported": "2026-10-22"}, "2": {"teachers": [{"name": "강OO", "role": "수학I·II 수열/미적분", "source": "하이퍼스트 고난도", "source_status": "secured", "style": "계산 호흡이 길고 정확성을 요하는 킬러"}, {"name": "윤OO", "role": "수학I·II 다항함수 추론", "source": "EBS 수능특강 변형", "source_status": "secured", "style": "EBS 연계교재 조건 변형 및 모의고사 연계"}], "workbooks": ["하이퍼스트 고난도", "EBS 수능특강", "자이스토리"], "reports_count": 11, "last_reported": "2026-10-23"}}}, "seohyun": {"name": "서현고등학교", "region": "성남시 분당구 서현동", "grades": {"1": {"teachers": [{"name": "신OO", "role": "공통수학 (홀수반 1,3,5,7반)", "source": "일등급수학", "source_status": "secured", "style": "일등급 핵심 유형 변형 및 타임어택 유도"}, {"name": "임OO", "role": "공통수학 (짝수반 2,4,6,8반)", "source": "쎈수학 C단계 변형", "source_status": "secured", "style": "정석적 풀이와 복합 개념 융합 출제"}], "workbooks": ["일등급수학", "쎈수학 C단계", "서현고 기출 프린트"], "reports_count": 12, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "송OO", "role": "수학I 공통 (1~4반)", "source": "자이스토리 4개년 기출", "source_status": "secured", "style": "평가원 3개년 4점 준킬러 완벽 변형"}, {"name": "배OO", "role": "수학I 공통 (5~8반)", "source": "학교 자체 심화 프린트", "source_status": "secured", "style": "프린트와 연계된 빈칸추론 및 단답형"}], "workbooks": ["자이스토리 수능기출", "학교 자체 프린트"], "reports_count": 8, "last_reported": "2026-10-21"}}}, "bundang": {"name": "분당고등학교", "region": "성남시 분당구 수내동", "grades": {"1": {"teachers": [{"name": "조OO", "role": "공통수학 총괄 (1~8반)", "source": "EBS 올림포스", "source_status": "secured", "style": "교과서 및 올림포스 고난도 중심 균형 출제"}], "workbooks": ["EBS 올림포스", "학교 보충 프린트"], "reports_count": 7, "last_reported": "2026-10-20"}, "2": {"teachers": [{"name": "장OO", "role": "수학I 지수/삼각", "source": "마더텅 검정", "source_status": "secured", "style": "교육청 기출 우수 문항 선호"}, {"name": "서OO", "role": "수학I 수열/극한", "source": "EBS 수능특강", "source_status": "secured", "style": "수능특강 Level 2, 3 변형 출제"}], "workbooks": ["마더텅 수능기출", "EBS 수능특강"], "reports_count": 9, "last_reported": "2026-10-23"}}}, "jungang": {"name": "성남중앙고등학교", "region": "성남시 분당구 야탑동", "grades": {"1": {"teachers": [{"name": "문OO", "role": "공통수학 (전반)", "source": "개념원리 RPM", "source_status": "secured", "style": "RPM 대표유형 및 학교 교과서 심화"}], "workbooks": ["개념원리 RPM", "학교 교과서 심화 변형"], "reports_count": 5, "last_reported": "2026-10-19"}, "2": {"teachers": [{"name": "권OO", "role": "수학I (공통)", "source": "올림포스 닥터링", "source_status": "needed", "style": "닥터링 고난도 연습문제 변형"}, {"name": "황OO", "role": "수학I (공통)", "source": "EBS 수능완성", "source_status": "secured", "style": "수능완성 핵심 모의고사 발췌"}], "workbooks": ["올림포스 닥터링", "EBS 수능완성"], "reports_count": 6, "last_reported": "2026-10-22"}}}, "bopyeong": {"name": "보평고등학교", "region": "성남시 분당구 백현동", "grades": {"1": {"teachers": [{"name": "안OO", "role": "공통수학 (1~5반)", "source": "쎈수학 & 고쟁이", "source_status": "secured", "style": "고쟁이 step 3 및 심화 프린트 연계"}, {"name": "유OO", "role": "공통수학 (6~10반)", "source": "학교 심화 프린트", "source_status": "secured", "style": "증명 및 개념 정합성 묻는 서술형"}], "workbooks": ["쎈수학", "고쟁이 유형+심화", "학교 심화 프린트"], "reports_count": 10, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "류OO", "role": "수학I (공통)", "source": "EBS 수능특강", "source_status": "secured", "style": "수특 Level 3 변형 100% 출제"}, {"name": "곽OO", "role": "수학I (공통)", "source": "자이스토리 기출", "source_status": "secured", "style": "평가원 4점 기출 복합 응용"}], "workbooks": ["EBS 수능특강", "자이스토리 기출"], "reports_count": 8, "last_reported": "2026-10-23"}}}, "yatap": {"name": "야탑고등학교", "region": "성남시 분당구 야탑동", "grades": {"1": {"teachers": [{"name": "홍OO", "role": "공통수학 (1~4반)", "source": "일품 고등수학", "source_status": "secured", "style": "일품 최고수준 문제 변형"}, {"name": "도OO", "role": "공통수학 (5~8반)", "source": "학교 기출 프린트", "source_status": "secured", "style": "분당 기출 우수문항 발췌"}], "workbooks": ["일품 고등수학", "학교 기출 프린트"], "reports_count": 7, "last_reported": "2026-10-21"}, "2": {"teachers": [{"name": "백OO", "role": "수학I (공통)", "source": "마더텅 검정", "source_status": "secured", "style": "마더텅 별 3~4개 킬러 변형"}, {"name": "노OO", "role": "수학I (공통)", "source": "올림포스 기출", "source_status": "secured", "style": "올림포스 전국연합 기출 연계"}], "workbooks": ["마더텅 검정", "올림포스 전국연합 기출"], "reports_count": 6, "last_reported": "2026-10-22"}}}}, "crowdsourced_reports": [{"id": "rep_20261023_001", "timestamp": "2026-10-23 13:40", "school": "낙생고등학교", "grade": "2", "class": "3", "student_name": "이*민 (낙생고 2학년)", "teacher_name": "박OO / 최OO 선생님", "workbook_name": "EBS 수능특강 수학I + 킬러프린트", "details": "박선생님이 이번 중간고사에 지수로그 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 최선생님은 삼각함수 그래프 교점 문제 위주로 내신대요.", "status": "applied", "admin_note": "공식 교사진 DB에 반영 완료 (수특 Level 3 변형 매칭 완료)"}, {"id": "rep_20261023_002", "timestamp": "2026-10-23 12:15", "school": "서현고등학교", "grade": "1", "class": "4", "student_name": "김*우 (서현고 1학년)", "teacher_name": "임OO 선생님", "workbook_name": "블랙라벨 Step 3 프린트", "details": "임선생님이 이번에 쎈수학 C단계 대신 블랙라벨 Step 3 복사해서 나눠주셨습니다. 블랙라벨 변형 모의고사 만들어주실 수 있나요?", "status": "pending", "admin_note": "파일 확인 중 / 블랙라벨 Step 3 문항 DB 매칭 대기열 추가"}, {"id": "rep_20261023_003", "timestamp": "2026-10-23 10:50", "school": "성남중앙고등학교", "grade": "2", "class": "2", "student_name": "박*준 (성남중앙고 2학년)", "teacher_name": "권OO 선생님", "workbook_name": "EBS 올림포스 닥터링 수학I", "details": "권선생님이 새로 오셨는데 올림포스 닥터링 4단원 연습문제에서 70% 낸다고 강조하셨습니다. 파일 구해서 꼭 넣어주세요!", "status": "needed_file", "admin_note": "⚠️ 부교재 파일 긴급 확보 필요 (교보/EBS PDF 수급 중)"}, {"id": "rep_20261023_004", "timestamp": "2026-10-22 18:30", "school": "분당대진고등학교", "grade": "2", "class": "6", "student_name": "정*호 (대진고 2학년)", "teacher_name": "윤OO 선생님", "workbook_name": "EBS 수능특강 + 하이퍼스트", "details": "윤선생님이 수특 변형이랑 자체프린트에서 서술형 2문항 낸다고 하셨어요! 작년 기출 변형 스타일이랑 똑같습니다.", "status": "applied", "admin_note": "대진고 2학년 교사진 및 수특 변형 DB 매칭 완료"}, {"id": "rep_20261022_005", "timestamp": "2026-10-22 15:20", "school": "보평고등학교", "grade": "1", "class": "2", "student_name": "송*서 (보평고 1학년)", "teacher_name": "안OO 선생님", "workbook_name": "고쟁이 유형+심화", "details": "안선생님이 고쟁이 step 3에서 3문제, 서술형은 수업시간에 증명해준 문제 낸다고 하셨어요.", "status": "applied", "admin_note": "보평고 1학년 고쟁이 연계 세팅 완료"}]};
+    let SCHOOL_INTEL_DB = (() => {
+      try {
+        const cached = localStorage.getItem('readmath_school_intel');
+        return cached ? JSON.parse(cached) : DEFAULT_SCHOOL_INTEL_DB;
+      } catch (e) {
+        return DEFAULT_SCHOOL_INTEL_DB;
+      }
+    })();
+
+    let selectedTeacherNames = new Set();
+    let selectedWorkbookNames = new Set();
+
+    function onIntelSchoolChange() {
+      const schoolKey = document.getElementById('intel-school-select')?.value || 'naksaeng';
+      const gradeKey = document.getElementById('intel-grade-select')?.value || '2';
+      const classKey = document.getElementById('intel-class-select')?.value || '3';
+
+      const schoolData = SCHOOL_INTEL_DB.schools?.[schoolKey];
+      const gradeData = schoolData?.grades?.[gradeKey];
+
+      const teachersContainer = document.getElementById('intel-teachers-container');
+      const workbooksContainer = document.getElementById('intel-workbooks-container');
+      const statusBadge = document.getElementById('teacher-match-status-badge');
+      const alertBox = document.getElementById('intel-teacher-alert-box');
+
+      if (!gradeData || !gradeData.teachers || gradeData.teachers.length === 0) {
+        if (teachersContainer) {
+          teachersContainer.innerHTML = `
+            <span class="text-[11px] text-amber-300/80 bg-amber-950/40 border border-amber-800/40 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400"></i> 등록된 출제 교사진이 없습니다. 직접 제보해 주세요!
+            </span>
+          `;
+        }
+        if (workbooksContainer) {
+          workbooksContainer.innerHTML = `
+            <span class="text-[11px] text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl">
+              등록된 부교재 정보가 없습니다. 직접 제보해 주세요.
+            </span>
+          `;
+        }
+        if (statusBadge) {
+          statusBadge.className = 'text-[10px] text-amber-300 font-bold bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded-full flex items-center gap-1';
+          statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> 교사진 제보 대기 중';
+        }
+        if (alertBox) alertBox.classList.add('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      // Populate teachers chips
+      selectedTeacherNames.clear();
+      if (teachersContainer) {
+        teachersContainer.innerHTML = gradeData.teachers.map((t, idx) => {
+          selectedTeacherNames.add(t.name);
+          return `
+            <label class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-indigo-950/60 border border-indigo-500/40 hover:border-indigo-400 cursor-pointer text-slate-200 text-[11px] transition select-none">
+              <input type="checkbox" checked onchange="toggleTeacherSelect('${t.name}', this.checked)" class="rounded text-indigo-600 focus:ring-0 w-3.5 h-3.5" />
+              <span class="font-black text-indigo-300">${t.name} 선생님</span>
+              <span class="text-[10px] text-slate-400">(${t.role})</span>
+              <span class="text-[9.5px] px-1.5 py-0.2 rounded-md bg-indigo-500/20 text-indigo-200 border border-indigo-500/30">${t.source}</span>
+            </label>
+          `;
+        }).join('');
+      }
+
+      // Populate workbooks chips
+      selectedWorkbookNames.clear();
+      if (workbooksContainer && gradeData.workbooks) {
+        workbooksContainer.innerHTML = gradeData.workbooks.map(wb => {
+          selectedWorkbookNames.add(wb);
+          return `
+            <label class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-950/60 border border-emerald-500/40 hover:border-emerald-400 cursor-pointer text-slate-200 text-[11px] transition select-none">
+              <input type="checkbox" checked onchange="toggleWorkbookSelect('${wb}', this.checked)" class="rounded text-emerald-600 focus:ring-0 w-3.5 h-3.5" />
+              <span class="font-bold text-emerald-300">${wb}</span>
+              <span class="text-[9.5px] text-emerald-400 font-bold bg-emerald-500/20 px-1 rounded">확보완료</span>
+            </label>
+          `;
+        }).join('');
+      }
+
+      if (statusBadge) {
+        statusBadge.className = 'text-[10px] text-emerald-300 font-bold bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded-full flex items-center gap-1';
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 출제진 ${gradeData.teachers.length}명 매칭 완료`;
+      }
+
+      if (alertBox) {
+        alertBox.classList.remove('hidden');
+        const alertText = document.getElementById('intel-teacher-alert-text');
+        if (alertText) {
+          alertText.textContent = `${schoolData.name} ${gradeKey}학년: ${gradeData.teachers.map(t=>t.name).join(' · ')} 선생님 공동 출제팀 기준 모의고사가 매칭됩니다.`;
+        }
+      }
+
+      lucide.createIcons();
+    }
+
+    function toggleTeacherSelect(name, checked) {
+      if (checked) selectedTeacherNames.add(name);
+      else selectedTeacherNames.delete(name);
+    }
+
+    function toggleWorkbookSelect(name, checked) {
+      if (checked) selectedWorkbookNames.add(name);
+      else selectedWorkbookNames.delete(name);
+    }
+
+    function openCrowdsourceModal(mode) {
+      const schoolKey = document.getElementById('intel-school-select')?.value;
+      const schoolName = document.getElementById('intel-school-select')?.options[document.getElementById('intel-school-select')?.selectedIndex]?.text || '';
+      const grade = document.getElementById('intel-grade-select')?.value || '2';
+      const cls = document.getElementById('intel-class-select')?.value || '3';
+
+      const modalTitle = document.getElementById('crowdsource-modal-title');
+      const schoolInput = document.getElementById('cs-school-name');
+      const gradeSelect = document.getElementById('cs-grade');
+      const classInput = document.getElementById('cs-class');
+
+      if (modalTitle) {
+        modalTitle.textContent = mode === 'teacher' ? '우리 학교 수학교사진 직접 제보' : '우리 학교 부교재/프린트 직접 제보';
+      }
+      if (schoolInput) schoolInput.value = schoolName.replace('+ ', '');
+      if (gradeSelect) gradeSelect.value = grade;
+      if (classInput) classInput.value = `${cls}반`;
+
+      const modal = document.getElementById('modal-crowdsource-intel');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+      lucide.createIcons();
+    }
+
+    function submitCrowdsourcedReport() {
+      const schoolName = document.getElementById('cs-school-name')?.value.trim();
+      const grade = document.getElementById('cs-grade')?.value.trim();
+      const cls = document.getElementById('cs-class')?.value.trim();
+      const teacherName = document.getElementById('cs-teacher-name')?.value.trim();
+      const workbookName = document.getElementById('cs-workbook-name')?.value.trim();
+      const details = document.getElementById('cs-details')?.value.trim();
+      const studentName = document.getElementById('cs-student-name')?.value.trim() || '재학생 제보';
+
+      if (!schoolName) {
+        alert('학교명을 입력해 주세요.');
+        return;
+      }
+      if (!teacherName && !workbookName && !details) {
+        alert('선생님 성함 또는 부교재명 중 하나 이상을 입력해 주세요.');
+        return;
+      }
+
+      const reportItem = {
+        id: 'rep_' + Date.now(),
+        timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
+        school: schoolName,
+        grade: grade,
+        class: cls,
+        student_name: studentName,
+        teacher_name: teacherName || '미지정',
+        workbook_name: workbookName || '미지정',
+        details: details || '상세 내용 없음',
+        status: workbookName ? 'needed_file' : 'pending',
+        admin_note: '학생 실시간 접수 (관리자 센터 검토 대기)'
+      };
+
+      // Save to localStorage
+      try {
+        const existing = JSON.parse(localStorage.getItem('readmath_crowdsourced_reports') || '[]');
+        existing.unshift(reportItem);
+        localStorage.setItem('readmath_crowdsourced_reports', JSON.stringify(existing));
+      } catch (e) {
+        console.error('Failed to save crowdsourced report to localStorage', e);
+      }
+
+      closeModal('crowdsource-intel');
+
+      // Success notification
+      alert(`🎉 소중한 제보 감사합니다!\n\n[${schoolName} ${grade}학년 ${cls}] 제보가 ReadMath 연구팀(관리자 센터)에 즉시 전달되었습니다.\n부교재 파일 확보 및 출제진 분석 후 모의고사 맞춤 생성기에 최우선 반영됩니다.`);
+    }
+
+    // ================= CURRICULUM TAXONOMY & SCOPE ENGINE =================
     const CURRICULUM_TAXONOMY = {"version": "2024_2028_standard", "subjects": {"common": {"name": "공통수학 (고1)", "presets": {"1_mid": ["다항식의 연산", "나머지정리와 인수분해", "복소수와 이차방정식", "이차방정식과 이차함수"], "1_final": ["여러 가지 방정식", "여러 가지 부등식", "평면좌표", "직선의 방정식", "원의 방정식"], "2_mid": ["도형의 이동", "집합", "명제"], "2_final": ["함수", "유리함수와 무리함수", "경우의 수", "순열과 조합"], "all": ["전범위"]}, "major_units": [{"id": "c_poly", "title": "I. 다항식", "sub_units": ["다항식의 연산", "나머지정리와 인수분해"]}, {"id": "c_eqn", "title": "II. 방정식과 부등식", "sub_units": ["복소수와 이차방정식", "이차방정식과 이차함수", "여러 가지 방정식", "여러 가지 부등식"]}, {"id": "c_geom", "title": "III. 도형의 방정식", "sub_units": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"]}, {"id": "c_set", "title": "IV. 집합과 명제", "sub_units": ["집합의 뜻과 연산", "명제와 절대부등식"]}, {"id": "c_func", "title": "V. 함수와 그래프", "sub_units": ["함수의 뜻과 그래프 (합성·역함수)", "유리함수와 무리함수"]}, {"id": "c_comb", "title": "VI. 경우의 수", "sub_units": ["합과 곱의 법칙", "순열과 조합"]}]}, "math1": {"name": "수학 I (고2)", "presets": {"1_mid": ["지수와 로그", "지수함수와 로그함수", "지수·로그함수의 활용"], "1_final": ["삼각함수의 뜻과 그래프", "삼각함수의 활용 (사인·코사인법칙)"], "2_mid": ["등차수열과 등비수열", "수열의 합 (시그마)"], "2_final": ["수학적 귀납법", "수열의 귀납적 정의 역추적"], "all": ["전범위"]}, "major_units": [{"id": "m1_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]}, {"id": "m1_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]}, {"id": "m1_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 킬러 역추적"]}]}, "math2": {"name": "수학 II (고2)", "presets": {"1_mid": ["함수의 극한", "함수의 연속", "미분계수와 도함수"], "1_final": ["접선의 방정식과 평균값 정리", "함수의 증가·감소와 극대·극소", "삼·사차함수 그래프 추론"], "2_mid": ["방정식과 부등식의 활용", "속도와 가속도", "부정적분과 정적분의 계산"], "2_final": ["정적분으로 정의된 함수", "곡선 사이의 넓이", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "m2_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]}, {"id": "m2_diff", "title": "II. 다항함수의 미분법", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"]}, {"id": "m2_integ", "title": "III. 다항함수의 적분법", "sub_units": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)", "정적분의 넓이 및 속도와 거리"]}]}, "calculus": {"name": "미적분 (고3)", "presets": {"1_mid": ["수열의 극한", "급수와 등비급수의 도형 활용", "여러 가지 함수의 미분법"], "1_final": ["여러 가지 미분법 (합성·역함수·음함수)", "도함수의 활용 (초월함수 극대극소·변곡점)"], "2_mid": ["치환적분법과 부분적분법", "정적분의 치환·부분적분"], "2_final": ["정적분과 급수", "넓이와 입체도형의 부피", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "calc_seq", "title": "I. 수열의 극한", "sub_units": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"]}, {"id": "calc_diff", "title": "II. 여러 가지 미분법", "sub_units": ["초월함수의 극한과 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"]}, {"id": "calc_integ", "title": "III. 적분법", "sub_units": ["치환적분법과 부분적분법", "정적분의 활용 (넓이·입체부피·속도거리)"]}]}, "prob_stat": {"name": "확률과 통계", "presets": {"1_mid": ["원순열과 중복순열", "같은 것이 있는 순열", "중복조합과 이항정리"], "1_final": ["확률의 뜻과 덧셈정리", "조건부확률과 사건의 독립과 종속"], "2_mid": ["이산확률분포와 이항분포", "연속확률변수와 정규분포"], "2_final": ["정규분포의 표준화", "모평균의 추정과 신뢰도"], "all": ["전범위"]}, "major_units": [{"id": "ps_comb", "title": "I. 경우의 수", "sub_units": ["여러 가지 순열", "중복조합과 이항정리"]}, {"id": "ps_prob", "title": "II. 확률", "sub_units": ["확률의 성질과 덧셈정리", "조건부확률과 독립시행"]}, {"id": "ps_stat", "title": "III. 통계", "sub_units": ["확률변수와 이항분포", "정규분포와 표준화", "통계적 추정 (모평균 신뢰구간)"]}]}, "geometry": {"name": "기하", "presets": {"1_mid": ["포물선", "타원", "쌍곡선"], "1_final": ["이차곡선의 접선", "벡터의 연산과 성분"], "2_mid": ["평면벡터의 내적", "직선과 원의 벡터방정식"], "2_final": ["삼수선의 정리와 정사영", "공간좌표와 구의 방정식"], "all": ["전범위"]}, "major_units": [{"id": "geo_curve", "title": "I. 이차곡선", "sub_units": ["포물선의 정의와 방정식", "타원의 정의와 방정식", "쌍곡선의 정의와 방정식", "이차곡선의 접선의 방정식"]}, {"id": "geo_vector", "title": "II. 평면벡터", "sub_units": ["벡터의 덧셈과 뺄셈", "평면벡터의 성분과 크기", "평면벡터의 내적과 수직·평행"]}, {"id": "geo_space", "title": "III. 공간도형과 공간좌표", "sub_units": ["위치관계와 삼수선의 정리", "정사영의 넓이", "공간좌표와 두 점 사이의 거리", "구의 방정식"]}]}}};
     let currentSelectedSubject = 'math2';
     let currentBaselinePresetKey = '1_final';
@@ -19506,6 +19774,7 @@
       }).join('');
 
       openModal('exam');
+      setTimeout(onIntelSchoolChange, 50);
       updateExamSelectionCount();
       lucide.createIcons();
     }
@@ -21519,7 +21788,77 @@
               triggerMathRender();
             }
           ${'<' + '/script>'}
-        </body>
+          <!-- Crowdsourced School Teacher & Workbook Intelligence Modal -->
+  <div id="modal-crowdsource-intel" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white" id="crowdsource-modal-title">우리 학교 수학교사 / 부교재 제보</h3>
+            <p class="text-[11px] text-slate-400">연구팀이 검토 후 즉시 맞춤 모의고사 및 변형 문제 DB에 반영합니다.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('crowdsource-intel')" class="text-slate-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">학교명:</label>
+            <input type="text" id="cs-school-name" placeholder="예: 낙생고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">학년:</label>
+              <select id="cs-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                <option value="1">1학년</option>
+                <option value="2" selected>2학년</option>
+                <option value="3">3학년</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">반:</label>
+              <input type="text" id="cs-class" placeholder="예: 3반" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">담당 수학교사 성함 (복수 기재 가능):</label>
+          <input type="text" id="cs-teacher-name" placeholder="예: 박OO 선생님 (1~4반 담당), 최OO 선생님 (5~8반 담당)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">채택 부교재 또는 프린트명:</label>
+          <input type="text" id="cs-workbook-name" placeholder="예: EBS 올림포스 닥터링 수학I / 학교 자체 킬러 프린트" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">출제 스타일 &amp; 꿀정보 (선택):</label>
+          <textarea id="cs-details" rows="3" placeholder="예: 선생님께서 이번 중간고사에 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 파일 구해서 변형 문제 넣어주세요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">제보자 학생명 (익명 보장):</label>
+          <input type="text" id="cs-student-name" placeholder="예: 재학생 (기본값)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+        <button type="button" onclick="closeModal('crowdsource-intel')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">취소</button>
+        <button type="button" onclick="submitCrowdsourcedReport()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
+          <i data-lucide="check" class="w-4 h-4"></i> 연구팀에 제보 전송
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
         </html>
       `);
       printWindow.document.close();
