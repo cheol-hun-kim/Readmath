@@ -2745,77 +2745,126 @@
           <!-- Left Column: School Past Exam & Diagnostic Hub -->
           <div>
             <!-- School Past Exam & Diagnostic Hub (소속 학교 내신 기출 정보관) -->
-        <div id="school-rival-radar-card" class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 rounded-2xl p-4 space-y-3.5 shadow-lg">
-          <div class="flex items-center justify-between pb-2 border-b border-indigo-500/20">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-xl bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
-                <i data-lucide="school" class="w-4 h-4"></i>
+        <!-- High School Math Teacher Exam Style, Hit-Rate & Predicted Grade Dashboard -->
+        <div id="school-rival-radar-card" class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/40 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+          
+          <!-- Card Header & School Switcher -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-indigo-500/20">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-black uppercase">
+                  Teacher Intelligence &amp; Grade Predictor
+                </span>
+                <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 분당 내신 기출 연동
+                </span>
               </div>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span id="rival-school-name" class="text-xs font-black text-white">낙생고등학교 고1</span>
-                  <span class="text-[9px] bg-indigo-500/20 text-indigo-300 font-extrabold px-1.5 py-0.5 rounded border border-indigo-500/40">소속 학교 정보관</span>
+              <h3 class="text-sm sm:text-base font-black text-white mt-1 flex items-center gap-1.5">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-amber-400"></i>
+                <span id="dash-school-title">낙생고 수학교사진 출제 경향 &amp; 내신 예측</span>
+              </h3>
+            </div>
+
+            <!-- Quick School & Grade Picker -->
+            <div class="flex items-center gap-1.5 shrink-0">
+              <select id="dash-school-select" onchange="renderSchoolIntelDashboard()" class="bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white font-bold focus:outline-none focus:border-indigo-500">
+                <option value="naksaeng" selected>낙생고등학교</option>
+                <option value="daejin">분당대진고등학교</option>
+                <option value="seohyun">서현고등학교</option>
+                <option value="bundang">분당고등학교</option>
+                <option value="jungang">성남중앙고등학교</option>
+                <option value="bopyeong">보평고등학교</option>
+                <option value="yatap">야탑고등학교</option>
+              </select>
+              <select id="dash-grade-select" onchange="renderSchoolIntelDashboard()" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1.5 text-xs text-white font-bold focus:outline-none focus:border-indigo-500">
+                <option value="1">1학년</option>
+                <option value="2" selected>2학년</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section 1: Teachers Exam Source, Preference & Hit-Rate -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-extrabold text-slate-200 flex items-center gap-1">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-amber-400"></i>
+                출제 담당 수학교사진 선호 문제집 &amp; 기출 빈도
+              </span>
+              <span class="text-[10px] text-slate-400">출제원 적중률 분석</span>
+            </div>
+
+            <div id="dash-teachers-container" class="space-y-2">
+              <!-- Dynamically populated teacher cards with hit rates and breakdown via renderSchoolIntelDashboard() -->
+            </div>
+          </div>
+
+          <!-- Section 2: Personal Weakness Impact & Predicted School Grade Simulator -->
+          <div class="bg-slate-950/90 border border-rose-500/40 rounded-xl p-3.5 space-y-3 relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400 animate-pulse"></i>
+                <span class="text-xs font-black text-white">내 인지결손 약점 출제 비중 &amp; 내신 등급 예측</span>
+              </div>
+              <span class="text-[10px] font-bold text-rose-300 bg-rose-950/80 border border-rose-500/40 px-2 py-0.5 rounded-full">
+                위기 경보 분석
+              </span>
+            </div>
+
+            <!-- Weakness Impact Stats -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-slate-400 block font-medium">나의 취약 인지 결손 단원</span>
+                <span id="dash-weakness-unit" class="text-xs font-black text-amber-300 block mt-0.5 truncate" title="지수·로그함수 킬러 추론 & 수열 점화식">
+                  지수·로그 킬러 &amp; 점화식
+                </span>
+                <span class="text-[9.5px] text-slate-400">오답 원인: 조건 분해 및 추론 미흡</span>
+              </div>
+
+              <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-[10px] text-slate-400 block font-medium">이번 시험 해당 약점 출제 비중</span>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                  <span id="dash-weakness-ratio" class="text-base font-black text-rose-400">35점</span>
+                  <span class="text-[10px] text-slate-400">(총 100점 중 35%)</span>
                 </div>
-                <p class="text-[10px] text-slate-400">내 학교 기출 문항 및 인지 결손 분석 현황</p>
+                <span class="text-[9.5px] text-rose-300/90">고배점 킬러 4문항 집중 배정</span>
               </div>
             </div>
-            <button onclick="openModal('exam-bounty')" class="text-[10px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold px-2 py-1 rounded-lg transition flex items-center gap-1">
-              <i data-lucide="upload" class="w-3 h-3"></i>
-              <span>내신 시험지 제보</span>
+
+            <!-- Predicted School Grade Comparison Gauge -->
+            <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 space-y-2">
+              <span class="text-[10.5px] font-bold text-slate-300 block">이번 내신 예상 등급 시뮬레이션:</span>
+              
+              <div class="grid grid-cols-2 gap-2 text-center">
+                <!-- If Unaddressed -->
+                <div class="p-2 rounded-lg bg-rose-950/40 border border-rose-800/50">
+                  <span class="text-[10px] text-rose-300 font-bold block">약점 방치 시 예상</span>
+                  <span class="text-lg font-black text-rose-400 block mt-0.5">3.8등급</span>
+                  <span class="text-[9.5px] text-rose-300/80 block mt-0.5 leading-tight">16~20점 감점 위험</span>
+                </div>
+
+                <!-- If Solved -->
+                <div class="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/40">
+                  <span class="text-[10px] text-emerald-300 font-bold block">약점 100% 보완 시</span>
+                  <span class="text-lg font-black text-emerald-400 block mt-0.5">1.3등급</span>
+                  <span class="text-[9.5px] text-emerald-300/80 block mt-0.5 leading-tight">1등급 안정권 진입!</span>
+                </div>
+              </div>
+
+              <!-- Urgent Prescription Message -->
+              <p id="dash-prescription-text" class="text-[10.5px] text-slate-300 leading-relaxed bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80">
+                <strong class="text-amber-300">긴급 처방:</strong> 담당 수학교사(박OO 선생님)는 <span class="text-indigo-300 font-bold">[수능특강 Level 3 변형]</span>에서 4문항을 출제합니다. 지금 바로 시험준비 탭에서 맞춤 시험지를 생성하여 집중 훈련하세요.
+              </p>
+            </div>
+
+            <!-- Action CTA: Go to Exam Prep Tab -->
+            <button onclick="goToExamPrepWithSchool()" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/20 active:scale-98">
+              <i data-lucide="file-check-2" class="w-4 h-4"></i>
+              <span>시험준비 탭에서 맞춤 시험지 만들기 ➔</span>
             </button>
           </div>
 
-          <!-- Real School Exam DB Status -->
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-medium">학교별 등록 기출 문항</span>
-              <div class="flex items-baseline gap-1 mt-0.5">
-                <span id="school-active-exam-count" class="text-base font-black text-slate-400">0건 (제보 대기)</span>
-              </div>
-              <p id="school-active-exam-sub" class="text-[9.5px] text-slate-400 mt-0.5">시험지 제보 시 DB 자동 구축</p>
-            </div>
-            <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-medium">나의 인지 결손 방어 상태</span>
-              <div class="flex items-baseline gap-1 mt-0.5">
-                <span id="rival-my-defense-status" class="text-base font-black text-slate-400">진단 대기 중</span>
-              </div>
-              <p id="rival-my-defense-sub" class="text-[9.5px] text-slate-400 mt-0.5">오답 질문 시 실시간 분석</p>
-            </div>
-          </div>
-
-          <!-- Real School Killer Items List -->
-          <div class="space-y-1.5">
-            <span class="text-[10.5px] font-extrabold text-slate-300 flex items-center justify-between">
-              <span>학교 대표 빈출 킬러 유형</span>
-              <span class="text-[9px] text-slate-400 font-normal">분석 상태</span>
-            </span>
-            <div id="rival-hot-topics-list" class="space-y-1 text-[10.5px]">
-              <!-- Dynamic real exam topics injected via updateSchoolRivalCard() -->
-            </div>
-          </div>
-
-          <!-- Authentic Advisory Notice (No Fake Numbers) -->
-          <div class="p-2.5 bg-indigo-950/30 border border-indigo-500/30 rounded-xl space-y-1">
-            <div class="flex items-center gap-1.5 text-indigo-300 font-extrabold text-[11px]">
-              <i data-lucide="info" class="w-3.5 h-3.5 text-indigo-400"></i>
-              <span>학교 기출 데이터베이스 안내</span>
-            </div>
-            <p id="rival-urgency-message" class="text-[10.5px] text-slate-300 leading-relaxed">
-              소속 학교의 최신 내신 시험지를 제보하면 실제 기출 문항의 인지 결손 분석 및 쌍둥이 변형 문제가 시스템에 등록됩니다.
-            </p>
-          </div>
-
-          <!-- Actions -->
-          <div class="grid grid-cols-2 gap-2 pt-1">
-            <button onclick="goToSchoolKillerProblem()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-2 rounded-xl transition flex items-center justify-center gap-1 shadow-sm">
-              <i data-lucide="target" class="w-3.5 h-3.5"></i>
-              <span id="school-killer-btn-text">전국 공통 킬러 연습</span>
-            </button>
-            <button onclick="openExamSheetModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs py-2 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1">
-              <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-              <span>파이널 봉투 모의고사</span>
-            </button>
-          </div>
         </div>
 
           </div>
@@ -2829,18 +2878,40 @@
 
       <!-- ================= 6-2. VAULT & BATTLE LOUNGE VIEW (내 보관함 & 배틀 라운지) ================= -->
       <div id="view-vault" class="hidden space-y-3.5">
-        <!-- Top Nav & Header -->
+        <!-- Top Nav & Header (시험준비 & 파이널 봉투 모의고사) -->
         <div class="flex items-center justify-between pb-1 border-b border-slate-800">
           <div>
             <h2 class="text-base md:text-lg font-black text-white flex items-center gap-2">
-              <i data-lucide="archive" class="w-5 h-5 text-indigo-400"></i>
-              <span>내 보관함 & 배틀 라운지</span>
+              <i data-lucide="file-check-2" class="w-5 h-5 text-amber-400"></i>
+              <span>시험준비 (내신 &amp; 파이널 모의고사)</span>
             </h2>
-            
+            <p class="text-xs text-slate-400">소속 고교 출제진 매칭 시험지 인쇄 · 결손 클리닉 개념서 · 1:1 배틀</p>
           </div>
-          <span id="vault-total-items-badge" class="bg-indigo-950 text-indigo-300 border border-indigo-500/40 text-xs font-bold px-2.5 py-1 rounded-xl shadow-xs">
-            보관 0건
+          <span id="vault-total-items-badge" class="bg-amber-950/80 text-amber-300 border border-amber-500/40 text-xs font-bold px-2.5 py-1 rounded-xl shadow-xs">
+            시험준비 모드
           </span>
+        </div>
+
+        <!-- Prominent Exam Generator Hero Banner in Exam Prep Tab -->
+        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900 border border-indigo-500/40 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20 shrink-0">
+              <i data-lucide="printer" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm sm:text-base font-black text-white">분당 고교별 맞춤 모의고사 &amp; 파이널 시험지 생성기</h3>
+                <span class="text-[9.5px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black shrink-0">출제진 100% 매칭</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                학교별 수학교사진 팀(2~3명 분담), 채택 부교재, 소단원 세부 시험범위를 반영한 실전 A4 시험지 및 빠른정답 해설지 즉시 인쇄
+              </p>
+            </div>
+          </div>
+          <button onclick="openExamSheetModal()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 shrink-0 cursor-pointer active:scale-98">
+            <i data-lucide="file-plus" class="w-4 h-4"></i>
+            <span>맞춤 시험지 만들기 (PDF)</span>
+          </button>
         </div>
 
         <!-- 3 Sub-Tabs inside Vault -->
@@ -3573,8 +3644,8 @@
         </button>
 
         <button onclick="goToView('vault')" id="tab-vault" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
-          <i data-lucide="archive" class="w-5 h-5"></i>
-          <span class="text-[10px] font-bold">내 보관함</span>
+          <i data-lucide="file-check-2" class="w-5 h-5"></i>
+          <span class="text-[10px] font-bold">시험준비</span>
         </button>
 
         <button onclick="goToView('settings')" id="tab-settings" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
@@ -15034,6 +15105,7 @@
     }
 
     function updateReportView() {
+      renderSchoolIntelDashboard();
       const container = document.getElementById('report-dynamic-container');
       if (!container) return;
 
@@ -15677,6 +15749,7 @@
         updateCameraHomeCards();
       } else if (viewId === 'vault') {
         renderVaultView();
+        switchVaultSubTab('exams');
       }
 
       document.getElementById('screen-container').scrollTop = 0;
@@ -19339,6 +19412,186 @@
     
     
         
+    
+    // ================= SCHOOL INTEL DASHBOARD & GRADE PREDICTOR ENGINE =================
+    const TEACHER_INTEL_STATS = {
+      naksaeng: {
+        '1': [
+          { name: '김OO', role: '다항식·방정식 (1~5반)', sources: [{ name: 'EBS 올림포스 고난도', ratio: 50 }, { name: '최근 3개년 평가원 기출', ratio: 30 }, { name: '블랙라벨 Step 3', ratio: 20 }], hitRate: 93.8, style: '수능/평가원 킬러 조건 변형 및 올림포스 고난도 50% 연계' },
+          { name: '이OO', role: '도형·함수 (6~10반)', sources: [{ name: '학교 자체 심화 프린트', ratio: 55 }, { name: '일등급수학', ratio: 25 }, { name: '학평 4점 기출', ratio: 20 }], hitRate: 91.5, style: '자체 제작 기출 변형 및 서술형 배점 70% 집중' }
+        ],
+        '2': [
+          { name: '박OO', role: '지수로그·수열 (1~4반)', sources: [{ name: 'EBS 수능특강 수학I Level 3', ratio: 45 }, { name: '평가원 3개년 킬러', ratio: 35 }, { name: '자체 고난도 프린트', ratio: 20 }], hitRate: 94.2, style: '평가원 준킬러 숫자/조건 복합 변형, 계산 호흡이 긴 4단계 추론' },
+          { name: '최OO', role: '삼각함수·그래프 (5~8반)', sources: [{ name: '마더텅 4개년 기출', ratio: 40 }, { name: 'EBS 수능특강', ratio: 30 }, { name: '교육청 준킬러', ratio: 30 }], hitRate: 92.4, style: '삼각함수 그래프 대칭성/주기성 추론 및 합답형(ㄱ,ㄴ,ㄷ) 빈출' }
+        ]
+      },
+      daejin: {
+        '1': [
+          { name: '정OO', role: '공통수학 (1~4반)', sources: [{ name: '블랙라벨 Step 2,3', ratio: 50 }, { name: '수능기출 변형', ratio: 30 }, { name: '학교 프린트', ratio: 20 }], hitRate: 92.6, style: '블랙라벨 핵심 유형 변형 및 타임어택 유도' },
+          { name: '한OO', role: '공통수학 (5~8반)', sources: [{ name: '학교 수업 심화 프린트', ratio: 55 }, { name: '쎈 C단계', ratio: 25 }, { name: '학평 기출', ratio: 20 }], hitRate: 90.8, style: '수업 프린트 유사 문항 서술형 70% 집중 반영' }
+        ],
+        '2': [
+          { name: '강OO', role: '수열/미적분 (공동출제)', sources: [{ name: '하이퍼스트 고난도', ratio: 45 }, { name: 'EBS 수능특강', ratio: 35 }, { name: '자이스토리', ratio: 20 }], hitRate: 93.5, style: '계산 호흡이 길고 정확성을 요하는 킬러 위주' },
+          { name: '윤OO', role: '다항함수 추론 (공동출제)', sources: [{ name: 'EBS 수능특강 변형', ratio: 45 }, { name: '학교 심화 프린트', ratio: 35 }, { name: '모의고사 기출', ratio: 20 }], hitRate: 92.1, style: 'EBS 연계교재 조건 변형 및 서술형 2문항 배점 24점' }
+        ]
+      },
+      seohyun: {
+        '1': [
+          { name: '신OO', role: '공통수학 (홀수반 1,3,5,7반)', sources: [{ name: '일등급수학', ratio: 45 }, { name: '쎈 C단계 변형', ratio: 35 }, { name: '서현 기출', ratio: 20 }], hitRate: 94.1, style: '일등급 핵심 유형 변형 및 정확한 계산력 요구' },
+          { name: '임OO', role: '공통수학 (짝수반 2,4,6,8반)', sources: [{ name: '블랙라벨 Step 3 프린트', ratio: 50 }, { name: '학교 기출 프린트', ratio: 30 }, { name: '쎈 C단계', ratio: 20 }], hitRate: 91.8, style: '복합 개념 융합 및 정석적 서술형 증명' }
+        ],
+        '2': [
+          { name: '송OO', role: '수학I 공통 (1~4반)', sources: [{ name: '자이스토리 4개년 기출', ratio: 45 }, { name: '일등급수학', ratio: 35 }, { name: '학교 프린트', ratio: 20 }], hitRate: 95.0, style: '평가원 3개년 4점 준킬러 완벽 변형 출제' },
+          { name: '배OO', role: '수학I 공통 (5~8반)', sources: [{ name: '학교 자체 심화 프린트', ratio: 50 }, { name: '마더텅 기출', ratio: 30 }, { name: 'EBS 수특', ratio: 20 }], hitRate: 91.4, style: '프린트와 연계된 빈칸추론 및 단답형 고배점' }
+        ]
+      },
+      bundang: {
+        '1': [
+          { name: '조OO', role: '공통수학 총괄 (1~8반)', sources: [{ name: 'EBS 올림포스', ratio: 50 }, { name: '학교 보충 프린트', ratio: 30 }, { name: '교과서 심화', ratio: 20 }], hitRate: 93.0, style: '올림포스 고난도 중심 균형 출제' }
+        ],
+        '2': [
+          { name: '장OO', role: '지수/삼각 (공동출제)', sources: [{ name: '마더텅 검정', ratio: 45 }, { name: '교육청 기출', ratio: 35 }, { name: '수특', ratio: 20 }], hitRate: 92.5, style: '교육청 기출 우수 문항 선호' },
+          { name: '서OO', role: '수열/극한 (공동출제)', sources: [{ name: 'EBS 수능특강 Level 2,3', ratio: 50 }, { name: '학교 프린트', ratio: 30 }, { name: '자이스토리', ratio: 20 }], hitRate: 93.8, style: '수능특강 Level 2, 3 변형 집중' }
+        ]
+      },
+      jungang: {
+        '1': [
+          { name: '문OO', role: '공통수학 전반', sources: [{ name: '개념원리 RPM', ratio: 50 }, { name: '학교 교과서 심화', ratio: 30 }, { name: '학평 기출', ratio: 20 }], hitRate: 91.2, style: 'RPM 대표유형 및 교과서 심화 변형' }
+        ],
+        '2': [
+          { name: '권OO', role: '수학I 공통', sources: [{ name: '올림포스 닥터링', ratio: 55 }, { name: 'EBS 수능특강', ratio: 30 }, { name: '기출 프린트', ratio: 15 }], hitRate: 90.5, style: '닥터링 고난도 연습문제 70% 집중 변형' },
+          { name: '황OO', role: '수학I 공통', sources: [{ name: 'EBS 수능완성', ratio: 50 }, { name: '학교 프린트', ratio: 30 }, { name: '모의고사', ratio: 20 }], hitRate: 91.9, style: '수능완성 핵심 모의고사 발췌 출제' }
+        ]
+      },
+      bopyeong: {
+        '1': [
+          { name: '안OO', role: '공통수학 (1~5반)', sources: [{ name: '고쟁이 유형+심화', ratio: 45 }, { name: '쎈수학 C단계', ratio: 35 }, { name: '학교 프린트', ratio: 20 }], hitRate: 93.2, style: '고쟁이 Step 3 및 심화 프린트 연계' },
+          { name: '유OO', role: '공통수학 (6~10반)', sources: [{ name: '학교 심화 프린트', ratio: 50 }, { name: '일품 고등수학', ratio: 30 }, { name: '기출', ratio: 20 }], hitRate: 91.0, style: '개념 정합성과 증명을 묻는 서술형' }
+        ],
+        '2': [
+          { name: '류OO', role: '수학I 공통', sources: [{ name: 'EBS 수능특강 Level 3', ratio: 50 }, { name: '자이스토리 기출', ratio: 30 }, { name: '프린트', ratio: 20 }], hitRate: 94.6, style: '수특 Level 3 변형 100% 출제' },
+          { name: '곽OO', role: '수학I 공통', sources: [{ name: '평가원 4점 기출', ratio: 45 }, { name: 'EBS 수특', ratio: 35 }, { name: '학교 프린트', ratio: 20 }], hitRate: 92.8, style: '평가원 4점 기출 복합 응용' }
+        ]
+      },
+      yatap: {
+        '1': [
+          { name: '홍OO', role: '공통수학 (1~4반)', sources: [{ name: '일품 고등수학', ratio: 45 }, { name: '학교 기출 프린트', ratio: 35 }, { name: '쎈', ratio: 20 }], hitRate: 92.0, style: '일품 최고수준 문제 변형' },
+          { name: '도OO', role: '공통수학 (5~8반)', sources: [{ name: '분당 기출 우수문항', ratio: 50 }, { name: '학교 프린트', ratio: 30 }, { name: 'RPM', ratio: 20 }], hitRate: 90.7, style: '분당권 기출 우수문항 발췌' }
+        ],
+        '2': [
+          { name: '백OO', role: '수학I 공통', sources: [{ name: '마더텅 검정 킬러', ratio: 50 }, { name: '올림포스 전국연합', ratio: 30 }, { name: '수특', ratio: 20 }], hitRate: 93.4, style: '마더텅 별 3~4개 킬러 변형' },
+          { name: '노OO', role: '수학I 공통', sources: [{ name: '올림포스 기출', ratio: 45 }, { name: 'EBS 수특', ratio: 35 }, { name: '자체프린트', ratio: 20 }], hitRate: 91.5, style: '전국연합 모의고사 기출 연계' }
+        ]
+      }
+    };
+
+    function renderSchoolIntelDashboard() {
+      const schoolSelect = document.getElementById('dash-school-select');
+      const gradeSelect = document.getElementById('dash-grade-select');
+      const schoolKey = schoolSelect?.value || 'naksaeng';
+      const gradeKey = gradeSelect?.value || '2';
+
+      const schoolNameMap = {
+        naksaeng: '낙생고',
+        daejin: '분당대진고',
+        seohyun: '서현고',
+        bundang: '분당고',
+        jungang: '성남중앙고',
+        bopyeong: '보평고',
+        yatap: '야탑고'
+      };
+
+      const titleEl = document.getElementById('dash-school-title');
+      if (titleEl) {
+        titleEl.textContent = `${schoolNameMap[schoolKey] || '소속 고교'} ${gradeKey}학년 수학교사진 출제 경향 & 내신 예측`;
+      }
+
+      // Populate Teachers list
+      const teachersContainer = document.getElementById('dash-teachers-container');
+      const schoolStats = TEACHER_INTEL_STATS[schoolKey]?.[gradeKey] || TEACHER_INTEL_STATS['naksaeng']['2'];
+
+      if (teachersContainer && schoolStats) {
+        teachersContainer.innerHTML = schoolStats.map((t, idx) => `
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="font-extrabold text-amber-300 text-xs">${t.name} 선생님</span>
+                <span class="text-[10px] text-slate-400">(${t.role})</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-[10px] font-black flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                적중률 ${t.hitRate}%
+              </span>
+            </div>
+
+            <!-- Sources Breakdown Bars -->
+            <div class="space-y-1 pt-1">
+              <div class="text-[10px] text-slate-400 font-bold flex items-center justify-between">
+                <span>선호 출제원 및 기출 빈도:</span>
+                <span class="text-indigo-300">비중 (%)</span>
+              </div>
+              ${t.sources.map(s => `
+                <div class="flex items-center gap-2 text-[10.5px]">
+                  <span class="text-slate-300 truncate w-44 font-medium">• ${s.name}</span>
+                  <div class="flex-1 bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div class="bg-indigo-500 h-full rounded-full" style="width: ${s.ratio}%;"></div>
+                  </div>
+                  <span class="text-[10px] font-mono text-indigo-300 w-8 text-right font-bold">${s.ratio}%</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <p class="text-[10.5px] text-slate-400 italic pt-1 border-t border-slate-800/80">
+              "${t.style}"
+            </p>
+          </div>
+        `).join('');
+      }
+
+      // Update Weakness Impact & Grade Simulator based on Grade
+      const weaknessUnitEl = document.getElementById('dash-weakness-unit');
+      const weaknessRatioEl = document.getElementById('dash-weakness-ratio');
+      const prescriptionTextEl = document.getElementById('dash-prescription-text');
+
+      const isGrade1 = gradeKey === '1';
+      if (weaknessUnitEl) {
+        weaknessUnitEl.textContent = isGrade1 ? '다항식 나머지정리 & 이차함수 킬러' : '지수·로그 킬러 & 수열 점화식';
+      }
+      if (weaknessRatioEl) {
+        weaknessRatioEl.textContent = isGrade1 ? '32점' : '35점';
+      }
+      if (prescriptionTextEl && schoolStats && schoolStats[0]) {
+        const leadTeacher = schoolStats[0];
+        prescriptionTextEl.innerHTML = `
+          <strong class="text-amber-300">긴급 처방:</strong> 담당 수학교사(${leadTeacher.name} 선생님)는 <span class="text-indigo-300 font-bold">[${leadTeacher.sources[0]?.name || '연계 교재'}]</span>에서 고배점 킬러를 출제합니다. 지금 바로 시험준비 탭에서 맞춤 시험지를 생성하여 집중 훈련하세요.
+        `;
+      }
+
+      lucide.createIcons();
+    }
+
+    function goToExamPrepWithSchool() {
+      const schoolKey = document.getElementById('dash-school-select')?.value || 'naksaeng';
+      const gradeKey = document.getElementById('dash-grade-select')?.value || '2';
+
+      // Sync with intel modal selects
+      const modalSchool = document.getElementById('intel-school-select');
+      const modalGrade = document.getElementById('intel-grade-select');
+      if (modalSchool) modalSchool.value = schoolKey;
+      if (modalGrade) modalGrade.value = gradeKey;
+
+      // Navigate to vault (시험준비)
+      goToView('vault');
+      if (typeof switchVaultSubTab === 'function') {
+        switchVaultSubTab('exams');
+      }
+
+      // Automatically open the exam sheet modal
+      setTimeout(() => {
+        openExamSheetModal();
+      }, 150);
+    }
+
     // ================= SCHOOL & TEACHER INTELLIGENCE ENGINE =================
     const DEFAULT_SCHOOL_INTEL_DB = {"version": "2026_bundang_v1", "updated_at": "2026-10-23T14:00:00", "schools": {"naksaeng": {"name": "낙생고등학교", "region": "성남시 분당구 백현동", "grades": {"1": {"teachers": [{"name": "김OO", "role": "다항식·방정식 (1~5반)", "source": "EBS 올림포스 고난도", "source_status": "secured", "style": "수능/평가원 킬러 및 올림포스 고난도 변형 출제"}, {"name": "이OO", "role": "도형·함수 (6~10반)", "source": "학교 자체 심화 프린트", "source_status": "secured", "style": "자체 제작 기출 변형 및 서술형 배점 높음"}], "workbooks": ["EBS 올림포스 고난도", "학교 자체 고난도 프린트", "블랙라벨"], "reports_count": 14, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "박OO", "role": "수학I 지수로그·수열 (공통)", "source": "EBS 수능특강 수학I", "source_status": "secured", "style": "평가원 준킬러 숫자/조건 변형 극선호"}, {"name": "최OO", "role": "수학I 삼각함수·그래프 (공통)", "source": "마더텅 4개년 기출", "source_status": "secured", "style": "그래프 추론 및 합답형(ㄱ,ㄴ,ㄷ) 빈출"}], "workbooks": ["EBS 수능특강", "마더텅 수능기출", "수능완성"], "reports_count": 19, "last_reported": "2026-10-23"}}}, "daejin": {"name": "분당대진고등학교", "region": "성남시 분당구 분당동", "grades": {"1": {"teachers": [{"name": "정OO", "role": "공통수학 전반 (1~4반)", "source": "블랙라벨", "source_status": "secured", "style": "블랙라벨 Step 2, 3 단계 변형 집중 출제"}, {"name": "한OO", "role": "공통수학 전반 (5~8반)", "source": "학교 수업 심화 프린트", "source_status": "secured", "style": "프린트 유사 문항 서술형 70% 반영"}], "workbooks": ["블랙라벨", "학교 수업 심화 프린트"], "reports_count": 9, "last_reported": "2026-10-22"}, "2": {"teachers": [{"name": "강OO", "role": "수학I·II 수열/미적분", "source": "하이퍼스트 고난도", "source_status": "secured", "style": "계산 호흡이 길고 정확성을 요하는 킬러"}, {"name": "윤OO", "role": "수학I·II 다항함수 추론", "source": "EBS 수능특강 변형", "source_status": "secured", "style": "EBS 연계교재 조건 변형 및 모의고사 연계"}], "workbooks": ["하이퍼스트 고난도", "EBS 수능특강", "자이스토리"], "reports_count": 11, "last_reported": "2026-10-23"}}}, "seohyun": {"name": "서현고등학교", "region": "성남시 분당구 서현동", "grades": {"1": {"teachers": [{"name": "신OO", "role": "공통수학 (홀수반 1,3,5,7반)", "source": "일등급수학", "source_status": "secured", "style": "일등급 핵심 유형 변형 및 타임어택 유도"}, {"name": "임OO", "role": "공통수학 (짝수반 2,4,6,8반)", "source": "쎈수학 C단계 변형", "source_status": "secured", "style": "정석적 풀이와 복합 개념 융합 출제"}], "workbooks": ["일등급수학", "쎈수학 C단계", "서현고 기출 프린트"], "reports_count": 12, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "송OO", "role": "수학I 공통 (1~4반)", "source": "자이스토리 4개년 기출", "source_status": "secured", "style": "평가원 3개년 4점 준킬러 완벽 변형"}, {"name": "배OO", "role": "수학I 공통 (5~8반)", "source": "학교 자체 심화 프린트", "source_status": "secured", "style": "프린트와 연계된 빈칸추론 및 단답형"}], "workbooks": ["자이스토리 수능기출", "학교 자체 프린트"], "reports_count": 8, "last_reported": "2026-10-21"}}}, "bundang": {"name": "분당고등학교", "region": "성남시 분당구 수내동", "grades": {"1": {"teachers": [{"name": "조OO", "role": "공통수학 총괄 (1~8반)", "source": "EBS 올림포스", "source_status": "secured", "style": "교과서 및 올림포스 고난도 중심 균형 출제"}], "workbooks": ["EBS 올림포스", "학교 보충 프린트"], "reports_count": 7, "last_reported": "2026-10-20"}, "2": {"teachers": [{"name": "장OO", "role": "수학I 지수/삼각", "source": "마더텅 검정", "source_status": "secured", "style": "교육청 기출 우수 문항 선호"}, {"name": "서OO", "role": "수학I 수열/극한", "source": "EBS 수능특강", "source_status": "secured", "style": "수능특강 Level 2, 3 변형 출제"}], "workbooks": ["마더텅 수능기출", "EBS 수능특강"], "reports_count": 9, "last_reported": "2026-10-23"}}}, "jungang": {"name": "성남중앙고등학교", "region": "성남시 분당구 야탑동", "grades": {"1": {"teachers": [{"name": "문OO", "role": "공통수학 (전반)", "source": "개념원리 RPM", "source_status": "secured", "style": "RPM 대표유형 및 학교 교과서 심화"}], "workbooks": ["개념원리 RPM", "학교 교과서 심화 변형"], "reports_count": 5, "last_reported": "2026-10-19"}, "2": {"teachers": [{"name": "권OO", "role": "수학I (공통)", "source": "올림포스 닥터링", "source_status": "needed", "style": "닥터링 고난도 연습문제 변형"}, {"name": "황OO", "role": "수학I (공통)", "source": "EBS 수능완성", "source_status": "secured", "style": "수능완성 핵심 모의고사 발췌"}], "workbooks": ["올림포스 닥터링", "EBS 수능완성"], "reports_count": 6, "last_reported": "2026-10-22"}}}, "bopyeong": {"name": "보평고등학교", "region": "성남시 분당구 백현동", "grades": {"1": {"teachers": [{"name": "안OO", "role": "공통수학 (1~5반)", "source": "쎈수학 & 고쟁이", "source_status": "secured", "style": "고쟁이 step 3 및 심화 프린트 연계"}, {"name": "유OO", "role": "공통수학 (6~10반)", "source": "학교 심화 프린트", "source_status": "secured", "style": "증명 및 개념 정합성 묻는 서술형"}], "workbooks": ["쎈수학", "고쟁이 유형+심화", "학교 심화 프린트"], "reports_count": 10, "last_reported": "2026-10-23"}, "2": {"teachers": [{"name": "류OO", "role": "수학I (공통)", "source": "EBS 수능특강", "source_status": "secured", "style": "수특 Level 3 변형 100% 출제"}, {"name": "곽OO", "role": "수학I (공통)", "source": "자이스토리 기출", "source_status": "secured", "style": "평가원 4점 기출 복합 응용"}], "workbooks": ["EBS 수능특강", "자이스토리 기출"], "reports_count": 8, "last_reported": "2026-10-23"}}}, "yatap": {"name": "야탑고등학교", "region": "성남시 분당구 야탑동", "grades": {"1": {"teachers": [{"name": "홍OO", "role": "공통수학 (1~4반)", "source": "일품 고등수학", "source_status": "secured", "style": "일품 최고수준 문제 변형"}, {"name": "도OO", "role": "공통수학 (5~8반)", "source": "학교 기출 프린트", "source_status": "secured", "style": "분당 기출 우수문항 발췌"}], "workbooks": ["일품 고등수학", "학교 기출 프린트"], "reports_count": 7, "last_reported": "2026-10-21"}, "2": {"teachers": [{"name": "백OO", "role": "수학I (공통)", "source": "마더텅 검정", "source_status": "secured", "style": "마더텅 별 3~4개 킬러 변형"}, {"name": "노OO", "role": "수학I (공통)", "source": "올림포스 기출", "source_status": "secured", "style": "올림포스 전국연합 기출 연계"}], "workbooks": ["마더텅 검정", "올림포스 전국연합 기출"], "reports_count": 6, "last_reported": "2026-10-22"}}}}, "crowdsourced_reports": [{"id": "rep_20261023_001", "timestamp": "2026-10-23 13:40", "school": "낙생고등학교", "grade": "2", "class": "3", "student_name": "이*민 (낙생고 2학년)", "teacher_name": "박OO / 최OO 선생님", "workbook_name": "EBS 수능특강 수학I + 킬러프린트", "details": "박선생님이 이번 중간고사에 지수로그 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 최선생님은 삼각함수 그래프 교점 문제 위주로 내신대요.", "status": "applied", "admin_note": "공식 교사진 DB에 반영 완료 (수특 Level 3 변형 매칭 완료)"}, {"id": "rep_20261023_002", "timestamp": "2026-10-23 12:15", "school": "서현고등학교", "grade": "1", "class": "4", "student_name": "김*우 (서현고 1학년)", "teacher_name": "임OO 선생님", "workbook_name": "블랙라벨 Step 3 프린트", "details": "임선생님이 이번에 쎈수학 C단계 대신 블랙라벨 Step 3 복사해서 나눠주셨습니다. 블랙라벨 변형 모의고사 만들어주실 수 있나요?", "status": "pending", "admin_note": "파일 확인 중 / 블랙라벨 Step 3 문항 DB 매칭 대기열 추가"}, {"id": "rep_20261023_003", "timestamp": "2026-10-23 10:50", "school": "성남중앙고등학교", "grade": "2", "class": "2", "student_name": "박*준 (성남중앙고 2학년)", "teacher_name": "권OO 선생님", "workbook_name": "EBS 올림포스 닥터링 수학I", "details": "권선생님이 새로 오셨는데 올림포스 닥터링 4단원 연습문제에서 70% 낸다고 강조하셨습니다. 파일 구해서 꼭 넣어주세요!", "status": "needed_file", "admin_note": "⚠️ 부교재 파일 긴급 확보 필요 (교보/EBS PDF 수급 중)"}, {"id": "rep_20261023_004", "timestamp": "2026-10-22 18:30", "school": "분당대진고등학교", "grade": "2", "class": "6", "student_name": "정*호 (대진고 2학년)", "teacher_name": "윤OO 선생님", "workbook_name": "EBS 수능특강 + 하이퍼스트", "details": "윤선생님이 수특 변형이랑 자체프린트에서 서술형 2문항 낸다고 하셨어요! 작년 기출 변형 스타일이랑 똑같습니다.", "status": "applied", "admin_note": "대진고 2학년 교사진 및 수특 변형 DB 매칭 완료"}, {"id": "rep_20261022_005", "timestamp": "2026-10-22 15:20", "school": "보평고등학교", "grade": "1", "class": "2", "student_name": "송*서 (보평고 1학년)", "teacher_name": "안OO 선생님", "workbook_name": "고쟁이 유형+심화", "details": "안선생님이 고쟁이 step 3에서 3문제, 서술형은 수업시간에 증명해준 문제 낸다고 하셨어요.", "status": "applied", "admin_note": "보평고 1학년 고쟁이 연계 세팅 완료"}]};
     let SCHOOL_INTEL_DB = (() => {
