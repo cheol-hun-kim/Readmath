@@ -21,15 +21,14 @@
       "name": "낙생고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "2025학년도 수평선 미적분 1~8주차 최종본",
-        "2025학년도 수평선 수학II 3~8주차 최종본"
+        "낙생고등학교 2학년 미적분 심화 기출 족보",
+        "낙생고등학교 2학년 수학II 심화 기출 족보"
       ],
       "exam_files_count": 2,
       "grades": {
         "1": {
           "teachers": [],
           "workbooks": [
-            "수평선 직전대비 봉투 모의고사",
             "학교 심화 프린트"
           ],
           "reports_count": 0
@@ -37,7 +36,6 @@
         "2": {
           "teachers": [],
           "workbooks": [
-            "수평선 직전대비 봉투 모의고사",
             "학교 심화 프린트"
           ],
           "reports_count": 0
@@ -45,7 +43,6 @@
         "3": {
           "teachers": [],
           "workbooks": [
-            "수평선 직전대비 봉투 모의고사",
             "학교 심화 프린트"
           ],
           "reports_count": 0
@@ -56,7 +53,7 @@
       "name": "분당대진고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "[기출] 분당대진고등학교 2-1 중간 자연계 확률과 통계 족보"
+        "분당대진고등학교 2학년 1학기 중간고사 확률과 통계 기출"
       ],
       "exam_files_count": 1,
       "grades": {
@@ -86,22 +83,30 @@
     "seohyun": {
       "name": "서현고등학교",
       "region": "성남시 분당구",
-      "verified_exams": [],
-      "exam_files_count": 0,
+      "verified_exams": [
+        "서현고등학교 2학년 1학기 중간고사 수학I 기출"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -132,22 +137,30 @@
     "jungang": {
       "name": "분당중앙고등학교",
       "region": "성남시 분당구",
-      "verified_exams": [],
-      "exam_files_count": 0,
+      "verified_exams": [
+        "분당중앙고등학교 2학년 1학기 중간고사 수학I 기출"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -156,23 +169,29 @@
       "name": "보평고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "보평고등학교 2학년 2학기 중간 수학2 공통 문제·해설"
+        "보평고등학교 2학년 2학기 중간고사 수학II 기출"
       ],
       "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -181,23 +200,29 @@
       "name": "야탑고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "야탑고등학교 2학년 2학기 중간 확률과통계 공통 문제·해설"
+        "야탑고등학교 2학년 2학기 중간고사 확률과 통계 기출"
       ],
       "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -206,23 +231,30 @@
       "name": "한솔고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "한솔고등학교 3학년 1학기 중간 미적분 이과 문제·정답"
+        "한솔고등학교 3학년 1학기 중간고사 미적분 기출",
+        "한솔고등학교 3학년 미적분 심화 시험대비 족보"
       ],
-      "exam_files_count": 1,
+      "exam_files_count": 2,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -231,24 +263,30 @@
       "name": "늘푸른고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "[기출] 늘푸른고등학교 2-1 중간 자연계 확률과 통계 족보",
-        "[기출] 늘푸른고등학교 2-1 기말 자연계 확률과 통계 족보"
+        "늘푸른고등학교 2학년 1학기 중간고사 확률과 통계 기출",
+        "늘푸른고등학교 2학년 1학기 기말고사 확률과 통계 기출"
       ],
       "exam_files_count": 2,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 수업 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 수업 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 수업 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -257,23 +295,29 @@
       "name": "분당영덕여자고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "[기출] 영덕여자고등학교 2-1 중간 자연계 확률과 통계 족보"
+        "분당영덕여자고등학교 2학년 1학기 중간고사 확률과 통계 기출"
       ],
       "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -282,23 +326,29 @@
       "name": "불곡고등학교",
       "region": "성남시 분당구",
       "verified_exams": [
-        "[기출] 불곡고등학교 2-2 기말 인문계 확률과 통계 족보"
+        "불곡고등학교 2학년 2학기 기말고사 확률과 통계 기출"
       ],
       "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -306,22 +356,30 @@
     "sunae": {
       "name": "수내고등학교",
       "region": "성남시 분당구",
-      "verified_exams": [],
-      "exam_files_count": 0,
+      "verified_exams": [
+        "수내고등학교 2학년 1학기 중간고사 수학I 기출"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -329,22 +387,30 @@
     "taewon": {
       "name": "태원고등학교",
       "region": "성남시 분당구",
-      "verified_exams": [],
-      "exam_files_count": 0,
+      "verified_exams": [
+        "태원고등학교 2학년 1학기 중간고사 수학I 기출"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
@@ -467,22 +533,30 @@
     "seongnam_fl": {
       "name": "성남외국어고등학교",
       "region": "성남시 분당구",
-      "verified_exams": [],
-      "exam_files_count": 0,
+      "verified_exams": [
+        "성남외국어고등학교 2학년 1학기 중간고사 수학I 기출"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "2": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         },
         "3": {
           "teachers": [],
-          "workbooks": [],
+          "workbooks": [
+            "학교 심화 프린트"
+          ],
           "reports_count": 0
         }
       }
