@@ -1,6 +1,6 @@
 {
-  "version": "2026_bundang_v1",
-  "updated_at": "2026-10-23T14:00:00",
+  "version": "2026_bundang_v2_expanded",
+  "updated_at": "2026-10-25T13:24:46.050Z",
   "schools": {
     "naksaeng": {
       "name": "낙생고등학교",
@@ -368,6 +368,200 @@
           ],
           "reports_count": 6,
           "last_reported": "2026-10-22"
+        }
+      }
+    },
+    "hansol": {
+      "name": "한솔고등학교",
+      "region": "성남시 분당구 정자동",
+      "grades": {
+        "1": {
+          "teachers": [
+            {
+              "name": "송OO",
+              "role": "공통수학 전반 (1~4반)",
+              "source": "절대등급 & 교과서 심화",
+              "source_status": "secured",
+              "style": "절대등급 킬러 유형 및 대칭·이동 변형 출제"
+            },
+            {
+              "name": "오OO",
+              "role": "공통수학 전반 (5~8반)",
+              "source": "학교 심화 프린트",
+              "source_status": "secured",
+              "style": "서술형 감점 기준 엄격, 풀이 논리성 평가"
+            }
+          ],
+          "workbooks": [
+            "절대등급",
+            "교과서 심화 문제",
+            "학교 심화 프린트"
+          ],
+          "reports_count": 8,
+          "last_reported": "2026-10-24"
+        },
+        "2": {
+          "teachers": [
+            {
+              "name": "서OO",
+              "role": "수학I·II (공통)",
+              "source": "EBS 수능특강 & 마더텅",
+              "source_status": "secured",
+              "style": "수특 Level 2, 3 숫자/조건 변형 및 교육청 4점 준킬러 연계"
+            },
+            {
+              "name": "배OO",
+              "role": "확률과 통계 / 기하",
+              "source": "고쟁이 유형+심화",
+              "source_status": "secured",
+              "style": "고쟁이 Step 3 조건 변형 및 단답형 배점 30%"
+            }
+          ],
+          "workbooks": [
+            "EBS 수능특강",
+            "마더텅 기출",
+            "고쟁이"
+          ],
+          "reports_count": 11,
+          "last_reported": "2026-10-25"
+        }
+      }
+    },
+    "neulpureun": {
+      "name": "늘푸른고등학교",
+      "region": "성남시 분당구 정자동",
+      "grades": {
+        "1": {
+          "teachers": [
+            {
+              "name": "남OO",
+              "role": "공통수학 (홀수반)",
+              "source": "올림포스 고난도",
+              "source_status": "secured",
+              "style": "올림포스 고난도 핵심 4문항 변형 출제"
+            },
+            {
+              "name": "하OO",
+              "role": "공통수학 (짝수반)",
+              "source": "쎈수학 C단계",
+              "source_status": "secured",
+              "style": "정형적 킬러 유형의 복합 연립 문항"
+            }
+          ],
+          "workbooks": [
+            "올림포스 고난도",
+            "쎈수학",
+            "늘푸른고 기출 프린트"
+          ],
+          "reports_count": 9,
+          "last_reported": "2026-10-24"
+        },
+        "2": {
+          "teachers": [
+            {
+              "name": "민OO",
+              "role": "수학I / 확통 (공통)",
+              "source": "자이스토리 3개년 기출",
+              "source_status": "secured",
+              "style": "평가원 4점 기출 형태 변형 및 자연계열 변별력 집중"
+            }
+          ],
+          "workbooks": [
+            "자이스토리 기출",
+            "EBS 수능특강"
+          ],
+          "reports_count": 7,
+          "last_reported": "2026-10-25"
+        }
+      }
+    },
+    "yeongdeok": {
+      "name": "영덕여자고등학교",
+      "region": "성남시 분당구 야탑동",
+      "grades": {
+        "1": {
+          "teachers": [
+            {
+              "name": "구OO",
+              "role": "공통수학 전반 (1~5반)",
+              "source": "일등급수학 & 절대등급",
+              "source_status": "secured",
+              "style": "계산 복잡도 높은 타임어택 유도, 도형 대칭 킬러"
+            },
+            {
+              "name": "표OO",
+              "role": "공통수학 전반 (6~10반)",
+              "source": "학교 자체 고난도 프린트",
+              "source_status": "secured",
+              "style": "서술형 5문항 40점 배점, 개념 증명 출제"
+            }
+          ],
+          "workbooks": [
+            "일등급수학",
+            "절대등급",
+            "영덕여고 자체 프린트"
+          ],
+          "reports_count": 13,
+          "last_reported": "2026-10-25"
+        },
+        "2": {
+          "teachers": [
+            {
+              "name": "원OO",
+              "role": "수학I / 미적분 (자연)",
+              "source": "마더텅 & 고쟁이",
+              "source_status": "secured",
+              "style": "마더텅 4개년 킬러 변형 및 고쟁이 Step 3 융합"
+            }
+          ],
+          "workbooks": [
+            "마더텅 수능기출",
+            "고쟁이",
+            "수능완성"
+          ],
+          "reports_count": 10,
+          "last_reported": "2026-10-25"
+        }
+      }
+    },
+    "bulgok": {
+      "name": "불곡고등학교",
+      "region": "성남시 분당구 구미동",
+      "grades": {
+        "1": {
+          "teachers": [
+            {
+              "name": "탁OO",
+              "role": "공통수학 (전반)",
+              "source": "EBS 올림포스 & 쎈수학",
+              "source_status": "secured",
+              "style": "교과서 및 올림포스 기본+발전 균형 배치"
+            }
+          ],
+          "workbooks": [
+            "EBS 올림포스",
+            "쎈수학",
+            "학교 보충교재"
+          ],
+          "reports_count": 6,
+          "last_reported": "2026-10-23"
+        },
+        "2": {
+          "teachers": [
+            {
+              "name": "허OO",
+              "role": "수학I / 확통 (공통)",
+              "source": "EBS 수능특강",
+              "source_status": "secured",
+              "style": "수특 Level 2, 3 단계별 출제 및 기출 모의고사 변형"
+            }
+          ],
+          "workbooks": [
+            "EBS 수능특강",
+            "자이스토리"
+          ],
+          "reports_count": 8,
+          "last_reported": "2026-10-25"
         }
       }
     }
