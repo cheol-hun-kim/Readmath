@@ -1,636 +1,1113 @@
 {
-  "version": "2026_bundang_v2_expanded",
-  "updated_at": "2026-10-25T13:24:46.050Z",
+  "version": "2026_bundang_suji_yongin_v3_pure",
+  "updated_at": "2026-10-25T13:32:33.217Z",
+  "total_schools": 46,
+  "regions": {
+    "bundang": {
+      "name": "성남시 분당구",
+      "count": 19
+    },
+    "suji": {
+      "name": "용인시 수지구",
+      "count": 10
+    },
+    "yongin_other": {
+      "name": "용인시 기흥구·처인구",
+      "count": 17
+    }
+  },
   "schools": {
     "naksaeng": {
       "name": "낙생고등학교",
-      "region": "성남시 분당구 백현동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "2025학년도 수평선 미적분 1~8주차 최종본",
+        "2025학년도 수평선 수학II 3~8주차 최종본"
+      ],
+      "exam_files_count": 2,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "김OO",
-              "role": "다항식·방정식 (1~5반)",
-              "source": "EBS 올림포스 고난도",
-              "source_status": "secured",
-              "style": "수능/평가원 킬러 및 올림포스 고난도 변형 출제"
-            },
-            {
-              "name": "이OO",
-              "role": "도형·함수 (6~10반)",
-              "source": "학교 자체 심화 프린트",
-              "source_status": "secured",
-              "style": "자체 제작 기출 변형 및 서술형 배점 높음"
-            }
-          ],
+          "teachers": [],
           "workbooks": [
-            "EBS 올림포스 고난도",
-            "학교 자체 고난도 프린트",
-            "블랙라벨"
+            "수평선 직전대비 봉투 모의고사",
+            "학교 심화 프린트"
           ],
-          "reports_count": 14,
-          "last_reported": "2026-10-23"
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "박OO",
-              "role": "수학I 지수로그·수열 (공통)",
-              "source": "EBS 수능특강 수학I",
-              "source_status": "secured",
-              "style": "평가원 준킬러 숫자/조건 변형 극선호"
-            },
-            {
-              "name": "최OO",
-              "role": "수학I 삼각함수·그래프 (공통)",
-              "source": "마더텅 4개년 기출",
-              "source_status": "secured",
-              "style": "그래프 추론 및 합답형(ㄱ,ㄴ,ㄷ) 빈출"
-            }
-          ],
+          "teachers": [],
           "workbooks": [
-            "EBS 수능특강",
-            "마더텅 수능기출",
-            "수능완성"
+            "수평선 직전대비 봉투 모의고사",
+            "학교 심화 프린트"
           ],
-          "reports_count": 19,
-          "last_reported": "2026-10-23"
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [
+            "수평선 직전대비 봉투 모의고사",
+            "학교 심화 프린트"
+          ],
+          "reports_count": 0
         }
       }
     },
     "daejin": {
       "name": "분당대진고등학교",
-      "region": "성남시 분당구 분당동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "[기출] 분당대진고등학교 2-1 중간 자연계 확률과 통계 족보"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "정OO",
-              "role": "공통수학 전반 (1~4반)",
-              "source": "블랙라벨",
-              "source_status": "secured",
-              "style": "블랙라벨 Step 2, 3 단계 변형 집중 출제"
-            },
-            {
-              "name": "한OO",
-              "role": "공통수학 전반 (5~8반)",
-              "source": "학교 수업 심화 프린트",
-              "source_status": "secured",
-              "style": "프린트 유사 문항 서술형 70% 반영"
-            }
-          ],
+          "teachers": [],
           "workbooks": [
-            "블랙라벨",
             "학교 수업 심화 프린트"
           ],
-          "reports_count": 9,
-          "last_reported": "2026-10-22"
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "강OO",
-              "role": "수학I·II 수열/미적분",
-              "source": "하이퍼스트 고난도",
-              "source_status": "secured",
-              "style": "계산 호흡이 길고 정확성을 요하는 킬러"
-            },
-            {
-              "name": "윤OO",
-              "role": "수학I·II 다항함수 추론",
-              "source": "EBS 수능특강 변형",
-              "source_status": "secured",
-              "style": "EBS 연계교재 조건 변형 및 모의고사 연계"
-            }
-          ],
+          "teachers": [],
           "workbooks": [
-            "하이퍼스트 고난도",
-            "EBS 수능특강",
-            "자이스토리"
+            "학교 수업 심화 프린트"
           ],
-          "reports_count": 11,
-          "last_reported": "2026-10-23"
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [
+            "학교 수업 심화 프린트"
+          ],
+          "reports_count": 0
         }
       }
     },
     "seohyun": {
       "name": "서현고등학교",
-      "region": "성남시 분당구 서현동",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "신OO",
-              "role": "공통수학 (홀수반 1,3,5,7반)",
-              "source": "일등급수학",
-              "source_status": "secured",
-              "style": "일등급 핵심 유형 변형 및 타임어택 유도"
-            },
-            {
-              "name": "임OO",
-              "role": "공통수학 (짝수반 2,4,6,8반)",
-              "source": "쎈수학 C단계 변형",
-              "source_status": "secured",
-              "style": "정석적 풀이와 복합 개념 융합 출제"
-            }
-          ],
-          "workbooks": [
-            "일등급수학",
-            "쎈수학 C단계",
-            "서현고 기출 프린트"
-          ],
-          "reports_count": 12,
-          "last_reported": "2026-10-23"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "송OO",
-              "role": "수학I 공통 (1~4반)",
-              "source": "자이스토리 4개년 기출",
-              "source_status": "secured",
-              "style": "평가원 3개년 4점 준킬러 완벽 변형"
-            },
-            {
-              "name": "배OO",
-              "role": "수학I 공통 (5~8반)",
-              "source": "학교 자체 심화 프린트",
-              "source_status": "secured",
-              "style": "프린트와 연계된 빈칸추론 및 단답형"
-            }
-          ],
-          "workbooks": [
-            "자이스토리 수능기출",
-            "학교 자체 프린트"
-          ],
-          "reports_count": 8,
-          "last_reported": "2026-10-21"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "bundang": {
       "name": "분당고등학교",
-      "region": "성남시 분당구 수내동",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "조OO",
-              "role": "공통수학 총괄 (1~8반)",
-              "source": "EBS 올림포스",
-              "source_status": "secured",
-              "style": "교과서 및 올림포스 고난도 중심 균형 출제"
-            }
-          ],
-          "workbooks": [
-            "EBS 올림포스",
-            "학교 보충 프린트"
-          ],
-          "reports_count": 7,
-          "last_reported": "2026-10-20"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "장OO",
-              "role": "수학I 지수/삼각",
-              "source": "마더텅 검정",
-              "source_status": "secured",
-              "style": "교육청 기출 우수 문항 선호"
-            },
-            {
-              "name": "서OO",
-              "role": "수학I 수열/극한",
-              "source": "EBS 수능특강",
-              "source_status": "secured",
-              "style": "수능특강 Level 2, 3 변형 출제"
-            }
-          ],
-          "workbooks": [
-            "마더텅 수능기출",
-            "EBS 수능특강"
-          ],
-          "reports_count": 9,
-          "last_reported": "2026-10-23"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "jungang": {
-      "name": "성남중앙고등학교",
-      "region": "성남시 분당구 야탑동",
+      "name": "분당중앙고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "문OO",
-              "role": "공통수학 (전반)",
-              "source": "개념원리 RPM",
-              "source_status": "secured",
-              "style": "RPM 대표유형 및 학교 교과서 심화"
-            }
-          ],
-          "workbooks": [
-            "개념원리 RPM",
-            "학교 교과서 심화 변형"
-          ],
-          "reports_count": 5,
-          "last_reported": "2026-10-19"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "권OO",
-              "role": "수학I (공통)",
-              "source": "올림포스 닥터링",
-              "source_status": "needed",
-              "style": "닥터링 고난도 연습문제 변형"
-            },
-            {
-              "name": "황OO",
-              "role": "수학I (공통)",
-              "source": "EBS 수능완성",
-              "source_status": "secured",
-              "style": "수능완성 핵심 모의고사 발췌"
-            }
-          ],
-          "workbooks": [
-            "올림포스 닥터링",
-            "EBS 수능완성"
-          ],
-          "reports_count": 6,
-          "last_reported": "2026-10-22"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "bopyeong": {
       "name": "보평고등학교",
-      "region": "성남시 분당구 백현동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "보평고등학교 2학년 2학기 중간 수학2 공통 문제·해설"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "안OO",
-              "role": "공통수학 (1~5반)",
-              "source": "쎈수학 & 고쟁이",
-              "source_status": "secured",
-              "style": "고쟁이 step 3 및 심화 프린트 연계"
-            },
-            {
-              "name": "유OO",
-              "role": "공통수학 (6~10반)",
-              "source": "학교 심화 프린트",
-              "source_status": "secured",
-              "style": "증명 및 개념 정합성 묻는 서술형"
-            }
-          ],
-          "workbooks": [
-            "쎈수학",
-            "고쟁이 유형+심화",
-            "학교 심화 프린트"
-          ],
-          "reports_count": 10,
-          "last_reported": "2026-10-23"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "류OO",
-              "role": "수학I (공통)",
-              "source": "EBS 수능특강",
-              "source_status": "secured",
-              "style": "수특 Level 3 변형 100% 출제"
-            },
-            {
-              "name": "곽OO",
-              "role": "수학I (공통)",
-              "source": "자이스토리 기출",
-              "source_status": "secured",
-              "style": "평가원 4점 기출 복합 응용"
-            }
-          ],
-          "workbooks": [
-            "EBS 수능특강",
-            "자이스토리 기출"
-          ],
-          "reports_count": 8,
-          "last_reported": "2026-10-23"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "yatap": {
       "name": "야탑고등학교",
-      "region": "성남시 분당구 야탑동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "야탑고등학교 2학년 2학기 중간 확률과통계 공통 문제·해설"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "홍OO",
-              "role": "공통수학 (1~4반)",
-              "source": "일품 고등수학",
-              "source_status": "secured",
-              "style": "일품 최고수준 문제 변형"
-            },
-            {
-              "name": "도OO",
-              "role": "공통수학 (5~8반)",
-              "source": "학교 기출 프린트",
-              "source_status": "secured",
-              "style": "분당 기출 우수문항 발췌"
-            }
-          ],
-          "workbooks": [
-            "일품 고등수학",
-            "학교 기출 프린트"
-          ],
-          "reports_count": 7,
-          "last_reported": "2026-10-21"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "백OO",
-              "role": "수학I (공통)",
-              "source": "마더텅 검정",
-              "source_status": "secured",
-              "style": "마더텅 별 3~4개 킬러 변형"
-            },
-            {
-              "name": "노OO",
-              "role": "수학I (공통)",
-              "source": "올림포스 기출",
-              "source_status": "secured",
-              "style": "올림포스 전국연합 기출 연계"
-            }
-          ],
-          "workbooks": [
-            "마더텅 검정",
-            "올림포스 전국연합 기출"
-          ],
-          "reports_count": 6,
-          "last_reported": "2026-10-22"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "hansol": {
       "name": "한솔고등학교",
-      "region": "성남시 분당구 정자동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "한솔고등학교 3학년 1학기 중간 미적분 이과 문제·정답"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "송OO",
-              "role": "공통수학 전반 (1~4반)",
-              "source": "절대등급 & 교과서 심화",
-              "source_status": "secured",
-              "style": "절대등급 킬러 유형 및 대칭·이동 변형 출제"
-            },
-            {
-              "name": "오OO",
-              "role": "공통수학 전반 (5~8반)",
-              "source": "학교 심화 프린트",
-              "source_status": "secured",
-              "style": "서술형 감점 기준 엄격, 풀이 논리성 평가"
-            }
-          ],
-          "workbooks": [
-            "절대등급",
-            "교과서 심화 문제",
-            "학교 심화 프린트"
-          ],
-          "reports_count": 8,
-          "last_reported": "2026-10-24"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "서OO",
-              "role": "수학I·II (공통)",
-              "source": "EBS 수능특강 & 마더텅",
-              "source_status": "secured",
-              "style": "수특 Level 2, 3 숫자/조건 변형 및 교육청 4점 준킬러 연계"
-            },
-            {
-              "name": "배OO",
-              "role": "확률과 통계 / 기하",
-              "source": "고쟁이 유형+심화",
-              "source_status": "secured",
-              "style": "고쟁이 Step 3 조건 변형 및 단답형 배점 30%"
-            }
-          ],
-          "workbooks": [
-            "EBS 수능특강",
-            "마더텅 기출",
-            "고쟁이"
-          ],
-          "reports_count": 11,
-          "last_reported": "2026-10-25"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "neulpureun": {
       "name": "늘푸른고등학교",
-      "region": "성남시 분당구 정자동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "[기출] 늘푸른고등학교 2-1 중간 자연계 확률과 통계 족보",
+        "[기출] 늘푸른고등학교 2-1 기말 자연계 확률과 통계 족보"
+      ],
+      "exam_files_count": 2,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "남OO",
-              "role": "공통수학 (홀수반)",
-              "source": "올림포스 고난도",
-              "source_status": "secured",
-              "style": "올림포스 고난도 핵심 4문항 변형 출제"
-            },
-            {
-              "name": "하OO",
-              "role": "공통수학 (짝수반)",
-              "source": "쎈수학 C단계",
-              "source_status": "secured",
-              "style": "정형적 킬러 유형의 복합 연립 문항"
-            }
-          ],
-          "workbooks": [
-            "올림포스 고난도",
-            "쎈수학",
-            "늘푸른고 기출 프린트"
-          ],
-          "reports_count": 9,
-          "last_reported": "2026-10-24"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "민OO",
-              "role": "수학I / 확통 (공통)",
-              "source": "자이스토리 3개년 기출",
-              "source_status": "secured",
-              "style": "평가원 4점 기출 형태 변형 및 자연계열 변별력 집중"
-            }
-          ],
-          "workbooks": [
-            "자이스토리 기출",
-            "EBS 수능특강"
-          ],
-          "reports_count": 7,
-          "last_reported": "2026-10-25"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "yeongdeok": {
-      "name": "영덕여자고등학교",
-      "region": "성남시 분당구 야탑동",
+      "name": "분당영덕여자고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "[기출] 영덕여자고등학교 2-1 중간 자연계 확률과 통계 족보"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "구OO",
-              "role": "공통수학 전반 (1~5반)",
-              "source": "일등급수학 & 절대등급",
-              "source_status": "secured",
-              "style": "계산 복잡도 높은 타임어택 유도, 도형 대칭 킬러"
-            },
-            {
-              "name": "표OO",
-              "role": "공통수학 전반 (6~10반)",
-              "source": "학교 자체 고난도 프린트",
-              "source_status": "secured",
-              "style": "서술형 5문항 40점 배점, 개념 증명 출제"
-            }
-          ],
-          "workbooks": [
-            "일등급수학",
-            "절대등급",
-            "영덕여고 자체 프린트"
-          ],
-          "reports_count": 13,
-          "last_reported": "2026-10-25"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "원OO",
-              "role": "수학I / 미적분 (자연)",
-              "source": "마더텅 & 고쟁이",
-              "source_status": "secured",
-              "style": "마더텅 4개년 킬러 변형 및 고쟁이 Step 3 융합"
-            }
-          ],
-          "workbooks": [
-            "마더텅 수능기출",
-            "고쟁이",
-            "수능완성"
-          ],
-          "reports_count": 10,
-          "last_reported": "2026-10-25"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     },
     "bulgok": {
       "name": "불곡고등학교",
-      "region": "성남시 분당구 구미동",
+      "region": "성남시 분당구",
+      "verified_exams": [
+        "[기출] 불곡고등학교 2-2 기말 인문계 확률과 통계 족보"
+      ],
+      "exam_files_count": 1,
       "grades": {
         "1": {
-          "teachers": [
-            {
-              "name": "탁OO",
-              "role": "공통수학 (전반)",
-              "source": "EBS 올림포스 & 쎈수학",
-              "source_status": "secured",
-              "style": "교과서 및 올림포스 기본+발전 균형 배치"
-            }
-          ],
-          "workbooks": [
-            "EBS 올림포스",
-            "쎈수학",
-            "학교 보충교재"
-          ],
-          "reports_count": 6,
-          "last_reported": "2026-10-23"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         },
         "2": {
-          "teachers": [
-            {
-              "name": "허OO",
-              "role": "수학I / 확통 (공통)",
-              "source": "EBS 수능특강",
-              "source_status": "secured",
-              "style": "수특 Level 2, 3 단계별 출제 및 기출 모의고사 변형"
-            }
-          ],
-          "workbooks": [
-            "EBS 수능특강",
-            "자이스토리"
-          ],
-          "reports_count": 8,
-          "last_reported": "2026-10-25"
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "sunae": {
+      "name": "수내고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "taewon": {
+      "name": "태원고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "songlim": {
+      "name": "송림고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "dolma": {
+      "name": "돌마고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "woonjoong": {
+      "name": "운중고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "pangyo": {
+      "name": "판교고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "ewoo": {
+      "name": "이우고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "seongnam_fl": {
+      "name": "성남외국어고등학교",
+      "region": "성남시 분당구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "suji": {
+      "name": "수지고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "pungdeok": {
+      "name": "풍덕고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "seowon": {
+      "name": "서원고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "sanghyeon": {
+      "name": "상현고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "shinbong": {
+      "name": "신봉고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "hongcheon": {
+      "name": "홍천고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "seongbok": {
+      "name": "성복고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "jukjeon": {
+      "name": "죽전고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "daeji": {
+      "name": "대지고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "hyeonam": {
+      "name": "현암고등학교",
+      "region": "용인시 수지구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "baekhyeon": {
+      "name": "용인백현고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "giheung": {
+      "name": "기흥고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "bora": {
+      "name": "보라고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "dongbaek": {
+      "name": "동백고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "chodang": {
+      "name": "초당고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "singal": {
+      "name": "신갈고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "heungdeok": {
+      "name": "흥덕고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "seocheon": {
+      "name": "서천고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "cheongdeok": {
+      "name": "청덕고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "guseong": {
+      "name": "구성고등학교",
+      "region": "용인시 기흥구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "yongin": {
+      "name": "용인고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "taesung": {
+      "name": "태성고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "pogok": {
+      "name": "포곡고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "baekam": {
+      "name": "백암고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "samgye": {
+      "name": "삼계고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "gorim": {
+      "name": "고림고등학교",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        }
+      }
+    },
+    "hufs": {
+      "name": "용인한국외국어대학교부설고등학교(외대부고)",
+      "region": "용인시 처인구",
+      "verified_exams": [],
+      "exam_files_count": 0,
+      "grades": {
+        "1": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "2": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
+        },
+        "3": {
+          "teachers": [],
+          "workbooks": [],
+          "reports_count": 0
         }
       }
     }
   },
-  "crowdsourced_reports": [
-    {
-      "id": "rep_20261023_001",
-      "timestamp": "2026-10-23 13:40",
-      "school": "낙생고등학교",
-      "grade": "2",
-      "class": "3",
-      "student_name": "이*민 (낙생고 2학년)",
-      "teacher_name": "박OO / 최OO 선생님",
-      "workbook_name": "EBS 수능특강 수학I + 킬러프린트",
-      "details": "박선생님이 이번 중간고사에 지수로그 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 최선생님은 삼각함수 그래프 교점 문제 위주로 내신대요.",
-      "status": "applied",
-      "admin_note": "공식 교사진 DB에 반영 완료 (수특 Level 3 변형 매칭 완료)"
-    },
-    {
-      "id": "rep_20261023_002",
-      "timestamp": "2026-10-23 12:15",
-      "school": "서현고등학교",
-      "grade": "1",
-      "class": "4",
-      "student_name": "김*우 (서현고 1학년)",
-      "teacher_name": "임OO 선생님",
-      "workbook_name": "블랙라벨 Step 3 프린트",
-      "details": "임선생님이 이번에 쎈수학 C단계 대신 블랙라벨 Step 3 복사해서 나눠주셨습니다. 블랙라벨 변형 모의고사 만들어주실 수 있나요?",
-      "status": "pending",
-      "admin_note": "파일 확인 중 / 블랙라벨 Step 3 문항 DB 매칭 대기열 추가"
-    },
-    {
-      "id": "rep_20261023_003",
-      "timestamp": "2026-10-23 10:50",
-      "school": "성남중앙고등학교",
-      "grade": "2",
-      "class": "2",
-      "student_name": "박*준 (성남중앙고 2학년)",
-      "teacher_name": "권OO 선생님",
-      "workbook_name": "EBS 올림포스 닥터링 수학I",
-      "details": "권선생님이 새로 오셨는데 올림포스 닥터링 4단원 연습문제에서 70% 낸다고 강조하셨습니다. 파일 구해서 꼭 넣어주세요!",
-      "status": "needed_file",
-      "admin_note": "⚠️ 부교재 파일 긴급 확보 필요 (교보/EBS PDF 수급 중)"
-    },
-    {
-      "id": "rep_20261023_004",
-      "timestamp": "2026-10-22 18:30",
-      "school": "분당대진고등학교",
-      "grade": "2",
-      "class": "6",
-      "student_name": "정*호 (대진고 2학년)",
-      "teacher_name": "윤OO 선생님",
-      "workbook_name": "EBS 수능특강 + 하이퍼스트",
-      "details": "윤선생님이 수특 변형이랑 자체프린트에서 서술형 2문항 낸다고 하셨어요! 작년 기출 변형 스타일이랑 똑같습니다.",
-      "status": "applied",
-      "admin_note": "대진고 2학년 교사진 및 수특 변형 DB 매칭 완료"
-    },
-    {
-      "id": "rep_20261022_005",
-      "timestamp": "2026-10-22 15:20",
-      "school": "보평고등학교",
-      "grade": "1",
-      "class": "2",
-      "student_name": "송*서 (보평고 1학년)",
-      "teacher_name": "안OO 선생님",
-      "workbook_name": "고쟁이 유형+심화",
-      "details": "안선생님이 고쟁이 step 3에서 3문제, 서술형은 수업시간에 증명해준 문제 낸다고 하셨어요.",
-      "status": "applied",
-      "admin_note": "보평고 1학년 고쟁이 연계 세팅 완료"
-    }
-  ]
+  "crowdsourced_reports": []
 }
