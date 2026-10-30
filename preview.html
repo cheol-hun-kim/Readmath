@@ -52,7 +52,24 @@
 
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap');
     * { font-family: 'Pretendard', sans-serif; user-select: none; word-break: keep-all; }
-    button { white-space: nowrap; }
+    button {
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    button.whitespace-nowrap,
+    .btn-compact,
+    .badge {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    .cat-btn {
+      white-space: normal !important;
+      word-break: keep-all !important;
+      overflow-wrap: break-word !important;
+      max-width: 100% !important;
+    }
     .word-chip {
       white-space: normal !important;
       word-break: keep-all !important;
@@ -19190,7 +19207,7 @@
             <div style="font-size: 13px; font-weight: 900; color: #000; margin-bottom: 12px; padding-bottom: 4px; border-bottom: 1.5px solid #000;">
               [제 2부] 수능/내신 실전 쌍둥이 연습문항
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; border-bottom: 1px solid #ddd; padding-bottom: 24px; margin-bottom: 24px;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; border-bottom: 1px solid #ddd; padding-bottom: 24px; margin-bottom: 24px;">
               <div>
                 <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px;">
                   <span style="font-size: 15px; font-weight: 900;">[문항 1]</span>
@@ -20156,7 +20173,7 @@
           ` : ''}
 
           <!-- Section 2: Questions Area (2-Column Grid with DAY 1~7 Partition) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 24px;">
             ${(() => {
               if (isWeekly) {
                 // 7-Days Weekly N-Booklet Partition
@@ -22025,7 +22042,36 @@
               line-height: 1.7;
               color: #1E293B;
             }
-          </style>
+          
+    /* Universal Day Mode Solid Action Button High Contrast Protection */
+    body.theme-day button[class*="bg-indigo-6"],
+    body.theme-day button[class*="bg-indigo-5"],
+    body.theme-day button[class*="bg-emerald-6"],
+    body.theme-day button[class*="bg-emerald-5"],
+    body.theme-day button[class*="bg-amber-6"],
+    body.theme-day button[class*="bg-amber-5"],
+    body.theme-day button[class*="bg-rose-6"],
+    body.theme-day button[class*="bg-rose-7"],
+    body.theme-day button[class*="bg-rose-8"],
+    body.theme-day button[class*="bg-purple-6"],
+    body.theme-day button[class*="bg-purple-7"],
+    body.theme-day a[class*="bg-indigo-6"],
+    body.theme-day a[class*="bg-emerald-6"],
+    body.theme-day .btn-primary,
+    body.theme-day .btn-action {
+      color: #FFFFFF !important;
+    }
+    body.theme-day button[class*="bg-indigo-6"] *,
+    body.theme-day button[class*="bg-indigo-5"] *,
+    body.theme-day button[class*="bg-emerald-6"] *,
+    body.theme-day button[class*="bg-emerald-5"] *,
+    body.theme-day button[class*="bg-amber-6"] *,
+    body.theme-day button[class*="bg-amber-5"] *,
+    body.theme-day button[class*="bg-rose-6"] *,
+    body.theme-day button[class*="bg-purple-6"] * {
+      color: #FFFFFF !important;
+    }
+  </style>
         </head>
         <body>
           <!-- Action Bar -->

@@ -170,6 +170,15 @@
       background: rgba(99, 102, 241, 0.5);
     }
 
+  
+    /* Universal Day Mode Solid Action Button High Contrast Protection */
+    body.theme-day button[class*="bg-"],
+    body.theme-day button[class*="bg-"] *,
+    body.theme-day a[class*="bg-"],
+    body.theme-day a[class*="bg-"] * {
+      color: #FFFFFF !important;
+    }
+
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">

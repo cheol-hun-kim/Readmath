@@ -280,6 +280,11 @@ if (brandViolations.length > 0) {
   failGate(1, 'Zero Commercial Workbook Brand Names Armor', brandViolations.join('; '));
 }
 
+// 1.15 Universal Day-Mode Action Button Contrast & High Contrast Armor
+if (!htmlContent.includes('body.theme-day button[class*="bg-indigo-6"]')) {
+  failGate(1, 'Universal Day Mode Button Contrast Armor', 'app.html must contain high-contrast white text protection for day-mode solid buttons');
+}
+
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'Zero commercial private workbook / mock brands (수평선, 절대등급, 고쟁이, 블랙라벨, 마더텅, 자이스토리 등) 100% purged',
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
@@ -1672,11 +1677,20 @@ if (fs.existsSync(landingPath)) {
   }
 }
 
+// 7.8 Universal Button & Grid Overflow Defense
+if (htmlContent.includes('button { white-space: nowrap; }')) {
+  failGate(7, 'Universal Button Typography', 'app.html must NOT contain global button { white-space: nowrap; } causing card and grid overflow');
+}
+if (htmlContent.includes('grid-template-columns: 1fr 1fr;')) {
+  failGate(7, 'Universal Grid Column Safety', 'app.html must use minmax(0, 1fr) to prevent content overflow in grid columns');
+}
+
 passGate(7, 'End-to-End Functional Simulation & Mobile Viewport Layout Integrity', [
   `All 5 school stages (${gradesToTest.join(', ')}) mapped to curriculum isolation controls`,
   `All 5 primary views (${views.join(', ')}) validated for seamless single-page tab transitions`,
   'Responsive diagram selector tabs (multi-column grid, zero horizontal scroll) verified',
   'Responsive graph detail legend bar (2x2/4x1 grid, zero cutoff) verified',
+  'Universal Zero Button & Grid Overflow Defense (safe wrap & minmax columns) verified',
   '1:1 Socratic AI Chat Tutor dialogue & Weakness Report saving cycle verified',
   'MathSvgEngine Inviolable Chat Guard: 100% verified mathematical diagrams in real-time tutor dialogue',
   'Custom Exam Sheet Typography: Header line-break protection, 2.0 line-height, and exact SVG solution diagrams verified'
