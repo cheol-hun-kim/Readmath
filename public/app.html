@@ -2189,8 +2189,7 @@
     body.theme-day button[class*="bg-emerald-6"],
     body.theme-day button[class*="bg-emerald-5"],
     body.theme-day button[class*="bg-amber-6"],
-    body.theme-day button[class*="bg-amber-5"],
-    body.theme-day button[class*="bg-rose-6"],
+        body.theme-day button[class*="bg-rose-6"],
     body.theme-day button[class*="bg-rose-7"],
     body.theme-day button[class*="bg-rose-8"],
     body.theme-day button[class*="bg-purple-6"],
@@ -2206,8 +2205,7 @@
     body.theme-day button[class*="bg-emerald-6"] *,
     body.theme-day button[class*="bg-emerald-5"] *,
     body.theme-day button[class*="bg-amber-6"] *,
-    body.theme-day button[class*="bg-amber-5"] *,
-    body.theme-day button[class*="bg-rose-6"] *,
+        body.theme-day button[class*="bg-rose-6"] *,
     body.theme-day button[class*="bg-purple-6"] * {
       color: #FFFFFF !important;
     }
@@ -15266,7 +15264,7 @@
                 ${item.curriculum_grade || currentGrade}
               </span>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" class="px-2 py-0.5 rounded text-xs font-medium ${isResolved ? 'text-amber-500 bg-amber-500/10 border-amber-500/30' : 'text-stone-400 bg-stone-800/50 border-stone-700/50'} border transition cursor-pointer">
+                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" class="history-resolved-btn px-2.5 py-0.5 rounded text-xs font-bold border transition cursor-pointer" data-resolved="${isResolved}">
                   ${isResolved ? '해결 완료' : '미완료'}
                 </button>
                 <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="px-2 py-0.5 rounded text-xs font-medium text-stone-400 hover:text-stone-200 bg-stone-800/40 border border-stone-700/40 transition cursor-pointer">
@@ -15291,7 +15289,7 @@
                   const info = catBadgeMap[k];
                   const isSelected = selectedCats.includes(k);
                   return `
-                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="py-1 rounded text-xs font-medium border transition text-center select-none cursor-pointer ${isSelected ? 'bg-amber-500/15 text-amber-400 font-bold border-amber-500/60' : 'bg-transparent text-stone-400 border-stone-800 hover:border-stone-700 hover:text-stone-200'}">
+                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="history-cat-chip py-1 px-1 rounded text-xs font-bold border transition text-center select-none cursor-pointer" data-selected="${isSelected}">
                       ${info.short}
                     </button>
                   `;
