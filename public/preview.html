@@ -2182,35 +2182,7 @@
       stroke-width: 1.2;
     }
 
-
-    /* Universal Day Mode Solid Action Button High Contrast Protection */
-    body.theme-day button[class*="bg-indigo-6"],
-    body.theme-day button[class*="bg-indigo-5"],
-    body.theme-day button[class*="bg-emerald-6"],
-    body.theme-day button[class*="bg-emerald-5"],
-    body.theme-day button[class*="bg-amber-6"],
-        body.theme-day button[class*="bg-rose-6"],
-    body.theme-day button[class*="bg-rose-7"],
-    body.theme-day button[class*="bg-rose-8"],
-    body.theme-day button[class*="bg-purple-6"],
-    body.theme-day button[class*="bg-purple-7"],
-    body.theme-day a[class*="bg-indigo-6"],
-    body.theme-day a[class*="bg-emerald-6"],
-    body.theme-day .btn-primary,
-    body.theme-day .btn-action {
-      color: #FFFFFF !important;
-    }
-    body.theme-day button[class*="bg-indigo-6"] *,
-    body.theme-day button[class*="bg-indigo-5"] *,
-    body.theme-day button[class*="bg-emerald-6"] *,
-    body.theme-day button[class*="bg-emerald-5"] *,
-    body.theme-day button[class*="bg-amber-6"] *,
-        body.theme-day button[class*="bg-rose-6"] *,
-    body.theme-day button[class*="bg-purple-6"] * {
-      color: #FFFFFF !important;
-    }
-
-  </style>
+</style>
 
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
   <style>
@@ -2349,21 +2321,12 @@
     }
 
     /* ⚡ 6. 가로 100% 거대 배너에 쨍한 주황색 칠하기 금지 -> 차분한 다크 차콜/elevated 배경 */
-    button[onclick="openExamSheetModal()"],
     .full-width-banner,
     div[class*="bg-gradient-to-r from-indigo-950"] {
       background: var(--bg-surface) !important;
       border: 1px solid var(--border-subtle) !important;
       color: var(--text-primary) !important;
       box-shadow: var(--shadow-card) !important;
-    }
-    button[onclick="openExamSheetModal()"] span.font-extrabold {
-      color: var(--text-primary) !important;
-    }
-    button[onclick="openExamSheetModal()"] .pro-killer-badge {
-      background-color: var(--accent-subtle) !important;
-      color: var(--accent-primary) !important;
-      border: 1px solid var(--accent-primary) !important;
     }
 
     /* ⚡ 7. 유채색 텍스트/게이지 바 소거 */
@@ -2376,24 +2339,20 @@
 
     /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */
     #floating-tutor-fab {
-      width: auto !important;
-      height: auto !important;
-      padding: 10px 20px !important;
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
       border-radius: 9999px !important;
       background-color: var(--accent-primary) !important;
       color: #FFFFFF !important;
-      box-shadow: 0 8px 24px rgba(234, 88, 12, 0.35) !important;
-      display: inline-flex !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+      display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      gap: 6px !important;
       border: none !important;
     }
     #floating-tutor-fab span {
-      display: inline !important;
-      font-weight: 800 !important;
-      font-size: 13px !important;
-      color: #FFFFFF !important;
+      display: none !important; /* 글자 숨기고 깔끔한 아이콘만 노출 */
     }
     #floating-tutor-fab i, #floating-tutor-fab svg {
       width: 22px !important;
@@ -2425,10 +2384,75 @@
       line-height: 1.35 !important;
       overflow: visible !important;
     }
+  
+    /* 🛡️ READMATH 7-GATE HIGH-CONTRAST DEFENSE TOKENS */
+    .btn-exam-sheet-action {
+      background-color: #EA580C !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      font-weight: 800 !important;
+      border-radius: 12px !important;
+    }
+    .btn-exam-sheet-action:hover {
+      background-color: #C2410C !important;
+      color: #FFFFFF !important;
+    }
+    .btn-exam-sheet-action * {
+      color: #FFFFFF !important;
+    }
+    
+    .history-cause-chip {
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+    }
+    .history-cause-chip.is-selected {
+      background-color: #EA580C !important;
+      color: #FFFFFF !important;
+      border: 1px solid #EA580C !important;
+      font-weight: 800 !important;
+    }
+    body.theme-day .history-cause-chip.is-selected {
+      background-color: rgba(234, 88, 12, 0.12) !important;
+      color: #EA580C !important;
+      border: 1.5px solid #EA580C !important;
+      font-weight: 800 !important;
+    }
+    .history-cause-chip.is-idle {
+      background-color: var(--bg-elevated) !important;
+      color: var(--text-secondary) !important;
+      border: 1px solid var(--border-subtle) !important;
+    }
+    body.theme-day .history-cause-chip.is-idle {
+      background-color: #F8FAFC !important;
+      color: #475569 !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+
+    .history-resolved-btn.is-resolved {
+      background-color: rgba(251, 146, 60, 0.18) !important;
+      color: #FB923C !important;
+      border: 1px solid rgba(251, 146, 60, 0.4) !important;
+    }
+    body.theme-day .history-resolved-btn.is-resolved {
+      background-color: rgba(234, 88, 12, 0.10) !important;
+      color: #EA580C !important;
+      border: 1px solid #EA580C !important;
+    }
+    .history-resolved-btn.is-unresolved {
+      background-color: transparent !important;
+      color: var(--text-muted) !important;
+      border: 1px solid var(--border-subtle) !important;
+    }
+    body.theme-day .history-resolved-btn.is-unresolved {
+      background-color: #F1F5F9 !important;
+      color: #64748B !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+
   </style>
 
 </head>
-<body class="theme-day bg-[#F7F5F0] text-[#1C1917] min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:py-3 lg:py-4 overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:py-3 lg:py-4 overflow-x-hidden">
 
   <!-- Hidden File Input for Real Math Problem Upload -->
   <input type="file" id="real-image-file" accept="image/*" class="hidden" onchange="handleImageFileSelected(event)" />
@@ -2502,9 +2526,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 items-stretch pt-0.5">
           <!-- Left Column: Photo Upload Box (Starts at exact same Y=0 top level as Right Column) -->
           <div class="h-full flex flex-col">
-            <div id="drop-zone" onclick="triggerImagePicker()" class="border-2 border-dashed border-indigo-500/40 hover:border-indigo-400 rounded-2xl bg-slate-900/80 p-5 md:p-6 text-center flex flex-col items-center justify-center min-h-[260px] md:min-h-[290px] h-full cursor-pointer transition active:scale-98 group shadow-sm">
-              <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-indigo-950 border border-indigo-600/40 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
-                <i data-lucide="camera" class="w-6 h-6 md:w-7 md:h-7 text-indigo-400"></i>
+            <div id="drop-zone" onclick="triggerImagePicker()" class="border border-stone-800 hover:border-stone-700 rounded-2xl bg-slate-900/80 p-5 md:p-6 text-center flex flex-col items-center justify-center min-h-[260px] md:min-h-[290px] h-full cursor-pointer transition active:scale-98 group shadow-sm">
+              <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
+                <i data-lucide="camera" class="w-6 h-6 md:w-7 md:h-7 text-stone-200"></i>
               </div>
               <p class="text-sm md:text-base font-bold text-slate-200">수학 문제를 촬영하세요</p>
               
@@ -2975,13 +2999,21 @@
         </div>
 
         <!-- Action Button: Generate Printable Exam Sheet -->
-        <button onclick="openExamSheetModal()" class="w-full bg-stone-900 hover:bg-stone-800 text-white font-extrabold py-3 px-3.5 rounded-2xl text-xs flex items-center justify-between gap-2 shadow-sm active:scale-95 transition border border-stone-700/80 overflow-hidden">
-          <div class="flex items-center gap-1.5 min-w-0 flex-1">
-            <i data-lucide="printer" class="w-4 h-4 text-amber-300 shrink-0"></i>
-            <span class="font-extrabold text-left truncate">선택 질문 맞춤 시험지·해설지 생성 (PDF)</span>
+        <div class="w-full bg-stone-900 border border-stone-800 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-center gap-2.5 min-w-0 flex-1">
+            <div class="w-8 h-8 rounded-xl bg-stone-800 flex items-center justify-center text-stone-300 shrink-0">
+              <i data-lucide="printer" class="w-4 h-4 text-stone-300"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="text-xs font-bold text-stone-100 truncate">선택 질문 맞춤 시험지·해설지 생성 (PDF)</div>
+              <div class="text-[11px] text-stone-400 truncate">나의 오답 문항으로 A4 실전 시험지 즉시 인쇄</div>
+            </div>
           </div>
-          <span class="pro-killer-badge bg-amber-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full border border-amber-500/50 shrink-0 shadow-xs whitespace-nowrap">PRO 킬러</span>
-        </button>
+          <button type="button" onclick="openExamSheetModal()" class="px-3.5 py-2 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold shrink-0 transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+            <span>시험지 생성</span>
+            <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-black/25 text-orange-200 font-extrabold">PRO</span>
+          </button>
+        </div>
 
         <!-- History Problem List Container -->
         <div id="history-list-container" class="space-y-2.5 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3.5 math-render-target">
@@ -3165,22 +3197,22 @@
         </div>
 
         <!-- Prominent Exam Generator Hero Banner in Exam Prep Tab -->
-        <div class="bg-white border border-stone-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-amber-400 flex items-center justify-center text-slate-950 font-black shadow-xs shrink-0">
-              <i data-lucide="printer" class="w-6 h-6"></i>
+            <div class="w-10 h-10 rounded-xl bg-stone-800 text-stone-200 border border-stone-700/60 flex items-center justify-center shrink-0">
+              <i data-lucide="printer" class="w-5 h-5"></i>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-sm sm:text-base font-black text-white">분당 고교별 맞춤 모의고사 &amp; 파이널 시험지 생성기</h3>
-                <span class="text-[9.5px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black shrink-0">출제진 100% 매칭</span>
+                <h3 class="text-sm sm:text-base font-black text-stone-100">분당 고교별 맞춤 모의고사 &amp; 파이널 시험지 생성기</h3>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-stone-800 text-stone-300 border border-stone-700 font-bold shrink-0">출제진 100% 매칭</span>
               </div>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              <p class="text-xs text-stone-400 mt-1 leading-relaxed">
                 학교별 수학교사진 팀(2~3명 분담), 채택 부교재, 소단원 세부 시험범위를 반영한 실전 A4 시험지 및 빠른정답 해설지 즉시 인쇄
               </p>
             </div>
           </div>
-          <button onclick="openExamSheetModal()" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 shrink-0 cursor-pointer active:scale-98">
+          <button type="button" onclick="openExamSheetModal()" class="btn-exam-sheet-action px-5 py-2.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs transition flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-sm active:scale-95">
             <i data-lucide="file-plus" class="w-4 h-4"></i>
             <span>맞춤 시험지 만들기 (PDF)</span>
           </button>
@@ -5679,6 +5711,76 @@
 
   </div>
 
+  <!-- Crowdsourced School Teacher & Workbook Intelligence Modal -->
+  <div id="modal-crowdsource-intel" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white" id="crowdsource-modal-title">우리 학교 수학교사 / 부교재 제보</h3>
+            <p class="text-[11px] text-slate-400">연구팀이 검토 후 즉시 맞춤 모의고사 및 변형 문제 DB에 반영합니다.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('crowdsource-intel')" class="text-slate-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">학교명:</label>
+            <input type="text" id="cs-school-name" placeholder="예: 낙생고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">학년:</label>
+              <select id="cs-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                <option value="1">1학년</option>
+                <option value="2" selected>2학년</option>
+                <option value="3">3학년</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-slate-300 block mb-1">반:</label>
+              <input type="text" id="cs-class" placeholder="예: 3반" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">담당 수학교사 성함 (복수 기재 가능):</label>
+          <input type="text" id="cs-teacher-name" placeholder="예: 홍길동 선생님 (1~4반 담당), 이수학 선생님 (5~8반 담당)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">채택 부교재 또는 프린트명:</label>
+          <input type="text" id="cs-workbook-name" placeholder="예: 학교 자체 심화 프린트 / 교육청 학력평가 변형 모의고사" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">출제 스타일 &amp; 꿀정보 (선택):</label>
+          <textarea id="cs-details" rows="3" placeholder="예: 선생님께서 이번 중간고사에 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 파일 구해서 변형 문제 넣어주세요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">제보자 학생명 (익명 보장):</label>
+          <input type="text" id="cs-student-name" placeholder="예: 재학생 (기본값)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+        <button type="button" onclick="closeModal('crowdsource-intel')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">취소</button>
+        <button type="button" onclick="submitCrowdsourcedReport()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
+          <i data-lucide="check" class="w-4 h-4"></i> 연구팀에 제보 전송
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript Logic (Internal Backend AI Engine) -->
   <script>
 
@@ -5713,9 +5815,7 @@
     try { localStorage.removeItem('rootmath_creator_mode'); } catch (e) {}
     try { localStorage.removeItem('rootmath_user_role'); } catch (e) {}
     let userRole = 'student';
-    let currentTheme = localStorage.getItem('rootmath_theme_v4') || 'day';
-    localStorage.setItem('rootmath_theme_v4', currentTheme);
-    localStorage.setItem('rootmath_theme', currentTheme);
+    let currentTheme = localStorage.getItem('rootmath_theme') || 'night';
 
     
     // Passmate Nationwide 17 Sido & All Sigungu Regional Data
@@ -13444,7 +13544,7 @@
         </div>
       `;
       container.insertAdjacentHTML('beforeend', userBubble);
-      document.getElementById('screen-container').scrollTop = document.getElementById('screen-container').scrollHeight;
+      const chatCont = document.getElementById('chat-messages-container'); if (chatCont) chatCont.scrollTop = chatCont.scrollHeight;
 
       // Loading bubble for AI
       const loadingId = 'ai-typing-' + Date.now();
@@ -13463,7 +13563,7 @@
       `;
       container.insertAdjacentHTML('beforeend', typingBubble);
       lucide.createIcons();
-      document.getElementById('screen-container').scrollTop = document.getElementById('screen-container').scrollHeight;
+      const chatCont2 = document.getElementById('chat-messages-container'); if (chatCont2) chatCont2.scrollTop = chatCont2.scrollHeight;
 
       const probData = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
 
@@ -13879,18 +13979,21 @@
       } else if (typeof switchView === 'function') {
         switchView('chat');
       }
+      window.scrollTo(0, 0);
+      const sc = document.getElementById('screen-container');
+      if (sc) sc.scrollTop = 0;
+
       const prompt = `${stepNum}단계('${stepTitle}')에서 다음 단계로 넘어가는 핵심 논리와 왜 이런 접근법을 선택했는지 이유를 쉽게 설명해 줘.`;
       const chatInput = document.getElementById('chat-input');
       if (chatInput) {
         chatInput.value = prompt;
-        chatInput.focus();
       }
       if (typeof sendChatMessage === 'function') {
         sendChatMessage(prompt);
       }
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      const chatContainer = document.getElementById('chat-messages-container');
-      if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+      if (chatInput) {
+        chatInput.focus();
+      }
     }
     // 전역 스위치 별칭 등록
     window.switchView = function(v) { if (typeof goToView === 'function') goToView(v); };
@@ -15260,14 +15363,14 @@
             
             <!-- 1. Header Row: Minimal & Clean (No green/purple clashes) -->
             <div class="flex items-center justify-between pb-2 border-b border-stone-800/40 gap-2 whitespace-nowrap overflow-hidden">
-              <span class="px-2 py-0.5 rounded text-xs font-medium bg-stone-800/60 text-stone-300 border border-stone-700/60">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-stone-800 text-stone-300 border border-stone-700">
                 ${item.curriculum_grade || currentGrade}
               </span>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" class="history-resolved-btn px-2.5 py-0.5 rounded text-xs font-bold border transition cursor-pointer" data-resolved="${isResolved}">
+                <button type="button" onclick="event.stopPropagation(); toggleResolvedCard('${safeId}')" class="history-resolved-btn px-2.5 py-0.5 rounded text-xs font-bold transition cursor-pointer ${isResolved ? 'is-resolved' : 'is-unresolved'}">
                   ${isResolved ? '해결 완료' : '미완료'}
                 </button>
-                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="px-2 py-0.5 rounded text-xs font-medium text-stone-400 hover:text-stone-200 bg-stone-800/40 border border-stone-700/40 transition cursor-pointer">
+                <button type="button" onclick="event.stopPropagation(); deleteHistoryItem('${safeId}')" class="px-2 py-0.5 rounded text-xs font-medium text-stone-400 hover:text-stone-200 bg-stone-800/60 border border-stone-700/60 transition cursor-pointer">
                   삭제
                 </button>
               </div>
@@ -15289,7 +15392,7 @@
                   const info = catBadgeMap[k];
                   const isSelected = selectedCats.includes(k);
                   return `
-                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="history-cat-chip py-1 px-1 rounded text-xs font-bold border transition text-center select-none cursor-pointer" data-selected="${isSelected}">
+                    <button type="button" onclick="event.stopPropagation(); toggleHistoryProblemCategory('${safeId}', '${k}')" class="history-cause-chip py-1 px-1 rounded text-xs transition text-center select-none cursor-pointer ${isSelected ? 'is-selected' : 'is-idle'}">
                       ${info.short}
                     </button>
                   `;
@@ -16075,9 +16178,6 @@
 
     // ================= NAVIGATION & MODALS =================
     function goToView(viewId) {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
       const views = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
       views.forEach(v => {
         const el = document.getElementById('view-' + v);
@@ -22331,7 +22431,36 @@
               line-height: 1.7;
               color: #1E293B;
             }
-          </style>
+          
+    /* Universal Day Mode Solid Action Button High Contrast Protection */
+    body.theme-day button[class*="bg-indigo-6"],
+    body.theme-day button[class*="bg-indigo-5"],
+    body.theme-day button[class*="bg-emerald-6"],
+    body.theme-day button[class*="bg-emerald-5"],
+    body.theme-day button[class*="bg-amber-6"],
+    body.theme-day button[class*="bg-amber-5"],
+    body.theme-day button[class*="bg-rose-6"],
+    body.theme-day button[class*="bg-rose-7"],
+    body.theme-day button[class*="bg-rose-8"],
+    body.theme-day button[class*="bg-purple-6"],
+    body.theme-day button[class*="bg-purple-7"],
+    body.theme-day a[class*="bg-indigo-6"],
+    body.theme-day a[class*="bg-emerald-6"],
+    body.theme-day .btn-primary,
+    body.theme-day .btn-action {
+      color: #FFFFFF !important;
+    }
+    body.theme-day button[class*="bg-indigo-6"] *,
+    body.theme-day button[class*="bg-indigo-5"] *,
+    body.theme-day button[class*="bg-emerald-6"] *,
+    body.theme-day button[class*="bg-emerald-5"] *,
+    body.theme-day button[class*="bg-amber-6"] *,
+    body.theme-day button[class*="bg-amber-5"] *,
+    body.theme-day button[class*="bg-rose-6"] *,
+    body.theme-day button[class*="bg-purple-6"] * {
+      color: #FFFFFF !important;
+    }
+  </style>
         </head>
         <body>
           <!-- Action Bar -->
@@ -22370,88 +22499,12 @@
               triggerMathRender();
             }
           ${'<' + '/script>'}
-          <!-- Crowdsourced School Teacher & Workbook Intelligence Modal -->
-  <div id="modal-crowdsource-intel" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
-            <i data-lucide="send" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-base font-black text-white" id="crowdsource-modal-title">우리 학교 수학교사 / 부교재 제보</h3>
-            <p class="text-[11px] text-slate-400">연구팀이 검토 후 즉시 맞춤 모의고사 및 변형 문제 DB에 반영합니다.</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeModal('crowdsource-intel')" class="text-slate-400 hover:text-white p-1 rounded-lg">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="space-y-3 text-xs">
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">학교명:</label>
-            <input type="text" id="cs-school-name" placeholder="예: 낙생고등학교" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
-          </div>
-          <div class="grid grid-cols-2 gap-1.5">
-            <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">학년:</label>
-              <select id="cs-grade" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500">
-                <option value="1">1학년</option>
-                <option value="2" selected>2학년</option>
-                <option value="3">3학년</option>
-              </select>
-            </div>
-            <div>
-              <label class="text-[11px] font-bold text-slate-300 block mb-1">반:</label>
-              <input type="text" id="cs-class" placeholder="예: 3반" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label class="text-[11px] font-bold text-slate-300 block mb-1">담당 수학교사 성함 (복수 기재 가능):</label>
-          <input type="text" id="cs-teacher-name" placeholder="예: 홍길동 선생님 (1~4반 담당), 이수학 선생님 (5~8반 담당)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
-        </div>
-
-        <div>
-          <label class="text-[11px] font-bold text-slate-300 block mb-1">채택 부교재 또는 프린트명:</label>
-          <input type="text" id="cs-workbook-name" placeholder="예: 학교 자체 심화 프린트 / 교육청 학력평가 변형 모의고사" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
-        </div>
-
-        <div>
-          <label class="text-[11px] font-bold text-slate-300 block mb-1">출제 스타일 &amp; 꿀정보 (선택):</label>
-          <textarea id="cs-details" rows="3" placeholder="예: 선생님께서 이번 중간고사에 수특 Level 3 변형 4문제 무조건 낸다고 하셨어요! 파일 구해서 변형 문제 넣어주세요." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
-        </div>
-
-        <div>
-          <label class="text-[11px] font-bold text-slate-300 block mb-1">제보자 학생명 (익명 보장):</label>
-          <input type="text" id="cs-student-name" placeholder="예: 재학생 (기본값)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500" />
-        </div>
-      </div>
-
-      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
-        <button type="button" onclick="closeModal('crowdsource-intel')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">취소</button>
-        <button type="button" onclick="submitCrowdsourcedReport()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
-          <i data-lucide="check" class="w-4 h-4"></i> 연구팀에 제보 전송
-        </button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Floating ReadTutor Quick Question FAB -->
-  <button type="button" onclick="if(typeof goToView === 'function') goToView('chat'); else if(typeof switchView === 'function') switchView('chat'); const ci = document.getElementById('chat-input'); if(ci) ci.focus();" id="floating-tutor-fab" class="fixed bottom-20 right-4 sm:right-6 md:right-8 z-40 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold px-3.5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 border border-indigo-400/50 transition-all hover:scale-105 active:scale-95 text-xs select-none cursor-pointer" title="리드쌤에게 바로 질문하기">
-    <i data-lucide="bot" class="w-4 h-4 text-amber-300"></i>
-    <span class="font-bold">리드쌤 질문</span>
-  </button>
-
-</body>
+                  </body>
         </html>
       `);
       printWindow.document.close();
     }
+
     function openInteractiveExamRunner(eId) {
       initVaultStorage();
       const exam = userVaultExams.find(e => e.id === eId);

@@ -128,7 +128,6 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
           </View>
           <View>
             <Text style={styles.appName}>ReadMath</Text>
-            <Text style={styles.tagline}>수학은 해석의 대상이다</Text>
           </View>
         </View>
 

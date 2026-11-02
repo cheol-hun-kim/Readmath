@@ -8,7 +8,7 @@
   <!-- OpenGraph Metadata -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ReadMath (리드매스) | AI 시각화 수학 멘토" />
-  <meta property="og:description" content="외계어 같은 수식을 일상의 언어로 번역하고 살아 움직이는 그래프로 증명하는 1등 AI 시각화 수학 멘토" />
+  <meta property="og:description" content="수식의 조건과 출제 의도를 직관적인 그래프로 시각화하는 1등 AI 수학 멘토" />
   <meta property="og:image" content="/assets/icon-512.png" />
   <link rel="icon" type="image/png" href="/assets/icon-192.png" />
 
@@ -35,11 +35,11 @@
     }
     
     html { scroll-behavior: smooth; }
-    .glow-indigo { box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.35); }
-    .glow-emerald { box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.35); }
-    .glow-amber { box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.35); }
+    /* glow purged */
     
-    . {
+    
+    
+    .bg-grid-pattern {
       background-size: 32px 32px;
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -260,7 +260,7 @@
     }
 
     /* ⚡ 9. 랜딩페이지 바둑판 격자 완전 제거 */
-    ., .bg-grid-minimal {
+    .bg-grid-pattern, .bg-grid-minimal {
       background-image: none !important;
     }
     .glow-indigo, .glow-purple, .glow-amber {
@@ -289,18 +289,18 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <!-- Logo -->
       <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-indigo-600 p-0.5 shadow-md shadow-md group-hover:scale-105 transition">
+        <div class="w-9 h-9 rounded-xl bg-[#EA580C] p-0.5 shadow-md shadow-stone-950/40 group-hover:scale-105 transition">
           <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/>
               <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
             </svg>
           </div>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span class="font-black text-xl tracking-tight text-white">ReadMath</span>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-stone-800 text-stone-300 border border-stone-700">리드매스</span>
+          <div class="flex items-center gap-1.5">
+            <span class="font-black text-lg tracking-tight text-white">ReadMath</span>
+            <span class="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-stone-800 text-stone-300 border border-stone-700">리드매스</span>
           </div>
         </div>
       </a>
@@ -321,7 +321,7 @@
           <i data-lucide="credit-card" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>이용권 구매</span>
         </a>
-        <a href="/" onclick="event.preventDefault(); openApp();" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-black shadow-md shadow-md transition flex items-center gap-1.5">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-black shadow-md shadow-stone-950/40 transition flex items-center gap-1.5">
           <span>앱 바로 시작</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </a>
@@ -342,14 +342,16 @@
       <a href="#faq" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white py-1">FAQ (자주 묻는 질문)</a>
       <div class="pt-2 flex gap-2">
         <a href="#pricing" onclick="toggleMobileMenu()" class="flex-1 py-2.5 rounded-xl bg-slate-800 text-center text-xs font-bold text-white border border-slate-700">이용권 구매</a>
-        <a href="/" onclick="event.preventDefault(); openApp();" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-center text-xs font-bold text-white">무료 체험</a>
+        <a href="/" onclick="event.preventDefault(); openApp();" class="flex-1 py-2.5 rounded-xl bg-[#EA580C] text-center text-xs font-bold text-white">무료 체험</a>
       </div>
     </div>
   </header>
 
   <!-- ================= HERO SECTION ================= -->
-  <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden ">
-    <!-- Ambient Light Neutralized -->
+  <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
+    <!-- Ambient Light Orbs -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[650px] h-96 sm:h-[650px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
       
@@ -360,15 +362,15 @@
           <span class="inline-block">외계어 같은 수식을</span>
           <span class="inline-block">일상의 언어로,</span>
         </span>
-        <span class="text-indigo-400 block mt-2 sm:mt-3">
-          <span class="inline-block">살아 움직이는 그래프로</span>
-          <span class="inline-block">증명하는 수학</span>
+        <span class="text-amber-500 block mt-2 sm:mt-3">
+          <span class="inline-block">직관적인 그래프로</span>
+          <span class="inline-block">시각화하는 수학</span>
         </span>
       </h1>
 
       <!-- Hero CTA -->
       <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-sm shadow-xl shadow-md transition flex items-center justify-center gap-2 group">
+        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group">
           <span>요금제 확인 & 이용권 결제하기</span>
           <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition"></i>
         </a>
@@ -419,7 +421,7 @@
             <p class="font-extrabold text-rose-400 text-sm sm:text-base">❌ 사교육이 만든 잘못된 착각</p>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
           </div>
-          <div class="space-y-1.5 p-4 rounded-2xl bg-slate-950/80 border border-emerald-500/30">
+          <div class="space-y-1.5 p-4 rounded-2xl bg-slate-950/80 border border-stone-700/60">
             <p class="font-extrabold text-amber-500 text-sm sm:text-base">✓ ReadMath가 증명하는 진실</p>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
           </div>
@@ -443,8 +445,8 @@
       <!-- 4 Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- Card 1 -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/60 transition space-y-3 relative overflow-hidden group">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-emerald-300 flex items-center justify-center font-black">
+        <div class="p-6 rounded-2xl bg-slate-900 border border-stone-700/60 hover:border-stone-600 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-stone-300 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
           <span class="text-[10px] font-black uppercase text-amber-500 tracking-wider">처방 1</span>
@@ -549,7 +551,7 @@
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3.5 glow-indigo">
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
             <span class="text-xs font-bold text-white">1:1 출제자 AI 튜터 라이브</span>
           </div>
           <span class="text-xs text-slate-400 font-mono">응답시간 0.4초</span>
@@ -581,8 +583,8 @@
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-emerald-950/70 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-sm text-emerald-100 break-keep">
-              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
+            <div class="bg-stone-900 border border-stone-700/60 p-3 rounded-2xl rounded-tr-sm text-stone-200 break-keep">
+              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-stone-300 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-stone-300 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
           </div>
         </div>
@@ -645,7 +647,7 @@
         <!-- Left: Translation & Socratic Breakdown -->
         <div class="space-y-4" id="demo-content-left">
           <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30" id="demo-badge">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-stone-300 text-[10px] font-black border border-stone-700/60" id="demo-badge">
               고2 수학II / 삼차함수 접선과 극값 (정밀 격자 좌표계)
             </span>
             <span class="text-xs text-slate-400" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
@@ -667,7 +669,7 @@
             </p>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-200 flex items-start gap-2">
+          <div class="p-3.5 rounded-2xl bg-stone-900 border border-stone-700/60 text-xs text-stone-300 flex items-start gap-2">
             <svg class="w-4 h-4 shrink-0 mt-0.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <p id="demo-socratic-prompt">
               <strong>출제자 유도 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
@@ -722,7 +724,7 @@
       </div>
 
       <div class="text-center pt-2">
-        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-xl shadow-emerald-600/30 transition items-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-xl shadow-stone-950/40 transition items-center gap-2">
           <i data-lucide="play" class="w-4 h-4"></i>
           <span>내 문제 직접 사진 찍어 무료로 분석해보기 (3회)</span>
         </a>
@@ -777,7 +779,7 @@
               <span class="text-xs font-black uppercase text-indigo-400 tracking-wider">현장 실증 데이터</span>
               <h3 class="text-lg font-black text-white mt-0.5">정규 재원생 수천 명 코호트 검증</h3>
             </div>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 font-bold border border-emerald-500/30 shrink-0 whitespace-nowrap">
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-stone-300 font-bold border border-stone-700/60 shrink-0 whitespace-nowrap">
               클로즈드 베타 진행 중
             </span>
           </div>
@@ -899,7 +901,7 @@
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-sm font-extrabold text-indigo-300">6개월 학기권</span>
-              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-amber-500/20 text-emerald-300 border border-emerald-500/40">36% 할인</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-amber-500/20 text-stone-300 border border-stone-700/60">36% 할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
@@ -1322,7 +1324,7 @@
       <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] space-y-2">
         <div class="flex items-center justify-between text-slate-300 font-bold">
           <span>결제 모듈 엔진</span>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-emerald-300 font-mono">LIVE / SANDBOX</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-stone-300 font-mono">LIVE / SANDBOX</span>
         </div>
         <div class="flex items-center gap-3">
           <label class="flex items-center gap-1.5 cursor-pointer">
@@ -1342,7 +1344,7 @@
 
       <!-- Action Button -->
       <div class="pt-2">
-        <button id="btn-submit-payment" onclick="processPaymentCheckout()" class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm shadow-xl shadow-md transition flex items-center justify-center gap-2">
+        <button id="btn-submit-payment" onclick="processPaymentCheckout()" class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2">
           <i data-lucide="lock" class="w-4 h-4"></i>
           <span id="btn-submit-payment-text">149,000원 안전 결제하기</span>
         </button>
@@ -1356,7 +1358,7 @@
 
   <!-- ================= PAYMENT SUCCESS CELEBRATION MODAL ================= -->
   <div id="modal-payment-success" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 hidden">
-    <div class="w-full max-w-md bg-slate-900 border border-emerald-500/50 text-slate-100 rounded-3xl p-7 text-center space-y-5 shadow-2xl relative glow-emerald">
+    <div class="w-full max-w-md bg-slate-900 border border-stone-700 text-slate-100 rounded-3xl p-7 text-center space-y-5 shadow-2xl relative ">
       <div class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
         <i data-lucide="check-circle" class="w-8 h-8"></i>
       </div>
@@ -2511,7 +2513,7 @@
       <i data-lucide="play" class="w-3.5 h-3.5 text-amber-500"></i>
       <span>무료 체험 (3회)</span>
     </a>
-    <a href="#pricing" class="flex-1 py-3 rounded-xl bg-amber-600 text-white text-center font-black text-xs shadow-lg shadow-md flex items-center justify-center gap-1.5">
+    <a href="#pricing" class="flex-1 py-3 rounded-xl bg-amber-600 text-white text-center font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5">
       <span>이용권 신청 (월 2.4만~)</span>
       <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
     </a>

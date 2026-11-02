@@ -4,7 +4,7 @@ const fs = require('fs');
 const previewContent = fs.readFileSync('preview.html', 'utf8');
 
 const headPwaSection = `  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ReadMath (리드매스) - 수학은 해석의 대상이다!</title>
+  <title>ReadMath (리드매스) | AI 시각화 수학 멘토</title>
   <meta name="theme-color" content="#0B0F19" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/png" href="/assets/icon-192.png" />
@@ -13,12 +13,12 @@ const headPwaSection = `  <meta name="viewport" content="width=device-width, ini
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <!-- OpenGraph for KakaoTalk, Instagram, Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ReadMath (리드매스) - 수학은 해석의 대상이다!" />
+  <meta property="og:title" content="ReadMath (리드매스) | AI 시각화 수학 멘토" />
   <meta property="og:description" content="외계어 같은 수식을 일상의 한글로 번역하고 그래프로 생생하게 그려주는 1등 AI 시각화 수학 멘토" />
   <meta property="og:image" content="/assets/icon-512.png" />`;
 
 const previewHeadTarget = `  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReadMath (리드매스) - 수학은 해석의 대상이다!</title>`;
+  <title>ReadMath (리드매스) | AI 시각화 수학 멘토</title>`;
 
 // Replace with either CRLF or LF matching
 let appContent;
