@@ -119,19 +119,20 @@
 
 
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial - Full Visual Override) -->
+  <!-- 👑 READMATH ZERO-CLASH WARM EDITORIAL ENGINE (Purged All Purple/Green/Blue) -->
   <style id="readmath-warm-editorial-engine">
     :root {
-      --bg-main: #141210 !important;
-      --bg-surface: #1F1C18 !important;
-      --bg-elevated: #292520 !important;
-      --border-subtle: rgba(255, 247, 237, 0.08) !important;
-      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35) !important;
-      --text-primary: #F5F5F4 !important;
-      --text-secondary: #A8A29E !important;
+      --bg-main: #141210 !important; /* Espresso Dark (Zero Blue/Slate) */
+      --bg-surface: #1F1C18 !important; /* Warm Dark Charcoal Surface */
+      --bg-elevated: #292520 !important; /* Elevated Box / Secondary */
+      --border-subtle: rgba(255, 247, 237, 0.07) !important;
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+      --text-primary: #F5F5F4 !important; /* Warm Ivory White */
+      --text-secondary: #A8A29E !important; /* Stone Gray */
       --text-muted: #78716C !important;
-      --accent-primary: #FB923C !important; /* Soft Coral (Night) */
+      --accent-primary: #FB923C !important; /* Terracotta Coral */
       --accent-hover: #F97316 !important;
-      --math-highlight: rgba(251, 146, 60, 0.15) !important;
+      --accent-subtle: rgba(251, 146, 60, 0.12) !important;
       --radius-card: 20px !important;
       --radius-btn: 12px !important;
     }
@@ -141,90 +142,142 @@
       --bg-surface: #FFFFFF !important;
       --bg-elevated: #EFECE6 !important;
       --border-subtle: #E7E5E4 !important;
-      --shadow-card: 0 4px 24px rgba(28, 25, 23, 0.06) !important;
-      --text-primary: #1C1917 !important; /* Warm Deep Charcoal */
+      --shadow-card: 0 4px 24px rgba(28, 25, 23, 0.05) !important;
+      --text-primary: #1C1917 !important; /* Deep Charcoal */
       --text-secondary: #44403C !important; /* Stone Gray */
       --text-muted: #A8A29E !important;
       --accent-primary: #EA580C !important; /* Terracotta Coral Orange */
       --accent-hover: #C2410C !important;
-      --math-highlight: rgba(234, 88, 12, 0.10) !important;
+      --accent-subtle: rgba(234, 88, 12, 0.08) !important;
     }
 
-    /* ⚡ 1. Entire Document Background & Typography */
-    html, body {
+    /* ⚡ 1. 전역 문서 배경 및 Pretendard */
+    html, body, #app-root, .phone-mockup, #screen-container {
       background-color: var(--bg-main) !important;
       color: var(--text-primary) !important;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     }
 
-    /* ⚡ 2. Universal Card & Container Overrides (Purge Cold Slate & Cold Navy) */
+    /* ⚡ 2. 카드 및 컨테이너 무채색 웜 표면 매핑 (푸른빛/슬레이트 원천 박멸) */
     .bg-slate-950, .bg-slate-950\/90, .bg-slate-950\/80, .bg-slate-950\/70,
     .bg-slate-900, .bg-slate-900\/90, .bg-slate-900\/80, .bg-slate-900\/70,
     .bg-slate-900\/60, .bg-slate-900\/50, .bg-indigo-950, .bg-indigo-950\/80,
     .bg-indigo-950\/70, .bg-indigo-950\/60, .bg-indigo-950\/50, .bg-indigo-950\/40,
-    .card, #drop-zone, .recent-card, .solution-step-card,
-    div[class*="bg-slate-9"], div[class*="bg-indigo-9"] {
+    .card, .solution-step-card, div[class*="bg-slate-9"], div[class*="bg-indigo-9"] {
       background-color: var(--bg-surface) !important;
       border-color: var(--border-subtle) !important;
       color: var(--text-primary) !important;
       box-shadow: var(--shadow-card) !important;
-      border-radius: var(--radius-card) !important;
     }
 
-    /* ⚡ 3. Elevated Elements (Formulas, Code, Sub-containers) */
-    .bg-slate-800, .bg-slate-850, .step-formula-box, .katex-display,
-    div[class*="bg-slate-8"] {
+    /* ⚡ 3. 점선 테두리(Dashed border) 전면 폐기 -> 20px 라운딩 솔리드 카드 */
+    #drop-zone, .border-dashed {
+      border: 1px solid var(--border-subtle) !important;
+      background-color: var(--bg-surface) !important;
+      border-radius: var(--radius-card) !important;
+      box-shadow: var(--shadow-card) !important;
+    }
+    #drop-zone:hover {
+      border-color: var(--accent-primary) !important;
+    }
+
+    /* ⚡ 4. 이중 박스 해체: '최근 질문한 문제 이어보기' 바깥 카드 배경/테두리 제거 */
+    #camera-home-guidance-container > div:first-child {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    /* ⚡ 5. 헤더 뱃지(VIP 무제한, 고3/N수, 횟수 등) 보라/초록/노랑 원색 완전 소거 -> 세련된 무채색 칩 */
+    #current-grade-badge, #quota-badge-btn, #app-brand-vip-badge,
+    .badge-chip-neutral, span[class*="bg-indigo-500\/20"],
+    button[class*="bg-indigo-950"] {
       background-color: var(--bg-elevated) !important;
-      border-color: var(--border-subtle) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: var(--text-secondary) !important;
+      box-shadow: none !important;
+    }
+    #current-grade-badge:hover, #quota-badge-btn:hover {
+      color: var(--text-primary) !important;
+      border-color: var(--text-muted) !important;
+    }
+    #current-grade-badge i, #quota-badge-btn i, #current-grade-badge svg, #quota-badge-btn svg {
+      color: var(--text-muted) !important;
+    }
+
+    /* ⚡ 6. 가로 100% 거대 배너에 쨍한 주황색 칠하기 금지 -> 차분한 다크 차콜/elevated 배경 */
+    button[onclick="openExamSheetModal()"],
+    .full-width-banner,
+    div[class*="bg-gradient-to-r from-indigo-950"] {
+      background: var(--bg-surface) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: var(--text-primary) !important;
+      box-shadow: var(--shadow-card) !important;
+    }
+    button[onclick="openExamSheetModal()"] span.font-extrabold {
+      color: var(--text-primary) !important;
+    }
+    button[onclick="openExamSheetModal()"] .pro-killer-badge {
+      background-color: var(--accent-subtle) !important;
+      color: var(--accent-primary) !important;
+      border: 1px solid var(--accent-primary) !important;
+    }
+
+    /* ⚡ 7. 유채색 텍스트/게이지 바 소거 */
+    .text-indigo-400, .text-indigo-300, .text-indigo-200, .text-amber-500, .text-amber-400 {
+      color: var(--text-secondary) !important;
+    }
+    h2, h3, h4, .text-white, .font-bold.text-white {
       color: var(--text-primary) !important;
     }
 
-    /* ⚡ 4. Accent Buttons & Interactive Elements (Terracotta Coral) */
-    .bg-indigo-600, .bg-indigo-500, button[class*="bg-indigo-6"],
-    button[class*="bg-indigo-5"], a[class*="bg-indigo-6"], #floating-tutor-fab,
-    #btn-photo-capture, #camera-shoot-btn {
+    /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */
+    #floating-tutor-fab {
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
+      border-radius: 9999px !important;
       background-color: var(--accent-primary) !important;
       color: #FFFFFF !important;
-      border-color: transparent !important;
-      border-radius: var(--radius-btn) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: none !important;
     }
-    .bg-indigo-600:hover, button[class*="bg-indigo-6"]:hover, #floating-tutor-fab:hover {
-      background-color: var(--accent-hover) !important;
+    #floating-tutor-fab span {
+      display: none !important; /* 글자 숨기고 깔끔한 아이콘만 노출 */
     }
-
-    /* ⚡ 5. Text & Border Color Re-mapping */
-    .text-indigo-400, .text-indigo-300, .text-indigo-200, .text-amber-400 {
-      color: var(--accent-primary) !important;
+    #floating-tutor-fab i, #floating-tutor-fab svg {
+      width: 22px !important;
+      height: 22px !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
     }
-    .text-slate-400, .text-slate-500 {
-      color: var(--text-muted) !important;
-    }
-    .text-slate-200, .text-slate-300 {
-      color: var(--text-secondary) !important;
-    }
-    .border-indigo-500, .border-indigo-500\/40, .border-indigo-500\/30,
-    .border-slate-800, .border-slate-700 {
-      border-color: var(--border-subtle) !important;
+    #screen-container {
+      padding-bottom: 96px !important; /* 글자 가림 100% 방지 */
     }
 
-    /* ⚡ 6. Camera Dropzone Coral Border */
-    #drop-zone {
-      border: 2px dashed var(--accent-primary) !important;
-      background-color: var(--bg-surface) !important;
-      border-radius: var(--radius-card) !important;
+    /* ⚡ 9. 랜딩페이지 바둑판 격자 완전 제거 */
+    .bg-grid-pattern, .bg-grid-minimal {
+      background-image: none !important;
     }
-    #drop-zone .rounded-full {
-      background-color: var(--bg-elevated) !important;
-      border-color: var(--border-subtle) !important;
-    }
-    #drop-zone .rounded-full i, #drop-zone .rounded-full svg {
-      color: var(--accent-primary) !important;
+    .glow-indigo, .glow-purple, .glow-amber {
+      box-shadow: var(--shadow-card) !important;
     }
 
-    /* ⚡ 7. 수식 + 한글 혼용 가독성 (줄간격 1.75배 강제) */
-    .solution-step-card, .math-render-target, .math-explanation,
-    p.leading-relaxed, .step-content, .card p {
-      line-height: 1.75 !important;
+    /* ⚡ 10. 랜딩페이지 수식 번역 헤드라인 클리핑 버그 해결 */
+    #demo h2 {
+      line-height: 1.4 !important;
+      padding-top: 8px !important;
+      padding-bottom: 8px !important;
+      overflow: visible !important;
+    }
+    #demo h2 span {
+      display: inline-block !important;
+      line-height: 1.35 !important;
+      overflow: visible !important;
     }
   </style>
 
@@ -268,7 +321,7 @@
           <i data-lucide="credit-card" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>이용권 구매</span>
         </a>
-        <a href="/" onclick="event.preventDefault(); openApp();" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-black shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5">
           <span>앱 바로 시작</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </a>
@@ -298,7 +351,7 @@
   <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden bg-grid-pattern">
     <!-- Ambient Light Orbs -->
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[650px] h-96 sm:h-[650px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    <div class="absolute top-1/3 right-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
       
@@ -317,12 +370,12 @@
 
       <!-- Hero CTA -->
       <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group">
+        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group">
           <span>요금제 확인 & 이용권 결제하기</span>
           <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition"></i>
         </a>
         <a href="/" onclick="event.preventDefault(); openApp();" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
-          <i data-lucide="play" class="w-4 h-4 text-emerald-400"></i>
+          <i data-lucide="play" class="w-4 h-4 text-amber-500"></i>
           <span>무료로 앱 체험하기 (3회)</span>
         </a>
       </div>
@@ -338,7 +391,7 @@
           <div class="text-[11px] text-slate-400 mt-0.5 font-medium">초1 ~ 고3 교육과정 격리</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">4대 분석</div>
+          <div class="text-xl sm:text-2xl font-black text-amber-500 font-mono">4대 분석</div>
           <div class="text-[11px] text-slate-400 mt-0.5 font-medium">출제 의도 해체 엔진</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
@@ -369,7 +422,7 @@
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
           </div>
           <div class="space-y-1.5 p-4 rounded-2xl bg-slate-950/80 border border-emerald-500/30">
-            <p class="font-extrabold text-emerald-400 text-sm sm:text-base">✓ ReadMath가 증명하는 진실</p>
+            <p class="font-extrabold text-amber-500 text-sm sm:text-base">✓ ReadMath가 증명하는 진실</p>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
           </div>
         </div>
@@ -393,15 +446,15 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- Card 1 -->
         <div class="p-6 rounded-2xl bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/60 transition space-y-3 relative overflow-hidden group">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-black">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-emerald-300 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <span class="text-[10px] font-black uppercase text-emerald-400 tracking-wider">처방 1</span>
+          <span class="text-[10px] font-black uppercase text-amber-500 tracking-wider">처방 1</span>
           <h3 class="text-base sm:text-lg font-black text-white">기하 시각화 직관 부족 (Visual)</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
             곡선과 접선, 미분 계수의 기하학적 의미, 킬러 문항의 숨겨진 도형 조건을 오차 없는 고해상도 수학 그래프로 즉각 시각화합니다.
           </p>
-          <div class="pt-2 text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+          <div class="pt-2 text-[11px] font-bold text-amber-500 flex items-center gap-1">
             <span>재원생 선호도 89.0% 1위</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </div>
@@ -462,10 +515,10 @@
   <section id="tutor" class="py-16 sm:py-24 border-t border-slate-800">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div class="space-y-5">
-        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">EXAMINER AI TUTOR</span>
+        <span class="text-xs font-black text-amber-500 uppercase tracking-widest">EXAMINER AI TUTOR</span>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug break-keep">
           <span class="block">답만 툭 던져주는 AI는</span>
-          <span class="text-emerald-400 block mt-1.5">출제자의 의도를 가립니다.</span>
+          <span class="text-amber-500 block mt-1.5">출제자의 의도를 가립니다.</span>
         </h2>
         <div class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3">
           <p class="font-medium">
@@ -480,15 +533,15 @@
         </div>
         <ul class="text-xs text-slate-300 space-y-2.5 pt-1">
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
             <span>학생이 막힌 지점만 짚어주는 핀포인트 힌트 대화</span>
           </li>
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
             <span>교과서 표준 수학 기호와 고해상도 수식 완벽 지원</span>
           </li>
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
             <span>학부모님과 선생님에게 전송되는 1:1 튜터링 요약 리포트</span>
           </li>
         </ul>
@@ -529,7 +582,7 @@
           </div>
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
-            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
+            <span class="w-7 h-7 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
             <div class="bg-emerald-950/70 border border-emerald-500/30 p-3 rounded-2xl rounded-tr-sm text-emerald-100 break-keep">
               정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-emerald-200 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
@@ -544,10 +597,10 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
       
       <div class="text-center space-y-3 max-w-2xl mx-auto">
-        <span class="text-xs font-black text-emerald-400 uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
+        <span class="text-xs font-black text-amber-500 uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
         <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug break-keep">
           <span class="block">앱 열기 전 10초 만에 확인하는</span>
-          <span class="text-emerald-400 block mt-1">ReadMath의 실시간 수식 번역</span>
+          <span class="text-amber-500 block mt-1">ReadMath의 실시간 수식 번역</span>
         </h2>
         
 
@@ -564,7 +617,7 @@
             <button onclick="selectGrade('mid_2')" id="grade-tab-mid_2" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">중2</button>
             <button onclick="selectGrade('mid_3')" id="grade-tab-mid_3" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">중3</button>
             <button onclick="selectGrade('high_1')" id="grade-tab-high_1" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">고1</button>
-            <button onclick="selectGrade('high_2')" id="grade-tab-high_2" class="grade-tab-btn py-2 px-2 rounded-xl bg-emerald-600 text-white shadow font-black transition text-center">고2</button>
+            <button onclick="selectGrade('high_2')" id="grade-tab-high_2" class="grade-tab-btn py-2 px-2 rounded-xl bg-amber-600 text-white shadow font-black transition text-center">고2</button>
             <button onclick="selectGrade('high_3')" id="grade-tab-high_3" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">고3·수능</button>
           </div>
 
@@ -594,7 +647,7 @@
         <!-- Left: Translation & Socratic Breakdown -->
         <div class="space-y-4" id="demo-content-left">
           <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30" id="demo-badge">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 text-[10px] font-black border border-emerald-500/30" id="demo-badge">
               고2 수학II / 삼차함수 접선과 극값 (정밀 격자 좌표계)
             </span>
             <span class="text-xs text-slate-400" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
@@ -617,7 +670,7 @@
           </div>
 
           <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-200 flex items-start gap-2">
-            <svg class="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <svg class="w-4 h-4 shrink-0 mt-0.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <p id="demo-socratic-prompt">
               <strong>출제자 유도 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
             </p>
@@ -671,7 +724,7 @@
       </div>
 
       <div class="text-center pt-2">
-        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-xl shadow-emerald-600/30 transition items-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-xl shadow-emerald-600/30 transition items-center gap-2">
           <i data-lucide="play" class="w-4 h-4"></i>
           <span>내 문제 직접 사진 찍어 무료로 분석해보기 (3회)</span>
         </a>
@@ -726,7 +779,7 @@
               <span class="text-xs font-black uppercase text-indigo-400 tracking-wider">현장 실증 데이터</span>
               <h3 class="text-lg font-black text-white mt-0.5">정규 재원생 수천 명 코호트 검증</h3>
             </div>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 shrink-0 whitespace-nowrap">
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 font-bold border border-emerald-500/30 shrink-0 whitespace-nowrap">
               클로즈드 베타 진행 중
             </span>
           </div>
@@ -735,7 +788,7 @@
             <div class="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
               <div class="flex items-center justify-between text-white font-extrabold text-sm sm:text-base">
                 <span>실제 학생 수천 명 현장 도입 완료</span>
-                <span class="text-emerald-400 text-xs sm:text-sm font-black shrink-0">100% 현장 검증</span>
+                <span class="text-amber-500 text-xs sm:text-sm font-black shrink-0">100% 현장 검증</span>
               </div>
               <p class="text-slate-200 text-sm leading-relaxed font-medium">
                 실제 운영 중인 수능 전문 학원 정규 재원생 수천 명을 대상으로 매일 킬러 문항 해석 및 오답 클리닉에 활용하고 있습니다.
@@ -842,41 +895,41 @@
 
         <!-- B2C Plan 2: 6 Months Semester Pass (HOT SELLER) -->
         <div class="bg-slate-900 border-2 border-indigo-500 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 relative shadow-2xl h-full">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider shadow-md">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-600 text-white text-[10px] font-black uppercase tracking-wider shadow-md">
             ★ 학부모 선호 1위 (한 학기 완성)
           </div>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-sm font-extrabold text-indigo-300">6개월 학기권</span>
-              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">36% 할인</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded bg-amber-500/20 text-emerald-300 border border-emerald-500/40">36% 할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
                 <span class="text-3xl sm:text-4xl font-black text-white font-mono">149,000</span>
                 <span class="text-sm font-bold text-indigo-300">원</span>
               </div>
-              <p class="text-xs text-emerald-400 font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
+              <p class="text-xs text-amber-500 font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
             </div>
             <ul class="text-xs text-slate-200 space-y-2.5 border-t border-indigo-900/60 pt-4">
               <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
                 <span class="font-bold text-white">1개월권 대비 85,000원 대폭 절감</span>
               </li>
               <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
                 <span>무제한 문제 사진 촬영 및 4대 처방전</span>
               </li>
               <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
                 <span>1:1 출제자 AI 튜터 6개월 무제한 세션</span>
               </li>
               <li class="flex items-center gap-2">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
                 <span>학기별 오답 누적 취약점 종합 진단서</span>
               </li>
             </ul>
           </div>
-          <button onclick="openCheckoutModal('b2c_6m', '개인 6개월 학기권', 149000, '6개월')" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md transition flex items-center justify-center gap-1.5 mt-auto">
+          <button onclick="openCheckoutModal('b2c_6m', '개인 6개월 학기권', 149000, '6개월')" class="w-full py-3.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-md transition flex items-center justify-center gap-1.5 mt-auto">
             <span>6개월 학기권 신청하기</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
@@ -989,7 +1042,7 @@
             </div>
             <div class="text-left sm:text-right">
               <div class="text-3xl sm:text-4xl font-black text-indigo-300 font-mono">129,000<span class="text-sm font-bold text-slate-400">원 / 월</span></div>
-              <span class="text-[10px] text-emerald-400 font-bold">원생 30인 기본 + 원장 관리자 관제실</span>
+              <span class="text-[10px] text-amber-500 font-bold">원생 30인 기본 + 원장 관리자 관제실</span>
             </div>
           </div>
 
@@ -1245,7 +1298,7 @@
       <!-- Payment Method Selection -->
       <div class="space-y-2 text-xs">
         <div class="font-bold text-slate-300 flex items-center gap-1.5">
-          <i data-lucide="wallet" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <i data-lucide="wallet" class="w-3.5 h-3.5 text-amber-500"></i>
           <span>결제 수단 선택</span>
         </div>
         <div class="grid grid-cols-3 gap-2">
@@ -1271,7 +1324,7 @@
       <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] space-y-2">
         <div class="flex items-center justify-between text-slate-300 font-bold">
           <span>결제 모듈 엔진</span>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">LIVE / SANDBOX</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-emerald-300 font-mono">LIVE / SANDBOX</span>
         </div>
         <div class="flex items-center gap-3">
           <label class="flex items-center gap-1.5 cursor-pointer">
@@ -1306,11 +1359,11 @@
   <!-- ================= PAYMENT SUCCESS CELEBRATION MODAL ================= -->
   <div id="modal-payment-success" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 hidden">
     <div class="w-full max-w-md bg-slate-900 border border-emerald-500/50 text-slate-100 rounded-3xl p-7 text-center space-y-5 shadow-2xl relative glow-emerald">
-      <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+      <div class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
         <i data-lucide="check-circle" class="w-8 h-8"></i>
       </div>
       <div>
-        <span class="text-[11px] font-black uppercase text-emerald-400 tracking-wider">PAYMENT APPROVED</span>
+        <span class="text-[11px] font-black uppercase text-amber-500 tracking-wider">PAYMENT APPROVED</span>
         <h3 class="text-xl sm:text-2xl font-black text-white mt-1">이용권 결제가 완료되었습니다!</h3>
         <p class="text-xs text-slate-300 mt-1 leading-relaxed">
           ReadMath 프리미엄 계정이 활성화되었습니다.<br />
@@ -1329,12 +1382,12 @@
         </div>
         <div class="flex justify-between text-slate-400">
           <span>결제 금액</span>
-          <span class="text-emerald-400 font-bold" id="success-amount">149,000원</span>
+          <span class="text-amber-500 font-bold" id="success-amount">149,000원</span>
         </div>
       </div>
 
       <div class="pt-2 space-y-2">
-        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full py-3.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
           <span>ReadMath 앱 바로 열기 (학습 시작)</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
@@ -2339,10 +2392,10 @@
       ALL_GRADES.forEach(g => {
         const btn = document.getElementById(`grade-tab-${g}`);
         if (g === gradeId) {
-          btn?.classList.add('bg-emerald-600', 'text-white', 'shadow', 'font-black');
+          btn?.classList.add('bg-amber-600', 'text-white', 'shadow', 'font-black');
           btn?.classList.remove('text-slate-400');
         } else {
-          btn?.classList.remove('bg-emerald-600', 'text-white', 'shadow', 'font-black');
+          btn?.classList.remove('bg-amber-600', 'text-white', 'shadow', 'font-black');
           btn?.classList.add('text-slate-400');
         }
       });
@@ -2457,10 +2510,10 @@
   <!-- ================= MOBILE STICKY BOTTOM QUICK-BAR ================= -->
   <div class="fixed bottom-0 left-0 right-0 sm:hidden z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 px-4 flex items-center justify-between gap-3 shadow-2xl">
     <a href="/" onclick="event.preventDefault(); openApp();" class="flex-1 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-center font-bold text-xs flex items-center justify-center gap-1.5">
-      <i data-lucide="play" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <i data-lucide="play" class="w-3.5 h-3.5 text-amber-500"></i>
       <span>무료 체험 (3회)</span>
     </a>
-    <a href="#pricing" class="flex-1 py-3 rounded-xl bg-emerald-600 text-white text-center font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5">
+    <a href="#pricing" class="flex-1 py-3 rounded-xl bg-amber-600 text-white text-center font-black text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5">
       <span>이용권 신청 (월 2.4만~)</span>
       <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
     </a>
