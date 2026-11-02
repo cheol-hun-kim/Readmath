@@ -2378,20 +2378,24 @@
 
     /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */
     #floating-tutor-fab {
-      width: 48px !important;
-      height: 48px !important;
-      padding: 0 !important;
+      width: auto !important;
+      height: auto !important;
+      padding: 10px 20px !important;
       border-radius: 9999px !important;
       background-color: var(--accent-primary) !important;
       color: #FFFFFF !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
-      display: flex !important;
+      box-shadow: 0 8px 24px rgba(234, 88, 12, 0.35) !important;
+      display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
+      gap: 6px !important;
       border: none !important;
     }
     #floating-tutor-fab span {
-      display: none !important; /* 글자 숨기고 깔끔한 아이콘만 노출 */
+      display: inline !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      color: #FFFFFF !important;
     }
     #floating-tutor-fab i, #floating-tutor-fab svg {
       width: 22px !important;
@@ -2426,7 +2430,7 @@
   </style>
 
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:py-3 lg:py-4 overflow-x-hidden">
+<body class="theme-day bg-[#F7F5F0] text-[#1C1917] min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:py-3 lg:py-4 overflow-x-hidden">
 
   <!-- Hidden File Input for Real Math Problem Upload -->
   <input type="file" id="real-image-file" accept="image/*" class="hidden" onchange="handleImageFileSelected(event)" />
@@ -2973,7 +2977,7 @@
         </div>
 
         <!-- Action Button: Generate Printable Exam Sheet -->
-        <button onclick="openExamSheetModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-3 px-3.5 rounded-2xl text-xs flex items-center justify-between gap-2 shadow-md active:scale-95 transition border border-indigo-500 overflow-hidden">
+        <button onclick="openExamSheetModal()" class="w-full bg-stone-900 hover:bg-stone-800 text-white font-extrabold py-3 px-3.5 rounded-2xl text-xs flex items-center justify-between gap-2 shadow-sm active:scale-95 transition border border-stone-700/80 overflow-hidden">
           <div class="flex items-center gap-1.5 min-w-0 flex-1">
             <i data-lucide="printer" class="w-4 h-4 text-amber-300 shrink-0"></i>
             <span class="font-extrabold text-left truncate">선택 질문 맞춤 시험지·해설지 생성 (PDF)</span>
@@ -3163,7 +3167,7 @@
         </div>
 
         <!-- Prominent Exam Generator Hero Banner in Exam Prep Tab -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+        <div class="bg-white border border-stone-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl bg-amber-400 flex items-center justify-center text-slate-950 font-black shadow-xs shrink-0">
               <i data-lucide="printer" class="w-6 h-6"></i>
@@ -5711,7 +5715,9 @@
     try { localStorage.removeItem('rootmath_creator_mode'); } catch (e) {}
     try { localStorage.removeItem('rootmath_user_role'); } catch (e) {}
     let userRole = 'student';
-    let currentTheme = localStorage.getItem('rootmath_theme') || 'night';
+    let currentTheme = localStorage.getItem('rootmath_theme_v4') || 'day';
+    localStorage.setItem('rootmath_theme_v4', currentTheme);
+    localStorage.setItem('rootmath_theme', currentTheme);
 
     
     // Passmate Nationwide 17 Sido & All Sigungu Regional Data
@@ -13884,7 +13890,7 @@
       if (typeof sendChatMessage === 'function') {
         sendChatMessage(prompt);
       }
-      // 부드러운 스크롤 상단 보정
+      window.scrollTo({ top: 0, behavior: 'instant' });
       const chatContainer = document.getElementById('chat-messages-container');
       if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
     }
@@ -16071,6 +16077,9 @@
 
     // ================= NAVIGATION & MODALS =================
     function goToView(viewId) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
       const views = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
       views.forEach(v => {
         const el = document.getElementById('view-' + v);
