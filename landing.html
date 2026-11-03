@@ -250,7 +250,10 @@
     #manifesto p, #tutor p, #demo p, #pricing p {
       color: #292524 !important;
     }
-    #manifesto strong, #tutor strong, #demo strong, #pricing strong {
+    #manifesto strong:not([class*="text-"]):not([style*="color"]),
+    #tutor strong:not([class*="text-"]):not([style*="color"]),
+    #demo strong:not([class*="text-"]):not([style*="color"]),
+    #pricing strong:not([class*="text-"]):not([style*="color"]) {
       color: #1C1917 !important;
     }
     #manifesto span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
@@ -475,7 +478,7 @@
             <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
           </div>
           <div class="space-y-2 p-5 rounded-2xl bg-orange-50/80 border border-orange-200 text-stone-700">
-            <p class="font-extrabold text-[#EA580C] text-sm sm:text-base"><span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5 align-middle shadow-xs"></span>ReadMath가 증명하는 진실</p>
+            <p class="font-extrabold text-[#EA580C] text-sm sm:text-base"><span class="inline-block w-3.5 h-3.5 rounded-full border-2 border-emerald-500 mr-2 align-middle"></span>ReadMath가 증명하는 진실</p>
             <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
           </div>
         </div>
@@ -620,7 +623,7 @@
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
             <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs">
-              좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-[#EA580C] font-extrabold underline decoration-orange-300 underline-offset-4">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
+              좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-[#EA580C] font-extrabold underline decoration-orange-400 underline-offset-4" style="color: #EA580C !important;">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
               함수 <span class="font-serif italic font-bold text-stone-900 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
             </div>
           </div>
@@ -1235,7 +1238,7 @@
         <span class="text-[#EA580C]">10배 이상 절약</span>해 드립니다."
       </h2>
       <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
-        수업 준비에 많은 수고를 들이시지 않아도 됩니다. Readmath는 학생별로 약점을 취합하여 맞춤 개념서와 문제지까지 클릭 몇 번만으로 완성시켜줍니다.
+        수업 준비에 많은 수고를 들이시지 않아도 됩니다.<br />Readmath는 학생별로 약점을 취합하여 맞춤 개념서와 문제지까지 클릭 몇 번만으로 완성시켜줍니다.
       </p>
       <div class="pt-2">
         <button onclick="openEnterpriseInquiryModal()" class="px-6 py-3.5 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-xs shadow-lg shadow-amber-600/30 transition inline-flex items-center gap-2">
