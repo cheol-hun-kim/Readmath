@@ -347,22 +347,20 @@
     </div>
   </header>
 
-  <!-- ================= HERO SECTION ================= -->
-  <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
+  <!-- ================= 1. HERO SECTION (DARK #141210) ================= -->
+  <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden bg-[#141210]">
     <!-- Ambient Light Orbs -->
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[650px] h-96 sm:h-[650px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
     <div class="absolute top-1/3 right-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
-      
-
       <!-- Main Copy -->
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.35] max-w-4xl mx-auto">
         <span class="block">
           <span class="inline-block">외계어 같은 수식을</span>
           <span class="inline-block">일상의 언어로,</span>
         </span>
-        <span class="text-amber-500 block mt-2 sm:mt-3">
+        <span class="text-[#EA580C] block mt-2 sm:mt-3">
           <span class="inline-block">직관적인 그래프로</span>
           <span class="inline-block">시각화하는 수학</span>
         </span>
@@ -370,68 +368,72 @@
 
       <!-- Hero CTA -->
       <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group">
+        <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-sm shadow-xl shadow-orange-950/30 transition flex items-center justify-center gap-2 group">
           <span>요금제 확인 & 이용권 결제하기</span>
           <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition"></i>
         </a>
-        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
-          <i data-lucide="play" class="w-4 h-4 text-amber-500"></i>
+        <a href="/" onclick="event.preventDefault(); openApp();" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-stone-900/80 hover:bg-stone-800 text-stone-200 border border-stone-700/80 font-bold text-sm transition flex items-center justify-center gap-2">
+          <i data-lucide="play" class="w-4 h-4 text-[#EA580C]"></i>
           <span>무료로 앱 체험하기 (3회)</span>
         </a>
       </div>
 
       <!-- Social Proof Stats Row (100% Real Fact-Based) -->
       <div class="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
-        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+        <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 text-center">
           <div class="text-xl sm:text-2xl font-black text-white font-mono">수천 명</div>
-          <div class="text-xs text-slate-300 mt-0.5 font-semibold">사용자 실사용 검증</div>
+          <div class="text-xs text-stone-300 mt-0.5 font-semibold">사용자 실사용 검증</div>
         </div>
-        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+        <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 text-center">
           <div class="text-xl sm:text-2xl font-black text-indigo-400 font-mono">12개 학년</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">초1 ~ 고3 교육과정 격리</div>
+          <div class="text-[11px] text-stone-400 mt-0.5 font-medium">초1 ~ 고3 교육과정 격리</div>
         </div>
-        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-amber-500 font-mono">4대 분석</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">출제 의도 해체 엔진</div>
+        <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-[#EA580C] font-mono">4대 분석</div>
+          <div class="text-[11px] text-stone-400 mt-0.5 font-medium">출제 의도 해체 엔진</div>
         </div>
-        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono" id="live-stat-questions">실시간 연동</div>
-          <div class="text-[11px] text-slate-400 mt-0.5 font-medium">누적 풀이 질문 수</div>
+        <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 text-center">
+          <div class="text-xl sm:text-2xl font-black text-[#F97316] font-mono" id="live-stat-questions">실시간 연동</div>
+          <div class="text-[11px] text-stone-400 mt-0.5 font-medium">누적 풀이 질문 수</div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Educational Manifesto Card -->
-      <div class="max-w-4xl mx-auto mt-8 p-7 sm:p-9 rounded-3xl bg-slate-900 border border-slate-700/80 text-left space-y-5 shadow-2xl break-keep">
+  <!-- ================= 2. EDUCATIONAL MANIFESTO (WARM WHITE PAPER #F7F5F0) ================= -->
+  <section id="manifesto" class="py-16 sm:py-24 bg-[#F7F5F0] border-t border-stone-300 text-[#1C1917]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="p-7 sm:p-10 rounded-3xl bg-white border border-stone-200 text-left space-y-6 shadow-xl break-keep">
         <div class="flex items-center gap-2.5 flex-wrap">
-          <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-black uppercase tracking-wider">
+          <span class="px-3.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-black uppercase tracking-wider">
             ReadMath 교육 선언문
           </span>
-          <span class="text-sm text-slate-300 font-bold">진짜 수학 공부는 비용과 시간이 거의 들지 않아야 정상입니다</span>
+          <span class="text-sm text-stone-600 font-bold">진짜 수학 공부는 비용과 시간이 거의 들지 않아야 정상입니다</span>
         </div>
-        <h3 class="text-xl sm:text-2xl font-black text-white leading-relaxed">
+        <h3 class="text-xl sm:text-2xl lg:text-3xl font-black text-[#1C1917] leading-relaxed">
           <span class="block">"비싼 컨텐츠 양치기와 테크닉 암기는 수학 공부가 아닙니다.</span>
-          <span class="block text-indigo-400 mt-1">수학은 언어일 뿐입니다. 출제자의 의도가 해석되면 어떤 문제든 풀 수 있습니다."</span>
+          <span class="block text-[#4F46E5] mt-1.5">수학은 언어일 뿐입니다. 출제자의 의도가 해석되면 어떤 문제든 풀 수 있습니다."</span>
         </h3>
-        <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal pt-1">
+        <p class="text-sm sm:text-base text-stone-700 leading-relaxed font-normal pt-1">
           수학은 출제자의 생각을 담은 '언어'일 뿐입니다. 출제자가 요구하는 조건이 해석되면 어떤 문제든 스스로 풀 수 있습니다.
           오래, 많이 공부하는 것이 정답이라는 사교육의 착각을 깨고, 가장 적은 비용과 시간으로 고정 100점에 도달하세요.
         </p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-3 text-sm sm:text-base text-slate-200 leading-relaxed border-t border-slate-800">
-          <div class="space-y-1.5 p-4 rounded-2xl bg-slate-950/80 border border-rose-500/30">
-            <p class="font-extrabold text-rose-400 text-sm sm:text-base">❌ 사교육이 만든 잘못된 착각</p>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4 border-t border-stone-200">
+          <div class="space-y-2 p-5 rounded-2xl bg-rose-50/80 border border-rose-200 text-stone-700">
+            <p class="font-extrabold text-rose-700 text-sm sm:text-base">❌ 사교육이 만든 잘못된 착각</p>
+            <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
           </div>
-          <div class="space-y-1.5 p-4 rounded-2xl bg-slate-950/80 border border-stone-700/60">
-            <p class="font-extrabold text-amber-500 text-sm sm:text-base">✓ ReadMath가 증명하는 진실</p>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
+          <div class="space-y-2 p-5 rounded-2xl bg-orange-50/80 border border-orange-200 text-stone-700">
+            <p class="font-extrabold text-[#EA580C] text-sm sm:text-base">✓ ReadMath가 증명하는 진실</p>
+            <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 4-WAY PRESCRIPTION SHOWCASE ================= -->
-  <section id="features" class="py-16 sm:py-24 border-t border-slate-800/80 bg-slate-900/30">
+  <!-- ================= 3. 4-WAY PRESCRIPTION SHOWCASE (DARK #141210) ================= -->
+  <section id="features" class="py-16 sm:py-24 border-t border-stone-800 bg-[#141210]">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
       <div class="text-center space-y-3">
         <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">WHY READMATH?</span>
@@ -439,35 +441,34 @@
           <span class="block">"학생의 타고난 '능력' 문제가 아닙니다.</span>
           <span class="text-indigo-400 block mt-1.5">출제자가 진정으로 원하는 것이 무엇인지 몰랐을 뿐입니다."</span>
         </h2>
-        
       </div>
 
-      <!-- 4 Cards Grid -->
+      <!-- 4 Cards Grid (Odd 1, 3: Coral Orange #F97316 / Even 2, 4: Deep Blue #6366F1) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- Card 1 -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-stone-700/60 hover:border-stone-600 transition space-y-3 relative overflow-hidden group">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-stone-300 flex items-center justify-center font-black">
+        <!-- Card 1 (Coral Orange) -->
+        <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/30 hover:border-orange-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <span class="text-[10px] font-black uppercase text-amber-500 tracking-wider">처방 1</span>
+          <span class="text-[10px] font-black uppercase text-orange-400 tracking-wider">처방 1</span>
           <h3 class="text-base sm:text-lg font-black text-white">기하 시각화 직관 부족 (Visual)</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
+          <p class="text-xs text-stone-300 leading-relaxed">
             곡선과 접선, 미분 계수의 기하학적 의미, 킬러 문항의 숨겨진 도형 조건을 오차 없는 고해상도 수학 그래프로 즉각 시각화합니다.
           </p>
-          <div class="pt-2 text-[11px] font-bold text-amber-500 flex items-center gap-1">
+          <div class="pt-2 text-[11px] font-bold text-orange-400 flex items-center gap-1">
             <span>재원생 선호도 89.0% 1위</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </div>
         </div>
 
-        <!-- Card 2 -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-indigo-500/30 hover:border-indigo-500/60 transition space-y-3 relative overflow-hidden group">
+        <!-- Card 2 (Deep Blue / Indigo) -->
+        <div class="p-6 rounded-2xl bg-stone-900 border border-indigo-500/30 hover:border-indigo-500/60 transition space-y-3 relative overflow-hidden group">
           <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
           </div>
           <span class="text-[10px] font-black uppercase text-indigo-400 tracking-wider">처방 2</span>
           <h3 class="text-base sm:text-lg font-black text-white">숨은 조건 간과 (Hidden Condition)</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
+          <p class="text-xs text-stone-300 leading-relaxed">
             '서로 다른 두 실근', '기울기의 곱은 -1', '최고차항 계수가 1인 삼차함수' 등 문제 속에 숨어 있는 결정적 단서를 일상의 한글로 번역해 드립니다.
           </p>
           <div class="pt-2 text-[11px] font-bold text-indigo-400 flex items-center gap-1">
@@ -476,33 +477,33 @@
           </div>
         </div>
 
-        <!-- Card 3 -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 hover:border-amber-500/60 transition space-y-3 relative overflow-hidden group">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-black">
+        <!-- Card 3 (Coral Orange) -->
+        <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/30 hover:border-orange-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
           </div>
-          <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider">처방 3</span>
+          <span class="text-[10px] font-black uppercase text-orange-400 tracking-wider">처방 3</span>
           <h3 class="text-base sm:text-lg font-black text-white">수식 모델링 미숙 (Modeling)</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
+          <p class="text-xs text-stone-300 leading-relaxed">
             문장제나 복합 조건 문제를 보고 무엇을 미지수 x로 두어야 할지, 어떤 수식으로 연결해야 할지 막막한 학생에게 식을 세우는 논리적 틀을 전수합니다.
           </p>
-          <div class="pt-2 text-[11px] font-bold text-amber-400 flex items-center gap-1">
+          <div class="pt-2 text-[11px] font-bold text-orange-400 flex items-center gap-1">
             <span>서술형 및 킬러 문항 식 세우기 훈련</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </div>
         </div>
 
-        <!-- Card 4 -->
-        <div class="p-6 rounded-2xl bg-slate-900 border border-purple-500/30 hover:border-purple-500/60 transition space-y-3 relative overflow-hidden group">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center font-black">
+        <!-- Card 4 (Deep Blue / Indigo) -->
+        <div class="p-6 rounded-2xl bg-stone-900 border border-indigo-500/30 hover:border-indigo-500/60 transition space-y-3 relative overflow-hidden group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-black">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
           </div>
-          <span class="text-[10px] font-black uppercase text-purple-400 tracking-wider">처방 4</span>
+          <span class="text-[10px] font-black uppercase text-indigo-400 tracking-wider">처방 4</span>
           <h3 class="text-base sm:text-lg font-black text-white">선수 개념 부재 (Prerequisite Concept)</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
+          <p class="text-xs text-stone-300 leading-relaxed">
             고등 문제를 풀 때 중2 피타고라스, 삼각비, 곱셈 공식 등 잊어버린 하위 학년 필수 기초 개념을 역추적하여 한눈에 복습시켜 줍니다.
           </p>
-          <div class="pt-2 text-[11px] font-bold text-purple-400 flex items-center gap-1">
+          <div class="pt-2 text-[11px] font-bold text-indigo-400 flex items-center gap-1">
             <span>수포자 탈출의 가장 확실한 사다리</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </div>
@@ -511,80 +512,79 @@
     </div>
   </section>
 
-  <!-- ================= 1:1 EXAMINER AI TUTOR ================= -->
-  <section id="tutor" class="py-16 sm:py-24 border-t border-slate-800">
+  <!-- ================= 4. 1:1 EXAMINER AI TUTOR (PURE LIGHT / WHITE) ================= -->
+  <section id="tutor" class="py-16 sm:py-24 border-t border-stone-200 bg-white text-stone-900">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div class="space-y-5">
-        <span class="text-xs font-black text-amber-500 uppercase tracking-widest">EXAMINER AI TUTOR</span>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-snug break-keep">
+        <span class="text-xs font-black text-[#EA580C] uppercase tracking-widest">EXAMINER AI TUTOR</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-900 leading-snug break-keep">
           <span class="block">답만 툭 던져주는 AI는</span>
-          <span class="text-amber-500 block mt-1.5">출제자의 의도를 가립니다.</span>
+          <span class="text-[#EA580C] block mt-1.5">출제자의 의도를 가립니다.</span>
         </h2>
-        <div class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3">
+        <div class="text-xs sm:text-sm text-stone-600 leading-relaxed space-y-3">
           <p class="font-medium">
             수능·평가원 출제위원의 문제 제작 방식을 그대로 이식했습니다.<br />
             ReadMath 출제자 튜터는 정답을 외우게 하거나 공식을 바로 떠먹여 주지 않습니다.
           </p>
-          <div class="p-3.5 rounded-2xl bg-slate-900 border border-indigo-500/30 text-indigo-200 text-xs sm:text-sm font-semibold flex items-start gap-2.5">
+          <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-indigo-950 text-xs sm:text-sm font-semibold flex items-start gap-2.5">
             <span class="text-base leading-none">💡</span>
             <span>"분모가 0에 가까워질 때, 출제자는 분자에 어떤 조건을 원했을까?"</span>
           </div>
-          
         </div>
-        <ul class="text-xs text-slate-300 space-y-2.5 pt-1">
+        <ul class="text-xs text-stone-700 space-y-2.5 pt-1">
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
             <span>학생이 막힌 지점만 짚어주는 핀포인트 힌트 대화</span>
           </li>
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
             <span>교과서 표준 수학 기호와 고해상도 수식 완벽 지원</span>
           </li>
           <li class="flex items-center gap-2">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0"></i>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
             <span>학부모님과 선생님에게 전송되는 1:1 튜터링 요약 리포트</span>
           </li>
         </ul>
       </div>
 
       <!-- Dialogue Mock Box -->
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3.5 glow-indigo">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div class="bg-stone-50 border border-stone-200 rounded-3xl p-5 space-y-3.5 shadow-xl">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-200">
           <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-            <span class="text-xs font-bold text-white">1:1 출제자 AI 튜터 라이브</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#EA580C] animate-pulse"></span>
+            <span class="text-xs font-bold text-stone-900">1:1 출제자 AI 튜터 라이브</span>
           </div>
-          <span class="text-xs text-slate-400 font-mono">응답시간 0.4초</span>
+          <span class="text-xs text-stone-500 font-mono">응답시간 0.4초</span>
         </div>
 
         <div class="space-y-3 text-xs leading-relaxed">
           <!-- Student -->
           <div class="flex items-start gap-2.5">
-            <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200 break-keep">
+            <span class="w-7 h-7 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
+            <div class="bg-white border border-stone-200 p-3 rounded-2xl rounded-tl-sm text-stone-800 break-keep shadow-xs">
               선생님, 삼차함수 접선 기울기가 9라고 하는데 접점 x좌표를 어떻게 찾나요?
             </div>
           </div>
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-indigo-950/70 border border-indigo-500/30 p-3 rounded-2xl rounded-tr-sm text-indigo-100 break-keep">
-              좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-white font-extrabold underline decoration-indigo-400 underline-offset-4">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
-              함수 <span class="font-serif italic font-bold text-indigo-200 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-2xl rounded-tr-sm text-indigo-950 break-keep">
+              좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-indigo-900 font-extrabold underline decoration-indigo-400 underline-offset-4">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
+              함수 <span class="font-serif italic font-bold text-indigo-900 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
             </div>
           </div>
           <!-- Student -->
           <div class="flex items-start gap-2.5">
-            <span class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-            <div class="bg-slate-800/80 p-3 rounded-2xl rounded-tl-sm text-slate-200 break-keep">
-              아! 미분해서 <span class="font-serif italic font-bold text-white tracking-wide">f'(x) = 9</span> 라고 두면 되나요?
+            <span class="w-7 h-7 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
+            <div class="bg-white border border-stone-200 p-3 rounded-2xl rounded-tl-sm text-stone-800 break-keep shadow-xs">
+              아! 미분해서 <span class="font-serif italic font-bold text-stone-900 tracking-wide">f'(x) = 9</span> 라고 두면 되나요?
             </div>
           </div>
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
-            <span class="w-7 h-7 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-stone-900 border border-stone-700/60 p-3 rounded-2xl rounded-tr-sm text-stone-200 break-keep">
-              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-stone-300 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-stone-300 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
+            <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
+            <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-orange-950 break-keep">
+              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-orange-900 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-orange-900 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
           </div>
         </div>
@@ -593,12 +593,12 @@
   </section>
 
   <!-- ================= 10-SECOND INTERACTIVE DEMO SHOWCASE ================= -->
-  <section id="demo" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/40">
+  <section id="demo" class="py-16 sm:py-24 border-t border-stone-200 bg-[#F7F5F0] text-stone-900">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
       
       <div class="text-center space-y-3 max-w-2xl mx-auto">
         <span class="text-xs font-black text-amber-500 uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
-        <h2 class="text-2xl sm:text-4xl font-black text-white leading-snug break-keep">
+        <h2 class="text-2xl sm:text-4xl font-black text-stone-900 leading-snug break-keep">
           <span class="block">앱 열기 전 10초 만에 확인하는</span>
           <span class="text-amber-500 block mt-1">ReadMath의 실시간 수식 번역</span>
         </h2>
@@ -606,26 +606,26 @@
 
         <!-- Grade Selector (초1 ~ 고3·수능 12개 학년 전체 선택) -->
         <div class="space-y-3 mt-4">
-          <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-1.5 p-1.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold max-w-4xl mx-auto shadow-inner">
-            <button onclick="selectGrade('elem_1')" id="grade-tab-elem_1" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초1</button>
-            <button onclick="selectGrade('elem_2')" id="grade-tab-elem_2" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초2</button>
-            <button onclick="selectGrade('elem_3')" id="grade-tab-elem_3" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초3</button>
-            <button onclick="selectGrade('elem_4')" id="grade-tab-elem_4" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초4</button>
-            <button onclick="selectGrade('elem_5')" id="grade-tab-elem_5" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초5</button>
-            <button onclick="selectGrade('elem_6')" id="grade-tab-elem_6" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">초6</button>
-            <button onclick="selectGrade('mid_1')" id="grade-tab-mid_1" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">중1</button>
-            <button onclick="selectGrade('mid_2')" id="grade-tab-mid_2" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">중2</button>
-            <button onclick="selectGrade('mid_3')" id="grade-tab-mid_3" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">중3</button>
-            <button onclick="selectGrade('high_1')" id="grade-tab-high_1" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">고1</button>
-            <button onclick="selectGrade('high_2')" id="grade-tab-high_2" class="grade-tab-btn py-2 px-2 rounded-xl bg-amber-600 text-white shadow font-black transition text-center">고2</button>
-            <button onclick="selectGrade('high_3')" id="grade-tab-high_3" class="grade-tab-btn py-2 px-2 rounded-xl text-slate-400 hover:text-white transition text-center">고3·수능</button>
+          <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-1.5 p-1.5 rounded-2xl bg-white border border-stone-200 text-xs font-bold max-w-4xl mx-auto shadow-sm">
+            <button onclick="selectGrade('elem_1')" id="grade-tab-elem_1" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초1</button>
+            <button onclick="selectGrade('elem_2')" id="grade-tab-elem_2" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초2</button>
+            <button onclick="selectGrade('elem_3')" id="grade-tab-elem_3" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초3</button>
+            <button onclick="selectGrade('elem_4')" id="grade-tab-elem_4" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초4</button>
+            <button onclick="selectGrade('elem_5')" id="grade-tab-elem_5" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초5</button>
+            <button onclick="selectGrade('elem_6')" id="grade-tab-elem_6" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">초6</button>
+            <button onclick="selectGrade('mid_1')" id="grade-tab-mid_1" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">중1</button>
+            <button onclick="selectGrade('mid_2')" id="grade-tab-mid_2" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">중2</button>
+            <button onclick="selectGrade('mid_3')" id="grade-tab-mid_3" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">중3</button>
+            <button onclick="selectGrade('high_1')" id="grade-tab-high_1" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">고1</button>
+            <button onclick="selectGrade('high_2')" id="grade-tab-high_2" class="grade-tab-btn py-2 px-2 rounded-xl bg-[#EA580C] text-white shadow font-black transition text-center">고2</button>
+            <button onclick="selectGrade('high_3')" id="grade-tab-high_3" class="grade-tab-btn py-2 px-2 rounded-xl text-stone-600 hover:text-stone-900 transition text-center">고3·수능</button>
           </div>
 
           <!-- Sub-Problem Tabs (고3·수능 킬러 문항 5선 세부 선택 탭) -->
           <div id="subproblem-tabs-container" class="hidden w-full max-w-4xl mx-auto pt-2">
-            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-2 sm:p-2.5 shadow-xl">
+            <div class="bg-white border border-stone-200 rounded-2xl p-2 sm:p-2.5 shadow-xl">
               <div class="flex items-center justify-between px-2 pb-2 mb-1.5 border-b border-slate-800/80">
-                <span class="text-xs font-black text-slate-200 flex items-center gap-1.5">
+                <span class="text-xs font-black text-stone-900 flex items-center gap-1.5">
                   <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
                   고3·수능 킬러 &amp; 수리논술 기출 도해 5선
                 </span>
@@ -642,7 +642,7 @@
       </div>
 
       <!-- Demo Interactive Box -->
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-2xl">
+      <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-xl text-stone-900">
         
         <!-- Left: Translation & Socratic Breakdown -->
         <div class="space-y-4" id="demo-content-left">
@@ -653,23 +653,23 @@
             <span class="text-xs text-slate-400" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-200" id="demo-raw-problem">
+          <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-800" id="demo-raw-problem">
             <strong class="text-white block mb-1">원본 출제 조건:</strong>
             "함수 f(x) = x³ - 3x 위의 한 점 (t, f(t))에서의 접선의 기울기가 9일 때, t의 값을 구하시오."
           </div>
 
-          <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs space-y-2">
+          <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-xs space-y-2">
             <div class="flex items-center gap-1.5 text-indigo-300 font-bold">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
               <span>ReadMath 출제 의도 한국어 번역:</span>
             </div>
-            <p class="text-slate-200 leading-relaxed font-medium" id="demo-translation">
+            <p class="text-stone-800 leading-relaxed font-medium" id="demo-translation">
               "접선의 기울기가 9라는 것은 도함수 f'(t)가 9라는 뜻이야.<br />
               f'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!"
             </p>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-stone-900 border border-stone-700/60 text-xs text-stone-300 flex items-start gap-2">
+          <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-start gap-2">
             <svg class="w-4 h-4 shrink-0 mt-0.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <p id="demo-socratic-prompt">
               <strong>출제자 유도 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
@@ -724,7 +724,7 @@
       </div>
 
       <div class="text-center pt-2">
-        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs shadow-xl shadow-stone-950/40 transition items-center gap-2">
+        <a href="/" onclick="event.preventDefault(); openApp();" class="inline-flex px-6 py-3.5 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-xs shadow-xl shadow-orange-950/20 transition items-center gap-2">
           <i data-lucide="play" class="w-4 h-4"></i>
           <span>내 문제 직접 사진 찍어 무료로 분석해보기 (3회)</span>
         </a>
@@ -734,7 +734,7 @@
   </section>
 
   <!-- ================= FOUNDER'S STORY & 300-STUDENT TRACTION ================= -->
-  <section id="traction" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-950">
+  <section id="traction" class="py-16 sm:py-24 border-t border-stone-800 bg-[#1C1917] text-stone-100">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
       
       <div class="text-center space-y-3 max-w-3xl mx-auto">
@@ -823,29 +823,29 @@
   </section>
 
   <!-- ================= STRATEGIC PRICING SECTION ================= -->
-  <section id="pricing" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/40">
+  <section id="pricing" class="py-16 sm:py-24 border-t border-stone-200 bg-[#F7F5F0] text-stone-900">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
       
       <!-- Heading -->
       <div class="text-center space-y-3 max-w-2xl mx-auto">
         <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">TRANSPARENT PRICING</span>
-        <h2 class="text-3xl sm:text-5xl font-black text-white">
+        <h2 class="text-3xl sm:text-5xl font-black text-stone-900">
           합리적인 요금제 & 이용권
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300">
+        <p class="text-xs sm:text-sm text-stone-600">
           인앱결제 수수료를 걷어내고 가장 합리적인 가격으로 책정했습니다.<br />
           원하시는 플랜을 선택하시고 웹에서 안전하게 결제하세요.
         </p>
 
         <!-- Pricing Tab Switcher -->
-        <div class="inline-flex p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold mt-4">
+        <div class="inline-flex p-1 rounded-2xl bg-stone-200 border border-stone-300 text-xs font-bold mt-4">
           <button onclick="switchPricingTab('b2c')" id="pricing-tab-btn-b2c" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white transition shadow">
             개인 회원 (학생·학부모)
           </button>
-          <button onclick="switchPricingTab('teacher')" id="pricing-tab-btn-teacher" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">
+          <button onclick="switchPricingTab('teacher')" id="pricing-tab-btn-teacher" class="px-5 py-2.5 rounded-xl text-stone-600 hover:text-stone-900 transition">
             선생님·공부방
           </button>
-          <button onclick="switchPricingTab('academy')" id="pricing-tab-btn-academy" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">
+          <button onclick="switchPricingTab('academy')" id="pricing-tab-btn-academy" class="px-5 py-2.5 rounded-xl text-stone-600 hover:text-stone-900 transition">
             학원 정규 플랜
           </button>
         </div>
@@ -855,20 +855,20 @@
       <div id="pricing-tab-b2c" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch pt-4">
         
         <!-- B2C Plan 1: 1 Month Monthly (Anchoring) -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-slate-700 transition h-full">
+        <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-stone-300 transition h-full shadow-sm text-stone-900">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-white">1개월 월간권</span>
+              <span class="text-sm font-extrabold text-stone-900">1개월 월간권</span>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">단기 시험 대비</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-white font-mono">39,000</span>
+                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">39,000</span>
                 <span class="text-sm font-bold text-slate-400">원 / 월</span>
               </div>
-              <p class="text-xs text-slate-500 mt-1">부담 없는 1개월 단기 집중 완성권</p>
+              <p class="text-xs text-stone-500 mt-1">부담 없는 1개월 단기 집중 완성권</p>
             </div>
-            <ul class="text-xs text-slate-300 space-y-2.5 border-t border-slate-800 pt-4">
+            <ul class="text-xs text-stone-700 space-y-2.5 border-t border-stone-200 pt-4">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
                 <span>무제한 문제 사진 촬영 및 수식 OCR</span>
@@ -887,33 +887,33 @@
               </li>
             </ul>
           </div>
-          <button onclick="openCheckoutModal('b2c_1m', '개인 1개월 월간권', 39000, '1개월')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 mt-auto">
+          <button onclick="openCheckoutModal('b2c_1m', '개인 1개월 월간권', 39000, '1개월')" class="w-full py-3.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 mt-auto">
             <span>1개월 이용권 시작하기</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
         </div>
 
         <!-- B2C Plan 2: 6 Months Semester Pass (HOT SELLER) -->
-        <div class="bg-slate-900 border-2 border-indigo-500 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 relative shadow-2xl h-full">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-600 text-white text-[10px] font-black uppercase tracking-wider shadow-md">
+        <div class="bg-white border-2 border-[#EA580C] rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 relative shadow-xl h-full text-stone-900">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#EA580C] text-white text-[10px] font-black uppercase tracking-wider shadow-md">
             ★ 학부모 선호 1위 (한 학기 완성)
           </div>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-indigo-300">6개월 학기권</span>
+              <span class="text-sm font-extrabold text-stone-900">6개월 학기권</span>
               <span class="text-[10px] font-black px-2 py-0.5 rounded bg-amber-500/20 text-stone-300 border border-stone-700/60">36% 할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-white font-mono">149,000</span>
-                <span class="text-sm font-bold text-indigo-300">원</span>
+                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">149,000</span>
+                <span class="text-sm font-bold text-stone-600">원</span>
               </div>
-              <p class="text-xs text-amber-500 font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
+              <p class="text-xs text-[#EA580C] font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
             </div>
-            <ul class="text-xs text-slate-200 space-y-2.5 border-t border-indigo-900/60 pt-4">
+            <ul class="text-xs text-stone-700 space-y-2.5 border-t border-orange-100 pt-4">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
-                <span class="font-bold text-white">1개월권 대비 85,000원 대폭 절감</span>
+                <span class="font-bold text-stone-900">1개월권 대비 85,000원 대폭 절감</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-amber-500"></i>
@@ -936,20 +936,20 @@
         </div>
 
         <!-- B2C Plan 3: 12 Months Annual Pass -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-slate-700 transition h-full">
+        <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-stone-300 transition h-full shadow-sm text-stone-900">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-white">12개월 연간권</span>
+              <span class="text-sm font-extrabold text-stone-900">12개월 연간권</span>
               <span class="text-[10px] font-black px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">47% 최대할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-white font-mono">249,000</span>
+                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">249,000</span>
                 <span class="text-sm font-bold text-slate-400">원</span>
               </div>
               <p class="text-xs text-indigo-300 font-bold mt-1">월 환산 약 20,750원 (1년 수능·내신 마스터)</p>
             </div>
-            <ul class="text-xs text-slate-300 space-y-2.5 border-t border-slate-800 pt-4">
+            <ul class="text-xs text-stone-700 space-y-2.5 border-t border-stone-200 pt-4">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-indigo-400"></i>
                 <span>1개월권 대비 219,000원 파격 절감</span>
@@ -968,7 +968,7 @@
               </li>
             </ul>
           </div>
-          <button onclick="openCheckoutModal('b2c_12m', '개인 12개월 연간권', 249000, '12개월')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 mt-auto">
+          <button onclick="openCheckoutModal('b2c_12m', '개인 12개월 연간권', 249000, '12개월')" class="w-full py-3.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 mt-auto">
             <span>12개월 연간권 신청하기</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
@@ -1102,7 +1102,7 @@
   </section>
 
   <!-- ================= FAQ SECTION ================= -->
-  <section id="faq" class="py-16 sm:py-24 border-t border-slate-800 bg-slate-900/30">
+  <section id="faq" class="py-16 sm:py-24 border-t border-stone-800 bg-[#141210] text-stone-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
       
       <div class="text-center space-y-3 max-w-2xl mx-auto">
@@ -1183,7 +1183,7 @@
   </section>
 
   <!-- ================= B2B INQUIRY & STRATEGY SECTION ================= -->
-  <section id="b2b" class="py-16 sm:py-20 border-t border-slate-800 bg-slate-950">
+  <section id="b2b" class="py-16 sm:py-20 border-t border-stone-800 bg-[#1C1917] text-stone-300">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
       <span class="text-xs font-black text-amber-400 uppercase tracking-widest">PARTNERSHIP & ENTERPRISE</span>
       <h2 class="text-2xl sm:text-4xl font-black text-white">
