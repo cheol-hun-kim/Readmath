@@ -56,6 +56,21 @@ const stack = [];
 let match;
 let tagErrors = [];
 
+
+// 1.13 Zero Purple / Indigo Residuals in Core UI (100% Terracotta Coral / Stone Theme Purity)
+const purpleIndigoMatches = (htmlContent.match(/class="[^"]*\b(?:bg-indigo-600|bg-purple-600|text-indigo-400|border-indigo-500)\b[^"]*"/g) || []);
+if (purpleIndigoMatches.length > 0) {
+  failGate(1, 'Zero-Purple Theme Armor', `Found ${purpleIndigoMatches.length} raw purple/indigo theme clashes in UI: ${purpleIndigoMatches.slice(0, 3).join(', ')}`);
+}
+
+// 1.14 Strict Action Button Pure White Text Armor
+const orangeButtonMatches = htmlContent.match(/<button[^>]*class="[^"]*(?:bg-\[#EA580C\]|bg-orange-600)[^"]*"[^>]*>[\s\S]*?<\/button>/g) || [];
+for (const btn of orangeButtonMatches) {
+  if (btn.includes('맞춤 시험지') && !btn.includes('#FFFFFF') && !btn.includes('text-white')) {
+    failGate(1, 'Button Contrast Armor', `Found orange action button without strict high-contrast white text: ${btn.slice(0, 80)}`);
+  }
+}
+
 const cleanHtml = htmlContent.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
                             .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
 
@@ -281,7 +296,7 @@ if (brandViolations.length > 0) {
 }
 
 // 1.15 Universal Day-Mode Action Button Contrast & High Contrast Armor
-if (!htmlContent.includes('body.theme-day button[class*="bg-indigo-6"]')) {
+if (!htmlContent.includes('body.theme-day button[class*="bg-[#EA580C]"]') && !htmlContent.includes('body.theme-day button[class*="bg-orange-"]')) {
   failGate(1, 'Universal Day Mode Button Contrast Armor', 'app.html must contain high-contrast white text protection for day-mode solid buttons');
 }
 
@@ -1583,7 +1598,7 @@ gradesToTest.forEach(g => {
 });
 
 // 7.2 View Transition & Tab Navigation Simulation
-const views = ['camera', 'solution', 'history', 'report', 'settings'];
+const views = ['camera', 'solution', 'history', 'diagnosis', 'settings'];
 views.forEach(v => {
   if (!htmlContent.includes(`id="view-${v}"`)) {
     failGate(7, 'View Navigation E2E', `View container id="view-${v}" missing in preview.html`);
