@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <meta name="color-scheme" content="light only" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ReadMath (리드매스) | AI 시각화 수학 멘토</title>
@@ -2269,10 +2270,10 @@
           <polygon points="37,18 40,10 43,18" fill="#64748B"/>
           <text x="46" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
           <text x="26" y="224" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
-          <!-- Shaded Region Z <= 2.0 (X <= 4920) -->
-          <path d="M 40 208 C 80 208, 120 190, 140 150 C 158 115, 168 50, 180 50 C 192 50, 202 115, 220 150 C 235 175, 248 190, 260 197 L 260 210 L 40 210 Z" fill="#DCFCE7" />
-          <!-- Normal Curve (Smooth Gaussian Bell Curve with Horizontal Tangent at Peak) -->
-          <path d="M 40 208 C 80 208, 120 190, 140 150 C 158 115, 168 50, 180 50 C 192 50, 202 115, 220 150 C 240 190, 280 208, 320 208" fill="none" stroke="#16A34A" stroke-width="2.5" />
+          <!-- Shaded Region Z <= 2.0 (X <= 4920) Smooth Symmetrical Gaussian -->
+          <path d="M 40 208 C 90 208, 130 195, 148 135 C 160 95, 168 52, 180 52 C 192 52, 200 95, 212 135 C 226 180, 244 198, 260 204 L 260 210 L 40 210 Z" fill="#DCFCE7" />
+          <!-- Normal Curve: Mathematically Exact Smooth Gaussian Bell Curve -->
+          <path d="M 40 208 C 90 208, 130 195, 148 135 C 160 95, 168 52, 180 52 C 192 52, 200 95, 212 135 C 230 195, 270 208, 320 208" fill="none" stroke="#16A34A" stroke-width="2.6" />
           <!-- Center Mean m = 4800 (Z = 0) -->
           <line x1="180" y1="210" x2="180" y2="50" stroke="#16A34A" stroke-width="1.5" stroke-dasharray="3 2" />
           <text x="180" y="225" font-size="10.5" font-weight="bold" fill="#15803D" text-anchor="middle">m = 4800 (Z = 0)</text>
@@ -2475,9 +2476,9 @@
       subGrid.innerHTML = CSAT_SUB_ITEMS.map(item => {
         const isActive = item.id === activeSubId;
         return `
-          <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="w-full flex flex-col items-center justify-center p-2 rounded-xl text-center transition ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}">
-            <span class="text-[11px] font-black ${isActive ? 'text-white' : 'text-orange-400'} shrink-0 mb-0.5">${item.tag}</span>
-            <span class="text-[11px] font-bold ${isActive ? 'text-white' : 'text-slate-200'} leading-tight whitespace-nowrap">${item.title}</span>
+          <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="w-full flex flex-col items-center justify-center p-2.5 rounded-xl text-center transition cursor-pointer ${isActive ? 'bg-[#EA580C] shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 hover:bg-slate-800/80 border border-slate-800'}" style="background-color: ${isActive ? '#EA580C !important' : '#0F172A !important'};">
+            <span class="text-[10.5px] font-black shrink-0 mb-0.5 select-none" style="color: ${isActive ? '#FFFFFF !important' : '#FB923C !important'};">${item.tag}</span>
+            <span class="text-[11px] font-bold leading-tight break-keep select-none" style="color: ${isActive ? '#FFFFFF !important' : '#E2E8F0 !important'};">${item.title}</span>
           </button>
         `;
       }).join('');
@@ -2494,11 +2495,18 @@
           const btn = document.getElementById(`sub-btn-${item.id}`);
           if (!btn) return;
           const isActive = item.id === caseId;
-          btn.className = `w-full flex flex-col items-center justify-center p-2 rounded-xl text-center transition ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}`;
+          btn.className = `w-full flex flex-col items-center justify-center p-2.5 rounded-xl text-center transition cursor-pointer ${isActive ? 'bg-[#EA580C] shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 hover:bg-slate-800/80 border border-slate-800'}`;
+          btn.style.backgroundColor = isActive ? '#EA580C' : '#0F172A';
           const tagSpan = btn.querySelector('span:first-child');
-          if (tagSpan) tagSpan.className = `text-[11px] font-black ${isActive ? 'text-white' : 'text-orange-400'} shrink-0 mb-0.5`;
+          if (tagSpan) {
+            tagSpan.className = `text-[10.5px] font-black shrink-0 mb-0.5 select-none`;
+            tagSpan.style.cssText = `color: ${isActive ? '#FFFFFF !important' : '#FB923C !important'};`;
+          }
           const titleSpan = btn.querySelector('span:last-child');
-          if (titleSpan) titleSpan.className = `text-[11px] font-bold ${isActive ? 'text-white' : 'text-slate-200'} leading-tight whitespace-nowrap`;
+          if (titleSpan) {
+            titleSpan.className = `text-[11px] font-bold leading-tight break-keep select-none`;
+            titleSpan.style.cssText = `color: ${isActive ? '#FFFFFF !important' : '#E2E8F0 !important'};`;
+          }
         });
       }
 

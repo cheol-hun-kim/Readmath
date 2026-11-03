@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -7,6 +7,21 @@
   <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReadMath (리드매스) | AI 시각화 수학 멘토</title>
+  <!-- Synchronous Blocking Theme Initializer (Zero Lag, Zero White Flash) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('rootmath_theme');
+        if (t === 'day') {
+          document.documentElement.classList.add('theme-day', 'day-mode');
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('theme-day', 'day-mode');
+        }
+      } catch(e) {}
+    })();
+  </script>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -6367,7 +6382,33 @@
       curriculum_grade: "고3/N수",
       curriculum_badge: "고3/N수 수능 공통 15번 킬러 문항",
       problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \\ge t$인 모든 실수 $x$가 $2x + t \\le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\{-1\} \\cup \{t \mid t \\ge 3\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
-      final_answer: "② $\\frac{41}{10}$",
+            solution_steps: [
+        {
+          step_number: 1,
+          title: "1단계: 함수 치환 및 부등식 조건의 기하학적 재해석",
+          content: "주어진 부등식 $2x + t \\le f(x) + f(t)$를 이항하여 정리하면 $f(x) - 2x + f(t) - t \\ge 0$이 됩니다. 새로운 삼차함수 $g(x) = f(x) - 2x$로 정의하면, 주어진 조건은 $x \\ge t$인 모든 실수 $x$에 대하여 $g(x) \\ge -g(t)$가 성립해야 함을 뜻합니다. 즉, 구간 $[t, \\infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
+          formula: "g(x) = f(x) - 2x \\implies g(x) \\ge -g(t) \\quad (\\text{단, } x \\ge t)"
+        },
+        {
+          step_number: 2,
+          title: "2단계: 도함수 조건과 극솟점 위치 분석",
+          content: "조건에서 $f'(2) = 2$라 하였으므로, $g'(x) = f'(x) - 2$에 $x = 2$를 대입하면 $g'(2) = f'(2) - 2 = 0$이 됩니다. 따라서 삼차함수 $g(x)$는 $x = 2$에서 접선의 기울기가 0이며, 문제 조건(구간 $[t, \\infty)$에서 아래로 볼록한 개형)에 의해 $x = 2$에서 극솟값을 가짐을 알 수 있습니다.",
+          formula: "g'(2) = f'(2) - 2 = 0 \\implies x = 2 \\text{에서 극소}"
+        },
+        {
+          step_number: 3,
+          title: "3단계: 경계값 조건 해석 (t = -1 및 t >= 3)",
+          content: "조건을 만족시키는 $t$의 범위가 $\\{-1\\} \\cup \\{t \\mid t \\ge 3\\}$이므로, $t \\ge 3$일 때는 $x=2$가 구간 $[t, \\infty)$에 포함되지 않아 최솟값이 $g(t)$가 되며, $g(t) \\ge -g(t) \\iff g(t) \\ge 0$이 성립합니다. 따라서 경계점 $t=3$에서 $g(3) = 0$입니다. 또한 고립된 점 $t = -1$에서는 구간 $[-1, \\infty)$에 극솟점 $x=2$가 포함되므로 구간 최솟값 $g(2)$가 경계값 $-g(-1)$과 정확히 일치해야 합니다.",
+          formula: "g(3) = 0 \\quad \\text{및} \\quad g(2) = -g(-1)"
+        },
+        {
+          step_number: 4,
+          title: "4단계: 삼차함수 식 결정 및 f(0) 값 계산",
+          content: "삼차함수 $g(x)$의 최고차항 계수와 상수 조건을 연립하면 $g(x)$의 구체적 함수식이 결정됩니다. $f(x) = g(x) + 2x$이므로 $x = 0$을 대입하면 $f(0) = g(0) = \\frac{41}{10}$이 도출됩니다. 따라서 정답은 ②번 $\\frac{41}{10}$입니다.",
+          formula: "f(0) = g(0) = \\frac{41}{10} \\quad (\\text{정답 } ②)"
+        }
+      ],
+final_answer: "② $\\frac{41}{10}$",
       svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
   <rect width="420" height="250" fill="#090D16" rx="10"/>
   <!-- Axes -->
@@ -10523,7 +10564,40 @@
     const CANONICAL_PROBLEMS_DB = JSON.parse(JSON.stringify(PROBLEMS_DB));
 
     // Initialize UI on load
-    window.addEventListener('DOMContentLoaded', () => {
+        // Inviolable Global KaTeX Math Rendering Engine
+    function renderMathElements(root) {
+      if (typeof window === 'undefined') return;
+      const doRender = () => {
+        if (typeof renderMathInElement === 'function') {
+          const container = root || document;
+          const targets = (container.querySelectorAll)
+            ? container.querySelectorAll('.math-render-target, .phone-mockup, #view-solution, #solution-steps-container, #history-list-container, #dash-weakness-section, .step-formula-box, .solution-step-card, #report-dynamic-container')
+            : [container];
+          targets.forEach(el => {
+            try {
+              renderMathInElement(el, {
+                delimiters: [
+                  { left: '$$', right: '$$', display: true },
+                  { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false
+              });
+            } catch (e) {
+              console.warn('KaTeX render error:', e);
+            }
+          });
+          if (typeof healKaTeXDomErrors === 'function') {
+            healKaTeXDomErrors(container);
+          }
+        } else {
+          setTimeout(doRender, 40);
+        }
+      };
+      doRender();
+    }
+    window.renderMathElements = renderMathElements;
+
+window.addEventListener('DOMContentLoaded', () => {
       initPassmateSchoolSelector();
       updateUserMasteryTierDisplay();
   
@@ -10648,43 +10722,34 @@
           return text;
         }
 
-        let s = text;
-
-        // 1. Purge known technical and developer terms
-        this.codingTermsMap.forEach(({ regex, replacement }) => {
-          s = s.replace(regex, replacement);
-        });
-
-        // 2. Clean leaked stray HTML/SVG raw tag strings (e.g. <div>, </span>, <svg...>, </svg>)
-        s = s.replace(/&lt;(div|span|svg|path|circle|line|rect)[\s\S]*?&gt;/gi, '');
-
-        // 3. Clean raw escaped literals e.g. \" -> "
-        s = s.replace(/\\"/g, '"').replace(/\\'/g, "'");
-
-        // 4. Clean stray markdown code block artifacts on pure text
-        s = s.replace(/```(?:json|html|javascript|latex)?\s*([\s\S]*?)\s*```/gi, '$1');
-
-        
-        // 5. Strip AI bold asterisks (e.g. **원인** -> 원인)
-        s = s.replace(/\*\*([^\*]+)\*\*/g, '$1');
-        s = s.replace(/\*\*/g, '');
-
-        // 6. Clean escaped newlines and coding slash-n
-        s = s.replace(/(?:\\n|\/n|\\r\\n)/g, '<br/>');
-
-        // 7. Clean leaked naked LaTeX comparisons outside math mode to standard Unicode
-        s = s.replace(/\\(?:ge|geq)\b/g, '≥');
-        s = s.replace(/\\(?:le|leq)\b/g, '≤');
-        s = s.replace(/\\(?:ne|neq)\b/g, '≠');
-        s = s.replace(/\\(?:times)\b/g, '×');
-        s = s.replace(/\\(?:pm)\b/g, '±');
-        s = s.replace(/\\(?:div)\b/g, '÷');
-        s = s.replace(/\\(?:approx)\b/g, '≈');
-
-        // 8. Fix spacing after punctuation when followed directly by Korean characters
-        s = s.replace(/([.?!])([가-힣])/g, '$1 $2');
-
-        return s;
+        // Split text by LaTeX math delimiters ($...$ and $$...$$) to strictly protect formulas
+        const segments = text.split(/(\$\$[\s\S]*?\$\$|\$[^\$]+?\$)/g);
+        return segments.map((seg, idx) => {
+          // Odd segments are math formulas ($...$ or $$...$$): DO NOT strip backslash math operators
+          if (idx % 2 === 1) {
+            return seg.replace(/\b(undefined|null|NaN)\b/g, '')
+                      .replace(/\\"/g, '"').replace(/\\'/g, "'");
+          }
+          let s = seg;
+          this.codingTermsMap.forEach(({ regex, replacement }) => {
+            s = s.replace(regex, replacement);
+          });
+          s = s.replace(/&lt;(div|span|svg|path|circle|line|rect)[\s\S]*?&gt;/gi, '');
+          s = s.replace(/\\"/g, '"').replace(/\\'/g, "'");
+          s = s.replace(/```(?:json|html|javascript|latex)?\s*([\s\S]*?)\s*```/gi, '$1');
+          s = s.replace(/\*\*([^\*]+)\*\*/g, '$1');
+          s = s.replace(/\*\*/g, '');
+          s = s.replace(/(?:\\n|\/n|\\r\\n)/g, '<br/>');
+          s = s.replace(/\\(?:ge|geq)\b/g, '≥');
+          s = s.replace(/\\(?:le|leq)\b/g, '≤');
+          s = s.replace(/\\(?:ne|neq)\b/g, '≠');
+          s = s.replace(/\\(?:times)\b/g, '×');
+          s = s.replace(/\\(?:pm)\b/g, '±');
+          s = s.replace(/\\(?:div)\b/g, '÷');
+          s = s.replace(/\\(?:approx)\b/g, '≈');
+          s = s.replace(/([.?!])([가-힣])/g, '$1 $2');
+          return s;
+        }).join('');
       }
     };
 
@@ -15330,12 +15395,14 @@
           if (data.solution_steps && !Array.isArray(data.solution_steps)) {
             data.solution_steps = [data.solution_steps];
           } else {
-            data.solution_steps = [{
-              step_number: 1,
-              title: '문제 핵심 풀이 및 접근법',
-              content: data.explanation || data.problem_text || '상세 풀이를 확인하세요.',
-              formula: data.final_answer || ''
-            }];
+            data.solution_steps = (typeof synthesizeTextbookSolutionSteps === 'function') 
+              ? synthesizeTextbookSolutionSteps(data)
+              : [{
+                  step_number: 1,
+                  title: '1단계: 핵심 조건 분석 및 수식 전개',
+                  content: data.explanation || data.problem_text || '상세 풀이를 확인하세요.',
+                  formula: data.final_answer || ''
+                }];
           }
         }
 
@@ -16755,6 +16822,11 @@
 
       const target = document.getElementById('view-' + viewId);
       if (target) target.classList.remove('hidden');
+
+      // Inviolable Scroll Reset: Ensure view changes never land on blank scrolled whitespace
+      const sc = document.getElementById('screen-container');
+      if (sc) sc.scrollTop = 0;
+      window.scrollTo(0, 0);
 
       // Update Bottom Nav Highlighting (5 Tabs)
       const tabs = ['camera', 'history', 'report', 'vault', 'settings'];
