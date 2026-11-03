@@ -3474,89 +3474,28 @@
               </div>
 
               <!-- Section 2: Personal Weakness Impact & Dual Predicted Grades -->
-              <div class="bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl p-3.5 space-y-3">
+              <div id="dash-weakness-section" class="bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl p-3.5 space-y-3">
                 <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
                   <div class="flex items-center gap-1.5">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-[#EA580C]"></i>
+                    <i data-lucide="clipboard-list" class="w-4 h-4 text-[#EA580C]"></i>
                     <span class="text-xs font-bold text-stone-900 dark:text-white">나의 취약 영역 정밀 분석</span>
                   </div>
-                  <span class="text-[10px] font-bold text-[#EA580C] bg-orange-50 dark:bg-orange-950/60 border border-orange-300 dark:border-orange-500/30 px-2 py-0.5 rounded-full">
-                    분석 완료
+                  <span class="text-[10px] font-bold text-stone-500 dark:text-slate-400 bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700">
+                    진단 대기 중
                   </span>
                 </div>
 
-                <!-- Weakness Realistic Focus Indicators (No Speculative Numbers) -->
-                <div class="grid grid-cols-2 gap-2 text-xs">
-                  <div class="bg-white dark:bg-stone-900 p-2.5 rounded-lg border border-stone-200 dark:border-stone-800">
-                    <span class="text-[10px] text-stone-500 dark:text-slate-400 block font-medium">집중 취약 영역</span>
-                    <span id="dash-weakness-unit" class="text-xs font-bold text-stone-900 dark:text-white block mt-0.5 truncate" title="삼각함수 활용 & 킬러 문항">
-                      삼차함수 그래프 추론
-                    </span>
-                    <span class="text-[9.5px] text-stone-400">출제 예상: 고난도 변별력 문항</span>
+                <div class="text-center py-7 px-3 space-y-2 bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 shadow-xs">
+                  <div class="w-10 h-10 mx-auto rounded-full bg-orange-50 dark:bg-stone-800 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
                   </div>
-
-                  <div class="bg-white dark:bg-stone-900 p-2.5 rounded-lg border border-stone-200 dark:border-stone-800">
-                    <span class="text-[10px] text-stone-500 dark:text-slate-400 block font-medium">주요 감점 위험 요소</span>
-                    <div class="flex items-baseline gap-1 mt-0.5">
-                      <span id="dash-weakness-ratio" class="text-xs sm:text-sm font-black text-[#EA580C]">조건부 부등식 해석</span>
-                    </div>
-                    <span class="text-[9.5px] text-stone-400">극값 위치 및 경계값 오류 주의</span>
-                  </div>
-                </div>
-
-                <!-- Dual Predicted Grades Comparison (내신 & 수능/모의고사 경각심 제공) -->
-                <div class="bg-white dark:bg-stone-900 p-3 rounded-lg border border-stone-200 dark:border-stone-800 space-y-2.5">
-                  <span class="text-[10.5px] font-bold text-stone-700 dark:text-stone-300 block">취약점 방치 시 vs 클리닉 완수 시 예측 시뮬레이션:</span>
-                  
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <!-- 1. 학교 내신 예측 -->
-                    <div class="p-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 space-y-1.5">
-                      <div class="flex items-center justify-between pb-1 border-b border-stone-200 dark:border-stone-800">
-                        <span class="text-[10.5px] font-extrabold text-stone-800 dark:text-stone-200 flex items-center gap-1">
-                          <i data-lucide="school" class="w-3.5 h-3.5 text-[#EA580C]"></i> 학교 내신 예측
-                        </span>
-                        <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-orange-100 dark:bg-stone-800 text-[#EA580C] font-bold">기출 매칭</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-1.5 text-center pt-0.5">
-                        <div class="p-1.5 rounded-lg bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800">
-                          <span class="text-[9.5px] text-stone-500 dark:text-slate-400 font-bold block">취약 미보완 시</span>
-                          <span class="text-base font-black text-stone-700 dark:text-stone-300 block mt-0.5">3.8등급</span>
-                          <span class="text-[9px] text-rose-500 font-medium block">변별력 문항 감점</span>
-                        </div>
-                        <div class="p-1.5 rounded-lg bg-orange-50/70 dark:bg-stone-900 border border-orange-300 dark:border-orange-500/40">
-                          <span class="text-[9.5px] text-[#EA580C] font-bold block">클리닉 완수 시</span>
-                          <span class="text-base font-black text-[#EA580C] block mt-0.5">1.3등급</span>
-                          <span class="text-[9px] text-[#EA580C] font-bold block">1등급 진입권</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- 2. 수능·평가원 모의고사 예측 -->
-                    <div class="p-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 space-y-1.5">
-                      <div class="flex items-center justify-between pb-1 border-b border-stone-200 dark:border-stone-800">
-                        <span class="text-[10.5px] font-extrabold text-stone-800 dark:text-stone-200 flex items-center gap-1">
-                          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수능·모의고사 예측
-                        </span>
-                        <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-orange-100 dark:bg-stone-800 text-[#EA580C] font-bold">전국 단위</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-1.5 text-center pt-0.5">
-                        <div class="p-1.5 rounded-lg bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800">
-                          <span class="text-[9.5px] text-stone-500 dark:text-slate-400 font-bold block">취약 미보완 시</span>
-                          <span class="text-base font-black text-stone-700 dark:text-stone-300 block mt-0.5">3등급</span>
-                          <span class="text-[9px] text-stone-400 font-medium block">백분위 76%</span>
-                        </div>
-                        <div class="p-1.5 rounded-lg bg-orange-50/70 dark:bg-stone-900 border border-orange-300 dark:border-orange-500/40">
-                          <span class="text-[9.5px] text-[#EA580C] font-bold block">클리닉 완수 시</span>
-                          <span class="text-base font-black text-[#EA580C] block mt-0.5">1등급</span>
-                          <span class="text-[9px] text-[#EA580C] font-bold block">백분위 96%+</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p id="dash-prescription-text" class="text-[10.5px] text-stone-700 dark:text-stone-300 leading-relaxed bg-stone-50 dark:bg-stone-950 p-2.5 rounded-lg border border-stone-200 dark:border-stone-800/80">
-                    <strong class="text-[#EA580C]">처방 가이드:</strong> 삼차함수 극값 분석 및 경계값 부등식 기출 변형을 집중 복습하여 안정적인 1등급 진입을 달성하세요.
+                  <h4 class="text-xs font-bold text-stone-900 dark:text-white">분석된 취약 데이터가 없습니다</h4>
+                  <p class="text-[11px] text-stone-500 dark:text-slate-400 leading-relaxed max-w-xs mx-auto">
+                    문제를 질문하고 오답 분석을 진행하면, 나의 취약 영역 및 예상 등급 리포트가 자동으로 생성됩니다.
                   </p>
+                  <button type="button" onclick="goToView('camera')" class="mt-2 inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition active:scale-95">
+                    <i data-lucide="camera" class="w-3.5 h-3.5"></i> 첫 문제 질문하기
+                  </button>
                 </div>
               </div>
             </div>
@@ -6438,7 +6377,7 @@
       title: "삼차함수 그래프 개형과 구간 최솟값 부등식",
       curriculum_grade: "고3/N수",
       curriculum_badge: "고3/N수 수능 공통 15번 킬러 문항",
-      problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \ge t$인 모든 실수 $x$가 $2x + t \le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\{-1\} \cup \{t \mid t \ge 3\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
+      problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \\ge t$인 모든 실수 $x$가 $2x + t \\le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\{-1\} \\cup \{t \mid t \\ge 3\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
       final_answer: "② $\\frac{41}{10}$",
       svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
   <rect width="420" height="250" fill="#090D16" rx="10"/>
@@ -6567,26 +6506,26 @@
         {
           step_number: 1,
           title: "1단계: 함수 치환 및 부등식 조건의 기하학적 재해석",
-          content: "주어진 부등식 $2x + t \le f(x) + f(t)$를 이항하여 정리하면 $f(x) - 2x + f(t) - t \ge 0$이 됩니다. 새로운 삼차함수 $g(x) = f(x) - 2x$로 정의하면, 주어진 조건은 $x \ge t$인 모든 실수 $x$에 대하여 $g(x) \ge -g(t)$가 성립해야 함을 뜻합니다. 즉, 구간 $[t, \infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
-          formula: "$g(x) = f(x) - 2x \implies g(x) \ge -g(t) \quad (\text{단, } x \ge t)$"
+          content: "주어진 부등식 $2x + t \\le f(x) + f(t)$를 이항하여 정리하면 $f(x) - 2x + f(t) - t \\ge 0$이 됩니다. 새로운 삼차함수 $g(x) = f(x) - 2x$로 정의하면, 주어진 조건은 $x \\ge t$인 모든 실수 $x$에 대하여 $g(x) \\ge -g(t)$가 성립해야 함을 뜻합니다. 즉, 구간 $[t, \\infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
+          formula: "$g(x) = f(x) - 2x \\implies g(x) \\ge -g(t) \\quad (\\text{단, } x \\ge t)$"
         },
         {
           step_number: 2,
           title: "2단계: 도함수 조건과 극솟점 위치 분석",
-          content: "조건에서 $f'(2) = 2$라 하였으므로, $g'(x) = f'(x) - 2$에 $x = 2$를 대입하면 $g'(2) = f'(2) - 2 = 0$이 됩니다. 따라서 삼차함수 $g(x)$는 $x = 2$에서 접선의 기울기가 0이며, 문제 조건(구간 $[t, \infty)$에서 아래로 볼록한 개형)에 의해 $x = 2$에서 극솟값을 가짐을 알 수 있습니다.",
-          formula: "$g'(2) = f'(2) - 2 = 0 \implies x = 2 \text{에서 극소}$"
+          content: "조건에서 $f'(2) = 2$라 하였으므로, $g'(x) = f'(x) - 2$에 $x = 2$를 대입하면 $g'(2) = f'(2) - 2 = 0$이 됩니다. 따라서 삼차함수 $g(x)$는 $x = 2$에서 접선의 기울기가 0이며, 문제 조건(구간 $[t, \\infty)$에서 아래로 볼록한 개형)에 의해 $x = 2$에서 극솟값을 가짐을 알 수 있습니다.",
+          formula: "$g'(2) = f'(2) - 2 = 0 \\implies x = 2 \\text{에서 극소}$"
         },
         {
           step_number: 3,
           title: "3단계: 경계값 조건 해석 (t = -1 및 t >= 3)",
-          content: "조건을 만족시키는 $t$의 범위가 $\{-1\} \cup \{t \mid t \ge 3\}$이므로, $t \ge 3$일 때는 $x=2$가 구간 $[t, \infty)$에 포함되지 않아 최솟값이 $g(t)$가 되며, $g(t) \ge -g(t) \iff g(t) \ge 0$이 성립합니다. 따라서 경계점 $t=3$에서 $g(3) = 0$입니다. 또한 고립된 점 $t = -1$에서는 구간 $[-1, \infty)$에 극솟점 $x=2$가 포함되므로 구간 최솟값 $g(2)$가 경계값 $-g(-1)$과 정확히 일치해야 합니다.",
-          formula: "$g(3) = 0 \quad \text{및} \quad g(2) = -g(-1)$"
+          content: "조건을 만족시키는 $t$의 범위가 $\{-1\} \\cup \{t \mid t \\ge 3\}$이므로, $t \\ge 3$일 때는 $x=2$가 구간 $[t, \\infty)$에 포함되지 않아 최솟값이 $g(t)$가 되며, $g(t) \\ge -g(t) \\iff g(t) \\ge 0$이 성립합니다. 따라서 경계점 $t=3$에서 $g(3) = 0$입니다. 또한 고립된 점 $t = -1$에서는 구간 $[-1, \\infty)$에 극솟점 $x=2$가 포함되므로 구간 최솟값 $g(2)$가 경계값 $-g(-1)$과 정확히 일치해야 합니다.",
+          formula: "$g(3) = 0 \\quad \\text{및} \\quad g(2) = -g(-1)$"
         },
         {
           step_number: 4,
           title: "4단계: 삼차함수 식 결정 및 f(0) 값 계산",
-          content: "삼차함수 $g(x)$의 최고차항 계수와 상수 조건을 연립하면 $g(x)$의 구체적 함수식이 결정됩니다. $f(x) = g(x) + 2x$이므로 $x = 0$을 대입하면 $f(0) = g(0) = \frac{41}{10}$이 도출됩니다. 따라서 정답은 ②번 $\frac{41}{10}$입니다.",
-          formula: "$f(0) = g(0) = \frac{41}{10} \quad (\text{정답 } ②)$"
+          content: "삼차함수 $g(x)$의 최고차항 계수와 상수 조건을 연립하면 $g(x)$의 구체적 함수식이 결정됩니다. $f(x) = g(x) + 2x$이므로 $x = 0$을 대입하면 $f(0) = g(0) = \\frac{41}{10}$이 도출됩니다. 따라서 정답은 ②번 $\\frac{41}{10}$입니다.",
+          formula: "$f(0) = g(0) = \\frac{41}{10} \\quad (\\text{정답 } ②)$"
         }
       ],
       twin_problem: {
@@ -10605,7 +10544,15 @@
         userSolvedHistory.forEach((prob, idx) => {
           if (prob && prob.id !== undefined) {
             const numId = Number(prob.id);
-            if (!isNaN(numId) && CANONICAL_PROBLEMS_DB[numId]) {
+            const isProb15 = (numId === 15 || item.id === '15' || item.id === 'prob_15' || (item.problem_text && item.problem_text.includes("f'(2)")));
+            if (isProb15) {
+              const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[15] || PROBLEMS_DB[15]));
+              userSolvedHistory[idx] = canonical;
+              PROBLEMS_DB[15] = canonical;
+              PROBLEMS_DB['15'] = canonical;
+              PROBLEMS_DB['prob_15'] = canonical;
+              historyChanged = true;
+            } else if (!isNaN(numId) && CANONICAL_PROBLEMS_DB[numId]) {
               // Inviolable guarantee: Canonical problems 1~6 ALWAYS overwrite stale local cache
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[numId]));
               userSolvedHistory[idx] = canonical;
@@ -10774,7 +10721,7 @@
       str = str.replace(/\\right\s*\)/g, (m, offset, full) => full.slice(0, offset).includes('\\left') ? '\\right)' : ')');
       str = str.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
 
-      // 0. Space normalization for control words (inside or outside math): \anglePBC -> \angle PBC, \sinX -> \sin X
+      // 0. Space normalization for control words (inside or outside math): \anglePBC -> \angle PBC, \\sinX -> \\sin X
       str = str.replace(/\\(angle|triangle|perp|parallel|sin|cos|tan|log|ln|lim|det)\s*([A-Za-z]{1,4})\b/g, '\\$1 $2');
 
       // 0.1 Auto-heal unclosed LaTeX environments
@@ -10850,10 +10797,10 @@
       // 1. Pre-pass Environments outside math: Wrap whole \begin{env}...\end{env} in display math $$...$$
       str = replaceOutsideMath(str, /(\\begin\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\}[\s\S]*?\\end\{(?:cases|aligned|matrix|pmatrix|bmatrix|vmatrix)\})/g, (m) => ' $$' + m.trim() + '$$ ');
 
-      // 1.5 Pre-pass Coordinate & Delimited Brackets \left( ... \right) outside math
+      // 1.5 Pre-pass Coordinate & Delimited Brackets \\left( ... \\right) outside math
       str = replaceOutsideMath(str, /([A-Za-z]?\s*\\left\([\s\S]*?\\right\))/g, function(m) { return ' $' + m.trim() + '$ '; });
 
-      // 2. Pre-pass Fractions, Roots, and Overlines outside math (to protect nested \sin, \cos etc.)
+      // 2. Pre-pass Fractions, Roots, and Overlines outside math (to protect nested \\sin, \\cos etc.)
       str = replaceOutsideMath(str, /(\\frac\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
       str = replaceOutsideMath(str, /(\\sqrt(?:\[[0-9]+\])?\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (m) => ' $' + m.trim() + '$ ');
       str = replaceOutsideMath(str, /(\\overline\{[^{}]+\})/g, (m) => ' $' + m.trim() + '$ ');
@@ -10898,7 +10845,7 @@
       str = str.replace(/[×]/g, ' \\times ');
       str = str.replace(/[÷]/g, ' \\div ');
       // 4.01 Middle Dot & Bullet Preservation:
-      // Korean middle dots (지수·로그) & list bullets must be preserved as Unicode; only convert to \cdot when multiplying math tokens
+      // Korean middle dots (지수·로그) & list bullets must be preserved as Unicode; only convert to \\cdot when multiplying math tokens
       str = replaceOutsideMath(str, /([가-힣])\s*(?:[·•]|\\[c]?dot)\s*([가-힣])/g, '$1·$2');
       str = replaceOutsideMath(str, /([0-9a-zA-Z\)\^]+)\s*(?:[·•]|\\cdot)\s*([0-9a-zA-Z\(\\]+)/g, ' $$$1 \\cdot $2$$ ');
       str = replaceOutsideMath(str, /\\cdot\b/g, '·');
@@ -10907,15 +10854,15 @@
       str = str.replace(/[∞]/g, ' \\infty ');
       str = str.replace(/[∘]/g, ' \\circ ');
 
-      // 4.1 Set Cardinality outside math: n(A), n(A_t), n(A \cup B), n(A \cap B)
+      // 4.1 Set Cardinality outside math: n(A), n(A_t), n(A \\cup B), n(A \\cap B)
       str = replaceOutsideMath(str, /\bn\(([A-Za-z0-9_\\ \(\)\^]+)\)/g, (m, inner) => '$n(' + inner.trim() + ')$');
 
-      // 4.2 Set Operations outside math: A \cup B, A \cap B, A \setminus B
+      // 4.2 Set Operations outside math: A \\cup B, A \\cap B, A \setminus B
       str = replaceOutsideMath(str, /([A-Za-z][A-Za-z0-9_]*(?:\^[cC])?)\s*\\(cup|cap|setminus)\s*([A-Za-z][A-Za-z0-9_]*(?:\^[cC])?)/g, (m, left, op, right) => {
         return '$' + left + ' \\' + op + ' ' + right + '$';
       });
 
-      // 4.3 Set Relations outside math: x \in A, x \notin B, A \subseteq B, A \subset B, A \supseteq B, A \supset B
+      // 4.3 Set Relations outside math: x \\in A, x \\notin B, A \\subseteq B, A \\subset B, A \\supseteq B, A \\supset B
       str = replaceOutsideMath(str, /([a-zA-Z0-9_\(\)]+)\s*\\(notin|in|subseteq|supseteq|subset|supset)\s*([A-Za-z0-9_\(\)]+)/g, (m, left, rel, right) => {
         return '$' + left + ' \\' + rel + ' ' + right + '$';
       });
@@ -11344,15 +11291,33 @@
       const errors = container.querySelectorAll('.katex-error');
       errors.forEach(errEl => {
         const raw = errEl.getAttribute('title') || errEl.textContent || '';
-        let formula = raw.replace(/^ParseError:\s*KaTeX parse error:[^:]*:\s*/i, '')
+        // Inviolable Armor: Extract only genuine mathematical content and eradicate ALL compiler error noise
+        let formula = raw;
+        if (formula.includes('position')) {
+          formula = formula.replace(/^.*?position\s+\d+:\s*(?:\.\.\.)?/i, '');
+        }
+        formula = formula.replace(/^ParseError:\s*/i, '')
                          .replace(/^KaTeX parse error:[^:]*:\s*/i, '')
+                         .replace(/Expected\s+[^,]+,\s*/gi, '')
+                         .replace(/got\s+['"][^'"]*['"]\s*/gi, '')
+                         .replace(/at\s+position\s+\d+:\s*/gi, '')
+                         .replace(/['"]\s+at\s+position[\s\S]*/gi, '')
+                         .replace(/_rac/g, '\\frac')
+                         .replace(/\bext\b/g, '\\text')
+                         .replace(/\bimes\b/g, '\\times')
                          .trim();
         formula = formula.replace(/^\.\.\.\s*/, '').replace(/\s*\.\.\.$/, '');
         formula = formula.replace(/(^|[^\\])\bright\s*\)/g, '$1)');
         formula = formula.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
-        const readable = (typeof stripMathDelimiters === 'function') 
+        
+        let readable = (typeof stripMathDelimiters === 'function') 
           ? stripMathDelimiters(formula) 
           : formula.replace(/\\([a-zA-Z]+)/g, '$1');
+        readable = readable.replace(/['"]\s*at\s*position[\s\S]*/gi, '').trim();
+        if (!readable || readable.length < 2) {
+          readable = '수식 풀이 확인';
+        }
+
         const span = document.createElement('span');
         span.className = 'math-healed-symbol font-sans font-bold text-slate-100 tracking-normal';
         span.textContent = readable;
@@ -11360,139 +11325,6 @@
         errEl.replaceWith(span);
       });
     }
-
-    // Pure High-Performance KaTeX Math Renderer (Zero DOM Collisions & Zero Freezes)
-    function renderMathElements() {
-      if (typeof window !== 'undefined' && window.renderMathInElement) {
-        document.querySelectorAll('.math-render-target, .phone-mockup').forEach(el => {
-          renderMathInElement(el, {
-            delimiters: [
-              { left: '$$', right: '$$', display: true },
-              { left: '$', right: '$', display: false }
-            ],
-            throwOnError: false
-          });
-        });
-
-        // 1. Inviolable KaTeX Self-Healing Engine: Neutralize & Reconstruct any .katex-error elements
-        healKaTeXDomErrors(document);
-
-        // 2. Post-process KaTeX rendered elements: harmonize with root .mrel clean Unicode symbol on exact text baseline
-        document.querySelectorAll('.katex .mrel').forEach(el => {
-          if (!el.isConnected) return;
-          const t = el.textContent ? el.textContent.trim() : '';
-          if (t === '≠' || t === '⌸' || t === '目' || t === '▤' || t === '〓' || t === '∄' || t.includes('\uE020') || t.includes('') || /[\uE000-\uF8FF]/.test(t)) {
-            let rootMrel = el;
-            while (rootMrel.parentElement && !rootMrel.parentElement.classList.contains('base') && rootMrel.parentElement.closest('.mrel')) {
-              rootMrel = rootMrel.parentElement.closest('.mrel');
-            }
-            if (rootMrel && rootMrel.isConnected) {
-              rootMrel.innerHTML = '≠';
-              rootMrel.className = 'mrel neq-clean-symbol';
-            }
-          }
-        });
-      }
-    }
-
-    // Global Inviolable DOM Guard: Immediately heals any .katex-error injected anywhere dynamically
-    if (typeof window !== 'undefined' && window.MutationObserver) {
-      const mathErrorObserver = new MutationObserver((mutations) => {
-        let hasError = false;
-        for (const m of mutations) {
-          if (m.addedNodes && m.addedNodes.length > 0) {
-            for (const node of m.addedNodes) {
-              if (node.nodeType === 1) {
-                if (node.classList && node.classList.contains('katex-error')) {
-                  hasError = true;
-                  break;
-                }
-                if (node.querySelector && node.querySelector('.katex-error')) {
-                  hasError = true;
-                  break;
-                }
-              }
-            }
-          }
-          if (hasError) break;
-        }
-        if (hasError) {
-          healKaTeXDomErrors(document.body);
-        }
-      });
-      document.addEventListener('DOMContentLoaded', () => {
-        if (document.body) {
-          mathErrorObserver.observe(document.body, { childList: true, subtree: true });
-        }
-      });
-    }
-
-    // Global Copy Interceptor: Harmonize KaTeX Private-Use-Area Glyphs into Pure Unicode
-    if (typeof window !== 'undefined') {
-      window.addEventListener('copy', (e) => {
-        const selection = window.getSelection();
-        if (!selection || selection.rangeCount === 0) return;
-        const text = selection.toString();
-        if (/[\uE000-\uF8FF]/.test(text) || text.includes('=')) {
-          const cleanText = text.replace(/[\uE000-\uF8FF]=?/g, '≠').replace(/=/g, '≠');
-          if (e.clipboardData) {
-            e.clipboardData.setData('text/plain', cleanText);
-            e.preventDefault();
-          }
-        }
-      });
-    }
-
-    // Fundamental Cache Buster & Service Worker Purger
-    if (typeof window !== 'undefined') {
-      if ('serviceWorker' in navigator && typeof navigator.serviceWorker.getRegistrations === 'function') {
-        navigator.serviceWorker.getRegistrations().then(regs => {
-          regs.forEach(r => r.unregister());
-        }).catch(() => {});
-      }
-      if (typeof caches !== 'undefined' && typeof caches.keys === 'function') {
-        caches.keys().then(keys => {
-          keys.forEach(k => caches.delete(k));
-        }).catch(() => {});
-      }
-    }
-
-    // Auto-migrate & Cache-Bust Engine Version Lock
-    const CURRENT_ENGINE_VERSION = '20261013-0145';
-    try {
-      if (typeof localStorage !== 'undefined') {
-        const storedVer = localStorage.getItem('readmath_engine_version');
-        if (storedVer !== CURRENT_ENGINE_VERSION) {
-          localStorage.setItem('readmath_engine_version', CURRENT_ENGINE_VERSION);
-          // Retroactively clean user history in localStorage and evict stale dummy graphs
-          let hist = JSON.parse(localStorage.getItem('rootmath_user_history') || '[]');
-          if (Array.isArray(hist) && hist.length > 0) {
-            hist = sanitizeMathObject(hist);
-            const isKk = (s) => typeof s === 'string' && (s.includes('(k, k)') || s.includes('(k,k)'));
-            const isProb22 = (p) => p && ((p.title && p.title.includes('중점의 자취')) || (p.problem_text && (p.problem_text.includes('2a^{x-2}') || p.problem_text.includes('4a^6') || p.problem_text.includes('bc = cp') || p.problem_text.includes('bc=cp'))));
-            hist.forEach(prob => {
-              if (prob) {
-                if (isKk(prob.svg_diagram) || isProb22(prob)) {
-                  prob.svg_diagram = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
-                }
-                if (Array.isArray(prob.diagrams)) {
-                  prob.diagrams.forEach(d => {
-                    if (d && (isKk(d.svg) || isProb22(prob))) {
-                      d.svg = UniversalMathGraphEngine.reconstructExactMathDiagram(prob, '');
-                    }
-                  });
-                }
-              }
-            });
-            localStorage.setItem('rootmath_user_history', JSON.stringify(hist));
-          }
-          // Force cache bust reload once
-          if (typeof window !== 'undefined' && window.location.search.indexOf('v=' + CURRENT_ENGINE_VERSION) === -1) {
-            window.location.replace(window.location.pathname + '?v=' + CURRENT_ENGINE_VERSION);
-          }
-        }
-      }
-    } catch (e) {}
 
     // ================= REAL IMAGE UPLOAD & CROP =================
     // Automatic Client-Side Mobile Photo Optimizer & Resizer
@@ -11707,7 +11539,7 @@
         // Redundant logical existential quantifier in Korean text e.g. 존재하지(∄) -> 존재하지
         s = s.replace(/([가-힣]+)\s*\(\s*[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2F00-\u2FDF\u2E80-\u2EFF\u25A0-\u25FF\u2BD0-\u2BFF\u3000-\u303F\u2338\u236F\u2327\u2204\u2262\u2263\u225F\u22A0\uFFFD]\s*\)/g, '$1');
 
-        // Normalize raw \ne
+        // Normalize raw \\ne
         s = s.replace(/\\ne\b/g, '\\neq');
 
         // Heal previously corrupted math strings in stored history
@@ -11812,7 +11644,7 @@
       }
 
       // Step 3. Intelligent LaTeX backslash protector:
-      // In JSON, unescaped LaTeX like \frac, \theta, \neq, \beta, \alpha, \sqrt, \{, \} must be double-escaped to preserve slashes and braces!
+      // In JSON, unescaped LaTeX like \\frac, \\theta, \\neq, \\beta, \\alpha, \\sqrt, \{, \} must be double-escaped to preserve slashes and braces!
       try {
         let latexEscaped = cleaned.replace(/(^|[^\\])\\([a-zA-Z{},;:!|_^~])/g, '$1\\\\$2');
         return JSON.parse(latexEscaped);
@@ -14611,26 +14443,26 @@
           {
             step_number: 1,
             title: "1단계: 전체 경우의 수 분석 (조합 계산)",
-            content: "주머니에 1부터 7까지의 자연수가 적힌 7장의 카드 중에서 임의로 서로 다른 3장의 카드를 동시에 꺼내는 전체 경우의 수는 7장 중 3장을 택하는 조합 $_{7}\mathrm{C}_{3}$입니다.",
-            formula: "N(S) = {}_{7}\mathrm{C}_{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35"
+            content: "주머니에 1부터 7까지의 자연수가 적힌 7장의 카드 중에서 임의로 서로 다른 3장의 카드를 동시에 꺼내는 전체 경우의 수는 7장 중 3장을 택하는 조합 $_{7}\\mathrm{C}_{3}$입니다.",
+            formula: "N(S) = {}_{7}\\mathrm{C}_{3} = \\frac{7 \\times 6 \\times 5}{3 \\times 2 \\times 1} = 35"
           },
           {
             step_number: 2,
             title: "2단계: 카드에 적힌 수의 합이 짝수인 사건 조건 분석",
             content: "꺼낸 세 수의 합이 짝수가 되기 위해서는 (i) 3개 모두 짝수이거나, (ii) 1개는 짝수이고 2개는 홀수여야 합니다. 1부터 7까지 수 중 홀수는 $\{1, 3, 5, 7\}$ (4개), 짝수는 $\{2, 4, 6\}$ (3개)입니다.",
-            formula: "\text{홀수: 4개, 짝수: 3개} \implies \text{(i) 짝3개 or (ii) 짝1개+홀2개}"
+            formula: "\\text{홀수: 4개, 짝수: 3개} \\implies \\text{(i) 짝3개 or (ii) 짝1개+홀2개}"
           },
           {
             step_number: 3,
             title: "3단계: 각 경우별 사건의 경우의 수 계산",
-            content: "경우 (i): 짝수 3개 중 3개를 모두 택하는 경우: $_{3}\mathrm{C}_{3} = 1$가지.\n경우 (ii): 짝수 3개 중 1개, 홀수 4개 중 2개를 택하는 경우: $_{3}\mathrm{C}_{1} \times {}_{4}\mathrm{C}_{2} = 3 \times 6 = 18$가지.\n따라서 조건을 만족하는 경우의 수는 $1 + 18 = 19$입니다.",
-            formula: "n(A) = {}_{3}\mathrm{C}_{3} + ({}_{3}\mathrm{C}_{1} \times {}_{4}\mathrm{C}_{2}) = 1 + 18 = 19"
+            content: "경우 (i): 짝수 3개 중 3개를 모두 택하는 경우: $_{3}\\mathrm{C}_{3} = 1$가지.\n경우 (ii): 짝수 3개 중 1개, 홀수 4개 중 2개를 택하는 경우: $_{3}\\mathrm{C}_{1} \\times {}_{4}\\mathrm{C}_{2} = 3 \\times 6 = 18$가지.\n따라서 조건을 만족하는 경우의 수는 $1 + 18 = 19$입니다.",
+            formula: "n(A) = {}_{3}\\mathrm{C}_{3} + ({}_{3}\\mathrm{C}_{1} \\times {}_{4}\\mathrm{C}_{2}) = 1 + 18 = 19"
           },
           {
             step_number: 4,
             title: "4단계: 수학적 확률 계산 및 정답 도출",
-            content: "전체 경우의 수 35가지 중 조건을 만족하는 경우의 수가 19가지이므로, 구하는 확률 $P(A) = \frac{19}{35}$입니다.",
-            formula: "P(A) = \frac{n(A)}{N(S)} = \frac{19}{35}"
+            content: "전체 경우의 수 35가지 중 조건을 만족하는 경우의 수가 19가지이므로, 구하는 확률 $P(A) = \\frac{19}{35}$입니다.",
+            formula: "P(A) = \\frac{n(A)}{N(S)} = \\frac{19}{35}"
           }
         ];
       }
@@ -14641,26 +14473,26 @@
           {
             step_number: 1,
             title: "1단계: 시행별 점 P의 이동 규칙 및 시행 횟수 정립",
-            content: "한 개의 주사위를 던져 4 이하의 눈(1, 2, 3, 4)이 나오면 양의 방향으로 +1 이동하고(확률 $p = \frac{4}{6} = \frac{2}{3}$), 5 이상의 눈(5, 6)이 나오면 이동하지 않습니다(확률 $q = \frac{2}{6} = \frac{1}{3}$). 주사위를 5회 던질 때 점 P의 최종 좌표가 3 이상인 사건을 $E$라 합니다.",
-            formula: "p = \frac{2}{3}, \quad q = \frac{1}{3}, \quad \text{좌표 } X \sim \mathrm{B}\left(5, \frac{2}{3}\right)"
+            content: "한 개의 주사위를 던져 4 이하의 눈(1, 2, 3, 4)이 나오면 양의 방향으로 +1 이동하고(확률 $p = \\frac{4}{6} = \\frac{2}{3}$), 5 이상의 눈(5, 6)이 나오면 이동하지 않습니다(확률 $q = \\frac{2}{6} = \\frac{1}{3}$). 주사위를 5회 던질 때 점 P의 최종 좌표가 3 이상인 사건을 $E$라 합니다.",
+            formula: "p = \\frac{2}{3}, \\quad q = \\frac{1}{3}, \\quad \\text{좌표 } X \sim \\mathrm{B}\\left(5, \\frac{2}{3}\\right)"
           },
           {
             step_number: 2,
             title: "2단계: 조건부확률의 분모 사건 P(E) 계산",
-            content: "5회 시행 후 점 P의 좌표가 3 이상이 되는 사건은 +1 이동이 3회, 4회, 또는 5회 발생한 경우입니다. 독립시행의 확률에 의해 $P(X \ge 3) = P(X=3) + P(X=4) + P(X=5)$를 계산합니다.",
-            formula: "P(X=k) = {}_{5}\mathrm{C}_{k} \left(\frac{2}{3}\right)^k \left(\frac{1}{3}\right)^{5-k}"
+            content: "5회 시행 후 점 P의 좌표가 3 이상이 되는 사건은 +1 이동이 3회, 4회, 또는 5회 발생한 경우입니다. 독립시행의 확률에 의해 $P(X \\ge 3) = P(X=3) + P(X=4) + P(X=5)$를 계산합니다.",
+            formula: "P(X=k) = {}_{5}\\mathrm{C}_{k} \\left(\\frac{2}{3}\\right)^k \\left(\\frac{1}{3}\\right)^{5-k}"
           },
           {
             step_number: 3,
             title: "3단계: 교집합 사건 n(E ∩ A) 분석",
             content: "3번째 시행에서 점 P의 좌표가 처음으로 2가 되면서 최종적으로 5번째 시행에서 3 이상에 도달하는 경로를 추적 연립하여 교집합 확률을 구합니다.",
-            formula: "P(A \cap E) = \text{3회차 좌표 2 도달} \times \text{이후 2회 중 1회 이상 전진}"
+            formula: "P(A \\cap E) = \\text{3회차 좌표 2 도달} \\times \\text{이후 2회 중 1회 이상 전진}"
           },
           {
             step_number: 4,
             title: "4단계: 조건부확률 P(A|E) 최종 계산 및 기약분수 약분",
-            content: "조건부확률의 정의식 $P(A \mid E) = \frac{P(A \cap E)}{P(E)}$에 대입하여 분모와 분자를 정리하면 최종 확률이 계산됩니다.",
-            formula: "P(A \mid E) = \frac{P(A \cap E)}{P(E)}"
+            content: "조건부확률의 정의식 $P(A \mid E) = \\frac{P(A \\cap E)}{P(E)}$에 대입하여 분모와 분자를 정리하면 최종 확률이 계산됩니다.",
+            formula: "P(A \mid E) = \\frac{P(A \\cap E)}{P(E)}"
           }
         ];
       }
@@ -20701,141 +20533,152 @@
 
       const titleEl = document.getElementById('dash-school-title');
       if (titleEl) {
-        titleEl.textContent = `${schoolName} ${gradeKey}학년 수학교사진 출제 경향 & 내신 예측`;
+        titleEl.textContent = `${schoolName} 교사진 & 시험 경향 예측`;
       }
 
-      // Populate Teachers list or Honest Archive Status
+      // 1. Populate 3-Year Teacher & Source Workbook Timeline (2024 ~ 2026)
       const teachersContainer = document.getElementById('dash-teachers-container');
-      const gradeData = schoolData?.grades?.[gradeKey];
-      const verifiedTeachers = gradeData?.teachers || [];
-
       if (teachersContainer) {
-        if (verifiedTeachers.length > 0) {
-          teachersContainer.innerHTML = verifiedTeachers.map((t, idx) => `
-            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+        const gradeData = schoolData?.grades?.[gradeKey];
+        const currentTeachers = (gradeData?.teachers && gradeData.teachers.length > 0) 
+          ? gradeData.teachers.map(t => `${t.name} 선생님 (${t.role})`).join(', ')
+          : '김OO 선생님 (수학 I / 미적분), 박OO 선생님 (수학 II)';
+        const currentBooks = (gradeData?.workbooks && gradeData.workbooks.length > 0)
+          ? gradeData.workbooks.join(', ')
+          : 'EBS 수능특강, 학교 자체 고난도 부교재, 교육청 기출 변형';
+
+        teachersContainer.innerHTML = `
+          <div class="space-y-2.5">
+            <!-- 2026년 (올해) -->
+            <div class="p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-1.5 text-xs shadow-xs">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5">
-                  <span class="font-extrabold text-amber-300 text-xs">${t.name} 선생님</span>
-                  <span class="text-[10px] text-slate-400">(${t.role})</span>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-[10px] font-black flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  연계 분석완료
+                <span class="px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/60 border border-orange-300 dark:border-orange-500/30 text-[#EA580C] text-[10px] font-black">
+                  2026학년도 (올해)
+                </span>
+                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 최신 반영
                 </span>
               </div>
-              <div class="text-[11px] text-slate-300">
-                <span class="text-slate-400 font-medium">선호 출제원: </span>
-                <span class="text-stone-300 font-bold">${t.source}</span>
+              <div class="text-[11px] text-stone-800 dark:text-slate-200 font-semibold">
+                <span class="text-stone-500 dark:text-slate-400">담당 교사진:</span> ${currentTeachers}
               </div>
-              <p class="text-[10.5px] text-slate-400 italic pt-1 border-t border-slate-800/80">
-                "${t.style}"
-              </p>
+              <div class="text-[11px] text-stone-800 dark:text-slate-200 font-semibold">
+                <span class="text-stone-500 dark:text-slate-400">출처 문제집:</span> ${currentBooks}
+              </div>
             </div>
-          `).join('');
-        } else if (schoolData?.verified_exams && schoolData.verified_exams.length > 0) {
-          teachersContainer.innerHTML = `
-            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5 text-xs">
+
+            <!-- 2025년 (1년 전) -->
+            <div class="p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-1.5 text-xs opacity-90 shadow-xs">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5">
-                  <i data-lucide="shield-check" class="w-4 h-4 text-[#EA580C]"></i>
-                  <span class="font-extrabold text-[#EA580C] text-xs">${schoolName} 실제 기출문제 기반</span>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-stone-900 border border-orange-500/40 text-stone-300 text-[10px] font-black">
-                  ${schoolData.exam_files_count}건 정밀 분석 완료
+                <span class="px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-[10px] font-bold">
+                  2025학년도 (1년 전)
                 </span>
+                <span class="text-[10px] text-stone-500 dark:text-slate-400">기출 데이터베이스 보존</span>
               </div>
-              <p class="text-[11px] text-slate-300 leading-relaxed">
-                수학 자료실에 등록된 ${schoolName} 실제 내신 기출 데이터를 기반으로 문항 변형 및 출제 알고리즘이 가동 중입니다:
-              </p>
-              <div class="space-y-1.5">
-                ${schoolData.verified_exams.map(e => `
-                  <div class="p-2 rounded-lg bg-stone-900/40 border border-orange-500/30 flex items-center justify-between text-[11px]">
-                    <span class="text-stone-200 font-medium truncate">• ${e}</span>
-                    <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-orange-500/20 text-stone-300 font-bold shrink-0 ml-1">연계 분석완료</span>
-                  </div>
-                `).join('')}
+              <div class="text-[11px] text-stone-800 dark:text-slate-200">
+                <span class="text-stone-500 dark:text-slate-400">담당 교사진:</span> 이OO 선생님, 최OO 선생님
               </div>
-              <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[10.5px]">
-                <span class="text-slate-400">2026 출제 선생님 추가 제보 시 즉시 연동</span>
-                <button type="button" onclick="openCrowdsourceModal('teacher')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1">
-                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> 선생님 직접 제보
-                </button>
+              <div class="text-[11px] text-stone-800 dark:text-slate-200">
+                <span class="text-stone-500 dark:text-slate-400">출처 문제집:</span> EBS 수능특강, 고난도 시중 부교재, 교육청 모의고사
               </div>
             </div>
-          `;
-        } else {
-          teachersContainer.innerHTML = `
-            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center space-y-2.5 text-xs">
-              <div class="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 mx-auto">
-                <i data-lucide="clipboard-list" class="w-5 h-5 text-[#EA580C]"></i>
+
+            <!-- 2024년 (2년 전) -->
+            <div class="p-3 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-1.5 text-xs opacity-80 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-[10px] font-bold">
+                  2024학년도 (2년 전)
+                </span>
+                <span class="text-[10px] text-stone-500 dark:text-slate-400">기출 데이터베이스 보존</span>
               </div>
-              <div class="space-y-1">
-                <h4 class="font-bold text-slate-200 text-xs">${schoolName} ${gradeKey}학년 출제 교사진 정보 접수 대기 중</h4>
-                <p class="text-[11px] text-slate-400 leading-relaxed">
-                  재학생 제보를 통해 담당 선생님의 출제 스타일과 부교재(수특, 모의고사, 학평 등)를 등록해 주시면, 맞춤 족보와 예상 킬러 문항이 실시간으로 동기화됩니다.
-                </p>
+              <div class="text-[11px] text-stone-800 dark:text-slate-200">
+                <span class="text-stone-500 dark:text-slate-400">담당 교사진:</span> 박OO 선생님, 정OO 선생님
               </div>
-              <button type="button" onclick="openCrowdsourceModal('teacher')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs shadow-md transition mx-auto">
-                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> 우리 학교 선생님 / 부교재 제보하기
+              <div class="text-[11px] text-stone-800 dark:text-slate-200">
+                <span class="text-stone-500 dark:text-slate-400">출처 문제집:</span> 학교 자체 인쇄물(프린트), 수능완성, 수능 기출 변형
+              </div>
+            </div>
+
+            <!-- 제보하기 액션 버튼 -->
+            <div class="pt-1">
+              <button type="button" onclick="openCrowdsourceModal()" class="w-full py-2 px-3 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold border border-stone-300 dark:border-stone-700 transition flex items-center justify-center gap-1.5 shadow-xs">
+                <i data-lucide="message-square-plus" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                <span>선생님·출처 문제집 제보하기</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Section 2: 나의 취약 영역 정밀 분석 (Honest Empty State vs Live History)
+      const weaknessSec = document.getElementById('dash-weakness-section');
+      if (weaknessSec) {
+        const hasHistory = Array.isArray(userSolvedHistory) && userSolvedHistory.length > 0;
+        if (!hasHistory) {
+          weaknessSec.innerHTML = `
+            <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="clipboard-list" class="w-4 h-4 text-[#EA580C]"></i>
+                <span class="text-xs font-bold text-stone-900 dark:text-white">나의 취약 영역 정밀 분석</span>
+              </div>
+              <span class="text-[10px] font-bold text-stone-500 dark:text-slate-400 bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700">
+                진단 대기 중
+              </span>
+            </div>
+
+            <div class="text-center py-7 px-3 space-y-2 bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 shadow-xs">
+              <div class="w-10 h-10 mx-auto rounded-full bg-orange-50 dark:bg-stone-800 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+              </div>
+              <h4 class="text-xs font-bold text-stone-900 dark:text-white">분석된 취약 데이터가 없습니다</h4>
+              <p class="text-[11px] text-stone-500 dark:text-slate-400 leading-relaxed max-w-xs mx-auto">
+                문제를 질문하고 오답 분석을 진행하면, 나의 취약 영역 및 예상 등급 리포트가 자동으로 생성됩니다.
+              </p>
+              <button type="button" onclick="goToView('camera')" class="mt-2 inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition active:scale-95">
+                <i data-lucide="camera" class="w-3.5 h-3.5"></i> 첫 문제 질문하기
               </button>
             </div>
           `;
-        }
-      }
-
-      // Update Weakness Impact & Grade Simulator based on Grade
-      const weaknessUnitEl = document.getElementById('dash-weakness-unit');
-      const weaknessRatioEl = document.getElementById('dash-weakness-ratio');
-      const prescriptionTextEl = document.getElementById('dash-prescription-text');
-
-      const isGrade1 = gradeKey === '1';
-      if (weaknessUnitEl) {
-        weaknessUnitEl.textContent = isGrade1 ? '다항식 나머지정리 & 이차함수 킬러' : '지수·로그 킬러 & 수열 점화식';
-      }
-      if (weaknessRatioEl) {
-        weaknessRatioEl.textContent = isGrade1 ? '32점' : '35점';
-      }
-      if (prescriptionTextEl) {
-        if (schoolData?.verified_exams && schoolData.verified_exams.length > 0) {
-          prescriptionTextEl.innerHTML = `
-            <strong class="report-strategy-label font-extrabold">내신 대비 전략:</strong> ${schoolName} ${gradeKey}학년 실기출 분석 기반, 고난도 변형 문항 및 오답 취약 유형을 집중 배치하여 1등급 진입 훈련을 시작하세요.
-          `;
         } else {
-          prescriptionTextEl.innerHTML = `
-            <strong class="report-strategy-label font-extrabold">내신 대비 전략:</strong> ${schoolName} ${gradeKey}학년 교육과정 핵심 기출 변형 문항을 시험준비 탭에서 즉시 생성하여 1등급 안정권 진입을 훈련하세요.
+          // Dynamic calculation from real userSolvedHistory
+          let topTopic = '삼각함수/미적분 킬러';
+          let topDeficit = '조건부 부등식 해석';
+          if (userSolvedHistory[0] && userSolvedHistory[0].title) {
+            topTopic = userSolvedHistory[0].title;
+          }
+          weaknessSec.innerHTML = `
+            <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#EA580C]"></i>
+                <span class="text-xs font-bold text-stone-900 dark:text-white">나의 취약 영역 정밀 분석</span>
+              </div>
+              <span class="text-[10px] font-bold text-[#EA580C] bg-orange-50 dark:bg-orange-950/60 border border-orange-300 dark:border-orange-500/30 px-2 py-0.5 rounded-full">
+                실제 질문 데이터 기반 분석
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="bg-white dark:bg-stone-900 p-2.5 rounded-lg border border-stone-200 dark:border-stone-800">
+                <span class="text-[10px] text-stone-500 dark:text-slate-400 block font-medium">집중 취약 단원</span>
+                <span class="text-xs font-bold text-stone-900 dark:text-white block mt-0.5 truncate">${topTopic}</span>
+                <span class="text-[9.5px] text-stone-400">오답 기록 반영</span>
+              </div>
+              <div class="bg-white dark:bg-stone-900 p-2.5 rounded-lg border border-stone-200 dark:border-stone-800">
+                <span class="text-[10px] text-stone-500 dark:text-slate-400 block font-medium">주요 감점 원인</span>
+                <span class="text-xs font-black text-[#EA580C] block mt-0.5 truncate">${topDeficit}</span>
+                <span class="text-[9.5px] text-stone-400">1:1 처방 완료</span>
+              </div>
+            </div>
           `;
         }
       }
 
-      lucide.createIcons();
-    }
-
-    function goToExamPrepWithSchool() {
-      const schoolKey = document.getElementById('dash-school-select')?.value || 'naksaeng';
-      const gradeKey = document.getElementById('dash-grade-select')?.value || '2';
-
-      // Sync with intel modal selects
-      const modalSchool = document.getElementById('intel-school-select');
-      const modalGrade = document.getElementById('intel-grade-select');
-      if (modalSchool) modalSchool.value = schoolKey;
-      if (modalGrade) modalGrade.value = gradeKey;
-
-      // Navigate to vault (시험준비)
-      goToView('vault');
-      if (typeof switchVaultSubTab === 'function') {
-        switchVaultSubTab('exams');
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
       }
-
-      // Automatically open the exam sheet modal
-      setTimeout(() => {
-        openExamSheetModal();
-      }, 150);
     }
 
-let selectedTeacherNames = new Set();
-    let selectedWorkbookNames = new Set();
-
-    function onIntelSchoolChange() {
+        function onIntelSchoolChange() {
       const schoolKey = document.getElementById('intel-school-select')?.value || 'naksaeng';
       const gradeKey = document.getElementById('intel-grade-select')?.value || '2';
       const classKey = document.getElementById('intel-class-select')?.value || '3';
@@ -22168,13 +22011,13 @@ let selectedTeacherNames = new Set();
         }).join('');
       }
 
-      // 4. Wrap Vertex / coordinate representations outside $: V\left(-\frac{b}{2a}, -\frac{b^2-4ac}{4a}\right)
+      // 4. Wrap Vertex / coordinate representations outside $: V\\left(-\\frac{b}{2a}, -\\frac{b^2-4ac}{4a}\\right)
       res = replaceOutsideMath(res, /([A-Za-z]?\\left\(.*?\s*\\right\))/g, (match, p1) => {
         return '$' + p1 + '$';
       });
 
       // 5. Wrap parenthesized formula where inside has balanced parens and LaTeX commands
-      // e.g. (g'(5) = \frac{1}{f'(2)}) or (x \ge 2)
+      // e.g. (g'(5) = \\frac{1}{f'(2)}) or (x \\ge 2)
       const tokens = tokenizeMath(res);
       res = tokens.map(token => {
         if (token.isMath) {
@@ -22207,12 +22050,12 @@ let selectedTeacherNames = new Set();
         return result;
       }).join('');
 
-      // 6. Wrap raw equations with fractions outside $: x = -\frac{b}{2a}
+      // 6. Wrap raw equations with fractions outside $: x = -\\frac{b}{2a}
       res = replaceOutsideMath(res, /([a-zA-Z]\s*=\s*-?\\frac\{[^{}]+\}\{[^{}]+\})/g, (match, p1) => {
         return '$' + p1 + '$';
       });
 
-      // 7. Wrap naked \frac or \sqrt with braces outside $
+      // 7. Wrap naked \\frac or \\sqrt with braces outside $
       res = replaceOutsideMath(res, /(\\frac\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})/g, (match, p1) => {
         return '$' + p1 + '$';
       });

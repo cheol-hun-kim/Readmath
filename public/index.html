@@ -637,7 +637,7 @@
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-orange-950 break-keep">
+            <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs" style="background-color: #FFF7ED !important; color: #1C1917 !important;">
               정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-orange-900 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-orange-900 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
           </div>
@@ -2270,22 +2270,22 @@
           <text x="46" y="18" font-size="11" font-weight="bold" fill="#64748B">y</text>
           <text x="26" y="224" font-size="11" font-weight="bold" fill="#94A3B8">O</text>
           <!-- Shaded Region Z <= 2.0 (X <= 4920) -->
-          <path d="M 40 210 Q 110 208 150 160 Q 180 50 180 50 Q 180 50 210 160 Q 235 190 260 205 L 260 210 Z" fill="#DCFCE7" />
-          <!-- Normal Curve -->
-          <path d="M 40 210 Q 110 208 150 160 Q 180 50 180 50 Q 180 50 210 160 Q 250 208 320 210" fill="none" stroke="#16A34A" stroke-width="2.5" />
+          <path d="M 40 208 C 80 208, 120 190, 140 150 C 158 115, 168 50, 180 50 C 192 50, 202 115, 220 150 C 235 175, 248 190, 260 197 L 260 210 L 40 210 Z" fill="#DCFCE7" />
+          <!-- Normal Curve (Smooth Gaussian Bell Curve with Horizontal Tangent at Peak) -->
+          <path d="M 40 208 C 80 208, 120 190, 140 150 C 158 115, 168 50, 180 50 C 192 50, 202 115, 220 150 C 240 190, 280 208, 320 208" fill="none" stroke="#16A34A" stroke-width="2.5" />
           <!-- Center Mean m = 4800 (Z = 0) -->
           <line x1="180" y1="210" x2="180" y2="50" stroke="#16A34A" stroke-width="1.5" stroke-dasharray="3 2" />
           <text x="180" y="225" font-size="10.5" font-weight="bold" fill="#15803D" text-anchor="middle">m = 4800 (Z = 0)</text>
           <!-- Z = 2.0 Boundary at X = 4920 -->
-          <line x1="260" y1="210" x2="260" y2="195" stroke="#DC2626" stroke-width="2" />
+          <line x1="260" y1="210" x2="260" y2="197" stroke="#DC2626" stroke-width="2" />
           <text x="260" y="225" font-size="10.5" font-weight="black" fill="#DC2626" text-anchor="middle">4920 (Z = 2.0)</text>
           <!-- Area Label (Left Shaded Region, Completely Clear of Mean Line at x=180) -->
           <rect x="55" y="115" width="115" height="28" rx="6" fill="#FFFFFF" stroke="#16A34A" stroke-width="1.2"/>
           <text x="112" y="133" font-size="10" font-weight="black" fill="#15803D" text-anchor="middle">P(Z ≤ 2.0) = 0.977</text>
           <!-- Top-Right Callout Box (Completely Clear of Peak at x=180, y=50) -->
-          <rect x="225" y="20" width="125" height="36" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
-          <text x="232" y="34" font-size="9.5" font-weight="bold" fill="#1E293B">a = 4, X ~ N(4800, 60²)</text>
-          <text x="232" y="48" font-size="9.5" font-weight="bold" fill="#DC2626">1000 × k = 977</text>
+          <rect x="210" y="32" width="135" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="218" y="47" font-size="9.5" font-weight="bold" fill="#334155">a = 4, X ~ N(4800, 60²)</text>
+          <text x="218" y="62" font-size="9.5" font-weight="extrabold" fill="#EA580C">1000 × k = 977</text>
         </svg>`
       },
       csat_30m: {
@@ -2475,9 +2475,9 @@
       subGrid.innerHTML = CSAT_SUB_ITEMS.map(item => {
         const isActive = item.id === activeSubId;
         return `
-          <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="w-full flex items-center justify-between sm:justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition text-left sm:text-center ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}">
-            <span class="font-extrabold text-[11px] ${isActive ? 'text-[#EA580C]' : 'text-[#EA580C]'} shrink-0">${item.tag}</span>
-            <span class="truncate">${item.title}</span>
+          <button onclick="switchDemoCase('${item.id}')" id="sub-btn-${item.id}" class="w-full flex flex-col items-center justify-center p-2 rounded-xl text-center transition ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}">
+            <span class="text-[11px] font-black ${isActive ? 'text-white' : 'text-orange-400'} shrink-0 mb-0.5">${item.tag}</span>
+            <span class="text-[11px] font-bold ${isActive ? 'text-white' : 'text-slate-200'} leading-tight whitespace-nowrap">${item.title}</span>
           </button>
         `;
       }).join('');
@@ -2494,9 +2494,11 @@
           const btn = document.getElementById(`sub-btn-${item.id}`);
           if (!btn) return;
           const isActive = item.id === caseId;
-          btn.className = `w-full flex items-center justify-between sm:justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition text-left sm:text-center ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}`;
+          btn.className = `w-full flex flex-col items-center justify-center p-2 rounded-xl text-center transition ${isActive ? 'bg-[#EA580C] text-white shadow-lg font-black border border-orange-500/40' : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800'}`;
           const tagSpan = btn.querySelector('span:first-child');
-          if (tagSpan) tagSpan.className = `font-extrabold text-[11px] ${isActive ? 'text-[#EA580C]' : 'text-[#EA580C]'} shrink-0`;
+          if (tagSpan) tagSpan.className = `text-[11px] font-black ${isActive ? 'text-white' : 'text-orange-400'} shrink-0 mb-0.5`;
+          const titleSpan = btn.querySelector('span:last-child');
+          if (titleSpan) titleSpan.className = `text-[11px] font-bold ${isActive ? 'text-white' : 'text-slate-200'} leading-tight whitespace-nowrap`;
         });
       }
 
