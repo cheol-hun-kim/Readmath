@@ -2336,15 +2336,15 @@
     }
 
     body.day-mode, body.theme-day, html.day-mode, html.theme-day, [data-theme="day"] {
-      --bg-main: #F4F1EA !important; /* Warm Soft Linen / Natural Paper */
-      --bg-surface: #FAF8F5 !important; /* Gentle Warm Ivory / 미색 (Zero Glaring White) */
-      --bg-elevated: #EDE8E0 !important; /* Soft Elevated Box */
-      --border-subtle: #FAF8F5 !important; /* Card Border Matches Background (Zero Shadow Line) */
-      --shadow-card: none !important; /* Purged Discordant Card Drop Shadows */
-      --text-primary: #1C1917 !important; /* Deep Charcoal */
-      --text-secondary: #57534E !important; /* Stone Gray */
-      --text-muted: #A8A29E !important;
-      --accent-primary: #EA580C !important; /* Terracotta Coral Orange */
+      --bg-main: #F7F5F0 !important; /* Warm Unified Paper Cream */
+      --bg-surface: #FAF8F5 !important; /* Eye-Comfortable Gentle Warm Ivory (Zero Glare) */
+      --bg-elevated: #EDE8DE !important; /* Soft Hairline Elevated Box */
+      --border-subtle: #E8E3D9 !important; /* Subtle Seamless Natural Border */
+      --shadow-card: none !important;
+      --text-primary: #090D16 !important; /* Deep Crystal-Clear Sharp Black Ink */
+      --text-secondary: #1E293B !important; /* High-Contrast Dark Slate */
+      --text-muted: #475569 !important; /* Crisp Readable Tertiary */
+      --accent-primary: #EA580C !important;
       --accent-hover: #C2410C !important;
       --accent-subtle: rgba(234, 88, 12, 0.08) !important;
     }
@@ -2414,19 +2414,58 @@
       box-shadow: none !important;
     }
 
+    /* ⚡ Deep Crystal-Clear High-Contrast Black Ink for Day Mode */
+    body.theme-day, body.day-mode {
+      color: #090D16 !important;
+    }
     body.theme-day .text-white, body.day-mode .text-white,
     body.theme-day .text-slate-100, body.day-mode .text-slate-100,
     body.theme-day .text-slate-200, body.day-mode .text-slate-200,
     body.theme-day .text-stone-100, body.day-mode .text-stone-100,
-    body.theme-day .text-stone-200, body.day-mode .text-stone-200 {
-      color: #1C1917 !important;
+    body.theme-day .text-stone-200, body.day-mode .text-stone-200,
+    body.theme-day h1, body.day-mode h1,
+    body.theme-day h2, body.day-mode h2,
+    body.theme-day h3, body.day-mode h3,
+    body.theme-day h4, body.day-mode h4,
+    body.theme-day label, body.day-mode label {
+      color: #090D16 !important;
+      font-weight: 700 !important;
     }
     body.theme-day .text-slate-300, body.day-mode .text-slate-300,
     body.theme-day .text-slate-400, body.day-mode .text-slate-400,
     body.theme-day .text-stone-300, body.day-mode .text-stone-300,
     body.theme-day .text-stone-400, body.day-mode .text-stone-400,
-    body.theme-day .text-stone-500, body.day-mode .text-stone-500 {
-      color: #57534E !important;
+    body.theme-day .text-stone-500, body.day-mode .text-stone-500,
+    body.theme-day p, body.day-mode p {
+      color: #1E293B !important;
+    }
+
+    /* ⚡ Crisp, Pure White & High-Contrast Input Fields in Day Mode */
+    body.theme-day input:not([type="checkbox"]):not([type="radio"]),
+    body.day-mode input:not([type="checkbox"]):not([type="radio"]),
+    body.theme-day textarea,
+    body.day-mode textarea,
+    body.theme-day select,
+    body.day-mode select {
+      background-color: #FFFFFF !important;
+      border: 1.5px solid #CBD5E1 !important;
+      color: #090D16 !important;
+      font-weight: 600 !important;
+    }
+    body.theme-day input::placeholder,
+    body.day-mode input::placeholder,
+    body.theme-day textarea::placeholder,
+    body.day-mode textarea::placeholder {
+      color: #475569 !important;
+      opacity: 1 !important;
+      font-weight: 500 !important;
+    }
+
+    /* ⚡ Seamless Desktop Container Armor: Zero floating borders in Day Mode */
+    body.theme-day .phone-mockup {
+      border: none !important;
+      box-shadow: none !important;
+      background-color: var(--bg-main) !important;
     }
 
     /* ⚡ 3. Universal Night Mode Contrast Armor */
@@ -2842,6 +2881,128 @@
     }
   </style>
 
+
+  <!-- 🛡️ READMATH DAY-MODE SEAMLESS HARMONY & DEEP BLACK INK ARMOR -->
+  <style id="readmath-day-seamless-armor">
+    body.theme-day, body.day-mode, html.theme-day, html.day-mode, [data-theme="day"] {
+      --bg-main: #F8F6F0 !important;
+      --bg-surface: #FFFFFF !important;
+      --bg-elevated: #F1EFEA !important;
+      --border-subtle: #E8E4DC !important;
+      --text-primary: #090D16 !important;
+      --text-secondary: #1E293B !important;
+      --text-muted: #334155 !important;
+      --accent-primary: #EA580C !important;
+      --accent-hover: #C2410C !important;
+      background-color: #F8F6F0 !important;
+      color: #090D16 !important;
+    }
+
+    /* Seamless Outer Canvas: No disjointed borders on desktop */
+    body.theme-day #app-root, body.day-mode #app-root,
+    body.theme-day .phone-mockup, body.day-mode .phone-mockup,
+    body.theme-day #screen-container, body.day-mode #screen-container {
+      background-color: #F8F6F0 !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* All Cards & Panels in Day Mode: Crisp Clean Paper White (#FFFFFF) with Soft Hairline Border */
+    body.theme-day .bg-slate-900, body.day-mode .bg-slate-900,
+    body.theme-day .bg-slate-950, body.day-mode .bg-slate-950,
+    body.theme-day .bg-slate-850, body.day-mode .bg-slate-850,
+    body.theme-day .bg-slate-800, body.day-mode .bg-slate-800,
+    body.theme-day .bg-stone-900, body.day-mode .bg-stone-900,
+    body.theme-day .bg-stone-950, body.day-mode .bg-stone-950,
+    body.theme-day .bg-stone-850, body.day-mode .bg-stone-850,
+    body.theme-day .bg-stone-800, body.day-mode .bg-stone-800,
+    body.theme-day .sample-prob-card, body.day-mode .sample-prob-card,
+    body.theme-day .recent-prob-card, body.day-mode .recent-prob-card,
+    body.theme-day .solution-step-card, body.day-mode .solution-step-card,
+    body.theme-day #vault-panel-exams > div, body.day-mode #vault-panel-exams > div {
+      background-color: #FFFFFF !important;
+      border-color: #E8E4DC !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
+    }
+
+    /* Header Cards & Nav: Blend seamlessly with canvas */
+    body.theme-day #view-vault > div:first-child, body.day-mode #view-vault > div:first-child,
+    body.theme-day #view-history > div:first-child, body.day-mode #view-history > div:first-child,
+    body.theme-day #view-report > div:first-child, body.day-mode #view-report > div:first-child {
+      border-bottom-color: #E8E4DC !important;
+      background: transparent !important;
+    }
+
+    /* Crystal-Clear Deep Black Typography in Day Mode */
+    body.theme-day h1, body.day-mode h1,
+    body.theme-day h2, body.day-mode h2,
+    body.theme-day h3, body.day-mode h3,
+    body.theme-day h4, body.day-mode h4,
+    body.theme-day h5, body.day-mode h5,
+    body.theme-day h6, body.day-mode h6,
+    body.theme-day .font-black, body.day-mode .font-black,
+    body.theme-day .font-extrabold, body.day-mode .font-extrabold {
+      color: #090D16 !important;
+      font-weight: 800 !important;
+    }
+
+    body.theme-day p, body.day-mode p,
+    body.theme-day span:not([class*="bg-"]):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
+    body.day-mode span:not([class*="bg-"]):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
+    body.theme-day label, body.day-mode label {
+      color: #0F172A !important;
+    }
+
+    /* Fix Faint Washed-Out Tailwind Text Classes in Day Mode */
+    body.theme-day .text-slate-400, body.day-mode .text-slate-400,
+    body.theme-day .text-stone-400, body.day-mode .text-stone-400,
+    body.theme-day .text-slate-500, body.day-mode .text-slate-500,
+    body.theme-day .text-stone-500, body.day-mode .text-stone-500 {
+      color: #334155 !important;
+      font-weight: 600 !important;
+    }
+
+    body.theme-day .text-slate-300, body.day-mode .text-slate-300,
+    body.theme-day .text-stone-300, body.day-mode .text-stone-300 {
+      color: #1E293B !important;
+      font-weight: 600 !important;
+    }
+
+    /* Crisp High-Contrast Input Fields in Day Mode */
+    body.theme-day select, body.day-mode select,
+    body.theme-day input:not([type="checkbox"]):not([type="radio"]),
+    body.day-mode input:not([type="checkbox"]):not([type="radio"]),
+    body.theme-day textarea, body.day-mode textarea {
+      background-color: #FFFFFF !important;
+      color: #090D16 !important;
+      border: 1.5px solid #CBD5E1 !important;
+      font-weight: 700 !important;
+    }
+    body.theme-day select:focus, body.day-mode select:focus,
+    body.theme-day input:focus, body.day-mode input:focus {
+      border-color: #EA580C !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15) !important;
+    }
+    body.theme-day input::placeholder, body.day-mode input::placeholder {
+      color: #64748B !important;
+    }
+
+    /* Unified Orange Buttons: White Crisp Text */
+    body.theme-day button[class*="bg-[#EA580C]"],
+    body.day-mode button[class*="bg-[#EA580C]"],
+    body.theme-day button[class*="bg-orange-"],
+    body.day-mode button[class*="bg-orange-"] {
+      color: #FFFFFF !important;
+    }
+    body.theme-day button[class*="bg-[#EA580C]"] *,
+    body.day-mode button[class*="bg-[#EA580C]"] *,
+    body.theme-day button[class*="bg-orange-"] *,
+    body.day-mode button[class*="bg-orange-"] * {
+      color: #FFFFFF !important;
+    }
+  </style>
+
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:py-3 lg:py-4 overflow-x-hidden">
 
@@ -3031,6 +3192,38 @@
             <img id="solution-uploaded-img" class="max-h-[140px] object-contain" alt="문제 사진" />
           </div>
         </div>
+
+        
+        <!-- AI 기출 & 교재 원형 출처 특정 카드 (QANDA Assistant-grade Intelligence) -->
+        <div id="solution-source-attribution-card" class="bg-slate-900 border border-orange-500/40 rounded-2xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="compass" class="w-4 h-4 text-amber-400"></i>
+              <span>AI 기출 &amp; 교재 원형 출처 특정</span>
+            </span>
+            <span id="source-match-rate-badge" class="text-[10px] font-extrabold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-full">
+              원형 일치율 98%
+            </span>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 font-bold">출처 특정:</span>
+              <strong id="source-matched-title" class="text-white font-extrabold text-right">2026학년도 수능 15번 킬러 원형 변형</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 font-bold">연계 교재:</span>
+              <span id="source-matched-book" class="text-amber-300 font-bold text-right">EBS 수능특강 / 전국연합 학력평가 기출 총괄서 수능기출 고난도</span>
+            </div>
+            <div class="pt-1.5 border-t border-slate-800/80">
+              <span class="text-[11px] text-slate-400 font-semibold block mb-1">변형 포인트 분석:</span>
+              <p id="source-transform-point" class="text-[11px] text-slate-300 leading-relaxed font-medium">
+                원형 문항의 부등식 조건 [2x + t <= f(x) + f(t)]의 계수를 변형하여 극값의 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
 
         <!-- Multi-Question / Math Essay Sub-Question Navigator -->
         <div id="sub-questions-nav-card" class="hidden bg-slate-900 border border-orange-500/40 rounded-2xl p-3 space-y-2">
@@ -4718,7 +4911,7 @@
               </div>
               <div class="min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <h3 class="text-sm sm:text-base font-extrabold text-white">수학 개념 원인 추적 신경망 상세 분석</h3>
+                  <h3 class="text-sm sm:text-base font-extrabold text-white">근본 원인 찾아보자 (상세 분석)</h3>
                   <span id="dag-modal-problem-badge" class="text-[10.5px] bg-stone-900 text-stone-300 border border-orange-500/40 px-2.5 py-0.5 rounded-full font-bold max-w-[220px] sm:max-w-sm truncate">문항 분석</span>
                 </div>
                 <p class="text-[10.5px] text-slate-400 truncate mt-0.5">이 문항의 결함이 어디서 시작되었는지 초·중·고 선행 개념으로 역추적합니다</p>
@@ -4783,7 +4976,7 @@
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <h3 class="text-sm sm:text-base font-black text-white">수학 개념 원인 추적 신경망 (전체화면)</h3>
+              <h3 class="text-sm sm:text-base font-black text-white">근본 원인 찾아보자 (전체화면)</h3>
               <span id="dag-fullscreen-problem-badge" class="bg-stone-900 text-stone-300 border border-orange-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full truncate"></span>
             </div>
             <p class="text-[10.5px] text-slate-400">화면 크기에 맞춰 유동적으로 렌더링되며 노드를 터치하여 개별 인지 약점을 분석합니다</p>
@@ -15417,7 +15610,7 @@ window.addEventListener('DOMContentLoaded', () => {
           PROBLEMS_DB[numId] = data;
           PROBLEMS_DB[String(numId)] = data;
         } else {
-          data = PROBLEMS_DB[id] || (Array.isArray(userSolvedHistory) ? userSolvedHistory.find(h => String(h.id) === String(id)) : null) || PROBLEMS_DB[1];
+          data = PROBLEMS_DB[id] || (typeof userSolvedHistory !== "undefined" && Array.isArray(userSolvedHistory) ? userSolvedHistory.find(h => String(h.id) === String(id)) : null) || PROBLEMS_DB[1];
           if (typeof sanitizeMathObject === 'function') {
             data = sanitizeMathObject(data);
           }
@@ -16450,8 +16643,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   </div>
                   <div class="min-w-0">
                     <div class="flex items-center gap-1.5 flex-wrap">
-                      <h3 class="text-xs font-black text-white">수학 개념 원인 추적 신경망</h3>
-                      <span class="text-[9.5px] bg-amber-500/20 text-emerald-300 font-extrabold px-1.5 py-0.2 rounded border border-emerald-500/40">분석 작동 중</span>
+                      <h3 class="text-xs font-black text-white">근본 원인 찾아보자</h3>
                     </div>
                     <p class="text-[10.5px] text-stone-300 font-bold truncate mt-0.5">${displayTitle}</p>
                   </div>
@@ -16485,72 +16677,92 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
       }
 
+      const activeProbObj = items.find(p => String(p.id) === String(activeProbId)) || (typeof PROBLEMS_DB !== 'undefined' ? (PROBLEMS_DB[activeProbId] || PROBLEMS_DB[1]) : items[0]);
+      const currentDiag = getCognitiveDiagnosisForProblem(activeProbId || (activeProbObj ? activeProbObj.id : 1));
+
       container.innerHTML = `
-        <div class="bg-stone-900/60 border border-orange-500/40 rounded-2xl p-4 space-y-2 text-center">
-          <span class="text-xs font-bold text-amber-300 flex items-center justify-center gap-1.5">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i> 나의 주된 오답 원인 (스스로 확정한 진단 기준)
-          </span>
-          <h3 class="text-base font-black text-white">"${topInfo.title}"</h3>
-          <p class="text-[11px] text-slate-300">
-            ${topInfo.desc}이 직접 확정한 전체 오답의 <strong>${topPct}%</strong> (${maxCount}건)입니다.
-          </p>
+        <!-- 1. 핵심 약점 우선 진단 (Step 1: Identify Weakness First) -->
+        <div class="bg-slate-900 border border-orange-500/50 rounded-2xl p-4 md:p-5 space-y-3 shadow-md">
+          <div class="flex items-center justify-between pb-2 border-b border-orange-500/20">
+            <span class="text-xs font-black text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i> 나의 주된 오답 원인 (스스로 확정한 진단 기준)
+            </span>
+            <span class="text-[10px] text-orange-400 font-extrabold bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/30">전체 오답의 ${topPct}%</span>
+          </div>
+          <div>
+            <h3 class="text-base md:text-lg font-black text-white">"${topInfo.title}"</h3>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              ${topInfo.desc}이 직접 확정한 전체 오답의 <strong>${topPct}%</strong> (${maxCount}건)입니다.
+            </p>
+          </div>
+          <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-slate-400 font-bold">감지된 핵심 근본 결함:</span>
+            <strong class="text-amber-300 font-black">${currentDiag.deficitTitle}</strong>
+          </div>
         </div>
 
+        <!-- 2. 방치 시 치명적 성적 타격 예측 경고 (Step 2: Predicted Consequences if Neglected) -->
+        <div class="bg-slate-900 border-2 border-red-500/40 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-lg">
+          <div class="flex items-center justify-between pb-2 border-b border-red-500/20">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+              </div>
+              <h3 class="text-xs md:text-sm font-black text-white">⚠️ 이 약점을 방치할 경우 예상되는 성적 경고</h3>
+            </div>
+            <span class="text-[10px] font-extrabold text-red-300 bg-red-950/80 border border-red-500/40 px-2 py-0.5 rounded-full">성적 하락 위험</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <!-- 내신 경고 -->
+            <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-rose-400 flex items-center gap-1.5">
+                  <i data-lucide="school" class="w-3.5 h-3.5"></i> 학교 내신 시험 경고
+                </span>
+                <span class="text-[10px] font-extrabold text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-500/30">예상 등급: 3~4등급 하락</span>
+              </div>
+              <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
+                <strong>[${currentDiag.deficitTitle}]</strong> 결함을 방치할 경우, 내신 서술형 문항에서 조건 번역 및 식 전개 실패로 <strong>부분 점수 대량 감점(-8~12점)</strong> 및 킬러 문항 2~3개 실점으로 직결됩니다.
+              </p>
+            </div>
+
+            <!-- 수능 / 모의고사 경고 -->
+            <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> 수능·모의고사 경고
+                </span>
+                <span class="text-[10px] font-extrabold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">예상 등급: 1등급 컷 탈락</span>
+              </div>
+              <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
+                수능 공통 및 선택 킬러 문항에서 <strong>[${currentDiag.deficitTitle}]</strong>을 복합 연계한 4점짜리 역발문 조건을 마주했을 때, 풀이 시작 방향을 잡지 못해 <strong>4점 문항 2개 이상 실점(8~12점 하락)</strong> 위험이 큽니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 솔루션 처방 CTA -->
+          <div class="p-3 bg-amber-500/10 rounded-xl border border-amber-500/30 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-extrabold text-amber-300 flex items-center gap-1.5">
+                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400"></i> AI 처방 행동 강령
+              </span>
+              <span class="text-[10px] text-slate-400 font-bold">즉시 보완 권장</span>
+            </div>
+            <p class="text-xs text-slate-200 leading-relaxed font-medium">
+              ${currentDiag.remedyTip}
+            </p>
+            <div class="pt-1 flex justify-end">
+              <button onclick="goToView('vault')" class="px-3.5 py-2 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition">
+                <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
+                <span>맞춤 시험지 보관함에서 취약 단원 집중 출제</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 근본 원인 찾아보자 (Step 3: Root Cause Neural DAG) -->
         ${dagSectionHtml}
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-              <i data-lucide="pie-chart" class="w-3.5 h-3.5 text-[#EA580C]"></i> 원인별 오답 분석 분포
-            </span>
-            <span class="text-[10px] text-stone-300 bg-stone-900 px-2 py-0.5 rounded border border-orange-500/40 font-bold">
-              진단 완료 ${diagnosedCount}/${items.length}문제
-            </span>
-          </div>
-
-          <div class="space-y-2 text-[11px]">
-            <div>
-              <div class="flex justify-between text-slate-300 mb-1">
-                <span>그림/그래프 못 그림</span>
-                <span class="font-bold text-blue-400">${visualCount}건 (${vPct}%)</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div class="bg-blue-500 h-full rounded-full" style="width: ${vPct}%"></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300 mb-1">
-                <span>식을 세우지 못함</span>
-                <span class="font-bold text-amber-400">${modelingCount}건 (${mPct}%)</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div class="bg-amber-500 h-full rounded-full" style="width: ${mPct}%"></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300 mb-1">
-                <span>문제 조건을 놓침</span>
-                <span class="font-bold text-[#EA580C]">${conditionCount}건 (${cndPct}%)</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div class="bg-[#EA580C] h-full rounded-full" style="width: ${cndPct}%"></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300 mb-1">
-                <span>개념/공식을 모름</span>
-                <span class="font-bold text-rose-400">${conceptCount}건 (${cptPct}%)</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div class="bg-rose-500 h-full rounded-full" style="width: ${cptPct}%"></div>
-              </div>
-            </div>
-            ${items.length > diagnosedCount ? `
-              <div class="pt-1.5 border-t border-slate-800 text-[10px] text-slate-400 text-center">
-                미진단 문항 <strong>${items.length - diagnosedCount}개</strong> (오답노트에서 언제든지 자가진단 가능)
-              </div>
-            ` : ''}
-          </div>
-        </div>
       `;
       lucide.createIcons();
     }
@@ -16942,7 +17154,115 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function getCognitiveDiagnosisForProblem(pId) {
       const id = Number(pId) || 304;
-      
+      if (id === 303) {
+        return {
+          targetId: 'n15',
+          deficitId: 'n14',
+          activeChain: ['n13', 'n14', 'n15'],
+          targetTitle: '2026 수능 확통 29번 정규분포 근사',
+          deficitTitle: '확통 조건부확률 (표본공간 축소 조건 분석)',
+          deficitReason: '주어진 선행 사건에 의해 전체 표본공간 S가 축소되는 조건부 확률 P(B|A)의 제약 조건을 간과함.',
+          remedyTip: '분모가 될 사건 A의 경우의 수를 먼저 확정하고, 그 안에서 분자 A∩B의 원소만 골라내는 습관을 들이세요.',
+          upstreamChain: ['n13 (순열과 조합)', 'n14 (조건부확률)', 'n15 (정규분포)'],
+          killerDifficulty: '수능 확통 29번 킬러'
+        };
+      }
+      const probObj = (typeof PROBLEMS_DB !== 'undefined' ? (PROBLEMS_DB[pId] || PROBLEMS_DB[id]) : null) || 
+                      (typeof userSolvedHistory !== "undefined" && Array.isArray(userSolvedHistory) ? userSolvedHistory.find(p => String(p.id) === String(pId)) : null);
+
+      const title = (probObj?.title || '').toLowerCase();
+      const text = (probObj?.problem_text || '').toLowerCase();
+      const combined = (title + ' ' + text).toLowerCase();
+      const userCat = (probObj?.diagnosis?.category) || (Array.isArray(probObj?.diagnosis?.categories) ? probObj.diagnosis.categories[0] : null) || 'modeling';
+
+      // 1. Probability & Statistics (확률과 통계, 경우의 수, 순열, 조합, 조건부확률, 독립시행, 정규분포)
+      if (combined.includes('확률') || combined.includes('통계') || combined.includes('경우의 수') || combined.includes('순열') || combined.includes('조합') || combined.includes('주머니') || combined.includes('카드') || combined.includes('주사위') || combined.includes('동전') || combined.includes('독립시행') || combined.includes('정규분포') || id === 25 || id === 30 || id === 303) {
+        if (userCat === 'concept') {
+          return {
+            targetId: 'n14',
+            deficitId: 'n12',
+            activeChain: ['n12', 'n13', 'n14'],
+            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            deficitTitle: '중2 경우의 수의 기본 법칙 (합과 곱의 원리)',
+            deficitReason: '합의 법칙(동시에 일어나지 않음)과 곱의 법칙(연속 시행)의 기준을 엄밀히 분리하지 못해 경우의 수 누락 발생.',
+            remedyTip: '사건이 동시에 일어나는지(곱) 아니면 배반사건으로 나뉘는지(합)를 수형도로 먼저 가지치기하세요.',
+            upstreamChain: ['n12 (경우의 수·확률)', 'n13 (순열과 조합)', 'n14 (조건부확률)'],
+            killerDifficulty: '확통 변별력 핵심 문항'
+          };
+        } else if (userCat === 'condition') {
+          return {
+            targetId: 'n15',
+            deficitId: 'n14',
+            activeChain: ['n13', 'n14', 'n15'],
+            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            deficitTitle: '확통 조건부확률 (표본공간 축소 조건 분석)',
+            deficitReason: '주어진 선행 사건에 의해 전체 표본공간 S가 축소되는 조건부 확률 P(B|A)의 제약 조건을 간과함.',
+            remedyTip: '분모가 될 사건 A의 경우의 수를 먼저 확정하고, 그 안에서 분자 A∩B의 원소만 골라내는 습관을 들이세요.',
+            upstreamChain: ['n13 (순열과 조합)', 'n14 (조건부확률)', 'n15 (정규분포)'],
+            killerDifficulty: '수능 확통 4점 킬러'
+          };
+        } else {
+          // Default for modeling / visual
+          return {
+            targetId: 'n14',
+            deficitId: 'n13',
+            activeChain: ['n12', 'n13', 'n14'],
+            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            deficitTitle: '고1 순열과 조합 (조건의 수식화 및 기호 번역)',
+            deficitReason: '문제의 한글 조건(홀수/짝수 합, 적어도 하나, 배수)을 대수적 경우의 수 기호(nCr, nPr)로 체계적으로 분류하지 못함.',
+            remedyTip: '경우를 홀수/짝수로 먼저 분할(Partition)한 후 조합 기호 nCr을 각각 적용하여 합의 법칙으로 해결하세요.',
+            upstreamChain: ['n12 (경우의 수·확률)', 'n13 (순열과 조합)', 'n14 (조건부확률)'],
+            killerDifficulty: '확통 핵심 실전 문항'
+          };
+        }
+      }
+
+      // 2. Geometry & Coordinate (기하, 공간도형, 벡터, 정사영, 원, 접선, 피타고라스)
+      if (combined.includes('공간도형') || combined.includes('정사영') || combined.includes('이면각') || combined.includes('벡터') || combined.includes('이차곡선') || combined.includes('포물선') || combined.includes('타원') || combined.includes('쌍곡선') || combined.includes('피타고라스') || combined.includes('원과 접선') || id === 3 || id === 4 || id === 5 || id === 103 || id === 104 || id === 305) {
+        return {
+          targetId: 'n10',
+          deficitId: 'n8',
+          activeChain: ['n1', 'n8', 'n10'],
+          targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '기하·공간도형 실전 문제') : (probObj?.title || '기하·공간도형 실전 문제')),
+          deficitTitle: '수1 삼각함수 덧셈정리와 직교 투영',
+          deficitReason: '입체 공간도형을 2차원 평면으로 정사영하는 과정에서 삼각비의 덧셈정리 공식 및 각도 연산 누락.',
+          remedyTip: '원과 반원의 중심을 잇는 단면을 평면에 투영하고, tan(α+β) 공식을 사용하여 수선의 발을 도출하세요.',
+          upstreamChain: ['n1 (피타고라스)', 'n8 (삼각함수 덧셈정리)', 'n10 (공간도형/정사영)'],
+          killerDifficulty: '기하·공간도형 킬러 문항'
+        };
+      }
+
+      // 3. CSAT Common 22번 (수2 연속과 미분계수)
+      if (id === 302 || combined.includes('공통 22') || (combined.includes('삼차함수') && combined.includes('접선'))) {
+        return {
+          targetId: 'n9',
+          deficitId: 'n3',
+          activeChain: ['n3', 'n6', 'n9'],
+          targetTitle: '연속과 미분계수 (수능 공통 22번)',
+          deficitTitle: '중3 이차함수의 그래프와 대칭축 성질',
+          deficitReason: '삼차함수의 도함수인 이차함수의 대칭축과 판별식 조건을 분리하지 못해 극값 존재 구간 설정에서 누락 발생.',
+          remedyTip: '도함수 f\'(x)=0의 근의 분리를 위해 꼭짓점 위치와 판별식 D > 0 조건을 먼저 확정하세요.',
+          upstreamChain: ['n3 (일차·이차함수)', 'n6 (합성·역함수)', 'n9 (연속과 미분계수)'],
+          killerDifficulty: '정답률 8.7% 킬러 문항'
+        };
+      }
+
+      // 4. CSAT Calculus 30번 (미적분 역함수 미분법)
+      if (id === 304 || combined.includes('미적 30') || combined.includes('역함수 미분')) {
+        return {
+          targetId: 'n11',
+          deficitId: 'n6',
+          activeChain: ['n6', 'n9', 'n11'],
+          targetTitle: '역함수 미분법과 교점 불연속 (수능 미적 30번)',
+          deficitTitle: '고1 합성·역함수의 성질과 y=x 대칭',
+          deficitReason: '원함수를 직접 구하려다 역함수의 음함수 형태에서 길을 잃음. 점 (0, 1) 접선으로의 발상 전환 약점.',
+          remedyTip: '원함수와 점 (1, 0)의 관계를 y=x 대칭시켜 점 (0, 1)과 역함수 y=f⁻¹(x)의 접선 기울기 k=1/m으로 뒤집어 해결하세요.',
+          upstreamChain: ['n4 (평면좌표)', 'n5 (도형의 대칭)', 'n6 (역함수 성질)'],
+          killerDifficulty: '정답률 4.2% 최상위 킬러'
+        };
+      }
+
+      // Default Fallback
       if (id === 304) {
         return {
           targetId: 'n11',
