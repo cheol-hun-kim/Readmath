@@ -2350,8 +2350,31 @@
     .text-indigo-400, .text-indigo-300, .text-indigo-200, .text-amber-500, .text-amber-400 {
       color: var(--text-secondary) !important;
     }
-    h2, h3, h4, .text-white, .font-bold.text-white {
+    h2, h3, h4 {
       color: var(--text-primary) !important;
+    }
+    body:not(.day-mode) .text-white, body:not(.day-mode) .font-bold.text-white {
+      color: var(--text-primary) !important;
+    }
+    body.day-mode .text-white:not(button *):not(.btn *):not([class*="bg-"] *):not(button):not(.btn):not([class*="bg-"]),
+    body.day-mode .font-bold.text-white:not(button *):not(.btn *):not([class*="bg-"] *):not(button):not(.btn):not([class*="bg-"]) {
+      color: var(--text-primary) !important;
+    }
+    body.day-mode button[class*="bg-"],
+    body.day-mode .btn[class*="bg-"],
+    body.day-mode .btn-primary,
+    body.day-mode [class*="bg-[#EA580C]"],
+    body.day-mode [class*="bg-orange-600"],
+    body.day-mode [class*="bg-indigo-600"] {
+      color: #FFFFFF !important;
+    }
+    body.day-mode button[class*="bg-"] *,
+    body.day-mode .btn[class*="bg-"] *,
+    body.day-mode .btn-primary *,
+    body.day-mode [class*="bg-[#EA580C]"] *,
+    body.day-mode [class*="bg-orange-600"] *,
+    body.day-mode [class*="bg-indigo-600"] * {
+      color: #FFFFFF !important;
     }
 
     /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */

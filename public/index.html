@@ -224,12 +224,51 @@
       border: 1px solid var(--accent-primary) !important;
     }
 
-    /* ⚡ 7. 유채색 텍스트/게이지 바 소거 */
-    .text-indigo-400, .text-indigo-300, .text-indigo-200, .text-amber-500, .text-amber-400 {
-      color: var(--text-secondary) !important;
-    }
-    h2, h3, h4, .text-white, .font-bold.text-white {
+    /* ⚡ 7. 다크 섹션 전용 헤딩 규칙 (라이트 섹션 침범 원천 차단) */
+    #features h2, #features h3, #features h4,
+    #traction h2, #traction h3, #traction h4,
+    #faq h2, #faq h3, #faq h4,
+    #b2b h2, #b2b h3, #b2b h4 {
       color: var(--text-primary) !important;
+    }
+
+    /* ========================================================
+       ⚡ BULLETPROOF HIGH-CONTRAST FOR LIGHT SECTIONS
+       (#manifesto, #tutor, #demo, #pricing)
+       Guarantees Deep Charcoal (#1C1917) and WCAG AAA readability.
+       Zero white-on-white / light-on-light text.
+       ======================================================== */
+    #manifesto, #tutor, #demo, #pricing {
+      color: #1C1917 !important;
+    }
+    #manifesto h1, #manifesto h2, #manifesto h3, #manifesto h4,
+    #tutor h1, #tutor h2, #tutor h3, #tutor h4,
+    #demo h1, #demo h2, #demo h3, #demo h4,
+    #pricing h1, #pricing h2, #pricing h3, #pricing h4 {
+      color: #1C1917 !important;
+    }
+    #manifesto p, #tutor p, #demo p, #pricing p {
+      color: #292524 !important;
+    }
+    #manifesto strong, #tutor strong, #demo strong, #pricing strong {
+      color: #1C1917 !important;
+    }
+    #manifesto span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
+    #tutor span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
+    #demo span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
+    #pricing span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *) {
+      color: #1C1917 !important;
+    }
+
+    /* Light section buttons and accent elements retain white/proper text */
+    #manifesto .bg-[#EA580C], #tutor .bg-[#EA580C], #demo .bg-[#EA580C], #pricing .bg-[#EA580C],
+    #manifesto .bg-indigo-600, #tutor .bg-indigo-600, #demo .bg-indigo-600, #pricing .bg-indigo-600,
+    #pricing #pricing-tab-btn-b2c {
+      color: #FFFFFF !important;
+    }
+    #manifesto .bg-[#EA580C] *, #tutor .bg-[#EA580C] *, #demo .bg-[#EA580C] *, #pricing .bg-[#EA580C] *,
+    #manifesto .bg-indigo-600 *, #tutor .bg-indigo-600 *, #demo .bg-indigo-600 *, #pricing .bg-indigo-600 * {
+      color: #FFFFFF !important;
     }
 
     /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */
@@ -411,7 +450,7 @@
           <span class="text-sm text-stone-600 font-bold">진짜 수학 공부는 비용과 시간이 거의 들지 않아야 정상입니다</span>
         </div>
         <h3 class="text-xl sm:text-2xl lg:text-3xl font-black text-[#1C1917] leading-relaxed">
-          <span class="block">"비싼 컨텐츠 양치기와 테크닉 암기는 수학 공부가 아닙니다.</span>
+          <span class="block text-[#1C1917]">"비싼 컨텐츠 양치기와 테크닉 암기는 수학 공부가 아닙니다.</span>
           <span class="block text-[#4F46E5] mt-1.5">수학은 언어일 뿐입니다. 출제자의 의도가 해석되면 어떤 문제든 풀 수 있습니다."</span>
         </h3>
         <p class="text-sm sm:text-base text-stone-700 leading-relaxed font-normal pt-1">
@@ -518,8 +557,8 @@
       <div class="space-y-5">
         <span class="text-xs font-black text-[#EA580C] uppercase tracking-widest">EXAMINER AI TUTOR</span>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-900 leading-snug break-keep">
-          <span class="block">답만 툭 던져주는 AI는</span>
-          <span class="text-[#EA580C] block mt-1.5">출제자의 의도를 가립니다.</span>
+          <span class="block text-[#1C1917]">답만 툭 던져주는 AI는</span>
+          <span class="text-[#EA580C] block mt-1.5 font-black">출제자의 의도를 가립니다.</span>
         </h2>
         <div class="text-xs sm:text-sm text-stone-600 leading-relaxed space-y-3">
           <p class="font-medium">
@@ -599,8 +638,8 @@
       <div class="text-center space-y-3 max-w-2xl mx-auto">
         <span class="text-xs font-black text-amber-500 uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
         <h2 class="text-2xl sm:text-4xl font-black text-stone-900 leading-snug break-keep">
-          <span class="block">앱 열기 전 10초 만에 확인하는</span>
-          <span class="text-amber-500 block mt-1">ReadMath의 실시간 수식 번역</span>
+          <span class="block text-[#1C1917]">앱 열기 전 10초 만에 확인하는</span>
+          <span class="text-[#EA580C] block mt-1 font-black">ReadMath의 실시간 수식 번역</span>
         </h2>
         
 
@@ -647,19 +686,19 @@
         <!-- Left: Translation & Socratic Breakdown -->
         <div class="space-y-4" id="demo-content-left">
           <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-stone-300 text-[10px] font-black border border-stone-700/60" id="demo-badge">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-black border border-amber-300" id="demo-badge">
               고2 수학II / 삼차함수 접선과 극값 (정밀 격자 좌표계)
             </span>
-            <span class="text-xs text-slate-400" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
+            <span class="text-xs text-stone-600 font-bold" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
           </div>
 
           <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-800" id="demo-raw-problem">
-            <strong class="text-white block mb-1">원본 출제 조건:</strong>
+            <strong class="text-stone-900 block mb-1 font-extrabold">원본 출제 조건:</strong>
             "함수 f(x) = x³ - 3x 위의 한 점 (t, f(t))에서의 접선의 기울기가 9일 때, t의 값을 구하시오."
           </div>
 
           <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-xs space-y-2">
-            <div class="flex items-center gap-1.5 text-indigo-300 font-bold">
+            <div class="flex items-center gap-1.5 text-indigo-700 font-bold">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
               <span>ReadMath 출제 의도 한국어 번역:</span>
             </div>
@@ -828,11 +867,11 @@
       
       <!-- Heading -->
       <div class="text-center space-y-3 max-w-2xl mx-auto">
-        <span class="text-xs font-black text-indigo-400 uppercase tracking-widest">TRANSPARENT PRICING</span>
-        <h2 class="text-3xl sm:text-5xl font-black text-stone-900">
+        <span class="text-xs font-black text-indigo-700 uppercase tracking-widest">TRANSPARENT PRICING</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#1C1917]">
           합리적인 요금제 & 이용권
         </h2>
-        <p class="text-xs sm:text-sm text-stone-600">
+        <p class="text-xs sm:text-sm text-[#44403C] font-medium">
           인앱결제 수수료를 걷어내고 가장 합리적인 가격으로 책정했습니다.<br />
           원하시는 플랜을 선택하시고 웹에서 안전하게 결제하세요.
         </p>
@@ -2457,7 +2496,7 @@
 
       if (badgeEl) badgeEl.innerText = data.badge;
       if (subtitleEl) subtitleEl.innerText = data.subtitle;
-      if (rawProblemEl) rawProblemEl.innerHTML = `<strong class="text-white block mb-1">원본 출제 조건:</strong> ${data.problem}`;
+      if (rawProblemEl) rawProblemEl.innerHTML = `<strong class="text-stone-900 block mb-1 font-extrabold">원본 출제 조건:</strong> ${data.problem}`;
       if (transEl) transEl.innerHTML = data.translation;
       if (socraticEl) socraticEl.innerHTML = `<strong>출제자 유도 발문:</strong> ${data.socratic}`;
       if (svgContainerEl) svgContainerEl.innerHTML = data.svg;
