@@ -3597,146 +3597,17 @@
       </div>
 
       <!-- ================= 6. WEAKNESS REPORT VIEW (약점 리포트) ================= -->
-      <div id="view-report" class="hidden space-y-3.5">
-        <div>
-          <h2 class="text-lg font-black text-stone-900 dark:text-white">약점 리포트</h2>
-          <p class="text-xs text-stone-500 dark:text-slate-400">데이터 분석 기반 취약 유형 진단 및 맞춤 솔루션</p>
+      <div id="view-report" class="hidden space-y-3.5 max-w-4xl mx-auto">
+        <div class="pb-1 border-b border-stone-200 dark:border-slate-800">
+          <h2 class="text-base md:text-lg font-black text-stone-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="activity" class="w-5 h-5 text-[#EA580C]"></i>
+            <span>약점 리포트</span>
+          </h2>
+          <p class="text-xs text-stone-500 dark:text-slate-400">오답 데이터 기반 3단계 근본 원인 추적 및 성적 경고 솔루션</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-start pt-1">
-          <!-- Left Column: School Past Exam & Diagnostic Hub -->
-          <div>
-            <!-- School Past Exam & Diagnostic Hub (소속 학교별 내신 분석 허브) -->
-            <div id="school-rival-radar-card" class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm">
-              
-              <!-- Card Header & School Switcher -->
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-stone-200 dark:border-stone-800">
-                <div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-[10.5px] text-[#EA580C] font-bold flex items-center gap-1">
-                      <span class="w-1.5 h-1.5 rounded-full bg-[#EA580C]"></span> 분당권 학교 분석
-                    </span>
-                  </div>
-                  <h3 class="text-sm sm:text-base font-black text-stone-900 dark:text-white mt-1 flex items-center gap-1.5">
-                    <i data-lucide="graduation-cap" class="w-4 h-4 text-[#EA580C]"></i>
-                    <span id="dash-school-title">내신 기출 및 문항 분석</span>
-                  </h3>
-                </div>
-
-                <!-- Quick School & Grade Picker -->
-                <div class="flex items-center gap-1.5 shrink-0">
-                  <select id="dash-school-select" onchange="renderSchoolIntelDashboard()" class="bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white font-bold focus:outline-none focus:border-[#EA580C]">
-                    <optgroup label="분당구 고등학교 (19개교)">
-                      <option value="naksaeng" selected>낙생고</option>
-                      <option value="daejin">대진고</option>
-                      <option value="seohyun">서현고</option>
-                      <option value="bundang">분당고</option>
-                      <option value="jungang">분당중앙고</option>
-                      <option value="bopyeong">보평고</option>
-                      <option value="yatap">야탑고</option>
-                      <option value="hansol">한솔고</option>
-                      <option value="neulpureun">늘푸른고</option>
-                      <option value="yeongdeok">분당영덕여고</option>
-                      <option value="bulgok">불곡고</option>
-                      <option value="sunae">수내고</option>
-                      <option value="taewon">태원고</option>
-                      <option value="songlim">송림고</option>
-                      <option value="dolma">돌마고</option>
-                      <option value="woonjoong">운중고</option>
-                      <option value="pangyo">판교고</option>
-                      <option value="ewoo">이우고</option>
-                      <option value="seongnam_fl">성남외고</option>
-                    </optgroup>
-                    <optgroup label="수지구 고등학교 (10개교)">
-                      <option value="suji">수지고</option>
-                      <option value="pungdeok">풍덕고</option>
-                      <option value="seowon">서원고</option>
-                      <option value="sanghyeon">상현고</option>
-                      <option value="shinbong">신봉고</option>
-                      <option value="hongcheon">홍천고</option>
-                      <option value="seongbok">성복고</option>
-                      <option value="jukjeon">죽전고</option>
-                      <option value="daeji">대지고</option>
-                      <option value="hyeonam">현암고</option>
-                    </optgroup>
-                    <optgroup label="분당·성남권 중학교 (10개교)">
-                      <option value="naejeong_m">내정중</option>
-                      <option value="sunae_m">수내중</option>
-                      <option value="seohyun_m">서현중</option>
-                      <option value="imae_m">이매중</option>
-                      <option value="baekhyeon_m">백현중</option>
-                      <option value="yangyoung_m">양영중</option>
-                      <option value="neulpureun_m">늘푸른중</option>
-                      <option value="songlim_m">송림중</option>
-                      <option value="jeongja_m">정자중</option>
-                      <option value="maesong_m">매송중</option>
-                    </optgroup>
-                    <optgroup label="분당·성남권 초등학교 (10개교)">
-                      <option value="naksaeng_e">낙생초</option>
-                      <option value="seongnam_e">성남초</option>
-                      <option value="bundang_e">분당초</option>
-                      <option value="dangchon_e">당촌초</option>
-                      <option value="naejeong_e">내정초</option>
-                      <option value="sunae_e">수내초</option>
-                      <option value="seohyun_e">서현초</option>
-                      <option value="pangyo_e">판교초</option>
-                      <option value="woonjoong_e">운중초</option>
-                      <option value="bopyeong_e">보평초</option>
-                    </optgroup>
-                  </select>
-                  <select id="dash-grade-select" onchange="renderSchoolIntelDashboard()" class="bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white font-bold focus:outline-none focus:border-[#EA580C]">
-                    <option value="1">1학년</option>
-                    <option value="2">2학년</option>
-                    <option value="3" selected>3학년</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Section 1: Teachers Exam Source -->
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between text-xs">
-                  <span class="font-bold text-stone-800 dark:text-stone-200 flex items-center gap-1">
-                    <i data-lucide="users" class="w-3.5 h-3.5 text-[#EA580C]"></i>
-                    선생님별 출제 성향 분석
-                  </span>
-                </div>
-
-                <div id="dash-teachers-container" class="space-y-2">
-                </div>
-              </div>
-
-              <!-- Section 2: Personal Weakness Impact & Dual Predicted Grades -->
-              <div id="dash-weakness-section" class="bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl p-3.5 space-y-3">
-                <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
-                  <div class="flex items-center gap-1.5">
-                    <i data-lucide="clipboard-list" class="w-4 h-4 text-[#EA580C]"></i>
-                    <span class="text-xs font-bold text-stone-900 dark:text-white">나의 취약 영역 정밀 분석</span>
-                  </div>
-                  <span class="text-[10px] font-bold text-stone-500 dark:text-slate-400 bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-full border border-stone-200 dark:border-stone-700">
-                    진단 대기 중
-                  </span>
-                </div>
-
-                <div class="text-center py-7 px-3 space-y-2 bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 shadow-xs">
-                  <div class="w-10 h-10 mx-auto rounded-full bg-orange-50 dark:bg-stone-800 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-[#EA580C]">
-                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
-                  </div>
-                  <h4 class="text-xs font-bold text-stone-900 dark:text-white">분석된 취약 데이터가 없습니다</h4>
-                  <p class="text-[11px] text-stone-500 dark:text-slate-400 leading-relaxed max-w-xs mx-auto">
-                    문제를 질문하고 오답 분석을 진행하면, 나의 취약 영역 및 예상 등급 리포트가 자동으로 생성됩니다.
-                  </p>
-                  <button type="button" onclick="goToView('camera')" class="mt-2 inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition active:scale-95">
-                    <i data-lucide="camera" class="w-3.5 h-3.5"></i> 첫 문제 질문하기
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column: Dynamic Report & Cognitive DNA Radar -->
-          <div id="report-dynamic-container" class="space-y-3.5">
-            <!-- Populated dynamically via updateReportView() -->
-          </div>
+        <div id="report-dynamic-container" class="space-y-4 pt-1">
+          <!-- Populated dynamically via updateReportView() -->
         </div>
       </div>
 
@@ -3759,18 +3630,23 @@
 
 
         <!-- 3 Sub-Tabs inside Vault -->
-        <div class="flex bg-stone-100 dark:bg-slate-950 p-1 rounded-xl border border-stone-200 dark:border-slate-800 text-xs gap-1">
-          <button onclick="switchVaultSubTab('concepts')" id="tab-vault-concepts" class="flex-1 py-2 font-bold rounded-lg transition bg-[#EA580C] text-white shadow-md flex items-center justify-center gap-1.5">
-            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-            <span>맞춤 개념서</span>
-          </button>
-          <button onclick="switchVaultSubTab('exams')" id="tab-vault-exams" class="flex-1 py-2 font-bold rounded-lg transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-1.5">
-            <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+        <!-- 4 Sub-Tabs inside Vault (2x2 Grid) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 bg-stone-100 dark:bg-slate-950 p-1.5 rounded-2xl border border-stone-200 dark:border-slate-800 text-xs gap-1.5">
+          <button onclick="switchVaultSubTab('exams')" id="tab-vault-exams" class="py-2.5 px-3 font-bold rounded-xl transition bg-[#EA580C] text-white shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="file-check" class="w-4 h-4"></i>
             <span>맞춤 시험지</span>
           </button>
-          <button onclick="switchVaultSubTab('battle')" id="tab-vault-battle" class="flex-1 py-2 font-bold rounded-lg transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-1.5">
-            <i data-lucide="swords" class="w-3.5 h-3.5"></i>
+          <button onclick="switchVaultSubTab('concepts')" id="tab-vault-concepts" class="py-2.5 px-3 font-bold rounded-xl transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>맞춤 개념서</span>
+          </button>
+          <button onclick="switchVaultSubTab('battle')" id="tab-vault-battle" class="py-2.5 px-3 font-bold rounded-xl transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="swords" class="w-4 h-4"></i>
             <span>1:1 쌍둥이 배틀</span>
+          </button>
+          <button onclick="switchVaultSubTab('school')" id="tab-vault-school" class="py-2.5 px-3 font-bold rounded-xl transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="school" class="w-4 h-4 text-[#EA580C]"></i>
+            <span>내신 출처 분석</span>
           </button>
         </div>
 
@@ -3977,6 +3853,121 @@
             </div>
           </div>
         </div>
+        
+        <!-- VAULT SUB-PANEL 4: 내신 출처 분석 (학교별 교사진 출제 경향 & 출처 문제집 분석) -->
+        <div id="vault-panel-school" class="hidden space-y-4">
+          <!-- School Past Exam & Diagnostic Hub (소속 학교별 내신 출처 분석 허브) -->
+          <div id="school-rival-radar-card" class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm">
+            
+            <!-- Card Header & School Switcher -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-stone-200 dark:border-stone-800">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10.5px] text-[#EA580C] font-bold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#EA580C]"></span> 학교별 내신 출처 분석
+                  </span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-stone-900 dark:text-white mt-1 flex items-center gap-1.5">
+                  <i data-lucide="graduation-cap" class="w-4 h-4 text-[#EA580C]"></i>
+                  <span id="dash-school-title">내신 교사진 &amp; 시험 경향 예측</span>
+                </h3>
+              </div>
+
+              <!-- Quick School & Grade Picker -->
+              <div class="flex items-center gap-1.5 shrink-0">
+                <select id="dash-school-select" onchange="renderSchoolIntelDashboard()" class="bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white font-bold focus:outline-none focus:border-[#EA580C]">
+                  <optgroup label="분당구 고등학교 (19개교)">
+                    <option value="naksaeng" selected>낙생고</option>
+                    <option value="daejin">대진고</option>
+                    <option value="seohyun">서현고</option>
+                    <option value="bundang">분당고</option>
+                    <option value="jungang">분당중앙고</option>
+                    <option value="bopyeong">보평고</option>
+                    <option value="yatap">야탑고</option>
+                    <option value="hansol">한솔고</option>
+                    <option value="neulpureun">늘푸른고</option>
+                    <option value="yeongdeok">분당영덕여고</option>
+                    <option value="bulgok">불곡고</option>
+                    <option value="sunae">수내고</option>
+                    <option value="taewon">태원고</option>
+                    <option value="songlim">송림고</option>
+                    <option value="dolma">돌마고</option>
+                    <option value="woonjoong">운중고</option>
+                    <option value="pangyo">판교고</option>
+                    <option value="ewoo">이우고</option>
+                    <option value="seongnam_fl">성남외고</option>
+                  </optgroup>
+                  <optgroup label="수지구 고등학교 (10개교)">
+                    <option value="suji">수지고</option>
+                    <option value="pungdeok">풍덕고</option>
+                    <option value="seowon">서원고</option>
+                    <option value="sanghyeon">상현고</option>
+                    <option value="shinbong">신봉고</option>
+                    <option value="hongcheon">홍천고</option>
+                    <option value="seongbok">성복고</option>
+                    <option value="jukjeon">죽전고</option>
+                    <option value="daeji">대지고</option>
+                    <option value="hyeonam">현암고</option>
+                  </optgroup>
+                  <optgroup label="분당·성남권 중학교 (10개교)">
+                    <option value="naejeong_m">내정중</option>
+                    <option value="sunae_m">수내중</option>
+                    <option value="seohyun_m">서현중</option>
+                    <option value="imae_m">이매중</option>
+                    <option value="baekhyeon_m">백현중</option>
+                    <option value="yangyoung_m">양영중</option>
+                    <option value="neulpureun_m">늘푸른중</option>
+                    <option value="songlim_m">송림중</option>
+                    <option value="jeongja_m">정자중</option>
+                    <option value="maesong_m">매송중</option>
+                  </optgroup>
+                  <optgroup label="분당·성남권 초등학교 (10개교)">
+                    <option value="naksaeng_e">낙생초</option>
+                    <option value="seongnam_e">성남초</option>
+                    <option value="bundang_e">분당초</option>
+                    <option value="dangchon_e">당촌초</option>
+                    <option value="naejeong_e">내정초</option>
+                    <option value="sunae_e">수내초</option>
+                    <option value="seohyun_e">서현초</option>
+                    <option value="pangyo_e">판교초</option>
+                    <option value="bopyeong_e">보평초</option>
+                    <option value="chamsol_e">참솔초</option>
+                  </optgroup>
+                </select>
+
+                <select id="dash-grade-select" onchange="renderSchoolIntelDashboard()" class="bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white font-bold focus:outline-none focus:border-[#EA580C]">
+                  <option value="1">1학년</option>
+                  <option value="2" selected>2학년</option>
+                  <option value="3">3학년</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Teacher Intelligence Trends (3-Year Coverage: 2026 올해, 2025 1년 전, 2024 2년 전) -->
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-stone-800 dark:text-slate-300 flex items-center gap-1.5">
+                  <i data-lucide="users" class="w-3.5 h-3.5 text-[#EA580C]"></i> 선생님별 출제 성향 &amp; 출처 문제집 분석
+                </span>
+                <span class="text-[10px] text-stone-500 dark:text-slate-400 font-semibold" id="intel-reports-count-badge">최근 업데이트</span>
+              </div>
+
+              <!-- 3-Year Teacher Timeline Container -->
+              <div id="intel-teachers-container" class="space-y-2 text-xs">
+                <!-- Dynamically populated via renderSchoolIntelDashboard() -->
+              </div>
+
+              <!-- Crowdsourced Report Action Button -->
+              <div class="pt-1.5">
+                <button type="button" onclick="openCrowdsourceReportModal()" class="w-full py-2.5 px-3 rounded-xl border border-dashed border-stone-300 dark:border-stone-700 hover:border-orange-500/50 text-stone-600 dark:text-slate-300 hover:text-[#EA580C] text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer bg-stone-50/50 dark:bg-stone-950/40">
+                  <i data-lucide="plus-square" class="w-3.5 h-3.5"></i>
+                  <span>선생님·출처 문제집 제보하기</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
 <!-- ================= 7. SETTINGS VIEW ================= -->
@@ -8398,7 +8389,7 @@ final_answer: "② $\\frac{41}{10}$",
         preemptive_radar: {
           trap_name: "미분계수 접점 착각형 (Tangency Anchor Trap)",
           category_tag: "수학Ⅱ 미분법 빈출 함정",
-          alert_msg: "리드 쌤의 고질병 진단 레이더: 접점 (2, 2)에서의 기울기를 구할 때 평균변화율로 착각하거나, 접선의 식 y - f(t) = f'(t)(x - t) 전개 시 상수항 부호 실수가 빈번합니다. 그래프 상에서 접점과 접선을 명확히 스케치하세요!",
+          alert_msg: "리드 쌤의 약점 원인 분석: 접점 (2, 2)에서의 기울기를 구할 때 평균변화율로 착각하거나, 접선의 식 y - f(t) = f'(t)(x - t) 전개 시 상수항 부호 실수가 빈번합니다. 그래프 상에서 접점과 접선을 명확히 스케치하세요!",
           compare_past: {
             past_problem_title: "이차함수의 접선과 판별식",
             past_trap: "접선 방정식을 세울 때 판별식 D=0만 고집하다가 계산이 복잡해져 오답 발생",
@@ -16549,7 +16540,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 <i data-lucide="info" class="w-3.5 h-3.5 text-[#EA580C]"></i> 메타인지 자가진단 원리
               </div>
               <p>
-                오답노트 보관함에서 문제를 열고 <strong>[오답 원인 분석]</strong>을 터치해 보세요. 문제를 조건별로 쪼갠 뒤 내가 막혔던 원인(그림/그래프, 식 세우기, 조건 놓침, 개념 공식)을 직접 선택하여 저장하면 누적 약점 레이더가 완성됩니다.
+                오답노트 보관함에서 문제를 열고 <strong>[오답 원인 분석]</strong>을 터치해 보세요. 문제를 조건별로 쪼갠 뒤 내가 막혔던 원인(그림/그래프, 식 세우기, 조건 놓침, 개념 공식)을 직접 선택하여 저장하면 누적 약점 원인추적가 완성됩니다.
               </p>
             </div>
           </div>
@@ -16586,18 +16577,44 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!activeProbId) {
         // Standby State: User has not selected a problem from Wrong Answer Note yet
         dagSectionHtml = `
-          <div id="report-dag-card-section" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-md">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <div id="report-dag-card-section" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md">
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
               <div class="flex items-center gap-2">
                 <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
                   <i data-lucide="git-branch" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h3 class="text-xs font-black text-white">수학 약점 원인 추적 레이더</h3>
+                  <h3 class="text-xs md:text-sm font-black text-white">3단계 : 수학약점 원인추적</h3>
                   <p class="text-[10px] text-slate-400">문항별 개별 인지 약점 역추적 시스템</p>
                 </div>
               </div>
               <span class="text-[9.5px] bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-bold">진단 대기 상태</span>
+            </div>
+
+            <!-- 내 문제점의 시작 지점 역추적 안내 배너 -->
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-stone-300 font-extrabold flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
+                  내 문제점의 시작 지점 역추적 흐름
+                </span>
+                <span class="text-[10px] text-orange-400 font-bold bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/30">
+                  결손 발원지 규명
+                </span>
+              </div>
+              <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
+                <span class="px-2 py-0.5 rounded bg-orange-500/20 text-[#EA580C] font-extrabold border border-orange-500/40">
+                  [문제점의 시작] 초·중등 선수 결손
+                </span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">
+                  [개념 연계] 고1 대수식 번역 누수
+                </span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  [현재 결함] 수능·내신 킬러 오답
+                </span>
+              </div>
             </div>
 
             <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80 text-center space-y-2.5">
@@ -16606,9 +16623,9 @@ window.addEventListener('DOMContentLoaded', () => {
               </div>
               <h4 class="text-xs font-extrabold text-white">분석할 오답 문항을 오답노트에서 선택해주세요</h4>
               <p class="text-[11px] text-slate-400 leading-relaxed max-w-sm mx-auto">
-                모든 문제의 원인이 뒤섞이지 않도록, <strong>오답노트에서 특정 문제를 선택</strong>하시면 해당 문항의 초·중·고 인지 결함 연계망이 개별 작동합니다.
+                모든 문제의 원인이 뒤섞이지 않도록 <strong>오답노트에서 특정 문제를 선택</strong>하시면 해당 문항의 초·중·고 인지 결함 연계망이 개별 연동됩니다.
               </p>
-              <div class="pt-1 flex flex-col sm:flex-row items-center justify-center gap-2">
+              <div class="pt-1">
                 <button type="button" onclick="goToView('history')" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
                   <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                   <span>오답노트에서 문항 선택하기</span>
@@ -16634,42 +16651,69 @@ window.addEventListener('DOMContentLoaded', () => {
         const dagData = buildCognitiveKnowledgeDagSvg(activeProbId);
 
         dagSectionHtml = `
-          <div id="report-dag-card-section" class="bg-slate-900 border-2 border-orange-500/60 rounded-2xl p-4 space-y-3 shadow-xl transition-all">
-            <div class="flex items-center justify-between pb-2 border-b border-orange-500/30 gap-2">
+          <div id="report-dag-card-section" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md transition-all">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800 gap-2">
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-2">
                   <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-[#EA580C] shrink-0">
                     <i data-lucide="git-branch" class="w-4 h-4"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="flex items-center gap-1.5 flex-wrap">
-                      <h3 class="text-xs font-black text-white">근본 원인 찾아보자</h3>
-                    </div>
-                    <p class="text-[10.5px] text-stone-300 font-bold truncate mt-0.5">${displayTitle}</p>
+                    <h3 class="text-xs md:text-sm font-black text-white">3단계 : 수학약점 원인추적</h3>
+                    <p class="text-[10.5px] text-stone-400 font-bold truncate mt-0.5">${displayTitle}</p>
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="goToView('history')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded-lg border border-slate-700 transition cursor-pointer" title="오답노트로 돌아가 다른 문항 선택">
+                <button type="button" onclick="goToView('history')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 transition cursor-pointer" title="오답노트로 돌아가 다른 문항 선택">
                   <span>다른 문항</span>
                 </button>
-                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-2.5 py-1 rounded-lg transition shadow-xs flex items-center gap-1 cursor-pointer">
+                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3 py-1 rounded-lg transition shadow-xs flex items-center gap-1 cursor-pointer">
                   <i data-lucide="maximize-2" class="w-3 h-3"></i>
                   <span>상세보기</span>
                 </button>
               </div>
             </div>
 
-            <!-- SVG Container -->
-            <div class="math-dag-container rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-1 shadow-inner h-[230px] sm:h-[260px] flex items-center justify-center">
+            <!-- 내 문제점의 시작 지점 역추적 배너 -->
+            <div class="p-3.5 bg-slate-950/90 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-stone-200 font-black flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
+                  내 문제점의 시작 지점 역추적
+                </span>
+                <span class="text-[10px] text-[#EA580C] font-extrabold bg-orange-500/15 px-2 py-0.5 rounded border border-orange-500/30">
+                  결손 발원지 규명
+                </span>
+              </div>
+              <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
+                <span class="px-2.5 py-1 rounded-lg bg-orange-500/20 text-[#EA580C] font-extrabold border border-orange-500/40">
+                  [문제점의 시작] ${dagData.diagnosis.deficitTitle}
+                </span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold border border-slate-700">
+                  [개념 연계] 고1 대수식 번역 누수
+                </span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+                <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  [현재 결함] ${displayTitle} 실전 오답
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-relaxed font-medium pt-0.5">
+                이 문제가 틀린 근본적인 시작점은 <strong>[${dagData.diagnosis.deficitTitle}]</strong>에 있습니다. ${dagData.diagnosis.deficitReason}
+              </p>
+            </div>
+
+            <!-- Large SVG Container -->
+            <div class="math-dag-container rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-1 shadow-inner h-[280px] sm:h-[320px] flex items-center justify-center">
               ${dagData.svg}
             </div>
 
-            <div class="flex items-center justify-between pt-0.5">
-              <div class="text-[10.5px] text-slate-300">
-                감지된 약점 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
+            <div class="flex items-center justify-between pt-0.5 text-xs">
+              <div class="text-[11px] text-slate-300">
+                시작 결손 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
               </div>
-              <button type="button" onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1 cursor-pointer">
+              <button type="button" onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10.5px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1 cursor-pointer">
                 <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
               </button>
             </div>
@@ -16681,17 +16725,17 @@ window.addEventListener('DOMContentLoaded', () => {
       const currentDiag = getCognitiveDiagnosisForProblem(activeProbId || (activeProbObj ? activeProbObj.id : 1));
 
       container.innerHTML = `
-        <!-- 1. 핵심 약점 우선 진단 (Step 1: Identify Weakness First) -->
-        <div class="bg-slate-900 border border-orange-500/50 rounded-2xl p-4 md:p-5 space-y-3 shadow-md">
-          <div class="flex items-center justify-between pb-2 border-b border-orange-500/20">
-            <span class="text-xs font-black text-amber-400 flex items-center gap-1.5">
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i> 나의 주된 오답 원인 (스스로 확정한 진단 기준)
+        <!-- 1단계 : 나의 주된 문제원인 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3 shadow-md">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+            <span class="text-xs font-black text-[#EA580C] uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="target" class="w-4 h-4 text-[#EA580C]"></i> 1단계 : 나의 주된 문제원인
             </span>
-            <span class="text-[10px] text-orange-400 font-extrabold bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/30">전체 오답의 ${topPct}%</span>
+            <span class="text-[10px] text-stone-300 font-extrabold bg-stone-800 px-2.5 py-0.5 rounded-full border border-stone-700">전체 오답의 ${topPct}%</span>
           </div>
           <div>
             <h3 class="text-base md:text-lg font-black text-white">"${topInfo.title}"</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed font-medium">
               ${topInfo.desc}이 직접 확정한 전체 오답의 <strong>${topPct}%</strong> (${maxCount}건)입니다.
             </p>
           </div>
@@ -16701,26 +16745,26 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <!-- 2. 방치 시 치명적 성적 타격 예측 경고 (Step 2: Predicted Consequences if Neglected) -->
-        <div class="bg-slate-900 border-2 border-red-500/40 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-lg">
-          <div class="flex items-center justify-between pb-2 border-b border-red-500/20">
+        <!-- 2단계 : 방치할 경우 예상되는 성적경고 (Cohesive Dark Slate & Warm Amber/Coral, ZERO 알록달록) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400">
+              <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
                 <i data-lucide="shield-alert" class="w-4 h-4"></i>
               </div>
-              <h3 class="text-xs md:text-sm font-black text-white">⚠️ 이 약점을 방치할 경우 예상되는 성적 경고</h3>
+              <h3 class="text-xs md:text-sm font-black text-white">2단계 : 방치할 경우 예상되는 성적경고</h3>
             </div>
-            <span class="text-[10px] font-extrabold text-red-300 bg-red-950/80 border border-red-500/40 px-2 py-0.5 rounded-full">성적 하락 위험</span>
+            <span class="text-[10px] font-extrabold text-stone-300 bg-stone-800 border border-stone-700 px-2 py-0.5 rounded-full">성적 하락 위험</span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
             <!-- 내신 경고 -->
             <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-black text-rose-400 flex items-center gap-1.5">
-                  <i data-lucide="school" class="w-3.5 h-3.5"></i> 학교 내신 시험 경고
+                <span class="text-xs font-black text-stone-200 flex items-center gap-1.5">
+                  <i data-lucide="school" class="w-3.5 h-3.5 text-[#EA580C]"></i> 학교 내신 시험 경고
                 </span>
-                <span class="text-[10px] font-extrabold text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-500/30">예상 등급: 3~4등급 하락</span>
+                <span class="text-[10px] font-extrabold text-stone-300 bg-stone-800 px-2 py-0.5 rounded border border-stone-700">예상 등급: 3~4등급 하락</span>
               </div>
               <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
                 <strong>[${currentDiag.deficitTitle}]</strong> 결함을 방치할 경우, 내신 서술형 문항에서 조건 번역 및 식 전개 실패로 <strong>부분 점수 대량 감점(-8~12점)</strong> 및 킬러 문항 2~3개 실점으로 직결됩니다.
@@ -16730,10 +16774,10 @@ window.addEventListener('DOMContentLoaded', () => {
             <!-- 수능 / 모의고사 경고 -->
             <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-black text-amber-400 flex items-center gap-1.5">
-                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> 수능·모의고사 경고
+                <span class="text-xs font-black text-stone-200 flex items-center gap-1.5">
+                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-amber-400"></i> 수능·모의고사 경고
                 </span>
-                <span class="text-[10px] font-extrabold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">예상 등급: 1등급 컷 탈락</span>
+                <span class="text-[10px] font-extrabold text-stone-300 bg-stone-800 px-2 py-0.5 rounded border border-stone-700">예상 등급: 1등급 컷 탈락</span>
               </div>
               <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
                 수능 공통 및 선택 킬러 문항에서 <strong>[${currentDiag.deficitTitle}]</strong>을 복합 연계한 4점짜리 역발문 조건을 마주했을 때, 풀이 시작 방향을 잡지 못해 <strong>4점 문항 2개 이상 실점(8~12점 하락)</strong> 위험이 큽니다.
@@ -16742,18 +16786,18 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <!-- 솔루션 처방 CTA -->
-          <div class="p-3 bg-amber-500/10 rounded-xl border border-amber-500/30 space-y-2">
+          <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2">
             <div class="flex items-center justify-between text-xs">
-              <span class="font-extrabold text-amber-300 flex items-center gap-1.5">
-                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400"></i> AI 처방 행동 강령
+              <span class="font-extrabold text-stone-200 flex items-center gap-1.5">
+                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#EA580C]"></i> AI 처방 행동 강령
               </span>
-              <span class="text-[10px] text-slate-400 font-bold">즉시 보완 권장</span>
+              <span class="text-[10px] text-stone-400 font-bold">즉시 보완 권장</span>
             </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-medium">
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
               ${currentDiag.remedyTip}
             </p>
             <div class="pt-1 flex justify-end">
-              <button onclick="goToView('vault')" class="px-3.5 py-2 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition">
+              <button onclick="goToView('vault')" class="px-3.5 py-2 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition cursor-pointer">
                 <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
                 <span>맞춤 시험지 보관함에서 취약 단원 집중 출제</span>
               </button>
@@ -16761,7 +16805,7 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <!-- 3. 근본 원인 찾아보자 (Step 3: Root Cause Neural DAG) -->
+        <!-- 3단계 : 수학약점 원인추적 (Step 3: Root Cause Neural DAG) -->
         ${dagSectionHtml}
       `;
       lucide.createIcons();
@@ -16791,6 +16835,8 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!container) return;
 
       const gradeSolvedItems = userSolvedHistory.filter(p => isGradeMatch(p.curriculum_grade, currentGrade));
+      // Fallback: If no items strictly match currentGrade, but user has solved history items, show all userSolvedHistory so recent questions are NEVER hidden!
+      const recentItems = gradeSolvedItems.length > 0 ? gradeSolvedItems : userSolvedHistory;
       const sampleId = getSampleProblemIdForGrade(currentGrade);
       const sampleProb = PROBLEMS_DB[sampleId] || PROBLEMS_DB[1];
       const showSampleCard = !isSampleProblemDismissed();
@@ -16876,8 +16922,8 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       // 2. Recent Solved Questions Section (Unified card matching Picture 3 height & styling)
-      if (gradeSolvedItems.length > 0) {
-        const recent = gradeSolvedItems.slice(0, 2);
+      if (recentItems.length > 0) {
+        const recent = recentItems.slice(0, 2);
         html += `
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 md:p-5 flex flex-col justify-between h-full space-y-3 shadow-md">
             <div class="flex items-center justify-between pb-2.5 border-b border-slate-800/80">
@@ -16915,26 +16961,39 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
       } else if (!showSampleCard) {
-        // If no solved questions AND sample card is dismissed, show camera photo guide with restore link
+        // If no solved questions AND sample card is dismissed, show interactive quick-start problems
         html += `
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 md:p-5 flex flex-col justify-between h-full space-y-3 shadow-md">
-            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800/80">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
               <div class="flex items-center gap-2 text-stone-300 font-bold text-xs">
-                <div class="w-7 h-7 rounded-lg bg-[#EA580C]/30 border border-orange-500/40 flex items-center justify-center shrink-0">
-                  <i data-lucide="info" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                <div class="w-7 h-7 rounded-lg bg-[#EA580C]/20 border border-orange-500/30 flex items-center justify-center shrink-0 text-[#EA580C]">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                 </div>
-                <span>촬영 가이드</span>
+                <span>추천 기출 1:1 시각 해설 체험</span>
               </div>
-              <button onclick="restoreSampleProblemCard()" class="text-[10px] text-[#EA580C] hover:underline">
-                체험 샘플 다시 보기
+              <button onclick="restoreSampleProblemCard()" class="text-[10.5px] text-[#EA580C] hover:underline font-bold cursor-pointer">
+                체험 다시 열기
               </button>
             </div>
-            <div class="flex-1 flex flex-col justify-center py-4">
-              <p class="text-[11.5px] text-slate-300 leading-relaxed text-center">
-                교재나 시험지의 문제 번호와 지문, 도형이 잘 보이도록 정면에서 수평을 맞춰 촬영해주세요.<br/>
-                1:1 시각적 원리 해설이 즉시 생성됩니다.
-              </p>
+            <div class="space-y-2 py-1">
+              <div onclick="openSampleProblemPreview(15)" class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-orange-500/40 cursor-pointer transition flex items-center justify-between group">
+                <div>
+                  <span class="text-[10px] font-bold text-[#EA580C] block">[고3 수능 15번]</span>
+                  <span class="text-xs font-bold text-white group-hover:text-amber-300 transition">삼차함수 그래프 개형과 구간 최솟값</span>
+                </div>
+                <span class="text-xs font-black text-[#EA580C] shrink-0">체험 →</span>
+              </div>
+              <div onclick="openSampleProblemPreview(1)" class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-orange-500/40 cursor-pointer transition flex items-center justify-between group">
+                <div>
+                  <span class="text-[10px] font-bold text-amber-400 block">[고1 공통수학]</span>
+                  <span class="text-xs font-bold text-white group-hover:text-amber-300 transition">이차함수와 직선의 위치 관계</span>
+                </div>
+                <span class="text-xs font-black text-amber-400 shrink-0">체험 →</span>
+              </div>
             </div>
+            <p class="text-[11px] text-slate-400 text-center leading-relaxed">
+              문제를 직접 촬영하거나, 위 대표 기출을 터치하여 1:1 시각적 원리 해설을 즉시 확인해보세요.
+            </p>
           </div>
         `;
       }
@@ -20697,7 +20756,7 @@ window.addEventListener('DOMContentLoaded', () => {
       } else {
         radarCard.classList.remove('hidden');
         if (radarBadge) radarBadge.innerText = '실시간 약점 방지';
-        radarText.innerHTML = `"<strong>리드 쌤의 약점 레이더</strong>: 이 문제는 꼭짓점이 미지수이므로 수식 계산만으로는 풀 수 없습니다. 대칭축의 위치에 따른 3가지 포물선 개형을 반드시 먼저 그리세요!"`;
+        radarText.innerHTML = `"<strong>리드 쌤의 약점 원인추적</strong>: 이 문제는 꼭짓점이 미지수이므로 수식 계산만으로는 풀 수 없습니다. 대칭축의 위치에 따른 3가지 포물선 개형을 반드시 먼저 그리세요!"`;
       }
     }
 
@@ -22708,15 +22767,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function switchVaultSubTab(tab) {
-      const tabs = ['concepts', 'exams', 'battle'];
+      const tabs = ['exams', 'concepts', 'battle', 'school'];
       tabs.forEach(t => {
         const btn = document.getElementById('tab-vault-' + t);
         const panel = document.getElementById('vault-panel-' + t);
         if (btn) {
           if (t === tab) {
-            btn.className = 'flex-1 py-2 font-bold rounded-lg transition bg-[#EA580C] text-white shadow-md flex items-center justify-center gap-1.5';
+            btn.className = 'py-2.5 px-3 font-bold rounded-xl transition bg-[#EA580C] text-white shadow-md flex items-center justify-center gap-2 cursor-pointer';
           } else {
-            btn.className = 'flex-1 py-2 font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+            btn.className = 'py-2.5 px-3 font-bold rounded-xl transition text-stone-600 dark:text-slate-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center gap-2 cursor-pointer';
           }
         }
         if (panel) {
@@ -22724,6 +22783,9 @@ window.addEventListener('DOMContentLoaded', () => {
             panel.classList.remove('hidden');
             if (t === 'exams' && typeof renderExamPrepHierarchicalTree === 'function') {
               renderExamPrepHierarchicalTree();
+            }
+            if (t === 'school' && typeof renderSchoolIntelDashboard === 'function') {
+              renderSchoolIntelDashboard();
             }
           } else {
             panel.classList.add('hidden');
@@ -22886,12 +22948,12 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 개념서가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                신경망 레이더에서 나의 약점 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
+                약점 신경망에서 나의 약점 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
               <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
-              <span>신경망 레이더에서 첫 개념서 만들기</span>
+              <span>약점 신경망에서 첫 개념서 만들기</span>
             </button>
           </div>
         `;
@@ -23020,7 +23082,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 시험지가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                신경망 레이더나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
+                약점 신경망이나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
