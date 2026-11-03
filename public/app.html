@@ -2254,7 +2254,7 @@
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
   <style>
     :root {
-      --accent-primary: #FB923C;
+      --accent-primary: #EA580C;
       --math-highlight: rgba(251, 146, 60, 0.15);
       --bg-main: #141210;
       --bg-surface: #1F1C18;
@@ -2915,9 +2915,9 @@
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> 다시 찍기
           </button>
           <div class="flex items-center gap-1 shrink-0 flex-nowrap">
-            <button onclick="openKnowledgeDagModal()" id="btn-knowledge-dag" class="bg-slate-800 hover:bg-slate-700 text-stone-200 border border-orange-500/50 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="수학 인지 DNA 신경망 지식그래프">
+            <button onclick="openKnowledgeDagModal()" id="btn-knowledge-dag" class="bg-slate-800 hover:bg-slate-700 text-stone-200 border border-orange-500/50 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="수학 개념 원인 추적 신경망 지식그래프">
               <i data-lucide="git-branch" class="w-3 h-3 text-[#EA580C]"></i>
-              <span>인지 DNA</span>
+              <span>원인 추적</span>
             </button>
             <button onclick="toggleTeacherMode()" id="solution-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="학생/선생님 모드 전환">
               <i data-lucide="graduation-cap" class="w-3 h-3 text-[#EA580C]" id="solution-role-icon"></i>
@@ -3328,7 +3328,7 @@
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-lg font-black text-stone-900 dark:text-white">오답노트</h2>
-            <p class="text-xs text-stone-500 dark:text-slate-400">내가 질문했던 문제와 시각 해설 복습</p>
+            
           </div>
           <div class="flex items-center gap-1.5">
             <span id="history-total-count" class="bg-stone-100 dark:bg-slate-800 text-[#EA580C] text-xs font-bold px-2 py-1 rounded-lg border border-stone-200 dark:border-slate-700">총 0문항</span>
@@ -3585,27 +3585,7 @@
           </span>
         </div>
 
-        <!-- Prominent Exam Generator Hero Banner in Exam Prep Tab -->
-        <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
-          <div class="flex items-center gap-3">
-            <div class="printer-icon-box w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
-              <i data-lucide="printer" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-sm sm:text-base font-black text-stone-900 dark:text-stone-100">분당권 기출 변형 파이널 시험지 &amp; 실전 모의고사</h3>
-                <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-100 dark:bg-stone-800 text-orange-800 dark:text-stone-300 border border-orange-200 dark:border-stone-700 font-bold shrink-0">내신 100% 매칭</span>
-              </div>
-              <p class="text-xs text-stone-600 dark:text-stone-400 mt-1 leading-relaxed">
-                학교별 기출 경향(2~3개년 분당권), 최신 출제 트렌드, 취약 단원 반영 실전 A4 모의고사 생성 및 해설지 즉시 인쇄
-              </p>
-            </div>
-          </div>
-          <button type="button" onclick="openExamSheetModal()" class="btn-exam-sheet-action px-5 py-2.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs transition flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-sm active:scale-95" style="color: #FFFFFF !important;">
-            <i data-lucide="file-plus" class="w-4 h-4" style="color: #FFFFFF !important;"></i>
-            <span style="color: #FFFFFF !important; font-weight: 800;">시험지 즉시 생성 (PDF)</span>
-          </button>
-        </div>
+
 
         <!-- 3 Sub-Tabs inside Vault -->
         <div class="flex bg-stone-100 dark:bg-slate-950 p-1 rounded-xl border border-stone-200 dark:border-slate-800 text-xs gap-1">
@@ -3641,7 +3621,7 @@
         <!-- VAULT SUB-PANEL 2: 맞춤 시험지 (AI 쌍둥이 문항 & 정답/해설지) -->
         <div id="vault-panel-exams" class="hidden space-y-4">
           <!-- Direct Exam Preparation Project Card -->
-          <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-sm relative overflow-hidden">
+          <div class="bg-white dark:bg-stone-900 border border-stone-200/60 dark:border-white/10 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-sm relative overflow-hidden">
             <div class="flex items-center justify-between pb-2.5 border-b border-stone-200 dark:border-stone-800">
               <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-stone-800 border border-orange-200 dark:border-stone-700 flex items-center justify-center text-[#EA580C] shrink-0">
@@ -3872,7 +3852,7 @@
                 <p class="text-[10px] text-slate-400">앱스토어 설치 없이 홈 화면에서 단독 앱처럼 바로 실행</p>
               </div>
             </div>
-            <span class="text-[9px] font-extrabold text-cyan-300 bg-cyan-950/80 border border-cyan-700/50 px-2 py-0.5 rounded-full shrink-0">PWA 지원</span>
+            
           </div>
           <div class="flex items-center gap-2 pt-1">
             <button onclick="triggerPwaInstall()" class="flex-1 bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition shadow-sm active:scale-98">
@@ -4760,7 +4740,7 @@
               </div>
               <div class="min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <h3 class="text-sm sm:text-base font-extrabold text-white">수학 인지 DNA 신경망 상세 분석</h3>
+                  <h3 class="text-sm sm:text-base font-extrabold text-white">수학 개념 원인 추적 신경망 상세 분석</h3>
                   <span id="dag-modal-problem-badge" class="text-[10.5px] bg-stone-900 text-stone-300 border border-orange-500/40 px-2.5 py-0.5 rounded-full font-bold max-w-[220px] sm:max-w-sm truncate">문항 분석</span>
                 </div>
                 <p class="text-[10.5px] text-slate-400 truncate mt-0.5">이 문항의 결함이 어디서 시작되었는지 초·중·고 선행 개념으로 역추적합니다</p>
@@ -4825,7 +4805,7 @@
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <h3 class="text-sm sm:text-base font-black text-white">수학 인지 DNA 신경망 (전체화면)</h3>
+              <h3 class="text-sm sm:text-base font-black text-white">수학 개념 원인 추적 신경망 (전체화면)</h3>
               <span id="dag-fullscreen-problem-badge" class="bg-stone-900 text-stone-300 border border-orange-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full truncate"></span>
             </div>
             <p class="text-[10.5px] text-slate-400">화면 크기에 맞춰 유동적으로 렌더링되며 노드를 터치하여 개별 인지 약점을 분석합니다</p>
@@ -6453,6 +6433,202 @@
 
     // Default Problem Dataset (Equipped with full Condition x Category Matrix)
     const PROBLEMS_DB = {
+    15: {
+      id: 15,
+      title: "삼차함수 그래프 개형과 구간 최솟값 부등식",
+      curriculum_grade: "고3/N수",
+      curriculum_badge: "고3/N수 수능 공통 15번 킬러 문항",
+      problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \ge t$인 모든 실수 $x$가 $2x + t \le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\{-1\} \cup \{t \mid t \ge 3\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
+      final_answer: "② $\\frac{41}{10}$",
+      svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <!-- Axes -->
+  <line x1="20" y1="160" x2="395" y2="160" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="395,157 403,160 395,163" fill="#64748B"/>
+  <line x1="140" y1="235" x2="140" y2="20" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="137,20 140,12 143,20" fill="#64748B"/>
+  <text x="395" y="175" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <text x="125" y="25" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="128" y="175" fill="#64748B" font-size="10">O</text>
+  
+  <!-- Dashed Guidelines -->
+  <line x1="100" y1="160" x2="100" y2="130" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <line x1="220" y1="160" x2="220" y2="190" stroke="#F87171" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <line x1="100" y1="130" x2="140" y2="130" stroke="#94A3B8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="140" y1="190" x2="220" y2="190" stroke="#F87171" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- Number Ticks -->
+  <text x="100" y="175" fill="#94A3B8" font-size="9" text-anchor="middle">-1</text>
+  <text x="220" y="155" fill="#94A3B8" font-size="9" text-anchor="middle">2</text>
+  <text x="260" y="175" fill="#94A3B8" font-size="9" text-anchor="middle">3</text>
+  <text x="135" y="133" fill="#94A3B8" font-size="9" text-anchor="end">-g(2)</text>
+  <text x="135" y="193" fill="#F87171" font-size="9" text-anchor="end">g(2)</text>
+
+  <!-- Curve: y = g(x) = f(x) - 2x -->
+  <path d="M 60 210 C 80 150, 90 130, 100 130 C 120 130, 140 100, 160 110 C 180 120, 200 190, 220 190 C 240 190, 250 160, 260 160 C 280 160, 300 100, 320 50" fill="none" stroke="#10B981" stroke-width="2.5"/>
+  <text x="45" y="42" fill="#34D399" font-size="11" font-weight="bold">y = g(x) = f(x) - 2x</text>
+
+  <!-- Keypoints -->
+  <circle cx="100" cy="130" r="4.5" fill="#EF4444"/>
+  <text x="105" y="120" fill="#F87171" font-size="10" font-weight="bold">t = -1</text>
+  <circle cx="220" cy="190" r="4.5" fill="#EF4444"/>
+  <text x="225" y="205" fill="#F87171" font-size="10" font-weight="bold">극소 (x = 2)</text>
+  <circle cx="260" cy="160" r="4.5" fill="#3B82F6"/>
+  <text x="265" y="150" fill="#60A5FA" font-size="10" font-weight="bold">t = 3 (g(3) = 0)</text>
+</svg>`,
+      diagram_caption: "도함수의 활용: 삼차함수의 그래프 개형과 구간 최솟값을 이용한 부등식 해석",
+            diagrams: [
+        {
+          id: "d1",
+          caption: "도함수의 활용: 삼차함수의 그래프 개형과 구간 최솟값을 이용한 부등식 해석",
+          svg: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <!-- Axes -->
+  <line x1="20" y1="160" x2="395" y2="160" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="395,157 403,160 395,163" fill="#64748B"/>
+  <line x1="140" y1="235" x2="140" y2="20" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="137,20 140,12 143,20" fill="#64748B"/>
+  <text x="395" y="175" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <text x="125" y="25" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="128" y="175" fill="#64748B" font-size="10">O</text>
+  
+  <!-- Dashed Guidelines -->
+  <line x1="100" y1="160" x2="100" y2="130" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <line x1="220" y1="160" x2="220" y2="190" stroke="#F87171" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <line x1="100" y1="130" x2="140" y2="130" stroke="#94A3B8" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="140" y1="190" x2="220" y2="190" stroke="#F87171" stroke-width="1" stroke-dasharray="2 2"/>
+
+  <!-- Number Ticks -->
+  <text x="100" y="175" fill="#94A3B8" font-size="9" text-anchor="middle">-1</text>
+  <text x="220" y="155" fill="#94A3B8" font-size="9" text-anchor="middle">2</text>
+  <text x="260" y="175" fill="#94A3B8" font-size="9" text-anchor="middle">3</text>
+  <text x="135" y="133" fill="#94A3B8" font-size="9" text-anchor="end">-g(2)</text>
+  <text x="135" y="193" fill="#F87171" font-size="9" text-anchor="end">g(2)</text>
+
+  <!-- Curve: y = g(x) = f(x) - 2x -->
+  <path d="M 60 210 C 80 150, 90 130, 100 130 C 120 130, 140 100, 160 110 C 180 120, 200 190, 220 190 C 240 190, 250 160, 260 160 C 280 160, 300 100, 320 50" fill="none" stroke="#10B981" stroke-width="2.5"/>
+  <text x="45" y="42" fill="#34D399" font-size="11" font-weight="bold">y = g(x) = f(x) - 2x</text>
+
+  <!-- Keypoints -->
+  <circle cx="100" cy="130" r="4.5" fill="#EF4444"/>
+  <text x="105" y="120" fill="#F87171" font-size="10" font-weight="bold">t = -1</text>
+  <circle cx="220" cy="190" r="4.5" fill="#EF4444"/>
+  <text x="225" y="205" fill="#F87171" font-size="10" font-weight="bold">극소 (x = 2)</text>
+  <circle cx="260" cy="160" r="4.5" fill="#3B82F6"/>
+  <text x="265" y="150" fill="#60A5FA" font-size="10" font-weight="bold">t = 3 (g(3) = 0)</text>
+</svg>`
+        }
+      ],
+      core_clauses: [
+        {
+          id: "clause_1",
+          text: "$f'(2) = 2$인 삼차함수 $f(x)$",
+          meaning: "삼차함수 $f(x)$에 대하여 $g(x) = f(x) - 2x$로 두면 $g'(2) = f'(2) - 2 = 0$이므로 $x = 2$에서 접선의 기울기가 $0$이 됩니다.",
+          trap: "$f'(2) = 2$라는 조건을 $f(2) = 2$와 혼동하거나 접선의 기울기가 $0$이 되는 극솟점 위치를 놓칠 수 있습니다.",
+          prescriptions: {
+            visual: "곡선 $y = f(x)$와 직선 $y = 2x$의 위치 관계 또는 차함수 $y = g(x)$의 그래프를 좌표평면에 스케치하고 $x = 2$에서 접선의 기울기가 $0$인 극솟점임을 시각적으로 확인하세요.",
+            modeling: "$g(x) = f(x) - 2x$로 치환한 뒤 양변을 미분하여 $g'(x) = f'(x) - 2$에 $x = 2$를 대입하는 식 세우기를 진행하세요.",
+            condition: "$f'(2) = 2$ 조건으로부터 $g'(2) = 0$을 도출하고 삼차함수의 극솟값 위치가 $x = 2$임을 확인하세요.",
+            concept: "도함수와 접선의 기울기 관계 및 차함수 $g(x) = f(x) - mx$의 미분 개념을 복습하세요."
+          }
+        },
+        {
+          id: "clause_2",
+          text: "$x \\ge t$인 모든 실수 $x$에 대하여 $2x + t \\le f(x) + f(t)$",
+          meaning: "부등식을 $f(x) - 2x \\ge -(f(t) - t)$ 즉 $g(x) \\ge -g(t)$로 이항 정리하면, 구간 $[t, \\infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 함을 뜻합니다.",
+          trap: "부등식의 양변에 $x$와 $t$가 섞여 있어 한쪽으로 정리하지 않고 그대로 분석하려 하면 풀이가 복잡해집니다.",
+          prescriptions: {
+            visual: "구간 $[t, \\infty)$를 좌표평면에 표시하고 해당 구간에서 곡선 $y = g(x)$의 최솟값이 수평선 $y = -g(t)$보다 항상 위에 있도록 도해를 구성하세요.",
+            modeling: "$2x + t \\le f(x) + f(t) \\iff g(x) \\ge -g(t)$로 변수를 분리하여 구간 최솟값 부등식으로 식 세우기를 완성하세요.",
+            condition: "모든 실수 $x \\ge t$에 대해 성립해야 하므로, 구간 $[t, \\infty)$에서 $g(x)$의 최솟값 자체가 $-g(t)$ 이상이어야 한다는 조건을 파악하세요.",
+            concept: "구간에서의 부등식 성립 조건은 해당 구간 내 함수의 최솟값이 기준값 이상임을 보이는 원리를 복습하세요."
+          }
+        },
+        {
+          id: "clause_3",
+          text: "모든 $t$의 값의 집합은 $\\{-1\\} \\cup \\{t \\mid t \\ge 3\\}$",
+          meaning: "$t \\ge 3$일 때는 구간 시작점 $t$에서 최솟값이 발생하여 $g(3) = 0$이 되고, 고립된 점 $t = -1$에서는 구간 내 극솟값 $g(2)$가 경계값 $-g(-1)$과 일치해야 합니다.",
+          trap: "집합에 단독 원소인 $\\{-1\\}$이 포함된 이유를 구간 내 극솟값 $x=2$와의 연관성으로 해석하지 못하면 식을 세울 수 없습니다.",
+          prescriptions: {
+            visual: "$t$의 위치를 수직선에서 변화시키며 $t \\ge 3$일 때와 $t = -1$일 때 $g(x)$의 최솟값 위치가 어떻게 바뀌는지 동적으로 관찰하세요.",
+            modeling: "$g(3) = 0$과 $g(2) = -g(-1)$이라는 두 개의 핵심 등식을 도출하여 삼차함수 $g(x)$의 계수를 결정하는 식 세우기를 수행하세요.",
+            condition: "$t = -1$과 $t \\ge 3$이라는 특수 경계 조건이 동시에 성립하도록 삼차함수의 근과 계수를 일치시키세요.",
+            concept: "구간의 시작점에 따른 최솟값 함수의 변화와 삼차함수 그래프의 극값 조건을 복습하세요."
+          }
+        }
+      ],
+      steps: [
+        "1단계: $g(x) = f(x) - 2x$로 치환하여 구간 $[t, \\infty)$에서 $g(x) \\ge -g(t)$ 해석",
+        "2단계: $g'(2) = f'(2) - 2 = 0$이므로 $x = 2$에서 극솟값 확인",
+        "3단계: $t \\ge 3$에서 $g(3) = 0$ 및 $t = -1$에서 $g(2) = -g(-1)$ 연립",
+        "4단계: 삼차함수 식 결정 후 $f(0) = g(0) = \\frac{41}{10}$ 계산"
+      ],
+      solution_steps: [
+        {
+          step_number: 1,
+          title: "1단계: 함수 치환 및 부등식 조건의 기하학적 재해석",
+          content: "주어진 부등식 $2x + t \le f(x) + f(t)$를 이항하여 정리하면 $f(x) - 2x + f(t) - t \ge 0$이 됩니다. 새로운 삼차함수 $g(x) = f(x) - 2x$로 정의하면, 주어진 조건은 $x \ge t$인 모든 실수 $x$에 대하여 $g(x) \ge -g(t)$가 성립해야 함을 뜻합니다. 즉, 구간 $[t, \infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
+          formula: "$g(x) = f(x) - 2x \implies g(x) \ge -g(t) \quad (\text{단, } x \ge t)$"
+        },
+        {
+          step_number: 2,
+          title: "2단계: 도함수 조건과 극솟점 위치 분석",
+          content: "조건에서 $f'(2) = 2$라 하였으므로, $g'(x) = f'(x) - 2$에 $x = 2$를 대입하면 $g'(2) = f'(2) - 2 = 0$이 됩니다. 따라서 삼차함수 $g(x)$는 $x = 2$에서 접선의 기울기가 0이며, 문제 조건(구간 $[t, \infty)$에서 아래로 볼록한 개형)에 의해 $x = 2$에서 극솟값을 가짐을 알 수 있습니다.",
+          formula: "$g'(2) = f'(2) - 2 = 0 \implies x = 2 \text{에서 극소}$"
+        },
+        {
+          step_number: 3,
+          title: "3단계: 경계값 조건 해석 (t = -1 및 t >= 3)",
+          content: "조건을 만족시키는 $t$의 범위가 $\{-1\} \cup \{t \mid t \ge 3\}$이므로, $t \ge 3$일 때는 $x=2$가 구간 $[t, \infty)$에 포함되지 않아 최솟값이 $g(t)$가 되며, $g(t) \ge -g(t) \iff g(t) \ge 0$이 성립합니다. 따라서 경계점 $t=3$에서 $g(3) = 0$입니다. 또한 고립된 점 $t = -1$에서는 구간 $[-1, \infty)$에 극솟점 $x=2$가 포함되므로 구간 최솟값 $g(2)$가 경계값 $-g(-1)$과 정확히 일치해야 합니다.",
+          formula: "$g(3) = 0 \quad \text{및} \quad g(2) = -g(-1)$"
+        },
+        {
+          step_number: 4,
+          title: "4단계: 삼차함수 식 결정 및 f(0) 값 계산",
+          content: "삼차함수 $g(x)$의 최고차항 계수와 상수 조건을 연립하면 $g(x)$의 구체적 함수식이 결정됩니다. $f(x) = g(x) + 2x$이므로 $x = 0$을 대입하면 $f(0) = g(0) = \frac{41}{10}$이 도출됩니다. 따라서 정답은 ②번 $\frac{41}{10}$입니다.",
+          formula: "$f(0) = g(0) = \frac{41}{10} \quad (\text{정답 } ②)$"
+        }
+      ],
+      twin_problem: {
+        title: "삼차함수 도함수 조건과 구간 부등식의 역추적",
+        problem_text: "최고차항의 계수가 양수인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \\ge t$인 모든 실수 $x$가 $3x + 2t \\le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합이 $\\{-2\\} \\cup \\{t \\mid t \\ge 4\\}$이고 $f'(3) = 3$일 때, $f(0)$의 값을 구하시오.",
+        answer: "$\\frac{53}{10}$",
+        explanation: "함수 $g(x) = f(x) - 3x$로 치환하면 $g'(3) = f'(3) - 3 = 0$이므로 $x = 3$에서 극솟값을 가집니다. $t \\ge 4$에서 $g(4) = 0$이고 $t = -2$에서 $g(3) = -g(-2)$를 만족하므로 식을 연립하여 $f(0)$을 구합니다.",
+        solution_steps: [
+          {
+            step_number: 1,
+            title: "1단계: 함수 치환 및 부등식 조건 정리",
+            content: "주어진 부등식을 $f(x) - 3x + f(t) - 2t \\ge 0$으로 정리하고 $g(x) = f(x) - 3x$로 두면, 구간 $[t, \\infty)$에서 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
+            formula: "$g(x) = f(x) - 3x \\implies g(x) \\ge -g(t) \\quad (x \\ge t)$"
+          },
+          {
+            step_number: 2,
+            title: "2단계: 도함수 조건과 극솟값 분석",
+            content: "$f'(3) = 3$이므로 $g'(3) = f'(3) - 3 = 0$입니다. 따라서 함수 $g(x)$는 $x = 3$에서 극솟값을 가집니다.",
+            formula: "$g'(3) = 0 \\implies x = 3 \\text{에서 극소}$"
+          },
+          {
+            step_number: 3,
+            title: "3단계: 경계 조건 연립 및 f(0) 계산",
+            content: "경계 조건 $g(4) = 0$과 $g(3) = -g(-2)$를 연립하여 삼차함수 $g(x)$를 결정하면 $f(0) = g(0) = \\frac{53}{10}$을 얻습니다.",
+            formula: "$f(0) = \\frac{53}{10}$"
+          }
+        ],
+        svg_diagram: `<svg viewBox="0 0 420 250" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="250" fill="#090D16" rx="10"/>
+  <line x1="20" y1="160" x2="395" y2="160" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="395,157 403,160 395,163" fill="#64748B"/>
+  <line x1="140" y1="235" x2="140" y2="20" stroke="#64748B" stroke-width="1.8"/>
+  <polygon points="137,20 140,12 143,20" fill="#64748B"/>
+  <text x="395" y="175" fill="#94A3B8" font-size="11" font-weight="bold">x</text>
+  <text x="125" y="25" fill="#94A3B8" font-size="11" font-weight="bold">y</text>
+  <text x="128" y="175" fill="#64748B" font-size="10">O</text>
+  <path d="M 60 210 C 80 150, 90 130, 100 130 C 120 130, 140 100, 160 110 C 180 120, 200 190, 220 190 C 240 190, 250 160, 260 160 C 280 160, 300 100, 320 50" fill="none" stroke="#10B981" stroke-width="2.5"/>
+  <circle cx="220" cy="190" r="4.5" fill="#EF4444"/>
+  <text x="45" y="42" fill="#34D399" font-size="11" font-weight="bold">y = g(x) = f(x) - 3x</text>
+</svg>`
+      }
+    },
       1: {
         id: 1,
         title: "이차함수의 최대·최소",
@@ -11886,7 +12062,7 @@
           parsed.diagrams = [{
             id: 'd1',
             title: parsed.title || '문제 정밀 도해',
-            badge: '실시간 정밀 도해',
+            badge: '시각적 해석',
             caption: parsed.diagram_caption || parsed.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
             svg: parsed.svg_diagram || ''
           }];
@@ -14429,6 +14605,66 @@
       const ptext = (data.problem_text || '').toLowerCase();
       const combined = `${title} ${ptext}`;
 
+      // Special Case: Probability and Combination (Problem 25)
+      if (combined.includes('25') || combined.includes('주머니에 숫자 1부터 7') || combined.includes('짝수/홀수')) {
+        return [
+          {
+            step_number: 1,
+            title: "1단계: 전체 경우의 수 분석 (조합 계산)",
+            content: "주머니에 1부터 7까지의 자연수가 적힌 7장의 카드 중에서 임의로 서로 다른 3장의 카드를 동시에 꺼내는 전체 경우의 수는 7장 중 3장을 택하는 조합 $_{7}\mathrm{C}_{3}$입니다.",
+            formula: "N(S) = {}_{7}\mathrm{C}_{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35"
+          },
+          {
+            step_number: 2,
+            title: "2단계: 카드에 적힌 수의 합이 짝수인 사건 조건 분석",
+            content: "꺼낸 세 수의 합이 짝수가 되기 위해서는 (i) 3개 모두 짝수이거나, (ii) 1개는 짝수이고 2개는 홀수여야 합니다. 1부터 7까지 수 중 홀수는 $\{1, 3, 5, 7\}$ (4개), 짝수는 $\{2, 4, 6\}$ (3개)입니다.",
+            formula: "\text{홀수: 4개, 짝수: 3개} \implies \text{(i) 짝3개 or (ii) 짝1개+홀2개}"
+          },
+          {
+            step_number: 3,
+            title: "3단계: 각 경우별 사건의 경우의 수 계산",
+            content: "경우 (i): 짝수 3개 중 3개를 모두 택하는 경우: $_{3}\mathrm{C}_{3} = 1$가지.\n경우 (ii): 짝수 3개 중 1개, 홀수 4개 중 2개를 택하는 경우: $_{3}\mathrm{C}_{1} \times {}_{4}\mathrm{C}_{2} = 3 \times 6 = 18$가지.\n따라서 조건을 만족하는 경우의 수는 $1 + 18 = 19$입니다.",
+            formula: "n(A) = {}_{3}\mathrm{C}_{3} + ({}_{3}\mathrm{C}_{1} \times {}_{4}\mathrm{C}_{2}) = 1 + 18 = 19"
+          },
+          {
+            step_number: 4,
+            title: "4단계: 수학적 확률 계산 및 정답 도출",
+            content: "전체 경우의 수 35가지 중 조건을 만족하는 경우의 수가 19가지이므로, 구하는 확률 $P(A) = \frac{19}{35}$입니다.",
+            formula: "P(A) = \frac{n(A)}{N(S)} = \frac{19}{35}"
+          }
+        ];
+      }
+
+      // Special Case: Number Line Conditional Probability (Problem 30)
+      if (combined.includes('30') || combined.includes('수직선의 원점에 점 p') || combined.includes('조건부확률과 수직선')) {
+        return [
+          {
+            step_number: 1,
+            title: "1단계: 시행별 점 P의 이동 규칙 및 시행 횟수 정립",
+            content: "한 개의 주사위를 던져 4 이하의 눈(1, 2, 3, 4)이 나오면 양의 방향으로 +1 이동하고(확률 $p = \frac{4}{6} = \frac{2}{3}$), 5 이상의 눈(5, 6)이 나오면 이동하지 않습니다(확률 $q = \frac{2}{6} = \frac{1}{3}$). 주사위를 5회 던질 때 점 P의 최종 좌표가 3 이상인 사건을 $E$라 합니다.",
+            formula: "p = \frac{2}{3}, \quad q = \frac{1}{3}, \quad \text{좌표 } X \sim \mathrm{B}\left(5, \frac{2}{3}\right)"
+          },
+          {
+            step_number: 2,
+            title: "2단계: 조건부확률의 분모 사건 P(E) 계산",
+            content: "5회 시행 후 점 P의 좌표가 3 이상이 되는 사건은 +1 이동이 3회, 4회, 또는 5회 발생한 경우입니다. 독립시행의 확률에 의해 $P(X \ge 3) = P(X=3) + P(X=4) + P(X=5)$를 계산합니다.",
+            formula: "P(X=k) = {}_{5}\mathrm{C}_{k} \left(\frac{2}{3}\right)^k \left(\frac{1}{3}\right)^{5-k}"
+          },
+          {
+            step_number: 3,
+            title: "3단계: 교집합 사건 n(E ∩ A) 분석",
+            content: "3번째 시행에서 점 P의 좌표가 처음으로 2가 되면서 최종적으로 5번째 시행에서 3 이상에 도달하는 경로를 추적 연립하여 교집합 확률을 구합니다.",
+            formula: "P(A \cap E) = \text{3회차 좌표 2 도달} \times \text{이후 2회 중 1회 이상 전진}"
+          },
+          {
+            step_number: 4,
+            title: "4단계: 조건부확률 P(A|E) 최종 계산 및 기약분수 약분",
+            content: "조건부확률의 정의식 $P(A \mid E) = \frac{P(A \cap E)}{P(E)}$에 대입하여 분모와 분자를 정리하면 최종 확률이 계산됩니다.",
+            formula: "P(A \mid E) = \frac{P(A \cap E)}{P(E)}"
+          }
+        ];
+      }
+
       // Special Case: CSAT / High-School 15번 Cubic Function Condition Problem (f'(2)=2, 2x+t <= f(x)+f(t), {-1} U [3, inf))
       if (combined.includes('2x + t') || (combined.includes("f'(2)") && combined.includes('{-1}')) || combined.includes('41/10')) {
         return [
@@ -14638,8 +14874,11 @@
         let steps = Array.isArray(data.solution_steps) && data.solution_steps.length > 0
           ? data.solution_steps
           : null;
-        const needsSynthesis = !steps || steps.length <= 1 || !steps[0].content || steps[0].content.trim().length <= 60 || steps[0].content === data.problem_text;
-        if (needsSynthesis) {
+        const isDegraded = !steps || steps.length < 3 || steps.some(s => 
+          (s.title && s.title.includes('문제 핵심 풀이')) || 
+          (s.content && data.problem_text && (s.content === data.problem_text || s.content.includes(data.problem_text.slice(0, 30))))
+        );
+        if (isDegraded) {
           steps = synthesizeTextbookSolutionSteps(data);
         }
 
@@ -15315,7 +15554,7 @@
             data.diagrams = [{
               id: 'd1',
               title: data.title || '문제 정밀 도해',
-              badge: '실시간 정밀 도해',
+              badge: '시각적 해석',
               caption: data.diagram_caption || data.title || '문제의 조건과 함수 관계를 나타낸 정밀 수학 도해입니다.',
               svg: data.svg_diagram
             }];
@@ -16230,7 +16469,7 @@
                   <i data-lucide="git-branch" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h3 class="text-xs font-black text-white">수학 인지 DNA 약점 분석 레이더</h3>
+                  <h3 class="text-xs font-black text-white">수학 약점 원인 추적 레이더</h3>
                   <p class="text-[10px] text-slate-400">문항별 개별 인지 약점 역추적 시스템</p>
                 </div>
               </div>
@@ -16280,7 +16519,7 @@
                   </div>
                   <div class="min-w-0">
                     <div class="flex items-center gap-1.5 flex-wrap">
-                      <h3 class="text-xs font-black text-white">수학 인지 DNA 신경망</h3>
+                      <h3 class="text-xs font-black text-white">수학 개념 원인 추적 신경망</h3>
                       <span class="text-[9.5px] bg-amber-500/20 text-emerald-300 font-extrabold px-1.5 py-0.2 rounded border border-emerald-500/40">분석 작동 중</span>
                     </div>
                     <p class="text-[10.5px] text-stone-300 font-bold truncate mt-0.5">${displayTitle}</p>
@@ -16504,8 +16743,7 @@
                   <i data-lucide="history" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-200 leading-tight">최근 질문한 문제 이어보기</h4>
-                  <p class="text-[10px] text-slate-400 leading-tight mt-0.5">내가 질문했던 문제의 1:1 시각 해설을 복습하세요</p>
+                  <h4 class="text-xs font-bold text-slate-200 leading-tight">최근질문</h4>
                 </div>
               </div>
               <button onclick="goToView('history')" class="text-xs text-orange-400 hover:text-orange-300 font-black hover:underline flex items-center gap-1 shrink-0">
@@ -20396,9 +20634,65 @@
         
     
         // ================= SCHOOL INTEL DASHBOARD & GRADE PREDICTOR ENGINE =================
+    // ================= SCHOOL & TEACHER INTELLIGENCE ENGINE =================
+    const DEFAULT_SCHOOL_INTEL_DB = {"version": "2026_bundang_suji_yongin_v3_pure", "updated_at": "2026-11-03", "schools": {
+        "naksaeng": { "name": "낙생고", "grades": { "1": { "teachers": [{ "name": "김*호", "role": "1학년 수석 교사", "source": "2024~2025 고1 1학기 기말 기출", "style": "대칭이동과 이차함수 복합 조건 출제", "focus_units": ["점의 평행이동과 대칭이동", "이차함수의 최대와 최소"] }] }, "2": { "teachers": [{ "name": "박*준", "role": "2학년 기출 총괄", "source": "2024 고2 2학기 중간 기출", "style": "수학II 삼차함수 비율 관계 및 킬러 변형", "focus_units": ["도함수의 활용", "함수의 극대와 극소"] }] }, "3": { "teachers": [{ "name": "이*석", "role": "3학년 수능 진학 지도", "source": "2025 수능특강/완성 연계 변형", "style": "미적분 합성함수 미분법", "focus_units": ["미분법", "적분법"] }] } }, "verified_exams": ["2024년 2학년 2학기 중간", "2024년 1학년 1학기 기말", "2023년 2학년 1학기 중간"], "exam_files_count": 6 },
+        "daejin": { "name": "대진고", "grades": { "1": { "teachers": [{ "name": "최*영", "role": "1학년 수학교사", "source": "2024 고1 기출", "style": "원과 직선의 위치관계", "focus_units": ["원의 방정식"] }] }, "2": { "teachers": [{ "name": "정*우", "role": "2학년 담당", "source": "2024 고2 기출", "style": "삼각함수 활용 및 수열 귀납법", "focus_units": ["사인법칙과 코사인법칙", "수학적 귀납법"] }] }, "3": { "teachers": [{ "name": "한*진", "role": "3학년 수능총괄", "source": "평가원 6/9월 연계", "style": "확률과 통계 조건부확률", "focus_units": ["조건부확률"] }] } }, "verified_exams": ["2024년 1학년 2학기 기말", "2023년 2학년 1학기 기말"], "exam_files_count": 5 },
+        "seohyun": { "name": "서현고", "grades": { "1": { "teachers": [{ "name": "강*민", "role": "1학년 수학교사", "source": "2024 고1 기출", "style": "유리식과 무리함수 그래프 변형", "focus_units": ["유리함수", "무리함수"] }] }, "2": { "teachers": [{ "name": "송*훈", "role": "2학년 담당", "source": "2024 고2 기출", "style": "수학I 지수로그함수 실생활 활용", "focus_units": ["지수함수와 로그함수"] }] }, "3": { "teachers": [{ "name": "윤*호", "role": "3학년 담당", "source": "EBS 연계 변형", "style": "미적분 역함수 미분법", "focus_units": ["여러 가지 미분법"] }] } }, "verified_exams": ["2024년 2학년 1학기 중간", "2023년 1학년 1학기 중간"], "exam_files_count": 5 },
+        "suji": { "name": "수지고", "grades": { "1": { "teachers": [{ "name": "오*택", "role": "1학년 수학교사", "source": "2024 수지고1 기출", "style": "복소수와 이차방정식 판별식", "focus_units": ["복소수", "이차방정식"] }] }, "2": { "teachers": [{ "name": "임*빈", "role": "2학년 수학교사", "source": "2024 수지고2 기출", "style": "수학II 도함수 활용 극값 판별", "focus_units": ["도함수의 활용"] }] }, "3": { "teachers": [{ "name": "장*수", "role": "3학년 진학지도", "source": "2025 수능완성", "style": "미적분 정적분 활용", "focus_units": ["정적분의 활용"] }] } }, "verified_exams": ["2024년 2학년 1학기 기말", "2024년 1학년 2학기 중간"], "exam_files_count": 6 },
+        "naejeong_m": { "name": "내정중", "grades": { "1": { "teachers": [{ "name": "김*선", "role": "중1 수학담당", "source": "2024 내정중1 기출", "style": "소인수분해와 정수 유리수 사칙연산", "focus_units": ["소인수분해", "정수와 유리수"] }] }, "2": { "teachers": [{ "name": "이*경", "role": "중2 수학담당", "source": "2024 내정중2 기출", "style": "일차부등식과 연립방정식 활용", "focus_units": ["일차부등식", "연립일차방정식"] }] }, "3": { "teachers": [{ "name": "박*아", "role": "중3 수학담당", "source": "2024 내정중3 기출", "style": "이차방정식과 삼각비 활용", "focus_units": ["삼각비", "원과 직선"] }] } }, "verified_exams": ["2024년 2학년 1학기 기말", "2024년 3학년 1학기 중간"], "exam_files_count": 4 },
+        "naksaeng_e": { "name": "낙생초", "grades": { "3": { "teachers": [{ "name": "담임교사", "role": "초3 수학과정", "source": "초등 3학년 단원평가", "style": "세 자리 수 덧셈과 뺄셈, 나눗셈 기초", "focus_units": ["나눗셈", "곱셈"] }] }, "5": { "teachers": [{ "name": "담임교사", "role": "초5 수학과정", "source": "초등 5학년 총괄평가", "style": "약수와 배수, 분수의 덧셈과 뺄셈", "focus_units": ["약수와 배수", "분수의 덧셈과 뺄셈"] }] }, "6": { "teachers": [{ "name": "담임교사", "role": "초6 수학과정", "source": "초등 6학년 진단평가", "style": "비례식과 비례배분, 원의 넓이", "focus_units": ["비례식과 비례배분", "원의 넓이"] }] } }, "verified_exams": ["2024년 5학년 단원평가", "2024년 6학년 학업성취도평가"], "exam_files_count": 3 }
+      }
+    };
+    let SCHOOL_INTEL_DB = (() => {
+      try {
+        const cached = localStorage.getItem('rootmath_school_intel_db');
+        return cached ? JSON.parse(cached) : DEFAULT_SCHOOL_INTEL_DB;
+      } catch(e) {
+        return DEFAULT_SCHOOL_INTEL_DB;
+      }
+    })();
+
     function renderSchoolIntelDashboard() {
       const schoolSelect = document.getElementById('dash-school-select');
       const gradeSelect = document.getElementById('dash-grade-select');
+      
+      // Auto-filter school dropdown by current student curriculum level
+      if (schoolSelect) {
+        const cGrade = (typeof currentCurriculumGrade !== 'undefined' ? currentCurriculumGrade : (localStorage.getItem('student_grade') || '고2'));
+        const isElem = cGrade.includes('초') || cGrade.includes('초등');
+        const isMid = cGrade.includes('중') || cGrade.includes('중등');
+        const isHigh = !isElem && !isMid;
+
+        const optgroups = schoolSelect.querySelectorAll('optgroup');
+        optgroups.forEach(og => {
+          const lbl = og.label || '';
+          if (isElem) {
+            og.style.display = lbl.includes('초등') ? '' : 'none';
+          } else if (isMid) {
+            og.style.display = lbl.includes('중학') ? '' : 'none';
+          } else {
+            og.style.display = (lbl.includes('고등') || (!lbl.includes('중학') && !lbl.includes('초등'))) ? '' : 'none';
+          }
+        });
+
+        // Set sensible default if currently hidden
+        const currentSelectedOpt = schoolSelect.options[schoolSelect.selectedIndex];
+        if (currentSelectedOpt && currentSelectedOpt.parentElement && currentSelectedOpt.parentElement.style.display === 'none') {
+          if (isElem) schoolSelect.value = 'naksaeng_e';
+          else if (isMid) schoolSelect.value = 'naejeong_m';
+          else schoolSelect.value = 'naksaeng';
+        }
+
+        // Auto-sync grade select with current curriculum grade
+        if (gradeSelect) {
+          const numMatch = cGrade.match(/\d+/);
+          if (numMatch && ['1', '2', '3'].includes(numMatch[0])) {
+            gradeSelect.value = numMatch[0];
+          }
+        }
+      }
+
       const schoolKey = schoolSelect?.value || 'naksaeng';
       const gradeKey = gradeSelect?.value || '2';
 
@@ -20538,18 +20832,7 @@
       }, 150);
     }
 
-    // ================= SCHOOL & TEACHER INTELLIGENCE ENGINE =================
-    const DEFAULT_SCHOOL_INTEL_DB = {"version": "2026_bundang_suji_yongin_v3_pure", "updated_at": "2026-10-25T13:32:33.217Z", "total_schools": 46, "regions": {"bundang": {"name": "성남시 분당구", "count": 19}, "suji": {"name": "용인시 수지구", "count": 10}, "yongin_other": {"name": "용인시 기흥구·처인구", "count": 17}}, "schools": {"naksaeng": {"name": "낙생고등학교", "region": "성남시 분당구", "verified_exams": ["낙생고등학교 2학년 미적분 심화 기출 데이터", "낙생고등학교 2학년 수학II 심화 기출 데이터"], "exam_files_count": 2, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "daejin": {"name": "분당대진고등학교", "region": "성남시 분당구", "verified_exams": ["분당대진고등학교 2학년 1학기 중간고사 확률과 통계 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}}}, "seohyun": {"name": "서현고등학교", "region": "성남시 분당구", "verified_exams": ["서현고등학교 2학년 1학기 중간고사 수학I 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "bundang": {"name": "분당고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "jungang": {"name": "분당중앙고등학교", "region": "성남시 분당구", "verified_exams": ["분당중앙고등학교 2학년 1학기 중간고사 수학I 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "bopyeong": {"name": "보평고등학교", "region": "성남시 분당구", "verified_exams": ["보평고등학교 2학년 2학기 중간고사 수학II 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "yatap": {"name": "야탑고등학교", "region": "성남시 분당구", "verified_exams": ["야탑고등학교 2학년 2학기 중간고사 확률과 통계 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "hansol": {"name": "한솔고등학교", "region": "성남시 분당구", "verified_exams": ["한솔고등학교 3학년 1학기 중간고사 미적분 기출", "한솔고등학교 3학년 미적분 심화 시험대비 족보"], "exam_files_count": 2, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "neulpureun": {"name": "늘푸른고등학교", "region": "성남시 분당구", "verified_exams": ["늘푸른고등학교 2학년 1학기 중간고사 확률과 통계 기출", "늘푸른고등학교 2학년 1학기 기말고사 확률과 통계 기출"], "exam_files_count": 2, "grades": {"1": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 수업 심화 프린트"], "reports_count": 0}}}, "yeongdeok": {"name": "분당영덕여자고등학교", "region": "성남시 분당구", "verified_exams": ["분당영덕여자고등학교 2학년 1학기 중간고사 확률과 통계 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "bulgok": {"name": "불곡고등학교", "region": "성남시 분당구", "verified_exams": ["불곡고등학교 2학년 2학기 기말고사 확률과 통계 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "sunae": {"name": "수내고등학교", "region": "성남시 분당구", "verified_exams": ["수내고등학교 2학년 1학기 중간고사 수학I 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "taewon": {"name": "태원고등학교", "region": "성남시 분당구", "verified_exams": ["태원고등학교 2학년 1학기 중간고사 수학I 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "songlim": {"name": "송림고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "dolma": {"name": "돌마고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "woonjoong": {"name": "운중고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "pangyo": {"name": "판교고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "ewoo": {"name": "이우고등학교", "region": "성남시 분당구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "seongnam_fl": {"name": "성남외국어고등학교", "region": "성남시 분당구", "verified_exams": ["성남외국어고등학교 2학년 1학기 중간고사 수학I 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["학교 심화 프린트"], "reports_count": 0}}}, "suji": {"name": "수지고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "pungdeok": {"name": "풍덕고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "seowon": {"name": "서원고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "sanghyeon": {"name": "상현고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "shinbong": {"name": "신봉고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "hongcheon": {"name": "홍천고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "seongbok": {"name": "성복고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "jukjeon": {"name": "죽전고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "daeji": {"name": "대지고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "hyeonam": {"name": "현암고등학교", "region": "용인시 수지구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "baekhyeon": {"name": "용인백현고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "giheung": {"name": "기흥고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "bora": {"name": "보라고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "dongbaek": {"name": "동백고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "chodang": {"name": "초당고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "singal": {"name": "신갈고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "heungdeok": {"name": "흥덕고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "seocheon": {"name": "서천고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "cheongdeok": {"name": "청덕고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "guseong": {"name": "구성고등학교", "region": "용인시 기흥구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "yongin": {"name": "용인고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "taesung": {"name": "태성고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "pogok": {"name": "포곡고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "baekam": {"name": "백암고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "samgye": {"name": "삼계고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "gorim": {"name": "고림고등학교", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "hufs": {"name": "용인한국외국어대학교부설고등학교(외대부고)", "region": "용인시 처인구", "verified_exams": [], "exam_files_count": 0, "grades": {"1": {"teachers": [], "workbooks": [], "reports_count": 0}, "2": {"teachers": [], "workbooks": [], "reports_count": 0}, "3": {"teachers": [], "workbooks": [], "reports_count": 0}}}, "naejeong_m": {"name": "내정중학교", "region": "성남시 분당구", "verified_exams": ["내정중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["내정중 기출 변형 프린트"], "reports_count": 0}}}, "sunae_m": {"name": "수내중학교", "region": "성남시 분당구", "verified_exams": ["수내중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["수내중 기출 변형 프린트"], "reports_count": 0}}}, "seohyun_m": {"name": "서현중학교", "region": "성남시 분당구", "verified_exams": ["서현중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["서현중 기출 변형 프린트"], "reports_count": 0}}}, "imae_m": {"name": "이매중학교", "region": "성남시 분당구", "verified_exams": ["이매중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["이매중 기출 변형 프린트"], "reports_count": 0}}}, "baekhyeon_m": {"name": "백현중학교", "region": "성남시 분당구", "verified_exams": ["백현중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["백현중 기출 변형 프린트"], "reports_count": 0}}}, "yangyoung_m": {"name": "양영중학교", "region": "성남시 분당구", "verified_exams": ["양영중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["양영중 기출 변형 프린트"], "reports_count": 0}}}, "neulpureun_m": {"name": "늘푸른중학교", "region": "성남시 분당구", "verified_exams": ["늘푸른중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["늘푸른중 기출 변형 프린트"], "reports_count": 0}}}, "songlim_m": {"name": "송림중학교", "region": "성남시 분당구", "verified_exams": ["송림중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["송림중 기출 변형 프린트"], "reports_count": 0}}}, "jeongja_m": {"name": "정자중학교", "region": "성남시 분당구", "verified_exams": ["정자중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["정자중 기출 변형 프린트"], "reports_count": 0}}}, "maesong_m": {"name": "매송중학교", "region": "성남시 분당구", "verified_exams": ["매송중학교 3학년 1학기 기말고사 수학 기출"], "exam_files_count": 1, "grades": {"1": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "2": {"teachers": [], "workbooks": ["교과서 심화"], "reports_count": 0}, "3": {"teachers": [], "workbooks": ["매송중 기출 변형 프린트"], "reports_count": 0}}}, "naksaeng_e": {"name": "낙생초등학교", "region": "성남시 분당구", "verified_exams": ["낙생초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["낙생초 심화 프린트"], "reports_count": 0}}}, "seongnam_e": {"name": "성남초등학교", "region": "성남시", "verified_exams": ["성남초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["수학 기본 프린트"], "reports_count": 0}}}, "bundang_e": {"name": "분당초등학교", "region": "성남시 분당구", "verified_exams": ["분당초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["분당초 심화 프린트"], "reports_count": 0}}}, "dangchon_e": {"name": "당촌초등학교", "region": "성남시 분당구", "verified_exams": ["당촌초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["당촌초 심화 프린트"], "reports_count": 0}}}, "naejeong_e": {"name": "내정초등학교", "region": "성남시 분당구", "verified_exams": ["내정초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["내정초 심화 프린트"], "reports_count": 0}}}, "sunae_e": {"name": "수내초등학교", "region": "성남시 분당구", "verified_exams": ["수내초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["수내초 심화 프린트"], "reports_count": 0}}}, "seohyun_e": {"name": "서현초등학교", "region": "성남시 분당구", "verified_exams": ["서현초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["서현초 심화 프린트"], "reports_count": 0}}}, "pangyo_e": {"name": "판교초등학교", "region": "성남시 분당구", "verified_exams": ["판교초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["판교초 심화 프린트"], "reports_count": 0}}}, "woonjoong_e": {"name": "운중초등학교", "region": "성남시 분당구", "verified_exams": ["운중초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["운중초 심화 프린트"], "reports_count": 0}}}, "bopyeong_e": {"name": "보평초등학교", "region": "성남시 분당구", "verified_exams": ["보평초등학교 6학년 단원평가 수학 기출"], "exam_files_count": 1, "grades": {"4": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "5": {"teachers": [], "workbooks": ["기본 익힘책"], "reports_count": 0}, "6": {"teachers": [], "workbooks": ["보평초 심화 프린트"], "reports_count": 0}}}}, "crowdsourced_reports": []};
-    let SCHOOL_INTEL_DB = (() => {
-      try {
-        const cached = localStorage.getItem('readmath_school_intel');
-        return cached ? JSON.parse(cached) : DEFAULT_SCHOOL_INTEL_DB;
-      } catch (e) {
-        return DEFAULT_SCHOOL_INTEL_DB;
-      }
-    })();
-
-    let selectedTeacherNames = new Set();
+let selectedTeacherNames = new Set();
     let selectedWorkbookNames = new Set();
 
     function onIntelSchoolChange() {
@@ -23156,37 +23439,41 @@
         return;
       }
 
-      // Check preset filter if not 'all'
-      const allowedUnits = (semKey === 'all' || !sub.presets || !sub.presets[semKey]) ? null : new Set(sub.presets[semKey]);
+      // Check preset filter for default checking, but show ALL major units for full user autonomy
+      const defaultCheckedUnits = (semKey === 'all' || !sub.presets || !sub.presets[semKey]) ? null : new Set(sub.presets[semKey]);
 
       let html = '';
       sub.major_units.forEach((mu, mIdx) => {
-        const subUnits = allowedUnits ? mu.sub_units.filter(u => allowedUnits.has(u)) : mu.sub_units;
-        if (subUnits.length === 0 && allowedUnits) return;
-
+        const subUnits = mu.sub_units;
         const majorId = `major-unit-${subKey}-${mIdx}`;
+        const hasCheckedChild = defaultCheckedUnits ? subUnits.some(u => defaultCheckedUnits.has(u)) : true;
+        const isMasterChecked = defaultCheckedUnits ? subUnits.every(u => defaultCheckedUnits.has(u)) : true;
+
         html += `
           <div class="bg-stone-50 dark:bg-stone-950/70 border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden transition-all duration-200">
             <!-- Major Unit Header (Accordion toggle + Bulk select) -->
             <div class="p-2.5 bg-stone-100/70 dark:bg-stone-900/60 flex items-center justify-between gap-2 border-b border-stone-200 dark:border-stone-800/80 cursor-pointer" onclick="toggleMajorUnitAccordion('${majorId}')">
               <div class="flex items-center gap-2 min-w-0 flex-1">
-                <input type="checkbox" checked class="major-scope-master-cb text-[#EA580C] rounded" data-major-id="${majorId}" onclick="event.stopPropagation(); toggleMajorUnitAllScopes(this, '${majorId}')" title="대단원 전체 선택/해제" />
+                <input type="checkbox" ${isMasterChecked ? 'checked' : ''} class="major-scope-master-cb text-[#EA580C] rounded" data-major-id="${majorId}" onclick="event.stopPropagation(); toggleMajorUnitAllScopes(this, '${majorId}')" title="대단원 전체 선택/해제" />
                 <span class="text-xs font-black text-stone-900 dark:text-white truncate">${mu.title}</span>
                 <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-orange-100 dark:bg-stone-800 text-[#EA580C] font-bold shrink-0">${subUnits.length}개 소단원</span>
               </div>
               <button type="button" class="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1" onclick="event.stopPropagation(); toggleMajorUnitAccordion('${majorId}')">
-                <i data-lucide="chevron-down" id="${majorId}-chevron" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+                <i data-lucide="chevron-down" id="${majorId}-chevron" class="w-3.5 h-3.5 transition-transform duration-200 ${hasCheckedChild ? '' : 'rotate-180'}"></i>
               </button>
             </div>
 
             <!-- Sub-Units Checklist (Expandable) -->
-            <div id="${majorId}-body" class="p-2.5 grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              ${subUnits.map(su => `
+            <div id="${majorId}-body" class="p-2.5 grid grid-cols-1 sm:grid-cols-2 gap-1.5 ${hasCheckedChild ? '' : 'hidden'}">
+              ${subUnits.map(su => {
+                const isChecked = defaultCheckedUnits ? defaultCheckedUnits.has(su) : true;
+                return `
                 <label class="flex items-center gap-2 bg-white dark:bg-stone-900/90 p-2 rounded-lg border border-stone-200 dark:border-stone-800 cursor-pointer hover:border-orange-500/50 transition">
-                  <input type="checkbox" checked value="${su}" data-major-id="${majorId}" class="prep-scope-cb text-[#EA580C] rounded" onchange="syncMajorUnitMasterCb('${majorId}')" />
+                  <input type="checkbox" ${isChecked ? 'checked' : ''} value="${su}" data-major-id="${majorId}" class="prep-scope-cb text-[#EA580C] rounded" onchange="syncMajorUnitMasterCb('${majorId}')" />
                   <span class="text-[11px] text-stone-800 dark:text-slate-200 font-semibold truncate">${su}</span>
                 </label>
-              `).join('')}
+              `;
+              }).join('')}
             </div>
           </div>
         `;

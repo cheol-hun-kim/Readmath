@@ -73,7 +73,7 @@
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
   <style>
     :root {
-      --accent-primary: #FB923C;
+      --accent-primary: #EA580C;
       --math-highlight: rgba(251, 146, 60, 0.15);
       --bg-main: #141210;
       --bg-surface: #1F1C18;
@@ -130,8 +130,8 @@
       --text-primary: #F5F5F4 !important; /* Warm Ivory White */
       --text-secondary: #A8A29E !important; /* Stone Gray */
       --text-muted: #78716C !important;
-      --accent-primary: #FB923C !important; /* Terracotta Coral */
-      --accent-hover: #F97316 !important;
+      --accent-primary: #EA580C !important; /* Terracotta Coral */
+      --accent-hover: #C2410C !important;
       --accent-subtle: rgba(251, 146, 60, 0.12) !important;
       --radius-card: 20px !important;
       --radius-btn: 12px !important;
@@ -447,7 +447,7 @@
           <div class="text-[11px] text-stone-400 mt-0.5 font-medium">출제 의도 해체 엔진</div>
         </div>
         <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 text-center">
-          <div class="text-xl sm:text-2xl font-black text-[#F97316] font-mono" id="live-stat-questions">실시간 연동</div>
+          <div class="text-xl sm:text-2xl font-black text-[#EA580C] font-mono" id="live-stat-questions">실시간 연동</div>
           <div class="text-[11px] text-stone-400 mt-0.5 font-medium">누적 풀이 질문 수</div>
         </div>
       </div>
@@ -478,7 +478,7 @@
             <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">무조건 오래 앉아 많은 양을 풀고, 값비싼 사설 N제와 다양한 테크닉을 외우는 게 실력이라는 착각. 그것은 학생의 불안을 조장하는 사교육의 상술일 뿐입니다.</p>
           </div>
           <div class="space-y-2 p-5 rounded-2xl bg-orange-50/80 border border-orange-200 text-stone-700">
-            <p class="font-extrabold text-[#EA580C] text-sm sm:text-base"><span class="inline-block w-3.5 h-3.5 rounded-full border-2 border-emerald-500 mr-2 align-middle"></span>ReadMath가 증명하는 진실</p>
+            <p class="font-extrabold text-[#EA580C] text-sm sm:text-base"><span class="inline-block w-3.5 h-3.5 rounded-full bg-emerald-500 mr-2 align-middle"></span>ReadMath가 증명하는 진실</p>
             <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">수학은 출제자와의 소통입니다. 출제자가 이 조건과 식을 통해 무엇을 원하는지 간파할 수만 있다면, 비싼 교재 없이도 가장 빠른 길을 스스로 찾아냅니다.</p>
           </div>
         </div>
@@ -497,7 +497,7 @@
         </h2>
       </div>
 
-      <!-- 4 Cards Grid (Odd 1, 3: Coral Orange #F97316 / Even 2, 4: Deep Blue #6366F1) -->
+      <!-- 4 Cards Grid (Odd 1, 3: Coral Orange #EA580C / Even 2, 4: Deep Blue #6366F1) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- Card 1 (Coral Orange) -->
         <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/30 hover:border-orange-500/60 transition space-y-3 relative overflow-hidden group">
@@ -622,7 +622,7 @@
           <!-- Tutor -->
           <div class="flex items-start gap-2.5 flex-row-reverse">
             <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-            <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs">
+            <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs" style="background-color: #FFF7ED !important; color: #1C1917 !important;">
               좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-[#EA580C] font-extrabold underline decoration-orange-400 underline-offset-4" style="color: #EA580C !important;">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
               함수 <span class="font-serif italic font-bold text-stone-900 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
             </div>
@@ -892,7 +892,7 @@
             개인 회원 (학생·학부모)
           </button>
           <button onclick="switchPricingTab('teacher')" id="pricing-tab-btn-teacher" class="px-5 py-2.5 rounded-xl text-stone-600 hover:text-stone-900 transition">
-            선생님·공부방
+            과외/공부방 회원
           </button>
           <button onclick="switchPricingTab('academy')" id="pricing-tab-btn-academy" class="px-5 py-2.5 rounded-xl text-stone-600 hover:text-stone-900 transition">
             학원 회원
@@ -1030,7 +1030,7 @@
         <div class="bg-slate-900 border-2 border-[#EA580C]/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EA580C]/20 pb-5">
             <div>
-              <span class="text-xs font-black uppercase text-[#EA580C] tracking-wider">공부방 & 과외 선생님 전용</span>
+              <span class="text-xs font-black uppercase text-[#EA580C] tracking-wider">과외/공부방 회원 전용</span>
               <h3 class="text-xl sm:text-2xl font-black text-white mt-1">선생회원 플랜 (원생 20명 포함)</h3>
               <p class="text-xs text-slate-300 mt-1">매스플랫(월 20만 원) 대비 70% 비용 절감 효과</p>
             </div>
