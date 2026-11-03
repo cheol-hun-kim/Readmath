@@ -253,10 +253,16 @@
     #manifesto strong, #tutor strong, #demo strong, #pricing strong {
       color: #1C1917 !important;
     }
-    #manifesto span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
-    #tutor span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
-    #demo span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *),
-    #pricing span:not(.btn *):not([class*="bg-"]):not([class*="text-"]):not(.badge *):not(button *) {
+    #manifesto span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
+    #tutor span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
+    #demo span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
+    #pricing span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *) {
+      color: #1C1917 !important;
+    }
+    #manifesto h2 span:not([class*="text-[#EA580C]"]),
+    #tutor h2 span:not([class*="text-[#EA580C]"]),
+    #demo h2 span:not([class*="text-[#EA580C]"]),
+    #pricing h2 span:not([class*="text-[#EA580C]"]) {
       color: #1C1917 !important;
     }
 
@@ -557,7 +563,7 @@
       <div class="space-y-5">
         <span class="text-xs font-black text-[#EA580C] uppercase tracking-widest">EXAMINER AI TUTOR</span>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-stone-900 leading-snug break-keep">
-          <span class="block text-[#1C1917]">답만 툭 던져주는 AI는</span>
+          <span class="block text-[#1C1917]" style="color: #1C1917 !important;">답만 툭 던져주는 AI는</span>
           <span class="text-[#EA580C] block mt-1.5 font-black">출제자의 의도를 가립니다.</span>
         </h2>
         <div class="text-xs sm:text-sm text-stone-600 leading-relaxed space-y-3">
