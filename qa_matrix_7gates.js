@@ -300,6 +300,17 @@ if (!htmlContent.includes('body.theme-day button[class*="bg-[#EA580C]"]') && !ht
   failGate(1, 'Universal Day Mode Button Contrast Armor', 'app.html must contain high-contrast white text protection for day-mode solid buttons');
 }
 
+// 1.16 Universal Zero Dark-on-Dark & Architectural Contrast Armor
+if (!htmlContent.includes("darkMode: 'class'")) {
+  failGate(1, 'Tailwind Class Strategy Armor', 'preview.html must configure tailwind.config with darkMode: class to prevent OS dark mode leaks into Day Mode');
+}
+if (!htmlContent.includes('.printer-icon-box') || !htmlContent.includes('.recent-prob-badge')) {
+  failGate(1, 'High Contrast Token Armor', 'preview.html must define high contrast tokens (.printer-icon-box, .recent-prob-badge) for Day/Night modes');
+}
+if (!htmlContent.includes('#school-rival-radar-card') || !htmlContent.includes('#dash-prescription-text')) {
+  failGate(1, 'Report Simulation Contrast Armor', 'preview.html must contain explicit Day/Night contrast styling for weakness report and simulation cards');
+}
+
 passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'Zero commercial private workbook / mock brands (수평선, 절대등급, 고쟁이, 블랙라벨, 마더텅, 자이스토리 등) 100% purged',
   'HTML DOM tag balance: 0 unclosed/mismatched tags',
@@ -313,7 +324,8 @@ passGate(1, 'DOM Structure, Tag Balance & Zero-Jargon Cleanliness', [
   'Landing page zero unrendered LaTeX dollars ($) and zero raw markdown asterisks (**) verified',
   'Landing page zero KaTeX and zero 1타 강사 jargon verified',
   'Zero mock-data & fake topic placeholders verified',
-  'Universal High-Contrast Day Mode Color Armor verified'
+  'Universal High-Contrast Day Mode Color Armor verified',
+  'Universal Zero Dark-on-Dark & Architectural Class-Strategy Armor verified'
 ]);
 
 // ==============================================================================
