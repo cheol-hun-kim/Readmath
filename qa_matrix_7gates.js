@@ -1598,12 +1598,22 @@ gradesToTest.forEach(g => {
 });
 
 // 7.2 View Transition & Tab Navigation Simulation
-const views = ['camera', 'solution', 'history', 'diagnosis', 'settings'];
+const views = ['camera', 'solution', 'history', 'diagnosis', 'report', 'vault', 'settings', 'teacher'];
 views.forEach(v => {
   if (!htmlContent.includes(`id="view-${v}"`)) {
     failGate(7, 'View Navigation E2E', `View container id="view-${v}" missing in preview.html`);
   }
 });
+// 7.2.1 Deep View Content Non-Blank Integrity Check
+const criticalViews = ['report', 'vault', 'history', 'solution', 'camera'];
+criticalViews.forEach(v => {
+  const vRegex = new RegExp('<div[^>]*id="view-' + v + '"[^>]*>([\\s\\S]*?)<div[^>]*id="view-', 'i');
+  const match = htmlContent.match(vRegex);
+  if (match && match[1].trim().length < 200) {
+    failGate(7, 'Non-Blank View DOM Integrity', `View id="view-${v}" is empty or has insufficient content (<200 chars)`);
+  }
+});
+
 
 // 7.3 Multi-diagram Switcher & Legend Responsive Layout (Zero Horizontal Scroll)
 if (!htmlContent.includes('id="diagram-tabs-container"') || htmlContent.includes('overflow-x-auto no-scrollbar pt-0.5 pb-1')) {
