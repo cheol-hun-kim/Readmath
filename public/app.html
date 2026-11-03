@@ -344,27 +344,29 @@
 
     /* Day Mode (Light Skin) Overrides */
     body.theme-day {
-      background-color: #F8FAFC !important;
-      color: #0F172A !important;
+      background-color: #F4F1EA !important;
+      color: #1C1917 !important;
     }
     body.theme-day .phone-mockup {
-      background-color: #FFFFFF !important;
-      border-color: #CBD5E1 !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+      background-color: #F4F1EA !important;
+      border-color: #F4F1EA !important;
+      box-shadow: none !important;
     }
     body.theme-day #screen-container {
-      background-color: #F8FAFC !important;
-      color: #0F172A !important;
+      background-color: #F4F1EA !important;
+      color: #1C1917 !important;
     }
 
-    /* All dark background variations (including with Tailwind opacity /80, /90) */
+    /* All dark background variations & white surfaces (Warm Ivory 미색 & Unified Border) */
     body.theme-day [class*="bg-slate-950"],
     body.theme-day [class*="bg-slate-900"],
-    body.theme-day [class*="bg-slate-850"] {
-      background-color: #FFFFFF !important;
+    body.theme-day [class*="bg-slate-850"],
+    body.theme-day .bg-white {
+      background-color: #FAF8F5 !important;
       background-image: none !important;
-      border-color: #E2E8F0 !important;
-      color: #0F172A !important;
+      border-color: #FAF8F5 !important;
+      color: #1C1917 !important;
+      box-shadow: none !important;
     }
     body.theme-day [class*="bg-slate-800"]:not(#outer-btn-theme-day):not(#outer-btn-theme-night) {
       background-color: #F1F5F9 !important;
@@ -2334,11 +2336,11 @@
     }
 
     body.day-mode, body.theme-day, html.day-mode, html.theme-day, [data-theme="day"] {
-      --bg-main: #F7F5F0 !important; /* Warm Paper Cream */
-      --bg-surface: #FFFFFF !important;
-      --bg-elevated: #EFECE6 !important;
-      --border-subtle: #E7E5E4 !important;
-      --shadow-card: 0 4px 24px rgba(28, 25, 23, 0.05) !important;
+      --bg-main: #F4F1EA !important; /* Warm Soft Linen / Natural Paper */
+      --bg-surface: #FAF8F5 !important; /* Gentle Warm Ivory / 미색 (Zero Glaring White) */
+      --bg-elevated: #EDE8E0 !important; /* Soft Elevated Box */
+      --border-subtle: #FAF8F5 !important; /* Card Border Matches Background (Zero Shadow Line) */
+      --shadow-card: none !important; /* Purged Discordant Card Drop Shadows */
       --text-primary: #1C1917 !important; /* Deep Charcoal */
       --text-secondary: #57534E !important; /* Stone Gray */
       --text-muted: #A8A29E !important;
@@ -2356,10 +2358,11 @@
 
     /* ⚡ 2. Universal Day Mode Surface & Contrast Armor */
     body.theme-day, body.day-mode {
-      background-color: #F7F5F0 !important;
+      background-color: #F4F1EA !important;
       color: #1C1917 !important;
     }
 
+    /* All Cards, Panels and Surfaces in Day Mode: Soft Warm Ivory (미색) + Unified Border (Zero Shadows) */
     body.theme-day .bg-slate-950, body.day-mode .bg-slate-950,
     body.theme-day .bg-slate-900, body.day-mode .bg-slate-900,
     body.theme-day .bg-slate-850, body.day-mode .bg-slate-850,
@@ -2368,14 +2371,34 @@
     body.theme-day .bg-stone-900, body.day-mode .bg-stone-900,
     body.theme-day .bg-stone-850, body.day-mode .bg-stone-850,
     body.theme-day .bg-stone-800, body.day-mode .bg-stone-800,
+    body.theme-day .bg-white, body.day-mode .bg-white,
     body.theme-day [class*="bg-stone-9"], body.day-mode [class*="bg-stone-9"],
     body.theme-day [class*="bg-stone-8"], body.day-mode [class*="bg-stone-8"],
     body.theme-day [class*="bg-slate-9"], body.day-mode [class*="bg-slate-9"],
-    body.theme-day [class*="bg-slate-8"], body.day-mode [class*="bg-slate-8"] {
-      background-color: #FFFFFF !important;
-      border-color: #E7E5E4 !important;
+    body.theme-day [class*="bg-slate-8"], body.day-mode [class*="bg-slate-8"],
+    body.theme-day .sample-prob-card, body.day-mode .sample-prob-card,
+    body.theme-day .manifesto-card, body.day-mode .manifesto-card,
+    body.theme-day .recent-prob-card, body.day-mode .recent-prob-card,
+    body.theme-day #vault-panel-exams > div, body.day-mode #vault-panel-exams > div,
+    body.theme-day #vault-exams-list > div, body.day-mode #vault-exams-list > div {
+      background-color: #FAF8F5 !important;
+      border-color: #FAF8F5 !important;
       color: #1C1917 !important;
-      box-shadow: 0 2px 12px rgba(28, 25, 23, 0.04) !important;
+      box-shadow: none !important;
+    }
+
+    /* Universal Shadow Neutralizer: Eliminates dirty grey drop shadow borders */
+    body.theme-day [class*="shadow-"]:not(button):not(button *),
+    body.day-mode [class*="shadow-"]:not(button):not(button *),
+    html.theme-day [class*="shadow-"]:not(button):not(button *),
+    html.day-mode [class*="shadow-"]:not(button):not(button *) {
+      box-shadow: none !important;
+    }
+    body.theme-day button[class*="bg-[#EA580C]"],
+    body.day-mode button[class*="bg-[#EA580C]"],
+    body.theme-day button[class*="bg-orange-"],
+    body.day-mode button[class*="bg-orange-"] {
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28) !important;
     }
 
     body.theme-day .bg-stone-50, body.day-mode .bg-stone-50,
@@ -2385,9 +2408,10 @@
     body.theme-day select, body.day-mode select,
     body.theme-day input:not([type="checkbox"]):not([type="radio"]),
     body.day-mode input:not([type="checkbox"]):not([type="radio"]) {
-      background-color: #F5F5F4 !important;
-      border-color: #E7E5E4 !important;
+      background-color: #EDE8E0 !important;
+      border-color: #E2DDD5 !important;
       color: #1C1917 !important;
+      box-shadow: none !important;
     }
 
     body.theme-day .text-white, body.day-mode .text-white,
@@ -10618,7 +10642,7 @@ window.addEventListener('DOMContentLoaded', () => {
         userSolvedHistory.forEach((prob, idx) => {
           if (prob && prob.id !== undefined) {
             const numId = Number(prob.id);
-            const isProb15 = (numId === 15 || item.id === '15' || item.id === 'prob_15' || (item.problem_text && item.problem_text.includes("f'(2)")));
+            const isProb15 = (numId === 15 || prob.id === '15' || prob.id === 'prob_15' || (prob.problem_text && prob.problem_text.includes("f'(2)")));
             if (isProb15) {
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[15] || PROBLEMS_DB[15]));
               userSolvedHistory[idx] = canonical;
@@ -10723,7 +10747,11 @@ window.addEventListener('DOMContentLoaded', () => {
         { regex: /문해력/g, replacement: '조건 분석력' },
         { regex: /독해력/g, replacement: '지문 분석력' },
         { regex: /수식\s*모델링/g, replacement: '조건 식 세우기' },
-        { regex: /해석기하/g, replacement: '좌표 분석' }
+        { regex: /해석기하/g, replacement: '좌표 분석' },
+        { regex: /\b(rca_identity|descartes_params|hasLeakedCode|primaryFunction)\b/gi, replacement: '' },
+        { regex: /_rac/g, replacement: '\\frac' },
+        { regex: /\b_7C_3\b/g, replacement: '{}_{7}\\mathrm{C}_{3}' },
+        { regex: /(^|[^a-zA-Z])imes([^a-zA-Z]|$)/g, replacement: '$1\\times $2' }
       ],
 
       // Cleans any string from technical terms, leaked tags, and unrendered LaTeX backslashes
@@ -10772,6 +10800,10 @@ window.addEventListener('DOMContentLoaded', () => {
       text = text.replace(/KaTeX\s+parse\s+error:[^:]*:\s*/gi, '');
       text = text.replace(/_rac(\d+)(\d+)/g, '\\frac{$1}{$2}');
       text = text.replace(/_rac/g, '\\frac');
+      text = text.replace(/\b_7C_3\b/g, '{}_{7}\\mathrm{C}_{3}');
+      text = text.replace(/(^|[^a-zA-Z])imes([^a-zA-Z]|$)/g, '$1\\times $2');
+      text = text.replace(/\bext([가-힣\(\)])/g, '\\text{$1');
+      text = text.replace(/\bext\s*([가-힣])/g, '\\text{$1');
       if (typeof SystemicCodeTermPurgeGuard !== 'undefined' && typeof SystemicCodeTermPurgeGuard.purgeCodingTerms === 'function') {
         text = SystemicCodeTermPurgeGuard.purgeCodingTerms(text);
       }
