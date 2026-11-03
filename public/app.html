@@ -6467,10 +6467,28 @@
       userSolvedHistory = [];
     }
 
-    // Inviolable Question Deletion & Cloud Resurrection Armor
+    // Inviolable Question Deletion & Semantic Fingerprint Armor
+    function getProblemFingerprint(text) {
+      if (!text || typeof text !== 'string') return '';
+      return text
+        .replace(/<[a-zA-Z\/][^>]*>/g, ' ')
+        .replace(/\\[a-zA-Z]+/g, ' ')
+        .replace(/[^가-힣a-zA-Z0-9]/g, '')
+        .slice(0, 40);
+    }
+
     function getDeletedQuestionIds() {
       try {
         const raw = JSON.parse(localStorage.getItem('rootmath_deleted_question_ids') || '[]');
+        return new Set(Array.isArray(raw) ? raw.map(String) : []);
+      } catch (e) {
+        return new Set();
+      }
+    }
+
+    function getDeletedQuestionFingerprints() {
+      try {
+        const raw = JSON.parse(localStorage.getItem('rootmath_deleted_question_fps') || '[]');
         return new Set(Array.isArray(raw) ? raw.map(String) : []);
       } catch (e) {
         return new Set();
@@ -6486,18 +6504,66 @@
       } catch (e) {}
     }
 
+    function markQuestionFingerprintDeletedLocally(fp) {
+      if (!fp) return;
+      try {
+        const set = getDeletedQuestionFingerprints();
+        set.add(String(fp));
+        localStorage.setItem('rootmath_deleted_question_fps', JSON.stringify(Array.from(set)));
+      } catch (e) {}
+    }
+
     function clearAllQuestionsLocally() {
       try {
         localStorage.setItem('rootmath_all_questions_cleared_at', Date.now().toString());
-        const set = getDeletedQuestionIds();
+        const idSet = getDeletedQuestionIds();
+        const fpSet = getDeletedQuestionFingerprints();
         if (Array.isArray(userSolvedHistory)) {
           userSolvedHistory.forEach(item => {
-            if (item && item.id) set.add(String(item.id));
+            if (item && item.id) idSet.add(String(item.id));
+            const fp = getProblemFingerprint((item?.problem_text || '') + ' ' + (item?.title || ''));
+            if (fp) fpSet.add(fp);
           });
         }
-        localStorage.setItem('rootmath_deleted_question_ids', JSON.stringify(Array.from(set)));
+        localStorage.setItem('rootmath_deleted_question_ids', JSON.stringify(Array.from(idSet)));
+        localStorage.setItem('rootmath_deleted_question_fps', JSON.stringify(Array.from(fpSet)));
       } catch (e) {}
     }
+
+    // Inviolable Question Deduplicator Engine (Never allows duplicate problems to enter or persist)
+    function deduplicateUserHistory(history) {
+      if (!Array.isArray(history)) return [];
+      const seenIds = new Set();
+      const seenFps = new Set();
+      const deletedIds = getDeletedQuestionIds();
+      const deletedFps = getDeletedQuestionFingerprints();
+      const result = [];
+
+      history.forEach(item => {
+        if (!item) return;
+        const sId = String(item.id || '');
+        const text = (item.problem_text || '') + ' ' + (item.title || '');
+        const fp = getProblemFingerprint(text);
+
+        // Permanently purged questions
+        if (deletedIds.has(sId) || (fp && deletedFps.has(fp))) {
+          return;
+        }
+        // Duplicate suppression
+        if ((sId && seenIds.has(sId)) || (fp && seenFps.has(fp))) {
+          return;
+        }
+        if (sId) seenIds.add(sId);
+        if (fp) seenFps.add(fp);
+        result.push(item);
+      });
+      return result;
+    }
+
+    // Immediate Startup Deduplication & Legacy Mock Purge
+    try {
+      userSolvedHistory = deduplicateUserHistory(userSolvedHistory);
+    } catch(e) {}
 
     // One-time sanitization: clear legacy fixed mock data (IDs 1, 2, 3) left over from earlier testing
     try {
@@ -10800,23 +10866,42 @@ window.addEventListener('DOMContentLoaded', () => {
       initPassmateSchoolSelector();
       updateUserMasteryTierDisplay();
   
-      // 0. Restore user solved history into active PROBLEMS_DB & sanitize any outdated diagrams
+      // 0. Deduplicate and Restore user solved history into active PROBLEMS_DB
       if (Array.isArray(userSolvedHistory)) {
+        userSolvedHistory = deduplicateUserHistory(userSolvedHistory);
         let historyChanged = false;
+        const seenCanonicalKeys = new Set();
+
         userSolvedHistory.forEach((prob, idx) => {
           if (prob && prob.id !== undefined) {
             const numId = Number(prob.id);
             const isProb15 = (numId === 15 || prob.id === '15' || prob.id === 'prob_15' || (prob.problem_text && prob.problem_text.includes("f'(2)")));
             if (isProb15) {
+              if (seenCanonicalKeys.has('p15')) {
+                // Drop duplicate Problem 15
+                userSolvedHistory[idx] = null;
+                historyChanged = true;
+                return;
+              }
+              seenCanonicalKeys.add('p15');
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[15] || PROBLEMS_DB[15]));
+              // Preserve student diagnosis if present
+              if (prob.diagnosis) canonical.diagnosis = prob.diagnosis;
               userSolvedHistory[idx] = canonical;
               PROBLEMS_DB[15] = canonical;
               PROBLEMS_DB['15'] = canonical;
               PROBLEMS_DB['prob_15'] = canonical;
               historyChanged = true;
             } else if (!isNaN(numId) && CANONICAL_PROBLEMS_DB[numId]) {
+              if (seenCanonicalKeys.has('c_' + numId)) {
+                userSolvedHistory[idx] = null;
+                historyChanged = true;
+                return;
+              }
+              seenCanonicalKeys.add('c_' + numId);
               // Inviolable guarantee: Canonical problems 1~6 ALWAYS overwrite stale local cache
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[numId]));
+              if (prob.diagnosis) canonical.diagnosis = prob.diagnosis;
               userSolvedHistory[idx] = canonical;
               PROBLEMS_DB[numId] = canonical;
               PROBLEMS_DB[String(numId)] = canonical;
@@ -10856,6 +10941,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
           }
         });
+        userSolvedHistory = deduplicateUserHistory(userSolvedHistory.filter(Boolean));
         if (historyChanged) {
           safeSaveUserHistory(userSolvedHistory);
         }
@@ -11454,26 +11540,43 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!confirm('이 오답노트 질문 기록을 삭제하시겠습니까?')) return;
       const strId = String(id);
       
-      // 1. Mark permanently deleted in client blacklist (immune to stale cloud sync)
+      // 1. Extract problem semantic fingerprint before removal
+      const target = (userSolvedHistory || []).find(it => String(it?.id) === strId) || PROBLEMS_DB[id] || PROBLEMS_DB[strId];
+      const targetText = target ? ((target.problem_text || '') + ' ' + (target.title || '')) : '';
+      const fp = getProblemFingerprint(targetText);
+
+      // 2. Mark permanently deleted in client blacklist (both ID and semantic text fingerprint)
       markQuestionDeletedLocally(strId);
+      if (fp) {
+        markQuestionFingerprintDeletedLocally(fp);
+      }
       
-      // 2. Remove from active PROBLEMS_DB memory
+      // 3. Remove from active PROBLEMS_DB memory
       delete PROBLEMS_DB[id];
       delete PROBLEMS_DB[strId];
       
-      // 3. Remove from local history & persist
-      safeSaveUserHistory(userSolvedHistory.filter(item => String(item.id) !== strId));
+      // 4. Remove ALL instances sharing this ID or matching problem fingerprint from local history
+      userSolvedHistory = (userSolvedHistory || []).filter(item => {
+        if (!item) return false;
+        if (String(item.id) === strId) return false;
+        if (fp) {
+          const itemText = (item.problem_text || '') + ' ' + (item.title || '');
+          if (getProblemFingerprint(itemText) === fp) return false;
+        }
+        return true;
+      });
+      safeSaveUserHistory(userSolvedHistory);
       renderHistoryList();
       updateReportView();
       updateCameraHomeCards();
 
-      // 4. Request remote database deletion asynchronously
+      // 5. Request remote database deletion asynchronously
       try {
         const studentName = studentProfile?.name?.trim() || '';
         fetch('https://palin-os.onrender.com/api/readmath/questions/delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student_name: studentName, problem_id: strId })
+          body: JSON.stringify({ student_name: studentName, problem_id: strId, fingerprint: fp })
         }).catch(() => {});
       } catch (e) {}
     }
@@ -12257,13 +12360,16 @@ window.addEventListener('DOMContentLoaded', () => {
           const clearedAt = Number(localStorage.getItem('rootmath_all_questions_cleared_at') || 0);
           let updated = false;
 
+          const deletedFps = (typeof getDeletedQuestionFingerprints === 'function') ? getDeletedQuestionFingerprints() : new Set();
           data.questions.forEach(q => {
             const probId = q.problem_id || ('remote_' + q.id);
             const strId = String(probId);
             const rawId = String(q.id);
+            const qText = (q.problem_text || '') + ' ' + (q.problem_title || '');
+            const fp = (typeof getProblemFingerprint === 'function') ? getProblemFingerprint(qText) : '';
 
             // Inviolable User Deletion Armor: NEVER resurrect questions deleted by the student
-            if (deletedIds.has(strId) || deletedIds.has(rawId) || deletedIds.has('remote_' + rawId)) {
+            if (deletedIds.has(strId) || deletedIds.has(rawId) || deletedIds.has('remote_' + rawId) || (fp && deletedFps.has(fp))) {
               return;
             }
             if (clearedAt > 0 && q.created_at) {
@@ -12271,6 +12377,19 @@ window.addEventListener('DOMContentLoaded', () => {
               if (!isNaN(qTime) && qTime <= clearedAt) {
                 return;
               }
+            }
+
+            // Inviolable Semantic Deduplication: NEVER restore duplicate problem text
+            const alreadyInHistory = userSolvedHistory.some(h => {
+              if (String(h?.id) === strId) return true;
+              if (fp && typeof getProblemFingerprint === 'function') {
+                const hText = (h?.problem_text || '') + ' ' + (h?.title || '');
+                if (getProblemFingerprint(hText) === fp) return true;
+              }
+              return false;
+            });
+            if (alreadyInHistory) {
+              return;
             }
 
             if (!PROBLEMS_DB[probId]) {
@@ -12286,13 +12405,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 diagnosis: q.diagnosis || null,
                 created_at: q.created_at
               };
-              const alreadyInHistory = userSolvedHistory.some(h => String(h.id) === strId);
-              if (!alreadyInHistory) {
-                userSolvedHistory.push(PROBLEMS_DB[probId]);
-                updated = true;
-              }
             }
+            userSolvedHistory.push(PROBLEMS_DB[probId]);
+            updated = true;
           });
+          userSolvedHistory = deduplicateUserHistory(userSolvedHistory);
           if (updated) {
             safeSaveUserHistory(userSolvedHistory);
             renderHistoryList();
@@ -16050,14 +16167,23 @@ window.addEventListener('DOMContentLoaded', () => {
       PROBLEMS_DB[probId] = data;
       PROBLEMS_DB[String(probId)] = data;
 
-      // 2. Persist in userSolvedHistory
+      // 2. Persist in userSolvedHistory (with semantic deduplication)
       if (Array.isArray(userSolvedHistory)) {
-        const histIdx = userSolvedHistory.findIndex(h => String(h.id) === String(probId));
+        const fp = getProblemFingerprint((data?.problem_text || '') + ' ' + (data?.title || ''));
+        const histIdx = userSolvedHistory.findIndex(h => {
+          if (String(h?.id) === String(probId)) return true;
+          if (fp) {
+            const hText = (h?.problem_text || '') + ' ' + (h?.title || '');
+            if (getProblemFingerprint(hText) === fp) return true;
+          }
+          return false;
+        });
         if (histIdx !== -1) {
           userSolvedHistory[histIdx].diagnosis = diagnosisObj;
         } else {
           userSolvedHistory.unshift(data);
         }
+        userSolvedHistory = deduplicateUserHistory(userSolvedHistory);
         safeSaveUserHistory(userSolvedHistory);
       }
 
@@ -16292,14 +16418,23 @@ window.addEventListener('DOMContentLoaded', () => {
       prob.diagnosis.category_title = cats.map(c => getCategoryTitle(c)).join(', ') || '원인 미정';
       prob.diagnosis.saved_at = new Date().toISOString();
 
-      // Save to userSolvedHistory
+      // Save to userSolvedHistory (with semantic deduplication)
       if (Array.isArray(userSolvedHistory)) {
-        const histIdx = userSolvedHistory.findIndex(h => String(h.id) === strId);
+        const fp = getProblemFingerprint((prob?.problem_text || '') + ' ' + (prob?.title || ''));
+        const histIdx = userSolvedHistory.findIndex(h => {
+          if (String(h?.id) === strId) return true;
+          if (fp) {
+            const hText = (h?.problem_text || '') + ' ' + (h?.title || '');
+            if (getProblemFingerprint(hText) === fp) return true;
+          }
+          return false;
+        });
         if (histIdx !== -1) {
           userSolvedHistory[histIdx].diagnosis = prob.diagnosis;
         } else {
           userSolvedHistory.unshift(prob);
         }
+        userSolvedHistory = deduplicateUserHistory(userSolvedHistory);
         safeSaveUserHistory(userSolvedHistory);
       }
 
