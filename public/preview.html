@@ -16717,6 +16717,28 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    function createAndOpenConceptBook(pId, nodeId) {
+      const probId = pId || currentInspectedProblemId || 304;
+      const diag = getCognitiveDiagnosisForProblem(probId);
+      const targetNodeId = nodeId || diag.deficitId || 'n6';
+      if (typeof createCustomConceptForDeficit === 'function') {
+        createCustomConceptForDeficit(probId, targetNodeId);
+      }
+      goToView('vault');
+      switchVaultSubTab('concepts');
+    }
+
+    function createAndOpenClinicExam(pId, nodeId) {
+      const probId = pId || currentInspectedProblemId || 304;
+      const diag = getCognitiveDiagnosisForProblem(probId);
+      const targetNodeId = nodeId || diag.deficitId || 'n6';
+      if (typeof createCustomClinicExamForDeficit === 'function') {
+        createCustomClinicExamForDeficit(probId, targetNodeId);
+      }
+      goToView('vault');
+      switchVaultSubTab('exams');
+    }
+
     function openExamPrepWithPinpointScope(subjectName, causeKey) {
       const subjMap = {
         '대수': 'algebra',
@@ -16896,7 +16918,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   <i data-lucide="git-branch" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h3 class="text-xs md:text-sm font-black text-white">3단계 : 수학약점 원인추적</h3>
+                  <h3 class="text-xs md:text-sm font-black text-white">2단계 : 근본 원인 찾아보자 (문제원인 그물망)</h3>
                   <p class="text-[10px] text-slate-400">내 약점의 시작은 어디일까?</p>
                 </div>
               </div>
@@ -16915,16 +16937,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
-                <span class="px-2 py-0.5 rounded bg-orange-500/20 text-[#EA580C] font-extrabold border border-orange-500/40">
-                  [문제점의 시작] 초·중등 이전 학년 기초 개념
+                <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] 초·중등 이전 학년 기초 개념
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">
-                  [개념 연계] 고1 식 세우기 과정에서 놓친 부분
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> [개념 연계] 고1 식 세우기 과정에서 놓친 부분
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
-                  [현재 결함] 수능·내신 킬러 오답
+                <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 font-extrabold border border-rose-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-rose-500"></span> [현재 결함] 수능·내신 킬러 오답
                 </span>
               </div>
             </div>
@@ -16971,7 +16993,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     <i data-lucide="git-branch" class="w-4 h-4"></i>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="text-xs md:text-sm font-black text-white">3단계 : 수학약점 원인추적</h3>
+                    <h3 class="text-xs md:text-sm font-black text-white">2단계 : 근본 원인 찾아보자 (문제원인 그물망)</h3>
                     <p class="text-[10.5px] text-stone-400 font-bold truncate mt-0.5">${displayTitle}</p>
                   </div>
                 </div>
@@ -16994,25 +17016,25 @@ window.addEventListener('DOMContentLoaded', () => {
                   <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
                   내 문제점의 시작 지점 역추적
                 </span>
-                <span class="text-[10px] text-[#EA580C] font-extrabold bg-orange-500/15 px-2 py-0.5 rounded border border-orange-500/30">
+                <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
                   약점의 시작점 찾기
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
-                <span class="px-2.5 py-1 rounded-lg bg-orange-500/20 text-[#EA580C] font-extrabold border border-orange-500/40">
-                  [문제점의 시작] ${dagData.diagnosis.deficitTitle}
+                <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] ${dagData.diagnosis.deficitTitle}
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold border border-slate-700">
-                  [개념 연계] 고1 식 세우기 과정에서 놓친 부분
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> [개념 연계] 고1 식 세우기 과정에서 놓친 부분
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
-                  [현재 결함] ${displayTitle} 실전 오답
+                <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 font-extrabold border border-rose-500/40 flex items-center gap-1.5 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-rose-500"></span> [현재 결함] ${displayTitle} 실전 오답
                 </span>
               </div>
-              <p class="text-[11px] text-slate-400 leading-relaxed font-medium pt-0.5">
-                이 문제가 틀린 근본적인 시작점은 <strong>[${dagData.diagnosis.deficitTitle}]</strong>에 있습니다. ${dagData.diagnosis.deficitReason}
+              <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium pt-0.5">
+                이 문제가 틀린 근본적인 시작점은 <strong class="text-amber-400">[${dagData.diagnosis.deficitTitle}]</strong>에 있으며, <strong class="text-rose-400">[${displayTitle}]</strong> 실전 오답으로 직결되었습니다. ${dagData.diagnosis.deficitReason}
               </p>
             </div>
 
@@ -17052,6 +17074,48 @@ window.addEventListener('DOMContentLoaded', () => {
         killerDifficulty: '실전 기출 문항'
       };
 
+      // Comprehensive Actionable Prescriptions by Problem Cause Category
+      const causePrescriptions = {
+        visual: {
+          categoryName: '그림이나 그래프를 그리지 않음',
+          rootCauseWhy: '수식 계산에만 매달리다 함수의 증감, 극대·극소, 축의 위치 등 그래프의 기하학적 개형을 시각화하지 못해 문제 조건(구간 최솟값, 교점 등)의 실마리를 놓쳤습니다.',
+          actionRules: [
+            { step: '1단계 [골격 점 찍기]', text: "도함수 $f'(x)=0$의 실근을 구해 증가·감소 구간과 극값(극대/극소)의 위치를 좌표평면에 점으로 먼저 찍으세요." },
+            { step: '2단계 [경계 조건 분할]', text: "문제의 제한 조건(구간 $[t, \\infty)$, 대칭축, 점근선)을 세로 점선으로 분할하여 눈에 보이게 표시하세요." },
+            { step: '3단계 [러프 스케치]', text: "식을 전개하기 전, 10초만 투자하여 $x$축·$y$축과의 교점을 잇는 개형 곡선을 먼저 손으로 그리세요." }
+          ]
+        },
+        modeling: {
+          categoryName: '한국어 조건을 수식으로 세우지 못함',
+          rootCauseWhy: '문제에 주어진 한글 조건(~가 최소가 되도록, 서로 다른 두 실근을 가질 때 등)을 대수적인 방정식, 부등식, 또는 함수 치환식으로 번역하는 변환 과정에서 막혔습니다.',
+          actionRules: [
+            { step: '1단계 [미지수 선언]', text: "구하려는 대상이나 변화하는 변수($t$, $k$, $x$)를 정확히 미지수 문자로 먼저 선언하세요." },
+            { step: '2단계 [조건문 기호화]', text: "'접한다' ➔ $D=0$ 또는 $f'(x)=m$, '최솟값이 0 이상' ➔ $g(t) \\ge 0$ 등 한글을 수학 기호로 1:1 치환하세요." },
+            { step: '3단계 [식 완성 & 연립]', text: "한국어 문장 전체를 하나의 온전한 등식/부등식으로 완성한 뒤 연립방정식을 전개하세요." }
+          ]
+        },
+        condition: {
+          categoryName: '숨겨진 제한 조건이나 범위를 놓침',
+          rootCauseWhy: '정의역의 범위, 판별식 조건, 분모가 0이 아님, 로그의 진수 조건 등 문제 속에 숨겨진 필수 제한 범위를 빠뜨려 오답이 발생했습니다.',
+          actionRules: [
+            { step: '1단계 [범위 네모 박스]', text: "문제를 읽자마자 $x > 0$, 자연수 $n$, 실수 전체 등 범위 조건에 즉시 네모 박스를 치세요." },
+            { step: '2단계 [경계값 검증]', text: "부등호에 등호($\\le$, $<$) 포함 여부와 극한값, 경계점($t=-1, 3$)에서의 함숫값을 반드시 대입해 검증하세요." },
+            { step: '3단계 [역필터링]', text: "답을 낸 뒤 초기 제한 범위와 모순되는 값이 없는지 마지막 5초간 역필터링하세요." }
+          ]
+        },
+        concept: {
+          categoryName: '단원 핵심 개념 및 공식 암기 부족',
+          rootCauseWhy: '문제 해결에 직결되는 교과서 필수 정리나 공식(삼각함수 덧셈정리, 극대·극소 판정법, 조합 공식 등)의 정확한 형태와 적용 전제 조건을 인출해내지 못했습니다.',
+          actionRules: [
+            { step: '1단계 [원리 유도 1회]', text: "단순 문자가 아닌, 공식이 탄생한 기하학적 유도 과정을 백지에 1번 직접 유도해 보세요." },
+            { step: '2단계 [적용 전제 점검]', text: "이 공식을 언제 쓸 수 있는지(직각삼각형일 때, 연속함수일 때 등) 적용 전제 조건을 확인하세요." },
+            { step: '3단계 [대표 예제 체화]', text: "고난도 변형 문항 대신 공식이 직관적으로 쓰이는 기본 대표 예제 3문항으로 손에 익히세요." }
+          ]
+        }
+      };
+
+      const curPrescription = causePrescriptions[topCat] || causePrescriptions.modeling;
+
       container.innerHTML = `
         <!-- 1단계: 나의 주된 문제원인 (과목별 정밀 건강검진 & 1~4순위 순위표) -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-md">
@@ -17070,20 +17134,29 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <!-- Overall Core Cause Summary Banner -->
-          <div class="bg-stone-850/80 rounded-xl p-3 border border-orange-500/30 flex items-center justify-between gap-3 flex-wrap">
-            <div class="min-w-0">
-              <span class="text-[10px] text-amber-300 font-extrabold tracking-wide uppercase">종합 1순위 취약 원인</span>
-              <h4 class="text-sm font-extrabold text-white mt-0.5">
+          <!-- Overall Core Cause Summary Banner (Structured & Clean Left Alignment) -->
+          <div class="bg-stone-850/80 rounded-xl p-3.5 sm:p-4 border border-orange-500/30 space-y-2.5">
+            <div class="flex items-center justify-between border-b border-stone-800/60 pb-2">
+              <span class="text-xs text-amber-400 font-extrabold flex items-center gap-1.5">
+                <i data-lucide="target" class="w-3.5 h-3.5 text-[#EA580C]"></i> 종합 1순위 취약 원인
+              </span>
+              <span class="text-[10px] bg-amber-500/10 text-amber-300 font-bold border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                전체 오답의 ${topPct}% (${maxCount}건)
+              </span>
+            </div>
+
+            <div>
+              <h4 class="text-base sm:text-lg font-black text-white">
                 "${topInfo.title}"
               </h4>
-              <p class="text-[11px] text-slate-300 mt-0.5">
-                ${topInfo.desc}이 직접 확정한 전체 오답의 ${topPct}% (${maxCount}건)입니다.
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed font-medium">
+                ${topInfo.desc}이 직접 확정한 나의 최우선 극복 과제입니다.
               </p>
             </div>
-            <div class="text-right shrink-0">
-              <span class="text-[10px] text-slate-400 block">감지된 핵심 근본 결함</span>
-              <span class="text-xs text-amber-400 font-extrabold">${currentDiag.deficitTitle}</span>
+
+            <div class="pt-2 border-t border-stone-800/60 flex items-start sm:items-center gap-2 flex-col sm:flex-row text-xs">
+              <span class="px-2.5 py-1 rounded bg-stone-800 text-stone-300 text-[10.5px] font-bold shrink-0">감지된 핵심 근본 결함</span>
+              <span class="text-amber-400 font-extrabold text-xs sm:text-sm leading-snug">${currentDiag.deficitTitle}</span>
             </div>
           </div>
 
@@ -17153,18 +17226,22 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <!-- 2단계 : 방치할 경우 예상되는 성적경고 (Cohesive Dark Slate & Warm Amber/Coral, ZERO 알록달록) -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <!-- 2단계 : 근본 원인 찾아보자 (문제원인 그물망) -->
+        ${dagSectionHtml}
+
+        <!-- 3단계 : 방치할 경우 예상되는 성적 경고 & 해결 처방 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-md">
+          <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 flex-wrap gap-2">
             <div class="flex items-center gap-2">
               <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
                 <i data-lucide="shield-alert" class="w-4 h-4"></i>
               </div>
-              <h3 class="text-xs md:text-sm font-black text-white">2단계 : 방치할 경우 예상되는 성적경고</h3>
+              <h3 class="text-xs md:text-sm font-black text-white">3단계 : 방치할 경우 예상되는 성적 경고 & 해결 처방</h3>
             </div>
-            <span class="text-[10px] font-extrabold text-stone-300 bg-stone-800 border border-stone-700 px-2 py-0.5 rounded-full">성적 하락 위험</span>
+            <span class="text-[10px] font-extrabold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">성적 하락 위험 경고</span>
           </div>
 
+          <!-- 내신 & 수능 성적 경고 (2열 그리드) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
             <!-- 내신 경고 -->
             <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
@@ -17193,28 +17270,51 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <!-- 솔루션 처방 CTA -->
-          <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between text-xs">
-              <span class="font-extrabold text-stone-200 flex items-center gap-1.5">
-                <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#EA580C]"></i> AI 처방 행동 강령
+          <!-- 실전 해결 처방 행동 강령 (진짜 문제 원인 분석 & 3단계 행동 수칙) -->
+          <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between text-xs border-b border-slate-800/60 pb-2">
+              <span class="font-extrabold text-white flex items-center gap-1.5">
+                <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i> AI 문제 원인 정밀 진단 및 실전 극복 수칙
               </span>
-              <span class="text-[10px] text-stone-400 font-bold">즉시 보완 권장</span>
+              <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">약점 완치 솔루션</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-medium">
-              ${currentDiag.remedyTip}
-            </p>
-            <div class="pt-1 flex justify-end">
-              <button onclick="goToView('vault')" class="px-3.5 py-2 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition cursor-pointer">
+
+            <!-- 1. 진짜 원인 분석 -->
+            <div class="space-y-1">
+              <span class="text-[10.5px] font-bold text-slate-400 block">진짜 발생 원인 분석</span>
+              <p class="text-xs text-slate-200 leading-relaxed font-medium bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+                ${curPrescription.rootCauseWhy}
+              </p>
+            </div>
+
+            <!-- 2. 실전 극복 3단계 행동 수칙 -->
+            <div class="space-y-1.5 pt-1">
+              <span class="text-[10.5px] font-bold text-amber-300 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> 실전 극복 3단계 행동 수칙
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                ${curPrescription.actionRules.map(r => `
+                  <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-lg space-y-1">
+                    <span class="text-[10px] font-black text-amber-400 block">${r.step}</span>
+                    <p class="text-[11px] text-slate-300 leading-snug font-medium">${r.text}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- 3. 원인 해결을 위한 2개의 원클릭 직행 버튼 (맞춤 개념서 & 맞춤 연습문제) -->
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-end gap-2 flex-wrap">
+              <button type="button" onclick="createAndOpenConceptBook(${targetDiagId || 304}, '${currentDiag.deficitId || 'n6'}')" class="px-3.5 py-2 bg-stone-850 hover:bg-stone-800 text-stone-200 hover:text-white border border-orange-500/40 font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition cursor-pointer active:scale-95" title="이 약점을 완치하기 위한 원리 요약 및 도해도 개념서 생성">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                <span>맞춤 개념서 보기 (원리 요약 & 스케치 가이드)</span>
+              </button>
+              <button type="button" onclick="createAndOpenClinicExam(${targetDiagId || 304}, '${currentDiag.deficitId || 'n6'}')" class="px-3.5 py-2 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition cursor-pointer active:scale-95" title="이 약점을 집중 공략하는 연습문제 클리닉 시험지 생성">
                 <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
-                <span>맞춤 시험지 보관함에서 취약 단원 집중 출제</span>
+                <span>맞춤 연습문제 풀기 (취약점 클리닉)</span>
               </button>
             </div>
           </div>
         </div>
-
-        <!-- 3단계 : 수학약점 원인추적 (Step 3: Root Cause Neural DAG) -->
-        ${dagSectionHtml}
       `;
       lucide.createIcons();
     }
