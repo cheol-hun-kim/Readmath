@@ -4957,17 +4957,15 @@
             <p class="text-[9.5px] text-slate-400">※ 기준: 초록색은 이미 기본기가 탄탄한 정상 영역이며, 주황색은 이번 문제에서 막힌 시작 약점 지점입니다.</p>
           </div>
 
-          <!-- SVG DAG Container (Clean Visual Display, NOT a giant button) -->
-          <div class="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 sm:p-3 flex items-center justify-center h-[260px] sm:h-[300px] md:h-[340px] shadow-inner shrink-0">
+          <!-- SVG DAG Container (Spacious Big Viewport, Clean Visual Display) -->
+          <div class="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 sm:p-3 flex items-center justify-center h-[380px] sm:h-[440px] md:h-[500px] shadow-inner shrink-0">
             <div id="knowledge-dag-svg-viewport" class="w-full h-full flex items-center justify-center">
               <!-- Dynamic SVG injected -->
             </div>
           </div>
 
-          <!-- Bottom Dynamic Node / Deficit Diagnostic Card -->
-          <div id="knowledge-dag-detail-card" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 text-[11px] transition-all">
-            <!-- Populated dynamically via inspectKnowledgeNode() -->
-          </div>
+          <!-- Detail card removed as requested: concept book & clinic exam are already in Step 3 -->
+          <div id="knowledge-dag-detail-card" class="hidden"></div>
         </div>
 
       </div>
@@ -6564,6 +6562,64 @@
 
     let teacherStudents = JSON.parse(localStorage.getItem('rootmath_teacher_students') || '[]');
 
+    // =========================================================================
+    // INVIOLABLE PROBLEM DIAGNOSIS PERSISTENCE ENGINE (오답원인 영구 보존)
+    // =========================================================================
+    function getStoredDiagnosesMap() {
+      try {
+        const raw = localStorage.getItem('rootmath_problem_diagnoses');
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function persistProblemDiagnosis(id, diagnosis, problemText = '', problemTitle = '') {
+      if (!id || !diagnosis) return;
+      try {
+        const map = getStoredDiagnosesMap();
+        const strId = String(id);
+        map[strId] = diagnosis;
+        const fp = (typeof getProblemFingerprint === 'function')
+          ? getProblemFingerprint((problemText || '') + ' ' + (problemTitle || ''))
+          : '';
+        if (fp) {
+          map['fp_' + fp] = diagnosis;
+        }
+        localStorage.setItem('rootmath_problem_diagnoses', JSON.stringify(map));
+      } catch (e) {}
+    }
+
+    function getPersistedProblemDiagnosis(id, problemText = '', problemTitle = '') {
+      if (!id) return null;
+      try {
+        const map = getStoredDiagnosesMap();
+        const strId = String(id);
+        if (map[strId]) return map[strId];
+        const fp = (typeof getProblemFingerprint === 'function')
+          ? getProblemFingerprint((problemText || '') + ' ' + (problemTitle || ''))
+          : '';
+        if (fp && map['fp_' + fp]) return map['fp_' + fp];
+      } catch (e) {}
+      return null;
+    }
+
+    function attachPersistedDiagnosesToHistory() {
+      if (!Array.isArray(userSolvedHistory)) return;
+      let changed = false;
+      userSolvedHistory.forEach(item => {
+        if (!item) return;
+        const saved = getPersistedProblemDiagnosis(item.id, item.problem_text, item.title);
+        if (saved && (!item.diagnosis || !Array.isArray(item.diagnosis.categories) || item.diagnosis.categories.length === 0)) {
+          item.diagnosis = saved;
+          changed = true;
+          if (PROBLEMS_DB[item.id]) PROBLEMS_DB[item.id].diagnosis = saved;
+          if (PROBLEMS_DB[String(item.id)]) PROBLEMS_DB[String(item.id)].diagnosis = saved;
+        }
+      });
+      return changed;
+    }
+
     // Active User Questions History (Defaults to clean empty array for release)
     let userSolvedHistory = [];
     try {
@@ -6604,6 +6660,21 @@
       const set = getVaultProblemIds();
       const willVault = !set.has(strId);
       if (willVault) {
+        // Enforce cause selection (4개 원인 중 1개 이상 선택 필요)
+        const prob = (userSolvedHistory || []).find(h => String(h.id) === strId) || PROBLEMS_DB[strId] || PROBLEMS_DB[Number(strId)];
+        const savedDiag = (typeof getPersistedProblemDiagnosis === 'function') ? getPersistedProblemDiagnosis(strId, prob?.problem_text, prob?.title) : null;
+        const diag = (prob && prob.diagnosis) ? prob.diagnosis : savedDiag;
+        const cats = Array.isArray(diag?.categories) && diag.categories.length > 0
+          ? diag.categories
+          : (diag?.category ? [diag.category] : []);
+
+        if (cats.length === 0) {
+          if (typeof showToastNotification === 'function') {
+            showToastNotification('⚠️ 문제 원인(그림/그래프, 식 세우기, 조건 놓침, 개념/공식)을 먼저 선택한 후 보관해주세요!');
+          }
+          alert('[오답 원인 선택 필요]\n\n내가 왜 이 문제를 틀렸는지 4가지 원인(그림/그래프, 식 세우기, 조건 놓침, 개념/공식) 중 하나를 먼저 선택한 후 [보관하기]를 눌러주세요.');
+          return;
+        }
         set.add(strId);
       } else {
         set.delete(strId);
@@ -11055,8 +11126,9 @@ window.addEventListener('DOMContentLoaded', () => {
               }
               seenCanonicalKeys.add('p15');
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[15] || PROBLEMS_DB[15]));
-              // Preserve student diagnosis if present
-              if (prob.diagnosis) canonical.diagnosis = prob.diagnosis;
+              // Preserve student diagnosis with inviolable persistent fallback
+              const savedDiag15 = prob.diagnosis || getPersistedProblemDiagnosis(15, prob.problem_text, prob.title) || getPersistedProblemDiagnosis('15', prob.problem_text, prob.title);
+              if (savedDiag15) canonical.diagnosis = savedDiag15;
               userSolvedHistory[idx] = canonical;
               PROBLEMS_DB[15] = canonical;
               PROBLEMS_DB['15'] = canonical;
@@ -11071,7 +11143,8 @@ window.addEventListener('DOMContentLoaded', () => {
               seenCanonicalKeys.add('c_' + numId);
               // Inviolable guarantee: Canonical problems 1~6 ALWAYS overwrite stale local cache
               const canonical = JSON.parse(JSON.stringify(CANONICAL_PROBLEMS_DB[numId]));
-              if (prob.diagnosis) canonical.diagnosis = prob.diagnosis;
+              const savedDiagC = prob.diagnosis || getPersistedProblemDiagnosis(numId, prob.problem_text, prob.title) || getPersistedProblemDiagnosis(String(numId), prob.problem_text, prob.title);
+              if (savedDiagC) canonical.diagnosis = savedDiagC;
               userSolvedHistory[idx] = canonical;
               PROBLEMS_DB[numId] = canonical;
               PROBLEMS_DB[String(numId)] = canonical;
@@ -16456,6 +16529,11 @@ window.addEventListener('DOMContentLoaded', () => {
       const totalCountEl = document.getElementById('history-total-count');
       if (!container) return;
 
+      // Merge any persisted diagnoses before rendering
+      if (typeof attachPersistedDiagnosesToHistory === 'function') {
+        attachPersistedDiagnosesToHistory();
+      }
+
       const items = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
       if (totalCountEl) totalCountEl.innerText = `총 ${items.length}문제`;
 
@@ -16589,6 +16667,9 @@ window.addEventListener('DOMContentLoaded', () => {
       prob.diagnosis.category = cats[0] || '';
       prob.diagnosis.category_title = cats.map(c => getCategoryTitle(c)).join(', ') || '원인 미정';
       prob.diagnosis.saved_at = new Date().toISOString();
+
+      // Inviolable Storage: Save diagnosis to dedicated storage so refresh never loses it
+      persistProblemDiagnosis(strId, prob.diagnosis, prob.problem_text, prob.title);
 
       // Save to userSolvedHistory (with semantic deduplication)
       if (Array.isArray(userSolvedHistory)) {
@@ -16901,13 +16982,26 @@ window.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('report-dag-picker-list');
       if (!container) return;
 
-      const questions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      const allQuestions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      // Only show problems that are vaulted by the user (1단계에서 내가 저장한 문제만 노출)
+      const questions = allQuestions.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id));
+
       if (questions.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-8 text-slate-400 space-y-2">
-            <i data-lucide="folder-x" class="w-8 h-8 mx-auto text-slate-600"></i>
-            <p class="text-xs">분석할 오답 문항이 아직 없습니다.</p>
-            <p class="text-[11px] text-slate-500">문제를 질문하면 과목별로 정리되어 초·중·고 인지 그물망을 분석할 수 있습니다.</p>
+          <div class="text-center py-8 text-slate-400 space-y-3">
+            <div class="w-12 h-12 mx-auto rounded-full bg-stone-900 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+              <i data-lucide="bookmark" class="w-6 h-6"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">보관된 문제가 없습니다</h4>
+            <p class="text-xs text-slate-400 leading-relaxed max-w-sm mx-auto">
+              1단계 또는 오답노트에서 분석하고 싶은 문제를 먼저 <strong>[보관하기]</strong>로 저장하시면, 이곳에서 과목별 역추적 그물망을 펼칠 수 있습니다.
+            </p>
+            <div class="pt-1">
+              <button type="button" onclick="closeModal('report-dag-picker'); openReportVaultManagerModal();" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs py-2 px-4 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
+                <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
+                <span>보관함 관리 열기 (문제 보관하기)</span>
+              </button>
+            </div>
           </div>
         `;
         if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
