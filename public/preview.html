@@ -16939,6 +16939,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }).join('');
 
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements(container);
       openModal('report-vault-manager');
     }
 
@@ -17084,6 +17085,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       container.innerHTML = html;
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements(container);
       openModal('report-dag-picker');
     }
 
@@ -17175,6 +17177,9 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
         if (window.lucide) lucide.createIcons();
+        if (typeof renderMathElements === 'function') {
+          renderMathElements(container);
+        }
         return;
       }
 
@@ -17220,6 +17225,9 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
         lucide.createIcons();
+        if (typeof renderMathElements === 'function') {
+          renderMathElements(container);
+        }
         return;
       }
 
@@ -17683,6 +17691,9 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       lucide.createIcons();
+      if (typeof renderMathElements === 'function') {
+        renderMathElements(container);
+      }
     }
 
     function isGradeMatch(itemGrade, targetGrade) {
