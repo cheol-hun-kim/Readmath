@@ -4933,6 +4933,11 @@
 
         <!-- Scrollable Modal Body -->
         <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1">
+          <!-- Flow Badges & Detailed Diagnosis Text (Moved inside Modal to eliminate outer clutter) -->
+          <div id="dag-modal-flow-card" class="bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-slate-800 text-xs space-y-2 shrink-0">
+            <!-- Dynamically populated in openKnowledgeDagModal() -->
+          </div>
+
           <!-- Legend Bar (Distinct Colors & Explicit Standard Explanation) -->
           <div class="bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 text-[10.5px] shrink-0 space-y-1">
             <div class="flex items-center justify-between flex-wrap gap-2">
@@ -4965,6 +4970,80 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- ================= MODAL: REPORT VAULT MANAGER (문제 선택 및 보관 팝업) ================= -->
+    <div id="modal-report-vault-manager" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-5 overflow-hidden" onclick="if(event.target === this) closeModal('report-vault-manager')">
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+        <!-- Header -->
+        <div class="p-4 border-b border-slate-800 bg-slate-900 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-[#EA580C] shrink-0">
+              <i data-lucide="bookmark" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-extrabold text-white">건강검진 분석 문제 선택 및 보관</h3>
+              <p class="text-[10.5px] text-slate-400">종합 원인분석에 반영할 문제들을 [보관하기]로 선택하세요</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModal('report-vault-manager')" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Body: Questions List with Vault Toggles -->
+        <div id="report-vault-manager-list" class="p-4 overflow-y-auto space-y-3 flex-1">
+          <!-- Dynamically populated via openReportVaultManagerModal() -->
+        </div>
+
+        <!-- Footer: Vault Count & Confirm Analysis Button -->
+        <div class="p-3.5 sm:p-4 border-t border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0">
+          <div class="text-xs text-slate-300">
+            현재 보관된 문제: <span id="report-vault-manager-count" class="font-extrabold text-[#EA580C]">0</span>건
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeModal('report-vault-manager')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+              닫기
+            </button>
+            <button type="button" onclick="confirmVaultAnalysisAndRefresh()" class="px-4 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-extrabold shadow-md flex items-center gap-1.5 transition active:scale-95 cursor-pointer">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span>종합 원인분석</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: REPORT DAG PICKER (과목별 그물망 분석 문항 선택 팝업) ================= -->
+    <div id="modal-report-dag-picker" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-5 overflow-hidden" onclick="if(event.target === this) closeModal('report-dag-picker')">
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+        <!-- Header -->
+        <div class="p-4 border-b border-slate-800 bg-slate-900 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-[#EA580C] shrink-0">
+              <i data-lucide="git-branch" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-extrabold text-white">문제원인 그물망 분석 문항 선택</h3>
+              <p class="text-[10.5px] text-slate-400">과목별 저장 문항 중 역추적 그물망을 펼칠 문제를 선택하세요</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModal('report-dag-picker')" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Body: Questions grouped by Subject -->
+        <div id="report-dag-picker-list" class="p-4 overflow-y-auto space-y-4 flex-1">
+          <!-- Dynamically populated via openReportDagPickerModal() -->
+        </div>
+
+        <!-- Footer -->
+        <div class="p-3 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between text-xs text-slate-400 shrink-0">
+          <span>문항을 선택하면 팝업이 닫히며 그물망이 즉시 펼쳐집니다</span>
+          <button type="button" onclick="closeModal('report-dag-picker')" class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs font-bold transition">닫기</button>
+        </div>
       </div>
     </div>
 
@@ -16717,6 +16796,214 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // =========================================================================
+    // MODAL CONTROLLER: REPORT VAULT MANAGER (문제 선택 및 보관 모달)
+    // =========================================================================
+    function openReportVaultManagerModal() {
+      const container = document.getElementById('report-vault-manager-list');
+      const countEl = document.getElementById('report-vault-manager-count');
+      if (!container) return;
+
+      const questions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      const vaultedCount = questions.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id)).length;
+      if (countEl) countEl.innerText = String(vaultedCount);
+
+      if (questions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-400 space-y-2">
+            <i data-lucide="inbox" class="w-8 h-8 mx-auto text-slate-600"></i>
+            <p class="text-xs">아직 질문한 문제가 없습니다.</p>
+            <p class="text-[11px] text-slate-500">문제를 촬영하거나 질문하면 이곳에서 보관하여 종합 원인분석을 진행할 수 있습니다.</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        openModal('report-vault-manager');
+        return;
+      }
+
+      container.innerHTML = questions.map((p, idx) => {
+        const safeId = (p.id !== undefined && p.id !== null) ? String(p.id) : ('hist_' + idx);
+        const isVaulted = typeof isProblemVaulted === 'function' && isProblemVaulted(safeId);
+        const rawTitle = p.title || p.question || '수학 문제 풀이';
+        const cleanTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle;
+        const subjectTag = p.subject || (rawTitle.includes('미적') ? '미적분Ⅰ' : rawTitle.includes('확률') ? '확률과 통계' : rawTitle.includes('함수') ? '대수' : '공통수학');
+        const reasonTag = p.userCause ? (
+          p.userCause === 'visual' ? '그림/그래프' :
+          p.userCause === 'algebra' ? '식 세우기' :
+          p.userCause === 'condition' ? '조건 놓침' : '개념/공식'
+        ) : '원인 분석 대기';
+
+        return `
+          <div class="p-3 sm:p-3.5 rounded-xl border ${isVaulted ? 'bg-orange-500/10 border-orange-500/40' : 'bg-slate-950/80 border-slate-800'} flex items-center justify-between gap-3 transition">
+            <div class="min-w-0 flex-1 space-y-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-[10px] px-2 py-0.5 rounded font-extrabold bg-slate-800 text-stone-300 border border-slate-700">${subjectTag}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">${reasonTag}</span>
+                ${isVaulted ? '<span class="text-[9.5px] px-1.5 py-0.2 rounded font-extrabold bg-[#EA580C] text-white">보관됨</span>' : ''}
+              </div>
+              <h4 class="text-xs sm:text-sm font-bold text-white truncate" title="${cleanTitle}">${cleanTitle}</h4>
+              <p class="text-[10.5px] text-slate-400 line-clamp-1">${(p.question || p.mathText || '').slice(0, 70)}...</p>
+            </div>
+            <div class="shrink-0">
+              <button type="button" 
+                      id="btn-modal-vault-${safeId}"
+                      onclick="toggleVaultInReportModal('${safeId}')" 
+                      class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition flex items-center gap-1.5 cursor-pointer ${isVaulted ? 'bg-[#EA580C] text-white shadow-xs' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'}">
+                <i data-lucide="${isVaulted ? 'check' : 'bookmark'}" class="w-3.5 h-3.5"></i>
+                <span>${isVaulted ? '보관됨' : '보관하기'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      openModal('report-vault-manager');
+    }
+
+    function toggleVaultInReportModal(safeId) {
+      if (typeof toggleVaultProblem === 'function') {
+        toggleVaultProblem(safeId);
+      }
+      const questions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      const vaultedCount = questions.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id)).length;
+      const countEl = document.getElementById('report-vault-manager-count');
+      if (countEl) countEl.innerText = String(vaultedCount);
+
+      // Rerender list in modal to sync all buttons
+      const container = document.getElementById('report-vault-manager-list');
+      if (container) {
+        container.querySelectorAll('button[id^="btn-modal-vault-"]').forEach(btn => {
+          const id = btn.id.replace('btn-modal-vault-', '');
+          const isV = typeof isProblemVaulted === 'function' && isProblemVaulted(id);
+          btn.className = `px-3 py-1.5 rounded-xl text-xs font-extrabold transition flex items-center gap-1.5 cursor-pointer ${isV ? 'bg-[#EA580C] text-white shadow-xs' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'}`;
+          btn.innerHTML = `<i data-lucide="${isV ? 'check' : 'bookmark'}" class="w-3.5 h-3.5"></i><span>${isV ? '보관됨' : '보관하기'}</span>`;
+        });
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      }
+    }
+
+    function confirmVaultAnalysisAndRefresh() {
+      reportAnalysisScope = 'vault';
+      closeModal('report-vault-manager');
+      updateReportView();
+      if (typeof showToastNotification === 'function') {
+        const questions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+        const count = questions.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id)).length;
+        showToastNotification(`보관된 ${count}개 문항을 바탕으로 종합 건강검진이 갱신되었습니다.`);
+      }
+    }
+
+    // =========================================================================
+    // MODAL CONTROLLER: REPORT DAG PICKER (과목별 그물망 분석 문항 선택 모달)
+    // =========================================================================
+    function openReportDagPickerModal() {
+      const container = document.getElementById('report-dag-picker-list');
+      if (!container) return;
+
+      const questions = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      if (questions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-400 space-y-2">
+            <i data-lucide="folder-x" class="w-8 h-8 mx-auto text-slate-600"></i>
+            <p class="text-xs">분석할 오답 문항이 아직 없습니다.</p>
+            <p class="text-[11px] text-slate-500">문제를 질문하면 과목별로 정리되어 초·중·고 인지 그물망을 분석할 수 있습니다.</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        openModal('report-dag-picker');
+        return;
+      }
+
+      // Group questions by subject
+      const subjectGroups = {
+        '대수 (수학Ⅰ)': [],
+        '미적분Ⅰ (수학Ⅱ)': [],
+        '확률과 통계': [],
+        '공통수학': [],
+        '기하 / 미적분Ⅱ': []
+      };
+
+      questions.forEach((p, idx) => {
+        const rawTitle = p.title || p.question || '';
+        let matchedSubject = '공통수학';
+        if (rawTitle.includes('삼차함수') || rawTitle.includes('도함수') || rawTitle.includes('미적') || rawTitle.includes('극대극소') || rawTitle.includes('수2')) {
+          matchedSubject = '미적분Ⅰ (수학Ⅱ)';
+        } else if (rawTitle.includes('확률') || rawTitle.includes('조합') || rawTitle.includes('경우의 수') || rawTitle.includes('통계')) {
+          matchedSubject = '확률과 통계';
+        } else if (rawTitle.includes('지수') || rawTitle.includes('로그') || rawTitle.includes('수열') || rawTitle.includes('수1') || rawTitle.includes('부등식')) {
+          matchedSubject = '대수 (수학Ⅰ)';
+        } else if (rawTitle.includes('기하') || rawTitle.includes('벡터') || rawTitle.includes('공간')) {
+          matchedSubject = '기하 / 미적분Ⅱ';
+        }
+        subjectGroups[matchedSubject].push({ ...p, originalIdx: idx });
+      });
+
+      let html = '';
+      Object.keys(subjectGroups).forEach(subj => {
+        const groupItems = subjectGroups[subj];
+        if (groupItems.length === 0) return;
+
+        html += `
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 pb-1 border-b border-slate-800">
+              <span class="w-2 h-2 rounded-full bg-[#EA580C]"></span>
+              <h4 class="text-xs font-black text-white">${subj}</h4>
+              <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.2 rounded font-bold">${groupItems.length}문항</span>
+            </div>
+            <div class="space-y-2">
+              ${groupItems.map(p => {
+                const safeId = (p.id !== undefined && p.id !== null) ? String(p.id) : ('hist_' + p.originalIdx);
+                const rawTitle = p.title || p.question || '수학 문제 풀이';
+                const cleanTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle;
+                const isSelected = String(selectedReportProblemId) === String(safeId);
+
+                return `
+                  <div class="p-3 rounded-xl ${isSelected ? 'bg-orange-500/15 border border-orange-500/50' : 'bg-slate-950/80 border border-slate-800'} flex items-center justify-between gap-3 hover:border-slate-700 transition">
+                    <div class="min-w-0 flex-1">
+                      <h5 class="text-xs font-bold text-white truncate" title="${cleanTitle}">${cleanTitle}</h5>
+                      <p class="text-[10px] text-slate-400 line-clamp-1 mt-0.5">${(p.question || p.mathText || '').slice(0, 60)}...</p>
+                    </div>
+                    <div class="shrink-0">
+                      <button type="button" 
+                              onclick="selectDagProblemFromModal('${safeId}')" 
+                              class="px-3 py-1.5 rounded-lg bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-extrabold shadow-sm transition active:scale-95 flex items-center gap-1 cursor-pointer">
+                        <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
+                        <span>분석</span>
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      if (!html) {
+        html = `
+          <div class="text-center py-6 text-slate-400 text-xs">
+            저장된 문제 목록을 불러올 수 없습니다.
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      openModal('report-dag-picker');
+    }
+
+    function selectDagProblemFromModal(safeId) {
+      selectedReportProblemId = safeId;
+      closeModal('report-dag-picker');
+      updateReportView();
+      // Smoothly scroll down to DAG section
+      const dagEl = document.getElementById('report-dag-card-section');
+      if (dagEl) {
+        dagEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
     function createAndOpenConceptBook(pId, nodeId) {
       const probId = pId || currentInspectedProblemId || 304;
       const diag = getCognitiveDiagnosisForProblem(probId);
@@ -16771,6 +17058,32 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const allItems = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
       const vaultedItems = allItems.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id));
+      
+      // If user selected 'vault' scope but has not vaulted any items yet, show dedicated prompt
+      if (reportAnalysisScope === 'vault' && vaultedItems.length === 0 && allItems.length > 0) {
+        container.innerHTML = `
+          <div class="bg-slate-900 border border-orange-500/40 rounded-2xl p-5 text-center space-y-3 shadow-md">
+            <div class="w-11 h-11 mx-auto rounded-full bg-stone-900/80 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+              <i data-lucide="bookmark" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-sm font-black text-white">보관된 분석 대상 문제가 없습니다</h3>
+            <p class="text-xs text-slate-300 leading-relaxed max-w-sm mx-auto">
+              내가 두고두고 보관할 문제들을 <strong>[보관하기]</strong>로 선택하시면, 보관된 문제들만을 기반으로 과목별 건강검진 종합 분석이 즉시 실행됩니다.
+            </p>
+            <div class="pt-1 flex items-center justify-center gap-2 flex-wrap">
+              <button type="button" onclick="openReportVaultManagerModal()" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs py-2 px-4 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
+                <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> 문항 선택 및 보관하기
+              </button>
+              <button type="button" onclick="setReportAnalysisScope('all')" class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-stone-300 font-bold text-xs py-2 px-3 rounded-xl border border-slate-700 transition cursor-pointer">
+                전체 문제로 분석하기
+              </button>
+            </div>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
       const items = (reportAnalysisScope === 'vault' && vaultedItems.length > 0) ? vaultedItems : allItems;
       const hasVaultedOnly = (reportAnalysisScope === 'vault' && vaultedItems.length > 0);
       if (items.length === 0) {
@@ -16851,8 +17164,8 @@ window.addEventListener('DOMContentLoaded', () => {
               오답노트에 총 <strong>${items.length}문제</strong>가 보관되어 있습니다.<br/>
               각 문제의 <strong>[오답 원인 분석]</strong>에서 내가 막혔던 원인을 직접 선택하여 <strong>[확정 저장]</strong>하면, 나의 진짜 누적 약점 통계와 인지 DNA 레이더가 구축됩니다.
             </p>
-            <button onclick="goToView('history')" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-md transition">
-              <i data-lucide="book-open" class="w-3.5 h-3.5"></i> 오답노트에서 문제 원인 진단하기
+            <button type="button" onclick="openReportVaultManagerModal()" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-4 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
+              <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> 오답노트에서 문항 선택 및 보관하기
             </button>
           </div>
 
@@ -16909,7 +17222,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let dagSectionHtml = '';
 
       if (!activeProbId) {
-        // Standby State: User has not selected a problem from Wrong Answer Note yet
+        // Standby State: In-Modal selection without clunky navigation
         dagSectionHtml = `
           <div id="report-dag-card-section" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md">
             <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
@@ -16925,52 +17238,26 @@ window.addEventListener('DOMContentLoaded', () => {
               <span class="text-[9.5px] bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-bold">진단 대기 상태</span>
             </div>
 
-            <!-- 내 문제점의 시작 지점 역추적 안내 배너 -->
-            <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-stone-300 font-extrabold flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
-                  내 문제점의 시작 지점 역추적 흐름
-                </span>
-                <span class="text-[10px] text-orange-400 font-bold bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/30">
-                  약점의 시작점 찾기
-                </span>
+            <div class="p-5 bg-slate-950/70 rounded-xl border border-slate-800/80 text-center space-y-3">
+              <div class="w-11 h-11 mx-auto rounded-full bg-stone-900/80 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+                <i data-lucide="git-branch" class="w-5 h-5"></i>
               </div>
-              <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
-                <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] 초·중등 이전 학년 기초 개념
-                </span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> [개념 연계] 고1 식 세우기 과정에서 놓친 부분
-                </span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 font-extrabold border border-rose-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-rose-500"></span> [현재 결함] 수능·내신 킬러 오답
-                </span>
-              </div>
-            </div>
-
-            <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80 text-center space-y-2.5">
-              <div class="w-10 h-10 mx-auto rounded-full bg-stone-900/80 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
-                <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
-              </div>
-              <h4 class="text-xs font-extrabold text-white">분석할 오답 문항을 오답노트에서 선택해주세요</h4>
-              <p class="text-[11px] text-slate-400 leading-relaxed max-w-sm mx-auto">
-                모든 문제의 원인이 뒤섞이지 않도록 <strong>오답노트에서 특정 문제를 선택</strong>하시면 해당 문항의 초·중·고 인지 결함 연계망이 개별 연동됩니다.
+              <h4 class="text-sm font-extrabold text-white">분석할 오답 문항을 선택해주세요</h4>
+              <p class="text-xs text-slate-400 leading-relaxed max-w-sm mx-auto">
+                과목별로 정리된 문제 중 하나를 선택하시면, 해당 문항의 초·중·고 인지 결함 연계망이 즉시 대화면으로 펼쳐집니다.
               </p>
               <div class="pt-1">
-                <button type="button" onclick="goToView('history')" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
-                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                  <span>오답노트에서 문항 선택하기</span>
+                <button type="button" onclick="openReportDagPickerModal()" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold text-xs py-2 px-4 rounded-xl shadow-md transition active:scale-95 cursor-pointer">
+                  <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+                  <span>문항 선택하기 (과목별 정리)</span>
                 </button>
               </div>
               ${items.length > 0 ? `
-                <div class="pt-2 border-t border-slate-800/60 flex items-center justify-center gap-1.5 flex-wrap text-[10.5px]">
-                  <span class="text-slate-400 font-bold">최근 질문 바로 분석:</span>
+                <div class="pt-2.5 border-t border-slate-800/60 flex items-center justify-center gap-2 flex-wrap text-xs">
+                  <span class="text-slate-400 font-bold text-[11px]">최근 질문 바로 분석:</span>
                   ${items.slice(0, 3).map(p => {
                     const cleanT = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(p.title || '문제') : (p.title || '문제');
-                    return `<button type="button" onclick="inspectProblemDagInReport('${p.id}')" class="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-stone-900 text-stone-300 font-bold border border-slate-800 hover:border-orange-500/50 transition truncate max-w-[130px]">${cleanT}</button>`;
+                    return `<button type="button" onclick="selectDagProblemFromModal('${p.id}')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-stone-900 text-stone-300 font-bold border border-slate-800 hover:border-orange-500/50 transition truncate max-w-[140px] text-[11px] cursor-pointer">${cleanT}</button>`;
                   }).join('')}
                 </div>
               ` : ''}
@@ -16978,7 +17265,7 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
       } else {
-        // Active State: Specific problem selected
+        // Active State: Clean, Spacious Big Graph (Image 4) - Flow badges & text moved to modal (Image 5)
         const probObj = items.find(p => String(p.id) === String(activeProbId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[activeProbId] : null);
         const rawTitle = probObj?.title || '선택한 오답 문항';
         const displayTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle;
@@ -16986,70 +17273,52 @@ window.addEventListener('DOMContentLoaded', () => {
 
         dagSectionHtml = `
           <div id="report-dag-card-section" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3.5 shadow-md transition-all">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-800 gap-2">
+            <!-- Header with Clean Title & Direct Actions -->
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 gap-2">
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-2">
                   <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-[#EA580C] shrink-0">
                     <i data-lucide="git-branch" class="w-4 h-4"></i>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="text-xs md:text-sm font-black text-white">2단계 : 근본 원인 찾아보자 (문제원인 그물망)</h3>
-                    <p class="text-[10.5px] text-stone-400 font-bold truncate mt-0.5">${displayTitle}</p>
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <h3 class="text-xs md:text-sm font-black text-white">2단계 : 근본 원인 찾아보자 (문제원인 그물망)</h3>
+                      <span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 font-extrabold border border-amber-500/30">약점 발원지 역추적</span>
+                    </div>
+                    <p class="text-[11px] text-stone-300 font-bold truncate mt-0.5">${displayTitle}</p>
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" onclick="goToView('history')" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 transition cursor-pointer" title="오답노트로 돌아가 다른 문항 선택">
-                  <span>다른 문항</span>
+                <button type="button" onclick="openReportDagPickerModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-xl border border-slate-700 transition cursor-pointer font-bold flex items-center gap-1" title="과목별 문항 목록에서 다른 문제 선택">
+                  <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                  <span>문항 선택</span>
                 </button>
-                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-[10px] bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3 py-1 rounded-lg transition shadow-xs flex items-center gap-1 cursor-pointer">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-xs bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3.5 py-1.5 rounded-xl transition shadow-xs flex items-center gap-1 cursor-pointer">
+                  <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                   <span>상세보기</span>
                 </button>
               </div>
             </div>
 
-            <!-- 내 문제점의 시작 지점 역추적 배너 -->
-            <div class="p-3.5 bg-slate-950/90 rounded-xl border border-slate-800 space-y-2 text-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-stone-200 font-black flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
-                  내 문제점의 시작 지점 역추적
-                </span>
-                <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
-                  약점의 시작점 찾기
-                </span>
-              </div>
-              <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
-                <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] ${dagData.diagnosis.deficitTitle}
-                </span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> [개념 연계] 고1 식 세우기 과정에서 놓친 부분
-                </span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
-                <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 font-extrabold border border-rose-500/40 flex items-center gap-1.5 shadow-xs">
-                  <span class="w-2 h-2 rounded-full bg-rose-500"></span> [현재 결함] ${displayTitle} 실전 오답
-                </span>
-              </div>
-              <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium pt-0.5">
-                이 문제가 틀린 근본적인 시작점은 <strong class="text-amber-400">[${dagData.diagnosis.deficitTitle}]</strong>에 있으며, <strong class="text-rose-400">[${displayTitle}]</strong> 실전 오답으로 직결되었습니다. ${dagData.diagnosis.deficitReason}
-              </p>
-            </div>
-
-            <!-- Large SVG Container -->
-            <div class="math-dag-container rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-1 shadow-inner h-[280px] sm:h-[320px] flex items-center justify-center">
+            <!-- Spacious Big SVG Graph Viewport (Clean & Visual, matching Image 4) -->
+            <div class="math-dag-container rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 p-2 sm:p-3 shadow-inner h-[340px] sm:h-[400px] md:h-[440px] flex items-center justify-center">
               ${dagData.svg}
             </div>
 
-            <div class="flex items-center justify-between pt-0.5 text-xs">
-              <div class="text-[11px] text-slate-300">
-                약점의 시작 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
+            <!-- Bottom Summary Bar -->
+            <div class="flex items-center justify-between pt-1 px-1 text-xs flex-wrap gap-2">
+              <div class="text-[11.5px] text-slate-300 flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>약점의 시작 지점:</span>
+                <strong class="text-amber-300 font-black">${dagData.diagnosis.deficitTitle}</strong>
               </div>
-              <button type="button" onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10.5px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1 cursor-pointer">
-                <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
-              </button>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-xs text-orange-400 hover:text-orange-300 font-extrabold flex items-center gap-1 underline cursor-pointer">
+                  <span>원인 역추적 3단계 상세설명 보기</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -17130,6 +17399,9 @@ window.addEventListener('DOMContentLoaded', () => {
               </button>
               <button type="button" onclick="setReportAnalysisScope('all')" class="px-2.5 py-1 rounded-lg font-bold transition ${reportAnalysisScope === 'all' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
                 전체 질문 기록 (${allItems.length})
+              </button>
+              <button type="button" onclick="openReportVaultManagerModal()" class="px-2.5 py-1 rounded-lg font-bold transition bg-stone-900 hover:bg-stone-850 text-orange-400 border border-orange-500/30 flex items-center gap-1 cursor-pointer shadow-xs" title="분석할 문제 보관 및 선택">
+                <i data-lucide="bookmark" class="w-3 h-3"></i> 보관함 관리
               </button>
             </div>
           </div>
@@ -18392,6 +18664,43 @@ window.addEventListener('DOMContentLoaded', () => {
       if (viewport) {
         viewport.innerHTML = dagData.svg;
       }
+
+      // Populate Image 5 Flow Badges & Detailed Diagnosis Text inside modal
+      const flowCardEl = document.getElementById('dag-modal-flow-card');
+      if (flowCardEl) {
+        const probObj = (userSolvedHistory || []).find(h => String(h.id) === String(targetPId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[targetPId] : null);
+        const rawTitle = probObj?.title || diag.targetTitle || '문항 분석';
+        const displayTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(rawTitle) : rawTitle;
+
+        flowCardEl.innerHTML = `
+          <div class="flex items-center justify-between pb-1">
+            <span class="text-stone-200 font-black flex items-center gap-1.5 text-xs">
+              <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
+              내 문제점의 시작 지점 역추적 흐름
+            </span>
+            <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+              약점의 시작점 찾기
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
+            <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/40 flex items-center gap-1.5 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] ${dagData.diagnosis.deficitTitle}
+            </span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/40 flex items-center gap-1.5 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> [개념 연계] 고1 식 세우기 과정에서 놓친 부분
+            </span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+            <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 font-extrabold border border-rose-500/40 flex items-center gap-1.5 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span> [현재 결함] ${displayTitle} 실전 오답
+            </span>
+          </div>
+          <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium pt-0.5">
+            이 문제가 틀린 근본적인 시작점은 <strong class="text-amber-400">[${dagData.diagnosis.deficitTitle}]</strong>에 있으며, <strong class="text-rose-400">[${displayTitle}]</strong> 실전 오답으로 직결되었습니다. ${dagData.diagnosis.deficitReason}
+          </p>
+        `;
+      }
+
       inspectKnowledgeNode(currentSelectedNodeId);
       openModal('knowledge-dag');
       if (window.lucide) lucide.createIcons();
