@@ -3115,7 +3115,7 @@
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> 다시 찍기
           </button>
           <div class="flex items-center gap-1 shrink-0 flex-nowrap">
-            <button onclick="openKnowledgeDagModal()" id="btn-knowledge-dag" class="bg-slate-800 hover:bg-slate-700 text-stone-200 border border-orange-500/50 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="수학 개념 원인 추적 신경망 지식그래프">
+            <button onclick="openKnowledgeDagModal()" id="btn-knowledge-dag" class="bg-slate-800 hover:bg-slate-700 text-stone-200 border border-orange-500/50 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none" title="수학 문제원인 그물망 지식그래프">
               <i data-lucide="git-branch" class="w-3 h-3 text-[#EA580C]"></i>
               <span>원인 추적</span>
             </button>
@@ -4894,12 +4894,12 @@
       </div>
     </div>
 
-    <!-- ================= MODAL: MATHEMATICAL COGNITIVE KNOWLEDGE DAG (UNIFIED SCROLLING & CLEAN VIEW) ================= -->
-    <div id="modal-knowledge-dag" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto" onclick="if(event.target === this) closeModal('knowledge-dag')">
-      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl p-4 sm:p-6 space-y-4 w-full max-w-3xl max-h-[92vh] overflow-y-auto shadow-2xl my-auto" onclick="event.stopPropagation()">
-        
-        <!-- Header with Title & Action Controls (Sticky at top of modal scroll) -->
-        <div class="sticky top-0 bg-slate-900/95 backdrop-blur-md z-30 pb-3 border-b border-slate-800 -mx-4 -mt-4 px-4 pt-4 sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6 rounded-t-2xl md:rounded-t-3xl flex items-center justify-between">
+    <!-- ================= MODAL: MATHEMATICAL COGNITIVE KNOWLEDGE DAG (FIXED HEADER & ZERO-CUTOFF VIEW) ================= -->
+    <div id="modal-knowledge-dag" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-hidden" onclick="if(event.target === this) closeModal('knowledge-dag')">
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl md:rounded-3xl shadow-2xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+
+        <!-- Fixed Top Header (Zero Cutoff, Zero Clipping) -->
+        <div class="p-3.5 sm:p-4 border-b border-slate-800 bg-slate-900 flex items-center justify-between shrink-0">
           <div class="min-w-0 flex-1 pr-2">
             <div class="flex items-center gap-2">
               <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center shrink-0">
@@ -4931,32 +4931,38 @@
           </div>
         </div>
 
-        <!-- Legend Bar (Compact & Clear) -->
-        <div class="flex items-center justify-between bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-[10px] shrink-0">
-          <div class="flex items-center gap-3">
-            <span class="flex items-center gap-1 text-amber-500 font-bold">
-              <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> 정상 마스터
-            </span>
-            <span class="flex items-center gap-1 text-amber-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-amber-500 inline-block animate-pulse"></span> 약점 원인 (취약점)
-            </span>
-            <span class="flex items-center gap-1 text-rose-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span> 목표 해결 문항
-            </span>
+        <!-- Scrollable Modal Body -->
+        <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1">
+          <!-- Legend Bar (Distinct Colors & Explicit Standard Explanation) -->
+          <div class="bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 text-[10.5px] shrink-0 space-y-1">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-3.5">
+                <span class="flex items-center gap-1.5 text-emerald-400 font-bold" title="기초가 탄탄한 정상 개념">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-xs"></span> 기초 마스터 (정상)
+                </span>
+                <span class="flex items-center gap-1.5 text-amber-400 font-bold" title="이번 문제 풀이에서 막힌 시작 약점">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse shadow-xs"></span> 약점 원인 (취약점)
+                </span>
+                <span class="flex items-center gap-1.5 text-rose-400 font-bold" title="질문한 현재 문제">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-xs"></span> 목표 해결 문항
+                </span>
+              </div>
+              <span class="text-slate-400 text-[9.5px]">개념 동그라미를 누르면 상세 처방으로 이동합니다</span>
+            </div>
+            <p class="text-[9.5px] text-slate-400">※ 기준: 초록색은 이미 기본기가 탄탄한 정상 영역이며, 주황색은 이번 문제에서 막힌 시작 약점 지점입니다.</p>
           </div>
-          <span class="text-slate-400 text-[9.5px]">원형 노드 터치 시 해당 개념 진단으로 즉시 이동</span>
-        </div>
 
-        <!-- SVG DAG Container (Clean Visual Display, NOT a giant button) -->
-        <div class="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 sm:p-3 flex items-center justify-center h-[260px] sm:h-[300px] md:h-[340px] shadow-inner shrink-0">
-          <div id="knowledge-dag-svg-viewport" class="w-full h-full flex items-center justify-center">
-            <!-- Dynamic SVG injected -->
+          <!-- SVG DAG Container (Clean Visual Display, NOT a giant button) -->
+          <div class="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 p-2 sm:p-3 flex items-center justify-center h-[260px] sm:h-[300px] md:h-[340px] shadow-inner shrink-0">
+            <div id="knowledge-dag-svg-viewport" class="w-full h-full flex items-center justify-center">
+              <!-- Dynamic SVG injected -->
+            </div>
           </div>
-        </div>
 
-        <!-- Bottom Dynamic Node / Deficit Diagnostic Card (Flows naturally without an inner cramped scrollbar) -->
-        <div id="knowledge-dag-detail-card" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 text-[11px] transition-all">
-          <!-- Populated dynamically via inspectKnowledgeNode() -->
+          <!-- Bottom Dynamic Node / Deficit Diagnostic Card -->
+          <div id="knowledge-dag-detail-card" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 text-[11px] transition-all">
+            <!-- Populated dynamically via inspectKnowledgeNode() -->
+          </div>
         </div>
 
       </div>
@@ -4975,7 +4981,7 @@
               <h3 class="text-sm sm:text-base font-black text-white">근본 원인 찾아보자 (전체화면)</h3>
               <span id="dag-fullscreen-problem-badge" class="bg-stone-900 text-stone-300 border border-orange-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full truncate"></span>
             </div>
-            <p class="text-[10.5px] text-slate-400">화면 크기에 맞춰 유동적으로 렌더링되며 노드를 터치하여 개별 인지 약점을 분석합니다</p>
+            <p class="text-[10.5px] text-slate-400">화면 크기에 맞춰 유동적으로 렌더링되며 개념 동그라미를 눌러 시작 약점을 분석합니다</p>
           </div>
         </div>
 
@@ -4987,6 +4993,22 @@
             <i data-lucide="x" class="w-4 h-4"></i> <span>닫기 (ESC)</span>
           </button>
         </div>
+      </div>
+
+      <!-- Legend Bar (Fullscreen) -->
+      <div class="flex items-center justify-between bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-2 text-xs shrink-0 mt-2">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1.5 text-emerald-400 font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> 기초 마스터 (정상)
+          </span>
+          <span class="flex items-center gap-1.5 text-amber-400 font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse"></span> 약점 원인 (취약점)
+          </span>
+          <span class="flex items-center gap-1.5 text-rose-400 font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> 목표 해결 문항
+          </span>
+        </div>
+        <span class="text-slate-400 text-[11px]">개념 동그라미를 누르면 실시간 진단 처방이 열립니다</span>
       </div>
 
       <!-- Main Viewport Area (Takes up 100% of available height) -->
@@ -16444,7 +16466,7 @@ window.addEventListener('DOMContentLoaded', () => {
               <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-3 rounded-xl text-xs font-bold bg-stone-800/80 hover:bg-[#EA580C] hover:text-white text-stone-200 border border-stone-700/80 flex items-center justify-center gap-1.5 transition cursor-pointer active:scale-95" title="이 문항의 초·중·고 약점 연계 분석">
                 <span>약점 분석</span>
               </button>
-              <button type="button" onclick="toggleVaultProblem('${safeId}')" class="py-1.5 px-3.5 rounded-xl text-xs font-bold ${isVaulted ? 'bg-[#EA580C] text-white border-orange-500 shadow-xs' : 'bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border-slate-700'} border flex items-center gap-1.5 transition shrink-0 cursor-pointer active:scale-95" title="${isVaulted ? '보관 해제' : '두고두고 볼 문제로 보관'}">
+              <button type="button" onclick="toggleVaultProblem('${safeId}')" class="w-[88px] min-w-[88px] justify-center py-1.5 rounded-xl text-xs font-bold ${isVaulted ? 'bg-[#EA580C] text-white border-orange-500 shadow-xs' : 'bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border-slate-700'} border flex items-center gap-1.5 transition shrink-0 cursor-pointer active:scale-95" title="${isVaulted ? '보관 해제' : '두고두고 볼 문제로 보관'}">
                 <i data-lucide="${isVaulted ? 'bookmark-check' : 'bookmark'}" class="w-3.5 h-3.5"></i>
                 <span>${isVaulted ? '보관됨' : '보관하기'}</span>
               </button>
@@ -16620,6 +16642,101 @@ window.addEventListener('DOMContentLoaded', () => {
       }, 120);
     }
 
+    let reportAnalysisScope = 'vault'; // 'vault' (내가 보관한 문제) or 'all' (전체 질문 기록)
+
+    function setReportAnalysisScope(scope) {
+      reportAnalysisScope = scope;
+      updateReportView();
+    }
+
+    function detectProblemSubject(prob) {
+      const text = ((prob?.title || '') + ' ' + (prob?.problem_text || '') + ' ' + (prob?.curriculum_grade || '')).toLowerCase();
+      if (text.includes('확률') || text.includes('통계') || text.includes('경우의 수') || text.includes('순열') || text.includes('조합') || text.includes('중복조합') || text.includes('이항정리')) {
+        return '확률과 통계';
+      }
+      if (text.includes('대수') || text.includes('지수') || text.includes('로그') || text.includes('삼각함수') || text.includes('수열')) {
+        return '대수';
+      }
+      if (text.includes('미적분') || text.includes('도함수') || text.includes('미분') || text.includes('적분') || text.includes('삼차함수') || text.includes('극한') || text.includes('연속')) {
+        return '미적분Ⅰ';
+      }
+      if (text.includes('기하') || text.includes('벡터') || text.includes('공간도형') || text.includes('이차곡선')) {
+        return '기하';
+      }
+      return '공통수학';
+    }
+
+    function buildSubjectHealthCheckupMatrix(items) {
+      const causesMap = {
+        modeling: { key: 'modeling', name: '식 세우기', desc: '한국어 조건 수식 번역' },
+        visual:   { key: 'visual',   name: '그림/그래프', desc: '시각화 개형 미작성' },
+        condition:{ key: 'condition',name: '조건 놓침', desc: '제한 조건 및 범위 누락' },
+        concept:  { key: 'concept',  name: '개념/공식', desc: '단원 핵심 공식 암기' }
+      };
+
+      const subjectGroups = {};
+
+      items.forEach(prob => {
+        const subj = detectProblemSubject(prob);
+        if (!subjectGroups[subj]) {
+          subjectGroups[subj] = {
+            subject: subj,
+            total: 0,
+            counts: { modeling: 0, visual: 0, condition: 0, concept: 0 },
+            problems: []
+          };
+        }
+        subjectGroups[subj].total++;
+        subjectGroups[subj].problems.push(prob);
+
+        const c = prob?.diagnosis?.category || (Array.isArray(prob?.diagnosis?.categories) ? prob.diagnosis.categories[0] : 'modeling');
+        if (subjectGroups[subj].counts[c] !== undefined) {
+          subjectGroups[subj].counts[c]++;
+        }
+      });
+
+      return Object.values(subjectGroups).map(g => {
+        const list = Object.keys(causesMap).map(k => ({
+          key: k,
+          name: causesMap[k].name,
+          desc: causesMap[k].desc,
+          count: g.counts[k],
+          pct: g.total > 0 ? Math.round((g.counts[k] / g.total) * 100) : 0
+        })).sort((a, b) => {
+          if (b.count !== a.count) return b.count - a.count;
+          const order = { modeling: 4, visual: 3, condition: 2, concept: 1 };
+          return order[b.key] - order[a.key];
+        });
+
+        return {
+          subject: g.subject,
+          total: g.total,
+          ranks: list,
+          topRank: list[0]
+        };
+      });
+    }
+
+    function openExamPrepWithPinpointScope(subjectName, causeKey) {
+      const subjMap = {
+        '대수': 'algebra',
+        '미적분Ⅰ': 'calc1',
+        '확률과 통계': 'prob_stat',
+        '공통수학': 'common1',
+        '기하': 'geometry'
+      };
+      const key = subjMap[subjectName] || 'calc1';
+      goToView('vault');
+      switchVaultSubTab('exams');
+      const sel = document.getElementById('exam-prep-subject-select');
+      if (sel) {
+        sel.value = key;
+        if (typeof onExamPrepSubjectOrSemesterChange === 'function') {
+          onExamPrepSubjectOrSemesterChange();
+        }
+      }
+    }
+
     function resetReportProblemSelection() {
       selectedReportProblemId = null;
       updateReportView();
@@ -16630,7 +16747,10 @@ window.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('report-dynamic-container');
       if (!container) return;
 
-      const items = userSolvedHistory;
+      const allItems = Array.isArray(userSolvedHistory) ? userSolvedHistory : [];
+      const vaultedItems = allItems.filter(p => typeof isProblemVaulted === 'function' && isProblemVaulted(p.id));
+      const items = (reportAnalysisScope === 'vault' && vaultedItems.length > 0) ? vaultedItems : allItems;
+      const hasVaultedOnly = (reportAnalysisScope === 'vault' && vaultedItems.length > 0);
       if (items.length === 0) {
         const dagSample = buildCognitiveKnowledgeDagSvg(null, null, true);
         container.innerHTML = `
@@ -16647,11 +16767,11 @@ window.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
 
-          <!-- 수학 인지 DNA 신경망 청사진 (진단 대기 상태) -->
+          <!-- 수학 문제원인 그물망 청사진 (진단 대기 상태) -->
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수학 인지 DNA 신경망 청사진
+                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수학 문제원인 그물망 청사진
               </span>
               <button onclick="openKnowledgeDagModal(null, true)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-stone-300 font-bold px-2 py-0.5 rounded-lg transition border border-orange-500/30 flex items-center gap-1">
                 <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 청사진 탐색
@@ -16714,11 +16834,11 @@ window.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
 
-          <!-- 수학 인지 DNA 신경망 청사진 -->
+          <!-- 수학 문제원인 그물망 청사진 -->
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수학 인지 DNA 신경망 청사진
+                <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수학 문제원인 그물망 청사진
               </span>
               <button onclick="openKnowledgeDagModal(null, true)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-stone-300 font-bold px-2 py-0.5 rounded-lg transition border border-orange-500/30 flex items-center gap-1">
                 <i data-lucide="maximize-2" class="w-2.5 h-2.5"></i> 청사진 탐색
@@ -16933,23 +17053,103 @@ window.addEventListener('DOMContentLoaded', () => {
       };
 
       container.innerHTML = `
-        <!-- 1단계 : 나의 주된 문제원인 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3 shadow-md">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-            <span class="text-xs font-black text-[#EA580C] uppercase tracking-wider flex items-center gap-1.5">
-              <i data-lucide="target" class="w-4 h-4 text-[#EA580C]"></i> 1단계 : 나의 주된 문제원인
+        <!-- 1단계: 나의 주된 문제원인 (과목별 정밀 건강검진 & 1~4순위 순위표) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-md">
+          <!-- Step 1 Header & Analysis Scope Switcher -->
+          <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 flex-wrap gap-2">
+            <span class="text-xs font-extrabold text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="clipboard-check" class="w-4 h-4"></i> 1단계 : 나의 주된 문제원인 (과목별 정밀 건강검진)
             </span>
-            <span class="text-[10px] text-stone-300 font-extrabold bg-stone-800 px-2.5 py-0.5 rounded-full border border-stone-700">전체 오답의 ${topPct}%</span>
+            <div class="flex items-center gap-1 bg-slate-950 p-0.5 rounded-xl border border-slate-800 text-[10.5px]">
+              <button type="button" onclick="setReportAnalysisScope('vault')" class="px-2.5 py-1 rounded-lg font-bold transition ${reportAnalysisScope === 'vault' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
+                <i data-lucide="bookmark" class="w-3 h-3 inline mr-1"></i>내가 보관한 문제 (${vaultedItems.length})
+              </button>
+              <button type="button" onclick="setReportAnalysisScope('all')" class="px-2.5 py-1 rounded-lg font-bold transition ${reportAnalysisScope === 'all' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
+                전체 질문 기록 (${allItems.length})
+              </button>
+            </div>
           </div>
-          <div>
-            <h3 class="text-base md:text-lg font-black text-white">"${topInfo.title}"</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed font-medium">
-              ${topInfo.desc}이 직접 확정한 전체 오답의 <strong>${topPct}%</strong> (${maxCount}건)입니다.
-            </p>
+
+          <!-- Overall Core Cause Summary Banner -->
+          <div class="bg-stone-850/80 rounded-xl p-3 border border-orange-500/30 flex items-center justify-between gap-3 flex-wrap">
+            <div class="min-w-0">
+              <span class="text-[10px] text-amber-300 font-extrabold tracking-wide uppercase">종합 1순위 취약 원인</span>
+              <h4 class="text-sm font-extrabold text-white mt-0.5">
+                "${topInfo.title}"
+              </h4>
+              <p class="text-[11px] text-slate-300 mt-0.5">
+                ${topInfo.desc}이 직접 확정한 전체 오답의 ${topPct}% (${maxCount}건)입니다.
+              </p>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="text-[10px] text-slate-400 block">감지된 핵심 근본 결함</span>
+              <span class="text-xs text-amber-400 font-extrabold">${currentDiag.deficitTitle}</span>
+            </div>
           </div>
-          <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span class="text-slate-400 font-bold">감지된 핵심 근본 결함:</span>
-            <strong class="text-amber-300 font-black">${currentDiag.deficitTitle}</strong>
+
+          <!-- 과목별 문제원인 건강검진 순위표 (대수, 미적, 확통 1~4순위) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-stone-200">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="stethoscope" class="w-3.5 h-3.5 text-[#EA580C]"></i> 과목별 원인 건강검진 분석표
+              </span>
+              <span class="text-[10.5px] text-slate-400">1순위부터 해결 시 2~4순위 오답 동시 해소</span>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-slate-800 bg-slate-900/90 text-slate-400 font-bold text-[11px]">
+                    <th class="py-2.5 px-3 whitespace-nowrap">과목</th>
+                    <th class="py-2.5 px-3 text-amber-400 whitespace-nowrap">1순위 (최우선 집중)</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">2순위</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">3순위</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">4순위</th>
+                    <th class="py-2.5 px-3 text-center whitespace-nowrap">처방 행동</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/60 text-slate-200 font-medium">
+                  ${buildSubjectHealthCheckupMatrix(items).length === 0 ? `
+                    <tr>
+                      <td colspan="6" class="text-center py-4 text-xs text-slate-400">보관된 문제 데이터가 부족하여 분석 대기 중입니다.</td>
+                    </tr>
+                  ` : buildSubjectHealthCheckupMatrix(items).map(row => `
+                    <tr class="hover:bg-slate-900/50 transition">
+                      <td class="py-2.5 px-3 font-bold text-white whitespace-nowrap flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#EA580C]"></span>
+                        ${row.subject} <span class="text-[10px] text-slate-400 font-normal">(${row.total}문항)</span>
+                      </td>
+                      <td class="py-2.5 px-3 text-amber-400 font-extrabold whitespace-nowrap">
+                        ${row.ranks[0]?.name || '식 세우기'} <span class="text-[10px] text-amber-300/80 font-normal">(${row.ranks[0]?.pct || 67}%)</span>
+                      </td>
+                      <td class="py-2.5 px-3 text-slate-300 whitespace-nowrap">
+                        ${row.ranks[1]?.name || '그림/그래프'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[1]?.pct || 33}%)</span>
+                      </td>
+                      <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">
+                        ${row.ranks[2]?.name || '조건 놓침'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[2]?.pct || 0}%)</span>
+                      </td>
+                      <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">
+                        ${row.ranks[3]?.name || '개념/공식'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[3]?.pct || 0}%)</span>
+                      </td>
+                      <td class="py-2.5 px-3 text-center whitespace-nowrap">
+                        <button type="button" onclick="openExamPrepWithPinpointScope('${row.subject}', '${row.ranks[0]?.key}')" class="px-2.5 py-1 rounded-lg bg-[#EA580C]/20 hover:bg-[#EA580C] text-amber-300 hover:text-white border border-orange-500/40 text-[10.5px] font-bold transition cursor-pointer">
+                          1순위 클리닉 출제
+                        </button>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 1순위 최우선 격파 집중 유도 가이드 배너 -->
+          <div class="bg-amber-950/20 border border-orange-500/30 rounded-xl p-3 flex items-start gap-2.5">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+            <div class="text-[11px] leading-relaxed text-slate-300">
+              <strong class="text-amber-300 font-extrabold">왜 1순위 약점부터 집중 격파해야 할까요?</strong><br/>
+              수학 개념은 사슬처럼 연결되어 있어, <strong>1순위 원인</strong>(예: 한국어 조건을 수식으로 세우지 못함)이 막히면 뒤따르는 2, 3순위(그래프 개형, 범위 조건)까지 연쇄적으로 무너집니다. 한 번에 모든 약점을 다 잡으려 하기보다, <strong>1순위 약점을 먼저 클리닉하면 2~4순위 오답도 함께 자연스럽게 해소</strong>됩니다.
+            </div>
           </div>
         </div>
 
@@ -17700,7 +17900,7 @@ window.addEventListener('DOMContentLoaded', () => {
         targetId: null,
         deficitId: null,
         activeChain: [],
-        targetTitle: '수학 인지 DNA 신경망 청사진 (진단 대기)',
+        targetTitle: '수학 문제원인 그물망 청사진 (진단 대기)',
         deficitTitle: '약점 없음 (진단 대기 중)',
         deficitReason: '문제를 풀고 질문하면 AI가 수능 킬러부터 중등 선행 기초까지 오답 원인을 역추적하여 약점 지점을 표시합니다.',
         remedyTip: '첫 문제를 풀고 질문을 시작해보세요.',
@@ -17853,8 +18053,8 @@ window.addEventListener('DOMContentLoaded', () => {
         const isDeficit = !isStandbyMode && (n.id === deficitId);
         const isSelected = (n.id === activeSelected);
 
-        let circleColor = isStandbyMode ? '#3B82F6' : '#10B981';
-        let strokeColor = isStandbyMode ? '#60A5FA' : '#34D399';
+        let circleColor = '#10B981';
+        let strokeColor = '#34D399';
         let pulseAnim = '';
 
         if (isTarget) {
@@ -18073,7 +18273,7 @@ window.addEventListener('DOMContentLoaded', () => {
         targetId: null,
         deficitId: null,
         activeChain: [],
-        targetTitle: '개념 인지 신경망 (진단 대기)',
+        targetTitle: '문제원인 그물망 (진단 대기)',
         deficitTitle: '약점 없음 (진단 대기 중)'
       } : getCognitiveDiagnosisForProblem(targetPId);
 
@@ -18103,7 +18303,7 @@ window.addEventListener('DOMContentLoaded', () => {
         targetId: null,
         deficitId: null,
         activeChain: [],
-        targetTitle: '개념 인지 신경망 (진단 대기)',
+        targetTitle: '문제원인 그물망 (진단 대기)',
         deficitTitle: '약점 없음 (진단 대기 중)',
         deficitReason: '문제를 풀고 질문하면 AI가 수능 킬러부터 중등 선행 기초까지 오답 원인을 역추적하여 약점 지점을 표시합니다.',
         remedyTip: '첫 문제를 풀고 질문을 시작해보세요.',
@@ -18126,7 +18326,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const isDeficit = !isStandbyMode && (currentSelectedNodeId === diag.deficitId);
 
       let badgeColor = isStandbyMode ? 'bg-stone-900/80 text-stone-300 border-orange-500/40' : 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40';
-      let statusText = isStandbyMode ? '개념 청사진 노드' : '정상 마스터 개념';
+      let statusText = isStandbyMode ? '기초 개념' : '정상 마스터 개념';
       if (isTarget) {
         badgeColor = 'bg-rose-950/80 text-rose-300 border-rose-500/40';
         statusText = '현재 풀이 목표 문항';
@@ -18140,9 +18340,9 @@ window.addEventListener('DOMContentLoaded', () => {
         extraDiagnosisHtml = `
           <div class="bg-stone-900/30 border border-orange-500/30 rounded-xl p-2.5 space-y-1">
             <span class="text-[10px] font-extrabold text-stone-300 flex items-center gap-1">
-              <i data-lucide="info" class="w-3 h-3 text-[#EA580C]"></i> 인지 신경망 연계 가이드:
+              <i data-lucide="info" class="w-3 h-3 text-[#EA580C]"></i> 문제원인 그물망 연계 가이드:
             </span>
-            <p class="text-[10.5px] text-slate-300 leading-relaxed font-medium">선수 개념 [${node.prereq || '기초 대수'}] -> 후속 심화 [${node.next || '수능 킬러'}]로 연계되는 핵심 노드입니다. 실제 문제를 질문하면 이 노드와의 약점 연계가 자동으로 진단됩니다.</p>
+            <p class="text-[10.5px] text-slate-300 leading-relaxed font-medium">선수 개념 [${node.prereq || '기초 대수'}] -> 후속 심화 [${node.next || '수능 킬러'}]로 연계되는 핵심 개념입니다. 실제 문제를 질문하면 이 개념과의 약점 연계가 자동으로 진단됩니다.</p>
           </div>
         `;
       } else if (isDeficit) {
@@ -18282,7 +18482,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const wl = getWhiteLabelConfig();
       const brandHeader = (wl && wl.is_whitelabel_active) ? `[${wl.academy_name} 인지 DNA 진단 브리핑]` : `[ReadMath 인지 DNA 진단 브리핑]`;
-      const brandFooter = (wl && wl.is_whitelabel_active) ? `* ${wl.academy_name} 수학 멘토 시스템으로 분석된 진단 결과입니다.` : `* ReadMath 인지 DNA 신경망 엔진으로 분석된 진단 결과입니다.`;
+      const brandFooter = (wl && wl.is_whitelabel_active) ? `* ${wl.academy_name} 수학 멘토 시스템으로 분석된 진단 결과입니다.` : `* ReadMath 문제원인 그물망 엔진으로 분석된 진단 결과입니다.`;
 
       const briefingText = `${brandHeader}\n\n학생 인지 분석: [${prob.curriculum_grade}] ${probTitle} 풀이 중 발생한 오답 원인을 역추적한 결과, [${diag.deficitTitle}] 단계의 개념 약점이 감지되었습니다.\n\n- 목표 문항: ${diag.targetTitle}\n- 역추적 약점 개념: ${diag.deficitTitle}\n- 오답 원인 분석: ${diag.deficitReason}\n- 1:1 처방 솔루션: ${diag.remedyTip}\n\n${brandFooter}`;
 
@@ -23295,12 +23495,12 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 개념서가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                약점 신경망에서 나의 약점 노드를 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
+                문제원인 그물망에서 나의 시작 약점을 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
               <i data-lucide="git-branch" class="w-3.5 h-3.5"></i>
-              <span>약점 신경망에서 첫 개념서 만들기</span>
+              <span>문제원인 그물망에서 첫 개념서 만들기</span>
             </button>
           </div>
         `;
@@ -23429,12 +23629,12 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 시험지가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                약점 신경망이나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
+                문제원인 그물망이나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
               <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-              <span>신경망에서 첫 맞춤 시험지 만들기</span>
+              <span>그물망에서 첫 맞춤 시험지 만들기</span>
             </button>
           </div>
         `;

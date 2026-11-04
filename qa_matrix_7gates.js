@@ -675,7 +675,7 @@ if (diag303FnMatch) {
 if (!htmlContent.includes("buildCognitiveKnowledgeDagSvg(null, null, true)")) {
   failGate(3, 'Cognitive DNA Standby Mode', 'updateReportView must invoke buildCognitiveKnowledgeDagSvg(null, null, true) in empty state');
 }
-if (!htmlContent.includes("수학 인지 DNA 신경망 청사진") || !htmlContent.includes("진단 대기 중")) {
+if ((!htmlContent.includes("수학 인지 DNA 신경망 청사진") && !htmlContent.includes("수학 문제원인 그물망 청사진")) || !htmlContent.includes("진단 대기 중")) {
   failGate(3, 'Cognitive DNA Standby Mode', 'Report empty state must display neutral Blueprint title and Standby badge');
 }
 const reportEmptyMatch = htmlContent.match(/if\s*\(items\.length\s*===\s*0\)\s*\{([\s\S]*?return;\s*\})/);
