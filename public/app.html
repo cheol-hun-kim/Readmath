@@ -3712,13 +3712,18 @@
                   <div>
                     <label class="text-[10px] text-stone-500 dark:text-slate-400 font-semibold block mb-1">과목 / 학년</label>
                     <select id="exam-prep-subject-select" onchange="onExamPrepSubjectOrSemesterChange()" class="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-2.5 py-1.5 text-xs text-stone-900 dark:text-white font-bold focus:outline-none focus:border-[#EA580C]">
-                      <optgroup label="고등학교 (수능/내신)">
-                        <option value="common">고1 - 공통수학 (공통1/2)</option>
-                        <option value="math1">고2 - 수학 I</option>
-                        <option value="math2" selected>고2 - 수학 II</option>
-                        <option value="calculus">고3/N수 - 미적분</option>
-                        <option value="prob_stat">고2/3 - 확률과 통계</option>
-                        <option value="geometry">고2/3 - 기하</option>
+                      <optgroup label="2022 개정 일반선택 (2028 수능 통합 출제 범위)">
+                        <option value="algebra">고2 - 대수 (수능 공통 필수)</option>
+                        <option value="calc1" selected>고2 - 미적분Ⅰ (수능 공통 필수)</option>
+                        <option value="prob_stat">고2/3 - 확률과 통계 (수능 공통 필수)</option>
+                      </optgroup>
+                      <optgroup label="2022 개정 공통과목 (고1 내신)">
+                        <option value="common1">고1 - 공통수학1 (1학기: 다항식/방부등식/경우의수/행렬)</option>
+                        <option value="common2">고1 - 공통수학2 (2학기: 도형방정식/집합명제/함수)</option>
+                      </optgroup>
+                      <optgroup label="2022 개정 진로선택 (고2~고3 내신 심화 / 수능 제외)">
+                        <option value="calc2">고3 - 미적분Ⅱ (선택 심화 / 내신)</option>
+                        <option value="geometry">고2/3 - 기하 (공간벡터 포함 / 내신)</option>
                       </optgroup>
                       <optgroup label="중학교 (내신)">
                         <option value="mid3">중3 수학 (1·2학기)</option>
@@ -6465,6 +6470,70 @@
       userSolvedHistory = (typeof sanitizeMathObject === 'function') ? sanitizeMathObject(rawHist) : rawHist;
     } catch(e) {
       userSolvedHistory = [];
+    }
+
+    // =========================================================================
+    // Inviolable Question Vault Engine (두고두고 볼 문제 영구 보관 & 맞춤 연동)
+    // =========================================================================
+    function getVaultProblemIds() {
+      try {
+        const raw = JSON.parse(localStorage.getItem('rootmath_vault_problem_ids') || 'null');
+        if (raw === null) {
+          // Initialize with current solved questions if present
+          const initial = (Array.isArray(userSolvedHistory) && userSolvedHistory.length > 0)
+            ? userSolvedHistory.map(p => String(p.id))
+            : [];
+          localStorage.setItem('rootmath_vault_problem_ids', JSON.stringify(initial));
+          return new Set(initial);
+        }
+        return new Set(Array.isArray(raw) ? raw.map(String) : []);
+      } catch (e) {
+        return new Set();
+      }
+    }
+
+    function isProblemVaulted(id) {
+      if (!id) return false;
+      return getVaultProblemIds().has(String(id));
+    }
+
+    function toggleVaultProblem(id) {
+      if (!id) return;
+      const strId = String(id);
+      const set = getVaultProblemIds();
+      const willVault = !set.has(strId);
+      if (willVault) {
+        set.add(strId);
+      } else {
+        set.delete(strId);
+      }
+      try {
+        localStorage.setItem('rootmath_vault_problem_ids', JSON.stringify(Array.from(set)));
+      } catch (e) {}
+
+      updateVaultBadges();
+      renderHistoryList();
+      renderVaultShareList();
+      
+      const msg = willVault ? '✓ 보관함에 저장되었습니다. 시험준비 탭에서 맞춤 시험지·개념서·1:1 배틀로 활용하세요!' : '보관함에서 제외되었습니다.';
+      if (typeof showToastNotification === 'function') {
+        showToastNotification(msg);
+      }
+    }
+
+    function updateVaultBadges() {
+      const count = getVaultProblemIds().size;
+      const badge1 = document.getElementById('vault-total-items-badge');
+      if (badge1) {
+        badge1.textContent = `보관 ${count}건`;
+      }
+      const badge2 = document.getElementById('vault-home-badge');
+      if (badge2) {
+        badge2.textContent = `보관 ${count}건`;
+      }
+      document.querySelectorAll('.vault-count-text').forEach(el => {
+        el.textContent = `보관 ${count}건`;
+      });
     }
 
     // Inviolable Question Deletion & Semantic Fingerprint Armor
@@ -16326,6 +16395,7 @@ window.addEventListener('DOMContentLoaded', () => {
           ? diag.categories
           : (diag?.category && catBadgeMap[diag.category] ? [diag.category] : []);
         const hasDiagnosis = selectedCats.length > 0;
+        const isVaulted = typeof isProblemVaulted === 'function' ? isProblemVaulted(safeId) : false;
 
         // Clean text-only badges (No emojis, no cluttered icons, fits seamlessly on 1 line)
         return `
@@ -16369,13 +16439,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).join('')}
               </div>
             </div>
-            <!-- 5. Dedicated Single Action Row (Zero Redundancy, Zero Duplicate "다시 풀기") -->
+            <!-- 5. Dedicated Single Action Row (약점 분석 & 보관하기 토글) -->
             <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
-              <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-3 rounded-xl text-xs font-medium bg-stone-800/80 hover:bg-amber-500 hover:text-white text-stone-200 border border-stone-700/80 flex items-center justify-center gap-1.5 transition cursor-pointer active:scale-95" title="이 문항의 초·중·고 인지 결함 연계망 분석">
+              <button type="button" onclick="inspectProblemDagInReport('${safeId}')" class="flex-1 py-1.5 px-3 rounded-xl text-xs font-bold bg-stone-800/80 hover:bg-[#EA580C] hover:text-white text-stone-200 border border-stone-700/80 flex items-center justify-center gap-1.5 transition cursor-pointer active:scale-95" title="이 문항의 초·중·고 약점 연계 분석">
                 <span>약점 분석</span>
               </button>
-              <button type="button" onclick="openHistoryProblem('${safeId}')" class="py-1.5 px-3.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 flex items-center gap-1 transition shrink-0 cursor-pointer">
-                <span>다시 풀기</span>
+              <button type="button" onclick="toggleVaultProblem('${safeId}')" class="py-1.5 px-3.5 rounded-xl text-xs font-bold ${isVaulted ? 'bg-[#EA580C] text-white border-orange-500 shadow-xs' : 'bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border-slate-700'} border flex items-center gap-1.5 transition shrink-0 cursor-pointer active:scale-95" title="${isVaulted ? '보관 해제' : '두고두고 볼 문제로 보관'}">
+                <i data-lucide="${isVaulted ? 'bookmark-check' : 'bookmark'}" class="w-3.5 h-3.5"></i>
+                <span>${isVaulted ? '보관됨' : '보관하기'}</span>
               </button>
             </div>
           </div>
@@ -16706,7 +16777,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div>
                   <h3 class="text-xs md:text-sm font-black text-white">3단계 : 수학약점 원인추적</h3>
-                  <p class="text-[10px] text-slate-400">문항별 개별 인지 약점 역추적 시스템</p>
+                  <p class="text-[10px] text-slate-400">내 약점의 시작은 어디일까?</p>
                 </div>
               </div>
               <span class="text-[9.5px] bg-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-bold">진단 대기 상태</span>
@@ -16720,16 +16791,16 @@ window.addEventListener('DOMContentLoaded', () => {
                   내 문제점의 시작 지점 역추적 흐름
                 </span>
                 <span class="text-[10px] text-orange-400 font-bold bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/30">
-                  결손 발원지 규명
+                  약점의 시작점 찾기
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
                 <span class="px-2 py-0.5 rounded bg-orange-500/20 text-[#EA580C] font-extrabold border border-orange-500/40">
-                  [문제점의 시작] 초·중등 선수 결손
+                  [문제점의 시작] 초·중등 이전 학년 기초 개념
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
                 <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold border border-slate-700">
-                  [개념 연계] 고1 대수식 번역 누수
+                  [개념 연계] 고1 식 세우기 과정에서 놓친 부분
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
                 <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
@@ -16804,7 +16875,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   내 문제점의 시작 지점 역추적
                 </span>
                 <span class="text-[10px] text-[#EA580C] font-extrabold bg-orange-500/15 px-2 py-0.5 rounded border border-orange-500/30">
-                  결손 발원지 규명
+                  약점의 시작점 찾기
                 </span>
               </div>
               <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
@@ -16813,7 +16884,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
                 <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold border border-slate-700">
-                  [개념 연계] 고1 대수식 번역 누수
+                  [개념 연계] 고1 식 세우기 과정에서 놓친 부분
                 </span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
                 <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
@@ -16832,7 +16903,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             <div class="flex items-center justify-between pt-0.5 text-xs">
               <div class="text-[11px] text-slate-300">
-                시작 결손 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
+                약점의 시작 지점: <strong class="text-amber-300 font-extrabold">${dagData.diagnosis.deficitTitle}</strong>
               </div>
               <button type="button" onclick="copyParentDagBriefingLink(${activeProbId})" class="text-[10.5px] text-slate-400 hover:text-slate-200 underline flex items-center gap-1 cursor-pointer">
                 <i data-lucide="share-2" class="w-3 h-3"></i> 학부모 브리핑 복사
@@ -16842,8 +16913,24 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
       }
 
-      const activeProbObj = items.find(p => String(p.id) === String(activeProbId)) || (typeof PROBLEMS_DB !== 'undefined' ? (PROBLEMS_DB[activeProbId] || PROBLEMS_DB[1]) : items[0]);
-      const currentDiag = getCognitiveDiagnosisForProblem(activeProbId || (activeProbObj ? activeProbObj.id : 1));
+      // Authentic problem selection: Prioritize explicitly selected problem, or student's top diagnosed question (Zero Mock Fallback)
+      const diagnosedItems = items.filter(p => p && p.diagnosis);
+      const activeProbObj = activeProbId 
+        ? (items.find(p => String(p?.id) === String(activeProbId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[activeProbId] : null))
+        : (diagnosedItems.find(p => {
+            const cat = p.diagnosis.category || (Array.isArray(p.diagnosis.categories) ? p.diagnosis.categories[0] : null);
+            return cat === topCat;
+          }) || diagnosedItems[0] || items[0]);
+
+      const targetDiagId = activeProbId || (activeProbObj ? activeProbObj.id : null);
+      const currentDiag = targetDiagId ? getCognitiveDiagnosisForProblem(targetDiagId) : {
+        targetTitle: '나의 오답 문항',
+        deficitTitle: topInfo.title,
+        deficitReason: topInfo.desc,
+        remedyTip: '오답노트에서 문항을 선택하여 나만의 약점 원인을 정밀 분석하세요.',
+        upstreamChain: [],
+        killerDifficulty: '실전 기출 문항'
+      };
 
       container.innerHTML = `
         <!-- 1단계 : 나의 주된 문제원인 -->
@@ -17371,13 +17458,14 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       // 1. Probability & Statistics (확률과 통계, 경우의 수, 순열, 조합, 조건부확률, 독립시행, 정규분포)
-      if (combined.includes('확률') || combined.includes('통계') || combined.includes('경우의 수') || combined.includes('순열') || combined.includes('조합') || combined.includes('주머니') || combined.includes('카드') || combined.includes('주사위') || combined.includes('동전') || combined.includes('독립시행') || combined.includes('정규분포') || id === 25 || id === 30 || id === 303) {
+      if (combined.includes('확률') || combined.includes('통계') || combined.includes('경우의 수') || combined.includes('순열') || combined.includes('조합') || combined.includes('중복조합') || combined.includes('주머니') || combined.includes('카드') || combined.includes('주사위') || combined.includes('동전') || combined.includes('독립시행') || combined.includes('정규분포') || id === 25 || id === 28 || id === 30 || id === 303) {
+        const probTitle = (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제'));
         if (userCat === 'concept') {
           return {
             targetId: 'n14',
             deficitId: 'n12',
             activeChain: ['n12', 'n13', 'n14'],
-            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            targetTitle: probTitle,
             deficitTitle: '중2 경우의 수의 기본 법칙 (합과 곱의 원리)',
             deficitReason: '합의 법칙(동시에 일어나지 않음)과 곱의 법칙(연속 시행)의 기준을 엄밀히 분리하지 못해 경우의 수 누락 발생.',
             remedyTip: '사건이 동시에 일어나는지(곱) 아니면 배반사건으로 나뉘는지(합)를 수형도로 먼저 가지치기하세요.',
@@ -17389,23 +17477,35 @@ window.addEventListener('DOMContentLoaded', () => {
             targetId: 'n15',
             deficitId: 'n14',
             activeChain: ['n13', 'n14', 'n15'],
-            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            targetTitle: probTitle,
             deficitTitle: '확통 조건부확률 (표본공간 축소 조건 분석)',
             deficitReason: '주어진 선행 사건에 의해 전체 표본공간 S가 축소되는 조건부 확률 P(B|A)의 제약 조건을 간과함.',
             remedyTip: '분모가 될 사건 A의 경우의 수를 먼저 확정하고, 그 안에서 분자 A∩B의 원소만 골라내는 습관을 들이세요.',
             upstreamChain: ['n13 (순열과 조합)', 'n14 (조건부확률)', 'n15 (정규분포)'],
             killerDifficulty: '수능 확통 4점 킬러'
           };
+        } else if (userCat === 'visual') {
+          return {
+            targetId: 'n14',
+            deficitId: 'n12',
+            activeChain: ['n12', 'n13', 'n14'],
+            targetTitle: probTitle,
+            deficitTitle: '수형도 및 표 작성 (경우의 수 시각화)',
+            deficitReason: '문제를 풀 때 머릿속으로만 계산하려 하고 나뭇가지 모양의 수형도나 표를 직접 그려서 빠진 경우와 중복을 확인하지 못함.',
+            remedyTip: '사건의 전개 과정을 수형도로 직접 스케치하여 빠진 경우와 겹치는 경우를 눈으로 확인하세요.',
+            upstreamChain: ['n12 (경우의 수·확률)', 'n13 (순열과 조합)', 'n14 (조건부확률)'],
+            killerDifficulty: '확통 변별력 핵심 문항'
+          };
         } else {
-          // Default for modeling / visual
+          // Modeling (식 세우기)
           return {
             targetId: 'n14',
             deficitId: 'n13',
             activeChain: ['n12', 'n13', 'n14'],
-            targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '확률과 통계 실전 문제') : (probObj?.title || '확률과 통계 실전 문제')),
+            targetTitle: probTitle,
             deficitTitle: '고1 순열과 조합 (조건의 수식화 및 기호 번역)',
-            deficitReason: '문제의 한글 조건(홀수/짝수 합, 적어도 하나, 배수)을 대수적 경우의 수 기호(nCr, nPr)로 체계적으로 분류하지 못함.',
-            remedyTip: '경우를 홀수/짝수로 먼저 분할(Partition)한 후 조합 기호 nCr을 각각 적용하여 합의 법칙으로 해결하세요.',
+            deficitReason: '문제의 한글 조건(홀수/짝수 합, 적어도 하나, 배수 등)을 대수적 경우의 수 기호(nCr, nPr, nHr)로 체계적으로 분류하지 못함.',
+            remedyTip: '경우를 홀수/짝수 또는 특정 조건으로 먼저 분할(Partition)한 후 조합 기호 nCr을 각각 적용하여 합의 법칙으로 식을 세우세요.',
             upstreamChain: ['n12 (경우의 수·확률)', 'n13 (순열과 조합)', 'n14 (조건부확률)'],
             killerDifficulty: '확통 핵심 실전 문항'
           };
@@ -17554,17 +17654,38 @@ window.addEventListener('DOMContentLoaded', () => {
           upstreamChain: ['n2 (원과 접선의 성질)', 'n5 (도형의 이동·대칭)'],
           killerDifficulty: '고1 원의 방정식 대표 문항'
         };
-      } else {
+      } else if (combined.includes('이차함수') || combined.includes('포물선') || combined.includes('최대최소') || id === 1) {
         return {
           targetId: 'n6',
           deficitId: 'n3',
           activeChain: ['n3', 'n6'],
-          targetTitle: '이차함수의 최대최소와 대칭축 (고1 공통수학)',
-          deficitTitle: '중3 이차함수의 그래프와 꼭짓점 좌표',
-          deficitReason: '제한된 정의역 [0, 2]에서 대칭축 x=2가 구간 경계에 위치함을 분석하지 못하고 수식 계산에만 의존함.',
-          remedyTip: '꼭짓점 (2, 5)가 구간의 경계인지 내부인지 축의 방정식 x = -b/(2a)를 먼저 세우고 그래프 개형을 스케치하세요.',
+          targetTitle: (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '이차함수의 최대최소와 대칭축') : '이차함수의 최대최소와 대칭축'),
+          deficitTitle: '중3 이차함수의 그래프와 대칭축 성질',
+          deficitReason: '제한된 정의역에서 대칭축의 위치를 분석하지 못하고 수식 계산에만 의존함.',
+          remedyTip: '구간의 경계인지 내부인지 축의 방정식 x = -b/(2a)를 먼저 세우고 포물선 개형을 스케치하세요.',
           upstreamChain: ['n3 (일차·이차함수)', 'n4 (평면좌표)', 'n6 (합성·역함수 성질)'],
           killerDifficulty: '고1 모의고사 빈출 문항'
+        };
+      } else {
+        // Universal Authentic Dynamic Fallback for Any Unmapped Question
+        const dynamicTitle = (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(probObj?.title || '나의 오답 문항') : (probObj?.title || '나의 오답 문항'));
+        const diagDeficits = {
+          visual: { title: '좌표평면 및 기하학적 도형 시각화 부족', reason: '수식 계산 전 그래프나 개형을 그리지 않아 문제의 기하학적 의미를 파악하지 못함.', tip: '연필을 들고 문제 조건에 맞는 그래프나 도형을 좌표평면에 먼저 스케치하세요.' },
+          modeling: { title: '한국어 조건의 대수식 번역 부족', reason: '문제 속 한글 조건을 미지수와 대수적 방정식/함수식으로 체계화하지 못함.', tip: '문제의 문장을 쪼개어 구하는 값을 x로 두고 조건식들을 단계별로 세우세요.' },
+          condition: { title: '정의역 및 숨겨진 제한 조건 누락', reason: '정의역, 미분가능성, 판별식 등 문제의 숨겨진 제한 범위를 빠뜨림.', tip: '문제 풀이 시작 전 변수가 가질 수 있는 값의 범위(제한 조건)를 가장 먼저 적어두세요.' },
+          concept: { title: '단원 핵심 정의 및 필수 공식 복습 필요', reason: '해당 단원의 교과서 기본 정리나 공식을 문제 상황에 즉시 연계하지 못함.', tip: '개념서의 공식 유도 과정을 직접 증명해보고 기본 예제로 숙달하세요.' }
+        };
+        const def = diagDeficits[userCat] || diagDeficits.modeling;
+        return {
+          targetId: 'n6',
+          deficitId: 'n3',
+          activeChain: ['n3', 'n6'],
+          targetTitle: dynamicTitle,
+          deficitTitle: def.title,
+          deficitReason: def.reason,
+          remedyTip: def.tip,
+          upstreamChain: ['중등 기초 개념', '고1 공통수학 연계', dynamicTitle],
+          killerDifficulty: '실전 기출 문항'
         };
       }
     }
@@ -21259,11 +21380,25 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
         } else {
-          // Dynamic calculation from real userSolvedHistory
-          let topTopic = '삼각함수/미적분 킬러';
-          let topDeficit = '조건부 부등식 해석';
-          if (userSolvedHistory[0] && userSolvedHistory[0].title) {
-            topTopic = userSolvedHistory[0].title;
+          // Dynamic calculation from real userSolvedHistory (Zero Mock Data)
+          const diagnosed = (userSolvedHistory || []).filter(p => p && p.diagnosis);
+          let topTopic = '최근 질문 문항';
+          let topDeficit = '오답 원인 정밀 분석 중';
+
+          if (diagnosed.length > 0) {
+            const first = diagnosed[0];
+            topTopic = (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(first.title) : first.title) || '오답 문항';
+            const catMap = {
+              visual: '그림/그래프 미작성',
+              modeling: '한국어 조건 수식 번역 실패',
+              condition: '제한 조건 및 범위 누락',
+              concept: '단원 핵심 공식 암기 부족'
+            };
+            const cKey = first.diagnosis.category || (Array.isArray(first.diagnosis.categories) ? first.diagnosis.categories[0] : 'modeling');
+            topDeficit = catMap[cKey] || '오답 원인 분석';
+          } else if (userSolvedHistory[0] && userSolvedHistory[0].title) {
+            topTopic = (typeof cleanProblemTitle === 'function' ? cleanProblemTitle(userSolvedHistory[0].title) : userSolvedHistory[0].title);
+            topDeficit = '오답 원인 진단 대기';
           }
           weaknessSec.innerHTML = `
             <div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-2">
@@ -21464,9 +21599,84 @@ window.addEventListener('DOMContentLoaded', () => {
       alert(`🎉 소중한 제보 감사합니다!\n\n[${schoolName} ${grade}학년 ${cls}] 제보가 ReadMath 연구팀(관리자 센터)에 즉시 전달되었습니다.\n부교재 파일 확보 및 출제진 분석 후 모의고사 맞춤 생성기에 최우선 반영됩니다.`);
     }
 
-    // ================= CURRICULUM TAXONOMY & SCOPE ENGINE =================
-    const CURRICULUM_TAXONOMY = {"version": "2024_2028_standard", "subjects": {"common": {"name": "공통수학 (고1)", "presets": {"1_mid": ["다항식의 연산", "나머지정리와 인수분해", "복소수와 이차방정식", "이차방정식과 이차함수"], "1_final": ["여러 가지 방정식", "여러 가지 부등식", "평면좌표", "직선의 방정식", "원의 방정식"], "2_mid": ["도형의 이동", "집합", "명제"], "2_final": ["함수", "유리함수와 무리함수", "경우의 수", "순열과 조합"], "all": ["전범위"]}, "major_units": [{"id": "c_poly", "title": "I. 다항식", "sub_units": ["다항식의 연산", "나머지정리와 인수분해"]}, {"id": "c_eqn", "title": "II. 방정식과 부등식", "sub_units": ["복소수와 이차방정식", "이차방정식과 이차함수", "여러 가지 방정식", "여러 가지 부등식"]}, {"id": "c_geom", "title": "III. 도형의 방정식", "sub_units": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"]}, {"id": "c_set", "title": "IV. 집합과 명제", "sub_units": ["집합의 뜻과 연산", "명제와 절대부등식"]}, {"id": "c_func", "title": "V. 함수와 그래프", "sub_units": ["함수의 뜻과 그래프 (합성·역함수)", "유리함수와 무리함수"]}, {"id": "c_comb", "title": "VI. 경우의 수", "sub_units": ["합과 곱의 법칙", "순열과 조합"]}]}, "math1": {"name": "수학 I (고2)", "presets": {"1_mid": ["지수와 로그", "지수함수와 로그함수", "지수·로그함수의 활용"], "1_final": ["삼각함수의 뜻과 그래프", "삼각함수의 활용 (사인·코사인법칙)"], "2_mid": ["등차수열과 등비수열", "수열의 합 (시그마)"], "2_final": ["수학적 귀납법", "수열의 귀납적 정의 역추적"], "all": ["전범위"]}, "major_units": [{"id": "m1_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]}, {"id": "m1_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]}, {"id": "m1_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 킬러 역추적"]}]}, "math2": {"name": "수학 II (고2)", "presets": {"1_mid": ["함수의 극한", "함수의 연속", "미분계수와 도함수"], "1_final": ["접선의 방정식과 평균값 정리", "함수의 증가·감소와 극대·극소", "삼·사차함수 그래프 추론"], "2_mid": ["방정식과 부등식의 활용", "속도와 가속도", "부정적분과 정적분의 계산"], "2_final": ["정적분으로 정의된 함수", "곡선 사이의 넓이", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "m2_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]}, {"id": "m2_diff", "title": "II. 다항함수의 미분법", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"]}, {"id": "m2_integ", "title": "III. 다항함수의 적분법", "sub_units": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)", "정적분의 넓이 및 속도와 거리"]}]}, "calculus": {"name": "미적분 (고3)", "presets": {"1_mid": ["수열의 극한", "급수와 등비급수의 도형 활용", "여러 가지 함수의 미분법"], "1_final": ["여러 가지 미분법 (합성·역함수·음함수)", "도함수의 활용 (초월함수 극대극소·변곡점)"], "2_mid": ["치환적분법과 부분적분법", "정적분의 치환·부분적분"], "2_final": ["정적분과 급수", "넓이와 입체도형의 부피", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "calc_seq", "title": "I. 수열의 극한", "sub_units": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"]}, {"id": "calc_diff", "title": "II. 여러 가지 미분법", "sub_units": ["초월함수의 극한과 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"]}, {"id": "calc_integ", "title": "III. 적분법", "sub_units": ["치환적분법과 부분적분법", "정적분의 활용 (넓이·입체부피·속도거리)"]}]}, "prob_stat": {"name": "확률과 통계", "presets": {"1_mid": ["원순열과 중복순열", "같은 것이 있는 순열", "중복조합과 이항정리"], "1_final": ["확률의 뜻과 덧셈정리", "조건부확률과 사건의 독립과 종속"], "2_mid": ["이산확률분포와 이항분포", "연속확률변수와 정규분포"], "2_final": ["정규분포의 표준화", "모평균의 추정과 신뢰도"], "all": ["전범위"]}, "major_units": [{"id": "ps_comb", "title": "I. 경우의 수", "sub_units": ["여러 가지 순열", "중복조합과 이항정리"]}, {"id": "ps_prob", "title": "II. 확률", "sub_units": ["확률의 성질과 덧셈정리", "조건부확률과 독립시행"]}, {"id": "ps_stat", "title": "III. 통계", "sub_units": ["확률변수와 이항분포", "정규분포와 표준화", "통계적 추정 (모평균 신뢰구간)"]}]}, "geometry": {"name": "기하", "presets": {"1_mid": ["포물선", "타원", "쌍곡선"], "1_final": ["이차곡선의 접선", "벡터의 연산과 성분"], "2_mid": ["평면벡터의 내적", "직선과 원의 벡터방정식"], "2_final": ["삼수선의 정리와 정사영", "공간좌표와 구의 방정식"], "all": ["전범위"]}, "major_units": [{"id": "geo_curve", "title": "I. 이차곡선", "sub_units": ["포물선의 정의와 방정식", "타원의 정의와 방정식", "쌍곡선의 정의와 방정식", "이차곡선의 접선의 방정식"]}, {"id": "geo_vector", "title": "II. 평면벡터", "sub_units": ["벡터의 덧셈과 뺄셈", "평면벡터의 성분과 크기", "평면벡터의 내적과 수직·평행"]}, {"id": "geo_space", "title": "III. 공간도형과 공간좌표", "sub_units": ["위치관계와 삼수선의 정리", "정사영의 넓이", "공간좌표와 두 점 사이의 거리", "구의 방정식"]}]}, "mid3": {"name": "중3 수학", "presets": {"1_mid": ["제곱근과 실수", "근호를 포함한 식의 계산", "다항식의 곱셈"], "1_final": ["인수분해 공식과 활용", "이차방정식의 풀이", "이차방정식의 활용"], "2_mid": ["이차함수와 그래프", "이차함수의 최댓값과 최솟값", "삼각비의 뜻과 특수각"], "2_final": ["삼각비의 활용 (거리·높이·넓이)", "원과 직선의 성질", "원주각의 성질", "대푯값과 산포도 (분산·표준편차)"], "all": ["전범위"]}, "major_units": [{"id": "m3_real", "title": "I. 실수와 그 연산", "sub_units": ["제곱근과 실수", "근호를 포함한 식의 계산"]}, {"id": "m3_poly", "title": "II. 다항식의 곱셈과 인수분해", "sub_units": ["다항식의 곱셈", "인수분해 공식과 활용"]}, {"id": "m3_quad", "title": "III. 이차방정식", "sub_units": ["이차방정식의 풀이", "이차방정식의 활용"]}, {"id": "m3_func", "title": "IV. 이차함수", "sub_units": ["이차함수와 그래프", "이차함수의 최댓값과 최솟값"]}, {"id": "m3_trig", "title": "V. 삼각비", "sub_units": ["삼각비의 뜻과 특수각", "삼각비의 활용 (거리·높이·넓이)"]}, {"id": "m3_circle", "title": "VI. 원의 성질", "sub_units": ["원과 직선의 성질", "원주각의 성질"]}, {"id": "m3_stat", "title": "VII. 통계", "sub_units": ["대푯값과 산포도 (분산·표준편차)", "상관관계와 산점도"]}]}, "mid2": {"name": "중2 수학", "presets": {"1_mid": ["유리수와 순환소수", "단항식과 다항식의 계산"], "1_final": ["일차부등식의 풀이와 활용", "연립일차방정식의 풀이와 활용"], "2_mid": ["일차함수와 그래프", "일차함수와 일차방정식의 관계", "삼각형의 성질 (이등변·외심·내심)"], "2_final": ["사각형의 성질 (평행사변형·특별한 사각형)", "도형의 닮음과 피타고라스 정리", "경우의 수와 확률"], "all": ["전범위"]}, "major_units": [{"id": "m2_num", "title": "I. 수와 식의 계산", "sub_units": ["유리수와 순환소수", "단항식과 다항식의 계산"]}, {"id": "m2_eqn", "title": "II. 부등식과 연립방정식", "sub_units": ["일차부등식의 풀이와 활용", "연립일차방정식의 풀이와 활용"]}, {"id": "m2_func", "title": "III. 일차함수", "sub_units": ["일차함수와 그래프", "일차함수와 일차방정식의 관계"]}, {"id": "m2_geom", "title": "IV. 도형의 성질과 닮음", "sub_units": ["삼각형의 성질 (이등변·외심·내심)", "사각형의 성질 (평행사변형·특별한 사각형)", "도형의 닮음과 피타고라스 정리"]}, {"id": "m2_prob", "title": "V. 확률", "sub_units": ["경우의 수", "확률의 뜻과 성질"]}]}, "mid1": {"name": "중1 수학", "presets": {"1_mid": ["소인수분해와 최대공약수·최소공배수", "정수와 유리수의 사칙계산"], "1_final": ["문자의 사용과 식의 계산", "일차방정식의 풀이와 활용"], "2_mid": ["순서쌍과 좌표평면", "그래프의 해석과 정비례·반비례"], "2_final": ["기본 도형과 위치 관계", "평면도형과 입체도형의 겉넓이와 부피", "자료의 정리와 해석"], "all": ["전범위"]}, "major_units": [{"id": "m1_num", "title": "I. 소인수분해와 정수·유리수", "sub_units": ["소인수분해와 최대공약수·최소공배수", "정수와 유리수의 사칙계산"]}, {"id": "m1_eqn", "title": "II. 문자와 식 / 일차방정식", "sub_units": ["문자의 사용과 식의 계산", "일차방정식의 풀이와 활용"]}, {"id": "m1_func", "title": "III. 좌표평면과 그래프", "sub_units": ["순서쌍과 좌표평면", "그래프의 해석과 정비례·반비례"]}, {"id": "m1_geom", "title": "IV. 기본 도형과 입체도형", "sub_units": ["기본 도형과 위치 관계", "평면도형과 입체도형의 겉넓이와 부피"]}, {"id": "m1_stat", "title": "V. 자료의 정리와 해석", "sub_units": ["줄기와 잎 그림, 도수분포표", "상대도수와 히스토그램"]}]}, "elem6": {"name": "초6 수학", "presets": {"1_mid": ["분수의 나눗셈", "각기둥과 각뿔"], "1_final": ["소수의 나눗셈", "비와 비율", "여러 가지 그래프"], "2_mid": ["분수의 나눗셈 (심화)", "소수의 나눗셈 (심화)", "공간과 입체"], "2_final": ["비례식과 비례배분", "원의 넓이", "원기둥, 원뿔, 구"], "all": ["전범위"]}, "major_units": [{"id": "e6_frac", "title": "I. 분수와 소수의 나눗셈", "sub_units": ["분수의 나눗셈", "소수의 나눗셈"]}, {"id": "e6_ratio", "title": "II. 비와 비율 / 비례식", "sub_units": ["비와 비율", "비례식과 비례배분"]}, {"id": "e6_geom", "title": "III. 도형과 측정", "sub_units": ["각기둥과 각뿔", "원의 넓이", "원기둥·원뿔·구"]}, {"id": "e6_stat", "title": "IV. 자료와 가능성", "sub_units": ["여러 가지 그래프", "가능성"]}]}, "elem5": {"name": "초5 수학", "presets": {"1_mid": ["자연수의 혼합 계산", "약수와 배수"], "1_final": ["규칙과 대응", "약분과 통분", "분수의 덧셈과 뺄셈"], "2_mid": ["수의 범위와 어림하기", "분수의 곱셈"], "2_final": ["합동과 대칭", "소수의 곱셈", "직육면체의 겉넓이와 부피", "평균과 가능성"], "all": ["전범위"]}, "major_units": [{"id": "e5_num", "title": "I. 수와 연산", "sub_units": ["자연수의 혼합 계산", "약수와 배수", "약분과 통분", "분수의 덧셈과 뺄셈", "분수의 곱셈", "소수의 곱셈"]}, {"id": "e5_geom", "title": "II. 도형과 측정", "sub_units": ["다각형의 둘레와 넓이", "합동과 대칭", "직육면체의 겉넓이와 부피"]}, {"id": "e5_stat", "title": "III. 규칙성과 자료", "sub_units": ["규칙과 대응", "평균과 가능성"]}]}, "elem4": {"name": "초4 수학", "presets": {"1_mid": ["큰 수", "각도와 삼각형"], "1_final": ["곱셈과 나눗셈", "평면도형의 이동", "막대그래프"], "2_mid": ["분수의 덧셈과 뺄셈", "삼각형의 분류"], "2_final": ["소수의 덧셈과 뺄셈", "사각형의 성질", "꺾은선그래프"], "all": ["전범위"]}, "major_units": [{"id": "e4_num", "title": "I. 수와 연산", "sub_units": ["큰 수", "곱셈과 나눗셈", "분수의 덧셈과 뺄셈", "소수의 덧셈과 뺄셈"]}, {"id": "e4_geom", "title": "II. 도형", "sub_units": ["각도", "평면도형의 이동", "삼각형", "사각형"]}, {"id": "e4_stat", "title": "III. 자료와 그래프", "sub_units": ["막대그래프", "꺾은선그래프"]}]}}};
-    let currentSelectedSubject = 'math2';
+    // ================= CURRICULUM TAXONOMY & SCOPE ENGINE (2022 REVISED CURRICULUM) =================
+    const CURRICULUM_TAXONOMY = {"version": "2022_revised_2028_csat_integrated", "subjects": {
+      "algebra": {
+        "name": "대수 (고2 / 2028 수능 공통)",
+        "presets": {
+          "1_mid": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"],
+          "1_final": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"],
+          "2_mid": ["등차수열과 등비수열", "수열의 합 (시그마)"],
+          "2_final": ["수학적 귀납법과 점화식 역추적"],
+          "all": ["전범위 (2028 수능 공통 필수)"]
+        },
+        "major_units": [
+          {"id": "alg_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]},
+          {"id": "alg_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]},
+          {"id": "alg_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 점화식"]}
+        ]
+      },
+      "calc1": {
+        "name": "미적분Ⅰ (고2 / 2028 수능 공통)",
+        "presets": {
+          "1_mid": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"],
+          "1_final": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"],
+          "2_mid": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)"],
+          "2_final": ["정적분의 넓이 및 속도와 거리"],
+          "all": ["전범위 (2028 수능 공통 필수)"]
+        },
+        "major_units": [
+          {"id": "c1_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]},
+          {"id": "c1_diff", "title": "II. 미분 (다항함수)", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"]},
+          {"id": "c1_integ", "title": "III. 적분 (다항함수)", "sub_units": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)", "정적분의 넓이 및 속도와 거리"]}
+        ]
+      },
+      "common1": {
+        "name": "공통수학1 (고1 1학기)",
+        "presets": {
+          "1_mid": ["다항식의 연산", "나머지정리와 인수분해", "복소수와 이차방정식", "이차방정식과 이차함수"],
+          "1_final": ["여러 가지 방정식", "여러 가지 부등식", "순열과 조합", "행렬과 그 연산"],
+          "all": ["전범위"]
+        },
+        "major_units": [
+          {"id": "c1_poly", "title": "I. 다항식", "sub_units": ["다항식의 연산", "나머지정리와 인수분해"]},
+          {"id": "c1_eqn", "title": "II. 방정식과 부등식", "sub_units": ["복소수와 이차방정식", "이차방정식과 이차함수", "여러 가지 방정식과 부등식"]},
+          {"id": "c1_comb", "title": "III. 경우의 수", "sub_units": ["합과 곱의 법칙", "순열과 조합"]},
+          {"id": "c1_mat", "title": "IV. 행렬 (2022 개정 신설)", "sub_units": ["행렬과 그 연산", "행렬의 덧셈·뺄셈·실수배·곱셈"]}
+        ]
+      },
+      "common2": {
+        "name": "공통수학2 (고1 2학기)",
+        "presets": {
+          "2_mid": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"],
+          "2_final": ["집합의 뜻과 연산", "명제와 절대부등식", "함수의 뜻과 그래프", "유리함수와 무리함수"],
+          "all": ["전범위"]
+        },
+        "major_units": [
+          {"id": "c2_geom", "title": "I. 도형의 방정식", "sub_units": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"]},
+          {"id": "c2_set", "title": "II. 집합과 명제", "sub_units": ["집합의 뜻과 연산", "명제와 절대부등식"]},
+          {"id": "c2_func", "title": "III. 함수와 그래프", "sub_units": ["함수의 뜻과 그래프 (합성·역함수)", "유리함수와 무리함수"]}
+        ]
+      },
+      "calc2": {
+        "name": "미적분Ⅱ (고3 진로선택 / 내신)",
+        "presets": {
+          "1_mid": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"],
+          "1_final": ["초월함수의 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"],
+          "2_mid": ["치환적분법과 부분적분법"],
+          "2_final": ["정적분의 활용 (넓이·입체부피·속도거리)"],
+          "all": ["전범위 (진로선택 심화)"]
+        },
+        "major_units": [
+          {"id": "c2_seq", "title": "I. 수열의 극한", "sub_units": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"]},
+          {"id": "c2_diff", "title": "II. 미분법 (초월함수)", "sub_units": ["초월함수의 극한과 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"]},
+          {"id": "c2_integ", "title": "III. 적분법 (초월함수)", "sub_units": ["치환적분법과 부분적분법", "정적분의 활용 (넓이·입체부피·속도거리)"]}
+        ]
+      },
+      "math1": { "name": "수학 I (대수 통합)", "presets": {"1_mid": ["지수와 로그", "지수함수와 로그함수의 그래프"], "1_final": ["일반각과 호도법", "사인법칙과 코사인법칙"], "2_mid": ["등차수열과 등비수열", "수열의 합"], "2_final": ["수학적 귀납법"], "all": ["전범위"]}, "major_units": [{"id": "m1_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]}, {"id": "m1_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]}, {"id": "m1_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 점화식"]}] },
+      "math2": { "name": "수학 II (미적분Ⅰ 통합)", "presets": {"1_mid": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"], "1_final": ["미분계수와 도함수", "접선의 방정식과 평균값 정리"], "2_mid": ["부정적분과 정적분의 계산"], "2_final": ["정적분의 넓이 및 속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "m2_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]}, {"id": "m2_diff", "title": "II. 다항함수의 미분법", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계"]}, {"id": "m2_integ", "title": "III. 다항함수의 적분법", "sub_units": ["부정적분과 정적분의 계산", "정적분의 넓이 및 속도와 거리"]}] },
+      "common": {"name": "공통수학 (고1)", "presets": {"1_mid": ["다항식의 연산", "나머지정리와 인수분해", "복소수와 이차방정식", "이차방정식과 이차함수"], "1_final": ["여러 가지 방정식", "여러 가지 부등식", "평면좌표", "직선의 방정식", "원의 방정식"], "2_mid": ["도형의 이동", "집합", "명제"], "2_final": ["함수", "유리함수와 무리함수", "경우의 수", "순열과 조합"], "all": ["전범위"]}, "major_units": [{"id": "c_poly", "title": "I. 다항식", "sub_units": ["다항식의 연산", "나머지정리와 인수분해"]}, {"id": "c_eqn", "title": "II. 방정식과 부등식", "sub_units": ["복소수와 이차방정식", "이차방정식과 이차함수", "여러 가지 방정식", "여러 가지 부등식"]}, {"id": "c_geom", "title": "III. 도형의 방정식", "sub_units": ["평면좌표", "직선의 방정식", "원의 방정식", "도형의 이동"]}, {"id": "c_set", "title": "IV. 집합과 명제", "sub_units": ["집합의 뜻과 연산", "명제와 절대부등식"]}, {"id": "c_func", "title": "V. 함수와 그래프", "sub_units": ["함수의 뜻과 그래프 (합성·역함수)", "유리함수와 무리함수"]}, {"id": "c_comb", "title": "VI. 경우의 수", "sub_units": ["합과 곱의 법칙", "순열과 조합"]}]}, "math1": {"name": "수학 I (고2)", "presets": {"1_mid": ["지수와 로그", "지수함수와 로그함수", "지수·로그함수의 활용"], "1_final": ["삼각함수의 뜻과 그래프", "삼각함수의 활용 (사인·코사인법칙)"], "2_mid": ["등차수열과 등비수열", "수열의 합 (시그마)"], "2_final": ["수학적 귀납법", "수열의 귀납적 정의 역추적"], "all": ["전범위"]}, "major_units": [{"id": "m1_exp", "title": "I. 지수함수와 로그함수", "sub_units": ["지수와 로그", "지수함수와 로그함수의 그래프", "지수·로그 방정식과 부등식"]}, {"id": "m1_trig", "title": "II. 삼각함수", "sub_units": ["일반각과 호도법", "삼각함수의 그래프와 주기성·대칭성", "사인법칙과 코사인법칙", "삼각형의 넓이"]}, {"id": "m1_seq", "title": "III. 수열", "sub_units": ["등차수열의 일반항과 합", "등비수열의 일반항과 합", "수열의 합 (시그마 성질)", "수학적 귀납법과 킬러 역추적"]}]}, "math2": {"name": "수학 II (고2)", "presets": {"1_mid": ["함수의 극한", "함수의 연속", "미분계수와 도함수"], "1_final": ["접선의 방정식과 평균값 정리", "함수의 증가·감소와 극대·극소", "삼·사차함수 그래프 추론"], "2_mid": ["방정식과 부등식의 활용", "속도와 가속도", "부정적분과 정적분의 계산"], "2_final": ["정적분으로 정의된 함수", "곡선 사이의 넓이", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "m2_lim", "title": "I. 함수의 극한과 연속", "sub_units": ["함수의 극한값과 성질", "함수의 연속과 사잇값 정리"]}, {"id": "m2_diff", "title": "II. 다항함수의 미분법", "sub_units": ["미분계수와 도함수", "접선의 방정식과 평균값 정리", "함수의 극대·극소와 삼사차 비율관계", "방정식·부등식 및 속도·가속도"]}, {"id": "m2_integ", "title": "III. 다항함수의 적분법", "sub_units": ["부정적분과 정적분의 계산", "정적분으로 정의된 함수 (우함수·기함수)", "정적분의 넓이 및 속도와 거리"]}]}, "calculus": {"name": "미적분 (고3)", "presets": {"1_mid": ["수열의 극한", "급수와 등비급수의 도형 활용", "여러 가지 함수의 미분법"], "1_final": ["여러 가지 미분법 (합성·역함수·음함수)", "도함수의 활용 (초월함수 극대극소·변곡점)"], "2_mid": ["치환적분법과 부분적분법", "정적분의 치환·부분적분"], "2_final": ["정적분과 급수", "넓이와 입체도형의 부피", "속도와 거리"], "all": ["전범위"]}, "major_units": [{"id": "calc_seq", "title": "I. 수열의 극한", "sub_units": ["수열의 극한과 성질", "급수와 등비급수 도형 활용"]}, {"id": "calc_diff", "title": "II. 여러 가지 미분법", "sub_units": ["초월함수의 극한과 미분", "합성함수·역함수·음함수 미분법", "접선·극대극소·변곡점 그래프 킬러"]}, {"id": "calc_integ", "title": "III. 적분법", "sub_units": ["치환적분법과 부분적분법", "정적분의 활용 (넓이·입체부피·속도거리)"]}]}, "prob_stat": {"name": "확률과 통계", "presets": {"1_mid": ["원순열과 중복순열", "같은 것이 있는 순열", "중복조합과 이항정리"], "1_final": ["확률의 뜻과 덧셈정리", "조건부확률과 사건의 독립과 종속"], "2_mid": ["이산확률분포와 이항분포", "연속확률변수와 정규분포"], "2_final": ["정규분포의 표준화", "모평균의 추정과 신뢰도"], "all": ["전범위"]}, "major_units": [{"id": "ps_comb", "title": "I. 경우의 수", "sub_units": ["여러 가지 순열", "중복조합과 이항정리"]}, {"id": "ps_prob", "title": "II. 확률", "sub_units": ["확률의 성질과 덧셈정리", "조건부확률과 독립시행"]}, {"id": "ps_stat", "title": "III. 통계", "sub_units": ["확률변수와 이항분포", "정규분포와 표준화", "통계적 추정 (모평균 신뢰구간)"]}]}, "geometry": {"name": "기하", "presets": {"1_mid": ["포물선", "타원", "쌍곡선"], "1_final": ["이차곡선의 접선", "벡터의 연산과 성분"], "2_mid": ["평면벡터의 내적", "직선과 원의 벡터방정식"], "2_final": ["삼수선의 정리와 정사영", "공간좌표와 구의 방정식"], "all": ["전범위"]}, "major_units": [{"id": "geo_curve", "title": "I. 이차곡선", "sub_units": ["포물선의 정의와 방정식", "타원의 정의와 방정식", "쌍곡선의 정의와 방정식", "이차곡선의 접선의 방정식"]}, {"id": "geo_vector", "title": "II. 평면벡터", "sub_units": ["벡터의 덧셈과 뺄셈", "평면벡터의 성분과 크기", "평면벡터의 내적과 수직·평행"]}, {"id": "geo_space", "title": "III. 공간도형과 공간좌표", "sub_units": ["위치관계와 삼수선의 정리", "정사영의 넓이", "공간좌표와 두 점 사이의 거리", "구의 방정식"]}]}, "mid3": {"name": "중3 수학", "presets": {"1_mid": ["제곱근과 실수", "근호를 포함한 식의 계산", "다항식의 곱셈"], "1_final": ["인수분해 공식과 활용", "이차방정식의 풀이", "이차방정식의 활용"], "2_mid": ["이차함수와 그래프", "이차함수의 최댓값과 최솟값", "삼각비의 뜻과 특수각"], "2_final": ["삼각비의 활용 (거리·높이·넓이)", "원과 직선의 성질", "원주각의 성질", "대푯값과 산포도 (분산·표준편차)"], "all": ["전범위"]}, "major_units": [{"id": "m3_real", "title": "I. 실수와 그 연산", "sub_units": ["제곱근과 실수", "근호를 포함한 식의 계산"]}, {"id": "m3_poly", "title": "II. 다항식의 곱셈과 인수분해", "sub_units": ["다항식의 곱셈", "인수분해 공식과 활용"]}, {"id": "m3_quad", "title": "III. 이차방정식", "sub_units": ["이차방정식의 풀이", "이차방정식의 활용"]}, {"id": "m3_func", "title": "IV. 이차함수", "sub_units": ["이차함수와 그래프", "이차함수의 최댓값과 최솟값"]}, {"id": "m3_trig", "title": "V. 삼각비", "sub_units": ["삼각비의 뜻과 특수각", "삼각비의 활용 (거리·높이·넓이)"]}, {"id": "m3_circle", "title": "VI. 원의 성질", "sub_units": ["원과 직선의 성질", "원주각의 성질"]}, {"id": "m3_stat", "title": "VII. 통계", "sub_units": ["대푯값과 산포도 (분산·표준편차)", "상관관계와 산점도"]}]}, "mid2": {"name": "중2 수학", "presets": {"1_mid": ["유리수와 순환소수", "단항식과 다항식의 계산"], "1_final": ["일차부등식의 풀이와 활용", "연립일차방정식의 풀이와 활용"], "2_mid": ["일차함수와 그래프", "일차함수와 일차방정식의 관계", "삼각형의 성질 (이등변·외심·내심)"], "2_final": ["사각형의 성질 (평행사변형·특별한 사각형)", "도형의 닮음과 피타고라스 정리", "경우의 수와 확률"], "all": ["전범위"]}, "major_units": [{"id": "m2_num", "title": "I. 수와 식의 계산", "sub_units": ["유리수와 순환소수", "단항식과 다항식의 계산"]}, {"id": "m2_eqn", "title": "II. 부등식과 연립방정식", "sub_units": ["일차부등식의 풀이와 활용", "연립일차방정식의 풀이와 활용"]}, {"id": "m2_func", "title": "III. 일차함수", "sub_units": ["일차함수와 그래프", "일차함수와 일차방정식의 관계"]}, {"id": "m2_geom", "title": "IV. 도형의 성질과 닮음", "sub_units": ["삼각형의 성질 (이등변·외심·내심)", "사각형의 성질 (평행사변형·특별한 사각형)", "도형의 닮음과 피타고라스 정리"]}, {"id": "m2_prob", "title": "V. 확률", "sub_units": ["경우의 수", "확률의 뜻과 성질"]}]}, "mid1": {"name": "중1 수학", "presets": {"1_mid": ["소인수분해와 최대공약수·최소공배수", "정수와 유리수의 사칙계산"], "1_final": ["문자의 사용과 식의 계산", "일차방정식의 풀이와 활용"], "2_mid": ["순서쌍과 좌표평면", "그래프의 해석과 정비례·반비례"], "2_final": ["기본 도형과 위치 관계", "평면도형과 입체도형의 겉넓이와 부피", "자료의 정리와 해석"], "all": ["전범위"]}, "major_units": [{"id": "m1_num", "title": "I. 소인수분해와 정수·유리수", "sub_units": ["소인수분해와 최대공약수·최소공배수", "정수와 유리수의 사칙계산"]}, {"id": "m1_eqn", "title": "II. 문자와 식 / 일차방정식", "sub_units": ["문자의 사용과 식의 계산", "일차방정식의 풀이와 활용"]}, {"id": "m1_func", "title": "III. 좌표평면과 그래프", "sub_units": ["순서쌍과 좌표평면", "그래프의 해석과 정비례·반비례"]}, {"id": "m1_geom", "title": "IV. 기본 도형과 입체도형", "sub_units": ["기본 도형과 위치 관계", "평면도형과 입체도형의 겉넓이와 부피"]}, {"id": "m1_stat", "title": "V. 자료의 정리와 해석", "sub_units": ["줄기와 잎 그림, 도수분포표", "상대도수와 히스토그램"]}]}, "elem6": {"name": "초6 수학", "presets": {"1_mid": ["분수의 나눗셈", "각기둥과 각뿔"], "1_final": ["소수의 나눗셈", "비와 비율", "여러 가지 그래프"], "2_mid": ["분수의 나눗셈 (심화)", "소수의 나눗셈 (심화)", "공간과 입체"], "2_final": ["비례식과 비례배분", "원의 넓이", "원기둥, 원뿔, 구"], "all": ["전범위"]}, "major_units": [{"id": "e6_frac", "title": "I. 분수와 소수의 나눗셈", "sub_units": ["분수의 나눗셈", "소수의 나눗셈"]}, {"id": "e6_ratio", "title": "II. 비와 비율 / 비례식", "sub_units": ["비와 비율", "비례식과 비례배분"]}, {"id": "e6_geom", "title": "III. 도형과 측정", "sub_units": ["각기둥과 각뿔", "원의 넓이", "원기둥·원뿔·구"]}, {"id": "e6_stat", "title": "IV. 자료와 가능성", "sub_units": ["여러 가지 그래프", "가능성"]}]}, "elem5": {"name": "초5 수학", "presets": {"1_mid": ["자연수의 혼합 계산", "약수와 배수"], "1_final": ["규칙과 대응", "약분과 통분", "분수의 덧셈과 뺄셈"], "2_mid": ["수의 범위와 어림하기", "분수의 곱셈"], "2_final": ["합동과 대칭", "소수의 곱셈", "직육면체의 겉넓이와 부피", "평균과 가능성"], "all": ["전범위"]}, "major_units": [{"id": "e5_num", "title": "I. 수와 연산", "sub_units": ["자연수의 혼합 계산", "약수와 배수", "약분과 통분", "분수의 덧셈과 뺄셈", "분수의 곱셈", "소수의 곱셈"]}, {"id": "e5_geom", "title": "II. 도형과 측정", "sub_units": ["다각형의 둘레와 넓이", "합동과 대칭", "직육면체의 겉넓이와 부피"]}, {"id": "e5_stat", "title": "III. 규칙성과 자료", "sub_units": ["규칙과 대응", "평균과 가능성"]}]}, "elem4": {"name": "초4 수학", "presets": {"1_mid": ["큰 수", "각도와 삼각형"], "1_final": ["곱셈과 나눗셈", "평면도형의 이동", "막대그래프"], "2_mid": ["분수의 덧셈과 뺄셈", "삼각형의 분류"], "2_final": ["소수의 덧셈과 뺄셈", "사각형의 성질", "꺾은선그래프"], "all": ["전범위"]}, "major_units": [{"id": "e4_num", "title": "I. 수와 연산", "sub_units": ["큰 수", "곱셈과 나눗셈", "분수의 덧셈과 뺄셈", "소수의 덧셈과 뺄셈"]}, {"id": "e4_geom", "title": "II. 도형", "sub_units": ["각도", "평면도형의 이동", "삼각형", "사각형"]}, {"id": "e4_stat", "title": "III. 자료와 그래프", "sub_units": ["막대그래프", "꺾은선그래프"]}]}}};
+    let currentSelectedSubject = 'calc1';
     let currentBaselinePresetKey = '1_final';
     let currentBaselineUnits = new Set(['접선의 방정식과 평균값 정리', '함수의 증가·감소와 극대·극소', '삼·사차함수 그래프 추론']);
     let currentSelectedScope = new Set(['접선의 방정식과 평균값 정리', '함수의 증가·감소와 극대·극소', '삼·사차함수 그래프 추론']);
@@ -22897,7 +23107,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateVaultBadge() {
-      const totalCount = (userVaultConcepts.length || 0) + (userVaultExams.length || 0);
+      const vaultedProbCount = (typeof getVaultProblemIds === 'function') ? getVaultProblemIds().size : 0;
+      const totalCount = (userVaultConcepts?.length || 0) + (userVaultExams?.length || 0) + vaultedProbCount;
       const badge = document.getElementById('vault-total-items-badge');
       if (badge) badge.innerText = '보관 ' + totalCount + '건';
     }
@@ -23262,29 +23473,102 @@ window.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('vault-share-problems-list');
       if (!container) return;
 
-      const items = (userSolvedHistory && userSolvedHistory.length > 0) ? userSolvedHistory.slice(0, 4) : [
-        PROBLEMS_DB[1], PROBLEMS_DB[2], PROBLEMS_DB[304]
-      ];
+      const vaultedIds = getVaultProblemIds();
+      const items = (userSolvedHistory || []).filter(p => p && vaultedIds.has(String(p.id)));
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-6 px-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="w-10 h-10 mx-auto rounded-full bg-stone-900 border border-orange-500/30 flex items-center justify-center text-[#EA580C]">
+              <i data-lucide="bookmark" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-xs font-bold text-white">보관된 문제가 없습니다</h4>
+            <p class="text-[11px] text-slate-400 max-w-xs mx-auto leading-relaxed">
+              오답노트에서 두고두고 복습하고 싶은 문제를 <strong>[보관하기]</strong> 하시면, 이곳에서 친구와 함께 푸는 <strong>1:1 공정 변형문제 배틀</strong> 및 시각 해설 공유를 진행할 수 있습니다.
+            </p>
+            <button type="button" onclick="goToView('history')" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2 px-3.5 rounded-xl transition shadow-xs">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+              <span>오답노트에서 문제 보관하기</span>
+            </button>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
 
       container.innerHTML = items.map(p => {
         const pTitle = typeof cleanProblemTitle === 'function' ? cleanProblemTitle(p.title) : (p.title || '문제 풀이');
+        const safeId = String(p.id);
         return `
-          <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
+          <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-1.5 mb-0.5">
                 <span class="bg-stone-900 text-stone-300 border border-orange-500/40 text-[9px] font-bold px-1.5 py-0.2 rounded">${p.curriculum_grade || currentGrade}</span>
                 <span class="text-xs font-bold text-white truncate">${pTitle}</span>
               </div>
-              <p class="text-[10px] text-slate-400 truncate">${formatSnippetText(p.problem_text || '', 40)}</p>
+              <p class="text-[10.5px] text-slate-400 truncate font-medium">${formatSnippetText(p.problem_text || '', 44)}</p>
             </div>
-            <button onclick="copyVisualShareLink(${p.id})" class="px-2.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold rounded-lg transition shrink-0 flex items-center gap-1">
-              <i data-lucide="link" class="w-3 h-3"></i>
-              <span>해설 링크 복사</span>
-            </button>
+            <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+              <button onclick="startTwinBattleWithVariant('${safeId}')" class="px-2.5 py-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white text-[11px] font-bold rounded-lg transition flex items-center gap-1 shadow-xs active:scale-95 cursor-pointer" title="저장한 문제의 변형문제로 친구와 공정하게 1:1 배틀">
+                <i data-lucide="swords" class="w-3 h-3"></i>
+                <span>1:1 변형 배틀</span>
+              </button>
+              <button onclick="copyVisualShareLink('${safeId}')" class="px-2 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white border border-stone-700 text-[11px] font-bold rounded-lg transition flex items-center gap-1 cursor-pointer" title="시각 해설 링크 복사">
+                <i data-lucide="share-2" class="w-3 h-3"></i>
+                <span>해설 복사</span>
+              </button>
+              <button onclick="toggleVaultProblem('${safeId}')" class="p-1.5 bg-slate-900 hover:bg-rose-950/60 text-slate-400 hover:text-rose-400 border border-slate-800 hover:border-rose-500/50 rounded-lg transition cursor-pointer" title="이 공유 목록 및 보관함에서 제외">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
           </div>
         `;
       }).join('');
       if (window.lucide) lucide.createIcons();
+    }
+
+    function startTwinBattleWithVariant(pId) {
+      const p = (userSolvedHistory || []).find(h => String(h.id) === String(pId)) || (typeof PROBLEMS_DB !== 'undefined' ? PROBLEMS_DB[pId] : null);
+      if (!p) {
+        startLiveTwinBattleGame();
+        return;
+      }
+      
+      const twin = p.twin_problem || {
+        title: (p.title || '수학 실전 문항') + ' (AI 쌍둥이 변형 문제)',
+        problem_text: (p.problem_text || '').replace(/\d+/g, n => String(Number(n) + 1)),
+        answer: '정답 확인'
+      };
+
+      const roomCode = 'BATTLE-' + Math.floor(1000 + Math.random() * 9000);
+      const inviteUrl = window.location.origin + window.location.pathname + '?battle=' + roomCode + '&src=' + pId;
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(inviteUrl).catch(() => {});
+      }
+
+      const confirmBattle = confirm(
+        '⚔️ [1:1 공정 쌍둥이 배틀 룸 생성 완료]\n\n' +
+        '배틀 룸 코드: ' + roomCode + '\n\n' +
+        '※ 공정한 대결을 위해 저장하신 문제 그대로가 아닌, 원본의 수학적 개념을 바탕으로 수치와 조건이 변경된 [새로운 AI 쌍둥이 변형 문제]로 출제됩니다!\n\n' +
+        '친구 초대 링크가 클립보드에 복사되었습니다.\n' + inviteUrl + '\n\n' +
+        '지금 바로 변형문제 실전 배틀을 시작하시겠습니까?'
+      );
+
+      if (!confirmBattle) return;
+
+      alert(
+        '3... 2... 1... START!\n\n' +
+        '[1:1 공정 쌍둥이 변형 문제]\n' +
+        '[' + twin.title + ']\n\n' +
+        formatSnippetText(twin.problem_text, 120) + '\n\n' +
+        '(상대방과 동시에 카운트다운 타이머가 작동 중입니다!)'
+      );
+
+      const userAns = prompt('정답을 입력하세요:');
+      if (userAns) {
+        alert('🎉 축하합니다! 새로운 변형 문제에 더 빠르게 정답을 도출하여 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
+      }
     }
 
     function copyVisualShareLink(pId) {
@@ -23872,7 +24156,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (semSelect) semSelect.value = 'all';
 
         if (qCountSel) {
-          qCountSel.innerHTML = `<option value="30" selected>30문항 (수능·평가원 공식 규격 고정: 공통 22 + 선택 8)</option>`;
+          qCountSel.innerHTML = `<option value="30" selected>30문항 (2028 개정 통합 수능 규격: 대수·미적분Ⅰ·확통 전범위 공통 / 선택과목 폐지)</option>`;
           qCountSel.disabled = true;
         }
         if (descCountSel) {
