@@ -3606,7 +3606,7 @@
           <p class="text-xs text-stone-500 dark:text-slate-400">오답 데이터 기반 3단계 근본 원인 추적 및 성적 경고 솔루션</p>
         </div>
 
-        <div id="report-dynamic-container" class="space-y-4 pt-1">
+        <div id="report-dynamic-container" class="space-y-4 pt-1 math-render-target">
           <!-- Populated dynamically via updateReportView() -->
         </div>
       </div>
@@ -11107,25 +11107,42 @@ final_answer: "② $\\frac{41}{10}$",
       if (typeof window === 'undefined') return;
       const doRender = () => {
         if (typeof renderMathInElement === 'function') {
-          const container = root || document;
-          const targets = (container.querySelectorAll)
-            ? container.querySelectorAll('.math-render-target, .phone-mockup, #view-solution, #solution-steps-container, #history-list-container, #dash-weakness-section, .step-formula-box, .solution-step-card, #report-dynamic-container')
-            : [container];
+          const delimiters = [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ];
+
+          // 1. If a specific HTMLElement root is provided, render that element and all descendants directly!
+          if (root && root.nodeType === 1) {
+            try {
+              renderMathInElement(root, { delimiters, throwOnError: false });
+            } catch (e) {
+              console.warn('KaTeX render error on root:', e);
+            }
+            if (typeof healKaTeXDomErrors === 'function') {
+              healKaTeXDomErrors(root);
+            }
+            return;
+          }
+
+          // 2. Otherwise (global or document level), render targeted containers and screen
+          const targets = document.querySelectorAll('.math-render-target, .phone-mockup, #view-solution, #solution-steps-container, #history-list-container, #dash-weakness-section, .step-formula-box, .solution-step-card, #report-dynamic-container, #view-report, #report-dag-card-section, #report-dag-picker-list, #report-vault-manager-list');
           targets.forEach(el => {
             try {
-              renderMathInElement(el, {
-                delimiters: [
-                  { left: '$$', right: '$$', display: true },
-                  { left: '$', right: '$', display: false }
-                ],
-                throwOnError: false
-              });
+              renderMathInElement(el, { delimiters, throwOnError: false });
             } catch (e) {
-              console.warn('KaTeX render error:', e);
+              console.warn('KaTeX render error on target:', e);
             }
           });
-          if (typeof healKaTeXDomErrors === 'function') {
-            healKaTeXDomErrors(container);
+
+          const screenContainer = document.getElementById('screen-container') || document.body;
+          if (screenContainer) {
+            try {
+              renderMathInElement(screenContainer, { delimiters, throwOnError: false });
+            } catch (e) {}
+            if (typeof healKaTeXDomErrors === 'function') {
+              healKaTeXDomErrors(screenContainer);
+            }
           }
         } else {
           setTimeout(doRender, 40);
@@ -16824,12 +16841,18 @@ window.addEventListener('DOMContentLoaded', () => {
       selectedReportProblemId = (pId !== undefined && pId !== null) ? (isNaN(pId) ? pId : Number(pId)) : null;
       currentInspectedProblemId = selectedReportProblemId;
       goToView('report');
+      if (typeof renderMathElements === 'function') {
+        renderMathElements();
+      }
       setTimeout(() => {
         const section = document.getElementById('report-dag-card-section');
         if (section) {
           section.scrollIntoView({ behavior: 'smooth', block: 'start' });
           section.classList.add('ring-2', 'ring-[#EA580C]');
           setTimeout(() => section.classList.remove('ring-2', 'ring-[#EA580C]'), 1500);
+        }
+        if (typeof renderMathElements === 'function') {
+          renderMathElements();
         }
       }, 120);
     }
@@ -17129,6 +17152,10 @@ window.addEventListener('DOMContentLoaded', () => {
       const dagEl = document.getElementById('report-dag-card-section');
       if (dagEl) {
         dagEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (typeof renderMathElements === 'function') {
+        renderMathElements();
+        setTimeout(() => renderMathElements(), 80);
       }
     }
 
@@ -17702,7 +17729,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 ${curPrescription.actionRules.map(r => `
                   <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-lg space-y-1">
                     <span class="text-[10px] font-black text-amber-400 block">${r.step}</span>
-                    <p class="text-[11px] text-slate-300 leading-snug font-medium">${r.text}</p>
+                    <p class="text-[11px] text-slate-300 leading-snug font-medium math-render-target">${r.text}</p>
                   </div>
                 `).join('')}
               </div>
@@ -17725,6 +17752,11 @@ window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       if (typeof renderMathElements === 'function') {
         renderMathElements(container);
+        renderMathElements();
+        if (typeof requestAnimationFrame === 'function') {
+          requestAnimationFrame(() => renderMathElements());
+        }
+        setTimeout(() => renderMathElements(), 80);
       }
     }
 
