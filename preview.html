@@ -17543,15 +17543,15 @@ window.addEventListener('DOMContentLoaded', () => {
             <span class="text-xs font-extrabold text-amber-400 flex items-center gap-1.5">
               <i data-lucide="clipboard-check" class="w-4 h-4"></i> 1단계 : 나의 주된 문제원인 (과목별 정밀 건강검진)
             </span>
-            <div class="flex items-center gap-1 bg-slate-950 p-0.5 rounded-xl border border-slate-800 text-[10.5px]">
-              <button type="button" onclick="setReportAnalysisScope('vault')" class="px-2.5 py-1 rounded-lg font-bold transition ${reportAnalysisScope === 'vault' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
-                <i data-lucide="bookmark" class="w-3 h-3 inline mr-1"></i>내가 보관한 문제 (${vaultedItems.length})
+            <div class="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] w-full sm:w-auto">
+              <button type="button" onclick="setReportAnalysisScope('vault')" class="h-8 px-2 rounded-lg font-bold flex items-center justify-center gap-1 whitespace-nowrap transition cursor-pointer ${reportAnalysisScope === 'vault' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
+                <i data-lucide="bookmark" class="w-3 h-3"></i><span>보관한 문제 (${vaultedItems.length})</span>
               </button>
-              <button type="button" onclick="setReportAnalysisScope('all')" class="px-2.5 py-1 rounded-lg font-bold transition ${reportAnalysisScope === 'all' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
-                전체 질문 기록 (${allItems.length})
+              <button type="button" onclick="setReportAnalysisScope('all')" class="h-8 px-2 rounded-lg font-bold flex items-center justify-center gap-1 whitespace-nowrap transition cursor-pointer ${reportAnalysisScope === 'all' ? 'bg-[#EA580C] text-white shadow-xs' : 'text-slate-400 hover:text-stone-200'}">
+                <span>전체 기록 (${allItems.length})</span>
               </button>
-              <button type="button" onclick="openReportVaultManagerModal()" class="px-2.5 py-1 rounded-lg font-bold transition bg-stone-900 hover:bg-stone-850 text-orange-400 border border-orange-500/30 flex items-center gap-1 cursor-pointer shadow-xs" title="분석할 문제 보관 및 선택">
-                <i data-lucide="bookmark" class="w-3 h-3"></i> 보관함 관리
+              <button type="button" onclick="openReportVaultManagerModal()" class="h-8 px-2 rounded-lg font-bold transition bg-stone-900 hover:bg-stone-850 text-orange-400 border border-orange-500/30 flex items-center justify-center gap-1 whitespace-nowrap cursor-pointer shadow-xs" title="분석할 문제 보관 및 선택">
+                <i data-lucide="folder-cog" class="w-3 h-3"></i><span>보관함 관리</span>
               </button>
             </div>
           </div>
