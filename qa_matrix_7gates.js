@@ -1780,6 +1780,21 @@ if (!htmlContent.includes('.logo-461-container') || !htmlContent.includes('.logo
 }
 gate8Details.push('Rule 5 4-6-1 Logo Balance: Wordmark 4 units (1em), Icon 6 units (1.5em), Gap 1 unit (0.25em) verified');
 
+// 8.7 Rule 1 Zero Invisible Text: Landing Page Surface-Scoped Contrast Immunity
+if (fs.existsSync('landing.html')) {
+  const landingHtml = fs.readFileSync('landing.html', 'utf8');
+  if (landingHtml.includes('<body class="bg-slate-950')) {
+    failGate(8, 'Body Class Dark Clash', 'landing.html body must not declare bg-slate-950 which triggers blanket dark text pollution');
+  }
+  if (landingHtml.includes('[class*="bg-slate-9"] span') || landingHtml.includes('[class*="bg-stone-9"] span')) {
+    failGate(8, 'Wildcard Substring Selector', 'landing.html must not use wildcard substring selectors on spans');
+  }
+  if (!landingHtml.includes('#manifesto, #tutor, #demo, #pricing') || !landingHtml.includes('color: #1C1917 !important')) {
+    failGate(8, 'Light Surface Contrast Armor', 'landing.html must enforce scoped #1C1917 contrast armor for light sections');
+  }
+  gate8Details.push('Rule 1 Zero Invisible Text (Landing): Zero wildcard selectors & 100% scoped deep ink armor verified');
+}
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================

@@ -152,37 +152,23 @@
       --accent-subtle: rgba(234, 88, 12, 0.08) !important;
     }
 
-    /* ⚡ 1. 전역 문서 배경 및 Pretendard */
+    /* ⚡ 1. 전역 기본 폰트 및 모바일 가독성 베이스 */
     html, body, #app-root, .phone-mockup, #screen-container {
-      background-color: var(--bg-main) !important;
-      color: var(--text-primary) !important;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
     }
 
-    /* ⚡ 2. 카드 및 컨테이너 무채색 웜 표면 매핑 (푸른빛/슬레이트 원천 박멸) */
-    .bg-slate-950, .bg-slate-950\/90, .bg-slate-950\/80, .bg-slate-950\/70,
-    .bg-slate-900, .bg-slate-900\/90, .bg-slate-900\/80, .bg-slate-900\/70,
-    .bg-slate-900\/60, .bg-slate-900\/50, .bg-stone-900, .bg-stone-900\/80,
-    .bg-stone-900\/70, .bg-stone-900\/60, .bg-stone-900\/50, .bg-stone-900\/40,
-    .card, .solution-step-card, div[class*="bg-slate-9"] {
-      background-color: var(--bg-surface) !important;
-      border-color: var(--border-subtle) !important;
-      color: var(--text-primary) !important;
-      box-shadow: var(--shadow-card) !important;
+    /* ⚡ 2. 카드 및 컨테이너 라운딩 단일화 */
+    .card, .solution-step-card, div[class*="rounded-3xl"] {
+      border-radius: var(--radius-card, 20px) !important;
     }
 
-    /* ⚡ 3. 점선 테두리(Dashed border) 전면 폐기 -> 20px 라운딩 솔리드 카드 */
+    /* ⚡ 3. 점선 테두리 폐기 */
     #drop-zone, .border-dashed {
       border: 1px solid var(--border-subtle) !important;
-      background-color: var(--bg-surface) !important;
-      border-radius: var(--radius-card) !important;
-      box-shadow: var(--shadow-card) !important;
-    }
-    #drop-zone:hover {
-      border-color: var(--accent-primary) !important;
+      border-radius: var(--radius-card, 20px) !important;
     }
 
-    /* ⚡ 4. 이중 박스 해체: '최근 질문한 문제 이어보기' 바깥 카드 배경/테두리 제거 */
+    /* ⚡ 4. 이중 박스 해체 */
     #camera-home-guidance-container > div:first-child {
       background: transparent !important;
       border: none !important;
@@ -190,98 +176,90 @@
       padding: 0 !important;
     }
 
-    /* ⚡ 5. 헤더 뱃지(VIP 무제한, 고3/N수, 횟수 등) 보라/초록/노랑 원색 완전 소거 -> 세련된 무채색 칩 */
-    #current-grade-badge, #quota-badge-btn, #app-brand-vip-badge,
-    .badge-chip-neutral, span[class*="bg-[#EA580C]\/20"],
-    button[class*="bg-stone-900"] {
-      background-color: var(--bg-elevated) !important;
-      border: 1px solid var(--border-subtle) !important;
-      color: var(--text-secondary) !important;
-      box-shadow: none !important;
-    }
-    #current-grade-badge:hover, #quota-badge-btn:hover {
-      color: var(--text-primary) !important;
-      border-color: var(--text-muted) !important;
-    }
-    #current-grade-badge i, #quota-badge-btn i, #current-grade-badge svg, #quota-badge-btn svg {
-      color: var(--text-muted) !important;
-    }
-
-    /* ⚡ 6. 가로 100% 거대 배너에 쨍한 주황색 칠하기 금지 -> 차분한 다크 차콜/elevated 배경 */
-    button[onclick="openExamSheetModal()"],
-    .full-width-banner,
-    div[class*="bg-gradient-to-r from-indigo-950"] {
-      background: var(--bg-surface) !important;
-      border: 1px solid var(--border-subtle) !important;
-      color: var(--text-primary) !important;
-      box-shadow: var(--shadow-card) !important;
-    }
-    button[onclick="openExamSheetModal()"] span.font-extrabold {
-      color: var(--text-primary) !important;
-    }
-    button[onclick="openExamSheetModal()"] .pro-killer-badge {
-      background-color: var(--accent-subtle) !important;
-      color: var(--accent-primary) !important;
-      border: 1px solid var(--accent-primary) !important;
-    }
-
-    /* ⚡ 7. 다크 섹션 전용 헤딩 규칙 (라이트 섹션 침범 원천 차단) */
-    #features h2, #features h3, #features h4,
-    #traction h2, #traction h3, #traction h4,
-    #faq h2, #faq h3, #faq h4,
-    #b2b h2, #b2b h3, #b2b h4 {
-      color: var(--text-primary) !important;
-    }
-
     /* ========================================================
-       ⚡ ZERO INVISIBLE TEXT CONTRAST SYSTEM (MANDATORY RULE 1)
-       WCAG AAA Contrast Guarantee for both Light and Dark surfaces
+       ⚡ [MANDATORY RULE 1 & 2] SCOPED SURFACE CONTRAST SYSTEM
+       Zero Invisible Text Guarantee:
+       - Light Surfaces (#manifesto, #tutor, #demo, #pricing): PITCH DARK INK (#1C1917)
+       - Dark Surfaces (#features, #traction, #faq, #b2b): CRISP WHITE (#FFFFFF) / SLATE (#CBD5E1)
        ======================================================== */
 
-    /* 1. LIGHT SURFACES (60% Off-White #F7F5F0, 30% White #FFFFFF Cards) */
-    #manifesto, #tutor, #demo, #pricing,
-    .bg-white, [class*="bg-[#FAF8F5]"], [class*="bg-[#F7F5F0]"] {
-      color: #1C1917;
+    /* --- [LIGHT SURFACES: 60% Warm Ivory (#FAF8F3), 30% Pure White (#FFFFFF) Cards] --- */
+    #manifesto, #tutor, #demo, #pricing {
+      background-color: #FAF8F3 !important;
+      color: #1C1917 !important;
     }
+
+    /* Headings in Light Sections */
     #manifesto h1, #manifesto h2, #manifesto h3, #manifesto h4,
     #tutor h1, #tutor h2, #tutor h3, #tutor h4,
     #demo h1, #demo h2, #demo h3, #demo h4,
-    #pricing h1, #pricing h2, #pricing h3, #pricing h4,
-    .bg-white h1, .bg-white h2, .bg-white h3, .bg-white h4 {
+    #pricing h1, #pricing h2, #pricing h3, #pricing h4 {
       color: #1C1917 !important;
     }
-    #manifesto p, #tutor p, #demo p, #pricing p, .bg-white p {
+
+    /* Body copy & Paragraphs in Light Sections */
+    #manifesto p, #tutor p, #demo p, #pricing p {
       color: #44403C !important;
     }
-    .bg-white strong, #manifesto strong, #tutor strong, #demo strong,
-    #pricing .bg-white strong {
+
+    /* Strong tags in Light Sections */
+    #manifesto strong, #tutor strong, #demo strong, #pricing strong {
       color: #1C1917 !important;
       font-weight: 800 !important;
     }
 
-    /* 2. DARK SURFACES (Night Mode, Slate/Stone-900 Cards, Deep Charcoal #141210 / #1C1917) */
-    [class*="bg-slate-9"], [class*="bg-slate-8"], [class*="bg-stone-9"],
-    [class*="bg-[#141210]"], [class*="bg-[#1C1917]"], [class*="bg-[#1F1C18]"], [class*="bg-[#0B0F19]"],
-    #features, #traction, #faq, #b2b {
+    /* Lists in Light Sections */
+    #manifesto li, #tutor li, #demo li, #pricing li {
+      color: #1C1917 !important;
+    }
+
+    /* Spans in Light Sections: Strictly Deep Ink (#1C1917) unless specifically orange accent */
+    #manifesto span:not(.badge-orange *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *):not(button[class*="bg-[#EA580C]"] *):not(a[class*="bg-[#EA580C]"] *),
+    #tutor span:not(.badge-orange *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *):not(button[class*="bg-[#EA580C]"] *):not(a[class*="bg-[#EA580C]"] *),
+    #demo span:not(.badge-orange *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *):not(button[class*="bg-[#EA580C]"] *):not(a[class*="bg-[#EA580C]"] *),
+    #pricing span:not(.badge-orange *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *):not(button[class*="bg-[#EA580C]"] *):not(a[class*="bg-[#EA580C]"] *) {
+      color: #1C1917 !important;
+    }
+
+    /* Faint / Muted text in Light Sections */
+    #tutor .text-stone-500, #demo .text-stone-500, #demo .text-stone-600, #pricing .text-stone-500 {
+      color: #57534E !important;
+    }
+
+    /* Pure White Cards (30%) in Light Sections */
+    #manifesto .bg-white, #tutor .bg-white, #demo .bg-white, #pricing .bg-white,
+    #tutor .bg-stone-50, #demo .bg-stone-50 {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #1C1917 !important;
+    }
+
+    /* --- [DARK SURFACES: 60% Espresso (#141210 / #1C1917), 30% Dark Surface (#1F1C18)] --- */
+    header, #features, #traction, #faq, #b2b, footer,
+    #modal-checkout, #modal-payment-success, #modal-enterprise-inquiry {
       color: #F8FAFC !important;
     }
-    [class*="bg-slate-9"] strong, [class*="bg-slate-8"] strong, [class*="bg-stone-9"] strong,
-    [class*="bg-[#141210]"] strong, [class*="bg-[#1C1917]"] strong, [class*="bg-[#1F1C18]"] strong, [class*="bg-[#0B0F19]"] strong,
+
+    /* Headings in Dark Sections */
+    #features h1, #features h2, #features h3, #features h4,
+    #traction h1, #traction h2, #traction h3, #traction h4,
+    #faq h1, #faq h2, #faq h3, #faq h4,
+    #b2b h1, #b2b h2, #b2b h3, #b2b h4 {
+      color: #FFFFFF !important;
+    }
+
+    /* Body copy in Dark Sections */
+    #features p, #traction p, #faq p, #b2b p {
+      color: #CBD5E1 !important;
+    }
+
+    /* Strong tags in Dark Sections */
     #features strong, #traction strong, #faq strong, #b2b strong {
       color: #FFFFFF !important;
       font-weight: 800 !important;
     }
-    [class*="bg-slate-9"] p, [class*="bg-slate-8"] p, [class*="bg-stone-9"] p,
-    [class*="bg-[#141210]"] p, [class*="bg-[#1C1917]"] p, [class*="bg-[#1F1C18]"] p, [class*="bg-[#0B0F19]"] p,
-    #features p, #traction p, #faq p, #b2b p {
-      color: #CBD5E1 !important;
-    }
-    [class*="bg-slate-9"] span:not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-"]):not(.btn *):not(button *),
-    [class*="bg-stone-9"] span:not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-"]):not(.btn *):not(button *) {
-      color: #E2E8F0 !important;
-    }
 
-    /* 3. SOLID ORANGE/ACCENT BUTTONS (MANDATORY RULE 1.1: Always Pure White #FFFFFF Text) */
+    /* --- [MANDATORY RULE 1.1: SOLID ACCENT / ORANGE BUTTON CONTRAST ARMOR] --- */
     button[class*="bg-[#EA580C]"], button[class*="bg-[#FF5A1F]"],
     a[class*="bg-[#EA580C]"], a[class*="bg-[#FF5A1F]"],
     .btn-solid-accent, #pricing-tab-btn-b2c,
@@ -346,7 +324,7 @@
   </style>
 
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-[#EA580C] selection:text-white">
+<body class="bg-[#141210] text-stone-100 min-h-screen antialiased selection:bg-[#EA580C] selection:text-white">
 
   <!-- ================= TOP NAVIGATION BAR ================= -->
   <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800">
@@ -596,23 +574,23 @@
             수능·평가원 출제위원의 문제 제작 방식을 그대로 이식했습니다.<br />
             ReadMath 출제자 튜터는 정답을 외우게 하거나 공식을 바로 떠먹여 주지 않습니다.
           </p>
-          <div class="p-3.5 rounded-2xl bg-orange-50 border border-orange-200 text-stone-900 text-xs sm:text-sm font-semibold flex items-start gap-2.5 shadow-xs">
+          <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-stone-900 text-xs sm:text-sm font-semibold flex items-start gap-2.5 shadow-xs">
             <span class="text-base leading-none">💡</span>
-            <span class="text-stone-900 font-bold leading-relaxed">"분모가 0에 가까워질 때, 출제자는 분자에 어떤 조건을 원했을까?"</span>
+            <span class="text-[#1C1917] font-bold leading-relaxed" style="color: #1C1917 !important;">"분모가 0에 가까워질 때, 출제자는 분자에 어떤 조건을 원했을까?"</span>
           </div>
         </div>
-        <ul class="text-xs text-stone-700 space-y-2.5 pt-1">
-          <li class="flex items-center gap-2">
+        <ul class="text-xs text-[#1C1917] space-y-2.5 pt-1 font-bold">
+          <li class="flex items-center gap-2 text-[#1C1917]">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
-            <span>학생이 막힌 지점만 짚어주는 핀포인트 힌트 대화</span>
+            <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">학생이 막힌 지점만 짚어주는 핀포인트 힌트 대화</span>
           </li>
-          <li class="flex items-center gap-2">
+          <li class="flex items-center gap-2 text-[#1C1917]">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
-            <span>교과서 표준 수학 기호와 고해상도 수식 완벽 지원</span>
+            <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">교과서 표준 수학 기호와 고해상도 수식 완벽 지원</span>
           </li>
-          <li class="flex items-center gap-2">
+          <li class="flex items-center gap-2 text-[#1C1917]">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
-            <span>학부모님과 선생님에게 전송되는 1:1 튜터링 요약 리포트</span>
+            <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">학부모님과 선생님에게 전송되는 1:1 튜터링 요약 리포트</span>
           </li>
         </ul>
       </div>
@@ -622,9 +600,9 @@
         <div class="flex items-center justify-between pb-3 border-b border-stone-200">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-[#EA580C] animate-pulse"></span>
-            <span class="text-xs font-bold text-stone-900">1:1 출제자 AI 튜터 라이브</span>
+            <span class="text-xs font-bold text-[#1C1917]" style="color: #1C1917 !important;">1:1 출제자 AI 튜터 라이브</span>
           </div>
-          <span class="text-xs text-stone-500 font-mono">응답시간 0.4초</span>
+          <span class="text-xs text-stone-600 font-mono font-medium" style="color: #57534E !important;">응답시간 0.4초</span>
         </div>
 
         <div class="space-y-3 text-xs leading-relaxed">
@@ -669,7 +647,7 @@
       <div class="text-center space-y-3 max-w-2xl mx-auto">
         <span class="text-xs font-black text-[#EA580C] uppercase tracking-widest">INTERACTIVE SHOWCASE</span>
         <h2 class="text-2xl sm:text-4xl font-black text-stone-900 leading-snug break-keep">
-          <span class="block text-[#1C1917]">앱 열기 전 10초 만에 확인하는</span>
+          <span class="block text-[#1C1917] font-black" style="color: #1C1917 !important;">앱 열기 전 10초 만에 확인하는</span>
           <span class="text-[#EA580C] block mt-1 font-black">ReadMath의 실시간 수식 번역</span>
         </h2>
         
@@ -720,7 +698,7 @@
             <span class="px-2.5 py-0.5 rounded-full bg-orange-50 text-[#EA580C] text-[10px] font-black border border-orange-200" id="demo-badge">
               고2 수학II / 삼차함수 접선과 극값 (정밀 격자 좌표계)
             </span>
-            <span class="text-xs text-stone-600 font-bold" id="demo-subtitle">삼차함수의 접선 방정식과 극값의 위치</span>
+            <span class="text-xs text-stone-700 font-bold" id="demo-subtitle" style="color: #44403C !important;">삼차함수의 접선 방정식과 극값의 위치</span>
           </div>
 
           <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-800" id="demo-raw-problem">
@@ -731,9 +709,9 @@
           <div class="p-4 rounded-2xl bg-orange-50/90 border border-orange-200 text-xs space-y-2 shadow-xs">
             <div class="flex items-center gap-1.5 text-[#EA580C] font-extrabold">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-              <span>ReadMath 출제 의도 한국어 번역:</span>
+              <span class="text-[#EA580C] font-black" style="color: #EA580C !important;">ReadMath 출제 의도 한국어 번역:</span>
             </div>
-            <p class="text-stone-900 leading-relaxed font-semibold" id="demo-translation">
+            <p class="text-[#1C1917] leading-relaxed font-bold" id="demo-translation" style="color: #1C1917 !important;">
               "접선의 기울기가 9라는 것은 도함수 f'(t)가 9라는 뜻이야.<br />
               f'(t) = 3t² - 3 = 9 가 되므로 3t² = 12, 즉 t² = 4 에서 t = 2 또는 t = -2 야!"
             </p>
@@ -741,7 +719,7 @@
 
           <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-start gap-2">
             <svg class="w-4 h-4 shrink-0 mt-0.5 text-[#EA580C]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <p id="demo-socratic-prompt">
+            <p id="demo-socratic-prompt" class="text-[#1C1917]" style="color: #1C1917 !important;">
               <strong>출제자 유도 발문:</strong> "도함수의 기하학적 의미가 곡선 위의 접선 기울기임을 떠올렸다면 10초 만에 끝나는 문제입니다."
             </p>
           </div>
@@ -923,32 +901,32 @@
         <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-stone-300 transition h-full shadow-sm text-stone-900">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-stone-900">1개월 월간권</span>
+              <span class="text-sm font-extrabold text-[#1C1917]" style="color: #1C1917 !important;">1개월 월간권</span>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">단기 시험 대비</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">39,000</span>
-                <span class="text-sm font-bold text-slate-400">원 / 월</span>
+                <span class="text-3xl sm:text-4xl font-black text-[#1C1917] font-mono" style="color: #1C1917 !important;">39,000</span>
+                <span class="text-sm font-bold text-stone-500" style="color: #57534E !important;">원 / 월</span>
               </div>
               <p class="text-xs text-stone-500 mt-1">부담 없는 1개월 단기 집중 완성권</p>
             </div>
             <ul class="text-xs text-stone-700 space-y-2.5 border-t border-stone-200 pt-4">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
-                <span>무제한 문제 사진 촬영 및 수식 OCR</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">무제한 문제 사진 촬영 및 수식 OCR</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
-                <span>4대 오답 원인 처방전 전편 열람</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">4대 오답 원인 처방전 전편 열람</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
-                <span>기하 시각화 고해상도 SVG 그래프</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">기하 시각화 고해상도 SVG 그래프</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-slate-400"></i>
-                <span>1:1 출제자 AI 튜터 실시간 질의응답</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">1:1 출제자 AI 튜터 실시간 질의응답</span>
               </li>
             </ul>
           </div>
@@ -965,12 +943,12 @@
           </div>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-stone-900">6개월 학기권</span>
+              <span class="text-sm font-extrabold text-[#1C1917]" style="color: #1C1917 !important;">6개월 학기권</span>
               <span class="text-[10px] font-black px-2 py-0.5 rounded bg-[#FFF7ED] text-[#EA580C] border border-[#FED7AA]">36% 할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">149,000</span>
+                <span class="text-3xl sm:text-4xl font-black text-[#1C1917] font-mono" style="color: #1C1917 !important;">149,000</span>
                 <span class="text-sm font-bold text-stone-600">원</span>
               </div>
               <p class="text-xs text-[#EA580C] font-bold mt-1">월 환산 약 24,800원 (한 학기 내신 완벽 락인)</p>
@@ -982,15 +960,15 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>무제한 문제 사진 촬영 및 4대 처방전</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">무제한 문제 사진 촬영 및 4대 처방전</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>1:1 출제자 AI 튜터 6개월 무제한 세션</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">1:1 출제자 AI 튜터 6개월 무제한 세션</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>학기별 오답 누적 취약점 종합 진단서</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">학기별 오답 누적 취약점 종합 진단서</span>
               </li>
             </ul>
           </div>
@@ -1004,12 +982,12 @@
         <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-6 hover:border-stone-300 transition h-full shadow-sm text-stone-900">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="text-sm font-extrabold text-stone-900">12개월 연간권</span>
+              <span class="text-sm font-extrabold text-[#1C1917]" style="color: #1C1917 !important;">12개월 연간권</span>
               <span class="text-[10px] font-black px-2 py-0.5 rounded bg-[#FFF7ED] text-[#EA580C] border border-[#FED7AA]">47% 최대할인</span>
             </div>
             <div>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl sm:text-4xl font-black text-stone-900 font-mono">249,000</span>
+                <span class="text-3xl sm:text-4xl font-black text-[#1C1917] font-mono" style="color: #1C1917 !important;">249,000</span>
                 <span class="text-sm font-bold text-slate-400">원</span>
               </div>
               <p class="text-xs text-stone-300 font-bold mt-1">월 환산 약 20,750원 (1년 수능·내신 마스터)</p>
@@ -1017,7 +995,7 @@
             <ul class="text-xs text-stone-700 space-y-2.5 border-t border-stone-200 pt-4">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>1개월권 대비 219,000원 파격 절감</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">1개월권 대비 219,000원 파격 절감</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
@@ -1025,11 +1003,11 @@
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>킬러 문항 기하 시각화 전수 해설집 우선 제공</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">킬러 문항 기하 시각화 전수 해설집 우선 제공</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>형제·자매 계정 승계 및 학년 전환 지원</span>
+                <span class="text-[#1C1917] font-bold" style="color: #1C1917 !important;">형제·자매 계정 승계 및 학년 전환 지원</span>
               </li>
             </ul>
           </div>
