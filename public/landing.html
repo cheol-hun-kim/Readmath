@@ -234,51 +234,66 @@
     }
 
     /* ========================================================
-       ⚡ BULLETPROOF HIGH-CONTRAST FOR LIGHT SECTIONS
-       (#manifesto, #tutor, #demo, #pricing)
-       Guarantees Deep Charcoal (#1C1917) and WCAG AAA readability.
-       Zero white-on-white / light-on-light text.
+       ⚡ ZERO INVISIBLE TEXT CONTRAST SYSTEM (MANDATORY RULE 1)
+       WCAG AAA Contrast Guarantee for both Light and Dark surfaces
        ======================================================== */
-    #manifesto, #tutor, #demo, #pricing {
-      color: #1C1917 !important;
+
+    /* 1. LIGHT SURFACES (60% Off-White #F7F5F0, 30% White #FFFFFF Cards) */
+    #manifesto, #tutor, #demo, #pricing,
+    .bg-white, [class*="bg-[#FAF8F5]"], [class*="bg-[#F7F5F0]"] {
+      color: #1C1917;
     }
     #manifesto h1, #manifesto h2, #manifesto h3, #manifesto h4,
     #tutor h1, #tutor h2, #tutor h3, #tutor h4,
     #demo h1, #demo h2, #demo h3, #demo h4,
-    #pricing h1, #pricing h2, #pricing h3, #pricing h4 {
+    #pricing h1, #pricing h2, #pricing h3, #pricing h4,
+    .bg-white h1, .bg-white h2, .bg-white h3, .bg-white h4 {
       color: #1C1917 !important;
     }
-    #manifesto p, #tutor p, #demo p, #pricing p {
-      color: #292524 !important;
+    #manifesto p, #tutor p, #demo p, #pricing p, .bg-white p {
+      color: #44403C !important;
     }
-    #manifesto strong:not([class*="text-"]):not([style*="color"]),
-    #tutor strong:not([class*="text-"]):not([style*="color"]),
-    #demo strong:not([class*="text-"]):not([style*="color"]),
-    #pricing strong:not([class*="text-"]):not([style*="color"]) {
+    .bg-white strong, #manifesto strong, #tutor strong, #demo strong,
+    #pricing .bg-white strong {
       color: #1C1917 !important;
-    }
-    #manifesto span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
-    #tutor span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
-    #demo span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *),
-    #pricing span:not(.btn *):not(.badge *):not(button *):not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-[#EA580C]"] *) {
-      color: #1C1917 !important;
-    }
-    #manifesto h2 span:not([class*="text-[#EA580C]"]),
-    #tutor h2 span:not([class*="text-[#EA580C]"]),
-    #demo h2 span:not([class*="text-[#EA580C]"]),
-    #pricing h2 span:not([class*="text-[#EA580C]"]) {
-      color: #1C1917 !important;
+      font-weight: 800 !important;
     }
 
-    /* Light section buttons and accent elements retain white/proper text */
-    #manifesto .bg-[#EA580C], #tutor .bg-[#EA580C], #demo .bg-[#EA580C], #pricing .bg-[#EA580C],
-    #manifesto .bg-[#EA580C], #tutor .bg-[#EA580C], #demo .bg-[#EA580C], #pricing .bg-[#EA580C],
-    #pricing #pricing-tab-btn-b2c {
+    /* 2. DARK SURFACES (Night Mode, Slate/Stone-900 Cards, Deep Charcoal #141210 / #1C1917) */
+    [class*="bg-slate-9"], [class*="bg-slate-8"], [class*="bg-stone-9"],
+    [class*="bg-[#141210]"], [class*="bg-[#1C1917]"], [class*="bg-[#1F1C18]"], [class*="bg-[#0B0F19]"],
+    #features, #traction, #faq, #b2b {
+      color: #F8FAFC !important;
+    }
+    [class*="bg-slate-9"] strong, [class*="bg-slate-8"] strong, [class*="bg-stone-9"] strong,
+    [class*="bg-[#141210]"] strong, [class*="bg-[#1C1917]"] strong, [class*="bg-[#1F1C18]"] strong, [class*="bg-[#0B0F19]"] strong,
+    #features strong, #traction strong, #faq strong, #b2b strong {
+      color: #FFFFFF !important;
+      font-weight: 800 !important;
+    }
+    [class*="bg-slate-9"] p, [class*="bg-slate-8"] p, [class*="bg-stone-9"] p,
+    [class*="bg-[#141210]"] p, [class*="bg-[#1C1917]"] p, [class*="bg-[#1F1C18]"] p, [class*="bg-[#0B0F19]"] p,
+    #features p, #traction p, #faq p, #b2b p {
+      color: #CBD5E1 !important;
+    }
+    [class*="bg-slate-9"] span:not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-"]):not(.btn *):not(button *),
+    [class*="bg-stone-9"] span:not([class*="text-[#EA580C]"]):not([class*="text-orange-"]):not([class*="bg-"]):not(.btn *):not(button *) {
+      color: #E2E8F0 !important;
+    }
+
+    /* 3. SOLID ORANGE/ACCENT BUTTONS (MANDATORY RULE 1.1: Always Pure White #FFFFFF Text) */
+    button[class*="bg-[#EA580C]"], button[class*="bg-[#FF5A1F]"],
+    a[class*="bg-[#EA580C]"], a[class*="bg-[#FF5A1F]"],
+    .btn-solid-accent, #pricing-tab-btn-b2c,
+    .bg-[#EA580C] {
       color: #FFFFFF !important;
     }
-    #manifesto .bg-[#EA580C] *, #tutor .bg-[#EA580C] *, #demo .bg-[#EA580C] *, #pricing .bg-[#EA580C] *,
-    #manifesto .bg-[#EA580C] *, #tutor .bg-[#EA580C] *, #demo .bg-[#EA580C] *, #pricing .bg-[#EA580C] * {
+    button[class*="bg-[#EA580C]"] *, button[class*="bg-[#FF5A1F]"] *,
+    a[class*="bg-[#EA580C]"] *, a[class*="bg-[#FF5A1F]"] *,
+    .btn-solid-accent *, #pricing-tab-btn-b2c *,
+    .bg-[#EA580C] * {
       color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
     }
 
     /* ⚡ 8. 우측 하단 플로팅 '리드쌤 질문' 버튼 48x48px 원형으로 축소 및 하단 패딩 확보 */
@@ -1028,45 +1043,45 @@
 
       <!-- ================= TAB 2: TEACHER / STUDY ROOM (B2B) ================= -->
       <div id="pricing-tab-teacher" class="hidden max-w-2xl mx-auto">
-        <div class="bg-slate-900 border-2 border-[#EA580C]/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EA580C]/20 pb-5">
+        <div class="bg-white border-2 border-stone-200 hover:border-stone-300 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl text-stone-900 transition">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200 pb-5">
             <div>
               <span class="text-xs font-black uppercase text-[#EA580C] tracking-wider">과외/공부방 회원 전용</span>
-              <h3 class="text-xl sm:text-2xl font-black text-white mt-1">선생회원 플랜 (원생 20명 포함)</h3>
-              <p class="text-xs text-slate-300 mt-1">매스플랫(월 20만 원) 대비 70% 비용 절감 효과</p>
+              <h3 class="text-xl sm:text-2xl font-black text-[#1C1917] mt-1">선생회원 플랜 (원생 20명 포함)</h3>
+              <p class="text-xs text-[#44403C] mt-1">매스플랫(월 20만 원) 대비 70% 비용 절감 효과</p>
             </div>
             <div class="text-left sm:text-right">
-              <div class="text-3xl sm:text-4xl font-black text-[#EA580C] font-mono">59,000<span class="text-sm font-bold text-slate-400">원 / 월</span></div>
+              <div class="text-3xl sm:text-4xl font-black text-[#EA580C] font-mono">59,000<span class="text-sm font-bold text-stone-500">원 / 월</span></div>
               <span class="text-[10px] text-[#EA580C] font-bold">원생 20인 기본 제공 (1인당 월 2,950원꼴)</span>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-200">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-stone-700">
             <div class="space-y-2.5">
               <div class="flex items-center gap-2">
-                <i data-lucide="users" class="w-4 h-4 text-[#EA580C]"></i>
-                <span><strong>원생 20명</strong> 동시 접속 및 개인별 계정 발급</span>
+                <i data-lucide="users" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
+                <span><strong class="text-[#1C1917] font-bold">원생 20명</strong> 동시 접속 및 개인별 계정 발급</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="message-circle" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>선생님용 <strong>출제자 의도 유도 대본</strong> 무제한 제공</span>
+                <i data-lucide="message-circle" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
+                <span>선생님용 <strong class="text-[#1C1917] font-bold">출제자 의도 유도 대본</strong> 무제한 제공</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="file-text" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>학부모 전송용 <strong>취약점 분석표</strong> 원클릭 생성</span>
+                <i data-lucide="file-text" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
+                <span>학부모 전송용 <strong class="text-[#1C1917] font-bold">취약점 분석표</strong> 원클릭 생성</span>
               </div>
             </div>
             <div class="space-y-2.5">
               <div class="flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="shield-check" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>과외 수업 시 킬러 문항 기하 시각화 전용 칠판 모드</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="plus-circle" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="plus-circle" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>20인 초과 시 원생 1인당 월 3,000원 슬라이딩</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="calendar" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="calendar" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>의무 약정 없음 (월 단위 자유로운 해지 가능)</span>
               </div>
             </div>
@@ -1074,8 +1089,8 @@
 
           <div class="pt-3">
             <button onclick="openCheckoutModal('teacher_sub', '선생회원 플랜 (원생 20명)', 59000, '월간 정기결제')" class="w-full py-3.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
-              <span>선생회원 플랜 결제 & 계정 즉시 개설</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <span class="text-white font-black">선생회원 플랜 결제 &amp; 계정 즉시 개설</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
             </button>
           </div>
         </div>
@@ -1083,45 +1098,45 @@
 
       <!-- ================= TAB 3: ACADEMY STANDARD (B2B) ================= -->
       <div id="pricing-tab-academy" class="hidden max-w-3xl mx-auto space-y-6">
-        <div class="bg-slate-900 border-2 border-orange-500/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-orange-500/20 pb-5">
+        <div class="bg-white border-2 border-[#EA580C]/40 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl text-stone-900 transition">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200 pb-5">
             <div>
               <span class="text-xs font-black uppercase text-[#EA580C] tracking-wider">단과 / 입시 / 보습 학원</span>
-              <h3 class="text-xl sm:text-2xl font-black text-white mt-1">학원 스탠다드 (원생 30명 포함)</h3>
-              <p class="text-xs text-slate-300 mt-1">기존 솔루션(월 20만 원) 대비 35% 이상 저렴한 학원 전용 패키지</p>
+              <h3 class="text-xl sm:text-2xl font-black text-[#1C1917] mt-1">학원 스탠다드 (원생 30명 포함)</h3>
+              <p class="text-xs text-[#44403C] mt-1">기존 솔루션(월 20만 원) 대비 35% 이상 저렴한 학원 전용 패키지</p>
             </div>
             <div class="text-left sm:text-right">
-              <div class="text-3xl sm:text-4xl font-black text-stone-300 font-mono">129,000<span class="text-sm font-bold text-slate-400">원 / 월</span></div>
+              <div class="text-3xl sm:text-4xl font-black text-[#1C1917] font-mono">129,000<span class="text-sm font-bold text-stone-500">원 / 월</span></div>
               <span class="text-[10px] text-[#EA580C] font-bold">원생 30인 기본 + 원장 관리자 관제실</span>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-200">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-stone-700">
             <div class="space-y-2.5">
               <div class="flex items-center gap-2">
-                <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#EA580C]"></i>
-                <span><strong>원장님 전용 관리자 관제실</strong> (출제, 통계, 학생 관리)</span>
+                <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
+                <span><strong class="text-[#1C1917] font-bold">원장님 전용 관리자 관제실</strong> (출제, 통계, 학생 관리)</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="stamp" class="w-4 h-4 text-[#EA580C]"></i>
-                <span>해설지 및 리포트에 <strong>학원 로고 워터마크 브랜딩</strong></span>
+                <i data-lucide="stamp" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
+                <span>해설지 및 리포트에 <strong class="text-[#1C1917] font-bold">학원 로고 워터마크 브랜딩</strong></span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="pie-chart" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>중기부/정부지원금 심사용 재원생 트랙션 자동 산출</span>
               </div>
             </div>
             <div class="space-y-2.5">
               <div class="flex items-center gap-2">
-                <i data-lucide="download" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="download" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>재원생 질문 로그 및 진단 데이터 CSV 무제한 다운로드</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="layers" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="layers" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>30인 초과 시 원생 1인당 월 2,500원 할인 적용</span>
               </div>
               <div class="flex items-center gap-2">
-                <i data-lucide="headphones" class="w-4 h-4 text-[#EA580C]"></i>
+                <i data-lucide="headphones" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                 <span>학원 도입 전담 기술 지원 및 교사진 교육 지원</span>
               </div>
             </div>
@@ -1129,12 +1144,12 @@
 
           <div class="flex flex-col sm:flex-row gap-3 pt-2">
             <button onclick="openCheckoutModal('academy_std', '학원 스탠다드 (원생 30명)', 129000, '월간 정기결제')" class="flex-1 py-3.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-black text-xs shadow-lg transition flex items-center justify-center gap-2">
-              <span>학원 스탠다드 시작하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <span class="text-white font-black">학원 스탠다드 시작하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
             </button>
-            <button onclick="openEnterpriseInquiryModal()" class="px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition flex items-center justify-center gap-2">
+            <button onclick="openEnterpriseInquiryModal()" class="px-5 py-3.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs border border-stone-300 transition flex items-center justify-center gap-2">
               <i data-lucide="building-2" class="w-4 h-4 text-[#EA580C]"></i>
-              <span>대형 학원 (50~100인+) 맞춤 견적 문의</span>
+              <span class="text-stone-800 font-bold">대형 학원 (50~100인+) 맞춤 견적 문의</span>
             </button>
           </div>
         </div>
