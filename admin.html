@@ -29,6 +29,24 @@
       box-shadow: none !important;
     }
     /* Day Theme Overrides */
+    body.theme-day button[class*="bg-blue-600"],
+    body.theme-day button[class*="bg-emerald-600"],
+    body.theme-day button[class*="bg-red-600"],
+    body.theme-day button[class*="bg-[#EA580C]"],
+    body.theme-day button[class*="bg-[#FF5A1F]"] {
+      color: #FFFFFF !important;
+    }
+    body.theme-day button[class*="bg-blue-600"] *,
+    body.theme-day button[class*="bg-emerald-600"] *,
+    body.theme-day button[class*="bg-red-600"] *,
+    body.theme-day button[class*="bg-[#EA580C]"] *,
+    body.theme-day button[class*="bg-[#FF5A1F]"] * {
+      color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
+    }
+    body.theme-day .text-white:not([class*="bg-"]):not(button) {
+      color: #0F172A !important;
+    }
     body.theme-day {
       background-color: #F8FAFC !important;
       color: #0F172A !important;

@@ -51,6 +51,135 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
+    /* ==============================================================================
+     * MANDATORY UI/UX DESIGN SYSTEM (60-30-10 & ZERO-DEFECT ARCHITECTURE)
+     * ============================================================================== */
+    :root {
+      --bg-primary: #0B0F19;      /* 60% Dominant Base (Deep Navy Charcoal) */
+      --bg-secondary: #161F30;    /* 30% Structural Surface (Card Container) */
+      --bg-tertiary: #1E293B;     /* Sub-surface / Neutral hover */
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.15);
+      --bg-accent: #FF5A1F;       /* 10% Coral Orange Primary CTA */
+      --bg-accent-hover: #E04E18;
+      --accent-primary: #FF5A1F;
+      --text-primary: #F8FAFC;    /* Off-White, 15:1 contrast */
+      --text-secondary: #94A3B8;  /* Slate Silver, 6:1 contrast */
+      --text-muted: #64748B;
+      --text-on-accent: #FFFFFF;  /* Inviolable pure white text on solid accent */
+    }
+
+    body.theme-day, html.theme-day {
+      --bg-primary: #FAF8F3;      /* 60% Dominant Base (Warm Ivory Off-White) */
+      --bg-secondary: #FFFFFF;    /* 30% Structural Surface (Card Container) */
+      --bg-tertiary: #F1F5F9;     /* Sub-surface / Neutral hover */
+      --border-subtle: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --bg-accent: #FF5A1F;       /* 10% Coral Orange Primary CTA */
+      --bg-accent-hover: #E04E18;
+      --accent-primary: #FF5A1F;
+      --text-primary: #080908;    /* Pitch Dark Ink, 15:1 contrast */
+      --text-secondary: #475569;  /* Slate Dark, 6:1 contrast */
+      --text-muted: #64748B;
+      --text-on-accent: #FFFFFF;  /* Inviolable pure white text on solid accent */
+    }
+
+    /* Rule 3: Typography Hierarchy & Leading Formulas */
+    .hero-title, h1.hero-title {
+      line-height: 0.98 !important;
+      letter-spacing: -0.025em !important;
+      font-weight: 800 !important;
+    }
+    .section-headline, h2.section-headline, h3.section-headline {
+      line-height: 1.2 !important;
+      letter-spacing: -0.015em !important;
+      font-weight: 700 !important;
+    }
+    .body-copy, p.body-copy {
+      line-height: 1.55 !important;
+      font-weight: 400 !important;
+    }
+
+    /* Rule 4: Responsive Safe Bottom Padding (Prevent Floating Action Occlusion) */
+    .scroll-safe-bottom,
+    #screen-container,
+    #view-camera,
+    #view-solution,
+    #view-diagnosis,
+    #view-chat,
+    #view-history,
+    #view-report,
+    #view-vault,
+    #view-settings,
+    #view-teacher {
+      padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+    }
+
+    /* Rule 5: 4-6-1 Horizontal Logo & Icon-Text Balance */
+    .logo-461-container {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.25em !important;
+    }
+    .logo-461-icon {
+      height: 1.5em !important;
+      width: 1.5em !important;
+      flex-shrink: 0 !important;
+    }
+    .logo-461-text {
+      font-size: 1em !important;
+      line-height: 1 !important;
+      font-weight: 800 !important;
+    }
+
+    /* ================= MANDATORY RULE 1: INVIOLABLE SOLID ACCENT CONTRAST ARMOR ================= */
+    /* Solid Accent Buttons & Active States: ALWAYS Pure White Text (#FFFFFF) & White Stroke in BOTH Day & Night Modes */
+    .btn-solid-accent,
+    button[class*="bg-[#EA580C]"],
+    button[class*="bg-[#FF5A1F]"],
+    button[class*="bg-orange-500"],
+    button[class*="bg-orange-600"],
+    button[class*="bg-amber-600"],
+    a[class*="bg-[#EA580C]"],
+    a[class*="bg-[#FF5A1F]"],
+    .word-chip.active-chip,
+    .grade-btn-active,
+    body.theme-day .btn-solid-accent,
+    body.theme-day button[class*="bg-[#EA580C]"],
+    body.theme-day button[class*="bg-[#FF5A1F]"],
+    body.theme-day button[class*="bg-orange-500"],
+    body.theme-day button[class*="bg-orange-600"],
+    body.theme-day button[class*="bg-amber-600"],
+    body.theme-day a[class*="bg-[#EA580C]"],
+    body.theme-day a[class*="bg-[#FF5A1F]"],
+    body.theme-day .word-chip.active-chip,
+    body.theme-day .grade-btn-active {
+      color: #FFFFFF !important;
+    }
+    .btn-solid-accent *,
+    button[class*="bg-[#EA580C]"] *,
+    button[class*="bg-[#FF5A1F]"] *,
+    button[class*="bg-orange-500"] *,
+    button[class*="bg-orange-600"] *,
+    button[class*="bg-amber-600"] *,
+    a[class*="bg-[#EA580C]"] *,
+    a[class*="bg-[#FF5A1F]"] *,
+    .word-chip.active-chip *,
+    .grade-btn-active *,
+    body.theme-day .btn-solid-accent *,
+    body.theme-day button[class*="bg-[#EA580C]"] *,
+    body.theme-day button[class*="bg-[#FF5A1F]"] *,
+    body.theme-day button[class*="bg-orange-500"] *,
+    body.theme-day button[class*="bg-orange-600"] *,
+    body.theme-day button[class*="bg-amber-600"] *,
+    body.theme-day a[class*="bg-[#EA580C]"] *,
+    body.theme-day a[class*="bg-[#FF5A1F]"] *,
+    body.theme-day .word-chip.active-chip *,
+    body.theme-day .grade-btn-active * {
+      color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
+    }
+
 
     /* Universal Mobile Readability Boost */
     html {
@@ -344,16 +473,16 @@
 
     /* Day Mode (Light Skin) Overrides */
     body.theme-day {
-      background-color: #F4F1EA !important;
-      color: #1C1917 !important;
+      background-color: #FAF8F3 !important;
+      color: #080908 !important;
     }
     body.theme-day .phone-mockup {
-      background-color: #F4F1EA !important;
-      border-color: #F4F1EA !important;
+      background-color: #FAF8F3 !important;
+      border-color: #FAF8F3 !important;
       box-shadow: none !important;
     }
     body.theme-day #screen-container {
-      background-color: #F4F1EA !important;
+      background-color: #FAF8F3 !important;
       color: #1C1917 !important;
     }
 
@@ -390,10 +519,9 @@
 
     /* ================= UNIVERSAL INVIOLABLE DAY MODE CONTRAST ARMOR ================= */
     /* 1. Eliminate White-on-White text completely */
-    body.theme-day .text-white,
-    body.theme-day [class*="text-white"],
-    body.theme-day strong.text-white,
-    body.theme-day span.text-white,
+    body.theme-day .text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
+    body.theme-day strong.text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
+    body.theme-day span.text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
     body.theme-day h1.text-white,
     body.theme-day h2.text-white,
     body.theme-day h3.text-white,
@@ -3031,7 +3159,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between gap-1 flex-nowrap">
           <div class="flex items-center gap-2 min-w-0 flex-1 pr-1">
-            <div onclick="handleLogoClick()" id="app-brand-logo-icon" class="w-8 h-8 rounded-xl bg-[#EA580C] flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5" title="ReadMath">
+            <div onclick="handleLogoClick()" id="app-brand-logo-icon" class="w-8 h-8 rounded-xl bg-[#EA580C] flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5 logo-461-icon" title="ReadMath">
               <svg class="w-5 h-5 text-white" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14 22V6C14 6 11 4.5 5 4.5C3.5 4.5 2 5 2 5V21C2 21 3.5 20.5 5 20.5C10 20.5 13 22 14 22Z" fill="rgba(255,255,255,0.08)" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M14 22V6C14 6 17 4.5 23 4.5C24.5 4.5 26 5 26 5V21C26 21 24.5 20.5 23 20.5C18 20.5 15 22 14 22Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -3079,9 +3207,9 @@
         
 
         <!-- 2-Column Responsive Body for Tablet/PC (Single Column on Mobile) with Aligned Top Starting Height -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 items-stretch pt-0.5">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6 items-stretch pt-0.5">
           <!-- Left Column: Photo Upload Box (Starts at exact same Y=0 top level as Right Column) -->
-          <div class="h-full flex flex-col">
+          <div class="md:col-span-5 h-full flex flex-col">
             <div id="drop-zone" onclick="triggerImagePicker()" class="border border-stone-800 hover:border-stone-700 rounded-2xl bg-slate-900/80 p-5 md:p-6 text-center flex flex-col items-center justify-center min-h-[260px] md:min-h-[290px] h-full cursor-pointer transition active:scale-98 group shadow-sm">
               <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center mb-2.5 group-hover:scale-110 transition">
                 <i data-lucide="camera" class="w-6 h-6 md:w-7 md:h-7 text-stone-200"></i>
@@ -3101,7 +3229,7 @@
           </div>
 
           <!-- Right Column: Dynamic Camera Home Guidance / Recent History Area (Starts at exact same Y=0 top level) -->
-          <div id="camera-home-guidance-container" class="h-full flex flex-col justify-start">
+          <div id="camera-home-guidance-container" class="md:col-span-7 h-full flex flex-col justify-start">
             <!-- Populated dynamically via updateCameraHomeCards() -->
           </div>
         </div>
@@ -4054,7 +4182,7 @@
             
           </div>
           <div class="flex items-center gap-2 pt-1">
-            <button onclick="triggerPwaInstall()" class="flex-1 bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition shadow-sm active:scale-98">
+            <button onclick="triggerPwaInstall()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition shadow-sm active:scale-98">
               <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
               <span>홈 화면에 바로가기 추가</span>
             </button>
@@ -4076,7 +4204,7 @@
               <p id="profile-display-name" class="text-sm font-extrabold text-white truncate">비회원 (체험 학생)</p>
               <p id="profile-display-sub" class="text-[11px] text-slate-400 truncate">고등학교 1학년 • 무료 3회 체험 모드</p>
             </div>
-            <button onclick="openModal('account-mgmt')" class="bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition shrink-0 whitespace-nowrap shadow-sm flex items-center gap-1">
+            <button onclick="openModal('account-mgmt')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg transition shrink-0 whitespace-nowrap shadow-sm flex items-center gap-1">
               <i data-lucide="settings" class="w-3.5 h-3.5"></i>
               <span>계정 관리</span>
             </button>
