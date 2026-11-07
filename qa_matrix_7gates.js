@@ -1795,6 +1795,51 @@ if (fs.existsSync('landing.html')) {
   gate8Details.push('Rule 1 Zero Invisible Text (Landing): Zero wildcard selectors & 100% scoped deep ink armor verified');
 }
 
+
+// 8.8 Rule 1: Universal Button Text Color Immunity in Day Mode
+if (htmlContent.includes('body.theme-day span:not([class*="bg-"]):not([class*="text-amber"])') && !htmlContent.includes(':not(button *)')) {
+  failGate(8, 'Day Mode Button Span Leak', 'preview.html must include :not(button *) in body.theme-day span selectors to prevent black text inside solid accent buttons');
+}
+if (!htmlContent.includes('body.theme-day button[class*="bg-[#EA580C]"] span') || !htmlContent.includes('stroke: #FFFFFF !important')) {
+  failGate(8, 'Accent Button High Specificity Armor', 'preview.html must enforce explicit high-specificity white text & stroke for button spans/icons in Day Mode');
+}
+gate8Details.push('Rule 1 Zero Invisible Text (Day Mode Buttons): :not(button *) exclusion and high-specificity white armor verified');
+
+// 8.9 Zero Duplicate Practice CTA Buttons
+if (htmlContent.includes('<button onclick="openTwinProblemModal()" class="w-full h-11 bg-[#EA580C]') && htmlContent.includes('solution-same-recipe-container')) {
+  // Check if both are adjacent in DOM
+  const idx1 = htmlContent.indexOf('solution-same-recipe-container');
+  const idx2 = htmlContent.indexOf('이 문제와 유사한 변형문제 풀기');
+  if (idx2 !== -1 && Math.abs(idx2 - idx1) < 400) {
+    failGate(8, 'Duplicate Practice CTA', 'preview.html must not stack duplicate twin problem practice buttons directly beneath same-recipe-container');
+  }
+}
+gate8Details.push('Zero Duplicate Practice Buttons: Single authoritative CTA inside Same Recipe verified');
+
+// 8.10 Socratic Step Progress Indicator Integrity
+if (!htmlContent.includes('사고 흐름 해금 진행도') || !htmlContent.includes('solution-progress-percent')) {
+  failGate(8, 'Progress Indicator Label Missing', 'preview.html must include clear label "사고 흐름 해금 진행도" and percentage badge');
+}
+if (htmlContent.includes('body.theme-day div[class*="bg-gradient-to-r"],') && !htmlContent.includes(':not(#solution-progress-bar)')) {
+  failGate(8, 'Progress Bar Gradient Neutralized', 'preview.html must exempt #solution-progress-bar from gradient neutralization to prevent hollow slot defect');
+}
+gate8Details.push('Socratic Progress Indicator: High-contrast orange track & live percentage verified');
+
+// 8.11 Zero Raw LaTeX / Leaked Coding Backslashes in Same Recipe
+if (htmlContent.includes("c.text.replace(/\$|\{|\}/g, '')")) {
+  failGate(8, 'Naive Regex Delimiter Stripping', 'preview.html must not use naive regex replace stripping $ and {} which exposes raw LaTeX backslashes');
+}
+gate8Details.push('Zero Raw LaTeX Leaks: Safe mathematical typesetting in Same Recipe verified');
+
+// 8.12 Genuine CSAT Mathematical Typesetting & Dynamic Provenance Card
+if (htmlContent.includes('[2x + t <= f(x) + f(t)]')) {
+  failGate(8, 'Raw Programming Operator Leaked', 'preview.html must use KaTeX $2x + t \le f(x) + f(t)$ instead of programming <=');
+}
+if (!htmlContent.includes('updateSourceProvenanceCard')) {
+  failGate(8, 'Static Source Provenance Card', 'preview.html must dynamically update source provenance card for each problem');
+}
+gate8Details.push('Genuine CSAT Math Typesetting: KaTeX \le formatting and dynamic source provenance verified');
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================

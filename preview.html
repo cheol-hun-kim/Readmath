@@ -497,8 +497,8 @@
     }
 
     /* Neutralize all dark gradient backgrounds on cards (EXCLUDING action buttons) */
-    body.theme-day div[class*="bg-gradient-to-r"],
-    body.theme-day div[class*="bg-gradient-to-b"],
+    body.theme-day div[class*="bg-gradient-to-r"]:not(#solution-progress-bar):not([id*="progress"]):not([class*="progress"]),
+    body.theme-day div[class*="bg-gradient-to-b"]:not(#solution-progress-bar):not([id*="progress"]):not([class*="progress"]),
     body.theme-day section[class*="bg-gradient-to-r"],
     body.theme-day section[class*="bg-gradient-to-b"] {
       background-image: none !important;
@@ -2214,7 +2214,7 @@
 
     /* ================= UNIVERSAL HIGH-CONTRAST DAY MODE ARMOR ================= */
     /* Neutralize all gradients on cards in Day Mode */
-    body.theme-day div[class*="bg-gradient-to-"]:not(button):not(.btn-gradient),
+    body.theme-day div[class*="bg-gradient-to-"]:not(button):not(.btn-gradient):not(#solution-progress-bar):not([id*="progress"]):not([class*="progress"]),
     body.theme-day section[class*="bg-gradient-to-"] {
       background-image: none !important;
       background-color: #FFFFFF !important;
@@ -3132,10 +3132,11 @@
       font-weight: 800 !important;
     }
 
-    body.theme-day p, body.day-mode p,
-    body.theme-day span:not([class*="bg-"]):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
-    body.day-mode span:not([class*="bg-"]):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
-    body.theme-day label, body.day-mode label {
+        body.theme-day p:not(button *):not(a *):not(.btn-solid-accent *),
+    body.day-mode p:not(button *):not(a *):not(.btn-solid-accent *),
+    body.theme-day span:not(button *):not(button):not(a *):not(a):not(.btn-solid-accent *):not([class*="bg-[#EA580C]"] *):not([class*="bg-orange"] *):not([class*="bg-amber"] *):not([class*="bg-emerald"] *):not([class*="bg-rose"] *):not([class*="bg-red"] *):not([class*="text-white"]):not(.text-white):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
+    body.day-mode span:not(button *):not(button):not(a *):not(a):not(.btn-solid-accent *):not([class*="bg-[#EA580C]"] *):not([class*="bg-orange"] *):not([class*="bg-amber"] *):not([class*="bg-emerald"] *):not([class*="bg-rose"] *):not([class*="bg-red"] *):not([class*="text-white"]):not(.text-white):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]),
+    body.theme-day label:not(button *), body.day-mode label:not(button *) {
       color: #0F172A !important;
     }
 
@@ -3174,18 +3175,38 @@
       color: #64748B !important;
     }
 
-    /* Unified Orange Buttons: White Crisp Text */
+        /* Unified Orange Buttons: White Crisp Text & Absolute Specificity Armor */
     body.theme-day button[class*="bg-[#EA580C]"],
     body.day-mode button[class*="bg-[#EA580C]"],
     body.theme-day button[class*="bg-orange-"],
-    body.day-mode button[class*="bg-orange-"] {
+    body.day-mode button[class*="bg-orange-"],
+    body.theme-day a[class*="bg-[#EA580C]"],
+    body.day-mode a[class*="bg-[#EA580C]"] {
       color: #FFFFFF !important;
     }
     body.theme-day button[class*="bg-[#EA580C]"] *,
     body.day-mode button[class*="bg-[#EA580C]"] *,
     body.theme-day button[class*="bg-orange-"] *,
-    body.day-mode button[class*="bg-orange-"] * {
+    body.day-mode button[class*="bg-orange-"] *,
+    body.theme-day a[class*="bg-[#EA580C]"] *,
+    body.day-mode a[class*="bg-[#EA580C]"] *,
+    body.theme-day button[class*="bg-[#EA580C]"] span,
+    body.day-mode button[class*="bg-[#EA580C]"] span,
+    body.theme-day button[class*="bg-[#EA580C]"] i,
+    body.day-mode button[class*="bg-[#EA580C]"] i,
+    body.theme-day button[class*="bg-[#EA580C]"] svg,
+    body.day-mode button[class*="bg-[#EA580C]"] svg {
       color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
+      fill: none !important;
+    }
+
+    /* Solution Socratic Progress Bar High Contrast Guarantee */
+    #solution-progress-bar,
+    body.theme-day #solution-progress-bar,
+    body.day-mode #solution-progress-bar {
+      background-color: #EA580C !important;
+      background-image: none !important;
     }
   </style>
 
@@ -3404,7 +3425,7 @@
             <div class="pt-1.5 border-t border-slate-800/80">
               <span class="text-[11px] text-slate-400 font-semibold block mb-1">변형 포인트 분석:</span>
               <p id="source-transform-point" class="text-[11px] text-slate-300 leading-relaxed font-medium">
-                원형 문항의 부등식 조건 [2x + t <= f(x) + f(t)]의 계수를 변형하여 극값의 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.
+                원형 문항의 부등식 조건 $2x + t \le f(x) + f(t)$의 계수를 변형하여 구간 $[t, \infty)$에서의 극값 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.
               </p>
             </div>
           </div>
@@ -3501,9 +3522,20 @@
             </button>
           </div>
 
-          <!-- Socratic Step Progress Bar -->
-          <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden border border-slate-800">
-            <div id="solution-progress-bar" class="bg-gradient-to-r from-orange-500 to-amber-400 h-1.5 rounded-full transition-all duration-300" style="width: 25%;"></div>
+                    <!-- Socratic Step Progress Indicator -->
+          <div class="w-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-2.5 space-y-1.5 shadow-xs">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-[11px] font-bold text-stone-600 dark:text-stone-300 flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                <span>사고 흐름 해금 진행도</span>
+              </span>
+              <span id="solution-progress-percent" class="text-[10.5px] font-extrabold text-[#EA580C] bg-orange-500/10 border border-orange-500/30 px-2 py-0.5 rounded-md">
+                25% 완료
+              </span>
+            </div>
+            <div class="w-full bg-stone-200 dark:bg-stone-800 rounded-full h-2 overflow-hidden">
+              <div id="solution-progress-bar" class="h-2 rounded-full transition-all duration-300" style="width: 25%; background-color: #EA580C !important;"></div>
+            </div>
           </div>
 
           <div id="solution-steps-container" class="space-y-2.5 w-full max-w-full min-w-0">
@@ -3534,11 +3566,7 @@
           </div>
         </div>
 
-        <!-- Action Button: Generate Twin Problem to Overcome Root Cause -->
-        <button onclick="openTwinProblemModal()" class="w-full h-11 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition border border-orange-400/40">
-          <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
-          <span>이 문제와 유사한 변형문제 풀기</span>
-        </button>
+        
 
         <!-- Teacher 1:1 Coaching Suite (출제자 유도 질문 대본 & 클리닉 교재 & 학부모 브리핑) -->
         <div id="teacher-coaching-card" class="hidden bg-slate-900 border-2 border-amber-500/60 rounded-2xl p-3.5 space-y-3 shadow-xl transition-all">
@@ -10853,7 +10881,7 @@
           },
           {
             id: "clause_2",
-            text: "P(X <= 4800+30a)를 표준정규분포표로 구한 값",
+            text: "$P(X \le 4800+30a)$를 표준정규분포표로 구한 값",
             meaning: "이항분포 $B(19200, 1/4)$를 정규분포 $N(4800, 60^2)$로 근사하고 $Z = 2.0$의 누적확률을 읽는 과정입니다.",
             trap: "표준편차 $\\sigma = \\sqrt{npq} = 60$ 계산 시 분산 $3600$에서 제곱근을 누락하는 실수.",
             prescriptions: {
@@ -11088,7 +11116,7 @@
         socratic_teaching_guide: {
           pro_tip: "원함수의 역함수를 직접 구하기 힘들 때는 $y=x$ 대칭을 적용해 정점과 직선의 관계로 시점을 뒤집으세요.",
           steps: [
-            { stage: "1단계 [관찰 발문]", prompt: "역함수가 증가함수라는 조건을 보면 |x|<=1에서 제곱을 벗길 때 부호가 어떻게 결정될까?", goal: "f^-1(x)의 구간별 함수식 확정" },
+            { stage: "1단계 [관찰 발문]", prompt: "역함수가 증가함수라는 조건을 보면 $|x| \le 1$에서 제곱을 벗길 때 부호가 어떻게 결정될까?", goal: "f^-1(x)의 구간별 함수식 확정" },
             { stage: "2단계 [유도 발문]", prompt: "점 (1, 0)을 지나는 직선과 y=f(x)의 교점을 y=x에 대칭이동하면 어떤 점과 y=f^-1(x)의 관계로 바뀌지?", goal: "(0, 1)에서의 접선으로의 전환 유도" },
             { stage: "3단계 [도출 발문]", prompt: "접선의 기울기 관계 (-t-1)e^(-t-1)=2와 b의 식을 연립하여 ln b / b의 값을 구하고 11을 도출해볼까?", goal: "불연속점과 식의 값 완성 (정답 11)" }
           ]
@@ -15690,8 +15718,25 @@ window.addEventListener('DOMContentLoaded', () => {
       let recipeCore = "핵심 원리 모델링 및 조건 분절 식 세우기";
       let similarity = "93% 동일 레시피";
 
-      if (data.core_clauses && data.core_clauses.length > 0) {
-        recipeCore = data.core_clauses.map(c => c.text.replace(/\$|\{|\}/g, '')).join(' 및 ') + " 결합 공식";
+            if (data.core_clauses && data.core_clauses.length > 0) {
+        const clauses = data.core_clauses.slice(0, 2).map(c => {
+          let txt = (c.text || '').trim();
+          // Remove trailing markers like '일 때', '의 조건' while keeping valid LaTeX math delimiters
+          txt = txt.replace(/\s*(?:일 때|의 원소 중 가장 큰 값이 \d+일 확률|조건)+$/g, '').trim();
+          return txt;
+        }).filter(Boolean);
+        if (clauses.length > 0) {
+          recipeCore = clauses.join(' 및 ') + " 결합 공식";
+        }
+      } else {
+        const title = data.title || '';
+        if (title.includes('삼차함수') || title.includes('접선')) {
+          recipeCore = "도함수의 기하학적 의미 및 접선 공식 $y - f(t) = f'(t)(x - t)$ 결합 원리";
+        } else if (title.includes('이차함수') || title.includes('최대')) {
+          recipeCore = "제한된 구간에서의 대칭축 위치 분류 및 이차함수 최대·최소 결합 원리";
+        } else if (title.includes('직선') || title.includes('수직')) {
+          recipeCore = "두 직선의 수직 조건 $m_1 m_2 = -1$ 및 좌표축 교점 결합 원리";
+        }
       }
 
       if (curGrade.includes('고3') || curGrade.includes('N수')) {
@@ -15853,6 +15898,8 @@ window.addEventListener('DOMContentLoaded', () => {
           // Render All Sub-Questions Sequentially
           if (progressBadge) progressBadge.innerText = `소문항 전체 (${data.sub_questions.length}문항)`;
           if (progressBar) progressBar.style.width = '100%';
+          const pctEl = document.getElementById('solution-progress-percent');
+          if (pctEl) pctEl.innerText = '100% 완료';
           if (toggleModeLabel) toggleModeLabel.innerText = '단계별 해금 모드';
 
           stepsContainer.innerHTML = data.sub_questions.map(sq => {
@@ -15990,6 +16037,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (progressBar) {
           const pct = state.isFullSolutionMode ? 100 : Math.round((Math.min(effectiveUnlocked, totalSteps) / totalSteps) * 100);
           progressBar.style.width = `${pct}%`;
+          const pctEl = document.getElementById('solution-progress-percent');
+          if (pctEl) pctEl.innerText = `${pct}% 완료`;
         }
         if (toggleModeLabel) {
           toggleModeLabel.innerText = state.isFullSolutionMode ? '단계별 해금 모드' : '전체 풀이 펼치기';
@@ -16260,7 +16309,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 <button type="button" onclick="handleSameRecipePractice(${recipe.twin_id || 'currentProblemId'})" class="w-full h-11 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition border border-orange-400/40">
                   <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
-                  <span>동일 레시피 기출문제 바로 연습하기 →</span>
+                  <span class="text-white font-extrabold">동일 레시피 기출문제 바로 연습하기 →</span>
                 </button>
               </div>
             `;
@@ -16827,6 +16876,51 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // ================= DYNAMIC PROBLEM VIEW RENDERER =================
+    
+    function updateSourceProvenanceCard(data) {
+      if (!data) return;
+      const titleEl = document.getElementById('source-matched-title');
+      const bookEl = document.getElementById('source-matched-book');
+      const pointEl = document.getElementById('source-transform-point');
+      if (!titleEl || !bookEl || !pointEl) return;
+
+      const probId = String(data.id || (typeof currentProblemId !== 'undefined' ? currentProblemId : 1));
+      const grade = data.curriculum_grade || '고교';
+
+      if (probId === '1' || (data.title && data.title.includes('삼차함수'))) {
+        titleEl.innerText = "2026학년도 수능 공통 15번 킬러 원형 변형";
+        bookEl.innerText = "EBS 수능특강 수학 II / 전국연합 학력평가 기출 총괄서";
+        pointEl.innerHTML = "원형 문항의 부등식 조건 $2x + t \\le f(x) + f(t)$의 계수를 변형하여 구간 $[t, \\infty)$에서의 극값 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.";
+      } else if (probId === '2' || (data.title && (data.title.includes('이차함수') || data.title.includes('최대')))) {
+        titleEl.innerText = "전국연합학력평가 고1 수학 21번 킬러 원형 변형";
+        bookEl.innerText = "EBS 올림포스 고난도 / 교육청 학력평가 기출 총괄서";
+        pointEl.innerHTML = "제한된 구간 $[0, 2]$에서 이차함수 $f(x) = -x^2 + 2ax + 1$의 대칭축 $x = a$의 위치에 따른 최댓값 $5$의 분류 조건을 정밀 변형한 문항입니다.";
+      } else if (probId === '3' || (data.title && data.title.includes('직선'))) {
+        titleEl.innerText = "전국연합학력평가 고1 공통수학 14번 원형 변형";
+        bookEl.innerText = "EBS 수능기출의 미래 / 고교 수학 표준 문제집";
+        pointEl.innerHTML = "두 직선 $2x + y + 1 = 0$과 $x - 2y + k = 0$의 수직 조건($m_1 m_2 = -1$)과 $x$축 교점 조건을 통합한 문항입니다.";
+      } else {
+        const examYear = '2025·2026학년도';
+        let gradeLabel = grade.includes('고3') ? '수능·평가원 공통 킬러' : (grade.includes('고2') ? '교육청 학평 고난도' : '전국연합 학력평가');
+        titleEl.innerText = `${examYear} ${gradeLabel} 원형 변형`;
+        bookEl.innerText = `EBS 수능 연계 교재 / ${grade} 표준 기출 총괄서`;
+
+        let keyClause = '';
+        if (data.core_clauses && data.core_clauses[0] && data.core_clauses[0].text) {
+          keyClause = data.core_clauses[0].text;
+        }
+        if (keyClause) {
+          pointEl.innerHTML = `원형 문항의 핵심 조건 ${autoFormatMathText(keyClause)}의 수치와 출제 구조를 재구성하여 사고력 독해 과정을 평가하는 맞춤 변형 문항입니다.`;
+        } else {
+          pointEl.innerHTML = "수능·평가원 출제 원리를 바탕으로 문제의 껍데기를 변형하고 본질적 수학 개념 독해 알고리즘을 이식한 정밀 변형 문항입니다.";
+        }
+      }
+
+      if (typeof renderMathElements === 'function') {
+        renderMathElements(pointEl);
+      }
+    }
+
     function openHistoryProblem(id, navigate = true) {
       try {
         currentProblemId = id;
@@ -17000,6 +17094,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         if (typeof updatePreemptiveRadar === 'function') {
           try { updatePreemptiveRadar(id); } catch (e) { console.error('updatePreemptiveRadar error:', e); }
+        }
+        if (typeof updateSourceProvenanceCard === 'function') {
+          try { updateSourceProvenanceCard(data); } catch (e) { console.error('updateSourceProvenanceCard error:', e); }
         }
         if (typeof updateTeacherCoachingBox === 'function') {
           try { updateTeacherCoachingBox(id); } catch (e) { console.error('updateTeacherCoachingBox error:', e); }
