@@ -205,6 +205,20 @@
 
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap');
     * { font-family: 'Pretendard', sans-serif; user-select: none; word-break: keep-all; }
+    h1, h2, h3, h4, h5, h6, .headline, .card-title, .section-title {
+      text-wrap: balance;
+      word-break: keep-all;
+    }
+    p, .leading-relaxed, .text-content, .solution-step-paragraph {
+      text-wrap: pretty;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    /* Permanent protection against dead-clicks caused by hidden overlays */
+    .hidden, [hidden] {
+      display: none !important;
+      pointer-events: none !important;
+    }
     button {
       white-space: normal;
       word-break: keep-all;

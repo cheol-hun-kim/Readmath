@@ -1868,6 +1868,24 @@ if (!htmlContent.includes('body.theme-day .text-rose-400') || !htmlContent.inclu
 }
 gate8Details.push('Universal Status Badge Contrast: 100% of pastel badges (emerald, amber, rose) shift to deep editorial ink with WCAG AA compliance in Day Mode');
 
+// 8.16 Universal Orphan Word Armor (Charter Article 3 & Rule 3)
+if (!htmlContent.includes('text-wrap: balance') || !htmlContent.includes('text-wrap: pretty') || !htmlContent.includes('word-break: keep-all')) {
+  failGate(8, 'Orphan Word Armor Missing', 'preview.html must enforce text-wrap: balance on headlines, text-wrap: pretty on body, and word-break: keep-all globally');
+}
+gate8Details.push('Universal Orphan Word Armor: text-wrap balance/pretty and word-break keep-all active across all typography');
+
+// 8.17 Overlay Dead-Click Immunity (Charter Article 5 & Rule 9)
+if (!htmlContent.includes('pointer-events: none !important') || !htmlContent.includes('.hidden, [hidden]')) {
+  failGate(8, 'Overlay Dead-Click Vulnerability', 'preview.html must enforce pointer-events: none and display: none on .hidden / [hidden] layers to prevent dead clicks');
+}
+gate8Details.push('Overlay Dead-Click Immunity: Closed modals & hidden overlays 100% isolated with pointer-events: none');
+
+// 8.18 KaTeX Error Resilience & Math Protection (Charter Article 4 & Rule 8)
+if (!htmlContent.includes('throwOnError: false') || !htmlContent.includes('.katex *')) {
+  failGate(8, 'KaTeX Error Resilience Missing', 'preview.html must configure throwOnError: false and protect KaTeX elements from letter-by-letter collapse');
+}
+gate8Details.push('KaTeX Error Resilience: throwOnError: false fallback and zero vertical letter collapse guaranteed');
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================
