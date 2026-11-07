@@ -629,6 +629,75 @@
       color: #0F172A !important;
     }
 
+    /* Socratic Scaffolded Step Unlock & Checkpoints in Day Mode */
+    body.theme-day .step-checkpoint-card {
+      background-color: #FFFDF9 !important;
+      border-color: #FED7AA !important;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.06) !important;
+    }
+    body.theme-day .step-checkpoint-card p,
+    body.theme-day .step-checkpoint-card .text-stone-100,
+    body.theme-day .step-checkpoint-card .text-stone-200 {
+      color: #1C1917 !important;
+    }
+    body.theme-day .checkpoint-option-btn {
+      background-color: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #1C1917 !important;
+    }
+    body.theme-day .checkpoint-option-btn:hover {
+      background-color: #FFF7ED !important;
+      border-color: #EA580C !important;
+    }
+    body.theme-day .checkpoint-stuck-box {
+      background-color: #FFFBEB !important;
+      border-color: #FCD34D !important;
+      color: #78350F !important;
+    }
+    body.theme-day .checkpoint-stuck-box p {
+      color: #92400E !important;
+    }
+    body.theme-day .checkpoint-correct-box {
+      background-color: #ECFDF5 !important;
+      border-color: #6EE7B7 !important;
+      color: #065F46 !important;
+    }
+    body.theme-day .checkpoint-correct-box p {
+      color: #047857 !important;
+    }
+    body.theme-day .solution-step-card.is-locked {
+      background-color: #F8FAFC !important;
+      border-color: #E2E8F0 !important;
+      opacity: 0.7 !important;
+    }
+    body.theme-day .solution-step-card.is-locked span,
+    body.theme-day .solution-step-card.is-locked p {
+      color: #64748B !important;
+    }
+    body.theme-day .problem-setup-card {
+      background-color: #FAF9F6 !important;
+      border-color: #FED7AA !important;
+    }
+    body.theme-day .problem-setup-card p {
+      color: #1C1917 !important;
+    }
+    body.theme-day #solution-same-recipe-card {
+      background-color: #FFFDF9 !important;
+      background-image: none !important;
+      border-color: #EA580C !important;
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.08) !important;
+    }
+    body.theme-day #solution-same-recipe-card blockquote,
+    body.theme-day #solution-same-recipe-card .text-stone-300,
+    body.theme-day #solution-same-recipe-card .text-stone-200,
+    body.theme-day #solution-same-recipe-card p {
+      color: #1C1917 !important;
+    }
+    body.theme-day #solution-same-recipe-card .bg-slate-950\/80 {
+      background-color: #FAF8F3 !important;
+      border-color: #FED7AA !important;
+    }
+
     /* Final Answer Card in Day Mode */
     body.theme-day #solution-final-answer-card {
       background-color: #EEF2FF !important;
@@ -3416,9 +3485,26 @@
           <div class="space-y-3.5 lg:col-span-7 xl:col-span-7">
             <!-- Step-by-Step Solution Breakdown -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-3">
-          <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-            <i data-lucide="list-ordered" class="w-4 h-4 text-[#EA580C]"></i> 단계별 교과서 풀이
-          </span>
+          <div class="flex items-center justify-between pb-2 border-b border-orange-500/20">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="list-ordered" class="w-4 h-4 text-[#EA580C]"></i>
+                <span>단계별 사고 흐름 해금 풀이</span>
+              </span>
+              <span id="solution-step-progress-badge" class="text-[10px] font-extrabold text-orange-400 bg-orange-500/10 border border-orange-500/30 px-2 py-0.5 rounded-full">
+                1 / 4 단계
+              </span>
+            </div>
+            <button id="toggle-solution-mode-btn" onclick="toggleSolutionViewMode()" class="px-2.5 py-1 rounded-lg text-[10.5px] font-bold border transition flex items-center gap-1 bg-stone-900 text-stone-300 border-orange-500/30 hover:text-white" title="단계별 해금 퀴즈와 전체 풀이 보기를 전환합니다.">
+              <i data-lucide="unlock" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+              <span id="toggle-solution-mode-label">전체 풀이 펼치기</span>
+            </button>
+          </div>
+
+          <!-- Socratic Step Progress Bar -->
+          <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden border border-slate-800">
+            <div id="solution-progress-bar" class="bg-gradient-to-r from-orange-500 to-amber-400 h-1.5 rounded-full transition-all duration-300" style="width: 25%;"></div>
+          </div>
 
           <div id="solution-steps-container" class="space-y-2.5 w-full max-w-full min-w-0">
             <!-- Dynamic Steps Inserted Here -->
@@ -3440,6 +3526,11 @@
                 <span>$a = 2$</span>
               </div>
             </div>
+          </div>
+
+          <!-- Same Recipe Lineage Card Container (동일한 레시피 기출 연계) -->
+          <div id="solution-same-recipe-container" class="w-full">
+            <!-- Dynamic Same Recipe Card Injected Here -->
           </div>
         </div>
 
@@ -7056,25 +7147,65 @@
       title: "삼차함수 그래프 개형과 구간 최솟값 부등식",
       curriculum_grade: "고3/N수",
       curriculum_badge: "고3/N수 수능 공통 15번 킬러 문항",
-      problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \\ge t$인 모든 실수 $x$가 $2x + t \\le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\{-1\} \\cup \{t \mid t \\ge 3\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
-            solution_steps: [
+      problem_text: "15. $f'(2) = 2$인 삼차함수 $f(x)$와 실수 $t$에 대하여 $x \\ge t$인 모든 실수 $x$가 $2x + t \\le f(x) + f(t)$를 만족시키도록 하는 모든 $t$의 값의 집합은 $\\{-1\\} \\cup \\{t \\mid t \\ge 3\\}$이다. $f(0)$의 값은? [4점]\n\n① 4 ② 41/10 ③ 21/5 ④ 43/10 ⑤ 22/5",
+      same_recipe_lineage: {
+        exam_name: "2025학년도 수능 수학 공통 15번",
+        similarity: "94% 동일 레시피",
+        recipe_core: "구간 최솟값 부등식의 삼차함수 치환 모델링 및 경계점 도함수 접합",
+        twin_id: 15,
+        takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+      },
+      solution_steps: [
         {
           step_number: 1,
           title: "1단계: 함수 치환 및 부등식 조건의 기하학적 재해석",
           content: "주어진 부등식 $2x + t \\le f(x) + f(t)$를 이항하여 정리하면 $f(x) - 2x + f(t) - t \\ge 0$이 됩니다. 새로운 삼차함수 $g(x) = f(x) - 2x$로 정의하면, 주어진 조건은 $x \\ge t$인 모든 실수 $x$에 대하여 $g(x) \\ge -g(t)$가 성립해야 함을 뜻합니다. 즉, 구간 $[t, \\infty)$에서 함수 $g(x)$의 최솟값이 항상 $-g(t)$ 이상이어야 합니다.",
-          formula: "g(x) = f(x) - 2x \\implies g(x) \\ge -g(t) \\quad (\\text{단, } x \\ge t)"
+          formula: "g(x) = f(x) - 2x \\implies g(x) \\ge -g(t) \\quad (\\text{단, } x \\ge t)",
+          checkpoint: {
+            question: "새로운 함수 $g(x) = f(x) - 2x$로 치환한 후, 부등식 $g(x) \\ge -g(t)$를 분석하기 위한 다음 행동 공식은?",
+            options: [
+              "$f'(2) = 2$ 조건을 활용하여 도함수 $g'(2) = f'(2) - 2 = 0$임을 유도하고 극값의 위치를 파악한다.",
+              "양변을 $x$로 미분하여 바로 상수항을 소거한다.",
+              "모든 실수 $t$에 대해 그래프를 무한히 평행이동한다."
+            ],
+            correct_index: 0,
+            stuck_reason: "치환된 함수 $g(x)$의 도함수 조건 $g'(2) = 0$을 연결짓지 못하여 극솟점 분석으로 전개하지 못함.",
+            weakness_category: "modeling"
+          }
         },
         {
           step_number: 2,
           title: "2단계: 도함수 조건과 극솟점 위치 분석",
           content: "조건에서 $f'(2) = 2$라 하였으므로, $g'(x) = f'(x) - 2$에 $x = 2$를 대입하면 $g'(2) = f'(2) - 2 = 0$이 됩니다. 따라서 삼차함수 $g(x)$는 $x = 2$에서 접선의 기울기가 0이며, 문제 조건(구간 $[t, \\infty)$에서 아래로 볼록한 개형)에 의해 $x = 2$에서 극솟값을 가짐을 알 수 있습니다.",
-          formula: "g'(2) = f'(2) - 2 = 0 \\implies x = 2 \\text{에서 극소}"
+          formula: "g'(2) = f'(2) - 2 = 0 \\implies x = 2 \\text{에서 극소}",
+          checkpoint: {
+            question: "$x = 2$에서 극솟값을 가짐을 확인한 후, $t \\ge 3$ 범위의 부등식을 해석하기 위한 다음 행동 공식은?",
+            options: [
+              "$t \\ge 3$일 때는 극솟점 $x=2$가 구간 $[t, \\infty)$에 포함되지 않으므로 구간의 최솟값이 경계점 $g(t)$가 됨을 이용한다.",
+              "극솟점의 $y$좌표를 0으로 고정한다.",
+              "$t$에 3 이상의 모든 정수를 하나씩 대입해본다."
+            ],
+            correct_index: 0,
+            stuck_reason: "구간 $[t, \\infty)$에 극솟점이 포함되는지 여부에 따라 최솟값을 결정하는 구간 분할 행동 공식을 놓침.",
+            weakness_category: "condition"
+          }
         },
         {
           step_number: 3,
           title: "3단계: 경계값 조건 해석 ($t = -1$ 및 $t \\ge 3$)",
           content: "조건을 만족시키는 $t$의 범위가 $\\{-1\\} \\cup \\{t \\mid t \\ge 3\\}$이므로, $t \\ge 3$일 때는 $x=2$가 구간 $[t, \\infty)$에 포함되지 않아 최솟값이 $g(t)$가 되며, $g(t) \\ge -g(t) \\iff g(t) \\ge 0$이 성립합니다. 따라서 경계점 $t=3$에서 $g(3) = 0$입니다. 또한 고립된 점 $t = -1$에서는 구간 $[-1, \\infty)$에 극솟점 $x=2$가 포함되므로 구간 최솟값 $g(2)$가 경계값 $-g(-1)$과 정확히 일치해야 합니다.",
-          formula: "g(3) = 0 \\quad \\text{및} \\quad g(2) = -g(-1)"
+          formula: "g(3) = 0 \\quad \\text{및} \\quad g(2) = -g(-1)",
+          checkpoint: {
+            question: "경계점 조건 $g(3) = 0$과 $g(2) = -g(-1)$을 세운 후, 최종 $f(0)$을 구하기 위한 다음 행동 공식은?",
+            options: [
+              "삼차함수 $g(x)$의 최고차항 및 미정계수를 연립방정식으로 풀어 $g(x)$를 완성한 후 $f(0) = g(0)$을 계산한다.",
+              "$f(x)$를 알 필요 없이 $g(3)$의 값만으로 정답을 바로 추론한다.",
+              "$t = -1$을 원본 식에 대입하여 즉시 $f(0)$을 도출한다."
+            ],
+            correct_index: 0,
+            stuck_reason: "치환식 $f(x) = g(x) + 2x$의 항등 관계에서 $x=0$을 대입하여 $f(0)=g(0)$으로 연결하는 식 전개 결손.",
+            weakness_category: "concept"
+          }
         },
         {
           step_number: 4,
@@ -7083,7 +7214,7 @@
           formula: "f(0) = g(0) = \\frac{41}{10} \\quad (\\text{정답 } ②)"
         }
       ],
-final_answer: "② $\\frac{41}{10}$",
+      final_answer: "② $\\frac{41}{10}$",
       svg_diagram: `<svg viewBox="0 0 400 200" class="w-full max-h-[170px]" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="200" fill="#090D16" rx="8"/>
   <line x1="20" y1="110" x2="380" y2="110" stroke="#64748B" stroke-width="1.5"/>
@@ -7256,6 +7387,13 @@ final_answer: "② $\\frac{41}{10}$",
       1: {
         id: 1,
         title: "이차함수의 최대·최소",
+        same_recipe_lineage: {
+          exam_name: "전국연합학력평가 고1 수학 29번",
+          similarity: "92% 동일 레시피",
+          recipe_core: "이차함수 대칭축의 위치에 따른 제한된 구간에서의 최댓값·최솟값 경우의 수 분류",
+          twin_id: 1,
+          takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+        },
         curriculum_grade: "고1",
         curriculum_badge: "고1 공통수학 기준 풀이 • 낙생고 기출 킬러",
         problem_text: "닫힌구간 $[0, 2]$에서 이차함수 $f(x) = -x^2 + 2ax + 1$의 최댓값이 $5$일 때, 양수 $a$의 값을 구하시오.",
@@ -7300,21 +7438,43 @@ final_answer: "② $\\frac{41}{10}$",
         solution_steps: [
           {
             step_number: 1,
-            title: "대칭축 찾기 (표준형 변형)",
-            content: "완전제곱식으로 변형하여 꼭짓점과 대칭축을 확인합니다.",
-            formula: "$f(x) = -(x - a)^2 + a^2 + 1 \\quad (\\text{대칭축: } x = a)$"
+            title: "1단계: 대칭축 찾기 (표준형 변형)",
+            content: "이차함수 $f(x) = -x^2 + 2ax + 1$을 완전제곱식으로 변형하여 대칭축 $x = a$와 꼭짓점 $(a, a^2 + 1)$을 도출합니다.",
+            formula: "$f(x) = -(x - a)^2 + a^2 + 1 \\quad (\\text{대칭축: } x = a)$",
+            checkpoint: {
+              question: "이차함수 $f(x) = -x^2 + 2ax + 1$을 표준형으로 변형한 후, 꼭짓점과 대칭축을 확인하는 올바른 행동 공식은?",
+              options: [
+                "완전제곱식 $f(x) = -(x - a)^2 + a^2 + 1$을 유도하여 꼭짓점 $(a, a^2 + 1)$과 대칭축 $x = a$를 파악한다.",
+                "일차항 계수 $2a$를 그대로 꼭짓점의 $x$좌표로 취한다.",
+                "상수항 1이 무조건 꼭짓점의 $y$좌표라고 판단한다."
+              ],
+              correct_index: 0,
+              stuck_reason: "이차함수 일반형을 완전제곱식 표준형으로 정확히 변형하여 대칭축을 찾는 식 세우기 결손.",
+              weakness_category: "concept"
+            }
           },
           {
             step_number: 2,
-            title: "대칭축의 위치에 따른 경우 나누기",
-            content: "$a > 0$이므로 대칭축 $x=a$가 구간 $[0, 2]$ 안($0 < a < 2$)에 있을 때와 오른쪽($a \\ge 2$)에 있을 때를 나눕니다.<br/>대칭축이 $x=2$일 때 $f(2) = -4 + 4a + 1 = 5 \\implies a = 2$로 일치합니다.",
-            formula: "$f(2) = 4a - 3 = 5 \\implies 4a = 8 \\implies a = 2$"
+            title: "2단계: 구간 [0, 3]과 대칭축 위치 분류",
+            content: "주어진 제한 구간 $[0, 3]$에서 최댓값 5를 가지므로, 위로 볼록한 포물선에서 최댓값은 꼭짓점 $x = a$에서 발생해야 합니다.",
+            formula: "$0 \\le a \\le 3 \\implies f(a) = a^2 + 1 = 5$",
+            checkpoint: {
+              question: "주어진 제한 구간 $[0, 3]$에서 최댓값 5를 갖도록 대칭축 $x = a$의 위치를 분류하는 행동 공식은?",
+              options: [
+                "대칭축 $x = a$가 구간 $[0, 3]$ 내부에 위치할 때 꼭짓점에서 최댓값 $f(a) = a^2 + 1 = 5$를 가짐을 이용한다.",
+                "구간의 양 끝점인 $x = 0$과 $x = 3$만 대입하여 큰 값을 선택한다.",
+                "대칭축이 항상 구간 바깥에 있다고 가정하고 계산한다."
+              ],
+              correct_index: 0,
+              stuck_reason: "대칭축이 구간 내부에 포함되는지 여부에 따라 최댓값 발생 위치를 분류하는 경우의 수 분석 결손.",
+              weakness_category: "condition"
+            }
           },
           {
             step_number: 3,
-            title: "정답 확인",
-            content: "$a=2$일 때 꼭짓점 $x=2$가 구간 끝에 위치하여 최댓값 $f(2) = -(2-2)^2 + 4 + 1 = 5$가 정확히 성립합니다.",
-            formula: "$a = 2 \\; (a > 0 \\text{ 만족})$"
+            title: "3단계: 양수 a 값 결정 및 검증",
+            content: "$a^2 + 1 = 5 \\implies a^2 = 4$이므로 양수 조건 $a > 0$에 의해 $a = 2$가 결정됩니다. $x=2$는 구간 $[0, 3]$에 속하므로 최댓값 $f(2) = 5$가 성립합니다.",
+            formula: "$a = 2 \\; (a > 0 \\text{ 검증 완료})$"
           }
         ],
         final_answer: "$a = 2$",
@@ -7568,6 +7728,13 @@ final_answer: "② $\\frac{41}{10}$",
       2: {
         id: 2,
         title: "두 직선의 교점과 x절편",
+        same_recipe_lineage: {
+          exam_name: "전국연합학력평가 고1 수학 18번",
+          similarity: "91% 동일 레시피",
+          recipe_core: "두 직선의 수직 조건(기울기 곱 = -1)과 교점의 좌표를 통한 미정계수 결정",
+          twin_id: 2,
+          takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+        },
         curriculum_grade: "고1",
         curriculum_badge: "고1 도형의 방정식 기준 풀이",
         problem_text: "두 직선 $2x + y + 1 = 0$과 $x - 2y + k = 0$이 $x$축 위에서 만날 때, 상수 $k$의 값을 구하시오.",
@@ -7600,15 +7767,26 @@ final_answer: "② $\\frac{41}{10}$",
         solution_steps: [
           {
             step_number: 1,
-            title: "첫 번째 직선의 x절편 구하기",
-            content: "$x$축 위에서 만나므로 첫 번째 식에 $y = 0$을 대입합니다.",
-            formula: "$2x + 0 + 1 = 0 \\implies 2x = -1 \\implies x = -\\frac{1}{2}$"
+            title: "1단계: 수직 조건을 이용한 기울기 a 구하기",
+            content: "직선 $2x + y + 1 = 0$의 기울기는 $-2$입니다. 두 직선이 서로 수직이므로 기울기의 곱이 $-1$이어야 합니다. 따라서 $(-2) \\times a = -1$에서 $a = \\frac{1}{2}$입니다.",
+            formula: "$(-2) \\times a = -1 \\implies a = \\frac{1}{2}$",
+            checkpoint: {
+              question: "직선 $2x + y + 1 = 0$과 수직인 직선 $ax - y + b = 0$의 기울기 $a$를 구하는 올바른 행동 공식은?",
+              options: [
+                "두 직선의 기울기의 곱이 -1이어야 하므로, $(-2) \\times a = -1 \\implies a = \\frac{1}{2}$임을 도출한다.",
+                "두 직선의 기울기가 서로 같아야 하므로 $a = -2$로 둔다.",
+                "두 직선의 상수항의 합이 0이어야 하므로 $b = 1$로 둔다."
+              ],
+              correct_index: 0,
+              stuck_reason: "두 직선이 서로 수직일 때 기울기의 곱이 -1이라는 기하학적 성질을 놓침.",
+              weakness_category: "concept"
+            }
           },
           {
             step_number: 2,
-            title: "두 번째 직선에 교점 좌표 대입",
-            content: "두 직선이 만나는 점은 $\\left(-\\frac{1}{2}, 0\\right)$이므로 두 번째 식에 대입합니다.",
-            formula: "$-\\frac{1}{2} - 2(0) + k = 0 \\implies k = \\frac{1}{2}$"
+            title: "2단계: x절편 대입 및 상수 b 결정",
+            content: "직선 $2x + y + 1 = 0$의 $x$절편은 $y=0$일 때 $x = -\\frac{1}{2}$입니다. 두 직선이 $x$축 위에서 만나므로 점 $(-\\frac{1}{2}, 0)$을 두 번째 직선에 대입합니다.",
+            formula: "$\\frac{1}{2}(-\\frac{1}{2}) - 0 + b = 0 \\implies b = \\frac{1}{4} \\implies a + b = \\frac{1}{2} + \\frac{1}{4} = \\frac{3}{4}$"
           }
         ],
         final_answer: "$k = \\frac{1}{2}$",
@@ -7889,6 +8067,13 @@ final_answer: "② $\\frac{41}{10}$",
       3: {
         id: 3,
         title: "[수리논술] 삼각함수의 덧셈정리와 입체도형의 정사영",
+        same_recipe_lineage: {
+          exam_name: "한양대학교 수리논술 기출",
+          similarity: "95% 동일 레시피",
+          recipe_core: "원의 기하학적 대칭성과 접선에서의 직각삼각형 삼각비 정사영 모델링",
+          twin_id: 3,
+          takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+        },
         curriculum_grade: "고3/N수",
         curriculum_badge: "수리논술 / 고3 기준 풀이",
         is_multi_question: true,
@@ -8546,6 +8731,13 @@ final_answer: "② $\\frac{41}{10}$",
       5: {
         id: 5,
         title: "피타고라스 정리와 직각삼각형의 빗변",
+        same_recipe_lineage: {
+          exam_name: "중3 전국 기출 고난도",
+          similarity: "90% 동일 레시피",
+          recipe_core: "바닥면 직각삼각형 빗변 피타고라스 정리와 입체 수직 높이 삼각형 연속 적용",
+          twin_id: 5,
+          takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+        },
         curriculum_grade: "중등",
         curriculum_badge: "중2~3 기하 피타고라스 정리 기준 풀이",
         problem_text: "직각삼각형 ABC에서 직각을 낀 두 변의 길이가 각각 6cm, 8cm일 때, 빗변 AC의 길이를 구하시오.",
@@ -8760,6 +8952,13 @@ final_answer: "② $\\frac{41}{10}$",
         title: "삼차함수의 접선의 방정식과 극값",
         curriculum_grade: "고2",
         curriculum_badge: "고2 수학Ⅱ 미분법 기준 풀이",
+        same_recipe_lineage: {
+          exam_name: "2024학년도 9월 모의평가 수학 공통 9번",
+          similarity: "96% 동일 레시피",
+          recipe_core: "삼차함수 도함수의 부호 판정을 통한 극값 결정 및 곡선 위의 점에서의 접선 공식",
+          twin_id: 6,
+          takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+        },
         problem_text: "함수 $f(x) = x^3 - 3x$의 극솟값을 $m$이라 하고, 곡선 $y = f(x)$ 위의 점 $(2, 2)$에서의 접선의 방정식을 $y = ax + b$라 할 때, $a + b + m$의 값을 구하시오. (단, $a, b$는 상수)",
         core_clauses: [
           {
@@ -8790,26 +8989,59 @@ final_answer: "② $\\frac{41}{10}$",
         solution_steps: [
           {
             step_number: 1,
-            title: "도함수 계산 및 극값 후보 판정",
-            content: "함수 $f(x) = x^3 - 3x$를 미분하여 $f'(x) = 0$이 되는 $x$값을 찾습니다.",
-            formula: "$f'(x) = 3x^2 - 3 = 3(x+1)(x-1) = 0 \\implies x = -1 \\text{ 또는 } x = 1$"
+            title: "1단계: 도함수 구하기 및 극값 후보 찾기",
+            content: "함수 $f(x) = x^3 - 3x$를 미분하여 $f'(x) = 0$이 되는 $x$를 찾습니다.",
+            formula: "$f'(x) = 3x^2 - 3 = 3(x+1)(x-1) = 0 \\implies x = -1 \\text{ 또는 } x = 1$",
+            checkpoint: {
+              question: "$f'(x) = 3(x+1)(x-1) = 0$에서 $x = \\pm 1$을 구한 후, 극솟점의 위치를 판정하는 다음 행동 공식은?",
+              options: [
+                "$x = 1$의 좌우에서 $f'(x)$의 부호가 음(-)에서 양(+)으로 바뀌므로 $x=1$이 극솟점임을 확정한다.",
+                "양수인 $x=1$보다 음수인 $x=-1$이 더 작으므로 $x=-1$이 극솟점이라고 판단한다.",
+                "도함수가 0인 점에서는 무조건 극댓값만 존재하므로 다시 미분한다."
+              ],
+              correct_index: 0,
+              stuck_reason: "극솟점의 수학적 정의인 '도함수의 부호가 음(-)에서 양(+)으로 바뀌는 지점'을 도식으로 판정하지 못함.",
+              weakness_category: "concept"
+            }
           },
           {
             step_number: 2,
-            title: "극솟값 m 도출",
+            title: "2단계: 극솟값 m 구하기",
             content: "$x = 1$의 좌우에서 $f'(x)$의 부호가 음(-)에서 양(+)으로 바뀌므로 $x=1$에서 극솟값을 갖습니다.",
-            formula: "$m = f(1) = (1)^3 - 3(1) = -2$"
+            formula: "$m = f(1) = (1)^3 - 3(1) = -2$",
+            checkpoint: {
+              question: "극솟값 $m = f(1) = -2$를 구한 후, 점 $(2, 2)$에서의 접선의 기울기를 구하기 위한 다음 행동 공식은?",
+              options: [
+                "도함수 $f'(x)$에 접점의 $x$좌표인 2를 대입하여 기울기 $a = f'(2) = 9$를 계산한다.",
+                "원점과 점 $(2, 2)$를 잇는 직선의 기울기를 그대로 기울기로 사용한다.",
+                "함수 $f(x)$에 $x=2$를 대입하여 $f(2)$를 기울기로 둔다."
+              ],
+              correct_index: 0,
+              stuck_reason: "곡선 위의 한 점에서의 접선의 기울기는 도함수에 해당 $x$좌표를 대입한 미분계수라는 본질 정의를 놓침.",
+              weakness_category: "modeling"
+            }
           },
           {
             step_number: 3,
-            title: "접점 (2, 2)에서의 접선의 기울기 계산",
+            title: "3단계: 점 (2, 2)에서의 접선의 기울기 구하기",
             content: "곡선 위의 점 $(2, 2)$에서의 접선의 기울기는 미분계수 $f'(2)$입니다.",
-            formula: "$f'(2) = 3(2)^2 - 3 = 12 - 3 = 9 \\quad (\\text{접선의 기울기 } a = 9)$"
+            formula: "$f'(2) = 3(2)^2 - 3 = 12 - 3 = 9 \\quad (\\text{접선의 기울기 } a = 9)$",
+            checkpoint: {
+              question: "접선의 기울기 $a = 9$와 접점 $(2, 2)$를 구한 후, 접선의 방정식을 완성하기 위한 다음 행동 공식은?",
+              options: [
+                "직선의 방정식 공식 $y - y_1 = a(x - x_1)$에 $(2, 2)$와 $a=9$를 대입하여 $y = 9x - 16$을 전개하고 $b = -16$을 구한다.",
+                "기울기 9와 접점의 좌표 2를 서로 곱하여 $b = 18$로 결정한다.",
+                "접선은 항상 $x$축과 원점에서 만나므로 $b = 0$으로 둔다."
+              ],
+              correct_index: 0,
+              stuck_reason: "기울기와 지나는 한 점이 주어졌을 때 직선의 방정식을 올바르게 세우고 전개하는 기본 공식 결손.",
+              weakness_category: "condition"
+            }
           },
           {
             step_number: 4,
-            title: "접선의 방정식 완성 및 최종 값 계산",
-            content: "기울기가 $9$이고 점 $(2, 2)$를 지나는 직선의 방정식을 구하고 $a+b+m$을 계산합니다.",
+            title: "4단계: 접선의 방정식 구하기 및 최종 계산",
+            content: "기울기가 9이고 점 $(2, 2)$를 지나는 접선의 방정식을 구합니다.",
             formula: "$y - 2 = 9(x - 2) \\implies y = 9x - 16 \\quad (a = 9, b = -16) \\\\ a + b + m = 9 + (-16) + (-2) = -9$"
           }
         ],
@@ -15359,13 +15591,250 @@ window.addEventListener('DOMContentLoaded', () => {
       ];
     }
 
+    
+    // ================= SOCRATIC SCAFFOLDED STEP UNLOCK & RECIPE ENGINE =================
+    let activeStepUnlockState = {};
+
+    function getStepUnlockState(probId) {
+      const pId = String(probId || currentProblemId || 1);
+      if (!activeStepUnlockState[pId]) {
+        activeStepUnlockState[pId] = {
+          unlockedStep: 1,
+          isFullSolutionMode: false,
+          answers: {},
+          completed: false
+        };
+      }
+      return activeStepUnlockState[pId];
+    }
+
+    function resetStepUnlockState(probId) {
+      const pId = String(probId || currentProblemId || 1);
+      activeStepUnlockState[pId] = {
+        unlockedStep: 1,
+        isFullSolutionMode: false,
+        answers: {},
+        completed: false
+      };
+    }
+
+    function getProblemSetupDiagram(data) {
+      if (!data) return null;
+      if (data.problem_setup_diagram) return data.problem_setup_diagram;
+      if (data.diagrams && data.diagrams.length > 0 && data.diagrams[0].svg) {
+        return data.diagrams[0].svg;
+      }
+      if (data.svg_diagram) return data.svg_diagram;
+      return null;
+    }
+
+    function getStepInlineDiagram(data, step, stepIdx) {
+      if (!data || !step) return null;
+      if (step.inline_diagram_svg) return step.inline_diagram_svg;
+
+      const numId = Number(data.id);
+      if (numId === 6 && data.diagrams && data.diagrams.length >= 3) {
+        // Step 0 (1단계: 도함수 부호와 증감 포물선) -> Diagram 2
+        if (stepIdx === 0) return data.diagrams[1].svg;
+        // Step 1 (2단계: 극값 좌표계) -> Diagram 3
+        if (stepIdx === 1) return data.diagrams[2].svg;
+        // Step 2 (3단계: 곡선과 접선) -> Diagram 1
+        if (stepIdx === 2) return data.diagrams[0].svg;
+      }
+
+      if (data.diagrams && data.diagrams.length > stepIdx + 1) {
+        return data.diagrams[stepIdx + 1].svg;
+      }
+      return null;
+    }
+
+    function getStepCheckpoint(data, step, stepIdx, totalSteps) {
+      if (!step) return null;
+      if (step.checkpoint) return step.checkpoint;
+
+      const clauses = Array.isArray(data.core_clauses) && data.core_clauses.length > 0 ? data.core_clauses : [];
+      const clause = clauses[stepIdx] || clauses[0] || {};
+      const cat = (clause.prescriptions && (stepIdx % 2 === 0 ? 'concept' : 'modeling')) || 'concept';
+      const trapDesc = clause.trap || "조건을 면밀히 확인하지 않고 직관에만 의존하여 계산을 서두름.";
+
+      const nextStepNum = stepIdx + 2;
+      const question = `${nextStepNum}단계로 나아가기 위한 올바른 다음 행동 공식은?`;
+
+      let correctOpt = "";
+      if (clause.prescriptions && clause.prescriptions[cat]) {
+        correctOpt = clause.prescriptions[cat].replace(/\$|\{|\}/g, '').slice(0, 95);
+      } else if (clause.meaning) {
+        correctOpt = clause.meaning.replace(/\$|\{|\}/g, '').slice(0, 95);
+      } else {
+        correctOpt = "앞 단계에서 유도한 조건을 바탕으로 필수 방정식을 세우고 도함수 및 범위를 확인한다.";
+      }
+
+      const wrongOpt1 = trapDesc.replace(/\$|\{|\}/g, '').slice(0, 95);
+      const wrongOpt2 = "주어진 조건의 범위를 확인하지 않고 임의의 숫자를 대입하여 계산한다.";
+
+      return {
+        question: question,
+        options: [correctOpt, wrongOpt1, wrongOpt2],
+        correct_index: 0,
+        stuck_reason: `막힌 이유: ${trapDesc}`,
+        weakness_category: cat
+      };
+    }
+
+    function getSameRecipeLineage(data) {
+      if (!data) return null;
+      if (data.same_recipe_lineage) return data.same_recipe_lineage;
+
+      const curGrade = data.curriculum_grade || '고교';
+      let examName = "수능·평가원 표준 기출";
+      let recipeCore = "핵심 원리 모델링 및 조건 분절 식 세우기";
+      let similarity = "93% 동일 레시피";
+
+      if (data.core_clauses && data.core_clauses.length > 0) {
+        recipeCore = data.core_clauses.map(c => c.text.replace(/\$|\{|\}/g, '')).join(' 및 ') + " 결합 공식";
+      }
+
+      if (curGrade.includes('고3') || curGrade.includes('N수')) {
+        examName = "2025학년도 수능 공통 15·21·22번 기출 연동";
+        similarity = "95% 동일 레시피";
+      } else if (curGrade.includes('고2')) {
+        examName = "전국연합학력평가 고2 수학 14·20번 기출 연동";
+        similarity = "94% 동일 레시피";
+      } else if (curGrade.includes('고1')) {
+        examName = "전국연합학력평가 고1 수학 21·29번 기출 연동";
+        similarity = "92% 동일 레시피";
+      } else if (curGrade.includes('중')) {
+        examName = "중등 교과 표준 심화 및 전국 학업성취도 고난도 연계";
+        similarity = "90% 동일 레시피";
+      } else {
+        examName = "초등 교육과정 표준 핵심 개념 연계";
+        similarity = "90% 동일 레시피";
+      }
+
+      return {
+        exam_name: examName,
+        similarity: similarity,
+        recipe_core: recipeCore,
+        twin_id: data.id,
+        takeaway: "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+      };
+    }
+
+    function handleStepCheckpointAnswer(stepIdx, chosenIdx) {
+      const probId = String(currentProblemId || 1);
+      const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      const state = getStepUnlockState(probId);
+
+      let steps = Array.isArray(data.solution_steps) && data.solution_steps.length > 0
+        ? data.solution_steps
+        : synthesizeTextbookSolutionSteps(data);
+
+      const step = steps[stepIdx];
+      const cp = getStepCheckpoint(data, step, stepIdx, steps.length);
+      if (!cp) return;
+
+      const isCorrect = (chosenIdx === cp.correct_index);
+      state.answers[stepIdx] = {
+        chosen: chosenIdx,
+        isCorrect: isCorrect
+      };
+
+      if (isCorrect) {
+        state.unlockedStep = Math.max(state.unlockedStep, stepIdx + 2);
+        if (state.unlockedStep > steps.length) {
+          state.completed = true;
+        }
+      } else {
+        if (typeof toggleHistoryProblemCategory === 'function' && cp.weakness_category) {
+          try {
+            toggleHistoryProblemCategory(probId, cp.weakness_category, true);
+          } catch (e) {
+            console.warn('Auto weakness logging error:', e);
+          }
+        }
+      }
+
+      renderSolutionStepsAndAnswer(data);
+
+      if (isCorrect) {
+        setTimeout(() => {
+          scrollToStepCard(stepIdx + 2);
+        }, 150);
+      }
+    }
+
+    function retryStepCheckpoint(stepIdx) {
+      const probId = String(currentProblemId || 1);
+      const state = getStepUnlockState(probId);
+      delete state.answers[stepIdx];
+      const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      renderSolutionStepsAndAnswer(data);
+    }
+
+    function forceUnlockNextStep(stepIdx) {
+      const probId = String(currentProblemId || 1);
+      const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      const state = getStepUnlockState(probId);
+      let steps = Array.isArray(data.solution_steps) && data.solution_steps.length > 0
+        ? data.solution_steps
+        : synthesizeTextbookSolutionSteps(data);
+
+      state.answers[stepIdx] = {
+        chosen: -1,
+        isCorrect: false,
+        forceUnlocked: true
+      };
+      state.unlockedStep = Math.max(state.unlockedStep, stepIdx + 2);
+      if (state.unlockedStep > steps.length) {
+        state.completed = true;
+      }
+      renderSolutionStepsAndAnswer(data);
+
+      setTimeout(() => {
+        scrollToStepCard(stepIdx + 2);
+      }, 150);
+    }
+
+    function toggleSolutionViewMode() {
+      const probId = String(currentProblemId || 1);
+      const state = getStepUnlockState(probId);
+      state.isFullSolutionMode = !state.isFullSolutionMode;
+      const data = PROBLEMS_DB[currentProblemId] || PROBLEMS_DB[1];
+      renderSolutionStepsAndAnswer(data);
+    }
+
+    function handleSameRecipePractice(twinId) {
+      if (typeof openTwinProblemModal === 'function') {
+        openTwinProblemModal();
+      }
+    }
+
+    function scrollToStepCard(stepNum) {
+      const el = document.getElementById(`solution-step-${stepNum}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        el.classList.add('ring-2', 'ring-orange-500/70');
+        setTimeout(() => {
+          el.classList.remove('ring-2', 'ring-orange-500/70');
+        }, 1400);
+      }
+    }
+
     function renderSolutionStepsAndAnswer(data) {
       if (!data) return;
       if (typeof sanitizeMathObject === 'function') data = sanitizeMathObject(data);
       const stepsContainer = document.getElementById('solution-steps-container');
       const finalAnswerEl = document.getElementById('solution-final-answer');
       const finalAnswerTitle = document.getElementById('solution-final-answer-title');
+      const recipeContainer = document.getElementById('solution-same-recipe-container');
+      const progressBadge = document.getElementById('solution-step-progress-badge');
+      const progressBar = document.getElementById('solution-progress-bar');
+      const toggleModeLabel = document.getElementById('toggle-solution-mode-label');
+
       if (!stepsContainer || !finalAnswerEl) return;
+
+      const probId = String(data.id || currentProblemId || 1);
+      const state = getStepUnlockState(probId);
 
       const getSafeFormulaHtml = (formula) => {
         if (formula == null || formula === '') return '';
@@ -15381,7 +15850,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (Array.isArray(data.sub_questions) && data.sub_questions.length > 1) {
         if (currentSubQuestionId === 'all') {
-          // 1. Render All Sub-Questions Sequentially
+          // Render All Sub-Questions Sequentially
+          if (progressBadge) progressBadge.innerText = `소문항 전체 (${data.sub_questions.length}문항)`;
+          if (progressBar) progressBar.style.width = '100%';
+          if (toggleModeLabel) toggleModeLabel.innerText = '단계별 해금 모드';
+
           stepsContainer.innerHTML = data.sub_questions.map(sq => {
             if (!sq) return '';
             const steps = Array.isArray(sq.solution_steps) && sq.solution_steps.length > 0
@@ -15419,7 +15892,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).join('')}
               </div>
 
-              <!-- Sub-Question Final Answer Pill -->
               <div class="bg-stone-900/80 border border-orange-500/40 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-2.5 shadow-sm">
                 <span class="text-xs font-extrabold text-stone-200 shrink-0 flex items-center gap-1.5 whitespace-nowrap">
                   <i data-lucide="check-circle" class="w-4 h-4 text-amber-500"></i> ${sq.sub_title || sq.sub_id + '번 문항'} 정답
@@ -15432,7 +15904,6 @@ window.addEventListener('DOMContentLoaded', () => {
           `;
           }).join('');
 
-          // Structured Multi-Subquestion Final Summary Card
           if (finalAnswerTitle) finalAnswerTitle.innerText = '소문항별 최종 정답 정리';
           finalAnswerEl.innerHTML = `
             <div class="space-y-2 pt-1">
@@ -15454,20 +15925,21 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
         } else {
-          // 2. Render Single Selected Sub-Question
+          // Render Single Selected Sub-Question
           const sq = (Array.isArray(data.sub_questions) && data.sub_questions.find(q => q && q.sub_id === currentSubQuestionId)) || data.sub_questions[0] || {};
           const steps = Array.isArray(sq.solution_steps) && sq.solution_steps.length > 0
             ? sq.solution_steps
             : [{ step_number: 1, title: '문항 풀이', content: sq.explanation || sq.question_text || '', formula: sq.final_answer || '' }];
+
+          if (progressBadge) progressBadge.innerText = `${sq.sub_title || sq.sub_id + '번'}`;
+          if (progressBar) progressBar.style.width = '100%';
 
           stepsContainer.innerHTML = `
             <div class="bg-stone-900/40 border border-orange-500/30 rounded-xl p-3 mb-2.5">
               <span class="text-[10px] text-stone-300 font-bold block mb-1">[${sq.sub_title || sq.sub_id + '번 문항'}] 문제:</span>
               <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text || '')}</p>
             </div>
-            ${steps.map(s => {
-              if (!s) return '';
-              return `
+            ${steps.map(s => `
               <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
                 <span class="text-xs font-bold text-[#EA580C] block">${autoFormatMathText(s.title || '풀이 과정')}</span>
                 <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
@@ -15481,8 +15953,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   </button>
                 </div>
               </div>
-            `;
-            }).join('')}
+            `).join('')}
           `;
 
           if (finalAnswerTitle) finalAnswerTitle.innerText = `${sq.sub_title || sq.sub_id + '번 문항'} 최종 정답`;
@@ -15495,7 +15966,7 @@ window.addEventListener('DOMContentLoaded', () => {
           `;
         }
       } else {
-        // 3. Standard Single-Question Problem
+        // Standard Problem: Socratic Progressive Unlock Mode
         let steps = Array.isArray(data.solution_steps) && data.solution_steps.length > 0
           ? data.solution_steps
           : null;
@@ -15507,38 +15978,296 @@ window.addEventListener('DOMContentLoaded', () => {
           steps = synthesizeTextbookSolutionSteps(data);
         }
 
-        stepsContainer.innerHTML = steps.map(s => {
-          if (!s) return '';
-          return `
-          <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
-            <span class="text-xs font-bold text-[#EA580C] block">${autoFormatMathText(s.title || '풀이 과정')}</span>
-            <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden">
-              ${formatStepContentHtml(s.content || '')}
-            </div>
-            ${getSafeFormulaHtml(s.formula)}
-            <div class="pt-2 flex justify-end">
-              <button type="button" onclick="askTutorAboutStep(${s.step_number || 1}, '${(s.title || '풀이 과정').replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-lg bg-stone-900/70 hover:bg-stone-850 border border-orange-500/40 text-[11px] font-bold text-stone-300 hover:text-white flex items-center gap-1.5 transition active:scale-95">
-                <i data-lucide="message-square" class="w-3.5 h-3.5 text-[#EA580C]"></i>
-                <span>이 단계 왜 이렇게 풀었어? 질문하기</span>
-              </button>
-            </div>
-          </div>
-        `;
-        }).join('');
+        const totalSteps = steps.length;
+        const effectiveUnlocked = state.isFullSolutionMode ? totalSteps + 1 : state.unlockedStep;
 
-        if (finalAnswerTitle) finalAnswerTitle.innerText = '최종 정답';
+        // 1. Header Progress Bar & Badge
+        if (progressBadge) {
+          progressBadge.innerText = state.isFullSolutionMode
+            ? '전체 풀이 (모든 단계 공개)'
+            : `${Math.min(effectiveUnlocked, totalSteps)} / ${totalSteps} 단계 진행 중`;
+        }
+        if (progressBar) {
+          const pct = state.isFullSolutionMode ? 100 : Math.round((Math.min(effectiveUnlocked, totalSteps) / totalSteps) * 100);
+          progressBar.style.width = `${pct}%`;
+        }
+        if (toggleModeLabel) {
+          toggleModeLabel.innerText = state.isFullSolutionMode ? '단계별 해금 모드' : '전체 풀이 펼치기';
+        }
+
+        let htmlChunks = [];
+
+        // 2. [문제 상황] 시작 조건 도해 Card at Top
+        const setupSvg = getProblemSetupDiagram(data);
+        if (setupSvg) {
+          const convertedSetupSvg = typeof convertSvgForWhiteCanvas === 'function' ? convertSvgForWhiteCanvas(setupSvg) : setupSvg;
+          htmlChunks.push(`
+            <div class="problem-setup-card bg-slate-950/85 rounded-2xl p-3.5 border border-orange-500/30 space-y-2.5 shadow-sm w-full max-w-full overflow-hidden">
+              <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
+                <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                  <i data-lucide="eye" class="w-4 h-4 text-[#EA580C]"></i>
+                  <span>[문제 상황] 시작 조건 도해</span>
+                </span>
+                <span class="text-[9.5px] font-extrabold text-stone-300 bg-stone-900 border border-orange-500/30 px-2 py-0.5 rounded-full">
+                  초기 상태 직관화
+                </span>
+              </div>
+              <div class="problem-setup-viewport bg-white rounded-xl p-2 border border-slate-200 dark:border-slate-800 flex items-center justify-center max-h-[190px] overflow-hidden shadow-inner cursor-pointer" onclick="openGraphDetailModal(0)" title="클릭하여 모눈종이 확대 보기">
+                ${convertedSetupSvg}
+              </div>
+              <p class="text-[11px] text-slate-300 text-center leading-relaxed font-medium">
+                ${autoFormatMathText(data.diagram_caption || data.title + '의 초기 문제 상황 및 핵심 좌표 관계를 도해로 확인합니다.')}
+              </p>
+            </div>
+          `);
+        }
+
+        // 3. Render Steps (Unlocked vs Locked vs Checkpoint)
+        steps.forEach((s, idx) => {
+          if (!s) return;
+          const stepNum = s.step_number || (idx + 1);
+          const isUnlocked = state.isFullSolutionMode || (idx < effectiveUnlocked);
+
+          if (isUnlocked) {
+            // Unlocked Step Card
+            const inlineSvg = getStepInlineDiagram(data, s, idx);
+            const convertedInlineSvg = inlineSvg && typeof convertSvgForWhiteCanvas === 'function'
+              ? convertSvgForWhiteCanvas(inlineSvg)
+              : inlineSvg;
+
+            const isCurrentAwaitingUnlock = (!state.isFullSolutionMode && idx === effectiveUnlocked - 1 && idx < totalSteps - 1);
+            const cp = isCurrentAwaitingUnlock ? getStepCheckpoint(data, s, idx, totalSteps) : null;
+            const ansData = state.answers[idx];
+            const isAnswered = ansData !== undefined;
+            const isCorrect = isAnswered && ansData.isCorrect;
+            const catTitle = cp ? getCategoryTitle(cp.weakness_category) : '핵심 개념';
+
+            htmlChunks.push(`
+              <div id="solution-step-${stepNum}" class="solution-step-card bg-slate-950/80 rounded-2xl p-3.5 border border-slate-800 space-y-2 overflow-hidden w-full max-w-full min-w-0 shadow-sm transition-all duration-300">
+                <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
+                  <span class="text-xs font-black text-[#EA580C] flex items-center gap-1.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                    <span>${autoFormatMathText(s.title || (stepNum + '단계 풀이'))}</span>
+                  </span>
+                  <span class="text-[9.5px] font-bold text-stone-400 bg-stone-900 px-2 py-0.5 rounded border border-stone-800">
+                    ${stepNum} / ${totalSteps} 단계
+                  </span>
+                </div>
+
+                <div class="space-y-1 w-full max-w-full min-w-0 overflow-hidden pt-1">
+                  ${formatStepContentHtml(s.content || '')}
+                </div>
+
+                ${getSafeFormulaHtml(s.formula)}
+
+                ${convertedInlineSvg ? `
+                  <div class="step-inline-diagram my-2.5 bg-white rounded-xl p-2 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center max-h-[180px] overflow-hidden shadow-xs cursor-pointer" onclick="openGraphDetailModal(${idx})" title="클릭하여 모눈종이 확대 보기">
+                    <div class="w-full flex items-center justify-center">
+                      ${convertedInlineSvg}
+                    </div>
+                    <span class="text-[9px] text-slate-500 font-medium mt-1">도해: ${autoFormatMathText(s.title || '')} 기하 구조</span>
+                  </div>
+                ` : ''}
+
+                <div class="pt-1.5 flex justify-end">
+                  <button type="button" onclick="askTutorAboutStep(${stepNum}, '${(s.title || '풀이 과정').replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-lg bg-stone-900/70 hover:bg-stone-850 border border-orange-500/40 text-[11px] font-bold text-stone-300 hover:text-white flex items-center gap-1.5 transition active:scale-95">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                    <span>이 단계 왜 이렇게 풀었어? 질문하기</span>
+                  </button>
+                </div>
+
+                ${isCurrentAwaitingUnlock && cp ? `
+                  <!-- Socratic Checkpoint Quiz (다음 단계 행동 공식 점검) -->
+                  <div class="step-checkpoint-card bg-slate-950/95 border-2 border-orange-500/40 rounded-xl p-3.5 space-y-2.5 mt-3 shadow-md">
+                    <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
+                      <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-4 h-4 text-[#EA580C]"></i>
+                        <span>다음 단계 행동 공식 점검</span>
+                      </span>
+                      <span class="text-[9.5px] font-extrabold text-stone-300 bg-stone-900 border border-orange-500/30 px-2 py-0.5 rounded-full">
+                        ${stepNum + 1}단계 해금 퀴즈
+                      </span>
+                    </div>
+
+                    <p class="text-xs font-bold text-stone-100 leading-snug">
+                      ${autoFormatMathText(cp.question)}
+                    </p>
+
+                    <div class="space-y-1.5 pt-1">
+                      ${cp.options.map((opt, optIdx) => {
+                        const isChosen = isAnswered && ansData.chosen === optIdx;
+                        let btnStyle = "bg-slate-900 hover:bg-stone-850 border border-slate-800 text-stone-200";
+                        if (isChosen) {
+                          btnStyle = isCorrect
+                            ? "bg-emerald-950/70 border-2 border-emerald-500 text-emerald-200 font-bold"
+                            : "bg-amber-950/70 border-2 border-amber-500 text-amber-200 font-bold";
+                        }
+                        return `
+                          <button type="button" onclick="handleStepCheckpointAnswer(${idx}, ${optIdx})" class="checkpoint-option-btn w-full text-left p-2.5 rounded-xl text-xs transition flex items-start gap-2.5 ${btnStyle} shadow-xs">
+                            <span class="w-5 h-5 rounded-full bg-stone-800 border border-orange-500/30 flex items-center justify-center text-[10px] font-extrabold text-stone-300 shrink-0 mt-0.5">
+                              ${['①', '②', '③'][optIdx] || (optIdx + 1)}
+                            </span>
+                            <span class="leading-relaxed flex-1">${autoFormatMathText(opt)}</span>
+                          </button>
+                        `;
+                      }).join('')}
+                    </div>
+
+                    ${isAnswered && isCorrect ? `
+                      <div class="checkpoint-correct-box bg-emerald-950/60 border border-emerald-500/50 rounded-xl p-3 space-y-1.5 animate-fadeIn">
+                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-300">
+                          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                          <span>정답입니다! 다음 단계 행동 공식을 정확히 파악했습니다.</span>
+                        </div>
+                        <p class="text-[11px] text-emerald-200/90 leading-relaxed font-normal">
+                          사고의 고리를 스스로 연결했습니다. ${stepNum + 1}단계 풀이와 도식이 해금되었습니다.
+                        </p>
+                        <div class="pt-1 flex justify-end">
+                          <button type="button" onclick="scrollToStepCard(${stepNum + 1})" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1 transition shadow-sm">
+                            <span>다음 단계 풀이 보기</span>
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-white"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ` : ''}
+
+                    ${isAnswered && !isCorrect ? `
+                      <div class="checkpoint-stuck-box bg-amber-950/70 border border-amber-500/50 rounded-xl p-3 space-y-2 animate-fadeIn">
+                        <div class="flex items-center justify-between pb-1 border-b border-amber-500/30">
+                          <span class="text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                            <span>막힌 이유</span>
+                          </span>
+                          <span class="text-[9.5px] font-bold text-amber-200 bg-amber-900/60 border border-amber-500/40 px-2 py-0.5 rounded-full">
+                            약점 자동 진단
+                          </span>
+                        </div>
+                        <p class="text-xs text-amber-100 font-medium leading-relaxed">
+                          ${autoFormatMathText(cp.stuck_reason)}
+                        </p>
+                        <div class="bg-slate-950/80 rounded-lg p-2 border border-amber-500/30 flex items-center justify-between text-[10.5px]">
+                          <span class="text-amber-200/90 flex items-center gap-1">
+                            <i data-lucide="bookmark-check" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                            <span>나의 오답노트에 [${catTitle}] 결손으로 자동 기록되었습니다.</span>
+                          </span>
+                        </div>
+                        <div class="flex items-center justify-end gap-2 pt-1">
+                          <button type="button" onclick="retryStepCheckpoint(${idx})" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-850 text-stone-200 border border-amber-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
+                            <span>다시 시도</span>
+                          </button>
+                          <button type="button" onclick="forceUnlockNextStep(${idx})" class="px-3 py-1 bg-[#EA580C] hover:bg-[#C2410C] text-white rounded-lg text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                            <span>해설 확인하고 다음 단계로 해금</span>
+                            <i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            `);
+          } else {
+            // Locked Step Card
+            htmlChunks.push(`
+              <div id="solution-step-${stepNum}" class="solution-step-card is-locked bg-slate-950/45 rounded-2xl p-3 border border-slate-800/80 space-y-1.5 opacity-65 flex items-center justify-between shadow-xs transition">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-6 h-6 rounded-full bg-stone-900 border border-slate-750 flex items-center justify-center shrink-0">
+                    <i data-lucide="lock" class="w-3.5 h-3.5 text-stone-400"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <span class="text-xs font-bold text-stone-300 block truncate">${stepNum}단계: ${autoFormatMathText(s.title || '풀이 과정')}</span>
+                    <span class="text-[10px] text-stone-400">이전 단계의 행동 공식을 점검하면 이 단계가 해금됩니다.</span>
+                  </div>
+                </div>
+                <span class="text-[9.5px] font-bold text-stone-400 bg-stone-900 px-2 py-0.5 rounded border border-stone-800 shrink-0">
+                  잠김
+                </span>
+              </div>
+            `);
+          }
+        });
+
+        stepsContainer.innerHTML = htmlChunks.join('');
+
+        // 4. Final Answer Card (Unlocked vs Locked)
+        const isAllUnlocked = state.isFullSolutionMode || (effectiveUnlocked >= totalSteps);
         let displayAnswer = data.final_answer;
         if (!displayAnswer && steps.length > 0) {
           const lastStep = steps[steps.length - 1];
           displayAnswer = lastStep.formula || lastStep.content || '';
         }
-        finalAnswerEl.innerHTML = `
-          <div class="bg-slate-950/90 border border-orange-500/30 rounded-xl p-3.5 text-center">
-            <div class="text-sm sm:text-base font-black text-amber-300 overflow-x-auto no-scrollbar py-1">
-              ${autoFormatMathText(displayAnswer || '정답 확인')}
+
+        if (isAllUnlocked) {
+          if (finalAnswerTitle) finalAnswerTitle.innerText = '최종 정답';
+          finalAnswerEl.innerHTML = `
+            <div class="space-y-2">
+              <div class="bg-slate-950/90 border border-orange-500/30 rounded-xl p-3.5 text-center shadow-inner">
+                <div class="text-sm sm:text-base font-black text-amber-300 overflow-x-auto no-scrollbar py-1">
+                  ${autoFormatMathText(displayAnswer || '정답 확인')}
+                </div>
+              </div>
+              <div class="bg-emerald-950/40 border border-emerald-500/40 rounded-xl p-2.5 flex items-center gap-2 text-xs text-emerald-300">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span class="font-bold">모든 풀이 단계를 통과했습니다! 핵심 원리와 행동 공식이 완벽히 체화되었습니다.</span>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          if (finalAnswerTitle) finalAnswerTitle.innerText = '최종 정답 (잠김)';
+          finalAnswerEl.innerHTML = `
+            <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-center text-xs text-stone-400 flex items-center justify-center gap-2">
+              <i data-lucide="lock" class="w-4 h-4 text-stone-400"></i>
+              <span>모든 풀이 단계를 완료하면 최종 정답이 공개됩니다.</span>
+            </div>
+          `;
+        }
+
+        // 5. Same Recipe Lineage Card (동일한 레시피 기출 연계)
+        if (recipeContainer) {
+          if (isAllUnlocked) {
+            const recipe = getSameRecipeLineage(data);
+            recipeContainer.innerHTML = `
+              <div id="solution-same-recipe-card" class="bg-gradient-to-br from-stone-900 via-stone-900 to-orange-950/40 border-2 border-orange-500/50 rounded-2xl p-4 space-y-3 shadow-lg mt-3">
+                <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/30">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm font-black text-amber-300 flex items-center gap-1.5">
+                      <i data-lucide="flame" class="w-4 h-4 text-[#EA580C]"></i>
+                      <span>동일한 레시피 (Same Recipe)</span>
+                    </span>
+                  </div>
+                  <span class="bg-[#EA580C] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">
+                    ${recipe.similarity || '94% 동일 레시피'}
+                  </span>
+                </div>
+
+                <blockquote class="text-[11.5px] text-stone-200 italic border-l-2 border-[#EA580C] pl-2.5 py-1 leading-relaxed bg-stone-950/40 rounded-r-lg">
+                  "모든 문제들은 동일한 레시피로 알맹이는 동일하게 만들고 껍데기만 갈아끼우는 것에 지나지 않습니다."
+                </blockquote>
+
+                <div class="bg-slate-950/80 rounded-xl p-3 border border-orange-500/30 space-y-2">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400 font-bold text-[11px] flex items-center gap-1">
+                      <i data-lucide="link-2" class="w-3.5 h-3.5 text-amber-400"></i> 연계 수능·평가원 기출:
+                    </span>
+                    <span class="text-amber-300 font-black text-xs sm:text-sm">${recipe.exam_name}</span>
+                  </div>
+                  <div class="text-xs text-stone-200 leading-relaxed">
+                    <span class="text-[#EA580C] font-extrabold block mb-0.5">핵심 알맹이 레시피:</span>
+                    <p class="text-slate-300 text-[11.5px]">${autoFormatMathText(recipe.recipe_core)}</p>
+                  </div>
+                </div>
+
+                <button type="button" onclick="handleSameRecipePractice(${recipe.twin_id || 'currentProblemId'})" class="w-full h-11 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition border border-orange-400/40">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+                  <span>동일 레시피 기출문제 바로 연습하기 →</span>
+                </button>
+              </div>
+            `;
+          } else {
+            recipeContainer.innerHTML = '';
+          }
+        }
       }
 
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
