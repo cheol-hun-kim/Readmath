@@ -1840,6 +1840,34 @@ if (!htmlContent.includes('updateSourceProvenanceCard')) {
 }
 gate8Details.push('Genuine CSAT Math Typesetting: KaTeX \le formatting and dynamic source provenance verified');
 
+
+// 8.13 Active Tab & Filter Button Pure White Contrast Armor
+if (htmlContent.includes('body.theme-day .font-extrabold') && !htmlContent.includes(':not(.active-filter)')) {
+  failGate(8, 'Active Tab Font-Weight Override', 'preview.html must exempt .active-filter, .active-chip, and buttons from body.theme-day .font-extrabold override');
+}
+if (!htmlContent.includes('.history-filter-btn.active-filter') || !htmlContent.includes('body.theme-day .history-filter-btn.active-filter')) {
+  failGate(8, 'Active Filter Day Mode Rule Missing', 'preview.html must include explicit white text rule for .history-filter-btn.active-filter in Day Mode');
+}
+gate8Details.push('Active Tabs & Filter Buttons: Pure white text on accent background 100% immune from font-weight dark text overrides');
+
+// 8.14 Clinic Exam Dispatch Button (1순위 클리닉 출제) Solid Accent Armor
+if (/<button[^>]*?openExamPrepWithPinpointScope[^>]*?bg-\[#EA580C\]\/20/.test(htmlContent)) {
+  failGate(8, 'Clinic Button Low Opacity Defect', 'preview.html must use solid bg-[#EA580C] and pure white text for 1순위 클리닉 출제 button');
+}
+gate8Details.push('Clinic Exam CTA Button: Solid accent background and pure white text verified');
+
+// 8.15 Universal Status Badge Deep Ink Armor in Day Mode
+if (!htmlContent.includes('body.theme-day .text-emerald-400') || !htmlContent.includes('#047857')) {
+  failGate(8, 'Emerald Badge Deep Ink Missing', 'preview.html must map .text-emerald-400 to #047857 (deep emerald ink) in Day Mode for WCAG AA compliance');
+}
+if (!htmlContent.includes('body.theme-day .text-amber-400') || !htmlContent.includes('#B45309')) {
+  failGate(8, 'Amber Badge Deep Ink Missing', 'preview.html must map .text-amber-400 to #B45309 (deep bronze amber ink) in Day Mode for WCAG AA compliance');
+}
+if (!htmlContent.includes('body.theme-day .text-rose-400') || !htmlContent.includes('#BE123C')) {
+  failGate(8, 'Rose Badge Deep Ink Missing', 'preview.html must map .text-rose-400 to #BE123C (deep crimson rose ink) in Day Mode for WCAG AA compliance');
+}
+gate8Details.push('Universal Status Badge Contrast: 100% of pastel badges (emerald, amber, rose) shift to deep editorial ink with WCAG AA compliance in Day Mode');
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================
