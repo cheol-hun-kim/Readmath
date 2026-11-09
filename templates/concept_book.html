@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>ReadMath 1:1 개별 맞춤 개념서 (Sample Preview)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left:'$$', right:'$$', display:true}, {left:'$', right:'$', display:false}], throwOnError:false});"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap');
+    
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      word-break: keep-all;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      background-color: #FAF8F3;
+      color: #080908;
+      margin: 0;
+      padding: 0;
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+
+    .page {
+      page-break-after: always;
+      position: relative;
+      min-height: 98vh;
+      padding-bottom: 25px;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* Editorial Header & Footer */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #E2D9CC;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      font-size: 11px;
+      color: #57534E;
+    }
+
+    .doc-header .brand {
+      font-weight: 800;
+      color: #EA580C;
+      letter-spacing: -0.3px;
+    }
+
+    .doc-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #E2D9CC;
+      padding-top: 8px;
+      font-size: 10.5px;
+      color: #78716C;
+    }
+
+    /* Cover Page Styling */
+    .cover-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 90vh;
+      padding: 30px 10px 10px 10px;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #EA580C;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #080908;
+      letter-spacing: -1px;
+      margin: 0 0 16px 0;
+      text-wrap: balance;
+    }
+
+    .cover-title span {
+      color: #EA580C;
+    }
+
+    .cover-subtitle {
+      font-size: 14.5px;
+      color: #44403C;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-bottom: 25px;
+      text-wrap: pretty;
+    }
+
+    .mechanism-box {
+      background: #FFFFFF;
+      border: 1.5px solid #E7E0D4;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      margin-top: 15px;
+    }
+
+    .mechanism-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #080908;
+      margin-bottom: 12px;
+    }
+
+    .mechanism-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .mech-step {
+      background: #FAF8F3;
+      border: 1px solid #EBE4D8;
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .mech-step-num {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #EA580C;
+      margin-bottom: 4px;
+    }
+
+    .mech-step-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1C1917;
+      margin-bottom: 4px;
+    }
+
+    .mech-step-desc {
+      font-size: 11px;
+      color: #57534E;
+      line-height: 1.45;
+    }
+
+    /* Concept Section Styling */
+    .concept-header {
+      margin-bottom: 16px;
+    }
+
+    .concept-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #EA580C;
+      background: rgba(234, 88, 12, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .concept-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #080908;
+      letter-spacing: -0.5px;
+      margin: 0 0 8px 0;
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+
+    .root-cause-banner {
+      background: #FFFFFF;
+      border: 1.5px solid #E7E0D4;
+      border-left: 4px solid #EA580C;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+
+    .root-cause-banner .label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #EA580C;
+      margin-bottom: 3px;
+    }
+
+    .root-cause-banner .desc {
+      font-size: 12.5px;
+      color: #292524;
+      line-height: 1.5;
+    }
+
+    .content-card {
+      background: #FFFFFF;
+      border: 1px solid #E7E0D4;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .card-heading {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #080908;
+      border-bottom: 1px solid #F0ECE4;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-heading .badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #F4EFE6;
+      color: #44403C;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Mathematical Graph Container - PURE WHITE BACKGROUND */
+    .math-graph-white {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 12px 0;
+    }
+
+    .action-formula-box {
+      background: #FAF8F3;
+      border: 1.5px solid #EA580C;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+
+    .action-formula-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #EA580C;
+      margin-bottom: 3px;
+    }
+
+    .action-formula-content {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1C1917;
+      line-height: 1.55;
+    }
+
+    .katex {
+      font-size: 1.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= PAGE 1: COVER & ARCHITECTURE MANIFESTO ================= -->
+  <div class="page cover-container">
+    <div>
+      <div class="doc-header">
+        <span class="brand">ReadMath AI Curriculum Publishing</span>
+        <span>학생 고유 약점 분석 기반 1:1 맞춤 출판 솔루션</span>
+      </div>
+
+      <div class="badge-pill">1:1 Personalized Concept Book</div>
+      <h1 class="cover-title">
+        학생의 단 1개 질문에서도 드러나는<br>
+        <span>'인지적 근본 원인'</span> 정밀 타격 맞춤 개념서
+      </h1>
+      <p class="cover-subtitle">
+        단순히 시중의 두꺼운 개념서를 처음부터 끝까지 다시 읽게 하지 않습니다. 
+        문제를 풀다 '펜이 멈춘 순간' 드러난 단 하나의 결손 개념만을 핀포인트로 추출하여, 
+        <strong>시각적 기하 직관화</strong>와 <strong>오답 방어 행동 공식</strong>으로 완전 정복하게 만듭니다.
+      </p>
+
+      <div class="mechanism-box">
+        <div class="mechanism-title">ReadMath 맞춤 개념서 자동 편철 3단계 메커니즘</div>
+        <div class="mechanism-grid">
+          <div class="mech-step">
+            <div class="mech-step-num">STEP 01</div>
+            <div class="mech-step-title">질문 & 멈춤 지점 진단</div>
+            <div class="mech-step-desc">학생이 질문한 문제에서 식 세우기 누락, 대칭성 미인지 등 인지적 근본 원인을 진단합니다.</div>
+          </div>
+          <div class="mech-step">
+            <div class="mech-step-num">STEP 02</div>
+            <div class="mech-step-title">약점 개념 핀포인트 편철</div>
+            <div class="mech-step-desc">학생에게 불필요한 아는 내용은 과감히 배제하고, 무너진 핵심 개념만을 집중 선별합니다.</div>
+          </div>
+          <div class="mech-step">
+            <div class="mech-step-num">STEP 03</div>
+            <div class="mech-step-title">시각 도해 + 행동 공식 결합</div>
+            <div class="mech-step-desc">수식 암기가 아닌 직관적 기하 다이어그램과 시험장에서 즉각 쓸 수 있는 행동 공식을 결합합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 11.5px; color: #78716C; margin-bottom: 16px; line-height: 1.6;">
+        본 문서는 <strong>ReadMath AI</strong>가 학생의 고난도 킬러 문항 질문 데이터 3건을 심층 분석하여 자동으로 생성한 
+        <strong>1:1 개별 맞춤 개념서의 실제 인쇄용 샘플(Sample Preview)</strong>입니다.
+      </div>
+      <div class="doc-footer">
+        <span>발행처: ReadMath 에듀테크 연구소</span>
+        <span>문의: 1286orbital21@gmail.com</span>
+        <span>PAGE 01</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 2: CONCEPT 01 - 삼차함수 접선 및 1:1:1:1 비율 관계 ================= -->
+  <div class="page">
+    <div class="doc-header">
+      <span class="brand">ReadMath Personalized Concept Book</span>
+      <span>약점 타격 개념 01: 다항함수의 미분과 기하학적 대칭성</span>
+    </div>
+
+    <div class="concept-header">
+      <div class="concept-tag">진단 코드: CALC-CUBIC-TANGENT-RATIO</div>
+      <h2 class="concept-title">삼차함수의 접선 방정식과 $1:1:1:1$ 비율 관계의 기하학적 유도</h2>
+    </div>
+
+    <div class="root-cause-banner">
+      <div class="label">수험생 질문에서 포착된 인지적 근본 원인 (Root Cause)</div>
+      <div class="desc">
+        삼차함수의 접선 공식 $y - f(t) = f'(t)(x - t)$에만 매달려 식을 15줄 이상 전개하다가 계산 실수로 오답을 유발함. 
+        삼차함수의 변곡점 대칭성과 접선이 곡선과 다시 만나는 점 사이의 <strong>기하학적 $1:1:1:1$ 길이 비율</strong>을 시각화하지 못하는 직관 부재.
+      </div>
+    </div>
+
+    <div class="content-card">
+      <div class="card-heading">
+        <span>1. 핵심 원리 및 기하학적 도해 (Geometric Intuition)</span>
+        <span class="badge">수능 킬러 22번 빈출</span>
+      </div>
+      <p style="margin: 0 0 10px 0; color: #292524; font-size: 12.5px;">
+        삼차함수 $y = f(x)$ 위의 임의의 점 $(t, f(t))$에서의 접선이 곡선과 다시 만나는 점의 $x$좌표를 $\alpha$라 할 때, 
+        접점 $t$, 변곡점 $x_i$, 극값 위치, 그리고 교점 $\alpha$는 언제나 <strong>동일한 등간격 분할($1:1:1:1$)</strong>을 이룹니다.
+      </p>
+
+      <!-- Clean White Background Mathematical SVG -->
+      <div class="math-graph-white">
+        <svg viewBox="0 0 460 160" width="100%" height="150" xmlns="http://www.w3.org/2000/svg">
+          <!-- Axes in subtle Slate -->
+          <line x1="20" y1="125" x2="440" y2="125" stroke="#334155" stroke-width="1.2"/>
+          <line x1="50" y1="150" x2="50" y2="15" stroke="#334155" stroke-width="1.2"/>
+          <text x="444" y="129" fill="#080908" font-size="10" font-weight="bold">x</text>
+          <text x="45" y="12" fill="#080908" font-size="10" font-weight="bold">y</text>
+          <text x="42" y="137" fill="#64748B" font-size="9">O</text>
+
+          <!-- Main Cubic Curve in Pitch Black -->
+          <path d="M 50 145 C 100 20, 160 25, 230 80 C 300 135, 360 140, 410 15" fill="none" stroke="#080908" stroke-width="2" stroke-linecap="round"/>
+          <text x="415" y="24" fill="#080908" font-size="10.5" font-weight="bold">y = f(x)</text>
+
+          <!-- Horizontal Tangent at Local Max in Accent Red -->
+          <line x1="70" y1="46" x2="385" y2="46" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <text x="390" y="44" fill="#DC2626" font-size="9" font-weight="bold">접선</text>
+
+          <!-- 4 Vertical Projection Lines -->
+          <!-- x1 = 125 (Max / 접점 t) -->
+          <line x1="125" y1="46" x2="125" y2="125" stroke="#64748B" stroke-width="1" stroke-dasharray="2 2"/>
+          <circle cx="125" cy="46" r="3.5" fill="#DC2626"/>
+          <text x="125" y="38" fill="#DC2626" font-size="9" font-weight="bold" text-anchor="middle">접점 t</text>
+          <text x="125" y="136" fill="#334155" font-size="8.5" text-anchor="middle">t</text>
+
+          <!-- x2 = 215 (변곡점 x_i) -->
+          <line x1="215" y1="80" x2="215" y2="125" stroke="#64748B" stroke-width="1" stroke-dasharray="2 2"/>
+          <circle cx="215" cy="80" r="3.5" fill="#080908"/>
+          <text x="215" y="74" fill="#080908" font-size="9" font-weight="bold" text-anchor="middle">변곡점</text>
+          <text x="215" y="136" fill="#334155" font-size="8.5" text-anchor="middle">x_i</text>
+
+          <!-- x3 = 305 (극소점) -->
+          <line x1="305" y1="114" x2="305" y2="125" stroke="#64748B" stroke-width="1" stroke-dasharray="2 2"/>
+          <circle cx="305" cy="114" r="3.5" fill="#080908"/>
+          <text x="305" y="108" fill="#080908" font-size="9" font-weight="bold" text-anchor="middle">극소</text>
+
+          <!-- x4 = 365 (교점 \alpha) -->
+          <line x1="365" y1="46" x2="365" y2="125" stroke="#64748B" stroke-width="1" stroke-dasharray="2 2"/>
+          <circle cx="365" cy="46" r="3.5" fill="#DC2626"/>
+          <text x="365" y="38" fill="#DC2626" font-size="9" font-weight="bold" text-anchor="middle">교점 α</text>
+          <text x="365" y="136" fill="#334155" font-size="8.5" text-anchor="middle">α</text>
+
+          <!-- 1 : 1 : 1 Ratio Dimension Brackets -->
+          <line x1="125" y1="145" x2="215" y2="145" stroke="#080908" stroke-width="1"/>
+          <text x="170" y="153" fill="#080908" font-size="8.5" font-weight="bold" text-anchor="middle">비율 1</text>
+          
+          <line x1="215" y1="145" x2="305" y2="145" stroke="#080908" stroke-width="1"/>
+          <text x="260" y="153" fill="#080908" font-size="8.5" font-weight="bold" text-anchor="middle">비율 1</text>
+          
+          <line x1="305" y1="145" x2="365" y2="145" stroke="#080908" stroke-width="1"/>
+          <text x="335" y="153" fill="#080908" font-size="8.5" font-weight="bold" text-anchor="middle">비율 1</text>
+        </svg>
+      </div>
+
+      <div class="action-formula-box">
+        <div class="action-formula-title">실전 시험장 오답 방어 행동 공식</div>
+        <div class="action-formula-content">
+          접선과 삼차함수가 만나는 교점 문제를 만나면 식을 연립하지 말고, 
+          <strong>변곡점의 $x$좌표 $x_i = -\frac{b}{3a}$</strong>를 먼저 구한 뒤 
+          $\alpha - x_i = 2(x_i - t)$ 공식을 적용하여 3초 만에 교점을 확정한다!
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span>ReadMath 1:1 맞춤 개념서 | 약점 타격 리포트</span>
+      <span>PAGE 02</span>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 3: CONCEPT 02 - 조건부확률 표본공간 분할 ================= -->
+  <div class="page">
+    <div class="doc-header">
+      <span class="brand">ReadMath Personalized Concept Book</span>
+      <span>약점 타격 개념 02: 확률과 통계 - 표본공간의 직교 분할</span>
+    </div>
+
+    <div class="concept-header">
+      <div class="concept-tag">진단 코드: PROB-CONDITIONAL-PARTITION</div>
+      <h2 class="concept-title">조건부확률 $P(A|B)$의 분모 사건 직교 분할 모델링</h2>
+    </div>
+
+    <div class="root-cause-banner">
+      <div class="label">수험생 질문에서 포착된 인지적 근본 원인 (Root Cause)</div>
+      <div class="desc">
+        조건부확률 문제에서 시행 횟수가 누적될 때, 분모 사건 $B$를 서로소인 배반사건들로 
+        완전히 분할하지 않고 특정 케이스를 중복 카운트하거나 빠뜨려 정답률이 급락하는 인지적 오류.
+      </div>
+    </div>
+
+    <div class="content-card">
+      <div class="card-heading">
+        <span>1. 조건부확률의 본질: '축소된 표본공간(Reduced Sample Space)'</span>
+        <span class="badge">수능 준킬러 28번 빈출</span>
+      </div>
+      <p style="margin: 0 0 10px 0; color: #292524; font-size: 12.5px;">
+        조건부확률은 전체 표본공간 $S$를 버리고, 주어진 조건 $B$를 새로운 전체 우주(Universe)로 인정하는 연산입니다. 
+        따라서 분모 $P(B)$는 반드시 <strong>서로 배반인 사건들의 합</strong>으로 나타내야 합니다.
+      </p>
+      
+      <div style="background:#FAF8F3; border:1px solid #E7E0D4; border-radius:6px; padding:10px; margin:10px 0; font-size:12px; text-align:center;">
+        $$P(B) = P(B \cap A_1) + P(B \cap A_2) + \cdots + P(B \cap A_n) \quad (\text{단, } A_i\text{는 } S\text{의 분할})$$
+      </div>
+
+      <!-- Clean White Background Mathematical SVG -->
+      <div class="math-graph-white">
+        <svg viewBox="0 0 460 140" width="100%" height="130" xmlns="http://www.w3.org/2000/svg">
+          <!-- Entire Sample Space S in clean border -->
+          <rect x="30" y="15" width="400" height="110" rx="8" fill="#FAF8F3" stroke="#080908" stroke-width="1.5"/>
+          <text x="45" y="34" fill="#080908" font-size="11" font-weight="bold">전체 표본공간 S</text>
+
+          <!-- Partition Lines in subtle Slate -->
+          <line x1="160" y1="15" x2="160" y2="125" stroke="#64748B" stroke-width="1.2" stroke-dasharray="3 3"/>
+          <line x1="290" y1="15" x2="290" y2="125" stroke="#64748B" stroke-width="1.2" stroke-dasharray="3 3"/>
+          
+          <text x="95" y="115" fill="#64748B" font-size="9.5" font-weight="bold" text-anchor="middle">사건 A₁</text>
+          <text x="225" y="115" fill="#64748B" font-size="9.5" font-weight="bold" text-anchor="middle">사건 A₂</text>
+          <text x="355" y="115" fill="#64748B" font-size="9.5" font-weight="bold" text-anchor="middle">사건 A₃</text>
+
+          <!-- Condition Event B in Accent Red -->
+          <ellipse cx="230" cy="68" rx="145" ry="34" fill="rgba(220, 38, 38, 0.08)" stroke="#DC2626" stroke-width="1.8"/>
+          <text x="230" y="60" fill="#DC2626" font-size="11" font-weight="bold" text-anchor="middle">조건 사건 B (새로운 분모)</text>
+          
+          <circle cx="110" cy="72" r="3.5" fill="#DC2626"/>
+          <text x="110" y="86" fill="#080908" font-size="8.5" text-anchor="middle">B ∩ A₁</text>
+          
+          <circle cx="230" cy="80" r="3.5" fill="#DC2626"/>
+          <text x="230" y="94" fill="#080908" font-size="8.5" font-weight="bold" text-anchor="middle">B ∩ A₂ (구하는 분자)</text>
+          
+          <circle cx="340" cy="72" r="3.5" fill="#DC2626"/>
+          <text x="340" y="86" fill="#080908" font-size="8.5" text-anchor="middle">B ∩ A₃</text>
+        </svg>
+      </div>
+
+      <div class="action-formula-box">
+        <div class="action-formula-title">실전 시험장 오답 방어 행동 공식</div>
+        <div class="action-formula-content">
+          조건부확률 문장을 읽자마자 <strong>'~일 때' 앞부분의 조건</strong>에 형광펜을 긋고, 
+          그 사건이 일어날 수 있는 독립적인 갈래(경우 1, 경우 2, 경우 3)를 분모에 합으로 먼저 세팅한 뒤 분자를 선택한다!
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span>ReadMath 1:1 맞춤 개념서 | 약점 타격 리포트</span>
+      <span>PAGE 03</span>
+    </div>
+  </div>
+
+</body>
+</html>

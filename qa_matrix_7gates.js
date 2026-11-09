@@ -1886,6 +1886,70 @@ if (!htmlContent.includes('throwOnError: false') || !htmlContent.includes('.kate
 }
 gate8Details.push('KaTeX Error Resilience: throwOnError: false fallback and zero vertical letter collapse guaranteed');
 
+// 8.19 Visual Inspection & Printable Publishing Quality Assurance Protocol (Charter Article 1~5 & Rule 1~10)
+const conceptHtmlPath = path.join(ROOT_DIR, 'templates', 'concept_book.html');
+const njeHtmlPath = path.join(ROOT_DIR, 'templates', 'nje_exam_24.html');
+const conceptPdfPath = path.join(ROOT_DIR, 'public', 'downloads', 'ReadMath_개별맞춤_개념서_Sample.pdf');
+const njePdfPath = path.join(ROOT_DIR, 'public', 'downloads', 'ReadMath_2025수능킬러_변형24제_N제.pdf');
+
+// 1. Files existence & non-zero size
+if (!fs.existsSync(conceptHtmlPath) || !fs.existsSync(njeHtmlPath)) {
+  failGate(8, 'Publishing Templates Missing', 'templates/concept_book.html and templates/nje_exam_24.html must exist');
+}
+if (!fs.existsSync(conceptPdfPath) || !fs.existsSync(njePdfPath)) {
+  failGate(8, 'Compiled PDFs Missing', 'public/downloads concept book and N-je PDFs must be compiled and distributed');
+}
+if (fs.statSync(conceptPdfPath).size < 100000 || fs.statSync(njePdfPath).size < 300000) {
+  failGate(8, 'Truncated PDF Output', 'Generated PDFs must be complete high-resolution documents (> 100KB concept, > 300KB N-je)');
+}
+
+// 2. Zero Corrupted LaTeX Leaks in Templates
+const conceptContent = fs.readFileSync(conceptHtmlPath, 'utf8');
+const njeContent = fs.readFileSync(njeHtmlPath, 'utf8');
+
+if (conceptContent.includes('우rac') || njeContent.includes('우rac')) {
+  failGate(8, 'Corrupted LaTeX Form-Feed Leak', 'Templates must NOT contain form-feed corrupted LaTeX "우rac"');
+}
+if (conceptContent.includes('ext단') || conceptContent.includes('ext는')) {
+  failGate(8, 'Corrupted LaTeX Tab Leak', 'Templates must NOT contain tab-stripped LaTeX "ext단" or "ext는"');
+}
+if (conceptContent.includes(' alpha ') || conceptContent.includes('alpha라')) {
+  failGate(8, 'Naked Greek Variable Leak', 'Concept book must wrap Greek letters in math mode: $\\alpha$');
+}
+
+// 3. Mathematical Graph Aesthetics & Background Contrast
+if (conceptContent.includes('background: #090D16') || conceptContent.includes('background:#090D16') || conceptContent.includes('bg-[#090D16]')) {
+  failGate(8, 'Dark Container in Concept SVG', 'Concept book SVGs must use pure white (#FFFFFF) background, not dark black containers');
+}
+if (!conceptContent.includes('math-graph-white') || !conceptContent.includes('#DC2626')) {
+  failGate(8, 'Graph Contrast Armor', 'Concept book must use pure white graph container and single #DC2626 red auxiliary accent');
+}
+
+// 4. Authentic CSAT Exam Structure (24 Questions + 24 Explanations + NO "정답 기재란")
+if (njeContent.includes('정답 기재란') || njeContent.includes('정답기재란')) {
+  failGate(8, 'CSAT Authenticity Violation', 'nje_exam_24.html must NOT contain "[정답 기재란]" boxes; ample blank solving space must be provided naturally');
+}
+
+// Check all 24 questions exist
+for (let q = 1; q <= 24; q++) {
+  if (!njeContent.includes(`<span class="num">${q}.</span>`)) {
+    failGate(8, 'Missing N-Je Question', `nje_exam_24.html must contain Question ${q} (<span class="num">${q}.</span>)`);
+  }
+  if (!njeContent.includes(`[문제 ${q}]`)) {
+    failGate(8, 'Missing N-Je Explanation', `nje_exam_24.html must contain full 4-Way solution for [문제 ${q}]`);
+  }
+}
+if (!njeContent.includes('빠른 정답표') || !njeContent.includes('quick-ans-table')) {
+  failGate(8, 'Missing Quick Answer Table', 'nje_exam_24.html must end with comprehensive 24-question Quick Answer Key table on page 12');
+}
+
+// 5. App UI Flow Badges High Contrast Pairing
+if (!htmlContent.includes('text-emerald-800 dark:text-emerald-400') && !htmlContent.includes('text-emerald-700 dark:text-emerald-400')) {
+  failGate(8, 'UI Flow Badge Contrast Missing', 'preview.html DAG modal flow badges must use high-contrast dark/light pairs (text-emerald-800 dark:text-emerald-400)');
+}
+
+gate8Details.push('Visual Inspection & Publishing Gate: Zero corrupted LaTeX (우rac, ext단 0건), pure white math graphs, all 24 CSAT questions + 24 explanations verified, 0 "[정답 기재란]" labels, and high-contrast UI badge pairing guaranteed');
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================
