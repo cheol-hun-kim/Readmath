@@ -840,16 +840,27 @@ full_html = f'''<!DOCTYPE html>
       line-height: 1.5;
     }}
 
-    /* KaTeX Mathematical Inline Proportions in CSAT */
+    /* Authentic CSAT/KICE KaTeX Limits Above & Below without Line-Height Blow-up */
     .katex {{
-      font-size: 0.96em !important;
-      line-height: 1.2 !important;
-      text-indent: 0 !important;
-      margin: 0 1px !important;
+      font-size: 1.05em !important;
+      text-rendering: auto;
     }}
 
     .katex .op-limits > .vlist-t {{
-      text-align: left;
+      text-align: center !important;
+    }}
+    .katex .mop {{
+      font-size: 1.12em !important;
+      line-height: 1 !important;
+    }}
+    .katex .op-limits .vlist-t .vlist-r:first-child {{
+      font-size: 0.65em !important;
+    }}
+    .katex .op-limits .vlist-t .vlist-r:last-child {{
+      font-size: 0.65em !important;
+    }}
+    .katex .op-limits > .vlist-t > .vlist-r > .vlist {{
+      padding: 0 !important;
     }}
 
     .prob-title {{

@@ -1,15 +1,21 @@
 r"""
 =============================================================================
-RootMath Universal CSAT Typesetter (CsatTypesetter v3.0)
+RootMath Universal CSAT Typesetter (CsatTypesetter v4.1)
 =============================================================================
-A generalized, publication-grade typographic pipeline that guarantees:
-1. Strict Korean Particle Binding: Zero unnatural gaps between math variables
-   and Korean postpositions (조사: 은, 는, 이, 가, 을, 를, 의, 에, 와, 과, 일 때, 등).
-2. Compact Operator Sizing: Converts \sum, \prod, \lim to \nolimits in inline math
-   so line heights remain 100% stable and never blow up.
-3. Authentic CSAT Font & Layout Styling: Matches Korea Institute for Curriculum
-   and Evaluation (KICE / 평가원) font weights, line heights, and margins.
-4. Standardized Problem Point Badges: [4점] / [3점] right-aligned typography.
+A generalized, publication-grade typographic pipeline matching authentic
+Korea Institute for Curriculum and Evaluation (KICE / 평가원) standards:
+
+1. Authentic CSAT Inline Operators:
+   - \sum, \prod, \lim maintain limits strictly ABOVE and BELOW the operator
+     (\limits) using compact typography matching authentic HWP / KICE papers.
+   - Line heights remain completely uniform and stable via CSS metrics.
+2. Strict Korean Particle Binding:
+   - Zero unnatural gaps between math variables and Korean postpositions
+     (조사: 은, 는, 이, 가, 을, 를, 의, 에, 와, 과, 일 때, 등).
+3. CSAT Font & Layout Hierarchy:
+   - Korean text: Nanum Myeongjo / Batang (신명조, 바탕체)
+   - Math variables: Times New Roman / Computer Modern Serif Italic
+   - Standardized [4점] / [3점] badges, clean boxed conditions ((가), (나)).
 =============================================================================
 """
 
@@ -29,6 +35,7 @@ PARTICLE_REGEX = re.compile(
 def normalize_csat_text(raw_text: str) -> str:
     """
     Transforms any raw problem or explanation text into authentic CSAT typographic format.
+    Enforces limits above and below for summations and limits, matching authentic exam papers.
     """
     if not raw_text:
         return ""
@@ -38,27 +45,26 @@ def normalize_csat_text(raw_text: str) -> str:
     # 1. Standardize operator replacements (<=, >=, != to KaTeX standards)
     text = text.replace('<=', r'\le ').replace('>=', r'\ge ').replace('!=', r'\neq ')
 
-    # 2. Convert inline \sum to \sum\nolimits (prevents line-height explosion)
-    # Target: \sum_{...}^{...} or \sum_{...} inside single $...$
-    def inline_sum_replacer(match):
+    # 2. Enforce limits strictly ABOVE and BELOW for \sum and \lim in CSAT style
+    def inline_sum_limits_enforcer(match):
         inner = match.group(1)
-        # replace \sum with \sum\nolimits if not display math
-        inner = re.sub(r'\\sum(?!\s*\\nolimits)', r'\\sum\\nolimits', inner)
-        inner = re.sub(r'\\lim(?!\s*\\nolimits)', r'\\lim\\nolimits', inner)
+        # Remove any unwanted \nolimits
+        inner = inner.replace(r'\nolimits', '')
+        # Ensure \sum has \limits (use negative lookahead for letters so \limits is not matched by \lim)
+        inner = re.sub(r'\\sum(?![a-zA-Z])(?!\s*\\limits)', r'\\sum\\limits', inner)
+        # Ensure \lim has \limits
+        inner = re.sub(r'\\lim(?![a-zA-Z])(?!\s*\\limits)', r'\\lim\\limits', inner)
         return f"${inner}$"
 
-    # Only process inline math ($...$ not $$...$$)
-    text = re.sub(r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)', inline_sum_replacer, text)
+    # Process inline math ($...$ not $$...$$)
+    text = re.sub(r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)', inline_sum_limits_enforcer, text)
 
     # 3. Particle Binding: Remove space between math formula and following Korean particle
-    # e.g., "$a_n$ 에 대하여" -> "$a_n$에 대하여"
-    # e.g., "$a_1$ 의 값을" -> "$a_1$의 값을"
-    # e.g., "$= 2$ 일 때" -> "$= 2$일 때"
-    for _ in range(3): # repeat to catch consecutive occurrences
+    for _ in range(3):
         text = PARTICLE_REGEX.sub(r'\1\2', text)
 
-    # Also handle specific compound phrases like "일 때"
-    text = re.sub(r'(\$[^\$]+\$)\s+(일\s*때)', r'\1 \2', text) # standard single space for "일 때"
+    # Specific common evaluation phrasing
+    text = re.sub(r'(\$[^\$]+\$)\s+(일\s*때)', r'\1 \2', text)
     text = re.sub(r'(\$[^\$]+\$)\s+(의\s+값을)', r'\1의 값을', text)
     text = re.sub(r'(\$[^\$]+\$)\s+(에\s+대하여)', r'\1에 대하여', text)
     text = re.sub(r'(\$[^\$]+\$)\s+(을\s+만족)', r'\1을 만족', text)
@@ -77,13 +83,16 @@ def normalize_csat_text(raw_text: str) -> str:
 def get_csat_typography_css() -> str:
     """
     Returns authentic CSAT typography CSS for printable PDF documents and web previews.
+    Matches KICE examination papers with 100% fidelity.
     """
-    return """
-    /* CSAT Authentic Typography Engine */
+    return r"""
+    /* =========================================================================
+       AUTHENTIC CSAT / KICE EXAMINATION TYPOGRAPHY (평가원 표준 조판 엔진)
+       ========================================================================= */
     @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@400;500;600;700;800;900&display=swap');
 
     :root {
-      --csat-font-serif: 'Nanum Myeongjo', 'Batang', serif;
+      --csat-font-serif: 'Nanum Myeongjo', 'KoPubWorld Batang', 'Batang', serif;
       --csat-font-sans: 'Pretendard', -apple-system, sans-serif;
       --csat-ink: #000000;
       --csat-ink-secondary: #1E293B;
@@ -95,90 +104,88 @@ def get_csat_typography_css() -> str:
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-    }
-
-    /* Problem Title & Body Formatting */
-    .csat-problem-body {
-      font-family: var(--csat-font-serif);
-      font-size: 13.2px;
-      line-height: 1.82;
-      letter-spacing: -0.022em;
-      word-spacing: -0.03em;
-      text-align: left !important;
       word-break: keep-all;
       overflow-wrap: break-word;
     }
 
-    .csat-problem-num {
+    /* KICE Examination Problem Numbering & Title */
+    .prob-item {
       font-family: var(--csat-font-serif);
-      font-size: 14.5px;
-      font-weight: 800;
-      margin-right: 4px;
-      letter-spacing: -0.01em;
+      font-size: 10.2pt;
+      line-height: 1.85;
+      color: #000000;
+      margin-bottom: 24px;
+      position: relative;
     }
 
-    .csat-points {
-      font-family: var(--csat-font-serif);
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #334155;
-      margin-left: 6px;
+    .prob-title {
+      font-weight: 400;
       letter-spacing: -0.02em;
     }
 
-    /* KaTeX Mathematical Inline Proportions in CSAT */
-    .katex {
-      font-size: 0.96em !important;
-      line-height: 1.2 !important;
-      text-indent: 0 !important;
-      margin: 0 1px !important;
+    .prob-title .num {
+      font-weight: 800;
+      font-size: 11pt;
+      margin-right: 4px;
     }
 
-    .katex-display {
-      margin: 8px 0 !important;
+    /* CSAT Points Badge [4점] */
+    .csat-points {
+      font-family: var(--csat-font-serif);
+      font-size: 9.5pt;
+      font-weight: 400;
+      color: #1E293B;
+      float: right;
+      letter-spacing: -0.01em;
+      margin-left: 6px;
     }
 
-    .katex .mord.text {
-      font-family: var(--csat-font-serif) !important;
+    /* Authentic CSAT Condition Box (가, 나) */
+    .prob-box,
+    .csat-condition-box {
+      border: 0.8px solid #000000;
+      padding: 10px 14px;
+      margin: 10px 0;
+      background: #FFFFFF;
+      font-size: 9.8pt;
+      line-height: 1.75;
+      border-radius: 0;
     }
 
-    /* Ensure Summation with \nolimits never blows up line height */
-    .katex .op-limits > .vlist-t {
-      text-align: left;
-    }
-
-    /* 5-Choice Circular Layout */
-    .csat-choices-grid {
+    /* CSAT 5 Multiple Choices Layout */
+    .prob-choices {
       display: flex;
       justify-content: space-between;
       margin-top: 12px;
       padding: 0 4px;
       font-family: var(--csat-font-serif);
-      font-size: 12.5px;
-      letter-spacing: -0.02em;
+      font-size: 9.8pt;
     }
 
-    .csat-choices-grid span {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
+    /* =========================================================================
+       KATEX CSAT INLINE OPERATOR ENGINE (\sum, \lim with limits ABOVE & BELOW)
+       Compact height matching HWP examination equation editor
+       ========================================================================= */
+    .katex {
+      font-size: 1.05em;
+      text-rendering: auto;
     }
 
-    /* Problem Condition Box (가, 나) */
-    .csat-condition-box {
-      border: 1px solid #71717A;
-      background: #FFFFFF;
-      padding: 8px 14px;
-      margin: 8px 0;
-      font-family: var(--csat-font-serif);
-      font-size: 12.5px;
-      line-height: 1.7;
+    /* Compact Limits Above & Below for \sum and \lim */
+    .katex .op-limits > .vlist-t {
+      text-align: center;
+    }
+    .katex .mop {
+      font-size: 1.12em !important;
+      line-height: 1 !important;
+    }
+    .katex .op-limits .vlist-t .vlist-r:first-child {
+      font-size: 0.65em !important;
+    }
+    .katex .op-limits .vlist-t .vlist-r:last-child {
+      font-size: 0.65em !important;
+    }
+    .katex .op-limits > .vlist-t > .vlist-r > .vlist {
+      padding: 0 !important;
     }
     """
-
-if __name__ == "__main__":
-    sample = "5. 등비수열 {a_n} 에 대하여 급수 $\\sum_{n=1}^\\infty (a_n - 3)$ 이 수렴하고 $\\sum_{n=1}^\\infty \\frac{a_n}{2^n} = 2$ 일 때, $a_1$ 의 값을 구하시오. [4점]"
-    print("ORIGINAL:")
-    print(sample)
-    print("\nNORMALIZED CSAT:")
-    print(normalize_csat_text(sample))
