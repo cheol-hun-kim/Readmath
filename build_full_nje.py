@@ -1,6 +1,7 @@
 import os
 
-from generate_master_nje import get_svg_for_prob
+from generate_universal_diagrams import build_universal_svg_for_problem as get_svg_for_prob
+from csat_typesetter import normalize_csat_text
 
 # Questions Data
 QUESTIONS = [
@@ -216,9 +217,10 @@ for p_idx in range(6):
     col_right_html = ""
     
     for i, q in enumerate(q_page):
+        norm_text = normalize_csat_text(q["text"])
         ch_html = ""
         if q["choices"]:
-            ch_spans = "".join([f"<span>{c}</span>" for c in q["choices"]])
+            ch_spans = "".join([f"<span>{normalize_csat_text(c)}</span>" for c in q["choices"]])
             ch_html = f'<div class="prob-choices">{ch_spans}</div>'
             
         box_type = "5지선다형" if q["choices"] else "단답형"
@@ -229,7 +231,7 @@ for p_idx in range(6):
             <span class="type-pill">{box_type}</span>
           </div>
           <div class="prob-title">
-            <span class="num">{q["num"]}.</span>{q["text"]}<span class="prob-points">[{q["points"]}점]</span>
+            <span class="num">{q["num"]}.</span>{norm_text}<span class="prob-points">[{q["points"]}점]</span>
           </div>
           {ch_html}
           <div class="calc-space"></div>
@@ -292,6 +294,9 @@ for sol_idx in range(12):
     svg2 = get_svg_for_prob(q2["num"])
     
     def make_sol_card(q, svg):
+        norm_stuck = normalize_csat_text(q["stuck"])
+        norm_recipe = normalize_csat_text(q["recipe"])
+        norm_steps = normalize_csat_text(q["steps"])
         return f'''<div class="sol-card-spacious">
           <div class="sol-top">
             <span class="sol-prob-name">[문제 {q["num"]}] {q["meta"]} ({q["topic"]})</span>
@@ -303,14 +308,14 @@ for sol_idx in range(12):
           </div>
 
           <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
-          <div class="sol-desc">{q["stuck"]}</div>
+          <div class="sol-desc">{norm_stuck}</div>
 
           <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
-          <div class="sol-desc">{q["recipe"]}</div>
+          <div class="sol-desc">{norm_recipe}</div>
 
           <div class="sol-steps-wrap">
             <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
-            <div class="sol-steps-content">{q["steps"]}</div>
+            <div class="sol-steps-content">{norm_steps}</div>
           </div>
         </div>'''
 
@@ -835,9 +840,38 @@ full_html = f'''<!DOCTYPE html>
       line-height: 1.5;
     }}
 
-    /* KaTeX Mathematical Inline Proportions */
+    /* KaTeX Mathematical Inline Proportions in CSAT */
     .katex {{
-      font-size: 0.98em !important;
+      font-size: 0.96em !important;
+      line-height: 1.2 !important;
+      text-indent: 0 !important;
+      margin: 0 1px !important;
+    }}
+
+    .katex .op-limits > .vlist-t {{
+      text-align: left;
+    }}
+
+    .prob-title {{
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      font-size: 13.2px;
+      font-weight: 600;
+      line-height: 1.82;
+      text-align: left !important;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      letter-spacing: -0.022em;
+      word-spacing: -0.03em;
+      margin-bottom: 6px;
+    }}
+
+    .prob-points {{
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-left: 6px;
+      letter-spacing: -0.02em;
     }}
   </style>
 </head>
