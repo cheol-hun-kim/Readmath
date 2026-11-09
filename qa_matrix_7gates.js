@@ -1903,7 +1903,7 @@ if (fs.statSync(conceptPdfPath).size < 100000 || fs.statSync(njePdfPath).size < 
   failGate(8, 'Truncated PDF Output', 'Generated PDFs must be complete high-resolution documents (> 100KB concept, > 300KB N-je)');
 }
 
-// 2. Zero Corrupted LaTeX Leaks in Templates
+// 2. Zero Corrupted LaTeX Leaks & Control Characters in Templates
 const conceptContent = fs.readFileSync(conceptHtmlPath, 'utf8');
 const njeContent = fs.readFileSync(njeHtmlPath, 'utf8');
 
@@ -1915,6 +1915,18 @@ if (conceptContent.includes('ext단') || conceptContent.includes('ext는')) {
 }
 if (conceptContent.includes(' alpha ') || conceptContent.includes('alpha라')) {
   failGate(8, 'Naked Greek Variable Leak', 'Concept book must wrap Greek letters in math mode: $\\alpha$');
+}
+if (njeContent.includes('\x0b') || conceptContent.includes('\x0b')) {
+  failGate(8, 'Corrupted Vertical Tab Leak', 'Templates must NOT contain unescaped \\v vertical tab characters');
+}
+if (njeContent.includes('text-align: justify')) {
+  failGate(8, 'CSAT White-Space River Leak', 'nje_exam_24.html must NOT use text-align: justify which creates grotesque gaps between words');
+}
+
+// 2.5 All 24 Explanations Must Contain Dedicated SVG Diagrams (Zero Missing Graphs)
+const svgMatches = njeContent.match(/class="sol-svg-wrap"/g) || [];
+if (svgMatches.length < 24) {
+  failGate(8, 'Missing Mathematical SVGs in Explanations', `Every one of the 24 solutions must contain a dedicated mathematical SVG diagram (found ${svgMatches.length}/24)`);
 }
 
 // 3. Mathematical Graph Aesthetics & Background Contrast
