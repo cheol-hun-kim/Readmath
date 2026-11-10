@@ -2044,6 +2044,17 @@ if (fs.existsSync(LANDING_SRC)) {
   }
 }
 
+// 10. RootMath Full System Design Rules & Palette Purity Gate (Gate 8.9)
+try {
+  const pyDesignAudit = execSync('python audit_full_design_system.py', { encoding: 'utf8' });
+  if (!pyDesignAudit.includes('TOTAL SYSTEMIC DESIGN VIOLATIONS: 0')) {
+    failGate(8, 'Full System Design System Violation', 'Design rules audit failed:\n' + pyDesignAudit);
+  }
+  gate8Details.push('Full System Design System Audit: 100% clean across landing, preview, admin, concept book, and N-je exam (0 purple/indigo, 0 harsh ambers, 0 flex td anti-patterns)');
+} catch (e) {
+  failGate(8, 'Design Audit Crash', 'audit_full_design_system.py failed: ' + e.message);
+}
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================

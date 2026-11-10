@@ -470,7 +470,7 @@
     body.theme-day .manifesto-card .text-slate-300 {
       color: #475569 !important;
     }
-    body.theme-day .manifesto-card .text-amber-300 {
+    body.theme-day .manifesto-card .text-stone-200 {
       color: #EA580C !important;
     }
 
@@ -556,8 +556,8 @@
       color: #1E1B4B !important; /* Deep Navy, 100% sharp contrast on light background */
       font-weight: 700 !important;
     }
-    body.theme-day .text-amber-300,
-    body.theme-day .text-amber-400 {
+    body.theme-day .text-stone-200,
+    body.theme-day .text-[#EA580C] {
       color: #EA580C !important; /* Deep Warm Amber */
       font-weight: 700 !important;
     }
@@ -639,7 +639,7 @@
       color: #1E293B !important;
     }
     body.theme-day #solution-steps-container .text-stone-200,
-    body.theme-day #solution-steps-container .text-amber-300 {
+    body.theme-day #solution-steps-container .text-stone-200 {
       color: #0F172A !important;
     }
 
@@ -724,7 +724,7 @@
       background-color: #FFFFFF !important;
       border-color: #C7D2FE !important;
     }
-    body.theme-day #solution-final-answer-card .text-amber-300,
+    body.theme-day #solution-final-answer-card .text-stone-200,
     body.theme-day #solution-final-answer-card .text-stone-300 {
       color: #1E1B4B !important;
     }
@@ -838,7 +838,7 @@
       border-color: #C7D2FE !important;
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08) !important;
     }
-    body.theme-day #prescription-card .text-amber-300 {
+    body.theme-day #prescription-card .text-stone-200 {
       color: #EA580C !important;
     }
     body.theme-day #prescription-card [class*="bg-stone-900"] {
@@ -862,7 +862,7 @@
       border-color: #CBD5E1 !important;
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08) !important;
     }
-    body.theme-day #solution-thought-check-card .text-amber-300 {
+    body.theme-day #solution-thought-check-card .text-stone-200 {
       color: #EA580C !important;
     }
     body.theme-day .thought-check-row {
@@ -923,8 +923,8 @@
       background-color: #EEF2FF !important;
       border-color: #C7D2FE !important;
     }
-    body.theme-day #report-dynamic-container .text-amber-300,
-    body.theme-day #report-dynamic-container .text-amber-400 {
+    body.theme-day #report-dynamic-container .text-stone-200,
+    body.theme-day #report-dynamic-container .text-[#EA580C] {
       color: #EA580C !important;
     }
     body.theme-day #report-dynamic-container h3.text-white {
@@ -942,8 +942,8 @@
     body.theme-day #preemptive-radar-card p {
       color: #EA580C !important;
     }
-    body.theme-day #preemptive-radar-card .text-amber-300,
-    body.theme-day #preemptive-radar-card .text-amber-400,
+    body.theme-day #preemptive-radar-card .text-stone-200,
+    body.theme-day #preemptive-radar-card .text-[#EA580C],
     body.theme-day #preemptive-radar-card svg.lucide-alert-triangle {
       color: #EA580C !important;
       stroke: #EA580C !important;
@@ -1163,8 +1163,8 @@
     body.theme-day .text-stone-300,
     body.theme-day .text-[#EA580C] { color: #EA580C !important; }
     body.theme-day .text-amber-200,
-    body.theme-day .text-amber-300,
-    body.theme-day .text-amber-400 {
+    body.theme-day .text-stone-200,
+    body.theme-day .text-[#EA580C] {
       color: #EA580C !important; /* Deep Warm Amber Point */
       font-weight: 700 !important;
     }
@@ -1409,8 +1409,8 @@
     body.theme-day .text-stone-300,
     body.theme-day .text-[#EA580C] { color: #EA580C !important; }
     body.theme-day .text-amber-200,
-    body.theme-day .text-amber-300,
-    body.theme-day .text-amber-400 {
+    body.theme-day .text-stone-200,
+    body.theme-day .text-[#EA580C] {
       color: #EA580C !important;
     }
     body.theme-day .text-blue-200,
@@ -2466,6 +2466,15 @@
       color: #FFFFFF !important;
     }
 
+  
+    /* Day Mode Deep Ink WCAG AA Armor */
+    body.theme-day .text-amber-400,
+    body.day-mode .text-amber-400,
+    body.theme-day .text-amber-300,
+    body.day-mode .text-amber-300 {
+      color: #B45309 !important;
+    }
+
   </style>
 
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
@@ -3231,10 +3240,10 @@
       font-weight: 700 !important;
     }
 
-    body.theme-day .text-amber-400,
-    body.day-mode .text-amber-400,
-    body.theme-day .text-amber-300,
-    body.day-mode .text-amber-300,
+    body.theme-day .text-[#EA580C],
+    body.day-mode .text-[#EA580C],
+    body.theme-day .text-stone-200,
+    body.day-mode .text-stone-200,
     body.theme-day .text-yellow-400,
     body.day-mode .text-yellow-400 {
       color: #B45309 !important; /* Deep Bronze Amber Ink, 6.2:1 */
@@ -3373,7 +3382,7 @@
           
           <!-- Action, Role & Grade Chips -->
           <div class="flex items-center gap-1 shrink-0 whitespace-nowrap">
-            <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
+            <button onclick="toggleTheme()" id="phone-theme-toggle-btn" class="flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-[#EA580C] border border-slate-700 transition shrink-0 shadow-xs" title="데이/나이트 모드 전환">
               <i data-lucide="sun" class="w-3.5 h-3.5"></i>
             </button>
             <button onclick="toggleTeacherMode()" id="camera-role-btn" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] font-bold px-2 h-[26px] rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none" title="학생/선생님 모드 전환">
@@ -3381,7 +3390,7 @@
               <span id="camera-role-text">학생</span>
             </button>
             <button onclick="openModal('account-mgmt')" id="quota-badge-btn" class="flex h-[26px] bg-stone-900/80 hover:bg-stone-850/80 border border-orange-500/40 text-stone-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none" title="잔여 문제 풀이 횟수 및 계정 관리">
-              <i data-lucide="zap" class="w-3 h-3 text-amber-400 shrink-0"></i>
+              <i data-lucide="zap" class="w-3 h-3 text-[#EA580C] shrink-0"></i>
               <span id="quota-text">무료 3회</span>
             </button>
             <button onclick="openGradeModal()" id="current-grade-badge" class="flex h-[26px] bg-stone-900/80 hover:bg-stone-850 border border-orange-500/40 text-stone-300 text-[10.5px] font-bold px-2 rounded-lg flex items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none" title="학년 선택 및 교육과정 확인">
@@ -3450,7 +3459,7 @@
         <!-- Sample Problem Exploration Mode Banner -->
         <div id="sample-mode-banner" class="hidden bg-stone-900/90 border border-orange-500/50 rounded-2xl p-3 flex items-center justify-between text-stone-200 shadow-md">
           <div class="flex items-center gap-2">
-            <div class="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center text-amber-300 shrink-0">
+            <div class="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center text-stone-200 shrink-0">
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
             </div>
             <div>
@@ -3466,13 +3475,13 @@
         <!-- Preemptive Root-Cause Radar Banner -->
         <div id="preemptive-radar-card" class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between gap-3 shadow-xs">
           <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+            <div class="w-7 h-7 rounded-xl bg-amber-500/20 text-[#EA580C] flex items-center justify-center shrink-0">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-[#EA580C]"></i>
             </div>
             <div class="min-w-0">
               <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-amber-300">유사 약점 주의: 도식화/그래프 파악</span>
-                <span id="preemptive-radar-badge" class="bg-amber-950 text-amber-300 border border-amber-500/40 text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">패턴 감지</span>
+                <span class="text-xs font-bold text-white">유사 약점 주의: 도식화/그래프 파악</span>
+                <span id="preemptive-radar-badge" class="bg-stone-900 text-[#EA580C] border border-orange-500/30 text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">패턴 감지</span>
               </div>
               <p id="preemptive-radar-text" class="text-[10.5px] text-slate-300 truncate">
                 수식 전개 전에 그래프 개형을 먼저 그려보면 오답을 예방할 수 있습니다.
@@ -3514,8 +3523,8 @@
         <!-- AI 기출 & 교재 원형 출처 특정 카드 (QANDA Assistant-grade Intelligence) -->
         <div id="solution-source-attribution-card" class="bg-slate-900 border border-orange-500/40 rounded-2xl p-3.5 space-y-2.5">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-              <i data-lucide="compass" class="w-4 h-4 text-amber-400"></i>
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <i data-lucide="compass" class="w-4 h-4 text-[#EA580C]"></i>
               <span>AI 기출 &amp; 교재 원형 출처 특정</span>
             </span>
             <span id="source-match-rate-badge" class="text-[10px] font-extrabold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-full">
@@ -3530,7 +3539,7 @@
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-400 font-bold">연계 교재:</span>
-              <span id="source-matched-book" class="text-amber-300 font-bold text-right">EBS 수능특강 / 전국연합 학력평가 기출 총괄서 수능기출 고난도</span>
+              <span id="source-matched-book" class="text-white font-bold text-right">EBS 수능특강 / 전국연합 학력평가 기출 총괄서 수능기출 고난도</span>
             </div>
             <div class="pt-1.5 border-t border-slate-800/80">
               <span class="text-[11px] text-slate-400 font-semibold block mb-1">변형 포인트 분석:</span>
@@ -3595,7 +3604,7 @@
         <!-- Weakness Thought-Process Checkpoint Card (약점 포인트 체크: 핵심 발상 자가진단) -->
         <div id="solution-thought-check-card" class="bg-slate-900 border-2 border-orange-500/40 rounded-2xl p-3.5 space-y-3 shadow-md w-full max-w-full overflow-hidden">
           <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/30">
-            <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+            <span class="text-xs font-black text-white flex items-center gap-1.5">
               <i data-lucide="check-square" class="w-4 h-4 text-[#EA580C]"></i>
               <span>약점 포인트 체크</span>
             </span>
@@ -3655,15 +3664,15 @@
           <!-- Final Answer Card -->
           <div id="solution-final-answer-card" class="bg-slate-900 border border-orange-500/50 rounded-2xl p-3.5 space-y-2.5 shadow-lg">
             <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
-              <span class="text-xs font-black text-amber-300 flex items-center gap-1.5 shrink-0">
-                <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+              <span class="text-xs font-black text-white flex items-center gap-1.5 shrink-0">
+                <i data-lucide="award" class="w-4 h-4 text-[#EA580C]"></i>
                 <span id="solution-final-answer-title">최종 정답</span>
               </span>
               <span id="solution-final-answer-type-badge" class="text-[10px] font-bold text-stone-300 bg-stone-900 border border-orange-500/40 px-2.5 py-0.5 rounded-full shrink-0">
                 정답 검증 완료
               </span>
             </div>
-            <div id="solution-final-answer" class="text-sm font-black text-amber-300">
+            <div id="solution-final-answer" class="text-sm font-black text-stone-200">
               <div class="bg-slate-950/90 border border-orange-500/30 rounded-xl p-3 text-center">
                 <span>$a = 2$</span>
               </div>
@@ -3682,21 +3691,21 @@
         <div id="teacher-coaching-card" class="hidden bg-slate-900 border-2 border-amber-500/60 rounded-2xl p-3.5 space-y-3 shadow-xl transition-all">
           <div class="flex items-center justify-between pb-1.5 border-b border-amber-500/30 gap-2">
             <div class="flex items-center gap-2 min-w-0">
-              <i data-lucide="book-open" class="w-4 h-4 text-amber-400 shrink-0"></i>
+              <i data-lucide="book-open" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
               <div class="min-w-0">
-                <h3 class="text-xs font-black text-amber-300 truncate">선생님 1:1 대화식 티칭 가이드</h3>
+                <h3 class="text-xs font-black text-white truncate">선생님 1:1 대화식 티칭 가이드</h3>
                 <p class="text-[10px] text-slate-300 truncate">출제자 의도 유도 대본 &amp; 맞춤 클리닉 교재 솔루션</p>
               </div>
             </div>
-            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-extrabold px-2 py-0.5 rounded-full shrink-0">선생님 전용</span>
+            <span class="bg-orange-500/15 text-[#EA580C] border border-orange-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded-full shrink-0">선생님 전용</span>
           </div>
 
           <div class="space-y-2">
             <div class="flex items-center justify-between gap-1">
               <span class="text-[11px] font-bold text-slate-200 flex items-center gap-1 shrink-0">
-                <i data-lucide="messages-square" class="w-3.5 h-3.5 text-amber-400"></i> 3단계 유도 질문 대본
+                <i data-lucide="messages-square" class="w-3.5 h-3.5 text-[#EA580C]"></i> 3단계 유도 질문 대본
               </span>
-              <span class="text-[10px] text-amber-300/80 font-medium shrink-0">발문 가이드</span>
+              <span class="text-[10px] text-white/80 font-medium shrink-0">발문 가이드</span>
             </div>
 
             <div id="teacher-socratic-steps-container" class="space-y-1.5 text-xs">
@@ -3704,7 +3713,7 @@
             </div>
 
             <div id="teacher-pro-tip-box" class="bg-slate-950/90 border border-amber-500/30 rounded-xl p-2.5 flex items-start gap-2 text-[11px] text-amber-200">
-              <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+              <i data-lucide="lightbulb" class="w-4 h-4 text-[#EA580C] shrink-0 mt-0.5"></i>
               <span id="teacher-pro-tip-text"></span>
             </div>
           </div>
@@ -3731,8 +3740,8 @@
               <i data-lucide="message-square" class="w-4 h-4 text-[#EA580C]"></i> <span>리드 쌤과 1:1 대화</span>
             </button>
           </div>
-          <button onclick="sendQuestionToTeacher()" class="w-full h-11 bg-stone-900 hover:bg-stone-850 text-amber-300 border border-amber-500/40 font-bold px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
-            <i data-lucide="send" class="w-3.5 h-3.5 text-amber-400"></i>
+          <button onclick="sendQuestionToTeacher()" class="w-full h-11 bg-stone-900 hover:bg-stone-850 text-stone-200 border border-amber-500/40 font-bold px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="send" class="w-3.5 h-3.5 text-[#EA580C]"></i>
             <span>담당 선생님께 이 문제 질문 전송</span>
           </button>
         </div>
@@ -3820,8 +3829,8 @@
         <!-- Step 3: Dynamic Prescription Display & Confirmation -->
         <div id="prescription-card" class="bg-slate-900 border border-orange-500/50 rounded-2xl p-3.5 space-y-3 w-full max-w-full overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-              <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> AI 맞춤 처방 및 원인 분석
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <i data-lucide="zap" class="w-4 h-4 text-[#EA580C]"></i> AI 맞춤 처방 및 원인 분석
             </span>
             <span id="prescription-cat-badge" class="bg-stone-850 text-stone-300 text-[10px] font-bold px-2 py-0.5 rounded border border-orange-500/40">
               그림/그래프 못 그림
@@ -4433,10 +4442,10 @@
         <div id="settings-teacher-pricing-card" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-xl p-3.5 space-y-3">
           <div class="flex items-center justify-between pb-1.5 border-b border-amber-500/30">
             <div class="flex items-center gap-2">
-              <i data-lucide="building" class="w-4 h-4 text-amber-400"></i>
+              <i data-lucide="building" class="w-4 h-4 text-[#EA580C]"></i>
               <span class="text-xs font-extrabold text-white">선생님 / 학원 멤버십 안내</span>
             </div>
-            <span class="bg-amber-500/20 text-amber-300 text-[9px] font-bold px-2 py-0.5 rounded border border-amber-500/30">선생님 전용</span>
+            <span class="bg-amber-500/20 text-white text-[9px] font-bold px-2 py-0.5 rounded border border-amber-500/30">선생님 전용</span>
           </div>
           
           <div class="grid grid-cols-2 gap-2">
@@ -4446,7 +4455,7 @@
                 <span class="text-[11px] font-bold text-white">선생회원 플랜</span>
                 <span class="text-[8.5px] bg-slate-800 text-slate-300 px-1 py-0.2 rounded">과외/공부방</span>
               </div>
-              <p class="text-xs font-black text-amber-300">월 59,000원</p>
+              <p class="text-xs font-black text-stone-200">월 59,000원</p>
               <ul class="text-[9.5px] text-slate-300 space-y-0.5 pt-0.5">
                 <li>• 원생 20명 계정 관리</li>
                 <li>• 1:1 대화식 발문 대본</li>
@@ -4459,9 +4468,9 @@
               <span class="absolute -top-1.5 right-1.5 bg-red-600 text-white text-[8px] font-black px-1.5 py-0.2 rounded-full">추천</span>
               <div class="flex items-center justify-between">
                 <span class="text-[11px] font-bold text-amber-200">학원 스탠다드</span>
-                <span class="text-[8.5px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded">단과/입시</span>
+                <span class="text-[8.5px] bg-amber-950 text-white px-1 py-0.2 rounded">단과/입시</span>
               </div>
-              <p class="text-xs font-black text-amber-300">월 129,000원</p>
+              <p class="text-xs font-black text-stone-200">월 129,000원</p>
               <ul class="text-[9.5px] text-slate-300 space-y-0.5 pt-0.5">
                 <li>• 원생 30명 기본 관리</li>
                 <li>• 원장 전용 관리자 관제실</li>
@@ -4474,14 +4483,14 @@
             <button onclick="requestTeacherPlanInquiry()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-black text-xs py-2 rounded-xl transition">
               선생님 전용 무료 체험 신청
             </button>
-            <a href="/landing#pricing" target="_blank" class="px-3 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold py-2 rounded-xl transition flex items-center gap-1">
+            <a href="/landing#pricing" target="_blank" class="px-3 bg-slate-800 hover:bg-slate-700 text-stone-200 border border-amber-500/40 text-xs font-bold py-2 rounded-xl transition flex items-center gap-1">
               <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
               <span>웹 결제 센터</span>
             </a>
           </div>
 
           <div class="bg-slate-950/70 rounded-lg p-2 text-[10.5px] text-slate-300 space-y-1 border border-slate-800">
-            <span class="text-amber-300 font-bold block">왜 선생님 전용 기능이 차별화되나요?</span>
+            <span class="text-white font-bold block">왜 선생님 전용 기능이 차별화되나요?</span>
             <p class="leading-relaxed">
               학생들은 스스로 긴 해설을 읽기보다 선생님과 대화하며 말로 설명을 듣길 원합니다. ReadMath는 문제마다 <strong>출제자 3단계 유도 질문 대본</strong>과 <strong>학생 이름이 박힌 맞춤 클리닉 교재</strong>, <strong>학부모 카톡 브리핑</strong>을 즉시 제공하여 수업 준비 시간을 획기적으로 줄여줍니다.
             </p>
@@ -4585,7 +4594,7 @@
           </div>
           <div id="settings-wl-contact-box" class="hidden text-[10px] bg-slate-950/80 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
             <span class="text-slate-400">원장 직통 상담:</span>
-            <span id="settings-wl-phone" class="font-bold text-amber-300">010-0000-0000</span>
+            <span id="settings-wl-phone" class="font-bold text-white">010-0000-0000</span>
           </div>
         </div>
 
@@ -4630,7 +4639,7 @@
             <button onclick="setUserRole('student')" class="bg-stone-900/80 hover:bg-stone-850 text-stone-300 border border-orange-500/30 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1">
               <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> 학생 모드로 보기
             </button>
-            <button onclick="setUserRole('teacher')" class="bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-500/30 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1">
+            <button onclick="setUserRole('teacher')" class="bg-amber-950/80 hover:bg-amber-900 text-stone-200 border border-amber-500/30 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1">
               <i data-lucide="book-open" class="w-3.5 h-3.5"></i> 선생님 모드로 보기
             </button>
           </div>
@@ -4693,10 +4702,10 @@
               <div class="border-t border-slate-800 pt-2 space-y-2">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1.5">
-                    <i data-lucide="inbox" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <i data-lucide="inbox" class="w-3.5 h-3.5 text-[#EA580C]"></i>
                     <span class="text-xs font-extrabold text-white">학생 건의사항 및 문제 신고 접수함</span>
                   </div>
-                  <span id="admin-feedback-count-badge" class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded font-bold">
+                  <span id="admin-feedback-count-badge" class="text-[10px] text-white bg-amber-950 px-2 py-0.5 rounded font-bold">
                     접수 0건
                   </span>
                 </div>
@@ -4733,7 +4742,7 @@
             <h2 class="text-base font-black text-white truncate" id="teacher-portal-name">선생님 교무실</h2>
             <p class="text-[11px] text-slate-400 truncate" id="teacher-portal-academy-name">수학 전문학원 (선생님 전용)</p>
           </div>
-          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded shrink-0 whitespace-nowrap">
+          <span class="bg-orange-500/15 text-[#EA580C] border border-orange-500/30 text-[10px] font-bold px-2 py-0.5 rounded shrink-0 whitespace-nowrap">
             14일 무료 체험 중
           </span>
         </div>
@@ -4754,8 +4763,8 @@
         <!-- Teacher Code Banner (For Student Invitations & Viral Referral) -->
         <div class="bg-slate-900 border border-amber-500/40 rounded-xl p-3 space-y-1.5">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-amber-300 flex items-center gap-1">
-              <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i> 내 선생님 고유 초대 코드
+            <span class="text-[11px] font-bold text-white flex items-center gap-1">
+              <i data-lucide="key" class="w-3.5 h-3.5 text-[#EA580C]"></i> 내 선생님 고유 초대 코드
             </span>
             <span class="text-[9px] bg-amber-900/60 text-amber-200 px-1.5 py-0.5 rounded font-bold">학생 자동 연결용</span>
           </div>
@@ -4774,7 +4783,7 @@
         <div id="teacher-sec-roster" class="space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <i data-lucide="users" class="w-3.5 h-3.5 text-amber-400"></i> 담당 학생 명단 (<span id="teacher-student-count">3명</span>)
+              <i data-lucide="users" class="w-3.5 h-3.5 text-[#EA580C]"></i> 담당 학생 명단 (<span id="teacher-student-count">3명</span>)
             </span>
             <button onclick="openAddStudentModal()" class="bg-[#EA580C] hover:bg-[#C2410C] text-white text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-md transition">
               <i data-lucide="user-plus" class="w-3 h-3"></i> 학생 등록
@@ -4790,8 +4799,8 @@
         <div id="teacher-sec-curriculum" class="hidden space-y-3">
           <div class="bg-stone-900/40 border border-orange-500/30 rounded-xl p-2.5 space-y-1">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-amber-300 flex items-center gap-1">
-                <i data-lucide="book-check" class="w-3.5 h-3.5 text-amber-400"></i> 교육부 최신 수학과 교육과정
+              <span class="text-xs font-black text-white flex items-center gap-1">
+                <i data-lucide="book-check" class="w-3.5 h-3.5 text-[#EA580C]"></i> 교육부 최신 수학과 교육과정
               </span>
               <span class="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.2 rounded font-bold">실시간 연동</span>
             </div>
@@ -4817,10 +4826,10 @@
         <div id="teacher-sec-generator" class="hidden space-y-3">
           <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-3 space-y-1">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-amber-300 flex items-center gap-1">
-                <i data-lucide="printer" class="w-4 h-4 text-amber-400"></i> 1:1 맞춤 약점 클리닉 교재 제작소
+              <span class="text-xs font-black text-white flex items-center gap-1">
+                <i data-lucide="printer" class="w-4 h-4 text-[#EA580C]"></i> 1:1 맞춤 약점 클리닉 교재 제작소
               </span>
-              <span class="text-[9px] bg-amber-950 text-amber-300 px-1.5 py-0.5 rounded font-bold">A4 수능 2단 서식</span>
+              <span class="text-[9px] bg-amber-950 text-white px-1.5 py-0.5 rounded font-bold">A4 수능 2단 서식</span>
             </div>
             <p class="text-[11px] text-slate-300 leading-relaxed">
               학생들은 스스로 긴 글을 읽기보다 선생님의 대화식 설명을 원합니다. 학생 맞춤 개념 설명서와 쌍둥이 연습문제, <strong>출제자 3단계 유도 질문 지도안</strong>을 즉시 인쇄하세요.
@@ -4939,7 +4948,7 @@
       <div class="bg-slate-900 border-t md:border border-slate-700 rounded-t-3xl md:rounded-3xl p-5 md:p-6 space-y-3.5 max-h-[92%] md:max-h-[88vh] w-full md:max-w-2xl lg:max-w-3xl overflow-y-auto shadow-2xl">
         <div class="flex items-center justify-between">
           <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
-            <i data-lucide="crown" class="w-4 h-4 text-amber-400"></i>
+            <i data-lucide="crown" class="w-4 h-4 text-[#EA580C]"></i>
           </div>
           <button onclick="closeModal('sub')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
@@ -4985,7 +4994,7 @@
         </div>
 
         <div class="bg-slate-950 rounded-xl p-3 text-[11px] space-y-1.5 text-slate-300">
-          <p class="text-amber-400 font-bold mb-1">Pro 회원 전용 혜택:</p>
+          <p class="text-white font-bold mb-1">Pro 회원 전용 혜택:</p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i> 문제 촬영 및 단계별 풀이 <strong>무제한</strong></p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i> 실시간 그래프 및 4대 처방전 <strong>무제한</strong></p>
           <p class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i> 리드 쌤과 1:1 맞춤 질문과 대화 <strong>무제한</strong></p>
@@ -5047,7 +5056,7 @@
             </div>
             <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
               <span class="text-[10px] text-slate-400 block">잔여 풀이 횟수</span>
-              <span id="account-mgmt-solves" class="font-extrabold text-amber-400">무료 3회</span>
+              <span id="account-mgmt-solves" class="font-extrabold text-[#EA580C]">무료 3회</span>
             </div>
           </div>
           <div class="pt-1 flex gap-2">
@@ -5070,7 +5079,7 @@
         <div id="settings-student-pro-card" class="bg-slate-900 border-2 border-orange-500/50 rounded-xl p-3.5 space-y-2">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <i data-lucide="crown" class="w-5 h-5 text-amber-400"></i>
+              <i data-lucide="crown" class="w-5 h-5 text-[#EA580C]"></i>
               <span class="text-sm font-extrabold text-white">ReadMath Pro 멤버십</span>
             </div>
             <span id="settings-pro-badge" class="bg-slate-800 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded">무료 플랜</span>
@@ -5323,7 +5332,7 @@
                 <span class="flex items-center gap-1.5 text-emerald-400 font-bold" title="기초가 탄탄한 정상 개념">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-xs"></span> 기초 마스터 (정상)
                 </span>
-                <span class="flex items-center gap-1.5 text-amber-400 font-bold" title="이번 문제 풀이에서 막힌 시작 약점">
+                <span class="flex items-center gap-1.5 text-white font-bold" title="이번 문제 풀이에서 막힌 시작 약점">
                   <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse shadow-xs"></span> 약점 원인 (취약점)
                 </span>
                 <span class="flex items-center gap-1.5 text-rose-400 font-bold" title="질문한 현재 문제">
@@ -5456,7 +5465,7 @@
           <span class="flex items-center gap-1.5 text-emerald-400 font-bold">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> 기초 마스터 (정상)
           </span>
-          <span class="flex items-center gap-1.5 text-amber-400 font-bold">
+          <span class="flex items-center gap-1.5 text-white font-bold">
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse"></span> 약점 원인 (취약점)
           </span>
           <span class="flex items-center gap-1.5 text-rose-400 font-bold">
@@ -5743,7 +5752,7 @@
               <div>
                 <label class="text-[11px] font-bold text-slate-300 block mb-1">교육 형태:</label>
                 <div class="grid grid-cols-3 gap-1.5">
-                  <button type="button" onclick="selectTeacherType(this, 'academy')" class="teacher-type-btn bg-amber-500/20 text-amber-300 border border-amber-500/40 py-1.5 rounded-lg text-[10px] font-bold">입시/단과학원</button>
+                  <button type="button" onclick="selectTeacherType(this, 'academy')" class="teacher-type-btn bg-orange-500/15 text-[#EA580C] border border-orange-500/30 py-1.5 rounded-lg text-[10px] font-bold">입시/단과학원</button>
                   <button type="button" onclick="selectTeacherType(this, 'room')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">교습소/공부방</button>
                   <button type="button" onclick="selectTeacherType(this, 'tutor')" class="teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]">1:1 전문과외</button>
                 </div>
@@ -5757,11 +5766,11 @@
               <div class="bg-slate-950 rounded-xl p-2.5 border border-slate-800 space-y-1 text-[11px]">
                 <div class="flex items-center justify-between text-slate-200">
                   <span>베이직 티처 (15명 관리)</span>
-                  <span class="font-bold text-amber-300">월 39,000원</span>
+                  <span class="font-bold text-white">월 39,000원</span>
                 </div>
                 <div class="flex items-center justify-between text-slate-200">
                   <span>선생님·학원 무제한 플랜</span>
-                  <span class="font-bold text-amber-300">월 99,000원</span>
+                  <span class="font-bold text-white">월 99,000원</span>
                 </div>
               </div>
 
@@ -5772,7 +5781,7 @@
               <!-- Switch to Login Link -->
               <div class="pt-2 text-center text-xs text-slate-400 border-t border-slate-800/80">
                 이미 계정이 있으신가요?
-                <button type="button" onclick="switchAuthMode('login')" class="ml-1 text-amber-400 font-bold hover:text-amber-300 underline underline-offset-2">
+                <button type="button" onclick="switchAuthMode('login')" class="ml-1 text-white font-bold hover:text-stone-200 underline underline-offset-2">
                   로그인하기
                 </button>
               </div>
@@ -5853,7 +5862,7 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
-              <i data-lucide="message-square" class="w-4 h-4 text-amber-400"></i>
+              <i data-lucide="message-square" class="w-4 h-4 text-[#EA580C]"></i>
             </div>
             <div>
               <h3 class="text-base font-extrabold text-white">학부모 상담용 AI 정밀 진단 브리핑</h3>
@@ -5877,10 +5886,10 @@
 
           <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-extrabold text-amber-300 flex items-center gap-1">
-                <i data-lucide="smartphone" class="w-3.5 h-3.5 text-amber-400"></i> 카카오톡 전송 미리보기
+              <span class="text-[11px] font-extrabold text-white flex items-center gap-1">
+                <i data-lucide="smartphone" class="w-3.5 h-3.5 text-[#EA580C]"></i> 카카오톡 전송 미리보기
               </span>
-              <span class="text-[9px] bg-amber-950 text-amber-300 px-1.5 py-0.5 rounded">원클릭 복사 가능</span>
+              <span class="text-[9px] bg-amber-950 text-white px-1.5 py-0.5 rounded">원클릭 복사 가능</span>
             </div>
             <textarea id="briefing-preview-textarea" readonly class="w-full h-44 bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 leading-relaxed font-mono resize-none focus:outline-none"></textarea>
           </div>
@@ -6016,7 +6025,7 @@
             <i data-lucide="file-text" class="w-3.5 h-3.5"></i> 단기 맞춤 시험지
           </button>
           <button type="button" id="btn-mode-weekly" onclick="switchExamMode('weekly')" class="py-2 rounded-lg font-extrabold text-stone-300 bg-stone-900/80 border border-orange-500/50 shadow-xs hover:text-white transition flex items-center justify-center gap-1.5">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i> 7-Days 주간 맞춤 N-제
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#EA580C]"></i> 7-Days 주간 맞춤 N-제
           </button>
         </div>
 
@@ -6024,7 +6033,7 @@
         <div id="weekly-n-options-panel" class="bg-slate-900 border border-orange-500/40 rounded-2xl p-4 space-y-3.5 text-xs">
           <div class="flex items-center justify-between border-b border-orange-500/20 pb-2">
             <span class="font-extrabold text-white flex items-center gap-1.5 text-xs">
-              <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> 7-Days 위클리 플래너 N-제 설정
+              <i data-lucide="sparkles" class="w-4 h-4 text-[#EA580C]"></i> 7-Days 위클리 플래너 N-제 설정
             </span>
             <span class="text-[10px] bg-orange-500/20 text-stone-300 font-bold px-2 py-0.5 rounded-full border border-orange-500/40">
               우측 날개 DAY 1~7 색인 탭 기본 탑재
@@ -6035,7 +6044,7 @@
           <div>
             <label class="text-[11px] font-bold text-slate-300 block mb-1.5 flex items-center justify-between">
               <span>1일 목표량 선택 (7일 완독 플랜):</span>
-              <span id="weekly-plan-badge" class="text-amber-400 font-mono font-bold">주 140제 (스탠다드)</span>
+              <span id="weekly-plan-badge" class="text-[#EA580C] font-mono font-bold">주 140제 (스탠다드)</span>
             </label>
             <div class="grid grid-cols-5 gap-1.5">
               <label class="cursor-pointer">
@@ -6049,7 +6058,7 @@
                 <input type="radio" name="weekly_daily_goal" value="20" checked onchange="onWeeklyGoalChange(20)" class="peer sr-only" />
                 <div class="p-2 text-center rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-orange-500/50 peer-checked:bg-stone-900 peer-checked:text-white text-slate-400 hover:border-slate-700 transition">
                   <div class="font-black text-sm">20제</div>
-                  <div class="text-[9.5px] mt-0.5 text-amber-400 font-bold">주 140제</div>
+                  <div class="text-[9.5px] mt-0.5 text-white font-bold">주 140제</div>
                 </div>
               </label>
               <label class="cursor-pointer">
@@ -6119,10 +6128,10 @@
         <!-- PRO Tier Value Banner -->
         <div class="bg-slate-900 border border-amber-500/30 rounded-xl p-3 space-y-1 text-xs">
           <div class="flex items-center justify-between">
-            <span class="font-extrabold text-amber-300 flex items-center gap-1">
-              <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i> PRO 전용: 1:1 맞춤 시험지 &amp; 출제자 해설지 패스
+            <span class="font-extrabold text-white flex items-center gap-1">
+              <i data-lucide="crown" class="w-3.5 h-3.5 text-[#EA580C]"></i> PRO 전용: 1:1 맞춤 시험지 &amp; 출제자 해설지 패스
             </span>
-            <span class="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-400/30">이번 달 1회 무료 체험</span>
+            <span class="text-[10px] bg-amber-400/20 text-white font-bold px-1.5 py-0.5 rounded border border-amber-400/30">이번 달 1회 무료 체험</span>
           </div>
           <p class="text-[11px] text-slate-300 leading-relaxed">
             내가 질문한 취약 문항을 기반으로 수능·모의고사 실전 2단 시험지와 <strong>ReadMath 시그니처 4-Way 번역 해설지</strong>가 1권의 책자(PDF)로 자동 생성됩니다.
@@ -6133,7 +6142,7 @@
         <div class="bg-slate-950 rounded-2xl p-3.5 border border-slate-800 space-y-3 text-xs">
           <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <span class="font-extrabold text-white flex items-center gap-1.5">
-              <i data-lucide="users" class="w-4 h-4 text-amber-400"></i> 학교별 출제 수학교사진 &amp; 부교재 실시간 매칭
+              <i data-lucide="users" class="w-4 h-4 text-[#EA580C]"></i> 학교별 출제 수학교사진 &amp; 부교재 실시간 매칭
             </span>
             <span id="teacher-match-status-badge" class="text-[10px] text-emerald-300 font-bold bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded-full flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 출제진 2명 매칭 완료
@@ -6233,15 +6242,15 @@
               <span class="text-slate-300 font-bold flex items-center gap-1">
                 <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#EA580C]"></i> 담당 출제 교사진 (복수 분담 선택):
               </span>
-              <button type="button" onclick="openCrowdsourceModal('teacher')" class="text-[10px] text-amber-400 hover:text-amber-300 hover:underline flex items-center gap-0.5">
+              <button type="button" onclick="openCrowdsourceModal('teacher')" class="text-[10px] text-[#EA580C] hover:text-stone-200 hover:underline flex items-center gap-0.5">
                 <i data-lucide="plus-circle" class="w-3 h-3"></i> 우리 선생님 직접 제보
               </button>
             </div>
             <div id="intel-teachers-container" class="flex flex-wrap items-center gap-1.5">
               <!-- Dynamically populated teacher chips -->
             </div>
-            <div id="intel-teacher-alert-box" class="mt-1 text-[10px] text-amber-300/90 bg-amber-950/40 border border-amber-800/40 rounded-lg px-2.5 py-1 hidden">
-              <i data-lucide="alert-triangle" class="w-3 h-3 inline mr-1 text-amber-400"></i>
+            <div id="intel-teacher-alert-box" class="mt-1 text-[10px] text-stone-200/90 bg-amber-950/40 border border-amber-800/40 rounded-lg px-2.5 py-1 hidden">
+              <i data-lucide="alert-triangle" class="w-3 h-3 inline mr-1 text-[#EA580C]"></i>
               <span id="intel-teacher-alert-text">선생님 변동 감지: 올해 신규 교사진으로 변경되었습니다.</span>
             </div>
           </div>
@@ -6291,7 +6300,7 @@
               <button type="button" id="preset-btn-1_final" onclick="applyScopePreset('1_final')" class="px-2 py-0.5 rounded bg-stone-900 border border-orange-500/80 text-stone-300 font-bold">1학기 기말</button>
               <button type="button" id="preset-btn-2_mid" onclick="applyScopePreset('2_mid')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-orange-500/40 text-slate-400 font-semibold">2학기 중간</button>
               <button type="button" id="preset-btn-2_final" onclick="applyScopePreset('2_final')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-orange-500/40 text-slate-400 font-semibold">2학기 기말</button>
-              <button type="button" id="preset-btn-all" onclick="applyScopePreset('all')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-orange-500/40 text-amber-300 font-bold">전범위</button>
+              <button type="button" id="preset-btn-all" onclick="applyScopePreset('all')" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-orange-500/40 text-white font-bold">전범위</button>
             </div>
           </div>
 
@@ -6367,8 +6376,8 @@
 
         <!-- Identity Diagnosis Callout -->
         <div class="bg-emerald-950/50 border border-emerald-500/40 rounded-xl p-3 space-y-1">
-          <span class="text-[10px] font-extrabold text-amber-300 flex items-center gap-1">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> 포장지는 바뀌었지만 왜 동일한 원인일까요?
+          <span class="text-[10px] font-extrabold text-white flex items-center gap-1">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#EA580C]"></i> 포장지는 바뀌었지만 왜 동일한 원인일까요?
           </span>
           <p id="twin-rca-identity-text" class="text-[11px] text-slate-200 leading-relaxed font-medium">
             원래 문제와 숫자는 완전히 다르지만, <strong>반원의 접선 성질과 보조선 수선의 발</strong>을 도해해야만 풀리는 수학적 본질은 100% 동일합니다.
@@ -6416,11 +6425,11 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">
-              <i data-lucide="git-compare" class="w-4 h-4 text-amber-400"></i>
+              <i data-lucide="git-compare" class="w-4 h-4 text-[#EA580C]"></i>
             </div>
             <div>
               <h3 class="text-base font-extrabold text-white">수학 오답 '질병과 증상' 근본 원인 분석서</h3>
-              <p class="text-[10px] text-amber-300 font-semibold">증상은 달라도 원인은 동일한 '감기 바이러스'와 같습니다</p>
+              <p class="text-[10px] text-stone-200 font-semibold">증상은 달라도 원인은 동일한 '감기 바이러스'와 같습니다</p>
             </div>
           </div>
           <button onclick="closeModal('preemptive')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -6429,7 +6438,7 @@
         <!-- The Medical Metaphor Callout -->
         <div class="bg-slate-900 border border-orange-500/40 rounded-xl p-3 space-y-1.5 text-xs text-slate-200">
           <p class="leading-relaxed">
-            <i data-lucide="activity" class="w-4 h-4 text-amber-400 inline-block align-text-bottom mr-1"></i><strong>"기침이 나고, 콧물이 흐르고, 열이 나는 증상들은 각기 달라 보이지만 사실 '감기'라는 하나의 원인에서 비롯됩니다."</strong>
+            <i data-lucide="activity" class="w-4 h-4 text-[#EA580C] inline-block align-text-bottom mr-1"></i><strong>"기침이 나고, 콧물이 흐르고, 열이 나는 증상들은 각기 달라 보이지만 사실 '감기'라는 하나의 원인에서 비롯됩니다."</strong>
           </p>
           <p class="text-[11px] text-slate-400 leading-relaxed">
             수학 문제도 포장지만 수열, 이차함수, 삼각함수로 바뀔 뿐 문제를 구성하는 표현은 돌고 돕니다. 양치기로 유형만 외우면 새로운 포장지가 나왔을 때 또 틀리지만, <strong>공통 약점 하나만 극복하면 관련된 모든 문제들이 한 번에 해결됩니다.</strong>
@@ -6453,10 +6462,10 @@
 
           <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-1">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400"></i> 현재 질문 문항 B: [대입 수리논술 2번]
+              <span class="text-xs font-bold text-white flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-[#EA580C]"></i> 현재 질문 문항 B: [대입 수리논술 2번]
               </span>
-              <span class="text-[10px] text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded">기하·삼각함수</span>
+              <span class="text-[10px] text-white bg-amber-950/80 px-2 py-0.5 rounded">기하·삼각함수</span>
             </div>
             <p class="text-[11px] text-slate-400">
               <strong>겉포장(증상)</strong>: 반원 내부 접선과 삼각함수의 덧셈정리<br/>
@@ -6467,8 +6476,8 @@
 
         <!-- The Shared Root-Cause Cure Card -->
         <div class="bg-slate-900 border-2 border-orange-500/60 rounded-xl p-3.5 space-y-2 text-center">
-          <span class="text-xs font-black text-amber-300 flex items-center justify-center gap-1">
-            <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> 두 문제를 관통하는 단 하나의 근본 원인
+          <span class="text-xs font-black text-white flex items-center justify-center gap-1">
+            <i data-lucide="zap" class="w-4 h-4 text-[#EA580C]"></i> 두 문제를 관통하는 단 하나의 근본 원인
           </span>
           <h4 class="text-sm font-extrabold text-white">"문제를 보자마자 수식으로 직진하고 도식화를 회피함"</h4>
           <p class="text-[11px] text-slate-300 leading-relaxed">
@@ -6486,7 +6495,7 @@
       <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 w-full max-w-sm space-y-4 shadow-2xl">
         <div class="flex items-center justify-between pb-2 border-b border-slate-800">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400">
+            <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-[#EA580C]">
               <i data-lucide="shield-alert" class="w-4 h-4"></i>
             </div>
             <div>
@@ -6612,7 +6621,7 @@
               방법 1. 경고 없이 1초 추가 (가장 추천)
             </div>
             <p class="text-slate-300 leading-relaxed">
-              브라우저 메뉴(하단 <strong class="text-white">[줄 3개]</strong> 또는 상단 <strong class="text-white">[더보기 ⋮]</strong>) 터치 -> <strong class="text-amber-300">[현재 페이지 추가]</strong> -> <strong class="text-white">[홈 화면]</strong>을 누르시면 보안 경고 없이 바탕화면에 즉시 설치됩니다.
+              브라우저 메뉴(하단 <strong class="text-white">[줄 3개]</strong> 또는 상단 <strong class="text-white">[더보기 ⋮]</strong>) 터치 -> <strong class="text-white">[현재 페이지 추가]</strong> -> <strong class="text-white">[홈 화면]</strong>을 누르시면 보안 경고 없이 바탕화면에 즉시 설치됩니다.
             </p>
           </div>
 
@@ -6621,7 +6630,7 @@
               방법 2. '앱 설치' 시 Play 프로텍트 경고가 뜰 때
             </div>
             <p class="text-slate-400 leading-relaxed">
-              안드로이드 14+ 최신 보안 정책으로 인해 비스토어 앱 차단 경고가 뜰 수 있습니다. 경고창 하단의 <strong class="text-amber-300">[세부정보 더보기 ∨]</strong>를 누른 후 <strong class="text-white">[무시하고 설치 (안전하지 않음)]</strong>을 누르시면 정상 설치됩니다.
+              안드로이드 14+ 최신 보안 정책으로 인해 비스토어 앱 차단 경고가 뜰 수 있습니다. 경고창 하단의 <strong class="text-white">[세부정보 더보기 ∨]</strong>를 누른 후 <strong class="text-white">[무시하고 설치 (안전하지 않음)]</strong>을 누르시면 정상 설치됩니다.
             </p>
           </div>
         </div>
@@ -6629,15 +6638,15 @@
         <!-- iPhone Safari Guide -->
         <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-              <i data-lucide="share" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <i data-lucide="share" class="w-3.5 h-3.5 text-[#EA580C]"></i>
               아이폰 (사파리 Safari)
             </span>
-            <span class="text-[9px] bg-amber-950 text-amber-300 border border-amber-800/50 px-2 py-0.5 rounded font-extrabold">3단계 추가</span>
+            <span class="text-[9px] bg-amber-950 text-white border border-amber-800/50 px-2 py-0.5 rounded font-extrabold">3단계 추가</span>
           </div>
           <ol class="text-[11px] text-slate-300 space-y-1.5 list-decimal pl-4 leading-relaxed">
-            <li>사파리 하단 중앙의 <strong class="text-amber-300">[공유 버튼(네모 위 화살표)]</strong>을 누릅니다.</li>
-            <li>나타난 메뉴를 아래로 스크롤하여 <strong class="text-amber-300">[홈 화면에 추가]</strong>를 누릅니다.</li>
+            <li>사파리 하단 중앙의 <strong class="text-white">[공유 버튼(네모 위 화살표)]</strong>을 누릅니다.</li>
+            <li>나타난 메뉴를 아래로 스크롤하여 <strong class="text-white">[홈 화면에 추가]</strong>를 누릅니다.</li>
             <li>우측 상단의 <strong class="text-white">[추가]</strong>를 누르면 바탕화면에 ReadMath 앱이 생성됩니다.</li>
           </ol>
         </div>
@@ -6674,7 +6683,7 @@
       <div class="bg-slate-900 border-t md:border border-slate-700 rounded-t-3xl md:rounded-3xl p-5 md:p-6 space-y-4 max-h-[92%] md:max-h-[88vh] w-full md:max-w-2xl lg:max-w-3xl overflow-y-auto shadow-2xl">
         <div class="flex items-center justify-between pb-2 border-b border-slate-800">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+            <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[#EA580C]">
               <i data-lucide="upload-cloud" class="w-4 h-4"></i>
             </div>
             <div>
@@ -6690,10 +6699,10 @@
         <!-- Reward Announcement Card -->
         <div class="bg-slate-900 border border-amber-500/30 rounded-xl p-3.5 space-y-2 text-xs">
           <div class="flex items-center justify-between">
-            <span class="font-extrabold text-amber-300 flex items-center gap-1.5">
-              <i data-lucide="gift" class="w-4 h-4 text-amber-400"></i> 제보 즉시 3대 프리미엄 보상 지급
+            <span class="font-extrabold text-white flex items-center gap-1.5">
+              <i data-lucide="gift" class="w-4 h-4 text-[#EA580C]"></i> 제보 즉시 3대 프리미엄 보상 지급
             </span>
-            <span class="text-[9.5px] bg-amber-400/20 text-amber-300 font-black px-2 py-0.5 rounded border border-amber-400/30">100% 전원 지급</span>
+            <span class="text-[9.5px] bg-amber-400/20 text-white font-black px-2 py-0.5 rounded border border-amber-400/30">100% 전원 지급</span>
           </div>
           <ul class="text-[11px] text-slate-300 space-y-1 pt-1">
             <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-amber-500"></i> <span><strong>[의대관 시크릿 킬러 문항 팩 10제]</strong> 즉시 잠금 해제</span></li>
@@ -6758,7 +6767,7 @@
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-white font-bold">
             <i data-lucide="send" class="w-4 h-4"></i>
           </div>
           <div>
@@ -6867,7 +6876,7 @@
 
     // LoL / Chess Style Cognitive Mastery Tier Definitions
     const COGNITIVE_MASTERY_TIERS = [
-      { tier: 'Challenger', name: '챌린저 (분당 0.1% 최상위)', minPct: 96, color: '#F59E0B', badgeBg: 'bg-amber-500/20 text-amber-300 border-amber-500/50', icon: 'award' },
+      { tier: 'Challenger', name: '챌린저 (분당 0.1% 최상위)', minPct: 96, color: '#F59E0B', badgeBg: 'bg-amber-500/20 text-stone-200 border-amber-500/50', icon: 'award' },
       { tier: 'Grandmaster', name: '그랜드마스터 (전교 1%대)', minPct: 90, color: '#EC4899', badgeBg: 'bg-pink-500/20 text-pink-300 border-pink-500/50', icon: 'zap' },
       { tier: 'Master', name: '마스터 (내신 1등급 방어권)', minPct: 82, color: '#8B5CF6', badgeBg: 'bg-orange-500/20 text-stone-300 border-orange-500/50', icon: 'shield-check' },
       { tier: 'Diamond', name: '다이아몬드 (내신 2등급 진입)', minPct: 72, color: '#06B6D4', badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50', icon: 'gem' },
@@ -15225,8 +15234,8 @@ window.addEventListener('DOMContentLoaded', () => {
           diagnosisBox = `
             <div class="mt-2.5 bg-slate-900 border-2 border-orange-500/50 rounded-xl p-3 space-y-2 shadow-lg">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> AI 맞춤 원인 분석 완료
+                <span class="text-xs font-black text-white flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#EA580C]"></i> AI 맞춤 원인 분석 완료
                 </span>
                 <span class="bg-stone-900 text-stone-300 border border-orange-500/40 text-[9px] font-extrabold px-1.5 py-0.5 rounded">${parsed.diagnosis.category_title || '오답 원인'}</span>
               </div>
@@ -15522,8 +15531,8 @@ window.addEventListener('DOMContentLoaded', () => {
               <div class="pt-2 border-t border-slate-800/80 space-y-2">
                 <div class="bg-stone-900/70 border border-orange-500/40 rounded-xl p-2.5 text-xs space-y-1.5">
                   <div class="flex items-center justify-between text-[11px] font-bold">
-                    <span class="text-amber-300 flex items-center gap-1">
-                      <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i> 리드 쌤의 발상 교정 처방:
+                    <span class="text-white flex items-center gap-1">
+                      <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#EA580C] shrink-0"></i> 리드 쌤의 발상 교정 처방:
                     </span>
                     <span class="text-[9.5px] bg-stone-850 text-stone-300 px-1.5 py-0.5 rounded border border-orange-500/40 font-bold shrink-0">
                       ${catTitle}
@@ -16021,8 +16030,8 @@ window.addEventListener('DOMContentLoaded', () => {
             return `
             <div class="bg-slate-950/90 rounded-2xl p-3.5 border-2 border-orange-500/30 space-y-2.5 mb-3.5 shadow-sm overflow-hidden w-full max-w-full min-w-0">
               <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
-                <span class="text-xs font-black text-amber-300 flex items-center gap-1.5 shrink-0">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> ${sq.sub_title || sq.sub_id + '번 소문항'}
+                <span class="text-xs font-black text-white flex items-center gap-1.5 shrink-0">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#EA580C]"></i> ${sq.sub_title || sq.sub_id + '번 소문항'}
                 </span>
                 <span class="text-[10px] text-stone-300 font-bold bg-stone-900/80 px-2 py-0.5 rounded border border-orange-500/30 shrink-0">단계별 풀이</span>
               </div>
@@ -16053,7 +16062,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 <span class="text-xs font-extrabold text-stone-200 shrink-0 flex items-center gap-1.5 whitespace-nowrap">
                   <i data-lucide="check-circle" class="w-4 h-4 text-amber-500"></i> ${sq.sub_title || sq.sub_id + '번 문항'} 정답
                 </span>
-                <div class="text-xs sm:text-sm font-black text-amber-300 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
+                <div class="text-xs sm:text-sm font-black text-stone-200 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
                   ${autoFormatMathText(sq.final_answer || '')}
                 </div>
               </div>
@@ -16073,7 +16082,7 @@ window.addEventListener('DOMContentLoaded', () => {
                       ${sq.sub_title || sq.sub_id + '번 문항'} 정답
                     </span>
                   </div>
-                  <div class="text-xs sm:text-sm font-black text-amber-300 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
+                  <div class="text-xs sm:text-sm font-black text-stone-200 text-left sm:text-right overflow-x-auto no-scrollbar py-0.5">
                     ${autoFormatMathText(sq.final_answer || '')}
                   </div>
                 </div>
@@ -16094,7 +16103,7 @@ window.addEventListener('DOMContentLoaded', () => {
           stepsContainer.innerHTML = `
             <div class="bg-stone-900/40 border border-orange-500/30 rounded-xl p-3 mb-2.5">
               <span class="text-[10px] text-stone-300 font-bold block mb-1">[${sq.sub_title || sq.sub_id + '번 문항'}] 문제:</span>
-              <p class="text-xs font-bold text-amber-300 leading-relaxed">${autoFormatMathText(sq.question_text || '')}</p>
+              <p class="text-xs font-bold text-stone-200 leading-relaxed">${autoFormatMathText(sq.question_text || '')}</p>
             </div>
             ${steps.map(s => `
               <div class="solution-step-card bg-slate-950/80 rounded-xl p-3 border border-slate-800 space-y-1.5 overflow-hidden w-full max-w-full min-w-0">
@@ -16116,7 +16125,7 @@ window.addEventListener('DOMContentLoaded', () => {
           if (finalAnswerTitle) finalAnswerTitle.innerText = `${sq.sub_title || sq.sub_id + '번 문항'} 최종 정답`;
           finalAnswerEl.innerHTML = `
             <div class="bg-slate-950/90 border border-orange-500/30 rounded-xl p-3.5 text-center">
-              <div class="text-sm sm:text-base font-black text-amber-300 overflow-x-auto no-scrollbar py-1">
+              <div class="text-sm sm:text-base font-black text-stone-200 overflow-x-auto no-scrollbar py-1">
                 ${autoFormatMathText(sq.final_answer || '')}
               </div>
             </div>
@@ -16163,7 +16172,7 @@ window.addEventListener('DOMContentLoaded', () => {
           htmlChunks.push(`
             <div class="problem-setup-card bg-slate-950/85 rounded-2xl p-3.5 border border-orange-500/30 space-y-2.5 shadow-sm w-full max-w-full overflow-hidden">
               <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
-                <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                <span class="text-xs font-black text-white flex items-center gap-1.5">
                   <i data-lucide="eye" class="w-4 h-4 text-[#EA580C]"></i>
                   <span>[문제 상황] 시작 조건 도해</span>
                 </span>
@@ -16239,7 +16248,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   <!-- Socratic Checkpoint Quiz (다음 단계 행동 공식 점검) -->
                   <div class="step-checkpoint-card bg-slate-950/95 border-2 border-orange-500/40 rounded-xl p-3.5 space-y-2.5 mt-3 shadow-md">
                     <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/20">
-                      <span class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                      <span class="text-xs font-black text-white flex items-center gap-1.5">
                         <i data-lucide="compass" class="w-4 h-4 text-[#EA580C]"></i>
                         <span>다음 단계 행동 공식 점검</span>
                       </span>
@@ -16293,8 +16302,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     ${isAnswered && !isCorrect ? `
                       <div class="checkpoint-stuck-box bg-amber-950/70 border border-amber-500/50 rounded-xl p-3 space-y-2 animate-fadeIn">
                         <div class="flex items-center justify-between pb-1 border-b border-amber-500/30">
-                          <span class="text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
-                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                          <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-[#EA580C] shrink-0"></i>
                             <span>막힌 이유</span>
                           </span>
                           <span class="text-[9.5px] font-bold text-amber-200 bg-amber-900/60 border border-amber-500/40 px-2 py-0.5 rounded-full">
@@ -16312,7 +16321,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="flex items-center justify-end gap-2 pt-1">
                           <button type="button" onclick="retryStepCheckpoint(${idx})" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-850 text-stone-200 border border-amber-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-[#EA580C]"></i>
                             <span>다시 시도</span>
                           </button>
                           <button type="button" onclick="forceUnlockNextStep(${idx})" class="px-3 py-1 bg-[#EA580C] hover:bg-[#C2410C] text-white rounded-lg text-xs font-bold transition flex items-center gap-1 shadow-sm">
@@ -16362,7 +16371,7 @@ window.addEventListener('DOMContentLoaded', () => {
           finalAnswerEl.innerHTML = `
             <div class="space-y-2">
               <div class="bg-slate-950/90 border border-orange-500/30 rounded-xl p-3.5 text-center shadow-inner">
-                <div class="text-sm sm:text-base font-black text-amber-300 overflow-x-auto no-scrollbar py-1">
+                <div class="text-sm sm:text-base font-black text-stone-200 overflow-x-auto no-scrollbar py-1">
                   ${autoFormatMathText(displayAnswer || '정답 확인')}
                 </div>
               </div>
@@ -16390,7 +16399,7 @@ window.addEventListener('DOMContentLoaded', () => {
               <div id="solution-same-recipe-card" class="bg-gradient-to-br from-stone-900 via-stone-900 to-orange-950/40 border-2 border-orange-500/50 rounded-2xl p-4 space-y-3 shadow-lg mt-3">
                 <div class="flex items-center justify-between pb-1.5 border-b border-orange-500/30">
                   <div class="flex items-center gap-2">
-                    <span class="text-sm font-black text-amber-300 flex items-center gap-1.5">
+                    <span class="text-sm font-black text-white flex items-center gap-1.5">
                       <i data-lucide="flame" class="w-4 h-4 text-[#EA580C]"></i>
                       <span>동일한 레시피 (Same Recipe)</span>
                     </span>
@@ -16407,9 +16416,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 <div class="bg-slate-950/80 rounded-xl p-3 border border-orange-500/30 space-y-2">
                   <div class="flex items-center justify-between text-xs">
                     <span class="text-slate-400 font-bold text-[11px] flex items-center gap-1">
-                      <i data-lucide="link-2" class="w-3.5 h-3.5 text-amber-400"></i> 연계 수능·평가원 기출:
+                      <i data-lucide="link-2" class="w-3.5 h-3.5 text-[#EA580C]"></i> 연계 수능·평가원 기출:
                     </span>
-                    <span class="text-amber-300 font-black text-xs sm:text-sm">${recipe.exam_name}</span>
+                    <span class="text-white font-black text-xs sm:text-sm">${recipe.exam_name}</span>
                   </div>
                   <div class="text-xs text-stone-200 leading-relaxed">
                     <span class="text-[#EA580C] font-extrabold block mb-0.5">핵심 알맹이 레시피:</span>
@@ -17418,7 +17427,7 @@ window.addEventListener('DOMContentLoaded', () => {
           <div class="space-y-2.5 w-full max-w-full overflow-hidden">
             <div class="bg-stone-900/70 p-2.5 rounded-xl border border-orange-500/30 w-full max-w-full overflow-hidden">
               <span class="text-[10px] text-[#EA580C] font-bold block mb-0.5">선택한 문장:</span>
-              <p class="font-bold text-amber-300 text-xs break-words break-keep leading-relaxed">${autoFormatMathText(selectedKeywordText)}</p>
+              <p class="font-bold text-stone-200 text-xs break-words break-keep leading-relaxed">${autoFormatMathText(selectedKeywordText)}</p>
             </div>
             <div class="space-y-2 pt-1 w-full max-w-full overflow-hidden">
               ${selectedFailureCategories.map(cat => `
@@ -18027,7 +18036,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="min-w-0 flex-1 space-y-1">
               <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-[10px] px-2 py-0.5 rounded font-extrabold bg-slate-800 text-stone-300 border border-slate-700">${subjectTag}</span>
-                <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">${reasonTag}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-amber-500/15 text-[#EA580C] border border-amber-500/30">${reasonTag}</span>
                 ${isVaulted ? '<span class="text-[9.5px] px-1.5 py-0.2 rounded font-extrabold bg-[#EA580C] text-white">보관됨</span>' : ''}
               </div>
               <h4 class="text-xs sm:text-sm font-bold text-white truncate" title="${cleanTitle}">${cleanTitle}</h4>
@@ -18370,7 +18379,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const dagSample = buildCognitiveKnowledgeDagSvg(null, null, true);
         container.innerHTML = `
           <div class="bg-slate-900 border border-orange-500/40 rounded-2xl p-4 text-center space-y-2.5">
-            <div class="w-10 h-10 mx-auto rounded-full bg-stone-850/80 border border-orange-500/40 flex items-center justify-center text-amber-300">
+            <div class="w-10 h-10 mx-auto rounded-full bg-stone-850/80 border border-orange-500/40 flex items-center justify-center text-stone-200">
               <i data-lucide="target" class="w-5 h-5"></i>
             </div>
             <h3 class="text-sm font-black text-white">오답 원인 자가진단 대기 상태</h3>
@@ -18418,7 +18427,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const categoryLabels = {
         visual: { title: '그림이나 그래프를 그리지 않음', desc: '문제를 풀 때 수식만 계산하려 하고 시각화 개형을 그리지 않아 발생한 취약점', color: 'text-blue-400' },
-        modeling: { title: '한국어 조건을 수식으로 세우지 못함', desc: '문제 속의 한글 조건을 대수적인 방정식이나 함수식으로 번역하는 단계에서 발생한 취약점', color: 'text-amber-400' },
+        modeling: { title: '한국어 조건을 수식으로 세우지 못함', desc: '문제 속의 한글 조건을 대수적인 방정식이나 함수식으로 번역하는 단계에서 발생한 취약점', color: 'text-[#EA580C]' },
         condition: { title: '숨겨진 제한 조건이나 범위를 놓침', desc: '정의역, 미분가능성, 판별식 등 문제의 필수 제한 조건을 빠뜨려 발생한 취약점', color: 'text-[#EA580C]' },
         concept: { title: '단원 핵심 개념 및 공식 암기 부족', desc: '문제 풀이에 필요한 교과서 필수 정리나 공식을 떠올리지 못해 발생한 취약점', color: 'text-rose-400' }
       };
@@ -18497,7 +18506,7 @@ window.addEventListener('DOMContentLoaded', () => {
                   <div class="min-w-0">
                     <div class="flex items-center gap-2 flex-wrap">
                       <h3 class="text-xs md:text-sm font-black text-white">2단계 : 근본 원인 찾아보자 (문제원인 그물망)</h3>
-                      <span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 font-extrabold border border-amber-500/30">약점 발원지 역추적</span>
+                      <span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-white font-extrabold border border-amber-500/30">약점 발원지 역추적</span>
                     </div>
                     <p class="text-[11px] text-stone-300 font-bold truncate mt-0.5">${displayTitle}</p>
                   </div>
@@ -18527,7 +18536,7 @@ window.addEventListener('DOMContentLoaded', () => {
               <div class="text-[11.5px] text-slate-300 flex items-center gap-1.5">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
                 <span>약점의 시작 지점:</span>
-                <strong class="text-amber-300 font-black">${dagData.diagnosis.deficitTitle}</strong>
+                <strong class="text-white font-black">${dagData.diagnosis.deficitTitle}</strong>
               </div>
               <div class="flex items-center gap-2">
                 <button type="button" onclick="openKnowledgeDagModal(${activeProbId})" class="text-xs text-orange-400 hover:text-orange-300 font-extrabold flex items-center gap-1 underline cursor-pointer">
@@ -18606,7 +18615,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-md">
           <!-- Step 1 Header & Analysis Scope Switcher -->
           <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 flex-wrap gap-2">
-            <span class="text-xs font-extrabold text-amber-400 flex items-center gap-1.5">
+            <span class="text-xs font-extrabold text-[#EA580C] flex items-center gap-1.5">
               <i data-lucide="clipboard-check" class="w-4 h-4"></i> 1단계 : 나의 주된 문제원인 (과목별 정밀 건강검진)
             </span>
             <div class="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] w-full sm:w-auto">
@@ -18625,10 +18634,10 @@ window.addEventListener('DOMContentLoaded', () => {
           <!-- Overall Core Cause Summary Banner (Structured & Clean Left Alignment) -->
           <div class="bg-stone-850/80 rounded-xl p-3.5 sm:p-4 border border-orange-500/30 space-y-2.5">
             <div class="flex items-center justify-between border-b border-stone-800/60 pb-2">
-              <span class="text-xs text-amber-400 font-extrabold flex items-center gap-1.5">
+              <span class="text-xs text-white font-extrabold flex items-center gap-1.5">
                 <i data-lucide="target" class="w-3.5 h-3.5 text-[#EA580C]"></i> 종합 1순위 취약 원인
               </span>
-              <span class="text-[10px] bg-amber-500/10 text-amber-300 font-bold border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+              <span class="text-[10px] bg-amber-500/10 text-white font-bold border border-amber-500/30 px-2.5 py-0.5 rounded-full">
                 전체 오답의 ${topPct}% (${maxCount}건)
               </span>
             </div>
@@ -18644,7 +18653,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             <div class="pt-2 border-t border-stone-800/60 flex items-start sm:items-center gap-2 flex-col sm:flex-row text-xs">
               <span class="px-2.5 py-1 rounded bg-stone-800 text-stone-300 text-[10.5px] font-bold shrink-0">감지된 핵심 근본 결함</span>
-              <span class="text-amber-400 font-extrabold text-xs sm:text-sm leading-snug">${currentDiag.deficitTitle}</span>
+              <span class="text-white font-extrabold text-xs sm:text-sm leading-snug">${currentDiag.deficitTitle}</span>
             </div>
           </div>
 
@@ -18733,7 +18742,7 @@ window.addEventListener('DOMContentLoaded', () => {
               </div>
               <h3 class="text-xs md:text-sm font-black text-white">3단계 : 방치할 경우 예상되는 성적 경고 & 해결 처방</h3>
             </div>
-            <span class="text-[10px] font-extrabold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">성적 하락 위험 경고</span>
+            <span class="text-[10px] font-extrabold text-white bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">성적 하락 위험 경고</span>
           </div>
 
           <!-- 내신 & 수능 성적 경고 (2열 그리드) -->
@@ -18755,7 +18764,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800 space-y-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-black text-stone-200 flex items-center gap-1.5">
-                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-amber-400"></i> 수능·모의고사 경고
+                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#EA580C]"></i> 수능·모의고사 경고
                 </span>
                 <span class="text-[10px] font-extrabold text-stone-300 bg-stone-800 px-2 py-0.5 rounded border border-stone-700">예상 등급: 1등급 컷 탈락</span>
               </div>
@@ -18769,9 +18778,9 @@ window.addEventListener('DOMContentLoaded', () => {
           <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-3">
             <div class="flex items-center justify-between text-xs border-b border-slate-800/60 pb-2">
               <span class="font-extrabold text-white flex items-center gap-1.5">
-                <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i> AI 문제 원인 정밀 진단 및 실전 극복 수칙
+                <i data-lucide="lightbulb" class="w-4 h-4 text-[#EA580C]"></i> AI 문제 원인 정밀 진단 및 실전 극복 수칙
               </span>
-              <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">약점 완치 솔루션</span>
+              <span class="text-[10px] text-white font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">약점 완치 솔루션</span>
             </div>
 
             <!-- 1. 진짜 원인 분석 -->
@@ -18784,13 +18793,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
             <!-- 2. 실전 극복 3단계 행동 수칙 -->
             <div class="space-y-1.5 pt-1">
-              <span class="text-[10.5px] font-bold text-amber-300 flex items-center gap-1">
+              <span class="text-[10.5px] font-bold text-white flex items-center gap-1">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> 실전 극복 3단계 행동 수칙
               </span>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 ${curPrescription.actionRules.map(r => `
                   <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-lg space-y-1">
-                    <span class="text-[10px] font-black text-amber-400 block">${r.step}</span>
+                    <span class="text-[10px] font-black text-[#EA580C] block">${r.step}</span>
                     <p class="text-[11px] text-slate-300 leading-snug font-medium math-render-target">${r.text}</p>
                   </div>
                 `).join('')}
@@ -18881,7 +18890,7 @@ window.addEventListener('DOMContentLoaded', () => {
           <div id="sample-problem-recommend-card" class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 md:p-5 flex flex-col justify-between h-full space-y-3 relative shadow-md">
             <div class="flex items-center justify-between">
               <span class="sample-grade-badge bg-stone-900/80 text-stone-300 border border-orange-500/40 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                <i data-lucide="sparkles" class="w-3 h-3 text-amber-300"></i> ${sampleProb.curriculum_grade} 맞춤 추천 샘플
+                <i data-lucide="sparkles" class="w-3 h-3 text-stone-200"></i> ${sampleProb.curriculum_grade} 맞춤 추천 샘플
               </span>
               <button onclick="dismissSampleProblemCard(event)" class="text-slate-400 hover:text-slate-200 p-1 rounded-lg hover:bg-slate-800 transition" title="샘플 카드 닫기">
                 <i data-lucide="x" class="w-3.5 h-3.5"></i>
@@ -18914,9 +18923,9 @@ window.addEventListener('DOMContentLoaded', () => {
           <div id="guest-quota-exhausted-card" class="bg-slate-900 border-2 border-orange-500/50 rounded-2xl p-3.5 space-y-2.5 shadow-md">
             <div class="flex items-center justify-between">
               <span class="bg-orange-500/20 text-stone-300 border border-orange-500/40 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                <i data-lucide="sparkles" class="w-3 h-3 text-amber-300"></i> 무료 3회 체험 완료
+                <i data-lucide="sparkles" class="w-3 h-3 text-stone-200"></i> 무료 3회 체험 완료
               </span>
-              <span class="text-[10px] font-bold text-amber-400">잔여 0회</span>
+              <span class="text-[10px] font-bold text-[#EA580C]">잔여 0회</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">학생 회원가입하고 계속 질문하세요</h4>
@@ -18990,16 +18999,16 @@ window.addEventListener('DOMContentLoaded', () => {
               <div onclick="openSampleProblemPreview(15)" class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-orange-500/40 cursor-pointer transition flex items-center justify-between group">
                 <div>
                   <span class="text-[10px] font-bold text-[#EA580C] block">[고3 수능 15번]</span>
-                  <span class="text-xs font-bold text-white group-hover:text-amber-300 transition">삼차함수 그래프 개형과 구간 최솟값</span>
+                  <span class="text-xs font-bold text-white group-hover:text-white transition">삼차함수 그래프 개형과 구간 최솟값</span>
                 </div>
                 <span class="text-xs font-black text-[#EA580C] shrink-0">체험 →</span>
               </div>
               <div onclick="openSampleProblemPreview(1)" class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-orange-500/40 cursor-pointer transition flex items-center justify-between group">
                 <div>
-                  <span class="text-[10px] font-bold text-amber-400 block">[고1 공통수학]</span>
-                  <span class="text-xs font-bold text-white group-hover:text-amber-300 transition">이차함수와 직선의 위치 관계</span>
+                  <span class="text-[10px] font-bold text-[#EA580C] block">[고1 공통수학]</span>
+                  <span class="text-xs font-bold text-white group-hover:text-white transition">이차함수와 직선의 위치 관계</span>
                 </div>
-                <span class="text-xs font-black text-amber-400 shrink-0">체험 →</span>
+                <span class="text-xs font-black text-[#EA580C] shrink-0">체험 →</span>
               </div>
             </div>
             <p class="text-[11px] text-slate-400 text-center leading-relaxed">
@@ -19853,7 +19862,7 @@ window.addEventListener('DOMContentLoaded', () => {
           <div class="flex items-center gap-2 min-w-0">
             <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
             <div class="min-w-0">
-              <strong class="text-amber-300 font-extrabold truncate block">[핵심 약점] ${diag.deficitTitle}</strong>
+              <strong class="text-white font-extrabold truncate block">[핵심 약점] ${diag.deficitTitle}</strong>
               <span class="text-slate-300 text-[11px] truncate block">${diag.deficitReason}</span>
             </div>
           </div>
@@ -19910,12 +19919,12 @@ window.addEventListener('DOMContentLoaded', () => {
               <span class="w-2 h-2 rounded-full bg-[#EA580C] animate-pulse"></span>
               내 문제점의 시작 지점 역추적 흐름
             </span>
-            <span class="text-[10px] text-amber-400 font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+            <span class="text-[10px] text-white font-extrabold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
               약점의 시작점 찾기
             </span>
           </div>
           <div class="flex items-center gap-1.5 text-[11px] text-slate-300 flex-wrap py-1">
-            <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 dark:bg-amber-500/20 text-amber-800 dark:text-amber-400 font-extrabold border border-amber-600/40 dark:border-amber-500/40 flex items-center gap-1.5 shadow-xs">
+            <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 dark:bg-amber-500/20 text-amber-800 dark:text-white font-extrabold border border-amber-600/40 dark:border-amber-500/40 flex items-center gap-1.5 shadow-xs">
               <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> [문제점의 시작] ${dagData.diagnosis.deficitTitle}
             </span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
@@ -19928,7 +19937,7 @@ window.addEventListener('DOMContentLoaded', () => {
             </span>
           </div>
           <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium pt-0.5">
-            이 문제가 틀린 근본적인 시작점은 <strong class="text-amber-400">[${dagData.diagnosis.deficitTitle}]</strong>에 있으며, <strong class="text-rose-400">[${displayTitle}]</strong> 실전 오답으로 직결되었습니다. ${dagData.diagnosis.deficitReason}
+            이 문제가 틀린 근본적인 시작점은 <strong class="text-[#EA580C]">[${dagData.diagnosis.deficitTitle}]</strong>에 있으며, <strong class="text-rose-400">[${displayTitle}]</strong> 실전 오답으로 직결되었습니다. ${dagData.diagnosis.deficitReason}
           </p>
         `;
       }
@@ -19972,7 +19981,7 @@ window.addEventListener('DOMContentLoaded', () => {
         badgeColor = 'bg-rose-950/80 text-rose-300 border-rose-500/40';
         statusText = '현재 풀이 목표 문항';
       } else if (isDeficit) {
-        badgeColor = 'bg-amber-950/80 text-amber-300 border-amber-500/40';
+        badgeColor = 'bg-amber-950/80 text-stone-200 border-amber-500/40';
         statusText = '약점 감지 (원인 역추적)';
       }
 
@@ -19989,8 +19998,8 @@ window.addEventListener('DOMContentLoaded', () => {
       } else if (isDeficit) {
         extraDiagnosisHtml = `
           <div class="bg-amber-950/30 border border-amber-500/40 rounded-xl p-2.5 space-y-1">
-            <span class="text-[10px] font-extrabold text-amber-300 flex items-center gap-1">
-              <i data-lucide="alert-circle" class="w-3 h-3 text-amber-400"></i> 약점 원인 역추적 분석:
+            <span class="text-[10px] font-extrabold text-white flex items-center gap-1">
+              <i data-lucide="alert-circle" class="w-3 h-3 text-[#EA580C]"></i> 약점 원인 역추적 분석:
             </span>
             <p class="text-[10.5px] text-slate-200 leading-relaxed font-medium">${diag.deficitReason}</p>
             <span class="text-[10px] font-extrabold text-stone-300 flex items-center gap-1 pt-1">
@@ -20005,7 +20014,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <span class="text-[10px] font-extrabold text-rose-300 flex items-center gap-1">
               <i data-lucide="target" class="w-3 h-3 text-rose-400"></i> 목표 해결 핵심:
             </span>
-            <p class="text-[10.5px] text-slate-200 leading-relaxed font-medium">${diag.targetTitle} 해결을 위해서는 선행 개념인 <strong class="text-amber-300">[${diag.deficitTitle}]</strong> 단계의 원리 연결이 필수적입니다.</p>
+            <p class="text-[10.5px] text-slate-200 leading-relaxed font-medium">${diag.targetTitle} 해결을 위해서는 선행 개념인 <strong class="text-white">[${diag.deficitTitle}]</strong> 단계의 원리 연결이 필수적입니다.</p>
           </div>
         `;
       }
@@ -20017,9 +20026,9 @@ window.addEventListener('DOMContentLoaded', () => {
           <div class="bg-slate-900 border border-orange-500/40 rounded-xl p-3 space-y-2.5 shadow-sm">
             <div class="flex items-center justify-between border-b border-orange-500/30 pb-1.5">
               <span class="text-[11px] font-extrabold text-white flex items-center gap-1.5">
-                <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i> 이 문제를 틀린 진짜 이유 (인지 3단계 역추적)
+                <i data-lucide="compass" class="w-3.5 h-3.5 text-[#EA580C]"></i> 이 문제를 틀린 진짜 이유 (인지 3단계 역추적)
               </span>
-              <span class="text-[9.5px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold px-2 py-0.5 rounded-full">
+              <span class="text-[9.5px] bg-orange-500/15 text-[#EA580C] border border-orange-500/30 font-bold px-2 py-0.5 rounded-full">
                 ${diag.killerDifficulty || '킬러 문항'}
               </span>
             </div>
@@ -20036,9 +20045,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
               <!-- Step 2: Root Cause Habit -->
               <div class="flex items-start gap-2 bg-slate-950/80 p-2 rounded-lg border border-amber-500/30">
-                <span class="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 font-black text-[9px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <span class="w-4 h-4 rounded-full bg-amber-500/20 text-[#EA580C] font-black text-[9px] flex items-center justify-center shrink-0 mt-0.5">2</span>
                 <div>
-                  <strong class="text-amber-300">[선행 뿌리] ${(diag.upstreamChain && diag.upstreamChain.length) ? diag.upstreamChain[0] : '중학 연계 개념'}</strong>
+                  <strong class="text-white">[선행 뿌리] ${(diag.upstreamChain && diag.upstreamChain.length) ? diag.upstreamChain[0] : '중학 연계 개념'}</strong>
                   <p class="text-slate-300 mt-0.5 leading-snug">수식을 직관적 도형·그래프 개형으로 번역하지 않고 계산식으로만 풀려던 습관에서 비롯되었습니다.</p>
                 </div>
               </div>
@@ -20096,8 +20105,8 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-2 text-[10px] text-amber-300 font-medium flex items-start gap-1.5">
-          <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5"></i>
+        <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-2 text-[10px] text-stone-200 font-medium flex items-start gap-1.5">
+          <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#EA580C] shrink-0 mt-0.5"></i>
           <span><strong class="text-amber-200">1:1 처방 팁:</strong> ${node.drillTip}</span>
         </div>
       `;
@@ -20293,7 +20302,7 @@ window.addEventListener('DOMContentLoaded', () => {
           }
           contactBox.classList.remove('hidden');
           if (phoneEl) {
-            phoneEl.innerHTML = `<a href="tel:${wl.director_phone.replace(/[^0-9]/g, '')}" class="hover:underline text-amber-300 font-bold">${wl.director_phone}</a>`;
+            phoneEl.innerHTML = `<a href="tel:${wl.director_phone.replace(/[^0-9]/g, '')}" class="hover:underline text-white font-bold">${wl.director_phone}</a>`;
           }
         } else if (contactBox) {
           contactBox.classList.add('hidden');
@@ -20304,7 +20313,7 @@ window.addEventListener('DOMContentLoaded', () => {
             iconEl.className = 'w-8 h-8 rounded-lg bg-white flex items-center justify-center border border-slate-700/50 shrink-0 overflow-hidden p-0.5';
             iconEl.innerHTML = `<img src="${logoSrc}" alt="${name}" class="w-full h-full object-contain" />`;
           } else {
-            iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
+            iconEl.className = 'w-8 h-8 rounded-lg bg-amber-500/20 text-stone-200 flex items-center justify-center border border-amber-500/30 shrink-0 font-black text-xs';
             iconEl.innerText = (wl && wl.logo_text) || '학원';
           }
         }
@@ -20567,12 +20576,12 @@ window.addEventListener('DOMContentLoaded', () => {
       if (isIlwon) {
         label = '무제한';
         if (quotaBadge) {
-          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
+          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-stone-200 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
         }
       } else if (isProMember) {
         label = 'PRO 무제한';
         if (quotaBadge) {
-          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
+          quotaBadge.className = 'flex h-[26px] bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-stone-200 text-[10px] font-bold px-2 rounded-lg items-center gap-1 shrink-0 transition whitespace-nowrap shadow-xs leading-none';
         }
       } else {
         label = `무료 ${remainingSolves}회`;
@@ -20595,7 +20604,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const settingsProBadge = document.getElementById('settings-pro-badge');
       if (settingsProBadge) {
         settingsProBadge.innerText = 'PRO 회원';
-        settingsProBadge.className = 'bg-amber-950 text-amber-300 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded';
+        settingsProBadge.className = 'bg-stone-900 text-[#EA580C] border border-orange-500/30 text-[10px] font-bold px-2 py-0.5 rounded';
       }
       closeModal('sub');
       alert('[ReadMath Pro 활성화 완료]\n\nReadMath Pro 7일 무료체험이 시작되었습니다!\n모든 문제를 횟수 제한 없이 무제한으로 이용하실 수 있습니다.');
@@ -21036,13 +21045,13 @@ window.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = studentFeedbacks.map(f => `
         <div class="admin-subcard p-2.5 rounded-xl border ${f.isReviewed ? 'bg-slate-900/60 border-slate-800' : 'bg-amber-950/20 border-amber-600/40'} space-y-1.5 transition">
           <div class="flex items-center justify-between">
-            <span class="text-[10px] font-extrabold ${f.isReviewed ? 'text-slate-400' : 'text-amber-400'} flex items-center gap-1">
+            <span class="text-[10px] font-extrabold ${f.isReviewed ? 'text-slate-400' : 'text-[#EA580C]'} flex items-center gap-1">
               <i data-lucide="message-square" class="w-3 h-3"></i>
               <span>${f.category}</span>
             </span>
             ${f.isReviewed 
               ? '<span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-bold">확인 완료</span>'
-              : '<span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-extrabold">처리 대기</span>'
+              : '<span class="text-[9px] bg-orange-500/15 text-[#EA580C] border border-orange-500/30 px-1.5 py-0.5 rounded font-extrabold">처리 대기</span>'
             }
           </div>
           <div class="text-[10.5px] text-slate-300 leading-snug bg-slate-950/70 p-2 rounded-lg border border-slate-800/80 break-words">
@@ -21374,9 +21383,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         if (phoneThemeBtn) {
-          phoneThemeBtn.innerHTML = '<i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>';
+          phoneThemeBtn.innerHTML = '<i data-lucide="sun" class="w-3.5 h-3.5 text-[#EA580C]"></i>';
           phoneThemeBtn.title = '데이모드로 전환';
-          phoneThemeBtn.className = 'flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 transition shrink-0 shadow-xs';
+          phoneThemeBtn.className = 'flex items-center justify-center w-[26px] h-[26px] rounded-full bg-slate-800 hover:bg-slate-700 text-[#EA580C] transition shrink-0 shadow-xs';
         }
 
         if (settingsThemeIndicator) {
@@ -21423,12 +21432,12 @@ window.addEventListener('DOMContentLoaded', () => {
           camBtn.classList.remove('hidden');
           camBtn.style.setProperty('display', 'inline-flex', 'important');
           camBtn.innerHTML = `
-            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-[#EA580C] shrink-0'}" id="camera-role-icon"></i>
+            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-[#EA580C] shrink-0' : 'w-3 h-3 text-[#EA580C] shrink-0'}" id="camera-role-icon"></i>
             <span id="camera-role-text">${isTeacher ? '선생님' : '학생'}</span>
           `;
           const baseCam = 'h-[26px] text-[10px] font-bold px-2 rounded-lg flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none leading-none';
           const roleCam = isTeacher 
-            ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
+            ? 'bg-amber-950/90 hover:bg-amber-900 text-stone-200 border border-amber-500/50'
             : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
           camBtn.className = `${baseCam} ${roleCam}`;
         }
@@ -21444,12 +21453,12 @@ window.addEventListener('DOMContentLoaded', () => {
           solBtn.classList.remove('hidden');
           solBtn.style.setProperty('display', 'inline-flex', 'important');
           solBtn.innerHTML = `
-            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-amber-400 shrink-0' : 'w-3 h-3 text-[#EA580C] shrink-0'}" id="solution-role-icon"></i>
+            <i data-lucide="${isTeacher ? 'book-open' : 'graduation-cap'}" class="${isTeacher ? 'w-3 h-3 text-[#EA580C] shrink-0' : 'w-3 h-3 text-[#EA580C] shrink-0'}" id="solution-role-icon"></i>
             <span id="solution-role-text">${isTeacher ? '선생님' : '학생'}</span>
           `;
           const baseSol = 'text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 transition shrink-0 flex-nowrap whitespace-nowrap shadow-xs select-none';
           const roleSol = isTeacher
-            ? 'bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/50'
+            ? 'bg-amber-950/90 hover:bg-amber-900 text-stone-200 border border-amber-500/50'
             : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700';
           solBtn.className = `${baseSol} ${roleSol}`;
         }
@@ -21506,10 +21515,10 @@ window.addEventListener('DOMContentLoaded', () => {
       if (ind) {
         if (isTeacher) {
           ind.innerText = '선생님 / 학원 회원';
-          ind.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+          ind.className = 'text-[10px] font-bold text-stone-200 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
         } else if (isWhiteLabel) {
           ind.innerText = `${wl.academy_name} 재원생 (무제한)`;
-          ind.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
+          ind.className = 'text-[10px] font-bold text-stone-200 bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
         } else if (isIlwon) {
           ind.innerText = '일원 재원생 (무제한)';
           ind.className = 'text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded shrink-0 whitespace-nowrap';
@@ -21553,7 +21562,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (acctBadge) {
         if (isTeacher) {
           acctBadge.innerText = '선생님 VIP';
-          acctBadge.className = 'text-[10px] font-bold text-amber-300 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded';
+          acctBadge.className = 'text-[10px] font-bold text-stone-200 bg-amber-950 border border-amber-600/40 px-2 py-0.5 rounded';
         } else if (isIlwon) {
           acctBadge.innerText = 'VIP 무제한';
           acctBadge.className = 'text-[10px] font-bold text-emerald-300 bg-emerald-950 border border-emerald-500/40 px-2 py-0.5 rounded';
@@ -21607,7 +21616,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (isTeacher) {
           headerAuthText.innerText = `${teacherProfile.name || '박지훈'} 선생님`;
           if (headerAuthIcon) headerAuthIcon.setAttribute('data-lucide', 'user-check');
-          headerAuthBtn.className = 'bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-600/40 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs';
+          headerAuthBtn.className = 'bg-amber-950 hover:bg-amber-900 text-stone-200 border border-amber-600/40 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition shadow-xs';
         } else if (studentProfile && studentProfile.name) {
           headerAuthText.innerText = `${studentProfile.name} 학생`;
           if (headerAuthIcon) headerAuthIcon.setAttribute('data-lucide', 'user');
@@ -21695,8 +21704,8 @@ window.addEventListener('DOMContentLoaded', () => {
         stepsContainer.innerHTML = guide.steps.map(s => `
           <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2.5 space-y-1.5">
             <div class="flex items-center justify-between gap-1 flex-nowrap">
-              <span class="text-[10.5px] font-extrabold text-amber-300 shrink-0 whitespace-nowrap">${s.stage}</span>
-              <span class="text-[9px] text-amber-400/90 font-medium bg-amber-950/50 px-1.5 py-0.5 rounded border border-amber-600/30 truncate max-w-[190px]" title="${s.goal}">목표: ${s.goal}</span>
+              <span class="text-[10.5px] font-extrabold text-white shrink-0 whitespace-nowrap">${s.stage}</span>
+              <span class="text-[9px] text-[#EA580C]/90 font-medium bg-amber-950/50 px-1.5 py-0.5 rounded border border-amber-600/30 truncate max-w-[190px]" title="${s.goal}">목표: ${s.goal}</span>
             </div>
             <p class="text-xs text-slate-100 font-semibold leading-relaxed pl-1 border-l-2 border-amber-500/40">
               "${autoFormatMathText(s.prompt)}"
@@ -22003,7 +22012,7 @@ window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.teacher-type-btn').forEach(b => {
         b.className = 'teacher-type-btn bg-slate-800 text-slate-300 py-1.5 rounded-lg text-[10px]';
       });
-      btn.className = 'teacher-type-btn bg-amber-500/20 text-amber-300 border border-amber-500/40 py-1.5 rounded-lg text-[10px] font-bold';
+      btn.className = 'teacher-type-btn bg-orange-500/15 text-[#EA580C] border border-orange-500/30 py-1.5 rounded-lg text-[10px] font-bold';
       teacherProfile.type = type;
     }
 
@@ -22024,7 +22033,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (studentProfile && studentProfile.connectedTeacherCode) {
         const isIlwon = studentProfile.connectedTeacherCode === 'ILWON-2027';
         statusBadge.className = isIlwon
-          ? 'text-[9.5px] bg-amber-900/60 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold'
+          ? 'text-[9.5px] bg-amber-900/60 text-stone-200 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold'
           : 'text-[9.5px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold';
         statusBadge.innerText = isIlwon ? '재원생 인증됨 (무제한)' : '연결됨';
         inputBox.classList.add('hidden');
@@ -22506,7 +22515,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (teacherStudents.length === 0) {
         listContainer.innerHTML = `
           <div class="text-center py-8 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
-            <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
+            <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-[#EA580C]">
               <i data-lucide="users" class="w-5 h-5"></i>
             </div>
             <p class="text-xs font-bold text-slate-200">등록된 학생이 없습니다</p>
@@ -22525,7 +22534,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hover:border-amber-500/40 transition">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 min-w-0">
-              <div class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0">
+              <div class="w-7 h-7 rounded-full bg-amber-500/20 text-white font-bold text-xs flex items-center justify-center shrink-0">
                 ${st.name ? st.name.charAt(0) : '학'}
               </div>
               <div class="min-w-0">
@@ -22542,7 +22551,7 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div class="bg-slate-950/80 rounded-lg p-2 text-[10.5px] space-y-0.5 border border-slate-800">
-            <div class="text-amber-300/90 truncate"><span class="font-bold text-slate-400">취약 영역:</span> ${st.weakness || '개별 진단 중'}</div>
+            <div class="text-stone-200/90 truncate"><span class="font-bold text-slate-400">취약 영역:</span> ${st.weakness || '개별 진단 중'}</div>
             <div class="text-slate-300 truncate"><span class="font-bold text-slate-400">목표:</span> ${st.goal || '성적 향상'}</div>
           </div>
 
@@ -22674,7 +22683,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return `
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2">
             <div class="flex items-center justify-between pb-1 border-b border-slate-800">
-              <span class="text-xs font-extrabold text-amber-300 flex items-center gap-1.5">
+              <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-amber-400"></span> ${item.title}
               </span>
               <span class="text-[9px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-semibold">${item.stage}</span>
@@ -22877,10 +22886,10 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400"></i> 현재 질문 문항 B: [고2 삼차함수 접선]
+                <span class="text-xs font-bold text-white flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-[#EA580C]"></i> 현재 질문 문항 B: [고2 삼차함수 접선]
                 </span>
-                <span class="text-[10px] text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded">수학Ⅱ 미분</span>
+                <span class="text-[10px] text-white bg-amber-950/80 px-2 py-0.5 rounded">수학Ⅱ 미분</span>
               </div>
               <p class="text-[11px] text-slate-400">
                 <strong>겉포장(증상)</strong>: 삼차함수 접선의 방정식과 극솟값<br/>
@@ -22904,10 +22913,10 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400"></i> 현재 질문 문항 B: [대입 수리논술 2번]
+                <span class="text-xs font-bold text-white flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-[#EA580C]"></i> 현재 질문 문항 B: [대입 수리논술 2번]
                 </span>
-                <span class="text-[10px] text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded">기하·삼각비</span>
+                <span class="text-[10px] text-white bg-amber-950/80 px-2 py-0.5 rounded">기하·삼각비</span>
               </div>
               <p class="text-[11px] text-slate-400">
                 <strong>겉포장(증상)</strong>: 반원 내부 접선과 삼각함수의 덧셈정리<br/>
@@ -22931,10 +22940,10 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400"></i> 현재 질문 문항 B: [고1 두 직선의 교점]
+                <span class="text-xs font-bold text-white flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-[#EA580C]"></i> 현재 질문 문항 B: [고1 두 직선의 교점]
                 </span>
-                <span class="text-[10px] text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded">도형의 방정식</span>
+                <span class="text-[10px] text-white bg-amber-950/80 px-2 py-0.5 rounded">도형의 방정식</span>
               </div>
               <p class="text-[11px] text-slate-400">
                 <strong>겉포장(증상)</strong>: 두 직선이 x축 위에서 만날 때 미지수 k<br/>
@@ -22958,10 +22967,10 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/40 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400"></i> 현재 질문 문항: [고1 이차함수]
+                <span class="text-xs font-bold text-white flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-[#EA580C]"></i> 현재 질문 문항: [고1 이차함수]
                 </span>
-                <span class="text-[10px] text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded">이차함수</span>
+                <span class="text-[10px] text-white bg-amber-950/80 px-2 py-0.5 rounded">이차함수</span>
               </div>
               <p class="text-[11px] text-slate-400">
                 <strong>겉포장(증상)</strong>: 대칭축이 미지수 x=a인 이차함수의 최댓값<br/>
@@ -23021,7 +23030,7 @@ window.addEventListener('DOMContentLoaded', () => {
           <p class="text-slate-300"><strong>학생 입력값:</strong> ${inputVal ? inputVal : '(미입력)'}</p>
           <div class="bg-stone-900/80 border border-orange-500/40 rounded-lg p-2.5 flex items-center justify-between">
             <span class="text-xs font-bold text-stone-200">쌍둥이 문제 정답:</span>
-            <span class="text-sm font-black text-amber-300">${autoFormatMathText(twin.answer)}</span>
+            <span class="text-sm font-black text-white">${autoFormatMathText(twin.answer)}</span>
           </div>
           ${twinSvg ? `
             <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-1.5 my-2">
@@ -23289,8 +23298,8 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!gradeData || !gradeData.teachers || gradeData.teachers.length === 0) {
         if (teachersContainer) {
           teachersContainer.innerHTML = `
-            <span class="text-[11px] text-amber-300/80 bg-amber-950/40 border border-amber-800/40 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-              <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400"></i> 등록된 출제 교사진이 없습니다. 직접 제보해 주세요!
+            <span class="text-[11px] text-white/80 bg-amber-950/40 border border-amber-800/40 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-[#EA580C]"></i> 등록된 출제 교사진이 없습니다. 직접 제보해 주세요!
             </span>
           `;
         }
@@ -23302,7 +23311,7 @@ window.addEventListener('DOMContentLoaded', () => {
           `;
         }
         if (statusBadge) {
-          statusBadge.className = 'text-[10px] text-amber-300 font-bold bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded-full flex items-center gap-1';
+          statusBadge.className = 'text-[10px] text-white font-bold bg-amber-950 border border-amber-500/40 px-2 py-0.5 rounded-full flex items-center gap-1';
           statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> 교사진 제보 대기 중';
         }
         if (alertBox) alertBox.classList.add('hidden');
@@ -23760,7 +23769,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return `
           <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-orange-500/40 cursor-pointer transition select-none">
             <input type="checkbox" name="exam_prob_select" value="${item.id}" ${isChecked ? 'checked' : ''} onchange="updateExamSelectionCount()" class="rounded border-slate-700 text-[#EA580C] focus:ring-0" />
-            <span class="text-[10px] font-bold ${item.isFromHistory ? 'text-amber-300 bg-amber-950/80 border-amber-500/40' : 'text-stone-300 bg-stone-900 border-orange-500/40'} border px-1.5 py-0.5 rounded shrink-0">
+            <span class="text-[10px] font-bold ${item.isFromHistory ? 'text-white bg-amber-950/80 border-amber-500/40' : 'text-stone-300 bg-stone-900 border-orange-500/40'} border px-1.5 py-0.5 rounded shrink-0">
               ${item.isFromHistory ? '내 질문' : (item.curriculum_grade || '공통')}
             </span>
             <span class="text-xs font-semibold text-slate-200 truncate flex-1">${cleanProblemTitle(item.title)}</span>
@@ -24480,7 +24489,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
           const resolvedPct = Math.round((resolvedCount / totalHistory) * 100);
           myDefStatusEl.textContent = `해결률 ${resolvedPct}%`;
-          myDefStatusEl.className = resolvedPct >= 70 ? 'text-base font-black text-amber-500' : 'text-base font-black text-amber-400';
+          myDefStatusEl.className = resolvedPct >= 70 ? 'text-base font-black text-amber-500' : 'text-base font-black text-[#EA580C]';
           if (myDefSubEl) myDefSubEl.textContent = `총 ${totalHistory}문제 중 ${resolvedCount}문제 해결 완료`;
         }
       }
@@ -24504,7 +24513,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 아직 <strong>${schoolName}</strong>의 등록된 내신 기출문제가 없습니다.<br>
                 시험지 사진을 제보해 주시면 인지 약점 분석 및 쌍둥이 변형 문제가 등록됩니다.
               </p>
-              <button type="button" onclick="openModal('exam-bounty')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition">
+              <button type="button" onclick="openModal('exam-bounty')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-stone-200 border border-amber-500/40 text-xs font-bold transition">
                 <i data-lucide="upload" class="w-3.5 h-3.5"></i>
                 <span>${schoolName} 시험지 제보하기 (+10문제 무료 충전)</span>
               </button>
@@ -25196,7 +25205,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <!-- 2. 정확한 수학 시각화 그래프/기하 다이어그램 -->
             <div class="space-y-2">
               <div class="flex items-center justify-between text-sm">
-                <span class="flex items-center gap-2 text-amber-400 font-black">
+                <span class="flex items-center gap-2 text-[#EA580C] font-black">
                   <i data-lucide="line-chart" class="w-4 h-4"></i>
                   <span>2. 수학 시각화 정밀 다이어그램</span>
                 </span>
@@ -25209,8 +25218,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
             <!-- 3. 수능·내신 킬러 연결 고리 & 왜 막히는가? -->
             <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-500/30 rounded-xl p-3.5 space-y-2">
-              <div class="text-amber-900 dark:text-amber-300 font-black flex items-center gap-2 text-sm">
-                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+              <div class="text-amber-900 dark:text-[#EA580C] font-black flex items-center gap-2 text-sm">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 dark:text-[#EA580C]"></i>
                 <span>3. 수능 킬러 연계 분석: 상위권도 여기서 막히는 이유</span>
               </div>
               <p class="text-[13.5px] text-slate-100 leading-relaxed font-medium">${autoFormatMathText(universalMathSanitizer(c.killerConnection || c.remedyTip || ''))}</p>
@@ -26265,7 +26274,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   <!-- Floating ReadTutor Quick Question FAB -->
   <button type="button" onclick="if(typeof goToView === 'function') goToView('chat'); else if(typeof switchView === 'function') switchView('chat'); const ci = document.getElementById('chat-input'); if(ci) ci.focus();" id="floating-tutor-fab" class="fixed bottom-20 right-4 sm:right-6 md:right-8 z-40 bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold px-3.5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 border border-orange-500/40 transition-all hover:scale-105 active:scale-95 text-xs select-none cursor-pointer" title="리드쌤에게 바로 질문하기">
-    <i data-lucide="bot" class="w-4 h-4 text-amber-300"></i>
+    <i data-lucide="bot" class="w-4 h-4 text-stone-200"></i>
     <span class="font-bold">리드쌤 질문</span>
   </button>
 
