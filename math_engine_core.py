@@ -341,8 +341,8 @@ class MathEngineCore:
 
         # Root Node
         sx, sy = start_node["x"], start_node["y"]
-        svg.append(f'  <circle cx="{sx}" cy="{sy}" r="16" fill="#FFF7ED" stroke="#EA580C" stroke-width="1.5"/>')
-        svg.append(f'  <text x="{sx}" y="{sy + 4}" fill="#EA580C" font-size="10" font-weight="900" text-anchor="middle">{start_node.get("label", "Start")}</text>')
+        svg.append(f'  <circle cx="{sx}" cy="{sy}" r="16" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>')
+        svg.append(f'  <text x="{sx}" y="{sy + 4}" fill="#1E40AF" font-size="10" font-weight="900" text-anchor="middle">{start_node.get("label", "Start")}</text>')
 
         # Branches
         for b in branches:
@@ -367,9 +367,9 @@ class MathEngineCore:
         if summary_badge:
             bw, bh = 80, 52
             bx_pos, by_pos = width - bw - 16, (height - bh) / 2
-            svg.append(f'  <rect x="{bx_pos}" y="{by_pos}" width="{bw}" height="{bh}" rx="6" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.2"/>')
-            svg.append(f'  <text x="{bx_pos + bw/2}" y="{by_pos + 18}" fill="#166534" font-size="8.5" font-weight="bold" text-anchor="middle">{summary_badge["title"]}</text>')
-            svg.append(f'  <text x="{bx_pos + bw/2}" y="{by_pos + 40}" fill="#15803D" font-size="15" font-weight="900" text-anchor="middle">{summary_badge["value"]}</text>')
+            svg.append(f'  <rect x="{bx_pos}" y="{by_pos}" width="{bw}" height="{bh}" rx="6" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.2"/>')
+            svg.append(f'  <text x="{bx_pos + bw/2}" y="{by_pos + 18}" fill="#991B1B" font-size="8.5" font-weight="bold" text-anchor="middle">{summary_badge["title"]}</text>')
+            svg.append(f'  <text x="{bx_pos + bw/2}" y="{by_pos + 40}" fill="#DC2626" font-size="15" font-weight="900" text-anchor="middle">{summary_badge["value"]}</text>')
 
         svg.append('</svg>')
         return "\n".join(svg)

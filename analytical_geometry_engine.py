@@ -334,6 +334,43 @@ class AnalyticalGeometryCompiler:
         Inviolable Gate: Asserts that all geometric elements obey strict calculus
         and coordinate rules before SVG generation is permitted.
         """
+        # 0. Anti-Secant Invariant Gate: Any line claiming to be a tangent MUST NOT cut through curves as a secant
+        for l in self.lines:
+            lbl = l.get("label", "")
+            if lbl and "접선" in lbl:
+                p1, p2 = l["p1"], l["p2"]
+                # line equation y = m*x + b
+                dx = p2[0] - p1[0]
+                if abs(dx) > 1e-9:
+                    m_line = (p2[1] - p1[1]) / dx
+                    b_line = p1[1] - m_line * p1[0]
+                    # Check every curve
+                    for c_dict in self.curves:
+                        c_obj = c_dict["obj"]
+                        c_min = max(c_dict["x_min"], min(p1[0], p2[0]))
+                        c_max = min(c_dict["x_max"], max(p1[0], p2[0]))
+                        if c_max - c_min > 0.1:
+                            # Sample points to detect sign changes (crossing)
+                            signs = []
+                            samples = 40
+                            for s_idx in range(samples + 1):
+                                xs = c_min + (c_max - c_min) * (s_idx / samples)
+                                try:
+                                    diff = c_obj.eval(xs) - (m_line * xs + b_line)
+                                    if abs(diff) > 0.08:
+                                        signs.append(1 if diff > 0 else -1)
+                                except Exception:
+                                    pass
+                            # If signs contain both 1 and -1 across non-boundary points, line cuts through curve
+                            if 1 in signs and -1 in signs:
+                                # Count sign changes
+                                changes = sum(1 for i in range(len(signs)-1) if signs[i] != signs[i+1])
+                                if changes >= 2:
+                                    raise AssertionError(
+                                        f"MATHEMATICAL INVARIANT VIOLATION: Line labeled '{lbl}' is a SECANT (cuts through curve '{c_dict.get('label')}'), not a tangent! "
+                                        f"Common tangents must touch strictly without crossing the curve interior."
+                                    )
+
         # 1. Verify bound points
         for pt in self.points:
             if "bound_curve" in pt:

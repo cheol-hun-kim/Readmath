@@ -23,7 +23,7 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
     Returns an exact mathematical SVG for the specified problem number.
     Returns None if the problem is purely algebraic/discrete with no geometric figure.
     """
-    try:
+    if True:
         # =========================================================================
         # PART 1: 2025학년도 (2024년 11월 시행) 수능 기출 & 변형 (Q1 ~ Q36)
         # =========================================================================
@@ -64,14 +64,14 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         # SET 2: 지수·로그 점대칭 접선 교점 (Q4, Q5, Q6)
         elif prob_num == 4:
             c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-3.0, 3.0), width=460, height=155)
-            c1 = c.add_curve(lambda x: 2.0**x, x_min=-2.2, x_max=1.5, label="y=2ˣ", color="#2563EB")
+            c1 = c.add_curve(lambda x: 2.0**x, x_min=-2.2, x_max=1.5, label="y=2ˣ", color="#080908")
             c2 = c.add_curve(lambda x: -(2.0**(-x)), x_min=-1.5, x_max=2.2, label="y=-2⁻ˣ", color="#2563EB")
             t = 1.0
-            c.add_point_on_curve(c1, x=t, label="(1, 2)", color="#2563EB", drop_x=True, label_pos="above_left")
-            c.add_point_on_curve(c2, x=-t, label="(-1, -2)", color="#2563EB", drop_x=True, label_pos="below_right")
-            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.4, color="#2563EB")
-            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.4, span_right=2.0, color="#DC2626")
-            c.add_line_intersection(t1, t2, label="대칭 교점(0, f(t))", color="#DC2626", drop_x=True)
+            c.add_point_on_curve(c1, x=t, label="P(1, 2)", color="#DC2626", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="Q(-1, -2)", color="#DC2626", drop_x=True, label_pos="below_right")
+            c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.6, color="#DC2626")
+            c.add_tangent_line(c2, x_contact=-t, span_left=0.6, span_right=2.0, color="#2563EB")
+            c.add_point(0.0, 0.0, label="대칭 중심 O(0,0)", color="#080908", label_pos="below_left")
             return c.compile()
 
         elif prob_num == 5:
@@ -88,14 +88,14 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
 
         elif prob_num == 6:
             c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-3.5, 3.5), width=460, height=155)
-            c1 = c.add_curve(lambda x: math.exp(x), x_min=-2.2, x_max=1.2, label="y=eˣ", color="#2563EB")
+            c1 = c.add_curve(lambda x: math.exp(x), x_min=-2.2, x_max=1.2, label="y=eˣ", color="#080908")
             c2 = c.add_curve(lambda x: -math.exp(-x), x_min=-1.2, x_max=2.2, label="y=-e⁻ˣ", color="#2563EB")
             t = 1.0
-            c.add_point_on_curve(c1, x=t, label="(1, e)", color="#2563EB", drop_x=True, label_pos="above_left")
-            c.add_point_on_curve(c2, x=-t, label="(-1, -e)", color="#2563EB", drop_x=True, label_pos="below_right")
-            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.3, color="#2563EB")
-            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.3, span_right=2.0, color="#DC2626")
-            c.add_line_intersection(t1, t2, label="교점", color="#DC2626")
+            c.add_point_on_curve(c1, x=t, label="P(1, e)", color="#DC2626", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="Q(-1, -e)", color="#DC2626", drop_x=True, label_pos="below_right")
+            c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.4, color="#DC2626")
+            c.add_tangent_line(c2, x_contact=-t, span_left=0.4, span_right=2.0, color="#2563EB")
+            c.add_point(0.0, 0.0, label="대칭 중심 O(0,0)", color="#080908", label_pos="below_left")
             return c.compile()
 
         # SET 3: 삼차함수 접선 및 부등식 (Q7, Q8, Q9)
@@ -647,5 +647,4 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         # Pure algebraic / combinatorial / arithmetic problems: strictly return None
         return None
 
-    except Exception as e:
-        return None
+
