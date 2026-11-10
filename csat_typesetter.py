@@ -51,17 +51,11 @@ def normalize_csat_text(raw_text: str) -> str:
         # Vector arrow: replace short \vec{...} with full-width \overrightarrow{...}
         inner = re.sub(r'\\vec\{([a-zA-Z0-9]+)\}', r'\\overrightarrow{\1}', inner)
         
-        # Smart CSAT Sigma Normalization:
-        # In official Korean CSAT/HWP papers:
-        # - Fractions (\frac, \dfrac) with \sum MUST stack limits above and below (\sum\limits)
-        # - Simple polynomial / sequence terms (e.g. (a_n - 3)) keep side limits (\sum) for baseline stability
-        def replace_sum(m_sum):
-            s = m_sum.group(0)
-            if re.search(r'\\(?:d?frac)', s):
-                return re.sub(r'\\sum(?!\s*\\limits)', r'\\sum\\limits', s)
-            else:
-                return re.sub(r'\\sum\s*\\limits', r'\\sum', s)
-        inner = re.sub(r'\\sum[^\$]+', replace_sum, inner)
+        # Authentic CSAT Sigma Normalization:
+        # In official Korean CSAT/HWP papers (2025 수능 29번 등 공식 기출),
+        # ALL summations strictly stack limits above and below (\sum\limits) for uniform typography!
+        inner = re.sub(r'\\sum(?![a-zA-Z])(?!\s*\\limits)', r'\\sum\\limits', inner)
+        inner = re.sub(r'\\sum\s*\\nolimits', r'\\sum\\limits', inner)
         return f"${inner}$"
 
     # Process inline math ($...$ not $$...$$)

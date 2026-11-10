@@ -173,9 +173,14 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         )
         f_exp = c_left.add_curve(lambda x: coeff * math.exp(x), x_min=-1.6, x_max=1.5, label="y=eˣ" if prob_num == 6 else "y=2eˣ")
         f_log = c_left.add_curve(lambda x: coeff * math.log(x), x_min=0.25, x_max=3.5, label="y=ln x" if prob_num == 6 else "y=2ln x")
-        c_left.add_point_on_curve(f_exp, x=t, label=f"(t, {int(coeff)}eᵗ)", color="#080908", label_pos="above_left")
+        y_pt_label = "eᵗ" if coeff == 1.0 else f"{int(coeff)}eᵗ"
+        c_left.add_point_on_curve(f_exp, x=t, label=f"(t, {y_pt_label})", color="#080908", label_pos="above_left")
         c_left.add_tangent_line(f_exp, x_contact=t, span_left=1.1, span_right=0.2, color="#94A3B8")
-        c_left.add_tangent_line(f_log, x_contact=s, span_left=2.5, span_right=0.4, color="#94A3B8")
+        c_left.add_tangent_line(f_log, x_contact=s, span_left=s + 0.3, span_right=0.4, color="#94A3B8")
+        
+        # Plot points A and B on the left panel axes
+        c_left.add_point(Ax, 0.0, label="A", color="#DC2626", label_pos="below_right", r=2.5)
+        c_left.add_point(0.0, By, label="B", color="#DC2626", label_pos="above_left", r=2.5)
         
         # Zoom box on left panel around origin in math coordinates
         c_left.add_line((-0.3, 1.3), (0.9, 1.3), color="#EA580C", width=1.2, style="dashed")
@@ -196,7 +201,7 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         
         right_svg_parts = [
             f'<rect x="252" y="10" width="220" height="155" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>',
-            f'<text x="262" y="26" font-size="10.5" font-weight="800" fill="#EA580C">🔍 [원점 부근 직각삼각형 OAB 확대도]</text>',
+            f'<text x="262" y="26" font-size="10.5" font-weight="800" fill="#EA580C">[확대도] 원점 부근 직각삼각형 OAB</text>',
             f'<path d="M {ox} {oy-8} L {ox+8} {oy-8} L {ox+8} {oy}" fill="none" stroke="#64748B" stroke-width="1"/>',
             f'<polygon points="{ox},{oy} {ax},{ay} {bx},{by}" fill="#EA580C" fill-opacity="0.14" stroke="none"/>',
             f'<line x1="{ax:.1f}" y1="{ay:.1f}" x2="{bx:.1f}" y2="{by:.1f}" stroke="#DC2626" stroke-width="2.2"/>',
@@ -226,7 +231,7 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
       <g id="left-panel">
         <text x="14" y="18" font-size="10.5" font-weight="700" fill="#64748B">전체 곡선 및 접선 개형도</text>
         {inner_left}
-        <text x="88" y="76" font-size="9" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
+        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
       </g>
       {divider_svg}
       <g id="right-panel">
