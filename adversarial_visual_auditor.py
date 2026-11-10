@@ -59,6 +59,14 @@ def run_adversarial_optical_audit():
         if "홀수형" in text:
             failures.append(f"Page {pno+1}: Rogue '홀수형' badge found!")
             
+        # Check zero rogue top corner page numbers
+        blocks = page.get_text("blocks")
+        for b in blocks:
+            if b[1] < 35:
+                txt = b[4].strip()
+                if txt.isdigit() and len(txt) <= 2:
+                    failures.append(f"Page {pno+1}: Rogue top-corner page number detected: '{txt}' at y={b[1]}")
+            
     print(f"  [PASS] 0 unreduced coefficients, 0 emojis, 0 rogue labels across all {total_pages} pages.")
 
     # -------------------------------------------------------------------------

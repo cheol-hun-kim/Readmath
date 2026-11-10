@@ -244,7 +244,7 @@ for p_idx in range(6):
             
     header_title = "2025학년도 대학수학능력시험 킬러 & 동형 24제 N제" if page_num <= 3 else "2025학년도 수능 킬러 동일 레시피 1:1 쌍둥이 변형 12제"
     sub_badge = "ReadMath 1:1 약점 역추적 클리닉 시리즈" if page_num <= 3 else "출제 DNA 원형 보존 변형 문제"
-    type_badge = "홀수형" if page_num <= 3 else "변형 N제"
+    type_badge = "변형 N제"
     
         # Authentic CSAT Top Outer Corner Page Number:
     # Odd pages: Top Right; Even pages: Top Left
@@ -265,7 +265,7 @@ for p_idx in range(6):
         <div class="csat-header-main">
           <span class="csat-period">제 2 교시</span>
           <span class="csat-subject-title">수학 영역</span>
-          
+          <span class="csat-type-badge">{type_badge}</span>
         </div>
         {student_info}
       </div>
@@ -455,7 +455,7 @@ full_html = f'''<!DOCTYPE html>
     
     @page {{
       size: A4 portrait;
-      margin: 12mm 15mm 12mm 15mm;
+      margin: 14mm 15mm 12mm 15mm;
     }}
     
     * {{
@@ -477,11 +477,16 @@ full_html = f'''<!DOCTYPE html>
     .page {{
       page-break-after: always;
       position: relative;
-      min-height: 98vh; width: 100%; box-sizing: border-box; overflow: hidden;
+      width: 100%;
+      height: 268mm;
+      min-height: 268mm;
+      max-height: 268mm;
+      box-sizing: border-box;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding-bottom: 22px;
+      padding: 2mm 3mm 4mm 3mm;
     }}
 
     .page:last-child {{
@@ -761,22 +766,7 @@ full_html = f'''<!DOCTYPE html>
       font-family: 'Nanum Myeongjo', serif;
     }}
 
-    /* Large Outer Corner Page Number for CSAT Question Pages */
-    .csat-top-page-num {{
-      position: absolute;
-      top: -6px;
-      font-size: 20px;
-      font-weight: 800;
-      font-family: 'Nanum Myeongjo', 'Batang', serif;
-      color: #000000;
-      line-height: 1;
-    }}
-    .csat-top-page-num.top-left {{
-      left: -2px;
-    }}
-    .csat-top-page-num.top-right {{
-      right: -2px;
-    }}
+    /* Top page numbers permanently removed per user design direction */
 
     /* ================= EXPLANATION SECTION STYLING (SPACIOUS 2 PER PAGE) ================= */
     .sol-header {{
