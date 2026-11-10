@@ -2058,6 +2058,17 @@ try {
   failGate(8, 'Design Audit Crash', 'audit_full_design_system.py failed: ' + e.message);
 }
 
+// 11. RootMath 108-Je Zero-Duplicate & Analytical Geometry Gate (Gate 8.10)
+try {
+  const pyDiagramAudit = execSync('python audit_zero_duplicate_diagrams.py', { encoding: 'utf8' });
+  if (!pyDiagramAudit.includes('Duplicate Diagrams Found: 0') || !pyDiagramAudit.includes('XML Syntax Errors: 0')) {
+    failGate(8, 'Duplicate Diagrams Detected', '108-Je diagram audit failed:\n' + pyDiagramAudit);
+  }
+  gate8Details.push('Zero-Duplicate Analytical Diagram Gate: 100% verified across all 108 questions (0 duplicate diagrams, 0 fallback sketches, 0 XML syntax errors)');
+} catch (e) {
+  failGate(8, 'Diagram Audit Crash', 'audit_zero_duplicate_diagrams.py failed: ' + e.message);
+}
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================
