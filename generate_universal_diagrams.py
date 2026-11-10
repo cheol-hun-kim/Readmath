@@ -268,14 +268,15 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         ]
         
         return MathEngineCore.render_cartesian_graph(
-            x_range=(-2.0, 4.0),
-            y_range=(-1.8, 5.4),
+            x_range=(-2.0, 4.2),
+            y_range=(-1.8, 5.2),
             functions=functions,
             lines=lines,
             points=points,
             right_angles=right_angles,
             width=460,
-            height=135
+            height=145,
+            preserve_aspect_ratio=True
         )
 
     # -------------------------------------------------------------------------
@@ -328,14 +329,15 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         ]
         
         return MathEngineCore.render_cartesian_graph(
-            x_range=(-5.6, 5.6),
-            y_range=(-3.6, 3.6),
+            x_range=(-5.8, 5.8),
+            y_range=(-3.4, 3.4),
             functions=functions,
             lines=lines,
             points=points,
             right_angles=right_angles,
             width=460,
-            height=135
+            height=145,
+            preserve_aspect_ratio=True
         )
 
     # -------------------------------------------------------------------------

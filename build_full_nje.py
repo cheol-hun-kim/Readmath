@@ -246,6 +246,12 @@ for p_idx in range(6):
     sub_badge = "ReadMath 1:1 약점 역추적 클리닉 시리즈" if page_num <= 3 else "출제 DNA 원형 보존 변형 문제"
     type_badge = "홀수형" if page_num <= 3 else "변형 N제"
     
+        # Authentic CSAT Top Outer Corner Page Number:
+    # Odd pages: Top Right; Even pages: Top Left
+    if page_num % 2 == 1:
+        top_corner_num_html = f'<span class="csat-top-page-num top-right">{page_num}</span>'
+    else:
+        top_corner_num_html = f'<span class="csat-top-page-num top-left">{page_num}</span>'
     student_info = '''<div class="csat-student-info">
       <span>성명: ____________________</span>
       <span>수험번호: ____________________</span>
@@ -253,7 +259,8 @@ for p_idx in range(6):
 
     p_html = f'''<div class="page">
     <div>
-      <div class="csat-header">
+      <div class="csat-header" style="position: relative;">
+        {top_corner_num_html}
         <div class="csat-header-top">
           <span class="csat-year-title">{header_title}</span>
           <span class="csat-sub-badge">{sub_badge}</span>
@@ -277,8 +284,16 @@ for p_idx in range(6):
     </div>
 
     <div class="csat-footer">
-      <span>ReadMath AI 인지진단 맞춤 N제</span>
-      <div class="csat-page-box">[ {page_num} | {TOTAL_PAGES} ]</div>
+      <span class="csat-footer-left">ReadMath AI 맞춤 N제</span>
+      <div class="csat-page-box">
+        <svg viewBox="0 0 38 18" preserveAspectRatio="none">
+          <line x1="0" y1="18" x2="38" y2="0" stroke="#000000" stroke-width="0.8"/>
+        </svg>
+        <span class="curr-num">{page_num}</span>
+        <span class="total-num">{TOTAL_PAGES}</span>
+      </div>
+      <span class="csat-copyright">이 문제지에 관한 저작권은 ReadMath에 있습니다.</span>
+    </div>
       <span>수학 영역 ({type_badge})</span>
     </div>
   </div>'''
@@ -338,9 +353,9 @@ for sol_idx in range(12):
     </div>
 
     <div class="csat-footer">
-      <span>ReadMath 4-Way 입체 해설지</span>
-      <div class="csat-page-box">[ {page_num} | {TOTAL_PAGES} ]</div>
-      <span>수학 영역 해설</span>
+      <span class="sol-footer-brand">ReadMath 4-Way 입체 해설지</span>
+      <div class="sol-page-center">— {page_num} —</div>
+      <span class="sol-footer-subject">수학 영역 해설</span>
     </div>
   </div>'''
     html_pages.append(p_html)
@@ -425,8 +440,10 @@ quick_ans_page = f'''<div class="page">
   </div>
 
   <div class="csat-footer">
-    <span>ReadMath AI 인지진단 맞춤 N제 | 종합 정답표</span>
-    <div class="csat-page-box">[ 19 | {TOTAL_PAGES} ]</div>
+    <span class="sol-footer-brand">ReadMath AI 맞춤 N제 | 빠른 정답표</span>
+    <div class="sol-page-center">— 19 —</div>
+    <span class="sol-footer-subject">수학 영역</span>
+  </div>
     <span>수학 영역</span>
   </div>
 </div>'''
@@ -652,7 +669,7 @@ full_html = f'''<!DOCTYPE html>
       min-height: 155px;
     }}
 
-    /* CSAT Page Center Box */
+    /* Authentic CSAT & Editorial Footers */
     .csat-footer {{
       position: absolute;
       bottom: 0;
@@ -661,20 +678,104 @@ full_html = f'''<!DOCTYPE html>
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid #E4E4E7;
-      padding-top: 4px;
+      border-top: 1px solid #CBD5E1;
+      padding-top: 8px;
       font-size: 10px;
-      font-family: 'Pretendard', sans-serif;
-      color: #71717A;
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      color: #475569;
     }}
 
+    .csat-footer-left {{
+      font-size: 10px;
+      font-weight: 700;
+      color: #334155;
+      font-family: 'Nanum Myeongjo', serif;
+    }}
+
+    .csat-copyright {{
+      font-size: 8.5pt;
+      color: #334155;
+      font-family: 'Nanum Myeongjo', serif;
+    }}
+
+    /* Authentic KICE Diagonal Slash Page Box */
     .csat-page-box {{
-      border: 1px solid #71717A;
-      padding: 1px 12px;
-      font-weight: 800;
-      font-size: 11px;
-      color: #000000;
+      display: inline-block;
+      position: relative;
+      width: 38px;
+      height: 18px;
+      border: 0.8px solid #000000;
       background: #FFFFFF;
+    }}
+
+    .csat-page-box svg {{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }}
+
+    .csat-page-box .curr-num {{
+      position: absolute;
+      top: -1px;
+      left: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      color: #000000;
+      line-height: 1;
+    }}
+
+    .csat-page-box .total-num {{
+      position: absolute;
+      bottom: 1px;
+      right: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      color: #000000;
+      line-height: 1;
+    }}
+
+    /* Authentic Solution Page Bottom Center */
+    .sol-page-center {{
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      color: #1E293B;
+      letter-spacing: 2px;
+    }}
+
+    .sol-footer-brand {{
+      font-size: 10px;
+      font-weight: 700;
+      color: #334155;
+      font-family: 'Pretendard', sans-serif;
+    }}
+
+    .sol-footer-subject {{
+      font-size: 10px;
+      font-weight: 700;
+      color: #334155;
+      font-family: 'Nanum Myeongjo', serif;
+    }}
+
+    /* Large Outer Corner Page Number for CSAT Question Pages */
+    .csat-top-page-num {{
+      position: absolute;
+      top: -6px;
+      font-size: 20px;
+      font-weight: 800;
+      font-family: 'Nanum Myeongjo', 'Batang', serif;
+      color: #000000;
+      line-height: 1;
+    }}
+    .csat-top-page-num.top-left {{
+      left: -2px;
+    }}
+    .csat-top-page-num.top-right {{
+      right: -2px;
     }}
 
     /* ================= EXPLANATION SECTION STYLING (SPACIOUS 2 PER PAGE) ================= */

@@ -3349,16 +3349,27 @@
         <div class="flex items-center justify-between gap-1 flex-nowrap">
           <div class="flex items-center gap-2 min-w-0 flex-1 pr-1">
             <div onclick="handleLogoClick()" id="app-brand-logo-icon" class="w-8 h-8 rounded-xl bg-[#EA580C] flex items-center justify-center shadow-md text-xs shrink-0 cursor-pointer select-none active:scale-95 p-1.5 logo-461-icon" title="ReadMath">
-              <svg class="w-5 h-5 text-white" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 22V6C14 6 11 4.5 5 4.5C3.5 4.5 2 5 2 5V21C2 21 3.5 20.5 5 20.5C10 20.5 13 22 14 22Z" fill="rgba(255,255,255,0.08)" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 22V6C14 6 17 4.5 23 4.5C24.5 4.5 26 5 26 5V21C26 21 24.5 20.5 23 20.5C18 20.5 15 22 14 22Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M5.5 13C6.5 10.5 7.5 10 8.5 10C9.5 10 9 12 8 14C7 16 6.5 17 8 17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M5.8 13.5H10" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
-                <circle cx="14" cy="5.2" r="1.2" fill="#FED7AA"/>
-                <path d="M18 10H22V13" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 8.5V17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M22 12.8H24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
+              <svg class="w-5 h-5" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Left Page Shell -->
+              <path d="M14 22V6C14 6 11 4.5 5 4.5C3.5 4.5 2 5 2 5V21C2 21 3.5 20.5 5 20.5C10 20.5 13 22 14 22Z" fill="rgba(255,255,255,0.08)" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Right Page Shell -->
+              <path d="M14 22V6C14 6 17 4.5 23 4.5C24.5 4.5 26 5 26 5V21C26 21 24.5 20.5 23 20.5C18 20.5 15 22 14 22Z" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Spine Dot -->
+              <circle cx="14" cy="5.2" r="1.1" fill="#EA580C"/>
+
+              <!-- Left Page: Mathematical Root Symbol sqrt(x) -->
+              <path d="M4.5 13.8 L5.8 16.5 L7.8 9.5 H12.2" stroke="#EA580C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.8 12.2 L11.2 15.4" stroke="#EA580C" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M11.2 12.2 L8.8 15.4" stroke="#EA580C" stroke-width="1.3" stroke-linecap="round"/>
+
+              <!-- Right Page: Korean Syllable '한' (ㅎ + ㅏ + ㄴ) -->
+              <line x1="17.2" y1="8.2" x2="19.8" y2="8.2" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="16.0" y1="10.0" x2="21.0" y2="10.0" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="18.5" cy="12.8" r="1.8" stroke="white" stroke-width="1.3" fill="none"/>
+              <line x1="22.5" y1="8.0" x2="22.5" y2="16.2" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22.5" y1="11.8" x2="24.2" y2="11.8" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M17.0 17.5 V19.5 H22.8" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
             </div>
             <div class="min-w-0 flex flex-col justify-center">
               <div class="flex items-center gap-1.5">
