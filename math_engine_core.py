@@ -406,25 +406,25 @@ class MathEngineCore:
 
         # Condition Event Oval
         ov_cx = pad_x + box_w / 2.0
-        ov_cy = pad_y + box_h / 2.0 + 2
+        ov_cy = pad_y + box_h * 0.46
         ov_rx = box_w * 0.44
-        ov_ry = box_h * 0.36
+        ov_ry = box_h * 0.26
         svg.append(f'  <ellipse cx="{ov_cx}" cy="{ov_cy}" rx="{ov_rx}" ry="{ov_ry}" fill="rgba(220, 38, 38, 0.08)" stroke="#DC2626" stroke-width="1.5"/>')
-        svg.append(f'  <text x="{ov_cx}" y="{ov_cy - ov_ry + 10}" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="middle">{condition_name}</text>')
+        svg.append(f'  <text x="{ov_cx}" y="{ov_cy - ov_ry + 11}" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="middle">{condition_name}</text>')
 
         # Partition Labels
         for i, name in enumerate(partitions):
             cx = pad_x + (i + 0.5) * col_w
-            svg.append(f'  <text x="{cx}" y="{pad_y + box_h - 8}" fill="#475569" font-size="7.5" font-weight="bold" text-anchor="middle">{name}</text>')
+            svg.append(f'  <text x="{cx}" y="{pad_y + box_h - 7}" fill="#475569" font-size="8.0" font-weight="bold" text-anchor="middle">{name}</text>')
             is_target = i in target_indices
             dot_color = "#DC2626" if is_target else "#64748B"
             dot_r = 3.5 if is_target else 2.5
-            svg.append(f'  <circle cx="{cx}" cy="{ov_cy - 4}" r="{dot_r}" fill="{dot_color}"/>')
+            svg.append(f'  <circle cx="{cx}" cy="{ov_cy - 2}" r="{dot_r}" fill="{dot_color}"/>')
             if is_target:
                 svg.append(f'  <text x="{cx}" y="{ov_cy + 9}" fill="{dot_color}" font-size="7.5" font-weight="bold" text-anchor="middle">B ∩ {name}</text>')
-                svg.append(f'  <text x="{cx}" y="{ov_cy + 19}" fill="{dot_color}" font-size="7.5" font-weight="bold" text-anchor="middle">(타깃)</text>')
+                svg.append(f'  <text x="{cx}" y="{ov_cy + 19}" fill="{dot_color}" font-size="7.0" font-weight="bold" text-anchor="middle">(타깃)</text>')
             else:
-                svg.append(f'  <text x="{cx}" y="{ov_cy + 12}" fill="{dot_color}" font-size="7.5" font-weight="bold" text-anchor="middle">B ∩ {name}</text>')
+                svg.append(f'  <text x="{cx}" y="{ov_cy + 10}" fill="{dot_color}" font-size="7.5" font-weight="bold" text-anchor="middle">B ∩ {name}</text>')
 
         svg.append('</svg>')
         return "\n".join(svg)
