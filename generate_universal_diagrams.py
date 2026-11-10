@@ -63,16 +63,15 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         t = 1.0
         ln_b = math.log(base)
         
-        # Exponential curve y = base^x and origin-symmetric y = -base^(-x)
+        # Curve 1: y = base^x
+        # Curve 2: y = -base^x (Reflection across x-axis)
         f1 = lambda x: base**x
-        f2 = lambda x: -(base**(-x))
+        f2 = lambda x: -(base**x)
         
-        # Tangent at (t, base^t)
+        # Tangent 1 at (t, base^t)
         m1 = (base**t) * ln_b
-        # Tangent at (-t, -base^(-t)) with slope base^(-(-t)) * ln_b = base^t * ln_b
-        # Line 1: y = m1*(x - t) + base^t
-        # Line 2: y = m2*(x + t) - base^(-t) where m2 = base^(-t)*ln_b
-        m2 = (base**(-t)) * ln_b
+        # Tangent 2 at (-t, -base^(-t))
+        m2 = -(base**(-t)) * ln_b
         
         tangent1 = lambda x: m1 * (x - t) + (base**t)
         tangent2 = lambda x: m2 * (x + t) - (base**(-t))
@@ -84,29 +83,29 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         y_int = tangent1(x_int)
         
         functions = [
-            {"fn": f1, "x_min": -2.0, "x_max": 1.6, "color": "#080908", "width": 1.8, "label": f"y={int(base)}ˣ"},
-            {"fn": f2, "x_min": -1.6, "x_max": 2.0, "color": "#080908", "width": 1.8, "label": f"y=-{int(base)}⁻ˣ"}
+            {"fn": f1, "x_min": -2.2, "x_max": 1.6, "color": "#080908", "width": 1.8, "label": f"y={int(base)}ˣ"},
+            {"fn": f2, "x_min": -2.2, "x_max": 1.6, "color": "#080908", "width": 1.8, "label": f"y=-{int(base)}ˣ"}
         ]
         
         lines = [
-            {"p1": (-1.8, tangent1(-1.8)), "p2": (1.6, tangent1(1.6)), "color": "#DC2626", "width": 1.2, "style": "dashed"},
-            {"p1": (-1.6, tangent2(-1.6)), "p2": (1.8, tangent2(1.8)), "color": "#DC2626", "width": 1.2, "style": "dashed"}
+            {"p1": (x_int - 0.3, tangent1(x_int - 0.3)), "p2": (t + 0.25, tangent1(t + 0.25)), "color": "#DC2626", "width": 1.2, "style": "dashed"},
+            {"p1": (x_int - 0.3, tangent2(x_int - 0.3)), "p2": (0.3, tangent2(0.3)), "color": "#DC2626", "width": 1.2, "style": "dashed"}
         ]
         
         points = [
-            {"x": t, "y": base**t, "label": f"(t,{int(base)}ᵗ)", "color": "#DC2626", "drop_x": True, "label_pos": "above_left"},
-            {"x": -t, "y": -(base**(-t)), "label": f"(-t,-{int(base)}⁻ᵗ)", "color": "#DC2626", "drop_x": True, "label_pos": "below_left"},
+            {"x": t, "y": base**t, "label": f"(t, {int(base)}ᵗ)", "color": "#DC2626", "drop_x": True, "label_pos": "above_left"},
+            {"x": -t, "y": -(base**(-t)), "label": f"(-t, -{int(base)}⁻ᵗ)", "color": "#DC2626", "drop_x": True, "label_pos": "below_left"},
             {"x": x_int, "y": y_int, "label": "교점 f(t)", "color": "#2563EB", "drop_x": True, "label_pos": "below_right"}
         ]
         
         return MathEngineCore.render_cartesian_graph(
             x_range=(-2.5, 2.5),
-            y_range=(-3.0, 3.0),
+            y_range=(-2.8, 2.8),
             functions=functions,
             lines=lines,
             points=points,
             width=460,
-            height=135,
+            height=145,
             preserve_aspect_ratio=False
         )
 
@@ -114,53 +113,59 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
     # Problem 3 & 15: Cubic Function Tangent Boundary & 1:1:1:1 Ratio
     # -------------------------------------------------------------------------
     elif prob_num in [3, 15]:
-        # g(x) = (x - 2)^2 * (x + 1) for prob 3
-        # Local max at x=0 (y=4), inflection at x=1 (y=2), local min at x=2 (y=0), tangent at t=-1
+        # For prob 3: g(x) = (x - 2)^2 * (x + 1)
+        # Local max at (0, 4), inflection at (1, 2), local min at (2, 0)
+        # Horizontal tangent line y = 4 touches at x = 0 and intersects curve at x = 3 (교점 α)
+        # Ratio 1:1:1 between x = 0 (극대) -> x = 1 (변곡점) -> x = 2 (극소) -> x = 3 (교점 α)
         k = 2.0 if prob_num == 3 else 3.0
         g_fn = lambda x: ((x - k)**2) * (x + 1.0)
         
-        # Tangent with slope -2 at x=-1: line y = -2*(x + 1)
-        slope = -2.0 if prob_num == 3 else -3.0
-        tangent_fn = lambda x: slope * (x + 1.0)
+        x_max_pt = 0.0 if prob_num == 3 else (k - 2.0)/3.0
+        y_max_pt = g_fn(x_max_pt)
         
-        xi = (2.0 * k - 1.0) / 3.0
+        xi = 1.0 if prob_num == 3 else (2.0*k - 1.0)/3.0
+        yi = g_fn(xi)
+        
         x_min_pt = k
-        x_cross = k + (k - xi)
+        y_min_pt = 0.0
+        
+        x_cross = 3.0 if prob_num == 3 else k + (k - xi)
+        y_cross = y_max_pt
         
         functions = [
-            {"fn": g_fn, "x_min": -1.4, "x_max": x_cross + 0.3, "color": "#080908", "width": 1.8, "label": "g(x)"}
+            {"fn": g_fn, "x_min": -1.4, "x_max": x_cross + 0.4, "color": "#080908", "width": 1.8, "label": "y=g(x)"}
         ]
         
         lines = [
-            # Draw tangent line strictly around contact point so it never crosses the ratio bracket below
-            {"p1": (-1.4, tangent_fn(-1.4)), "p2": (0.2, tangent_fn(0.2)), "color": "#DC2626", "width": 1.3, "style": "dashed", "label": "접선", "label_x": 80, "label_y": 28}
+            # Exact Horizontal Tangent Line y = y_max connecting contact point to intersection alpha!
+            {"p1": (-0.6, y_max_pt), "p2": (x_cross + 0.5, y_max_pt), "color": "#DC2626", "width": 1.3, "style": "dashed", "label": f"접선 y={int(y_max_pt)}", "label_pt": (x_cross + 0.55, y_max_pt)}
         ]
         
         points = [
-            {"x": -1.0, "y": 0.0, "label": "t=-1", "color": "#DC2626", "drop_x": True, "label_pos": "above_left"},
-            {"x": xi, "y": g_fn(xi), "label": "변곡점", "color": "#080908", "drop_x": True, "label_pos": "above"},
-            {"x": float(x_min_pt), "y": 0.0, "label": f"극소{int(x_min_pt)}", "color": "#080908", "drop_x": True, "label_pos": "below"},
-            {"x": x_cross, "y": g_fn(x_cross), "label": "교점α", "color": "#DC2626", "drop_x": True, "label_pos": "above_right"}
+            {"x": -1.0, "y": 0.0, "label": "(-1,0)", "color": "#64748B", "label_pos": "above_left"},
+            {"x": x_max_pt, "y": y_max_pt, "label": "극대(접점)", "color": "#DC2626", "drop_x": True, "label_pos": "above"},
+            {"x": xi, "y": yi, "label": "변곡점", "color": "#080908", "drop_x": True, "label_pos": "above"},
+            {"x": x_min_pt, "y": y_min_pt, "label": f"극소({int(x_min_pt)})", "color": "#080908", "drop_x": True, "label_pos": "below"},
+            {"x": x_cross, "y": y_cross, "label": f"교점 α({int(x_cross)},{int(y_cross)})", "color": "#DC2626", "drop_x": True, "label_pos": "above_right"}
         ]
         
-        # Ratio bracket safely positioned at bottom level y = -3.4
         intervals = [
             {
-                "points": [-1.0, xi, float(x_min_pt), x_cross],
-                "labels": ["1", "1", "1"],
-                "y_level": -3.2
+                "points": [x_max_pt, xi, x_min_pt, x_cross],
+                "labels": ["비율 1", "비율 1", "비율 1"],
+                "y_level": -1.6
             }
         ]
         
         return MathEngineCore.render_cartesian_graph(
-            x_range=(-1.8, x_cross + 0.6),
-            y_range=(-4.2, 8.5),
+            x_range=(-1.8, x_cross + 0.8),
+            y_range=(-2.4, y_max_pt + 1.8),
             functions=functions,
             lines=lines,
             points=points,
             intervals=intervals,
             width=460,
-            height=135
+            height=145
         )
 
     # -------------------------------------------------------------------------

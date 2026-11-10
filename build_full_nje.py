@@ -294,8 +294,6 @@ for p_idx in range(6):
       </div>
       <span class="csat-copyright">이 문제지에 관한 저작권은 ReadMath에 있습니다.</span>
     </div>
-      <span>수학 영역 ({type_badge})</span>
-    </div>
   </div>'''
     html_pages.append(p_html)
 
@@ -675,11 +673,12 @@ full_html = f'''<!DOCTYPE html>
       bottom: 0;
       left: 0;
       right: 0;
+      height: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid #CBD5E1;
-      padding-top: 8px;
+      padding: 0 4px;
       font-size: 10px;
       font-family: 'Nanum Myeongjo', 'Batang', serif;
       color: #475569;
@@ -700,8 +699,10 @@ full_html = f'''<!DOCTYPE html>
 
     /* Authentic KICE Diagonal Slash Page Box */
     .csat-page-box {{
-      display: inline-block;
-      position: relative;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       width: 38px;
       height: 18px;
       border: 0.8px solid #000000;
@@ -740,6 +741,10 @@ full_html = f'''<!DOCTYPE html>
 
     /* Authentic Solution Page Bottom Center */
     .sol-page-center {{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       font-size: 12px;
       font-weight: 700;
       font-family: 'Nanum Myeongjo', 'Batang', serif;
