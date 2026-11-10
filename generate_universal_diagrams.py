@@ -367,7 +367,7 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
     # -------------------------------------------------------------------------
     # Problem 12 & 24: Probability Density Parabola & Symmetric Integral
     # -------------------------------------------------------------------------
-    else:
+    elif prob_num in [12, 24]:
         x_max = 4.0 if prob_num == 12 else 6.0
         axis_x = 2.0 if prob_num == 12 else 3.0
         x_start = 1.0 if prob_num == 12 else 2.0
@@ -390,3 +390,6 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         c.add_shaded_region(fn_top=f_pdf, x_range=(x_start, x_end), color="rgba(220, 38, 38, 0.14)")
         
         return c.compile()
+
+    # Pure discrete / algebraic problems: strictly ZERO dummy fallback diagrams!
+    return ""

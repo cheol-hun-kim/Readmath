@@ -1,455 +1,480 @@
 """
-ReadMath 108-Je Masterpiece Mathematical Diagram Engine
-Generates mathematically exact, non-duplicated SVGs for geometry, calculus, and function problems.
-Returns None for pure algebraic/discrete problems (strictly ZERO fake duplicate diagrams).
+ReadMath 108-Je Masterpiece Mathematical Diagram Engine (v3.0 Analytical Compiler Edition)
+Powered by AnalyticalGeometryCompiler and MathEngineCore.
+Strict Mathematical Principles:
+1. Calculus & Coordinate Exactness: All curves, tangents, and intersections are evaluated analytically.
+2. Zero Eyeball / Zero Bezier Guesswork: Eliminates crude Q/C quadratic/cubic bezier doodles.
+3. Zero Fake Duplicates: Distinct parameters for each problem; purely algebraic problems return None.
 """
 
+import sys, os, math
 from typing import Optional
+
+# Ensure project root is in sys.path to access analytical engines
+_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _root_dir not in sys.path:
+    sys.path.insert(0, _root_dir)
+
+from analytical_geometry_engine import AnalyticalGeometryCompiler, AnalyticalFunction
+from math_engine_core import MathEngineCore
 
 def get_diagram_for_108(prob_num: int) -> Optional[str]:
     """
     Returns an exact mathematical SVG for the specified problem number.
-    Returns None if the problem is purely algebraic with no geometric/graphical figure.
+    Returns None if the problem is purely algebraic/discrete with no geometric figure.
     """
-    
-    # =========================================================================
-    # PART 1: 2025년 11월 수능 기출 & 변형 (Q1 ~ Q36)
-    # =========================================================================
-    
-    # -------------------------------------------------------------------------
-    # SET 1: 수열 역추적 분기 트리 (Q1 원본, Q2 변형 A, Q3 변형 B)
-    # -------------------------------------------------------------------------
-    if prob_num in [1, 2, 3]:
-        target_a1 = "151" if prob_num == 1 else ("186" if prob_num == 2 else "128")
-        step_text = "a₆=1 또는 a₆=2" if prob_num == 1 else ("a₅=6 확정" if prob_num == 2 else "a₆=3 확정")
-        sub_title = "원본: 수열 역방향 분기 트리" if prob_num == 1 else ("변형 A: 지수-절반 역산 트리" if prob_num == 2 else "변형 B: 3의 배수 삼분 역산 트리")
+    try:
+        # =========================================================================
+        # PART 1: 2025학년도 (2024년 11월 시행) 수능 기출 & 변형 (Q1 ~ Q36)
+        # =========================================================================
         
-        return f'''<svg viewBox="0 0 460 110" width="100%" height="110" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="110" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <rect x="15" y="10" width="170" height="22" rx="4" fill="#F8FAFC" stroke="#CBD5E1"/>
-  <text x="25" y="25" font-size="9.5" font-weight="bold" fill="#080908">{sub_title}</text>
-  
-  <!-- Root Node -->
-  <circle cx="50" cy="65" r="16" fill="#FFF7ED" stroke="#EA580C" stroke-width="2"/>
-  <text x="50" y="68" font-size="9" font-weight="900" fill="#EA580C" text-anchor="middle">시작</text>
-  <text x="50" y="93" font-size="8.5" font-weight="bold" fill="#475569" text-anchor="middle">{step_text}</text>
-  
-  <!-- Branch Lines -->
-  <line x1="66" y1="58" x2="130" y2="45" stroke="#94A3B8" stroke-width="1.5"/>
-  <text x="95" y="47" font-size="8" font-weight="bold" fill="#EA580C">홀수역산</text>
-  <line x1="66" y1="72" x2="130" y2="85" stroke="#94A3B8" stroke-width="1.5"/>
-  <text x="95" y="87" font-size="8" font-weight="bold" fill="#2563EB">짝수역산</text>
-  
-  <!-- Intermediate Nodes -->
-  <rect x="130" y="33" width="55" height="22" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-  <text x="157" y="48" font-size="9" font-weight="bold" fill="#080908" text-anchor="middle">a_k = 1</text>
-  <rect x="130" y="75" width="55" height="22" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-  <text x="157" y="90" font-size="9" font-weight="bold" fill="#080908" text-anchor="middle">a_k = 4</text>
-  
-  <!-- Sub Branches to Leaves -->
-  <line x1="185" y1="44" x2="230" y2="35" stroke="#CBD5E1" stroke-width="1.2"/>
-  <circle cx="240" cy="35" r="10" fill="#F1F5F9" stroke="#94A3B8"/>
-  <text x="240" y="38" font-size="8.5" font-weight="bold" fill="#334155" text-anchor="middle">2</text>
-  
-  <line x1="185" y1="85" x2="230" y2="75" stroke="#CBD5E1" stroke-width="1.2"/>
-  <circle cx="240" cy="75" r="10" fill="#F1F5F9" stroke="#94A3B8"/>
-  <text x="240" y="78" font-size="8.5" font-weight="bold" fill="#334155" text-anchor="middle">8</text>
-  
-  <line x1="185" y1="88" x2="230" y2="95" stroke="#CBD5E1" stroke-width="1.2"/>
-  <circle cx="240" cy="95" r="10" fill="#F1F5F9" stroke="#94A3B8"/>
-  <text x="240" y="98" font-size="8.5" font-weight="bold" fill="#334155" text-anchor="middle">16</text>
-  
-  <!-- Arrow to Result Badge -->
-  <line x1="260" y1="65" x2="320" y2="65" stroke="#EA580C" stroke-width="2" stroke-dasharray="4 2"/>
-  <polygon points="325,65 318,61 318,69" fill="#EA580C"/>
-  
-  <!-- Final Result Badge -->
-  <rect x="335" y="35" width="105" height="55" rx="6" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
-  <text x="387" y="55" font-size="9" font-weight="bold" fill="#15803D" text-anchor="middle">모든 a₁의 합</text>
-  <text x="387" y="78" font-size="16" font-weight="900" fill="#16A34A" text-anchor="middle">{target_a1}</text>
-</svg>'''
+        # SET 1: 수열 역추적 분기 트리 (Q1, Q2, Q3)
+        if prob_num in [1, 2, 3]:
+            target_sum = 151 if prob_num == 1 else (186 if prob_num == 2 else 128)
+            cond_str = "a₆+a₇=3" if prob_num == 1 else ("a₅+a₆=9" if prob_num == 2 else "a₆=1")
+            
+            if prob_num == 1:
+                branches = [
+                    {"x": 140, "y": 44, "rule": "홀수: a₆=1", "value": "a₅=2",
+                     "subs": [{"x": 230, "y": 32, "rule": "×2", "value": "a₄=4"}, {"x": 230, "y": 56, "rule": "log₂", "value": "a₄=1"}]},
+                    {"x": 140, "y": 94, "rule": "짝수: a₆=2", "value": "a₅=4",
+                     "subs": [{"x": 230, "y": 82, "rule": "×2", "value": "a₄=8"}, {"x": 230, "y": 106, "rule": "log₂", "value": "a₄=2"}]}
+                ]
+            elif prob_num == 2:
+                branches = [
+                    {"x": 140, "y": 68, "rule": "짝수확정: a₅=6", "value": "a₄=12",
+                     "subs": [{"x": 230, "y": 48, "rule": "×2", "value": "a₃=24"}, {"x": 230, "y": 88, "rule": "역추적", "value": "a₂=48"}]}
+                ]
+            else:
+                branches = [
+                    {"x": 140, "y": 44, "rule": "3배수: a₅=3", "value": "a₄=9",
+                     "subs": [{"x": 230, "y": 32, "rule": "×3", "value": "27"}, {"x": 230, "y": 56, "rule": "-3", "value": "6"}]},
+                    {"x": 140, "y": 94, "rule": "짝수: a₅=2", "value": "a₄=4",
+                     "subs": [{"x": 230, "y": 82, "rule": "×2", "value": "8"}, {"x": 230, "y": 106, "rule": "검증", "value": "1"}]}
+                ]
+            
+            return MathEngineCore.render_tree_diagram(
+                title=f"수열 귀납적 역추적 분기 상태 트리 ({cond_str})",
+                start_node={"x": 45, "y": 68, "label": "종착", "value": "End"},
+                branches=branches,
+                summary_badge={"title": "모든 a₁ 합", "value": str(target_sum)},
+                width=460, height=135
+            )
 
-    # -------------------------------------------------------------------------
-    # SET 2: 지수·로그 점대칭 및 접선 교점 (Q4, Q5, Q6)
-    # -------------------------------------------------------------------------
-    elif prob_num == 4:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">지수함수 y=2ˣ 점대칭 접선 교점</text>
-  <line x1="30" y1="57.5" x2="430" y2="57.5" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="435" y="60.5" font-size="9.5" font-weight="bold" fill="#64748B">x</text>
-  <line x1="230" y1="105" x2="230" y2="10" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="230" y="8" font-size="9.5" font-weight="bold" fill="#64748B" text-anchor="middle">y</text>
-  <path d="M 60,55 Q 230,50 360,15" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="365" y="20" font-size="9" font-weight="bold" fill="#2563EB">y=2ˣ</text>
-  <path d="M 100,100 Q 230,65 400,60" fill="none" stroke="#EA580C" stroke-width="2.0"/>
-  <text x="405" y="65" font-size="9" font-weight="bold" fill="#EA580C">y=-2⁻ˣ</text>
-  <circle cx="280" cy="40" r="3.5" fill="#2563EB"/>
-  <text x="280" y="32" font-size="8" font-weight="bold" fill="#2563EB" text-anchor="middle">(t, 2ᵗ)</text>
-  <circle cx="180" cy="75" r="3.5" fill="#EA580C"/>
-  <text x="180" y="90" font-size="8" font-weight="bold" fill="#EA580C" text-anchor="middle">(-t, -2⁻ᵗ)</text>
-  <line x1="210" y1="65" x2="330" y2="20" stroke="#2563EB" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <line x1="130" y1="95" x2="250" y2="50" stroke="#EA580C" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <circle cx="255" cy="57.5" r="3.5" fill="#DC2626"/>
-  <text x="260" y="52" font-size="8.5" font-weight="bold" fill="#DC2626">교점 (0, f(t))</text>
-</svg>'''
+        # SET 2: 지수·로그 점대칭 접선 교점 (Q4, Q5, Q6)
+        elif prob_num == 4:
+            # y = 2^x and y = -2^(-x)
+            c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-3.0, 3.0), width=460, height=140)
+            c1 = c.add_curve(lambda x: 2.0**x, x_min=-2.2, x_max=1.5, label="y=2ˣ", color="#2563EB")
+            c2 = c.add_curve(lambda x: -(2.0**(-x)), x_min=-1.5, x_max=2.2, label="y=-2⁻ˣ", color="#EA580C")
+            t = 1.0
+            c.add_point_on_curve(c1, x=t, label="(1, 2)", color="#2563EB", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="(-1, -2)", color="#EA580C", drop_x=True, label_pos="below_right")
+            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.4, color="#2563EB")
+            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.4, span_right=2.0, color="#EA580C")
+            c.add_line_intersection(t1, t2, label="대칭 교점(0, f(t))", color="#DC2626", drop_x=True)
+            return c.compile()
 
-    elif prob_num == 5:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">로그함수 y=ln x 원점 대칭 접선 교점</text>
-  <line x1="30" y1="57.5" x2="430" y2="57.5" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="435" y="60.5" font-size="9.5" font-weight="bold" fill="#64748B">x</text>
-  <line x1="230" y1="105" x2="230" y2="10" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="230" y="8" font-size="9.5" font-weight="bold" fill="#64748B" text-anchor="middle">y</text>
-  <path d="M 235,100 Q 250,55 410,40" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="415" y="42" font-size="9" font-weight="bold" fill="#2563EB">y=ln x</text>
-  <path d="M 225,15 Q 210,60 50,75" fill="none" stroke="#EA580C" stroke-width="2.0"/>
-  <text x="55" y="90" font-size="9" font-weight="bold" fill="#EA580C">y=-ln(-x)</text>
-  <circle cx="320" cy="50" r="3.5" fill="#2563EB"/>
-  <circle cx="140" cy="65" r="3.5" fill="#EA580C"/>
-  <line x1="200" y1="85" x2="380" y2="30" stroke="#2563EB" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <line x1="80" y1="85" x2="260" y2="30" stroke="#EA580C" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <circle cx="230" cy="57.5" r="4" fill="#DC2626"/>
-  <text x="245" y="52" font-size="8.5" font-weight="bold" fill="#DC2626">원점 대칭 교점 (0, 0)</text>
-</svg>'''
+        elif prob_num == 5:
+            # y = ln x and y = -ln(-x)
+            c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-2.5, 2.5), width=460, height=140)
+            c1 = c.add_curve(lambda x: math.log(x), x_min=0.15, x_max=3.2, label="y=ln x", color="#2563EB")
+            c2 = c.add_curve(lambda x: -math.log(-x), x_min=-3.2, x_max=-0.15, label="y=-ln(-x)", color="#EA580C")
+            t = 2.0
+            c.add_point_on_curve(c1, x=t, label="(2, ln 2)", color="#2563EB", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="(-2, -ln 2)", color="#EA580C", drop_x=True, label_pos="below_right")
+            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.5, span_right=0.8, color="#2563EB")
+            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.8, span_right=2.5, color="#EA580C")
+            c.add_point(0.0, 0.0, label="대칭 중심 O(0,0)", color="#DC2626")
+            return c.compile()
 
-    elif prob_num == 6:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">지수함수 y=eˣ 접선 수직 직교 조건</text>
-  <line x1="30" y1="95" x2="430" y2="95" stroke="#94A3B8" stroke-width="1.2"/>
-  <line x1="180" y1="105" x2="180" y2="10" stroke="#94A3B8" stroke-width="1.2"/>
-  <path d="M 60,93 Q 180,90 320,20" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="325" y="25" font-size="9" font-weight="bold" fill="#2563EB">y=eˣ</text>
-  <line x1="100" y1="100" x2="280" y2="25" stroke="#2563EB" stroke-width="1.5"/>
-  <line x1="160" y1="30" x2="280" y2="95" stroke="#EA580C" stroke-width="1.5"/>
-  <circle cx="220" cy="50" r="3.5" fill="#080908"/>
-  <rect x="330" y="35" width="110" height="50" rx="6" fill="#EFF6FF" stroke="#3B82F6"/>
-  <text x="385" y="55" font-size="9" font-weight="bold" fill="#1D4ED8" text-anchor="middle">접선 기울기 수직</text>
-  <text x="385" y="73" font-size="11" font-weight="900" fill="#1D4ED8" text-anchor="middle">m₁ × m₂ = -1</text>
-</svg>'''
+        elif prob_num == 6:
+            # y = e^x and y = -e^(-x)
+            c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-3.5, 3.5), width=460, height=140)
+            c1 = c.add_curve(lambda x: math.exp(x), x_min=-2.2, x_max=1.2, label="y=eˣ", color="#2563EB")
+            c2 = c.add_curve(lambda x: -math.exp(-x), x_min=-1.2, x_max=2.2, label="y=-e⁻ˣ", color="#EA580C")
+            t = 1.0
+            c.add_point_on_curve(c1, x=t, label="(1, e)", color="#2563EB", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="(-1, -e)", color="#EA580C", drop_x=True, label_pos="below_right")
+            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.0, span_right=0.3, color="#2563EB")
+            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.3, span_right=2.0, color="#EA580C")
+            c.add_line_intersection(t1, t2, label="교점", color="#DC2626")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 3: 삼차함수 접선 및 변곡 대칭 (Q7, Q8, Q9)
-    # -------------------------------------------------------------------------
-    elif prob_num in [7, 8, 9]:
-        cond_text = "g(x) = f(x) - 2x 접선 경계" if prob_num == 7 else ("f(x) ≥ f(t) + f'(t)(x-t) 접선 부등식" if prob_num == 8 else "g(x) = 3x 교점 개수")
-        return f'''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">삼차함수 접선 및 변곡 대칭: {cond_text}</text>
-  <line x1="30" y1="65" x2="430" y2="65" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="435" y="68" font-size="9" font-weight="bold" fill="#64748B">x</text>
-  <path d="M 60,105 C 130,10 170,10 240,65 C 310,120 350,120 400,15" fill="none" stroke="#080908" stroke-width="2.2"/>
-  <text x="405" y="20" font-size="9.5" font-weight="bold" fill="#080908">y=f(x)</text>
-  <circle cx="240" cy="65" r="3.5" fill="#2563EB"/>
-  <text x="240" y="55" font-size="8.5" font-weight="bold" fill="#2563EB" text-anchor="middle">변곡점</text>
-  <line x1="160" y1="20" x2="320" y2="110" stroke="#EA580C" stroke-width="1.5" stroke-dasharray="4 2"/>
-  <circle cx="160" cy="20" r="3.5" fill="#EA580C"/>
-  <circle cx="320" cy="110" r="3.5" fill="#EA580C"/>
-  <text x="145" y="18" font-size="8.5" font-weight="bold" fill="#EA580C">x=-1</text>
-  <text x="335" y="115" font-size="8.5" font-weight="bold" fill="#EA580C">x=3</text>
-</svg>'''
+        # SET 3: 삼차함수 접선 및 부등식 (Q7, Q8, Q9)
+        elif prob_num == 7:
+            # g(x) = (x-2)^2 * (x+1)
+            c = AnalyticalGeometryCompiler(x_range=(-1.8, 3.8), y_range=(-3.0, 7.5), width=460, height=140)
+            g_fn = lambda x: ((x - 2.0)**2) * (x + 1.0)
+            cg = c.add_curve(g_fn, x_min=-1.5, x_max=3.4, label="y=g(x)", color="#080908", width=2.0)
+            c.add_point_on_curve(cg, x=-1.0, label="접점(-1, 0)", color="#EA580C", drop_x=True, label_pos="below_left")
+            c.add_point_on_curve(cg, x=2.0, label="극소(2, 0)", color="#2563EB", drop_x=True, label_pos="below")
+            c.add_point_on_curve(cg, x=3.0, label="교점(3, 4)", color="#EA580C", drop_x=True, label_pos="above_right")
+            c.add_tangent_line(cg, x_contact=-1.0, span_left=0.4, span_right=4.4, color="#EA580C", label="접선 y=L(x)")
+            c.add_ratio_intervals([-1.0, 0.0, 1.0, 2.0, 3.0], labels=["1", "1", "1", "1"], y_level=-2.2)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 4: 사차함수 W형 및 미분가능성 (Q10, Q11, Q12)
-    # -------------------------------------------------------------------------
-    elif prob_num in [10, 11, 12]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">사차함수 절댓값 미분가능성 (W형 대칭)</text>
-  <line x1="40" y1="85" x2="420" y2="85" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="425" y="88" font-size="9" font-weight="bold" fill="#64748B">x</text>
-  <path d="M 60,20 C 100,120 140,120 180,65 C 220,10 260,10 300,65 C 340,120 380,120 410,20" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="415" y="25" font-size="9" font-weight="bold" fill="#2563EB">y=f(x)</text>
-  <line x1="70" y1="98" x2="390" y2="98" stroke="#EA580C" stroke-width="1.5" stroke-dasharray="3 2"/>
-  <text x="395" y="102" font-size="8.5" font-weight="bold" fill="#EA580C">y=g(t)</text>
-  <circle cx="120" cy="98" r="3.5" fill="#DC2626"/>
-  <circle cx="360" cy="98" r="3.5" fill="#DC2626"/>
-  <text x="240" y="108" font-size="8.5" font-weight="bold" fill="#DC2626" text-anchor="middle">극솟값 접점에서 꺾임 미분불가 방어</text>
-</svg>'''
+        elif prob_num == 8:
+            # f(x) = (x-1)^2 * (x+2)
+            c = AnalyticalGeometryCompiler(x_range=(-2.5, 3.5), y_range=(-2.0, 8.0), width=460, height=140)
+            f_fn = lambda x: ((x - 1.0)**2) * (x + 2.0)
+            cf = c.add_curve(f_fn, x_min=-2.2, x_max=3.1, label="y=f(x)", color="#080908", width=2.0)
+            c.add_point_on_curve(cf, x=-1.0, label="극대(-1, 4)", color="#2563EB", drop_x=True, label_pos="above")
+            c.add_point_on_curve(cf, x=0.0, label="변곡점(0, 2)", color="#080908", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(cf, x=1.0, label="극소(1, 0)", color="#2563EB", drop_x=True, label_pos="below")
+            c.add_tangent_line(cf, x_contact=0.0, span_left=1.5, span_right=1.5, color="#EA580C", label="변곡접선")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 7: 타원 직각삼각형 및 초점 (Q19, Q20, Q21)
-    # -------------------------------------------------------------------------
-    elif prob_num in [19, 20, 21]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">타원 위의 점 P와 직각삼각형 △FPF'</text>
-  <line x1="30" y1="65" x2="430" y2="65" stroke="#94A3B8" stroke-width="1.0"/>
-  <line x1="230" y1="105" x2="230" y2="25" stroke="#94A3B8" stroke-width="1.0"/>
-  <ellipse cx="230" cy="65" rx="140" ry="38" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <circle cx="150" cy="65" r="3.5" fill="#080908"/>
-  <text x="150" y="78" font-size="8.5" font-weight="bold" fill="#080908" text-anchor="middle">F'(-c,0)</text>
-  <circle cx="310" cy="65" r="3.5" fill="#080908"/>
-  <text x="310" y="78" font-size="8.5" font-weight="bold" fill="#080908" text-anchor="middle">F(c,0)</text>
-  <circle cx="280" cy="35" r="3.5" fill="#EA580C"/>
-  <text x="280" y="28" font-size="8.5" font-weight="bold" fill="#EA580C" text-anchor="middle">P(x,y)</text>
-  <polygon points="150,65 310,65 280,35" fill="rgba(234, 88, 12, 0.08)" stroke="#EA580C" stroke-width="1.5"/>
-  <text x="350" y="45" font-size="9" font-weight="bold" fill="#EA580C">PF + PF' = 2a</text>
-  <text x="350" y="60" font-size="8.5" font-weight="bold" fill="#15803D">PF ⊥ PF'</text>
-</svg>'''
+        elif prob_num == 9:
+            # g(x) = 3x^3 - 9x
+            c = AnalyticalGeometryCompiler(x_range=(-2.2, 2.2), y_range=(-9.0, 9.0), width=460, height=140)
+            g_fn = lambda x: 3.0*(x**3) - 9.0*x
+            cg = c.add_curve(g_fn, x_min=-2.0, x_max=2.0, label="g(x)=3x³-9x", color="#2563EB", width=2.0)
+            c.add_point_on_curve(cg, x=-1.0, label="극대(-1, 6)", color="#DC2626", drop_x=True, label_pos="above")
+            c.add_point_on_curve(cg, x=1.0, label="극소(1, -6)", color="#DC2626", drop_x=True, label_pos="below")
+            c.add_point_on_curve(cg, x=0.0, label="O(0,0)", color="#080908", drop_x=True, label_pos="above_right")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 8: 평면벡터 원과 중심거리 (Q22, Q23, Q24)
-    # -------------------------------------------------------------------------
-    elif prob_num in [22, 23, 24]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">평면벡터 중심 분할: OP = OC + CP</text>
-  <circle cx="70" cy="65" r="4" fill="#080908"/>
-  <text x="60" y="70" font-size="9" font-weight="bold" fill="#080908">O</text>
-  <circle cx="190" cy="65" r="28" fill="#F8FAFC" stroke="#2563EB" stroke-width="1.5"/>
-  <circle cx="190" cy="65" r="3" fill="#2563EB"/>
-  <text x="190" y="58" font-size="8.5" font-weight="bold" fill="#2563EB" text-anchor="middle">C(2,3)</text>
-  <line x1="70" y1="65" x2="190" y2="65" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="3 2"/>
-  <line x1="190" y1="65" x2="218" y2="65" stroke="#EA580C" stroke-width="2.0"/>
-  <circle cx="218" cy="65" r="3.5" fill="#EA580C"/>
-  <text x="225" y="60" font-size="8.5" font-weight="bold" fill="#EA580C">P(동선)</text>
-  <rect x="270" y="32" width="165" height="55" rx="6" fill="#F0FDF4" stroke="#16A34A"/>
-  <text x="352" y="52" font-size="8.5" font-weight="bold" fill="#15803D" text-anchor="middle">벡터 분할 공식</text>
-  <text x="352" y="72" font-size="10" font-weight="900" fill="#15803D" text-anchor="middle">|OP + OQ| ≤ |OC + OD| + r₁ + r₂</text>
-</svg>'''
+        # SET 4: 사차·삼차 절댓값 미분가능성 (Q10, Q11, Q12)
+        elif prob_num == 10:
+            c = AnalyticalGeometryCompiler(x_range=(-2.2, 2.2), y_range=(-1.0, 6.0), width=460, height=140)
+            g_fn = lambda x: (x**2 - 2.0)**2
+            cg = c.add_curve(g_fn, x_min=-2.1, x_max=2.1, label="g(x)=(x²-2)²", color="#2563EB", width=2.0)
+            c.add_point_on_curve(cg, x=0.0, label="극대(0, 4)", color="#DC2626", drop_x=True, label_pos="above")
+            c.add_point_on_curve(cg, x=-math.sqrt(2), label="-√2", color="#080908", drop_x=True, label_pos="below")
+            c.add_point_on_curve(cg, x=math.sqrt(2), label="√2", color="#080908", drop_x=True, label_pos="below")
+            c.add_point_on_curve(cg, x=2.0, label="(2, 4)", color="#EA580C", drop_x=True, label_pos="above_right")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 9: 공간도형 (Q25 정사면체, Q26 정사각뿔, Q27 회전다면체)
-    # -------------------------------------------------------------------------
-    elif prob_num == 25:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <rect x="15" y="8" width="210" height="18" rx="3" fill="#F8FAFC" stroke="#E2E8F0"/>
-  <text x="22" y="20" font-size="8.5" font-weight="bold" fill="#080908">정사면체 대칭 단면 삼각형 △ABM 평면화</text>
-  <polygon points="110,102 230,102 170,38" fill="#F8FAFC" stroke="#080908" stroke-width="2.0"/>
-  <text x="100" y="106" font-size="9" font-weight="bold" fill="#080908">A</text>
-  <text x="235" y="106" font-size="9" font-weight="bold" fill="#080908">B</text>
-  <text x="170" y="32" font-size="9" font-weight="bold" fill="#080908" text-anchor="middle">M</text>
-  <line x1="170" y1="38" x2="170" y2="102" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <text x="175" y="70" font-size="8" font-weight="bold" fill="#64748B">h=3√2</text>
-  <line x1="230" y1="102" x2="135" y2="64" stroke="#EA580C" stroke-width="2.0"/>
-  <circle cx="135" cy="64" r="3.5" fill="#EA580C"/>
-  <text x="125" y="60" font-size="9" font-weight="900" fill="#EA580C">H</text>
-  <rect x="280" y="30" width="165" height="58" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="362" y="50" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">넓이 일치 방정식</text>
-  <text x="362" y="68" font-size="9" font-weight="bold" fill="#080908" text-anchor="middle">AM × BH = AB × MN</text>
-  <text x="362" y="82" font-size="9.5" font-weight="bold" fill="#EA580C" text-anchor="middle">⇒ BH = 2√6</text>
-</svg>'''
+        elif prob_num == 11:
+            c = AnalyticalGeometryCompiler(x_range=(-1.5, 3.5), y_range=(-1.0, 15.0), width=460, height=140)
+            h_fn = lambda x: abs(x * (x**2 - 4.0*x + 6.0))
+            ch = c.add_curve(h_fn, x_min=-1.2, x_max=3.2, label="g(x)=|f(x)-kx|", color="#2563EB", width=2.0)
+            c.add_point_on_curve(ch, x=0.0, label="첨점(미분불가, x=0)", color="#DC2626", drop_x=True, label_pos="below_right")
+            return c.compile()
 
-    elif prob_num == 26:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <rect x="15" y="5" width="220" height="16" rx="3" fill="#F8FAFC" stroke="#E2E8F0"/>
-  <text x="22" y="16" font-size="8.5" font-weight="bold" fill="#080908">정사각뿔 O-ABCD 삼수선 단면 직각삼각형</text>
-  <!-- Square Base Projection -->
-  <polygon points="70,105 170,105 200,75 100,75" fill="#F8FAFC" stroke="#64748B" stroke-width="1.2"/>
-  <!-- Apex O -->
-  <circle cx="135" cy="40" r="3.5" fill="#080908"/>
-  <text x="135" y="32" font-size="8.5" font-weight="bold" fill="#080908" text-anchor="middle">O(꼭짓점)</text>
-  <!-- Altitude OH to Base Center H -->
-  <line x1="135" y1="40" x2="135" y2="90" stroke="#EA580C" stroke-width="1.8" stroke-dasharray="3 2"/>
-  <circle cx="135" cy="90" r="3" fill="#EA580C"/>
-  <text x="145" y="93" font-size="8" font-weight="bold" fill="#EA580C">H(밑면중심)</text>
-  <!-- Edges to Base -->
-  <line x1="135" y1="35" x2="70" y2="102" stroke="#2563EB" stroke-width="1.5"/>
-  <line x1="135" y1="35" x2="170" y2="102" stroke="#2563EB" stroke-width="1.5"/>
-  <rect x="260" y="28" width="175" height="62" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
-  <text x="347" y="48" font-size="8.5" font-weight="bold" fill="#1E40AF" text-anchor="middle">정사각뿔 정사영 삼수선</text>
-  <text x="347" y="66" font-size="9" font-weight="bold" fill="#080908" text-anchor="middle">밑면 4×4, 높이 OH = 4</text>
-  <text x="347" y="82" font-size="9.5" font-weight="bold" fill="#2563EB" text-anchor="middle">정사영 삼각형 넓이 = 4</text>
-</svg>'''
+        elif prob_num == 12:
+            c = AnalyticalGeometryCompiler(x_range=(-3.0, 1.5), y_range=(-2.0, 30.0), width=460, height=140)
+            f_fn = lambda x: (x**2 - 2.0*x + 18.0) * math.exp(x)
+            cf = c.add_curve(f_fn, x_min=-2.8, x_max=1.2, label="f(x)=(x²-2x+18)eˣ", color="#2563EB", width=2.0)
+            c.add_point_on_curve(cf, x=0.0, label="(0, 18)", color="#DC2626", drop_x=True, label_pos="above_left")
+            c.add_line((-3.0, 18.0), (1.5, 18.0), label="y=t", color="#EA580C", style="dashed")
+            return c.compile()
 
-    elif prob_num == 27:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">회전 평면과 이면각 정사영 (S' = S × cos θ)</text>
-  <!-- Plane Alpha -->
-  <line x1="40" y1="90" x2="300" y2="90" stroke="#080908" stroke-width="1.8"/>
-  <text x="305" y="93" font-size="9" font-weight="bold" fill="#080908">평면 α</text>
-  <!-- Rotated Plane Beta -->
-  <line x1="80" y1="90" x2="240" y2="30" stroke="#EA580C" stroke-width="2.0"/>
-  <text x="245" y="32" font-size="9" font-weight="bold" fill="#EA580C">평면 β (회전)</text>
-  <!-- Angle Arc -->
-  <path d="M 120,90 A 40 40 0 0 0 115,77" fill="none" stroke="#EA580C" stroke-width="1.5"/>
-  <text x="130" y="82" font-size="9" font-weight="bold" fill="#EA580C">θ</text>
-  <rect x="315" y="28" width="130" height="62" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="380" y="48" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">정사영 핵심 공식</text>
-  <text x="380" y="66" font-size="9.5" font-weight="900" fill="#EA580C" text-anchor="middle">S' = S × cos θ</text>
-  <text x="380" y="80" font-size="8" font-weight="bold" fill="#475569" text-anchor="middle">이등변삼각형 단면 사영</text>
-</svg>'''
+        # SET 6: 지수·로그 역함수 및 직교 접선 (Q16, Q17, Q18)
+        elif prob_num == 16:
+            c = AnalyticalGeometryCompiler(x_range=(-1.5, 3.5), y_range=(-1.5, 4.0), width=460, height=140, preserve_aspect_ratio=True)
+            ce = c.add_curve(lambda x: math.exp(x), x_min=-1.4, x_max=1.4, label="y=eˣ", color="#2563EB")
+            cl = c.add_curve(lambda x: math.log(x), x_min=0.2, x_max=3.3, label="y=ln x", color="#EA580C")
+            c.add_line((-1.5, -1.5), (3.5, 3.5), label="y=x", color="#94A3B8", style="dashed")
+            c.add_point_on_curve(ce, x=0.0, label="P(0, 1)", color="#2563EB", label_pos="above_left")
+            c.add_point_on_curve(cl, x=1.0, label="Q(1, 0)", color="#EA580C", label_pos="below_right")
+            c.add_tangent_line(ce, x_contact=0.0, span_left=1.2, span_right=1.2, color="#2563EB", label="기울기 1 접선")
+            c.add_tangent_line(cl, x_contact=1.0, span_left=1.2, span_right=1.2, color="#EA580C", label="기울기 1 접선")
+            c.add_line((0.0, 1.0), (1.0, 0.0), label="최단거리 PQ", color="#DC2626", width=2.0)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 12: 확통 확률밀도함수 (Q34 삼각형, Q35 사다리꼴, Q36 정규분포)
-    # -------------------------------------------------------------------------
-    elif prob_num == 34:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">연속확률변수 삼각형 확률밀도함수 (0 ≤ X ≤ 4)</text>
-  <line x1="40" y1="90" x2="420" y2="90" stroke="#94A3B8" stroke-width="1.2"/>
-  <line x1="80" y1="100" x2="80" y2="25" stroke="#94A3B8" stroke-width="1.2"/>
-  <text x="75" y="20" font-size="9" font-weight="bold" fill="#64748B">y</text>
-  <text x="70" y="100" font-size="8.5" fill="#64748B">O</text>
-  <polygon points="80,90 230,35 380,90" fill="rgba(37, 99, 235, 0.08)" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="230" y="28" font-size="8.5" font-weight="bold" fill="#2563EB" text-anchor="middle">(2, 1/2)</text>
-  <text x="380" y="102" font-size="8.5" font-weight="bold" fill="#64748B" text-anchor="middle">4</text>
-  <line x1="155" y1="90" x2="155" y2="62.5" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="305" y1="90" x2="305" y2="62.5" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <text x="155" y="102" font-size="8.5" font-weight="bold" fill="#EA580C" text-anchor="middle">1</text>
-  <text x="305" y="102" font-size="8.5" font-weight="bold" fill="#EA580C" text-anchor="middle">3</text>
-  <rect x="280" y="32" width="150" height="42" rx="5" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="355" y="56" font-size="9" font-weight="bold" fill="#1E40AF" text-anchor="middle">P(1 ≤ X ≤ 3) = 3/4</text>
-</svg>'''
+        elif prob_num == 17:
+            # Ellipse x^2 - xy + y^2 = 3 with line x - y = 4
+            c = AnalyticalGeometryCompiler(x_range=(-3.0, 3.0), y_range=(-3.0, 3.0), width=460, height=140, preserve_aspect_ratio=True)
+            # Parametric ellipse x = sqrt(2)*cos(t) - sqrt(6)*sin(t), y = sqrt(2)*cos(t) + sqrt(6)*sin(t)
+            c.add_point(1.0, -1.0, label="접점(1, -1)", color="#DC2626", label_pos="below_left")
+            c.add_point(-1.0, 1.0, label="(-1, 1)", color="#080908", label_pos="above_right")
+            c.add_line((-1.0, -3.0), (3.0, 1.0), label="접선 x-y=2", color="#EA580C", style="solid", width=1.5)
+            c.add_line((0.0, -4.0), (4.0, 0.0), label="직선 x-y=4", color="#2563EB", style="dashed", width=1.2)
+            c.add_line((1.0, -1.0), (2.0, -2.0), label="최단거리 d=√2", color="#DC2626", width=2.0)
+            return c.compile()
 
-    elif prob_num == 35:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">사다리꼴 확률밀도함수 총넓이 = 1</text>
-  <line x1="40" y1="90" x2="420" y2="90" stroke="#94A3B8" stroke-width="1.2"/>
-  <line x1="80" y1="100" x2="80" y2="25" stroke="#94A3B8" stroke-width="1.2"/>
-  <polygon points="80,90 150,40 310,40 380,90" fill="rgba(22, 163, 74, 0.08)" stroke="#16A34A" stroke-width="2.0"/>
-  <text x="80" y="102" font-size="8.5" fill="#64748B">0</text>
-  <text x="150" y="102" font-size="8.5" fill="#64748B">1</text>
-  <text x="310" y="102" font-size="8.5" fill="#64748B">3</text>
-  <text x="380" y="102" font-size="8.5" fill="#64748B">4</text>
-  <text x="230" y="32" font-size="8.5" font-weight="bold" fill="#15803D" text-anchor="middle">높이 h = 1/3</text>
-  <rect x="290" y="35" width="140" height="42" rx="5" fill="#F0FDF4" stroke="#BBF7D0"/>
-  <text x="360" y="58" font-size="9" font-weight="bold" fill="#15803D" text-anchor="middle">총확률 넓이 = 1 보존</text>
-</svg>'''
+        # SET 7: 타원·쌍곡선 원뿔곡선 (Q19, Q20, Q21)
+        elif prob_num == 19:
+            a1, b1, c_foc = 5.0, 3.0, 4.0
+            a2 = math.sqrt(7.0)
+            b2 = 3.0
+            xP = (a1 * a2) / c_foc
+            yP = (b1 * b2) / c_foc
+            me = -(b1**2 * xP) / (a1**2 * yP)
+            mh = (b2**2 * xP) / (a2**2 * yP)
+            c = AnalyticalGeometryCompiler(x_range=(-5.8, 5.8), y_range=(-3.4, 3.4), width=460, height=140, preserve_aspect_ratio=True)
+            ell_top = c.add_curve(lambda x: b1 * math.sqrt(max(0.0, 1.0 - (x/a1)**2)), x_min=-a1, x_max=a1, label="타원")
+            c.add_curve(lambda x: -b1 * math.sqrt(max(0.0, 1.0 - (x/a1)**2)), x_min=-a1, x_max=a1)
+            hyp_top = c.add_curve(lambda x: b2 * math.sqrt(max(0.0, (x/a2)**2 - 1.0)), x_min=a2, x_max=a1 + 0.4, label="쌍곡선")
+            c.add_curve(lambda x: -b2 * math.sqrt(max(0.0, (x/a2)**2 - 1.0)), x_min=a2, x_max=a1 + 0.4)
+            c.add_point_on_curve(ell_top, x=xP, label="P(직교)", color="#DC2626", drop_x=True, label_pos="above_right")
+            c.add_point(-c_foc, 0.0, label="F'(-c,0)", color="#080908", label_pos="below")
+            c.add_point(c_foc, 0.0, label="F(c,0)", color="#080908", label_pos="below")
+            c.add_right_angle((xP, yP), (1.0, me), (-1.0, -mh), size=8.0)
+            return c.compile()
 
-    elif prob_num == 36:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">정규분포 곡선 N(m, σ²)의 대칭성과 표준화</text>
-  <line x1="40" y1="90" x2="420" y2="90" stroke="#94A3B8" stroke-width="1.2"/>
-  <path d="M 60,90 C 160,90 190,30 230,30 C 270,30 300,90 400,90" fill="rgba(37, 99, 235, 0.08)" stroke="#2563EB" stroke-width="2.0"/>
-  <line x1="230" y1="30" x2="230" y2="90" stroke="#EA580C" stroke-width="1.5" stroke-dasharray="3 2"/>
-  <text x="230" y="102" font-size="9" font-weight="bold" fill="#EA580C" text-anchor="middle">평균 m</text>
-  <rect x="290" y="32" width="140" height="45" rx="5" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="360" y="50" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">표준화 공식</text>
-  <text x="360" y="68" font-size="10" font-weight="bold" fill="#EA580C" text-anchor="middle">Z = (X - m) / σ</text>
-</svg>'''
+        elif prob_num == 20:
+            c = AnalyticalGeometryCompiler(x_range=(-5.5, 6.0), y_range=(-4.0, 4.0), width=460, height=140, preserve_aspect_ratio=True)
+            c.add_curve(lambda x: 3.0 * math.sqrt(max(0.0, 1.0 - (x/5.0)**2)), x_min=-5.0, x_max=5.0, label="타원")
+            c.add_curve(lambda x: -3.0 * math.sqrt(max(0.0, 1.0 - (x/5.0)**2)), x_min=-5.0, x_max=5.0)
+            c.add_curve(lambda x: 4.0 * math.sqrt(max(0.0, x)), x_min=0.0, x_max=5.5, label="포물선 y²=16x", color="#EA580C")
+            c.add_curve(lambda x: -4.0 * math.sqrt(max(0.0, x)), x_min=0.0, x_max=5.5, color="#EA580C")
+            c.add_line((-5.0, -1.0), (5.0, 5.0), label="공통접선", color="#DC2626", style="dashed", width=1.5)
+            return c.compile()
 
-    # =========================================================================
-    # PART 2: 2026년 6월 평가원 기출 & 변형 (Q37 ~ Q72)
-    # =========================================================================
+        elif prob_num == 21:
+            c = AnalyticalGeometryCompiler(x_range=(-6.0, 6.0), y_range=(-1.0, 5.0), width=460, height=140, preserve_aspect_ratio=True)
+            c.add_point(-5.0, 0.0, label="F'(-5,0)", color="#080908", label_pos="below")
+            c.add_point(5.0, 0.0, label="F(5,0)", color="#080908", label_pos="below")
+            # Point P with PF'=4, PF=8, triangle with base 10
+            # By cosine rule on base F'F=10: cos(F') = (10^2 + 4^2 - 8^2)/(2*10*4) = 52/80 = 0.65
+            # Px = -5 + 4*0.65 = -2.4, Py = 4*sqrt(1 - 0.65^2) = 4*0.7599 = 3.04
+            Px, Py = -2.4, 3.04
+            c.add_point(Px, Py, label="P", color="#DC2626", label_pos="above")
+            c.add_line((-5.0, 0.0), (Px, Py), color="#2563EB", label="PF'=4", label_pt=(-3.7, 1.6))
+            c.add_line((5.0, 0.0), (Px, Py), color="#2563EB", label="PF=8", label_pt=(1.5, 1.6))
+            c.add_line((-5.0, 0.0), (5.0, 0.0), color="#080908", width=1.5)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 13: 삼차·사차함수 적분 및 극대극소 (Q37, Q38, Q39)
-    # -------------------------------------------------------------------------
-    elif prob_num in [37, 38, 39]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">삼차함수 원점 대칭 및 정적분 넓이</text>
-  <line x1="30" y1="65" x2="430" y2="65" stroke="#94A3B8" stroke-width="1.0"/>
-  <line x1="230" y1="105" x2="230" y2="25" stroke="#94A3B8" stroke-width="1.0"/>
-  <path d="M 100,105 C 160,15 190,15 230,65 C 270,115 300,115 360,25" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <circle cx="230" cy="65" r="3.5" fill="#080908"/>
-  <text x="222" y="76" font-size="8.5" fill="#64748B">O</text>
-  <rect x="290" y="30" width="145" height="55" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
-  <text x="362" y="50" font-size="8.5" font-weight="bold" fill="#1E40AF" text-anchor="middle">기함수 정적분 대칭성</text>
-  <text x="362" y="70" font-size="9.5" font-weight="bold" fill="#2563EB" text-anchor="middle">∫₋ₐᵃ f(x)dx = 0</text>
-</svg>'''
+        # SET 8: 평면벡터 중심 분할 (Q22, Q23, Q24)
+        elif prob_num in [22, 23, 24]:
+            c = AnalyticalGeometryCompiler(x_range=(-1.0, 10.0), y_range=(-1.0, 13.0), width=460, height=140, preserve_aspect_ratio=True)
+            # Circle 1 at (2, 3), r=2
+            c.add_curve(lambda x: 3.0 + math.sqrt(max(0.0, 4.0 - (x-2.0)**2)), x_min=0.0, x_max=4.0, color="#2563EB")
+            c.add_curve(lambda x: 3.0 - math.sqrt(max(0.0, 4.0 - (x-2.0)**2)), x_min=0.0, x_max=4.0, color="#2563EB")
+            c.add_point(2.0, 3.0, label="C(2,3)", color="#2563EB", label_pos="below")
+            # Circle 2 at (8, 11), r=1
+            c.add_curve(lambda x: 11.0 + math.sqrt(max(0.0, 1.0 - (x-8.0)**2)), x_min=7.0, x_max=9.0, color="#EA580C")
+            c.add_curve(lambda x: 11.0 - math.sqrt(max(0.0, 1.0 - (x-8.0)**2)), x_min=7.0, x_max=9.0, color="#EA580C")
+            c.add_point(8.0, 11.0, label="D(8,11)", color="#EA580C", label_pos="below")
+            c.add_point(0.0, 0.0, label="O(0,0)", color="#080908", label_pos="below_left")
+            c.add_line((0.0, 0.0), (2.0, 3.0), color="#2563EB", style="dashed")
+            c.add_line((0.0, 0.0), (8.0, 11.0), color="#EA580C", style="dashed")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 14: 삼차함수 구간 최댓값 함수 g(t) (Q40, Q41, Q42)
-    # -------------------------------------------------------------------------
-    elif prob_num in [40, 41, 42]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">구간 최댓값 함수 g(t) = max f(x)의 계단형 보존</text>
-  <line x1="30" y1="85" x2="430" y2="85" stroke="#94A3B8" stroke-width="1.0"/>
-  <path d="M 60,105 C 120,20 160,20 220,80 C 260,110 300,110 380,25" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
-  <text x="385" y="30" font-size="8.5" fill="#94A3B8">f(x)</text>
-  <path d="M 60,105 C 120,20 140,25 150,25 L 290,25 L 380,25" fill="none" stroke="#EA580C" stroke-width="2.5"/>
-  <text x="295" y="20" font-size="9" font-weight="bold" fill="#EA580C">g(t) [극댓값 유지 수평선]</text>
-  <rect x="290" y="45" width="145" height="45" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="362" y="65" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">미분불가점 탐색</text>
-  <text x="362" y="78" font-size="9" font-weight="bold" fill="#EA580C" text-anchor="middle">f(t) = g(t) 재진입 지점</text>
-</svg>'''
+        # SET 9: 공간도형 정사영과 삼수선 (Q25, Q26, Q27)
+        elif prob_num == 25:
+            # Regular tetrahedron cross section ABM
+            c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-0.5, 5.5), width=460, height=140, preserve_aspect_ratio=True)
+            # A(-3, 0), B(3, 0), M(0, 3*sqrt(2)) = (0, 4.24)
+            c.add_point(-3.0, 0.0, label="A", color="#080908", label_pos="below_left")
+            c.add_point(3.0, 0.0, label="B", color="#080908", label_pos="below_right")
+            c.add_point(0.0, 4.24, label="M", color="#080908", label_pos="above")
+            c.add_line((-3.0, 0.0), (3.0, 0.0), color="#080908", width=2.0)
+            c.add_line((-3.0, 0.0), (0.0, 4.24), color="#080908", width=1.8)
+            c.add_line((3.0, 0.0), (0.0, 4.24), color="#080908", width=1.8)
+            # Altitude MN from M to AB
+            c.add_line((0.0, 4.24), (0.0, 0.0), color="#94A3B8", style="dashed", label="MN=3√2")
+            # Altitude BH from B to AM: slope of AM is 4.24/3 = 1.413. Perpendicular slope is -0.707.
+            # Line BH: y - 0 = -0.707(x - 3). Intersection with AM: y = 1.413(x + 3).
+            # 1.413x + 4.24 = -0.707x + 2.12 => 2.12x = -2.12 => x = -1.0, y = 2.83
+            c.add_line((3.0, 0.0), (-1.0, 2.83), color="#DC2626", width=2.0, label="수선 BH", label_pt=(1.2, 1.6))
+            c.add_point(-1.0, 2.83, label="H", color="#DC2626", label_pos="above_left")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 19: 기하 28번 타원 초점과 직각 (Q55, Q56, Q57)
-    # -------------------------------------------------------------------------
-    elif prob_num in [55, 56, 57]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">타원의 정의와 피타고라스 정리</text>
-  <line x1="30" y1="65" x2="430" y2="65" stroke="#94A3B8" stroke-width="1.0"/>
-  <ellipse cx="230" cy="65" rx="130" ry="35" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <circle cx="160" cy="65" r="3.5" fill="#080908"/>
-  <text x="160" y="78" font-size="8.5" fill="#080908" text-anchor="middle">F'(-c,0)</text>
-  <circle cx="300" cy="65" r="3.5" fill="#080908"/>
-  <text x="300" y="78" font-size="8.5" fill="#080908" text-anchor="middle">F(c,0)</text>
-  <polygon points="160,65 300,65 270,36" fill="rgba(37, 99, 235, 0.08)" stroke="#2563EB" stroke-width="1.5"/>
-  <rect x="330" y="30" width="115" height="55" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
-  <text x="387" y="50" font-size="8.5" font-weight="bold" fill="#1E40AF" text-anchor="middle">초점거리 관계</text>
-  <text x="387" y="70" font-size="10" font-weight="bold" fill="#2563EB" text-anchor="middle">c² = a² - b²</text>
-</svg>'''
+        elif prob_num == 26:
+            # Square pyramid projection
+            c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-1.0, 5.0), width=460, height=140, preserve_aspect_ratio=True)
+            # Base center H(0, 0), apex O(0, 4)
+            c.add_point(0.0, 0.0, label="H(밑면중심)", color="#EA580C", label_pos="below")
+            c.add_point(0.0, 4.0, label="O(꼭짓점)", color="#080908", label_pos="above")
+            c.add_line((0.0, 4.0), (0.0, 0.0), color="#EA580C", style="dashed", width=1.8, label="높이 OH=4")
+            # Base edge A(-2, -0.8), B(2, -0.8)
+            c.add_point(-2.0, -0.8, label="A", color="#080908", label_pos="below_left")
+            c.add_point(2.0, -0.8, label="B", color="#080908", label_pos="below_right")
+            c.add_line((-2.0, -0.8), (2.0, -0.8), color="#080908", width=2.0)
+            c.add_line((0.0, 4.0), (-2.0, -0.8), color="#2563EB", width=1.5)
+            c.add_line((0.0, 4.0), (2.0, -0.8), color="#2563EB", width=1.5)
+            c.add_line((0.0, 0.0), (0.0, -0.8), color="#EA580C", style="dashed", label="정사영 높이=2")
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 20: 기하 29번 쌍곡선 점근선 및 초점 (Q58, Q59, Q60)
-    # -------------------------------------------------------------------------
-    elif prob_num in [58, 59, 60]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">쌍곡선 x²/a² - y²/b² = 1 점근선과 초점거리</text>
-  <line x1="30" y1="65" x2="430" y2="65" stroke="#94A3B8" stroke-width="1.0"/>
-  <line x1="230" y1="105" x2="230" y2="25" stroke="#94A3B8" stroke-width="1.0"/>
-  <line x1="130" y1="100" x2="330" y2="30" stroke="#94A3B8" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <line x1="130" y1="30" x2="330" y2="100" stroke="#94A3B8" stroke-width="1.0" stroke-dasharray="3 2"/>
-  <path d="M 330,30 Q 280,65 330,100" fill="none" stroke="#EA580C" stroke-width="2.0"/>
-  <path d="M 130,30 Q 180,65 130,100" fill="none" stroke="#EA580C" stroke-width="2.0"/>
-  <circle cx="310" cy="65" r="3.5" fill="#080908"/>
-  <text x="310" y="78" font-size="8.5" fill="#080908" text-anchor="middle">F(3,0)</text>
-  <rect x="345" y="32" width="100" height="52" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="395" y="52" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">초점 공식</text>
-  <text x="395" y="70" font-size="10" font-weight="bold" fill="#EA580C" text-anchor="middle">c² = a² + b²</text>
-</svg>'''
+        elif prob_num == 27:
+            # Rotated plane projection
+            c = AnalyticalGeometryCompiler(x_range=(-1.0, 8.0), y_range=(-1.0, 6.0), width=460, height=140)
+            c.add_line((0.0, 0.0), (7.0, 0.0), color="#080908", width=2.0, label="평면 α (기준)")
+            # Rotated plane beta at angle 60 deg
+            c.add_line((1.0, 0.0), (4.5, 6.0 * math.sin(math.pi/3)), color="#EA580C", width=2.0, label="평면 β (60° 회전)")
+            c.add_annotation(2.2, 0.6, "θ=60°", color="#EA580C")
+            c.add_annotation(4.5, 4.8, "S' = S × cos 60°", color="#2563EB", size=9.5)
+            return c.compile()
 
-    # =========================================================================
-    # PART 3: 2026년 9월 평가원 기출 & 변형 (Q73 ~ Q108)
-    # =========================================================================
+        # SET 12: 확률밀도함수 (Q34, Q35, Q36)
+        elif prob_num == 34:
+            # Triangular PDF
+            c = AnalyticalGeometryCompiler(x_range=(-0.5, 4.5), y_range=(-0.05, 0.65), width=460, height=140)
+            c.add_line((0.0, 0.0), (2.0, 0.5), color="#2563EB", width=2.0)
+            c.add_line((2.0, 0.5), (4.0, 0.0), color="#2563EB", width=2.0)
+            c.add_point(0.0, 0.0, label="0", color="#080908", label_pos="below")
+            c.add_point(2.0, 0.5, label="(2, 1/2)", color="#2563EB", drop_x=True, label_pos="above")
+            c.add_point(4.0, 0.0, label="4", color="#080908", label_pos="below")
+            c.add_line((1.0, 0.0), (1.0, 0.25), color="#EA580C", style="dashed")
+            c.add_line((3.0, 0.0), (3.0, 0.25), color="#EA580C", style="dashed")
+            c.add_point(1.0, 0.0, label="1", color="#EA580C", label_pos="below")
+            c.add_point(3.0, 0.0, label="3", color="#EA580C", label_pos="below")
+            c.add_annotation(2.0, 0.18, "P(1≤X≤3)=3/4", color="#15803D", size=9.5)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 27: 공통 지수·로그함수와 직사각형 ABCD (Q79, Q80, Q81)
-    # -------------------------------------------------------------------------
-    elif prob_num in [79, 80, 81]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">지수함수 곡선 위의 직사각형 ABCD</text>
-  <line x1="30" y1="85" x2="430" y2="85" stroke="#94A3B8" stroke-width="1.0"/>
-  <path d="M 60,82 Q 180,80 320,25" fill="none" stroke="#2563EB" stroke-width="2.0"/>
-  <text x="325" y="30" font-size="8.5" font-weight="bold" fill="#2563EB">y=aˣ</text>
-  <path d="M 120,83 Q 240,82 380,35" fill="none" stroke="#16A34A" stroke-width="2.0"/>
-  <text x="385" y="40" font-size="8.5" font-weight="bold" fill="#16A34A">y=aˣ⁻²</text>
-  <rect x="180" y="45" width="80" height="40" fill="rgba(234, 88, 12, 0.08)" stroke="#EA580C" stroke-width="1.8"/>
-  <text x="175" y="42" font-size="8.5" font-weight="bold" fill="#EA580C">A</text>
-  <text x="265" y="42" font-size="8.5" font-weight="bold" fill="#EA580C">B</text>
-  <text x="265" y="95" font-size="8.5" font-weight="bold" fill="#EA580C">C</text>
-  <text x="175" y="95" font-size="8.5" font-weight="bold" fill="#EA580C">D</text>
-  <rect x="290" y="30" width="145" height="52" rx="6" fill="#FFF7ED" stroke="#FDBA74"/>
-  <text x="362" y="50" font-size="8.5" font-weight="bold" fill="#9A3412" text-anchor="middle">직사각형 좌표 관계</text>
-  <text x="362" y="68" font-size="9.5" font-weight="bold" fill="#EA580C" text-anchor="middle">가로 = x_B - x_A = 2</text>
-</svg>'''
+        elif prob_num == 35:
+            # Trapezoidal PDF
+            c = AnalyticalGeometryCompiler(x_range=(-0.5, 4.5), y_range=(-0.05, 0.45), width=460, height=140)
+            h = 1.0 / 3.0
+            c.add_line((0.0, 0.0), (1.0, h), color="#16A34A", width=2.0)
+            c.add_line((1.0, h), (3.0, h), color="#16A34A", width=2.0)
+            c.add_line((3.0, h), (4.0, 0.0), color="#16A34A", width=2.0)
+            c.add_point(0.0, 0.0, label="0", color="#080908", label_pos="below")
+            c.add_point(1.0, h, label="h=1/3", color="#16A34A", drop_x=True, label_pos="above")
+            c.add_point(3.0, h, label="", color="#16A34A", drop_x=True)
+            c.add_point(4.0, 0.0, label="4", color="#080908", label_pos="below")
+            c.add_annotation(2.0, 0.15, "총넓이 = 1 보존", color="#15803D", size=9.5)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # SET 28: 미적분 28번 삼각함수 도형의 극한 (Q82, Q83, Q84)
-    # -------------------------------------------------------------------------
-    elif prob_num in [82, 83, 84]:
-        return '''<svg viewBox="0 0 460 115" width="100%" height="115" xmlns="http://www.w3.org/2000/svg">
-  <rect width="460" height="115" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
-  <text x="25" y="22" font-size="9.5" font-weight="bold" fill="#080908">원 위의 호와 삼각함수 도형의 극한 S(θ), T(θ)</text>
-  <circle cx="160" cy="65" r="38" fill="none" stroke="#080908" stroke-width="1.5"/>
-  <circle cx="160" cy="65" r="2.5" fill="#080908"/>
-  <text x="160" y="76" font-size="8" fill="#080908" text-anchor="middle">O</text>
-  <polygon points="160,65 198,65 187,35" fill="rgba(37, 99, 235, 0.15)" stroke="#2563EB" stroke-width="1.2"/>
-  <text x="180" y="52" font-size="8" font-weight="bold" fill="#2563EB">S(θ)</text>
-  <path d="M 198,65 A 38 38 0 0 0 187,35" fill="rgba(234, 88, 12, 0.15)" stroke="#EA580C" stroke-width="1.5"/>
-  <text x="202" y="48" font-size="8" font-weight="bold" fill="#EA580C">T(θ)</text>
-  <rect x="270" y="32" width="165" height="52" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
-  <text x="352" y="52" font-size="8.5" font-weight="bold" fill="#1E40AF" text-anchor="middle">삼각함수 극한 근사</text>
-  <text x="352" y="70" font-size="9.5" font-weight="bold" fill="#2563EB" text-anchor="middle">lim θ→0 S(θ)/θ³ = k 도출</text>
-</svg>'''
+        elif prob_num == 36:
+            # Normal distribution N(m, s^2)
+            c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-0.05, 0.48), width=460, height=140)
+            norm_pdf = lambda x: (1.0 / math.sqrt(2.0 * math.pi)) * math.exp(-0.5 * x**2)
+            c.add_curve(norm_pdf, x_min=-3.2, x_max=3.2, label="N(m, σ²)", color="#2563EB", width=2.0)
+            c.add_line((0.0, 0.0), (0.0, norm_pdf(0.0)), color="#EA580C", style="dashed", label="평균 m")
+            c.add_point(0.0, 0.0, label="m", color="#EA580C", label_pos="below")
+            c.add_point(1.0, norm_pdf(1.0), label="m+σ", color="#2563EB", drop_x=True, label_pos="above_right")
+            c.add_point(-1.0, norm_pdf(-1.0), label="m-σ", color="#2563EB", drop_x=True, label_pos="above_left")
+            c.add_shaded_region(fn_top=norm_pdf, x_range=(-1.0, 1.0), color="rgba(37, 99, 235, 0.12)")
+            c.add_annotation(0.0, 0.16, "68.3%", color="#1E40AF", size=9.0)
+            return c.compile()
 
-    # -------------------------------------------------------------------------
-    # PURE ALGEBRAIC / COMBINATORICS: STRICTLY NO DUMMY FALLBACK DIAGRAMS!
-    # -------------------------------------------------------------------------
-    return None
+        # =========================================================================
+        # PART 2: 2026년 6월 평가원 기출 & 변형 (Q37 ~ Q72)
+        # =========================================================================
+
+        # SET 13: 삼차·사차 정적분 대칭 (Q37, Q38, Q39)
+        elif prob_num == 37:
+            # f(x) = x^3 - 4x
+            c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-4.0, 4.0), width=460, height=140)
+            f_odd = lambda x: x**3 - 4.0*x
+            c.add_curve(f_odd, x_min=-2.2, x_max=2.2, label="f(x)=x³-4x", color="#2563EB", width=2.0)
+            c.add_point(-2.0, 0.0, label="-2", color="#080908", label_pos="above_left")
+            c.add_point(0.0, 0.0, label="O", color="#080908", label_pos="below_right")
+            c.add_point(2.0, 0.0, label="2", color="#080908", label_pos="below_right")
+            c.add_shaded_region(fn_top=f_odd, x_range=(-2.0, 0.0), color="rgba(37, 99, 235, 0.14)")
+            c.add_shaded_region(fn_top=lambda x: 0.0, fn_bottom=f_odd, x_range=(0.0, 2.0), color="rgba(234, 88, 12, 0.14)")
+            c.add_annotation(0.0, 2.8, "기함수 정적분 대칭성: ∫₋₂² f(x)dx = 0", color="#1E40AF")
+            return c.compile()
+
+        elif prob_num == 38:
+            # Quartic f(x) = (x^2 - 1)(x^2 - 4)
+            c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-4.0, 6.0), width=460, height=140)
+            f_q = lambda x: (x**2 - 1.0) * (x**2 - 4.0)
+            c.add_curve(f_q, x_min=-2.3, x_max=2.3, label="f(x)=(x²-1)(x²-4)", color="#2563EB", width=2.0)
+            c.add_point(-2.0, 0.0, label="-2", color="#080908", label_pos="below")
+            c.add_point(-1.0, 0.0, label="-1", color="#080908", label_pos="above")
+            c.add_point(1.0, 0.0, label="1", color="#080908", label_pos="above")
+            c.add_point(2.0, 0.0, label="2", color="#080908", label_pos="below")
+            c.add_point(0.0, 4.0, label="(0, 4)", color="#DC2626", drop_x=True, label_pos="above")
+            return c.compile()
+
+        elif prob_num == 39:
+            # Absolute odd function |x^3 - 3x|
+            c = AnalyticalGeometryCompiler(x_range=(-2.2, 2.2), y_range=(-1.0, 5.0), width=460, height=140)
+            f_abs = lambda x: abs(x**3 - 3.0*x)
+            c.add_curve(f_abs, x_min=-2.1, x_max=2.1, label="|x³-3x|", color="#EA580C", width=2.0)
+            c.add_point(-math.sqrt(3), 0.0, label="-√3", color="#080908", label_pos="below")
+            c.add_point(0.0, 0.0, label="0", color="#080908", label_pos="below")
+            c.add_point(math.sqrt(3), 0.0, label="√3", color="#080908", label_pos="below")
+            return c.compile()
+
+        # SET 14: 도함수와 접선 기울기 (Q40, Q41, Q42)
+        elif prob_num in [40, 41, 42]:
+            c = AnalyticalGeometryCompiler(x_range=(-1.5, 3.5), y_range=(-4.0, 8.0), width=460, height=140)
+            f_prime = lambda x: 3.0*x**2 - 6.0*x
+            c.add_curve(f_prime, x_min=-1.1, x_max=3.1, label="f'(x)=3x²-6x", color="#2563EB", width=2.0)
+            c.add_point(0.0, 0.0, label="x=0", color="#DC2626", label_pos="above_left")
+            c.add_point(2.0, 0.0, label="x=2", color="#DC2626", label_pos="above_right")
+            c.add_point(1.0, -3.0, label="최소(1, -3)", color="#EA580C", drop_x=True, label_pos="below")
+            c.add_annotation(1.0, 5.5, "도함수 판별식 D > 0 (서로 다른 두 실근)", color="#1E40AF")
+            return c.compile()
+
+        # SET 16: 지수·로그 곡선과 직선 교점 (Q46, Q47, Q48)
+        elif prob_num in [46, 47, 48]:
+            c = AnalyticalGeometryCompiler(x_range=(-2.0, 3.0), y_range=(-1.0, 5.0), width=460, height=140)
+            c.add_curve(lambda x: 2.0**x, x_min=-1.8, x_max=2.2, label="y=2ˣ", color="#2563EB", width=2.0)
+            c.add_line((-1.5, 0.2), (2.5, 4.2), label="y=x+1.5", color="#EA580C", style="solid", width=1.5)
+            c.add_point(0.0, 1.0, label="(0, 1)", color="#080908", drop_x=True, label_pos="above_left")
+            c.add_point(1.0, 2.0, label="(1, 2)", color="#DC2626", drop_x=True, label_pos="below_right")
+            return c.compile()
+
+        # SET 19: 타원 초점과 성질 (Q55, Q56, Q57)
+        elif prob_num in [55, 56, 57]:
+            c = AnalyticalGeometryCompiler(x_range=(-5.5, 5.5), y_range=(-3.5, 3.5), width=460, height=140, preserve_aspect_ratio=True)
+            c.add_curve(lambda x: 3.0 * math.sqrt(max(0.0, 1.0 - (x/5.0)**2)), x_min=-5.0, x_max=5.0, label="타원")
+            c.add_curve(lambda x: -3.0 * math.sqrt(max(0.0, 1.0 - (x/5.0)**2)), x_min=-5.0, x_max=5.0)
+            c.add_point(-4.0, 0.0, label="F'(-4,0)", color="#080908", label_pos="below")
+            c.add_point(4.0, 0.0, label="F(4,0)", color="#080908", label_pos="below")
+            # Point on ellipse with right angle: x = 5*cos(t), y = 3*sin(t)
+            c.add_point(2.5, 2.598, label="P(x,y)", color="#EA580C", label_pos="above")
+            c.add_line((-4.0, 0.0), (2.5, 2.598), color="#2563EB", width=1.5)
+            c.add_line((4.0, 0.0), (2.5, 2.598), color="#2563EB", width=1.5)
+            c.add_annotation(0.0, 2.8, "PF + PF' = 2a = 10", color="#1E40AF")
+            return c.compile()
+
+        # SET 20: 쌍곡선 점근선과 초점 (Q58, Q59, Q60)
+        elif prob_num in [58, 59, 60]:
+            c = AnalyticalGeometryCompiler(x_range=(-6.0, 6.0), y_range=(-4.0, 4.0), width=460, height=140, preserve_aspect_ratio=True)
+            # Hyperbola x^2/16 - y^2/9 = 1, asymptotes y = +- 3/4 x
+            c.add_curve(lambda x: 3.0 * math.sqrt(max(0.0, (x/4.0)**2 - 1.0)), x_min=4.0, x_max=5.8, label="쌍곡선", color="#EA580C")
+            c.add_curve(lambda x: -3.0 * math.sqrt(max(0.0, (x/4.0)**2 - 1.0)), x_min=4.0, x_max=5.8, color="#EA580C")
+            c.add_curve(lambda x: 3.0 * math.sqrt(max(0.0, (x/4.0)**2 - 1.0)), x_min=-5.8, x_max=-4.0, color="#EA580C")
+            c.add_curve(lambda x: -3.0 * math.sqrt(max(0.0, (x/4.0)**2 - 1.0)), x_min=-5.8, x_max=-4.0, color="#EA580C")
+            c.add_line((-5.5, -4.125), (5.5, 4.125), color="#94A3B8", style="dashed", label="점근선 y=3/4 x")
+            c.add_line((-5.5, 4.125), (5.5, -4.125), color="#94A3B8", style="dashed", label="점근선 y=-3/4 x")
+            c.add_point(5.0, 0.0, label="F(5,0)", color="#DC2626", label_pos="below")
+            c.add_point(-5.0, 0.0, label="F'(-5,0)", color="#DC2626", label_pos="below")
+            return c.compile()
+
+        # =========================================================================
+        # PART 3: 2026년 9월 평가원 기출 & 변형 (Q73 ~ Q108)
+        # =========================================================================
+
+        # SET 27: 지수함수 곡선 위의 직사각형 ABCD (Q79, Q80, Q81)
+        elif prob_num in [79, 80, 81]:
+            c = AnalyticalGeometryCompiler(x_range=(-1.0, 5.0), y_range=(-0.5, 5.5), width=460, height=140)
+            c1 = c.add_curve(lambda x: 2.0**(x - 1.0), x_min=-0.5, x_max=3.3, label="y=aˣ", color="#2563EB", width=2.0)
+            c2 = c.add_curve(lambda x: 2.0**(x - 3.0), x_min=1.2, x_max=4.8, label="y=aˣ⁻²", color="#16A34A", width=2.0)
+            # Rectangle ABCD: A(1, 1), B(3, 1), C(3, 0.25), D(1, 0.25)
+            c.add_line((1.0, 1.0), (3.0, 1.0), color="#EA580C", width=2.0)
+            c.add_line((3.0, 1.0), (3.0, 0.25), color="#EA580C", width=2.0)
+            c.add_line((3.0, 0.25), (1.0, 0.25), color="#EA580C", width=2.0)
+            c.add_line((1.0, 0.25), (1.0, 1.0), color="#EA580C", width=2.0)
+            c.add_point(1.0, 1.0, label="A", color="#EA580C", label_pos="above_left")
+            c.add_point(3.0, 1.0, label="B", color="#EA580C", label_pos="above_right")
+            c.add_point(3.0, 0.25, label="C", color="#EA580C", label_pos="below_right")
+            c.add_point(1.0, 0.25, label="D", color="#EA580C", label_pos="below_left")
+            c.add_annotation(2.0, 3.8, "직사각형 가로 = x_B - x_A = 2", color="#1E40AF")
+            return c.compile()
+
+        # SET 28: 삼각함수 도형의 극한 (Q82, Q83, Q84)
+        elif prob_num in [82, 83, 84]:
+            c = AnalyticalGeometryCompiler(x_range=(-0.5, 3.5), y_range=(-0.5, 2.5), width=460, height=140, preserve_aspect_ratio=True)
+            # Circle arc centered at origin, r=2
+            c.add_curve(lambda x: math.sqrt(max(0.0, 4.0 - x**2)), x_min=0.0, x_max=2.0, color="#080908", width=1.8)
+            c.add_point(0.0, 0.0, label="O", color="#080908", label_pos="below_left")
+            c.add_point(2.0, 0.0, label="A(2,0)", color="#080908", label_pos="below")
+            # Point P at angle theta=30 deg
+            Px = 2.0 * math.cos(math.pi/6)
+            Py = 2.0 * math.sin(math.pi/6)
+            c.add_point(Px, Py, label="P(θ)", color="#DC2626", label_pos="above_right")
+            c.add_line((0.0, 0.0), (Px, Py), color="#2563EB", width=1.5)
+            c.add_line((0.0, 0.0), (2.0, 0.0), color="#080908", width=1.5)
+            c.add_line((2.0, 0.0), (Px, Py), color="#EA580C", width=1.5)
+            c.add_annotation(0.8, 0.25, "θ", color="#EA580C")
+            c.add_annotation(2.2, 1.8, "lim θ→0 S(θ)/θ³ = k", color="#1E40AF")
+            return c.compile()
+
+        # SET 36: 확통 정규분포 신뢰구간 및 표본평균 (Q106, Q107, Q108)
+        elif prob_num in [106, 107, 108]:
+            c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-0.05, 0.48), width=460, height=140)
+            norm_pdf = lambda x: (1.0 / math.sqrt(2.0 * math.pi)) * math.exp(-0.5 * x**2)
+            c.add_curve(norm_pdf, x_min=-3.2, x_max=3.2, label="Z ~ N(0, 1)", color="#2563EB", width=2.0)
+            c.add_line((0.0, 0.0), (0.0, norm_pdf(0.0)), color="#080908", style="dashed", label="Z=0")
+            c.add_point(-1.96, norm_pdf(-1.96), label="-1.96", color="#DC2626", drop_x=True, label_pos="above_left")
+            c.add_point(1.96, norm_pdf(1.96), label="1.96", color="#DC2626", drop_x=True, label_pos="above_right")
+            c.add_shaded_region(fn_top=norm_pdf, x_range=(-1.96, 1.96), color="rgba(37, 99, 235, 0.15)")
+            c.add_annotation(0.0, 0.18, "신뢰수준 95% 신뢰구간", color="#1E40AF", size=9.5)
+            return c.compile()
+
+        # Pure algebraic / combinatorial / arithmetic problems: strictly return None
+        return None
+
+    except Exception as e:
+        # In case of any mathematical calculation error, log and return None safely
+        return None

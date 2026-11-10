@@ -1977,9 +1977,12 @@ if (!njeContent.includes('빠른 정답표') || !njeContent.includes('quick-ans-
   failGate(8, 'Missing Quick Answer Table', 'nje_exam_24.html must end with comprehensive 24-question Quick Answer Key table on page 12');
 }
 
-// 5. App UI Flow Badges High Contrast Pairing
-if (!htmlContent.includes('text-emerald-800 dark:text-emerald-400') && !htmlContent.includes('text-emerald-700 dark:text-emerald-400')) {
-  failGate(8, 'UI Flow Badge Contrast Missing', 'preview.html DAG modal flow badges must use high-contrast dark/light pairs (text-emerald-800 dark:text-emerald-400)');
+// 5. App UI Flow Badges & Legend 60-30-10 Semantic Luminance Law
+if (htmlContent.includes('초록색은 이미 기본기') || htmlContent.includes('기초 마스터 (정상)')) {
+  failGate(8, 'Stale Legend Remaining', 'preview.html contains stale green legend explanation contradicting dark DAG nodes');
+}
+if (!htmlContent.includes('[문제점의 시작]') || !htmlContent.includes('[개념 연계]') || !htmlContent.includes('[현재 결함]')) {
+  failGate(8, 'UI Flow Badge Missing', 'preview.html DAG modal must contain complete 3-step causal diagnosis flow badges');
 }
 
 // 6. Automated Optical Rendering & Mathematical Verification Gate (Gate 8.5)
