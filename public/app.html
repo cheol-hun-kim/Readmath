@@ -18526,14 +18526,11 @@ window.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
 
-            <!-- Spacious Big SVG Graph Viewport (Clean & Visual, matching Image 4) -->
-            <div class="math-dag-container rounded-2xl overflow-x-auto border border-slate-800 bg-slate-950 p-2 sm:p-3 shadow-inner h-[360px] sm:h-[400px] md:h-[440px] flex items-center justify-start md:justify-center">
-              <div class="min-w-[620px] w-full flex items-center justify-center">
+            <!-- Spacious Big SVG Graph Viewport: Zero Vertical Scroll, 100% Full Overview -->
+            <div class="math-dag-container rounded-2xl overflow-hidden border border-slate-800 bg-slate-950/90 p-2 sm:p-4 shadow-inner w-full flex items-center justify-center">
+              <div class="w-full max-w-[780px] flex items-center justify-center">
                 ${dagData.svg}
               </div>
-            </div>
-            <div class="md:hidden text-center text-[10.5px] text-slate-400 pt-0.5">
-              <span>← 좌우로 스와이프하여 약점 연계망을 넓게 탐색하세요 →</span>
             </div>
 
             <!-- Bottom Summary Bar -->
@@ -18674,13 +18671,15 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
               <table class="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr class="border-b border-slate-800 bg-slate-900/90 text-slate-400 font-bold text-[11px]">
-                    <th class="py-2.5 px-3 whitespace-nowrap">과목</th>
-                    <th class="py-2.5 px-3 text-amber-400 whitespace-nowrap">1순위 (최우선 집중)</th>
-                    <th class="py-2.5 px-3 whitespace-nowrap">2순위</th>
-                    <th class="py-2.5 px-3 whitespace-nowrap">3순위</th>
-                    <th class="py-2.5 px-3 whitespace-nowrap">4순위</th>
-                    <th class="py-2.5 px-3 text-center whitespace-nowrap">처방 행동</th>
+                  <tr class="border-b border-slate-800 bg-slate-900/90 text-slate-400 font-bold text-[11.5px]">
+                    <th class="py-3 px-3.5 whitespace-nowrap text-slate-300">과목</th>
+                    <th class="py-3 px-3.5 text-white font-extrabold whitespace-nowrap flex-nowrap">
+                      <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#EA580C]"></span>1순위 (최우선 집중)</span>
+                    </th>
+                    <th class="py-3 px-3.5 whitespace-nowrap text-slate-400">2순위</th>
+                    <th class="py-3 px-3.5 whitespace-nowrap text-slate-400">3순위</th>
+                    <th class="py-3 px-3.5 whitespace-nowrap text-slate-400">4순위</th>
+                    <th class="py-3 px-3.5 text-center whitespace-nowrap text-slate-300">처방 행동</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/60 text-slate-200 font-medium">
@@ -18690,24 +18689,27 @@ window.addEventListener('DOMContentLoaded', () => {
                     </tr>
                   ` : buildSubjectHealthCheckupMatrix(items).map(row => `
                     <tr class="hover:bg-slate-900/50 transition">
-                      <td class="py-2.5 px-3 font-bold text-white whitespace-nowrap flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#EA580C]"></span>
-                        ${row.subject} <span class="text-[10px] text-slate-400 font-normal">(${row.total}문항)</span>
+                      <td class="py-3 px-3.5 font-bold text-white whitespace-nowrap align-middle">
+                        <div class="inline-flex items-center gap-2 align-middle">
+                          <span class="w-1.5 h-1.5 rounded-full bg-[#EA580C] shrink-0"></span>
+                          <span class="text-xs text-white font-extrabold tracking-tight">${row.subject}</span>
+                          <span class="text-[10.5px] text-slate-400 font-normal">(${row.total}문항)</span>
+                        </div>
                       </td>
-                      <td class="py-2.5 px-3 text-amber-400 font-extrabold whitespace-nowrap">
-                        ${row.ranks[0]?.name || '식 세우기'} <span class="text-[10px] text-slate-400 font-semibold weakness-pct-badge">(${row.ranks[0]?.pct || 67}%)</span>
+                      <td class="py-3 px-3.5 text-orange-400 font-extrabold whitespace-nowrap align-middle text-xs">
+                        ${row.ranks[0]?.name || '식 세우기'} <span class="text-[10px] text-orange-300/80 font-bold weakness-pct-badge">(${row.ranks[0]?.pct || 67}%)</span>
                       </td>
-                      <td class="py-2.5 px-3 text-slate-300 whitespace-nowrap">
+                      <td class="py-3 px-3.5 text-slate-300 whitespace-nowrap align-middle text-xs">
                         ${row.ranks[1]?.name || '그림/그래프'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[1]?.pct || 33}%)</span>
                       </td>
-                      <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">
+                      <td class="py-3 px-3.5 text-slate-400 whitespace-nowrap align-middle text-xs">
                         ${row.ranks[2]?.name || '조건 놓침'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[2]?.pct || 0}%)</span>
                       </td>
-                      <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">
+                      <td class="py-3 px-3.5 text-slate-400 whitespace-nowrap align-middle text-xs">
                         ${row.ranks[3]?.name || '개념/공식'} <span class="text-[10px] text-slate-400 font-normal">(${row.ranks[3]?.pct || 0}%)</span>
                       </td>
-                      <td class="py-2.5 px-3 text-center whitespace-nowrap">
-                        <button type="button" onclick="openExamPrepWithPinpointScope('${row.subject}', '${row.ranks[0]?.key}')" class="px-3 py-1.5 rounded-lg bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold border border-orange-600/30 text-[10.5px] shadow-xs active:scale-95 transition cursor-pointer flex items-center justify-center">
+                      <td class="py-3 px-3.5 text-center whitespace-nowrap align-middle">
+                        <button type="button" onclick="openExamPrepWithPinpointScope('${row.subject}', '${row.ranks[0]?.key}')" class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-lg bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold border border-orange-600/30 text-[10.5px] shadow-xs active:scale-95 transition cursor-pointer">
                           1순위 클리닉 출제
                         </button>
                       </td>
@@ -18719,11 +18721,13 @@ window.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <!-- 1순위 최우선 격파 집중 유도 가이드 배너 -->
-          <div class="bg-amber-950/20 border border-orange-500/30 rounded-xl p-3 flex items-start gap-2.5">
-            <i data-lucide="zap" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
-            <div class="text-[11px] leading-relaxed text-slate-300">
-              <strong class="text-amber-300 font-extrabold">왜 1순위 약점부터 집중 격파해야 할까요?</strong><br/>
-              수학 개념은 사슬처럼 연결되어 있어, <strong>1순위 원인</strong>(예: 한국어 조건을 수식으로 세우지 못함)이 막히면 뒤따르는 2, 3순위(그래프 개형, 범위 조건)까지 연쇄적으로 무너집니다. 한 번에 모든 약점을 다 잡으려 하기보다, <strong>1순위 약점을 먼저 클리닉하면 2~4순위 오답도 함께 자연스럽게 해소</strong>됩니다.
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 flex items-start gap-3 shadow-xs">
+            <div class="w-6 h-6 rounded-lg bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-[#EA580C] shrink-0 mt-0.5">
+              <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+            </div>
+            <div class="text-[11.5px] leading-relaxed text-slate-300 font-normal" style="text-wrap: pretty;">
+              <strong class="text-white font-extrabold">왜 1순위 약점부터 집중 격파해야 할까요?</strong><br/>
+              수학 개념은 사슬처럼 연결되어 있어, <strong class="text-white font-bold">1순위 원인</strong>(예: 한국어 조건을 수식으로 세우지 못함)이 막히면 뒤따르는 2, 3순위(그래프 개형, 범위 조건)까지 연쇄적으로 무너집니다. 한 번에 모든 약점을 다 잡으려 하기보다, <strong class="text-[#EA580C] font-extrabold">1순위 약점을 먼저 클리닉</strong>하면 2~4순위 오답도 함께 자연스럽게 해소됩니다.
             </div>
           </div>
         </div>
@@ -19663,26 +19667,27 @@ window.addEventListener('DOMContentLoaded', () => {
         const isDeficit = !isStandbyMode && (n.id === deficitId);
         const isSelected = (n.id === activeSelected);
 
-        let circleColor = '#10B981';
-        let strokeColor = '#34D399';
+        // 60-30-10 Strict Palette: Default nodes quiet (#1E293B), Target rose (#F43F5E), Deficit Coral Orange (#EA580C)
+        let circleColor = '#1E293B';
+        let strokeColor = '#475569';
         let pulseAnim = '';
 
         if (isTarget) {
-          circleColor = '#EF4444';
-          strokeColor = '#FFFFFF';
+          circleColor = '#E11D48';
+          strokeColor = '#FDA4AF';
           pulseAnim = `
-            <circle cx="${n.cx}" cy="${n.cy}" r="5.5" fill="none" stroke="#EF4444" stroke-width="1.8">
-              <animate attributeName="r" values="5.5; 11; 12" dur="2s" repeatCount="indefinite" />
+            <circle cx="${n.cx}" cy="${n.cy}" r="6.2" fill="none" stroke="#E11D48" stroke-width="1.8">
+              <animate attributeName="r" values="6.2; 12; 13" dur="2s" repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.9; 0.2; 0" dur="2s" repeatCount="indefinite" />
             </circle>
           `;
         } else if (isDeficit) {
-          circleColor = '#F59E0B';
-          strokeColor = '#FDE047';
+          circleColor = '#EA580C';
+          strokeColor = '#FF985E';
           pulseAnim = `
-            <circle cx="${n.cx}" cy="${n.cy}" r="5.5" fill="none" stroke="#F59E0B" stroke-width="1.8">
-              <animate attributeName="r" values="5.5; 10; 11" dur="2s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.9; 0.3; 0" dur="2s" repeatCount="indefinite" />
+            <circle cx="${n.cx}" cy="${n.cy}" r="6.2" fill="none" stroke="#EA580C" stroke-width="2.2">
+              <animate attributeName="r" values="6.2; 12; 13" dur="1.8s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.95; 0.2; 0" dur="1.8s" repeatCount="indefinite" />
             </circle>
           `;
         }
@@ -19707,17 +19712,17 @@ window.addEventListener('DOMContentLoaded', () => {
       });
 
       return {
-        svg: `<svg viewBox="0 0 480 310" class="math-dag-svg w-full h-full object-contain select-none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-          <rect width="480" height="310" class="dag-bg" rx="12" stroke-width="1"/>
+        svg: `<svg viewBox="0 0 480 340" class="math-dag-svg w-full h-auto object-contain select-none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="480" height="340" class="dag-bg" rx="12" stroke-width="1"/>
           <g font-size="8.2" text-anchor="middle">
             <text x="60" y="16" class="dag-col-header">중학 연계 기초</text>
             <text x="180" y="16" class="dag-col-header">고1 공통수학</text>
             <text x="300" y="16" class="dag-col-header">고2 수1·수2</text>
             <text x="420" y="16" class="dag-col-header">수능 킬러/심화</text>
           </g>
-          <line x1="120" y1="10" x2="120" y2="300" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
-          <line x1="240" y1="10" x2="240" y2="300" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
-          <line x1="360" y1="10" x2="360" y2="300" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="120" y1="10" x2="120" y2="330" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="240" y1="10" x2="240" y2="330" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="360" y1="10" x2="360" y2="330" class="dag-swimlane-line" stroke-width="0.8" stroke-dasharray="2 2"/>
           ${edgeSvg}
           ${nodeSvg}
         </svg>`,
