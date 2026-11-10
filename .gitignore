@@ -10,6 +10,7 @@ package-lock.json
 # Math data PDFs (heavy binary files)
 mathdata/
 !mathdata/*.json
+!mathdata/questions_*.py
 
 # Expo / React Native
 .expo/

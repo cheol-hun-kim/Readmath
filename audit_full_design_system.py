@@ -7,8 +7,12 @@ TARGET_FILES = [
     'landing.html',
     'preview.html',
     'admin.html',
+    'grant_proposal.html',
+    'public/privacy.html',
+    'public/terms.html',
     'templates/concept_book.html',
-    'templates/nje_exam_24.html'
+    'templates/nje_exam_24.html',
+    'templates/nje_exam_108.html'
 ]
 
 print("=" * 75)

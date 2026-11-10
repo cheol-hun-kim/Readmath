@@ -217,7 +217,30 @@
     body.theme-day button[class*="bg-purple-6"] * {
       color: #FFFFFF !important;
     }
-  </style>
+  
+/* ==========================================================================
+   GLOBAL SYSTEMIC TYPOGRAPHY & ORPHAN WORD DEFENSE (Systemic Charter Art. 3)
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6,
+.card-title, .headline, [role="heading"],
+button, .btn, [role="button"],
+.badge, .pill,
+label, th {
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+}
+
+h1, h2, h3, h4, .balance-text {
+  text-wrap: balance;
+}
+
+p, .description, .explanation, .pretty-text {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+</style>
 
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
   <style>

@@ -24,6 +24,10 @@ const tasks = [
   {
     html: path.join(ROOT_DIR, 'templates', 'nje_exam_24.html'),
     pdfName: 'ReadMath_2025수능킬러_변형24제_N제.pdf'
+  },
+  {
+    html: path.join(ROOT_DIR, 'templates', 'nje_exam_108.html'),
+    pdfName: 'ReadMath_수능D9_파이널_108제_마스터피스_N제.pdf'
   }
 ];
 
