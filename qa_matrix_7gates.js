@@ -42,6 +42,28 @@ if (!fs.existsSync(PREVIEW_HTML_PATH)) {
 const htmlContent = fs.readFileSync(PREVIEW_HTML_PATH, 'utf8');
 
 // ==============================================================================
+// PRE-FLIGHT: Automatic Public Sync & Zero-Drift Deployment Verification
+// ==============================================================================
+console.log('\n[PRE-FLIGHT] Running Automatic Public Sync & Drift Guard...');
+try {
+  const { execSync } = require('child_process');
+  execSync('node sync_public.js', { stdio: 'inherit' });
+} catch (e) {
+  failGate(1, 'Pre-flight Public Sync Failed', e.message);
+}
+
+// Verify zero drift between source and public
+const LANDING_SRC = path.join(ROOT_DIR, 'landing.html');
+const PUBLIC_INDEX = path.join(ROOT_DIR, 'public', 'index.html');
+if (fs.existsSync(LANDING_SRC) && fs.existsSync(PUBLIC_INDEX)) {
+  const src = fs.readFileSync(LANDING_SRC, 'utf8');
+  const pub = fs.readFileSync(PUBLIC_INDEX, 'utf8');
+  if (src !== pub) {
+    failGate(1, 'Public Drift Detected', 'landing.html and public/index.html are out of sync!');
+  }
+}
+
+// ==============================================================================
 // GATE 1: DOM Structure, Tag Balance & Zero Developer/Coding Jargon Scanner
 // ==============================================================================
 console.log('\n[GATE 1] Running DOM Structure, Tag Balance & Zero-Jargon Scanner...');
@@ -1995,6 +2017,32 @@ gate8Details.push('Visual Inspection & Publishing Gate: Zero corrupted LaTeX (�
 gate8Details.push('Optical Layout & Mathematical Compiler Verification: 19 pages rendered to PNG, verified 0 rogue footers, exact 50% page box centering, and calculus invariant compliance');
 gate8Details.push('Adversarial Optical Auditor: Verified 0 unreduced coefficients (1e, 1x), 100% CSAT \\sum\\limits stacked limits, full \\overrightarrow vector spans, complete geometric axis closures, and zero right margin overflows across all 19 pages');
 gate8Details.push('Universal CSAT Database Audit: Audited 750 real CSAT questions across 27 exam sessions, verified 0 PUA leaks, 0 inconsistent sigmas, 0 unreduced coefficients, 0 raw operators, and 100% HWP vertical fraction de-verticalization');
+
+// 9. RootMath Landing Publication Showcase Cards Design Harmonization Guard (Gate 8.8)
+if (fs.existsSync(LANDING_SRC)) {
+  const landingHtml = fs.readFileSync(LANDING_SRC, 'utf8');
+  const customSection = landingHtml.match(/<section id="custom-publishing"[\s\S]*?<\/section>/);
+  if (customSection) {
+    const sec = customSection[0];
+    if (sec.includes('bg-black') && sec.includes('PDF 다운로드')) {
+      failGate(8, 'Landing Cards Clashing Black Button', 'Found unharmonized black button in publication cards!');
+    }
+    const ctaMatches = sec.match(/<a[^>]*class="[^"]*bg-\[#EA580C\][^"]*"[^>]*>[\s\S]*?<\/a>/g) || [];
+    if (ctaMatches.length < 2) {
+      failGate(8, 'Landing Cards Missing Terracotta CTA', `Expected 2 terracotta CTA buttons in publication cards, found ${ctaMatches.length}`);
+    }
+    for (const btn of ctaMatches) {
+      if (!btn.includes('text-white')) {
+        failGate(8, 'Landing Cards Button Contrast', 'Publication card CTA must strictly use pure white text (text-white)');
+      }
+    }
+    const cardDivs = sec.match(/<div class="[^"]*justify-between[^"]*h-full[^"]*"/g) || [];
+    if (cardDivs.length < 2) {
+      failGate(8, 'Landing Cards Equal Height', 'Both publication showcase cards must use "justify-between" and "h-full" for sub-pixel height alignment');
+    }
+    gate8Details.push('Landing Cards Harmonization: Both publication showcase cards unified with terracotta CTA buttons, pure white text, and sub-pixel equal height');
+  }
+}
 
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
