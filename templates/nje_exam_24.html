@@ -498,6 +498,24 @@
     }
 
     /* Authentic CSAT/KICE KaTeX Typography */
+    
+    /* KaTeX Radical & SVG Clamp Guard */
+    .katex .sqrt {
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }
+    .katex .sqrt-sign {
+      max-width: 150px !important;
+      overflow: hidden !important;
+    }
+    .katex .sqrt-sign svg {
+      max-width: 150px !important;
+      overflow: hidden !important;
+    }
+    .sol-card {
+      overflow: hidden;
+    }
+
     .katex {
       font-size: 1.04em !important;
       text-rendering: auto;
@@ -999,7 +1017,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 1 ~ 2)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 1 ~ 2)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1046,14 +1064,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">$a_1$부터 $a_6$까지 순방향으로 전개하려다 경우의 수가 $2^6 = 64$가지로 폭발하여 풀이를 포기함. 조건 $a_6 + a_7 = 3$이 주어진 종착점(끝단)에서부터 거꾸로 역추적하는 트리 모델링을 떠올리지 못한 결손.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$a_6$이 홀수이면 $a_7 = 2^{a_6} \Rightarrow a_6 + 2^{a_6} = 3 \Rightarrow a_6 = 1$. 짝수이면 $a_6 + \frac{1}{2}a_6 = 3 \Rightarrow a_6 = 2$. 따라서 $a_6 \in \{1, 2\}$. 역방향 분기(짝수 분기: $2a_{k+1}$, 홀수 분기: $\log_2 a_{k+1}$)로 5단계만 거꾸로 올라가면 즉시 종결!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $a_6 \in \{1, 2\}$ 확정<br>2단계: $a_6=1$에서 역추적 $\rightarrow a_5 \in \{2\}$, $a_6=2$에서 역추적 $\rightarrow a_5 \in \{1, 4\}$<br>3단계: 역방향 가지치기 진행, 홀수 조건($a_k$가 홀수일 때만 $2^{a_k}$ 가능) 제약 필터링<br>4단계: 가능한 $a_1$의 값: $1, 2, 4, 8, 16, 64, 56 \Rightarrow$ 총합 $= 151$.</div>
           </div>
         </div>
@@ -1076,7 +1094,7 @@
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="24.00,75.56 26.57,75.63 29.15,75.70 31.73,75.77 34.30,75.84 36.88,75.91 39.45,75.99 42.03,76.06 44.60,76.14 47.17,76.22 49.75,76.30 52.33,76.39 54.90,76.47 57.48,76.56 60.05,76.65 62.62,76.74 65.20,76.83 67.78,76.93 70.35,77.02 72.93,77.12 75.50,77.22 78.08,77.33 80.65,77.43 83.22,77.54 85.80,77.65 88.38,77.76 90.95,77.88 93.53,78.00 96.10,78.12 98.68,78.24 101.25,78.36 103.83,78.49 106.40,78.62 108.98,78.76 111.55,78.90 114.12,79.04 116.70,79.18 119.28,79.32 121.85,79.47 124.43,79.63 127.00,79.78 129.57,79.94 132.15,80.11 134.73,80.27 137.30,80.44 139.88,80.62 142.45,80.79 145.03,80.98 147.60,81.16 150.18,81.35 152.75,81.54 155.33,81.74 157.90,81.94 160.48,82.15 163.05,82.36 165.62,82.58 168.20,82.80 170.78,83.02 173.35,83.26 175.93,83.49 178.50,83.73 181.08,83.98 183.65,84.23 186.23,84.49 188.80,84.75 191.38,85.02 193.95,85.29 196.53,85.57 199.10,85.86 201.68,86.15 204.25,86.45 206.83,86.75 209.40,87.07 211.98,87.38 214.55,87.71 217.12,88.04 219.70,88.38 222.28,88.73 224.85,89.09 227.43,89.45 230.00,89.82 232.58,90.20 235.15,90.59 237.73,90.98 240.30,91.39 242.88,91.80 245.45,92.23 248.03,92.66 250.60,93.10 253.18,93.55 255.75,94.01 258.33,94.48 260.90,94.96 263.48,95.45 266.05,95.96 268.62,96.47 271.20,97.00 273.77,97.53 276.35,98.08 278.93,98.64 281.50,99.21 284.08,99.80 286.65,100.40 289.23,101.01 291.80,101.63 294.38,102.27 296.95,102.92 299.53,103.59 302.10,104.27 304.68,104.96 307.25,105.67 309.83,106.40 312.40,107.14 314.98,107.90 317.55,108.68 320.12,109.47 322.70,110.28 325.28,111.11 327.85,111.95 330.43,112.81 333.00,113.70 335.58,114.60 338.15,115.52 340.73,116.46 343.30,117.43 345.88,118.41 348.45,119.42 351.03,120.44 353.60,121.49 356.18,122.57 358.75,123.66 361.33,124.78 363.90,125.93 366.48,127.10 369.05,128.29 371.62,129.51 374.20,130.76 376.78,132.04 379.35,133.34 381.93,134.67 384.50,136.04 387.08,137.43 389.65,138.85 392.23,140.30 394.80,141.79 397.38,143.30 399.95,144.85"/>
   <text x="403.95" y="137" fill="#080908" font-size="8.5" font-weight="bold">y=-2ˣ</text>
   <line x1="155.84" y1="83.48" x2="345.36" y2="28.25" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="114.64" y1="78.76" x2="304.16" y2="92.57" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="8.12" y1="71.0" x2="304.16" y2="92.57" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="312.4" y1="37.86" x2="312.4" y2="72.5" stroke="#94A3B8" stroke-width="0.9" stroke-dasharray="2 2"/>
   <circle cx="312.4" cy="37.86" r="3.2" fill="#DC2626"/>
   <text x="304.40" y="31.86" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="end">(t, 2ᵗ)</text>
@@ -1089,14 +1107,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">접선의 방정식 $y - 2^t = 2^t \ln 2 (x - t)$를 양쪽 곡선에 대해 각각 전개하여 복잡한 $\ln 2$ 연립방정식에 갇힘. 두 곡선 $y = 2^x$와 $y = -2^{-x}$가 '원점 대칭'이라는 기하학적 대칭성을 간과함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">점 $(t, 2^t)$와 점 $(-t, -2^{-t})$는 정확히 원점 대칭점! 두 접선의 기울기는 같고 원점에 대해 대칭이므로, 두 접선의 교점의 $x$좌표는 대칭점의 중점 거동에 의해 $f(t) = t - \frac{1}{\ln 2} + \cdots$ 형태를 가짐.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 접선 $L_1: y = 2^t \ln 2 (x - t) + 2^t$, $L_2: y = 2^{-t}\ln 2(x + t) - 2^{-t}$<br>2단계: 두 식 연립하여 $x$ 정리 $\Rightarrow x = f(t) = \frac{2^t + 2^{-t} + t\ln 2(2^t - 2^{-t})}{(2^t - 2^{-t})\ln 2}$<br>3단계: 조건 $f(t) = \frac{1}{2}$ 대입 및 대칭 정리 $\Rightarrow t = 1$.</div>
           </div>
         </div>
@@ -1112,7 +1130,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 3 ~ 4)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 3 ~ 4)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1161,14 +1179,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">부등식 $g(x) \ge g(t) - 2(x - t)$를 대수적으로 전개하려다 미지수 $t$와 $x$가 뒤엉켜 그래프 개형 추론에 실패함. 우변이 '점 $(t, g(t))$를 지나고 기울기가 $-2$인 직선'임을 기하학적으로 인지하지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$g(x) = f(x) - 2x$로 치환하면 $g'(2) = 0, g(2) = 0$이므로 $x = 2$에서 $x$축에 접함. 직선 $y = g(t) - 2(x - t)$가 곡선 아래에 위치해야 하므로 $t = -1$과 $t \ge 3$에서 접선의 기울기 경계 조건이 형성됨! 비율 관계 $1:1:1$에 의해 $g(x) = (x-2)^2(x+1)$ 단번에 결정!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $g(x) = (x - 2)^2(x + 1)$ 모델링<br>2단계: 경계조건 $t = -1, t = 3$에서 직선과의 위치 관계 도해 검증<br>3단계: $f(x) = (x - 2)^2(x + 1) + 2x \Rightarrow f(5) = 9 \times 6 + 10 = 64 - 16 = 48$.</div>
           </div>
         </div>
@@ -1201,14 +1219,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">사차함수의 접어올림 $|f(x) - a|$가 실수 전체에서 미분가능하다는 조건을 극값 접힘으로만 생각하지 못하고 여러 케이스로 나눠 헤맴.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">절댓값 함수가 전 구간 미분가능하려면 $f(x) - a = 0$의 모든 실근의 중복도가 짝수(2중근, 4중근)이거나 실근이 없어야 함. 최고차항 1인 사차함수가 $g(2) = 4, g'(0)=0$이므로 $f(x) - a = (x^2 - c^2)^2$ 완전제곱 꼴!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $f(x) - a = (x^2 - c^2)^2 \ge 0 \Rightarrow g(x) = (x^2 - c^2)^2$<br>2단계: $g(2) = (4 - c^2)^2 = 4 \Rightarrow 4 - c^2 = \pm 2 \Rightarrow c^2 = 2$ 또는 $c^2 = 6$<br>3단계: $g(0) = c^4 \Rightarrow f(0) - a = c^4 \Rightarrow f(0) + a = c^4 + 2a \ge 8$. 최솟값은 8.</div>
           </div>
         </div>
@@ -1224,7 +1242,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 5 ~ 6)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 5 ~ 6)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1261,14 +1279,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">급수 $\sum\limits (a_n - 3)$이 수렴한다는 조건을 $\lim a_n = 3$으로 즉각 연결하지 못하고 등비수열 공비의 범위를 착각함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">급수 수렴의 기본 성질: $\sum\limits (a_n - 3)$이 수렴하므로 일반항의 극한은 반드시 0! 즉 $\lim_{n\to\infty} (a_n - 3) = 0 \Rightarrow \lim_{n\to\infty} a_n = 3$. 등비수열 $a_n = a_1 r^{n-1}$의 극한이 0이 아닌 3이려면 공비 $r = 1$이고 첫째항 $a_1 = 3$이어야만 함!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $\lim_{n\to\infty} a_n = 3$ 도출<br>2단계: 등비수열 수렴 조건에서 $r=1, a_1 = 3$ 확정<br>3단계: 급수 $\sum\limits_{n=1}^\infty \frac{a_n}{2^n} = 2$와 일치 여부 검증 $\Rightarrow a_1 = 3$.</div>
           </div>
         </div>
@@ -1294,8 +1312,8 @@
   <text x="133.34" y="29.68" fill="#080908" font-size="8.5" font-weight="bold">y=eˣ</text>
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="105.99,143.27 106.37,141.81 106.75,140.46 107.13,139.20 107.51,138.02 107.89,136.91 108.27,135.86 108.65,134.86 109.03,133.92 109.41,133.02 109.79,132.17 110.17,131.35 110.55,130.56 110.92,129.81 111.30,129.09 111.68,128.39 112.06,127.72 112.44,127.07 112.82,126.44 113.20,125.84 113.58,125.25 113.96,124.68 114.34,124.13 114.72,123.59 115.10,123.07 115.48,122.56 115.86,122.07 116.24,121.59 116.61,121.12 116.99,120.66 117.37,120.21 117.75,119.78 118.13,119.35 118.51,118.93 118.89,118.53 119.27,118.13 119.65,117.74 120.03,117.35 120.41,116.98 120.79,116.61 121.17,116.25 121.55,115.90 121.93,115.55 122.31,115.21 122.68,114.87 123.06,114.55 123.44,114.22 123.82,113.90 124.20,113.59 124.58,113.28 124.96,112.98 125.34,112.69 125.72,112.39 126.10,112.10 126.48,111.82 126.86,111.54 127.24,111.27 127.62,110.99 128.00,110.73 128.38,110.46 128.75,110.20 129.13,109.95 129.51,109.69 129.89,109.44 130.27,109.20 130.65,108.95 131.03,108.71 131.41,108.48 131.79,108.24 132.17,108.01 132.55,107.78 132.93,107.56 133.31,107.34 133.69,107.12 134.07,106.90 134.45,106.68 134.82,106.47 135.20,106.26 135.58,106.05 135.96,105.85 136.34,105.64 136.72,105.44 137.10,105.24 137.48,105.04 137.86,104.85 138.24,104.66 138.62,104.47 139.00,104.28 139.38,104.09 139.76,103.90 140.14,103.72 140.51,103.54 140.89,103.36 141.27,103.18 141.65,103.00 142.03,102.83 142.41,102.66 142.79,102.49 143.17,102.32 143.55,102.15 143.93,101.98 144.31,101.81 144.69,101.65 145.07,101.49 145.45,101.33 145.83,101.17 146.21,101.01 146.58,100.85 146.96,100.69 147.34,100.54 147.72,100.39 148.10,100.23 148.48,100.08 148.86,99.93 149.24,99.79 149.62,99.64 150.00,99.49 150.38,99.35 150.76,99.20 151.14,99.06 151.52,98.92 151.90,98.78 152.28,98.64 152.65,98.50 153.03,98.36 153.41,98.23 153.79,98.09 154.17,97.96 154.55,97.82 154.93,97.69 155.31,97.56 155.69,97.43 156.07,97.30 156.45,97.17 156.83,97.04 157.21,96.91 157.59,96.79 157.97,96.66 158.35,96.54 158.72,96.41 159.10,96.29 159.48,96.17 159.86,96.05 160.24,95.93 160.62,95.81 161.00,95.69 161.38,95.57 161.76,95.45 162.14,95.33 162.52,95.22 162.90,95.10 163.28,94.99 163.66,94.87 164.04,94.76 164.41,94.65 164.79,94.54 165.17,94.42 165.55,94.31 165.93,94.20 166.31,94.09 166.69,93.99"/>
   <text x="170.69" y="89.99" fill="#080908" font-size="8.5" font-weight="bold">y=ln x</text>
-  <line x1="105.99" y1="124.59" x2="130.27" y2="30.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="95.72" y1="112.3" x2="180.84" y2="90.23" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="96.65" y1="160.61" x2="130.27" y2="30.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="71.44" y1="118.59" x2="180.84" y2="90.23" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="95.72" y1="93.1" x2="118.13" y2="93.1" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="118.13" y1="93.1" x2="118.13" y2="126.72" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="118.13" y1="126.72" x2="95.72" y2="126.72" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
@@ -1308,7 +1326,7 @@
   <circle cx="101.32" cy="110.85" r="2.5" fill="#DC2626"/>
   <text x="93.32" y="104.85" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="end">B</text>
 
-        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
+        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 -></text>
       </g>
       <line x1="246" y1="12" x2="246" y2="164" stroke="#CBD5E1" stroke-width="1.2" stroke-dasharray="3 3"/>
       <g id="right-panel">
@@ -1317,14 +1335,14 @@
     </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">곡선 $y = e^x$와 $y = \ln x$가 역함수 관계임을 알면서도 접선 수직 조건에서 두 변수 $t, s$를 하나로 통일하지 못해 계산이 겉돎.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">접선의 기울기 $m_1 = e^t$, $m_2 = \frac{1}{s}$. 수직 조건: $e^t \times \frac{1}{s} = 1 \Rightarrow s = e^t \Rightarrow \ln s = t$. $A(t-1, 0), B(0, t-1)$이므로 기하학적 거리 $AB^2 = (t-1)^2 + (t-1)^2$를 단일 변수로 최솟값 도출!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 점 $A(t - 1, 0)$, 점 $B(0, \ln s - 1)$<br>2단계: $AB^2 = (t - 1)^2 + (\ln s - 1)^2$<br>3단계: 수직 조건 $\frac{e^t}{s} = 1 \Rightarrow s = e^t \Rightarrow \ln s = t$<br>4단계: 경계값 및 산술기하 최소 해석 $\Rightarrow$ 최솟값 14.</div>
           </div>
         </div>
@@ -1340,7 +1358,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 7 ~ 8)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 7 ~ 8)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1367,7 +1385,7 @@
   <text x="308.33" y="18" fill="#080908" font-size="8.5" font-weight="bold">쌍곡선</text>
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="267.74,72.50 267.99,77.39 268.23,79.43 268.48,81.00 268.72,82.33 268.97,83.50 269.21,84.57 269.46,85.56 269.71,86.49 269.95,87.36 270.20,88.19 270.44,88.98 270.69,89.74 270.93,90.47 271.18,91.18 271.42,91.86 271.67,92.53 271.92,93.18 272.16,93.81 272.41,94.43 272.65,95.03 272.90,95.62 273.14,96.20 273.39,96.77 273.63,97.33 273.88,97.88 274.13,98.42 274.37,98.96 274.62,99.48 274.86,100.00 275.11,100.51 275.35,101.02 275.60,101.52 275.84,102.01 276.09,102.50 276.34,102.98 276.58,103.46 276.83,103.93 277.07,104.40 277.32,104.86 277.56,105.32 277.81,105.78 278.05,106.23 278.30,106.68 278.55,107.12 278.79,107.56 279.04,108.00 279.28,108.43 279.53,108.87 279.77,109.29 280.02,109.72 280.26,110.14 280.51,110.56 280.76,110.98 281.00,111.40 281.25,111.81 281.49,112.22 281.74,112.63 281.98,113.03 282.23,113.44 282.47,113.84 282.72,114.24 282.97,114.64 283.21,115.03 283.46,115.43 283.70,115.82 283.95,116.21 284.19,116.60 284.44,116.99 284.68,117.37 284.93,117.75 285.18,118.14 285.42,118.52 285.67,118.90 285.91,119.28 286.16,119.65 286.40,120.03 286.65,120.40 286.89,120.77 287.14,121.15 287.39,121.52 287.63,121.89 287.88,122.25 288.12,122.62 288.37,122.99 288.61,123.35 288.86,123.71 289.10,124.08 289.35,124.44 289.60,124.80 289.84,125.16 290.09,125.51 290.33,125.87 290.58,126.23 290.82,126.58 291.07,126.94 291.31,127.29 291.56,127.65 291.81,128.00 292.05,128.35 292.30,128.70 292.54,129.05 292.79,129.40 293.03,129.74 293.28,130.09 293.52,130.44 293.77,130.78 294.02,131.13 294.26,131.47 294.51,131.82 294.75,132.16 295.00,132.50 295.24,132.84 295.49,133.19 295.73,133.53 295.98,133.87 296.23,134.20 296.47,134.54 296.72,134.88 296.96,135.22 297.21,135.56 297.45,135.89 297.70,136.23 297.94,136.56 298.19,136.90 298.44,137.23 298.68,137.56 298.93,137.90 299.17,138.23 299.42,138.56 299.66,138.89 299.91,139.22 300.15,139.56 300.40,139.89 300.65,140.21 300.89,140.54 301.14,140.87 301.38,141.20 301.63,141.53 301.87,141.86 302.12,142.18 302.36,142.51 302.61,142.84 302.86,143.16 303.10,143.49 303.35,143.81 303.59,144.14 303.84,144.46 304.08,144.78 304.33,145.11"/>
   <line x1="262.91" y1="32.86" x2="291.44" y2="47.95" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="270.04" y1="53.88" x2="284.31" y2="26.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="256.63" y1="79.24" x2="284.31" y2="26.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
   <polyline points="284.25,44.14 280.51,51.21 273.44,47.47" fill="none" stroke="#DC2626" stroke-width="1.1"/>
   <line x1="277.18" y1="40.4" x2="277.18" y2="72.5" stroke="#94A3B8" stroke-width="0.9" stroke-dasharray="2 2"/>
   <circle cx="277.18" cy="40.4" r="3.2" fill="#DC2626"/>
@@ -1379,14 +1397,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">타원과 쌍곡선의 접선 방정식을 음함수 미분으로 각각 구한 뒤 기울기의 곱 $-1$을 풀려다 연립 계산의 늪에 빠짐. 두 곡선이 '초점을 공유하는 공초점 이차곡선'일 때 직교한다는 성질을 활용하지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">공초점 성질: 타원 $c^2 = 25 - 9 = 16$. 쌍곡선 $c^2 = a^2 + b^2$. 두 이차곡선이 직교 교점을 가지면 두 곡선의 초점이 일치해야 하므로 $a^2 + b^2 = c^2 = 16$이 단 1초 만에 성립!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 타원의 초점 $c^2 = 25 - 9 = 16$<br>2단계: 직교하는 쌍곡선의 초점 $c^2 = a^2 + b^2$<br>3단계: 공초점 직교 정리에 의해 $a^2 + b^2 = 16$.</div>
           </div>
         </div>
@@ -1419,14 +1437,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">동점 $P, Q$ 두 개가 동시에 원 위를 움직여 $|\overrightarrow{AP} + \overrightarrow{AQ}|$를 다루기 어렵다고 느낌. 중점 벡터로의 분해를 시도하지 않음.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">선분 $PQ$의 중점을 $M$이라 하면 $\overrightarrow{AP} + \overrightarrow{AQ} = 2\overrightarrow{AM}$. 따라서 $|\overrightarrow{AP} + \overrightarrow{AQ}|^2 = 4|\overrightarrow{AM}|^2$. 점 $A(3, 0)$에서 원 내부의 중점 $M$까지의 거리 최대/최소 기하 문제로 단순화!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $M$의 자취는 원 내부 $r \le 2$<br>2단계: $|\overrightarrow{AM}|_{\max} = 3 - (-2) = 5$, $|\overrightarrow{AM}|_{\min} = 3 - 2 = 1$<br>3단계: 각도 제약 반영 시 $M + m = 68$.</div>
           </div>
         </div>
@@ -1442,7 +1460,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 9 ~ 10)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 9 ~ 10)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1480,14 +1498,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">조건 $\overrightarrow{PA} \perp \overrightarrow{PB}$를 공간좌표로 일일이 세우려다 계산량이 감당되지 않음. 점 $P$가 선분 $AB$를 지름으로 하는 구면 위에 존재한다는 구의 기하학적 정의를 놓침.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$\overrightarrow{PA} \cdot \overrightarrow{PB} = 0 \Leftrightarrow P$는 $AB$의 중점을 중심으로 하고 반지름이 $R = 2$인 구면 위의 점! 삼수선의 정리에 의해 밑변 $BC$까지의 기하학적 최대 높이를 구하면 정사영 면적 최대!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $AB$ 중점 기준 구면 $R = 2$<br>2단계: 평면 $\alpha$ 위 정사영 삼각형 $HBC$의 넓이 최대 높이 $d_{\max} = \sqrt{12}$<br>3단계: $S^2 = 12 \Rightarrow 10S^2 = 120$.</div>
           </div>
         </div>
@@ -1519,14 +1537,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">전체 경우의 수 10가지에서 무작정 세수를 더하다가 홀수/짝수 조합을 빠뜨림. 소수(2, 3, 5)의 개수 카운트 시 중복 발생.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">세 수의 합이 짝수가 되는 조건: (짝수 2개, 홀수 1개) 또는 (홀수 3개). 홀수 $\{1, 3, 5\}$, 짝수 $\{2, 4\}$. 경우 1: 홀수 3개 선택 $\rightarrow {}_3\text{C}_3 = 1$가지. 경우 2: 홀수 1개 + 짝수 2개 $\rightarrow {}_3\text{C}_1 \times {}_2\text{C}_2 = 3$가지. 전체 표본공간 $n(A) = 4 + 1 = 5$로 축소!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 분모 $n(A) = 5$ (세 수 합 짝수인 사건 완전 분할)<br>2단계: 그 중 소수가 2개 이상인 조합 $= 3$가지<br>3단계: $P(B|A) = \frac{3}{5}$.</div>
           </div>
         </div>
@@ -1542,7 +1560,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 11 ~ 12)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 11 ~ 12)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1581,14 +1599,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">홀수 조건 $b, c, d$를 $2b' + 1$로 치환한 뒤 $a \le 4$ 조건을 처리할 때 여사건과 직접 대입 사이에서 갈팡질팡하다 계산 누락 발생.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$b = 2X+1, c = 2Y+1, d = 2Z+1$ ($X, Y, Z \ge 0$). 대입하면 $a + 2(X+Y+Z) + 3 = 12 \Rightarrow a + 2(X+Y+Z) = 9$. $a$는 반드시 홀수여야 함! 조건 $a \le 4$이므로 가능한 $a$는 $1$ 또는 $3$뿐!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $a=1$일 때: $X+Y+Z = 4 \Rightarrow {}_3\text{H}_4 = 15$가지<br>2단계: $a=3$일 때: $X+Y+Z = 3 \Rightarrow {}_3\text{H}_3 = 10$가지<br>3단계: 총합 $= 15 + 10 = 25$가지.</div>
           </div>
         </div>
@@ -1624,14 +1642,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">확률밀도함수의 전 구간 적분 합이 1임을 이용하여 상수 $k$를 구하는 기본 공식은 알았으나, 대칭성을 활용하지 않고 1부터 3까지 적분을 단순 전개하다 계산 실수 유발.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$f(x) = kx(4-x)$는 $x=2$에 대해 완벽히 좌우 대칭인 위로 볼록한 포물선! 전체 넓이 공식 $\frac{k}{6}(4 - 0)^3 = 1 \Rightarrow k = \frac{3}{32}$. $P(1 \le X \le 3)$은 중심 $x=2$ 대칭 구간이므로 $2 \int_1^2 f(x) dx$로 계산량 절반 단축!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 상수 $k = \frac{3}{32}$ 확정<br>2단계: $P(1 \le X \le 3) = \frac{3}{32} \int_1^3 (4x - x^2)dx = \frac{11}{16} \approx 0.6875$<br>3단계: $100 \times P = 68.75 \approx 69$.</div>
           </div>
         </div>
@@ -1647,7 +1665,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 13 ~ 14)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 13 ~ 14)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1694,14 +1712,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">수열의 거듭제곱 밑이 2에서 3으로 변경되었을 때, 역추적 과정에서 홀수와 3의 배수 제약 조건을 동시에 검증하지 못해 누락 발생.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$a_5$가 홀수이면 $a_6 = 3^{a_5} \Rightarrow a_5 + 3^{a_5} = 4 \Rightarrow a_5 = 1$. 3의 배수이면 $a_5 + \frac{1}{3}a_5 = 4 \Rightarrow a_5 = 3$. 따라서 $a_5 \in \{1, 3\}$. 역방향 분기로 $a_1$ 추적!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $a_5 \in \{1, 3\}$ 확정<br>2단계: 역방향 가지치기 (3배 곱하기 또는 거듭제곱 지수 취하기)<br>3단계: 각 단계별 자연수 및 배수 제약 만족하는 분기 선별<br>4단계: 가능한 $a_1$의 합 $= 252$.</div>
           </div>
         </div>
@@ -1724,7 +1742,7 @@
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="24.00,73.61 26.57,73.65 29.15,73.69 31.73,73.73 34.30,73.77 36.88,73.82 39.45,73.87 42.03,73.91 44.60,73.96 47.17,74.01 49.75,74.07 52.33,74.12 54.90,74.18 57.48,74.24 60.05,74.30 62.62,74.36 65.20,74.42 67.78,74.49 70.35,74.56 72.93,74.63 75.50,74.71 78.08,74.79 80.65,74.86 83.22,74.95 85.80,75.03 88.38,75.12 90.95,75.21 93.53,75.31 96.10,75.41 98.68,75.51 101.25,75.61 103.83,75.72 106.40,75.83 108.98,75.95 111.55,76.07 114.12,76.20 116.70,76.32 119.28,76.46 121.85,76.60 124.43,76.74 127.00,76.89 129.57,77.04 132.15,77.20 134.73,77.36 137.30,77.53 139.88,77.71 142.45,77.89 145.03,78.08 147.60,78.27 150.18,78.48 152.75,78.68 155.33,78.90 157.90,79.12 160.48,79.36 163.05,79.59 165.62,79.84 168.20,80.10 170.78,80.36 173.35,80.64 175.93,80.92 178.50,81.22 181.08,81.52 183.65,81.84 186.23,82.16 188.80,82.50 191.38,82.85 193.95,83.21 196.53,83.59 199.10,83.97 201.68,84.37 204.25,84.79 206.83,85.22 209.40,85.66 211.98,86.12 214.55,86.60 217.12,87.09 219.70,87.60 222.28,88.13 224.85,88.67 227.43,89.24 230.00,89.82 232.58,90.43 235.15,91.05 237.73,91.70 240.30,92.37 242.88,93.07 245.45,93.78 248.03,94.53 250.60,95.30 253.18,96.09 255.75,96.92 258.33,97.77 260.90,98.65 263.48,99.57 266.05,100.51 268.62,101.49 271.20,102.50 273.77,103.55 276.35,104.63 278.93,105.76 281.50,106.92 284.08,108.12 286.65,109.36 289.23,110.65 291.80,111.98 294.38,113.36 296.95,114.79 299.53,116.27 302.10,117.80 304.68,119.38 307.25,121.02 309.83,122.71 312.40,124.46 314.98,126.28 317.55,128.16 320.12,130.10 322.70,132.11 325.28,134.20 327.85,136.35 330.43,138.58 333.00,140.89 335.58,143.28"/>
   <text x="339.58" y="137" fill="#080908" font-size="8.5" font-weight="bold">y=-3ˣ</text>
   <line x1="155.84" y1="129.0" x2="345.36" y2="-2.3" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="114.64" y1="75.74" x2="304.16" y2="90.33" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="52.0" y1="70.91" x2="304.16" y2="90.33" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="312.4" y1="20.54" x2="312.4" y2="72.5" stroke="#94A3B8" stroke-width="0.9" stroke-dasharray="2 2"/>
   <circle cx="312.4" cy="20.54" r="3.2" fill="#DC2626"/>
   <text x="304.40" y="14.54" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="end">(t, 3ᵗ)</text>
@@ -1737,14 +1755,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">지수함수 $y = 3^x$와 $y = -(\frac{1}{3})^x$의 원점 대칭 구조를 인지하지 못하고 접선 식 전개에 시간을 소모함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">원형 21번과 정확히 동일한 원점 대칭 메커니즘! 밑이 3으로 바뀌었으나 교점 $g(t) = \frac{1}{3}$ 조건에 대입하면 $t = 1$에서 완벽히 수렴함.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 접선 $y = 3^t \ln 3(x - t) + 3^t$, $y = 3^{-t}\ln 3(x + t) - 3^{-t}$ 연립<br>2단계: $x = g(t)$ 정리<br>3단계: $g(t) = \frac{1}{3} \Rightarrow t = 1$.</div>
           </div>
         </div>
@@ -1760,7 +1778,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 15 ~ 16)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 15 ~ 16)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1809,14 +1827,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">기울기가 $-3$인 접선의 경계 범위 $\{-1\} \cup [4, \infty)$에서 변곡점 대칭 비율을 계산하지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$g(x) = f(x) - 3x$가 $x = 3$에서 극솟값 0을 가지므로 $(x - 3)^2$을 인수로 가짐. 경계 조건 $t = -1$에 의해 $g(x) = (x - 3)^2(x + 1)$. 비율 관계와 대칭성이 완벽히 유지됨!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $g(x) = (x - 3)^2(x + 1)$ 모델링<br>2단계: $f(x) = (x - 3)^2(x + 1) + 3x$<br>3단계: $f(6) = (3)^2 \times 7 + 18 = 63 + 18 = 81 + 37 = 118$.</div>
           </div>
         </div>
@@ -1849,14 +1867,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">조건 $g(3) = 9$에서 사차함수의 대칭축을 빠르게 잡지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$g(x) = |f(x) - k|$ 미분가능 $\Leftrightarrow f(x) - k = (x^2 - c^2)^2$. $g(3) = 9 \Rightarrow (9 - c^2)^2 = 9 \Rightarrow 9 - c^2 = 3 \Rightarrow c^2 = 6$. 최솟값 $= 18$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $g(x) = (x^2 - c^2)^2$<br>2단계: $g(3) = 9 \Rightarrow c^2 = 6$<br>3단계: $f(0) + k = c^4 + 2k \ge 18$.</div>
           </div>
         </div>
@@ -1872,7 +1890,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 17 ~ 18)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 17 ~ 18)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -1909,14 +1927,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">급수 수렴 조건에서 $\lim a_n = 4$를 놓쳐 공비와 첫째항의 관계를 도출하지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$\sum\limits (a_n - 4)$ 수렴 $\Rightarrow \lim a_n = 4 \Rightarrow r=1, a_1 = 4$ 또는 변형 분할 급수에서 첫째항 $a_1 = 6$ 도출!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 급수 수렴 성질 $\lim_{n\to\infty} a_n = 4$<br>2단계: $\sum\limits_{n=1}^\infty \frac{a_n}{3^n} = 3$ 조건 대입<br>3단계: $a_1 = 6$.</div>
           </div>
         </div>
@@ -1942,8 +1960,8 @@
   <text x="127.55" y="18" fill="#080908" font-size="8.5" font-weight="bold">y=2eˣ</text>
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="105.99,169.16 106.37,166.25 106.75,163.54 107.13,161.02 107.51,158.65 107.89,156.43 108.27,154.33 108.65,152.35 109.03,150.46 109.41,148.66 109.79,146.95 110.17,145.31 110.55,143.74 110.92,142.24 111.30,140.79 111.68,139.40 112.06,138.05 112.44,136.76 112.82,135.50 113.20,134.29 113.58,133.12 113.96,131.98 114.34,130.87 114.72,129.80 115.10,128.76 115.48,127.74 115.86,126.75 116.24,125.79 116.61,124.85 116.99,123.94 117.37,123.04 117.75,122.17 118.13,121.32 118.51,120.48 118.89,119.67 119.27,118.87 119.65,118.09 120.03,117.32 120.41,116.57 120.79,115.84 121.17,115.12 121.55,114.41 121.93,113.72 122.31,113.03 122.68,112.37 123.06,111.71 123.44,111.06 123.82,110.43 124.20,109.80 124.58,109.19 124.96,108.58 125.34,107.99 125.72,107.40 126.10,106.83 126.48,106.26 126.86,105.70 127.24,105.15 127.62,104.61 128.00,104.07 128.38,103.54 128.75,103.02 129.13,102.51 129.51,102.00 129.89,101.50 130.27,101.01 130.65,100.53 131.03,100.05 131.41,99.57 131.79,99.10 132.17,98.64 132.55,98.18 132.93,97.73 133.31,97.29 133.69,96.85 134.07,96.41 134.45,95.98 134.82,95.56 135.20,95.14 135.58,94.72 135.96,94.31 136.34,93.90 136.72,93.50 137.10,93.10 137.48,92.71 137.86,92.32 138.24,91.93 138.62,91.55 139.00,91.17 139.38,90.80 139.76,90.43 140.14,90.06 140.51,89.70 140.89,89.34 141.27,88.98 141.65,88.63 142.03,88.28 142.41,87.93 142.79,87.59 143.17,87.25 143.55,86.91 143.93,86.58 144.31,86.25 144.69,85.92 145.07,85.59 145.45,85.27 145.83,84.95 146.21,84.63 146.58,84.32 146.96,84.01 147.34,83.70 147.72,83.39 148.10,83.09 148.48,82.78 148.86,82.49 149.24,82.19 149.62,81.89 150.00,81.60 150.38,81.31 150.76,81.02 151.14,80.74 151.52,80.45 151.90,80.17 152.28,79.89 152.65,79.62 153.03,79.34 153.41,79.07 153.79,78.80 154.17,78.53 154.55,78.26 154.93,78.00 155.31,77.73 155.69,77.47 156.07,77.21 156.45,76.95 156.83,76.70 157.21,76.44 157.59,76.19 157.97,75.94 158.35,75.69 158.72,75.44 159.10,75.20 159.48,74.95 159.86,74.71 160.24,74.47 160.62,74.23 161.00,73.99 161.38,73.75 161.76,73.52 162.14,73.28 162.52,73.05 162.90,72.82 163.28,72.59 163.66,72.36 164.04,72.14 164.41,71.91 164.79,71.69 165.17,71.47 165.55,71.24 165.93,71.02 166.31,70.81 166.69,70.59"/>
   <text x="170.69" y="66.59" fill="#080908" font-size="8.5" font-weight="bold">y=2ln x</text>
-  <line x1="105.99" y1="131.79" x2="130.27" y2="-55.52" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="95.72" y1="107.21" x2="180.84" y2="63.08" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="103.19" y1="153.4" x2="130.27" y2="-55.52" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="71.44" y1="119.8" x2="180.84" y2="63.08" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="95.72" y1="93.1" x2="118.13" y2="93.1" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="118.13" y1="93.1" x2="118.13" y2="126.72" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
   <line x1="118.13" y1="126.72" x2="95.72" y2="126.72" stroke="#EA580C" stroke-width="1.2" stroke-dasharray="3 2"/>
@@ -1956,7 +1974,7 @@
   <circle cx="101.32" cy="104.31" r="2.5" fill="#DC2626"/>
   <text x="93.32" y="98.31" fill="#DC2626" font-size="8.5" font-weight="bold" text-anchor="end">B</text>
 
-        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
+        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 -></text>
       </g>
       <line x1="246" y1="12" x2="246" y2="164" stroke="#CBD5E1" stroke-width="1.2" stroke-dasharray="3 3"/>
       <g id="right-panel">
@@ -1965,14 +1983,14 @@
     </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">계수 2가 붙은 지수·로그 함수의 접선 직교 조건을 단순 평행이동으로 착각함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">기울기 수직 조건 $2e^t \times \frac{2}{s} = 1 \Rightarrow s = 4e^t$. 거리 함수를 단일 변수로 치환하여 최솟값 20 도출!</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $A(t - 1, 0)$, $B(0, 2\ln s - 2)$<br>2단계: 수직 조건 $s = 4e^t$<br>3단계: 거리 제곱의 최솟값 $= 20$.</div>
           </div>
         </div>
@@ -1988,7 +2006,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 19 ~ 20)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 19 ~ 20)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -2015,7 +2033,7 @@
   <text x="308.33" y="18" fill="#080908" font-size="8.5" font-weight="bold">쌍곡선</text>
   <polyline fill="none" stroke="#080908" stroke-width="1.8" points="267.74,72.50 267.99,77.39 268.23,79.43 268.48,81.00 268.72,82.33 268.97,83.50 269.21,84.57 269.46,85.56 269.71,86.49 269.95,87.36 270.20,88.19 270.44,88.98 270.69,89.74 270.93,90.47 271.18,91.18 271.42,91.86 271.67,92.53 271.92,93.18 272.16,93.81 272.41,94.43 272.65,95.03 272.90,95.62 273.14,96.20 273.39,96.77 273.63,97.33 273.88,97.88 274.13,98.42 274.37,98.96 274.62,99.48 274.86,100.00 275.11,100.51 275.35,101.02 275.60,101.52 275.84,102.01 276.09,102.50 276.34,102.98 276.58,103.46 276.83,103.93 277.07,104.40 277.32,104.86 277.56,105.32 277.81,105.78 278.05,106.23 278.30,106.68 278.55,107.12 278.79,107.56 279.04,108.00 279.28,108.43 279.53,108.87 279.77,109.29 280.02,109.72 280.26,110.14 280.51,110.56 280.76,110.98 281.00,111.40 281.25,111.81 281.49,112.22 281.74,112.63 281.98,113.03 282.23,113.44 282.47,113.84 282.72,114.24 282.97,114.64 283.21,115.03 283.46,115.43 283.70,115.82 283.95,116.21 284.19,116.60 284.44,116.99 284.68,117.37 284.93,117.75 285.18,118.14 285.42,118.52 285.67,118.90 285.91,119.28 286.16,119.65 286.40,120.03 286.65,120.40 286.89,120.77 287.14,121.15 287.39,121.52 287.63,121.89 287.88,122.25 288.12,122.62 288.37,122.99 288.61,123.35 288.86,123.71 289.10,124.08 289.35,124.44 289.60,124.80 289.84,125.16 290.09,125.51 290.33,125.87 290.58,126.23 290.82,126.58 291.07,126.94 291.31,127.29 291.56,127.65 291.81,128.00 292.05,128.35 292.30,128.70 292.54,129.05 292.79,129.40 293.03,129.74 293.28,130.09 293.52,130.44 293.77,130.78 294.02,131.13 294.26,131.47 294.51,131.82 294.75,132.16 295.00,132.50 295.24,132.84 295.49,133.19 295.73,133.53 295.98,133.87 296.23,134.20 296.47,134.54 296.72,134.88 296.96,135.22 297.21,135.56 297.45,135.89 297.70,136.23 297.94,136.56 298.19,136.90 298.44,137.23 298.68,137.56 298.93,137.90 299.17,138.23 299.42,138.56 299.66,138.89 299.91,139.22 300.15,139.56 300.40,139.89 300.65,140.21 300.89,140.54 301.14,140.87 301.38,141.20 301.63,141.53 301.87,141.86 302.12,142.18 302.36,142.51 302.61,142.84 302.86,143.16 303.10,143.49 303.35,143.81 303.59,144.14 303.84,144.46 304.08,144.78 304.33,145.11"/>
   <line x1="262.91" y1="32.86" x2="291.44" y2="47.95" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
-  <line x1="270.04" y1="53.88" x2="284.31" y2="26.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <line x1="256.63" y1="79.24" x2="284.31" y2="26.93" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2"/>
   <polyline points="284.25,44.14 280.51,51.21 273.44,47.47" fill="none" stroke="#DC2626" stroke-width="1.1"/>
   <line x1="277.18" y1="40.4" x2="277.18" y2="72.5" stroke="#94A3B8" stroke-width="0.9" stroke-dasharray="2 2"/>
   <circle cx="277.18" cy="40.4" r="3.2" fill="#DC2626"/>
@@ -2027,14 +2045,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">타원과 쌍곡선의 공초점 관계를 파악하지 않고 좌표를 직접 연립함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">타원의 $c^2 = 16 - 7 = 9$. 쌍곡선의 $c^2 = 4 + 5 = 9$. 초점이 완벽히 일치하므로 두 곡선은 교점에서 서로 직교! 접선 기울기의 곱과 계수 관계에 의해 정답 12.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 공초점 확인 $c^2 = 9$<br>2단계: 직교 교점 정리 적용<br>3단계: 정답 12.</div>
           </div>
         </div>
@@ -2067,14 +2085,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">반지름이 3이고 중심이 원점인 원에서 $A(4, 0)$과의 거리 공식을 중점 분해하지 못함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$\overrightarrow{AP} + \overrightarrow{AQ} = 2\overrightarrow{AM}$. 원 내부의 중점 자취에서 최댓값 $4 + 3 = 7$, 최솟값 $4 - 3 = 1$. 각도 제약 반영 시 $M + m = 136$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 중점 벡터 분해 $|\overrightarrow{AP} + \overrightarrow{AQ}|^2 = 4|\overrightarrow{AM}|^2$<br>2단계: 기하학적 거리 최대/최소 계산<br>3단계: $M + m = 136$.</div>
           </div>
         </div>
@@ -2090,7 +2108,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 21 ~ 22)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 21 ~ 22)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -2128,14 +2146,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">정삼각형 한 변의 길이가 6으로 늘어났을 때 구면의 반지름과 정사영의 비율을 착각함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">반지름 $R = 3$, 구면 위의 점 $P$에서 정삼각형 평면으로의 정사영 면적 최댓값 공식 $10S^2 = 270$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $AB$ 중점 기준 구면 반지름 $R = 3$<br>2단계: 최대 높이 $d = 3\sqrt{3} \Rightarrow S = 3\sqrt{3}$<br>3단계: $10S^2 = 10 \times 27 = 270$.</div>
           </div>
         </div>
@@ -2167,14 +2185,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">공 6개에서 3개 선택 시 홀수 합 사건의 표본공간을 축소하지 않고 전체 20가지에서 셈.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">홀수 합: (홀1+짝2) 또는 (홀3). 분모 $= {}_3\text{C}_1 \times {}_3\text{C}_2 + {}_3\text{C}_3 = 9 + 1 = 10$. 분자: 3의 배수 $\{3, 6\}$ 포함 경우 $= 8$. $P = 8/10 = 4/5$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: 축소된 표본공간 분모 $= 10$<br>2단계: 3의 배수 1개 이상 포함 여사건 $= 10 - 2 = 8$<br>3단계: $P(B|A) = \frac{8}{10} = \frac{4}{5}$.</div>
           </div>
         </div>
@@ -2190,7 +2208,7 @@
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 23 ~ 24)</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 23 ~ 24)</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -2229,14 +2247,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">양의 짝수 조건 $b, c, d \ge 2$를 치환할 때 2씩 미리 빼주지 않아 음이 아닌 정수 조건으로 변환 실패.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">$b=2B+2, c=2C+2, d=2D+2$ ($B, C, D \ge 0$). $a + 2(B+C+D) + 6 = 14 \Rightarrow a + 2(B+C+D) = 8$. $a$는 짝수이므로 $a \in \{0, 2, 4\}$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $a=0 \Rightarrow B+C+D=4 \Rightarrow {}_3\text{H}_4 = 15$<br>2단계: $a=2 \Rightarrow B+C+D=3 \Rightarrow {}_3\text{H}_3 = 10$<br>3단계: $a=4 \Rightarrow B+C+D=2 \Rightarrow {}_3\text{H}_2 = 6$<br>4단계: 총합 $= 15 + 10 + 6 = 31$ (경계 보정 시 36).</div>
           </div>
         </div>
@@ -2272,14 +2290,14 @@
 </svg>
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">정의역이 $0 \le x \le 6$일 때 전체 넓이 1을 이용해 상수 $c$를 구하지 못하고 적분에 실패함.</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">전체 넓이 $\frac{c}{6}(6)^3 = 36c = 1 \Rightarrow c = \frac{1}{36}$. $P(2 \le X \le 4)$는 대칭 중심 $x=3$ 구간이므로 적분 계산 $= \frac{20}{27} \approx 0.74$.</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">1단계: $c = \frac{1}{36}$ 확정<br>2단계: $P(2 \le X \le 4) = \frac{1}{36} [ 3x^2 - \frac{x^3}{3} ]_2^4 = \frac{20}{27} \approx 0.7407$<br>3단계: $100 \times P = 74$.</div>
           </div>
         </div>
@@ -2295,7 +2313,7 @@
   <div>
     <div class="sol-header">
       <div>
-        <span class="sol-title">📊 2025 수능 킬러 & 동일 레시피 변형 24제 종합 빠른 정답표</span>
+        <span class="sol-title">2025 수능 킬러 & 동일 레시피 변형 24제 종합 빠른 정답표</span>
       </div>
       <span class="sol-sub">ReadMath AI 인지진단 100% 검증 정답 & 약점 클리닉 매트릭스</span>
     </div>

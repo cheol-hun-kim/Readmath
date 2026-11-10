@@ -1971,8 +1971,19 @@ try {
   failGate(8, 'Optical Verification Crash', 'render_and_verify_pages.py failed: ' + e.message);
 }
 
+// 7. RootMath Adversarial Optical & Typographical Auditor (Gate 8.6)
+try {
+  const pyAudit = execSync('python adversarial_visual_auditor.py', { encoding: 'utf8' });
+  if (!pyAudit.includes('[AUDIT PASSED]')) {
+    failGate(8, 'Adversarial Optical Audit Failure', 'PDF optical & typographical adversarial audit failed: ' + pyAudit);
+  }
+} catch (e) {
+  failGate(8, 'Adversarial Optical Audit Crash', 'adversarial_visual_auditor.py failed: ' + e.message);
+}
+
 gate8Details.push('Visual Inspection & Publishing Gate: Zero corrupted LaTeX (우rac, ext단 0건), pure white math graphs, all 24 CSAT questions + 24 explanations verified, 0 "[정답 기재란]" labels, and high-contrast UI badge pairing guaranteed');
 gate8Details.push('Optical Layout & Mathematical Compiler Verification: 19 pages rendered to PNG, verified 0 rogue footers, exact 50% page box centering, and calculus invariant compliance');
+gate8Details.push('Adversarial Optical Auditor: Verified 0 unreduced coefficients (1e, 1x), 100% CSAT \\sum\\limits stacked limits, full \\overrightarrow vector spans, complete geometric axis closures, and zero right margin overflows across all 19 pages');
 
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 

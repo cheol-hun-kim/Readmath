@@ -231,7 +231,7 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
       <g id="left-panel">
         <text x="14" y="18" font-size="10.5" font-weight="700" fill="#64748B">전체 곡선 및 접선 개형도</text>
         {inner_left}
-        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
+        <text x="135" y="148" font-size="9.5" font-weight="800" fill="#EA580C">원점 확대 -></text>
       </g>
       {divider_svg}
       <g id="right-panel">

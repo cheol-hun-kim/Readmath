@@ -317,14 +317,14 @@ for sol_idx in range(12):
             {svg}
           </div>
 
-          <div class="sol-section-title stuck">● 수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단)</div>
+          <div class="sol-section-title stuck">[수험생이 펜을 멈춘 결정적 이유 (막힌 이유 역추적 진단]</div>
           <div class="sol-desc">{norm_stuck}</div>
 
-          <div class="sol-section-title recipe">⚡ 동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
+          <div class="sol-section-title recipe">동일 레시피 핵심 발상 (Same Recipe - 3초 관통 공식)</div>
           <div class="sol-desc">{norm_recipe}</div>
 
           <div class="sol-steps-wrap">
-            <div class="sol-section-title step">▶ 단계별 사고 흐름 해금 풀이</div>
+            <div class="sol-section-title step">[단계별 사고 흐름 해금 풀이]</div>
             <div class="sol-steps-content">{norm_steps}</div>
           </div>
         </div>'''
@@ -336,7 +336,7 @@ for sol_idx in range(12):
     <div>
       <div class="sol-header">
         <div>
-          <span class="sol-title">📖 ReadMath 4-Way 입체 해설지 (문제 {q1["num"]} ~ {q2["num"]})</span>
+          <span class="sol-title">ReadMath 4-Way 입체 해설지 (문제 {q1["num"]} ~ {q2["num"]})</span>
         </div>
         <span class="sol-sub">질문 속 펜이 멈춘 근본원인 역추적 4단계 해설 & 엄밀 기하 도해</span>
       </div>
@@ -360,7 +360,7 @@ quick_ans_page = f'''<div class="page">
   <div>
     <div class="sol-header">
       <div>
-        <span class="sol-title">📊 2025 수능 킬러 & 동일 레시피 변형 24제 종합 빠른 정답표</span>
+        <span class="sol-title">2025 수능 킬러 & 동일 레시피 변형 24제 종합 빠른 정답표</span>
       </div>
       <span class="sol-sub">ReadMath AI 인지진단 100% 검증 정답 & 약점 클리닉 매트릭스</span>
     </div>
@@ -942,6 +942,24 @@ full_html = f'''<!DOCTYPE html>
     }}
 
     /* Authentic CSAT/KICE KaTeX Typography */
+    
+    /* KaTeX Radical & SVG Clamp Guard */
+    .katex .sqrt {{
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }}
+    .katex .sqrt-sign {{
+      max-width: 150px !important;
+      overflow: hidden !important;
+    }}
+    .katex .sqrt-sign svg {{
+      max-width: 150px !important;
+      overflow: hidden !important;
+    }}
+    .sol-card {{
+      overflow: hidden;
+    }}
+
     .katex {{
       font-size: 1.04em !important;
       text-rendering: auto;
