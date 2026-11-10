@@ -8,9 +8,10 @@ package-lock.json
 .env.production
 
 # Math data PDFs (heavy binary files)
-mathdata/
+mathdata/*
 !mathdata/*.json
 !mathdata/questions_*.py
+!mathdata/diagram_engine_*.py
 
 # Expo / React Native
 .expo/
@@ -27,3 +28,4 @@ gemini_raw_out.json
 test_*.js
 check_*.js
 inspect_*.js
+rendered_pages/
