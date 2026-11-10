@@ -45,14 +45,23 @@ def normalize_csat_text(raw_text: str) -> str:
     # 1. Standardize operator replacements (<=, >=, != to KaTeX standards)
     text = text.replace('<=', r'\le ').replace('>=', r'\ge ').replace('!=', r'\neq ')
 
-    # 2. Authentic CSAT Inline Operators:
-    # In official CSAT/KICE running text, \sum and \int keep limits as subscript/superscript
-    # to the right (\nolimits) to preserve uniform 165% line height without vertical river blowout.
+    # 2. Authentic CSAT Operators (Long Vector Arrows & Smart CSAT Sigma)
     def inline_operator_normalizer(match):
         inner = match.group(1)
-        # Remove any forced \limits in inline math that causes awkward vertical stacking in running text
-        inner = re.sub(r'\\sum\s*\\limits', r'\\sum\\nolimits', inner)
-        inner = re.sub(r'\\prod\s*\\limits', r'\\prod\\nolimits', inner)
+        # Vector arrow: replace short \vec{...} with full-width \overrightarrow{...}
+        inner = re.sub(r'\\vec\{([a-zA-Z0-9]+)\}', r'\\overrightarrow{\1}', inner)
+        
+        # Smart CSAT Sigma Normalization:
+        # In official Korean CSAT/HWP papers:
+        # - Fractions (\frac, \dfrac) with \sum MUST stack limits above and below (\sum\limits)
+        # - Simple polynomial / sequence terms (e.g. (a_n - 3)) keep side limits (\sum) for baseline stability
+        def replace_sum(m_sum):
+            s = m_sum.group(0)
+            if re.search(r'\\(?:d?frac)', s):
+                return re.sub(r'\\sum(?!\s*\\limits)', r'\\sum\\limits', s)
+            else:
+                return re.sub(r'\\sum\s*\\limits', r'\\sum', s)
+        inner = re.sub(r'\\sum[^\$]+', replace_sum, inner)
         return f"${inner}$"
 
     # Process inline math ($...$ not $$...$$)

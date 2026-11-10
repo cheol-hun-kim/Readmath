@@ -13,7 +13,7 @@ Features:
 =============================================================================
 """
 
-import math
+import math, re
 from math_engine_core import MathEngineCore
 from analytical_geometry_engine import AnalyticalGeometryCompiler, AnalyticalFunction
 
@@ -156,6 +156,7 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
 
     # -------------------------------------------------------------------------
     # Problem 6 & 18: Exponential & Log Curves with Orthogonal Tangents
+    # (Dual-Panel Architecture: Global Overview + Magnified Inset View of ΔOAB)
     # -------------------------------------------------------------------------
     elif prob_num in [6, 18]:
         coeff = 1.0 if prob_num == 6 else 2.0
@@ -164,22 +165,74 @@ def build_universal_svg_for_problem(prob_num: int, is_variation: bool = False) -
         By = coeff * (t - 1.0)
         s = math.exp(t)
         
-        c = AnalyticalGeometryCompiler(x_range=(-2.0, 4.2), y_range=(-1.8, 5.4), width=460, height=145, preserve_aspect_ratio=True)
-        f_exp = c.add_curve(lambda x: coeff * math.exp(x), x_min=-1.8, x_max=1.65, label="y=eˣ" if prob_num == 6 else "y=2eˣ")
-        f_log = c.add_curve(lambda x: coeff * math.log(x), x_min=0.2, x_max=3.8, label="y=ln x" if prob_num == 6 else "y=2ln x")
+        # Left Panel: Global View (width 240, height 175)
+        c_left = AnalyticalGeometryCompiler(
+            x_range=(-1.8, 3.8), y_range=(-1.8, 5.0),
+            width=240, height=175,
+            preserve_aspect_ratio=True
+        )
+        f_exp = c_left.add_curve(lambda x: coeff * math.exp(x), x_min=-1.6, x_max=1.5, label="y=eˣ" if prob_num == 6 else "y=2eˣ")
+        f_log = c_left.add_curve(lambda x: coeff * math.log(x), x_min=0.25, x_max=3.5, label="y=ln x" if prob_num == 6 else "y=2ln x")
+        c_left.add_point_on_curve(f_exp, x=t, label=f"(t, {int(coeff)}eᵗ)", color="#080908", label_pos="above_left")
+        c_left.add_tangent_line(f_exp, x_contact=t, span_left=1.1, span_right=0.2, color="#94A3B8")
+        c_left.add_tangent_line(f_log, x_contact=s, span_left=2.5, span_right=0.4, color="#94A3B8")
         
-        # Tangents strictly generated from derivatives
-        c.add_point_on_curve(f_exp, x=t, label=f"(t,{'eᵗ' if prob_num == 6 else '2eᵗ'})", color="#080908", label_pos="above_left")
-        c.add_tangent_line(f_exp, x_contact=t, span_left=t - Ax + 0.3, span_right=0.15, color="#94A3B8")
+        # Zoom box on left panel around origin in math coordinates
+        c_left.add_line((-0.3, 1.3), (0.9, 1.3), color="#EA580C", width=1.2, style="dashed")
+        c_left.add_line((0.9, 1.3), (0.9, -0.5), color="#EA580C", width=1.2, style="dashed")
+        c_left.add_line((0.9, -0.5), (-0.3, -0.5), color="#EA580C", width=1.2, style="dashed")
+        c_left.add_line((-0.3, -0.5), (-0.3, 1.3), color="#EA580C", width=1.2, style="dashed")
         
-        c.add_tangent_line(f_log, x_contact=s, span_left=s + 0.2, span_right=0.3, color="#94A3B8")
+        left_svg = c_left.compile()
         
-        c.add_point(Ax, 0.0, label=f"A({Ax:.1f},0)", color="#DC2626", label_pos="below_right")
-        c.add_point(0.0, By, label=f"B(0,{By:.1f})", color="#DC2626", label_pos="above_left")
-        c.add_line((Ax, 0.0), (0.0, By), color="#DC2626", width=2.0, style="solid", label="선분 AB", label_pt=(Ax/2.0 + 0.1, By/2.0 + 0.25))
-        c.add_right_angle((0.0, 0.0), (1.0, 0.0), (0.0, 1.0), size=7.0)
+        # Remove outer card background from left_svg so it doesn't double-frame
+        inner_left = left_svg[left_svg.find('>')+1 : left_svg.rfind('</svg>')]
+        inner_left = re.sub(r'<rect[^>]+rx="8"[^>]*>', '', inner_left, count=1)
         
-        return c.compile()
+        # Right Panel: Magnified Inset View (width 220, height 175)
+        ox, oy = 328.0, 138.0
+        ax, ay = ox + 76.0, oy
+        bx, by = ox, oy - 70.0
+        
+        right_svg_parts = [
+            f'<rect x="252" y="10" width="220" height="155" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>',
+            f'<text x="262" y="26" font-size="10.5" font-weight="800" fill="#EA580C">🔍 [원점 부근 직각삼각형 OAB 확대도]</text>',
+            f'<path d="M {ox} {oy-8} L {ox+8} {oy-8} L {ox+8} {oy}" fill="none" stroke="#64748B" stroke-width="1"/>',
+            f'<polygon points="{ox},{oy} {ax},{ay} {bx},{by}" fill="#EA580C" fill-opacity="0.14" stroke="none"/>',
+            f'<line x1="{ax:.1f}" y1="{ay:.1f}" x2="{bx:.1f}" y2="{by:.1f}" stroke="#DC2626" stroke-width="2.2"/>',
+            f'<text x="{(ax + bx)/2.0 + 6:.1f}" y="{(ay + by)/2.0 - 6:.1f}" font-size="9.5" font-weight="800" fill="#DC2626">선분 AB</text>',
+            f'<line x1="{ox - 14:.1f}" y1="{oy:.1f}" x2="{ax + 28:.1f}" y2="{oy:.1f}" stroke="#475569" stroke-width="1.2"/>',
+            f'<line x1="{ox:.1f}" y1="{oy + 14:.1f}" x2="{ox:.1f}" y2="{by - 22:.1f}" stroke="#475569" stroke-width="1.2"/>',
+            f'<text x="{ax + 22:.1f}" y="{oy + 13:.1f}" font-size="11" font-style="italic" fill="#475569">x</text>',
+            f'<text x="{ox - 12:.1f}" y="{by - 12:.1f}" font-size="11" font-style="italic" fill="#475569">y</text>',
+            f'<line x1="{ox:.1f}" y1="{oy + 7:.1f}" x2="{ax:.1f}" y2="{oy + 7:.1f}" stroke="#080908" stroke-width="0.8"/>',
+            f'<text x="{(ox + ax)/2.0:.1f}" y="{oy + 18:.1f}" font-size="9.5" font-weight="700" fill="#080908" text-anchor="middle">밑변 OA = t - 1</text>',
+            f'<line x1="{ox - 5:.1f}" y1="{oy:.1f}" x2="{ox - 5:.1f}" y2="{by:.1f}" stroke="#080908" stroke-width="0.8"/>',
+            f'<text x="{ox - 8:.1f}" y="{(oy + by)/2.0 + 3:.1f}" font-size="9.5" font-weight="700" fill="#080908" text-anchor="end">{"높이 2(t-1)" if prob_num == 18 else "높이 t-1"}</text>',
+            f'<circle cx="{ax:.1f}" cy="{ay:.1f}" r="3.2" fill="#DC2626"/>',
+            f'<text x="{ax + 3:.1f}" y="{ay - 4:.1f}" font-size="10" font-weight="800" fill="#DC2626">A(t-1, 0)</text>',
+            f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="3.2" fill="#DC2626"/>',
+            f'<text x="{bx + 5:.1f}" y="{by - 4:.1f}" font-size="10" font-weight="800" fill="#DC2626">{"B(0, 2(t-1))" if prob_num == 18 else "B(0, t-1)"}</text>',
+            f'<circle cx="{ox:.1f}" cy="{oy:.1f}" r="2" fill="#64748B"/>',
+            f'<text x="{ox - 10:.1f}" y="{oy + 13:.1f}" font-size="10" font-weight="700" fill="#64748B">O</text>',
+            f'<rect x="352" y="34" width="112" height="22" rx="3" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="0.8"/>',
+            f'<text x="408" y="49" font-size="9.5" font-weight="800" fill="#B91C1C" text-anchor="middle">AB² = OA² + OB²</text>'
+        ]
+        
+        divider_svg = f'<line x1="246" y1="12" x2="246" y2="164" stroke="#CBD5E1" stroke-width="1.2" stroke-dasharray="3 3"/>'
+        
+        return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 175" width="100%" height="175" style="display:block; margin: 0 auto; background: #FFFFFF; font-family: 'Pretendard', sans-serif;">
+      <rect width="480" height="175" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <g id="left-panel">
+        <text x="14" y="18" font-size="10.5" font-weight="700" fill="#64748B">전체 곡선 및 접선 개형도</text>
+        {inner_left}
+        <text x="88" y="76" font-size="9" font-weight="800" fill="#EA580C">원점 확대 ➔</text>
+      </g>
+      {divider_svg}
+      <g id="right-panel">
+        {"".join(right_svg_parts)}
+      </g>
+    </svg>'''
 
     # -------------------------------------------------------------------------
     # Problem 7 & 19: Confocal Ellipse & Hyperbola EXACT Orthogonal Intersection

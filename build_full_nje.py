@@ -63,18 +63,18 @@ QUESTIONS = [
     },
     # Q8
     {"num": 8, "meta": "2025 수능 기하 29번", "topic": "평면벡터의 합과 크기 최댓값", "ans": "68", "points": "4",
-     "text": "좌표평면의 원 $x^2 + y^2 = 4$ 위의 두 점 $P, Q$와 점 $A(3, 0)$에 대하여 $|\\vec{AP} + \\vec{AQ}|^2$의 최댓값을 $M$, 최솟값을 $m$이라 할 때, $M + m$의 값을 구하시오.",
+     "text": "좌표평면의 원 $x^2 + y^2 = 4$ 위의 두 점 $P, Q$와 점 $A(3, 0)$에 대하여 $|\\overrightarrow{AP} + \\overrightarrow{AQ}|^2$의 최댓값을 $M$, 최솟값을 $m$이라 할 때, $M + m$의 값을 구하시오.",
      "choices": None,
-     "stuck": "동점 $P, Q$ 두 개가 동시에 원 위를 움직여 $|\\vec{AP} + \\vec{AQ}|$를 다루기 어렵다고 느낌. 중점 벡터로의 분해를 시도하지 않음.",
-     "recipe": "선분 $PQ$의 중점을 $M$이라 하면 $\\vec{AP} + \\vec{AQ} = 2\\vec{AM}$. 따라서 $|\\vec{AP} + \\vec{AQ}|^2 = 4|\\vec{AM}|^2$. 점 $A(3, 0)$에서 원 내부의 중점 $M$까지의 거리 최대/최소 기하 문제로 단순화!",
-     "steps": "1단계: $M$의 자취는 원 내부 $r \\le 2$<br>2단계: $|\\vec{AM}|_{\\max} = 3 - (-2) = 5$, $|\\vec{AM}|_{\\min} = 3 - 2 = 1$<br>3단계: 각도 제약 반영 시 $M + m = 68$."
+     "stuck": "동점 $P, Q$ 두 개가 동시에 원 위를 움직여 $|\\overrightarrow{AP} + \\overrightarrow{AQ}|$를 다루기 어렵다고 느낌. 중점 벡터로의 분해를 시도하지 않음.",
+     "recipe": "선분 $PQ$의 중점을 $M$이라 하면 $\\overrightarrow{AP} + \\overrightarrow{AQ} = 2\\overrightarrow{AM}$. 따라서 $|\\overrightarrow{AP} + \\overrightarrow{AQ}|^2 = 4|\\overrightarrow{AM}|^2$. 점 $A(3, 0)$에서 원 내부의 중점 $M$까지의 거리 최대/최소 기하 문제로 단순화!",
+     "steps": "1단계: $M$의 자취는 원 내부 $r \\le 2$<br>2단계: $|\\overrightarrow{AM}|_{\\max} = 3 - (-2) = 5$, $|\\overrightarrow{AM}|_{\\min} = 3 - 2 = 1$<br>3단계: 각도 제약 반영 시 $M + m = 68$."
     },
     # Q9
     {"num": 9, "meta": "2025 수능 기하 30번 킬러", "topic": "공간도형 삼수선과 정사영", "ans": "120", "points": "4",
-     "text": "평면 $\\alpha$ 위에 한 변의 길이가 4인 정삼각형 $ABC$가 있고, 평면 $\\alpha$ 밖의 점 $P$에 대하여 $\\vec{PA} \\perp \\vec{PB}$이다. 점 $P$에서 평면 $\\alpha$에 내린 수선의 발 $H$가 정삼각형 $ABC$의 내부에 존재할 때, 삼각형 $PBC$의 평면 $\\alpha$ 위로의 정사영의 넓이의 최댓값을 $S$라 하자. $10S^2$의 값을 구하시오.",
+     "text": "평면 $\\alpha$ 위에 한 변의 길이가 4인 정삼각형 $ABC$가 있고, 평면 $\\alpha$ 밖의 점 $P$에 대하여 $\\overrightarrow{PA} \\perp \\overrightarrow{PB}$이다. 점 $P$에서 평면 $\\alpha$에 내린 수선의 발 $H$가 정삼각형 $ABC$의 내부에 존재할 때, 삼각형 $PBC$의 평면 $\\alpha$ 위로의 정사영의 넓이의 최댓값을 $S$라 하자. $10S^2$의 값을 구하시오.",
      "choices": None,
-     "stuck": "조건 $\\vec{PA} \\perp \\vec{PB}$를 공간좌표로 일일이 세우려다 계산량이 감당되지 않음. 점 $P$가 선분 $AB$를 지름으로 하는 구면 위에 존재한다는 구의 기하학적 정의를 놓침.",
-     "recipe": "$\\vec{PA} \\cdot \\vec{PB} = 0 \\Leftrightarrow P$는 $AB$의 중점을 중심으로 하고 반지름이 $R = 2$인 구면 위의 점! 삼수선의 정리에 의해 밑변 $BC$까지의 기하학적 최대 높이를 구하면 정사영 면적 최대!",
+     "stuck": "조건 $\\overrightarrow{PA} \\perp \\overrightarrow{PB}$를 공간좌표로 일일이 세우려다 계산량이 감당되지 않음. 점 $P$가 선분 $AB$를 지름으로 하는 구면 위에 존재한다는 구의 기하학적 정의를 놓침.",
+     "recipe": "$\\overrightarrow{PA} \\cdot \\overrightarrow{PB} = 0 \\Leftrightarrow P$는 $AB$의 중점을 중심으로 하고 반지름이 $R = 2$인 구면 위의 점! 삼수선의 정리에 의해 밑변 $BC$까지의 기하학적 최대 높이를 구하면 정사영 면적 최대!",
      "steps": "1단계: $AB$ 중점 기준 구면 $R = 2$<br>2단계: 평면 $\\alpha$ 위 정사영 삼각형 $HBC$의 넓이 최대 높이 $d_{\\max} = \\sqrt{12}$<br>3단계: $S^2 = 12 \\Rightarrow 10S^2 = 120$."
     },
     # Q10
@@ -159,15 +159,15 @@ QUESTIONS = [
     },
     # Q20 (29 변형)
     {"num": 20, "meta": "[문제 8 변형] 동일 레시피 쌍둥이", "topic": "평면벡터의 크기 최댓값/최솟값", "ans": "136", "points": "4",
-     "text": "좌표평면의 원 $x^2 + y^2 = 9$ 위의 두 점 $P, Q$와 점 $A(4, 0)$에 대하여 $|\\vec{AP} + \\vec{AQ}|^2$의 최댓값을 $M$, 최솟값을 $m$이라 할 때, $M + m$의 값을 구하시오.",
+     "text": "좌표평면의 원 $x^2 + y^2 = 9$ 위의 두 점 $P, Q$와 점 $A(4, 0)$에 대하여 $|\\overrightarrow{AP} + \\overrightarrow{AQ}|^2$의 최댓값을 $M$, 최솟값을 $m$이라 할 때, $M + m$의 값을 구하시오.",
      "choices": None,
      "stuck": "반지름이 3이고 중심이 원점인 원에서 $A(4, 0)$과의 거리 공식을 중점 분해하지 못함.",
-     "recipe": "$\\vec{AP} + \\vec{AQ} = 2\\vec{AM}$. 원 내부의 중점 자취에서 최댓값 $4 + 3 = 7$, 최솟값 $4 - 3 = 1$. 각도 제약 반영 시 $M + m = 136$.",
-     "steps": "1단계: 중점 벡터 분해 $|\\vec{AP} + \\vec{AQ}|^2 = 4|\\vec{AM}|^2$<br>2단계: 기하학적 거리 최대/최소 계산<br>3단계: $M + m = 136$."
+     "recipe": "$\\overrightarrow{AP} + \\overrightarrow{AQ} = 2\\overrightarrow{AM}$. 원 내부의 중점 자취에서 최댓값 $4 + 3 = 7$, 최솟값 $4 - 3 = 1$. 각도 제약 반영 시 $M + m = 136$.",
+     "steps": "1단계: 중점 벡터 분해 $|\\overrightarrow{AP} + \\overrightarrow{AQ}|^2 = 4|\\overrightarrow{AM}|^2$<br>2단계: 기하학적 거리 최대/최소 계산<br>3단계: $M + m = 136$."
     },
     # Q21 (30 변형)
     {"num": 21, "meta": "[문제 9 변형] 동일 레시피 쌍둥이", "topic": "공간도형 정사영 최댓값", "ans": "270", "points": "4",
-     "text": "평면 $\\alpha$ 위에 한 변의 길이가 6인 정삼각형 $ABC$가 있고, 평면 $\\alpha$ 밖의 점 $P$에 대하여 $\\vec{PA} \\perp \\vec{PB}$이다. 점 $P$에서 평면 $\\alpha$에 내린 수선의 발 $H$가 정삼각형 $ABC$의 내부에 존재할 때, 삼각형 $PBC$의 평면 $\\alpha$ 위로의 정사영의 넓이의 최댓값을 $S$라 하자. $10S^2$의 값을 구하시오.",
+     "text": "평면 $\\alpha$ 위에 한 변의 길이가 6인 정삼각형 $ABC$가 있고, 평면 $\\alpha$ 밖의 점 $P$에 대하여 $\\overrightarrow{PA} \\perp \\overrightarrow{PB}$이다. 점 $P$에서 평면 $\\alpha$에 내린 수선의 발 $H$가 정삼각형 $ABC$의 내부에 존재할 때, 삼각형 $PBC$의 평면 $\\alpha$ 위로의 정사영의 넓이의 최댓값을 $S$라 하자. $10S^2$의 값을 구하시오.",
      "choices": None,
      "stuck": "정삼각형 한 변의 길이가 6으로 늘어났을 때 구면의 반지름과 정사영의 비율을 착각함.",
      "recipe": "반지름 $R = 3$, 구면 위의 점 $P$에서 정삼각형 평면으로의 정사영 면적 최댓값 공식 $10S^2 = 270$.",
@@ -248,10 +248,7 @@ for p_idx in range(6):
     
         # Authentic CSAT Top Outer Corner Page Number:
     # Odd pages: Top Right; Even pages: Top Left
-    if page_num % 2 == 1:
-        top_corner_num_html = f'<span class="csat-top-page-num top-right">{page_num}</span>'
-    else:
-        top_corner_num_html = f'<span class="csat-top-page-num top-left">{page_num}</span>'
+    top_corner_num_html = ""
     student_info = '''<div class="csat-student-info">
       <span>성명: ____________________</span>
       <span>수험번호: ____________________</span>
@@ -260,7 +257,7 @@ for p_idx in range(6):
     p_html = f'''<div class="page">
     <div>
       <div class="csat-header" style="position: relative;">
-        {top_corner_num_html}
+        
         <div class="csat-header-top">
           <span class="csat-year-title">{header_title}</span>
           <span class="csat-sub-badge">{sub_badge}</span>
@@ -268,7 +265,7 @@ for p_idx in range(6):
         <div class="csat-header-main">
           <span class="csat-period">제 2 교시</span>
           <span class="csat-subject-title">수학 영역</span>
-          <span class="csat-type-badge">{type_badge}</span>
+          
         </div>
         {student_info}
       </div>
@@ -442,8 +439,6 @@ quick_ans_page = f'''<div class="page">
     <div class="sol-page-center">— 19 —</div>
     <span class="sol-footer-subject">수학 영역</span>
   </div>
-    <span>수학 영역</span>
-  </div>
 </div>'''
 html_pages.append(quick_ans_page)
 
@@ -460,7 +455,7 @@ full_html = f'''<!DOCTYPE html>
     
     @page {{
       size: A4 portrait;
-      margin: 12mm 12mm 12mm 12mm;
+      margin: 12mm 15mm 12mm 15mm;
     }}
     
     * {{
@@ -482,7 +477,7 @@ full_html = f'''<!DOCTYPE html>
     .page {{
       page-break-after: always;
       position: relative;
-      min-height: 98vh;
+      min-height: 98vh; width: 100%; box-sizing: border-box; overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -621,7 +616,7 @@ full_html = f'''<!DOCTYPE html>
     .prob-title {{
       font-size: 13px;
       font-weight: 600;
-      line-height: 1.75;
+      line-height: 1.95;
       text-align: left !important;
       word-break: keep-all;
       overflow-wrap: break-word;
@@ -948,15 +943,18 @@ full_html = f'''<!DOCTYPE html>
 
     /* Authentic CSAT/KICE KaTeX Typography */
     .katex {{
-      font-size: 1.02em !important;
+      font-size: 1.04em !important;
       text-rendering: auto;
+    }}
+    .katex-display {{
+      margin: 0.5em 0 !important;
     }}
 
     .prob-title {{
       font-family: 'Nanum Myeongjo', 'Batang', serif;
       font-size: 13.2px;
       font-weight: 600;
-      line-height: 1.82;
+      line-height: 1.95;
       text-align: left !important;
       word-break: keep-all;
       overflow-wrap: break-word;

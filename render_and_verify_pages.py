@@ -10,7 +10,7 @@ doc = pymupdf.open(pdf_path)
 print(f"Total pages in N-je PDF: {len(doc)}")
 
 # Render key pages: Page 1 (Q1-6), Page 7 (Sol 1-2), Page 8 (Sol 3-4), Page 9 (Sol 5-6)
-pages_to_render = [1, 2, 7, 8, 9, 10, 11, 12, 13, 14]
+pages_to_render = [1, 2, 3, 5, 7, 8, 9, 15, 19]
 
 for pno in pages_to_render:
     page = doc[pno - 1]
