@@ -200,7 +200,7 @@ class MathEngineCore:
                 svg.append(f'  <line x1="{X1}" y1="{Y1}" x2="{X2}" y2="{Y2}" stroke="{color}" stroke-width="{w_px}"{dash}/>')
                 label = l_spec.get("label")
                 if label:
-                    if "label_pt" in l_spec:
+                    if l_spec.get("label_pt") is not None:
                         lx, ly = ct.to_screen(l_spec["label_pt"][0], l_spec["label_pt"][1])
                     else:
                         lx = l_spec.get("label_x", (X1 + X2) / 2)

@@ -45,19 +45,18 @@ def normalize_csat_text(raw_text: str) -> str:
     # 1. Standardize operator replacements (<=, >=, != to KaTeX standards)
     text = text.replace('<=', r'\le ').replace('>=', r'\ge ').replace('!=', r'\neq ')
 
-    # 2. Enforce limits strictly ABOVE and BELOW for \sum and \lim in CSAT style
-    def inline_sum_limits_enforcer(match):
+    # 2. Authentic CSAT Inline Operators:
+    # In official CSAT/KICE running text, \sum and \int keep limits as subscript/superscript
+    # to the right (\nolimits) to preserve uniform 165% line height without vertical river blowout.
+    def inline_operator_normalizer(match):
         inner = match.group(1)
-        # Remove any unwanted \nolimits
-        inner = inner.replace(r'\nolimits', '')
-        # Ensure \sum has \limits (use negative lookahead for letters so \limits is not matched by \lim)
-        inner = re.sub(r'\\sum(?![a-zA-Z])(?!\s*\\limits)', r'\\sum\\limits', inner)
-        # Ensure \lim has \limits
-        inner = re.sub(r'\\lim(?![a-zA-Z])(?!\s*\\limits)', r'\\lim\\limits', inner)
+        # Remove any forced \limits in inline math that causes awkward vertical stacking in running text
+        inner = re.sub(r'\\sum\s*\\limits', r'\\sum\\nolimits', inner)
+        inner = re.sub(r'\\prod\s*\\limits', r'\\prod\\nolimits', inner)
         return f"${inner}$"
 
     # Process inline math ($...$ not $$...$$)
-    text = re.sub(r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)', inline_sum_limits_enforcer, text)
+    text = re.sub(r'(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)', inline_operator_normalizer, text)
 
     # 3. Particle Binding: Remove space between math formula and following Korean particle
     for _ in range(3):
@@ -163,29 +162,11 @@ def get_csat_typography_css() -> str:
     }
 
     /* =========================================================================
-       KATEX CSAT INLINE OPERATOR ENGINE (\sum, \lim with limits ABOVE & BELOW)
-       Compact height matching HWP examination equation editor
+       AUTHENTIC CSAT INLINE OPERATOR TYPOGRAPHY
+       Inline operators follow authentic Korean CSAT/KICE standards with stable baseline
        ========================================================================= */
     .katex {
-      font-size: 1.05em;
+      font-size: 1.02em;
       text-rendering: auto;
-    }
-
-    /* Compact Limits Above & Below for \sum and \lim */
-    .katex .op-limits > .vlist-t {
-      text-align: center;
-    }
-    .katex .mop {
-      font-size: 1.12em !important;
-      line-height: 1 !important;
-    }
-    .katex .op-limits .vlist-t .vlist-r:first-child {
-      font-size: 0.65em !important;
-    }
-    .katex .op-limits .vlist-t .vlist-r:last-child {
-      font-size: 0.65em !important;
-    }
-    .katex .op-limits > .vlist-t > .vlist-r > .vlist {
-      padding: 0 !important;
     }
     """

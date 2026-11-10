@@ -134,7 +134,7 @@ QUESTIONS = [
      "steps": "1단계: $g(x) = (x^2 - c^2)^2$<br>2단계: $g(3) = 9 \\Rightarrow c^2 = 6$<br>3단계: $f(0) + k = c^4 + 2k \\ge 18$."
     },
     # Q17 (29 변형)
-    {"num": 17, "meta": "[문제 5 변형] 동일 레시피 쌍둥이", "topic": "등비급수 합과 첫째항", "ans": "6", "points": "4",
+    {"num": 17, "meta": "[문제 5 변형] 동일 레시피 쌍둥이", "topic": "등비급수 합과 첫째항", "ans": "4", "points": "4",
      "text": "등비수열 $\\{a_n\\}$에 대하여 급수 $\\sum_{n=1}^\\infty (a_n - 4)$가 수렴하고 $\\sum_{n=1}^\\infty \\frac{a_n}{3^n} = 3$일 때, $a_1$의 값을 구하시오.",
      "choices": None,
      "stuck": "급수 수렴 조건에서 $\\lim a_n = 4$를 놓쳐 공비와 첫째항의 관계를 도출하지 못함.",
@@ -946,27 +946,10 @@ full_html = f'''<!DOCTYPE html>
       line-height: 1.5;
     }}
 
-    /* Authentic CSAT/KICE KaTeX Limits Above & Below without Line-Height Blow-up */
+    /* Authentic CSAT/KICE KaTeX Typography */
     .katex {{
-      font-size: 1.05em !important;
+      font-size: 1.02em !important;
       text-rendering: auto;
-    }}
-
-    .katex .op-limits > .vlist-t {{
-      text-align: center !important;
-    }}
-    .katex .mop {{
-      font-size: 1.12em !important;
-      line-height: 1 !important;
-    }}
-    .katex .op-limits .vlist-t .vlist-r:first-child {{
-      font-size: 0.65em !important;
-    }}
-    .katex .op-limits .vlist-t .vlist-r:last-child {{
-      font-size: 0.65em !important;
-    }}
-    .katex .op-limits > .vlist-t > .vlist-r > .vlist {{
-      padding: 0 !important;
     }}
 
     .prob-title {{

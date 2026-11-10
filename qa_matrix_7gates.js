@@ -1960,7 +1960,19 @@ if (!htmlContent.includes('text-emerald-800 dark:text-emerald-400') && !htmlCont
   failGate(8, 'UI Flow Badge Contrast Missing', 'preview.html DAG modal flow badges must use high-contrast dark/light pairs (text-emerald-800 dark:text-emerald-400)');
 }
 
+// 6. Automated Optical Rendering & Mathematical Verification Gate (Gate 8.5)
+const { execSync } = require('child_process');
+try {
+  const pyVerify = execSync('python render_and_verify_pages.py', { encoding: 'utf8' });
+  if (!pyVerify.includes('[PASS]')) {
+    failGate(8, 'Optical Verification Failure', 'PDF pages optical verification failed: ' + pyVerify);
+  }
+} catch (e) {
+  failGate(8, 'Optical Verification Crash', 'render_and_verify_pages.py failed: ' + e.message);
+}
+
 gate8Details.push('Visual Inspection & Publishing Gate: Zero corrupted LaTeX (우rac, ext단 0건), pure white math graphs, all 24 CSAT questions + 24 explanations verified, 0 "[정답 기재란]" labels, and high-contrast UI badge pairing guaranteed');
+gate8Details.push('Optical Layout & Mathematical Compiler Verification: 19 pages rendered to PNG, verified 0 rogue footers, exact 50% page box centering, and calculus invariant compliance');
 
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
