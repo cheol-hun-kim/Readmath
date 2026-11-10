@@ -142,22 +142,22 @@ for s_idx in range(TOTAL_SOL_PAGES):
           <div class="sol-body">
             <div class="sol-grid-3way">
               <div class="sol-box sol-box-trap">
-                <div class="sol-box-title">⚠️ [시험장 3초 컷 오답 함정 분석]</div>
+                <div class="sol-box-title">[오답 함정 및 취약점 분석]</div>
                 <div>{normalize_csat_text(q.get("stuck", ""))}</div>
               </div>
               <div class="sol-box sol-box-key">
-                <div class="sol-box-title">🔑 [동일 출제 원리 & 핵심 키]</div>
+                <div class="sol-box-title">[평가원 출제 원리 & 핵심 키]</div>
                 <div>{normalize_csat_text(q.get("recipe", ""))}</div>
               </div>
             </div>
             
             <div class="sol-box sol-box-steps">
-              <div class="sol-box-title">📝 [단계별 논리적 풀이]</div>
+              <div class="sol-box-title">[단계별 논리적 풀이 과정]</div>
               <div>{normalize_csat_text(q.get("steps", ""))}</div>
             </div>
             
             <div class="sol-box sol-box-defense">
-              <div class="sol-box-title">🛡️ [실전 오답 방어 행동 공식]</div>
+              <div class="sol-box-title">[실전 오답 방어 행동 공식]</div>
               <div>{normalize_csat_text(q.get("defense", ""))}</div>
             </div>
             
@@ -215,7 +215,7 @@ page_82_html = f'''<div class="page">
       </div>
       
       <div class="quick-summary-box" style="margin-top: 25px;">
-        <h4>💡 ReadMath 파이널 N제 채점 및 회고 가이드</h4>
+        <h4>ReadMath 파이널 N제 채점 및 학습 가이드</h4>
         <p>1. 틀린 문항은 단순 계산 실수가 아닌 <b>'시험장 3초 컷 오답 함정'</b> 중 어떤 패턴에 걸렸는지 4-Way 해설지에서 확인하십시오.</p>
         <p>2. 동일 레시피 변형 문제에서 또다시 막혔다면 개념 발원지가 결손된 상태이므로 뒷면의 <b>'36대 킬러 출제 테마 & 오답 방어 매트릭스'</b>를 참조하여 행동 공식을 암기하십시오.</p>
       </div>
@@ -637,18 +637,29 @@ full_html = f'''<!DOCTYPE html>
       gap: 4px;
     }}
     .sol-box-trap {{
-      background: #FFFBEB;
-      border: 1px solid #FEF3C7;
-      color: #92400E;
+      background: #FAF8F5;
+      border: 1px solid #E2E8F0;
+      border-left: 3.5px solid #DC2626;
+      color: #0F172A;
+    }}
+    .sol-box-trap .sol-box-title {{
+      color: #991B1B;
     }}
     .sol-box-key {{
-      background: #EFF6FF;
-      border: 1px solid #DBEAFE;
+      background: #FAF9F6;
+      border: 1px solid #E2E8F0;
+      border-left: 3.5px solid #2563EB;
+      color: #0F172A;
+    }}
+    .sol-box-key .sol-box-title {{
       color: #1E40AF;
     }}
     .sol-box-steps {{
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #080908;
+    }}
+    .sol-box-steps .sol-box-title {{
       color: #080908;
     }}
     .sol-steps-list {{
@@ -657,10 +668,15 @@ full_html = f'''<!DOCTYPE html>
       gap: 2px;
     }}
     .sol-box-defense {{
-      background: #FFF7ED;
-      border: 1px solid #FFEDD5;
-      color: #9A3412;
-      font-weight: 700;
+      background: #FAF8F5;
+      border: 1px solid #E2E8F0;
+      border-left: 3.5px solid #EA580C;
+      color: #0F172A;
+      font-weight: 600;
+    }}
+    .sol-box-defense .sol-box-title {{
+      color: #C2410C;
+      font-weight: 800;
     }}
     
     /* Non-clipped, Auto-height Diagram Box */

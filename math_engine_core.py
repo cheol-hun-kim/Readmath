@@ -187,6 +187,25 @@ class MathEngineCore:
                     svg.append(f'  <text x="{lbl_x}" y="{lbl_y}" fill="{color}" font-size="8.5" font-weight="bold">{label}</text>')
 
         # 3. Geometric Lines / Tangents / Chords
+        rendered_label_boxes = []
+        def resolve_label_pos(cand_x: float, cand_y: float, text: str):
+            tw = max(28.0, len(text) * 6.5)
+            th = 12.0
+            for dy in [0, -14, 14, -26, 26, -38, 38]:
+                test_y = cand_y + dy
+                if test_y < 16 or test_y > height - 10:
+                    continue
+                collides = False
+                for (bx, by, bw, bh) in rendered_label_boxes:
+                    if abs(cand_x - bx) < (tw + bw) * 0.45 and abs(test_y - by) < 11:
+                        collides = True
+                        break
+                if not collides:
+                    rendered_label_boxes.append((cand_x, test_y, tw, th))
+                    return cand_x, test_y
+            rendered_label_boxes.append((cand_x, cand_y, tw, th))
+            return cand_x, cand_y
+
         if lines:
             for l_spec in lines:
                 x1, y1 = l_spec["p1"]
@@ -201,10 +220,11 @@ class MathEngineCore:
                 label = l_spec.get("label")
                 if label:
                     if l_spec.get("label_pt") is not None:
-                        lx, ly = ct.to_screen(l_spec["label_pt"][0], l_spec["label_pt"][1])
+                        raw_lx, raw_ly = ct.to_screen(l_spec["label_pt"][0], l_spec["label_pt"][1])
                     else:
-                        lx = l_spec.get("label_x", (X1 + X2) / 2)
-                        ly = l_spec.get("label_y", (Y1 + Y2) / 2 - 6)
+                        raw_lx = l_spec.get("label_x", (X1 + X2) / 2)
+                        raw_ly = l_spec.get("label_y", (Y1 + Y2) / 2 - 6)
+                    lx, ly = resolve_label_pos(raw_lx, raw_ly, label)
                     svg.append(f'  <text x="{lx}" y="{ly}" fill="{color}" font-size="8.5" font-weight="bold">{label}</text>')
 
         # 4. Right Angle Markers

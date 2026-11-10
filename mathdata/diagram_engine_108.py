@@ -76,14 +76,14 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
 
         elif prob_num == 5:
             c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-2.5, 2.5), width=460, height=155)
-            c1 = c.add_curve(lambda x: math.log(x), x_min=0.15, x_max=3.2, label="y=ln x", color="#2563EB")
+            c1 = c.add_curve(lambda x: math.log(x), x_min=0.15, x_max=3.2, label="y=ln x", color="#080908")
             c2 = c.add_curve(lambda x: -math.log(-x), x_min=-3.2, x_max=-0.15, label="y=-ln(-x)", color="#2563EB")
             t = 2.0
-            c.add_point_on_curve(c1, x=t, label="(2, ln 2)", color="#2563EB", drop_x=True, label_pos="above_left")
-            c.add_point_on_curve(c2, x=-t, label="(-2, -ln 2)", color="#2563EB", drop_x=True, label_pos="below_right")
-            t1 = c.add_tangent_line(c1, x_contact=t, span_left=2.5, span_right=0.8, color="#2563EB")
-            t2 = c.add_tangent_line(c2, x_contact=-t, span_left=0.8, span_right=2.5, color="#DC2626")
-            c.add_point(0.0, 0.0, label="대칭 중심 O(0,0)", color="#DC2626")
+            c.add_point_on_curve(c1, x=t, label="P(2, ln 2)", color="#DC2626", drop_x=True, label_pos="above_left")
+            c.add_point_on_curve(c2, x=-t, label="Q(-2, -ln 2)", color="#DC2626", drop_x=True, label_pos="below_right")
+            c.add_tangent_line(c1, x_contact=t, span_left=2.5, span_right=0.8, color="#DC2626")
+            c.add_tangent_line(c2, x_contact=-t, span_left=0.8, span_right=2.5, color="#2563EB")
+            c.add_point(0.0, 0.0, label="대칭 중심 O(0,0)", color="#080908", label_pos="below_left")
             return c.compile()
 
         elif prob_num == 6:
@@ -152,10 +152,10 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         elif prob_num == 12:
             c = AnalyticalGeometryCompiler(x_range=(-2.5, 2.5), y_range=(-1.0, 5.0), width=460, height=155)
             f_abs = lambda x: abs(x**3 - 3.0*x)
-            cf = c.add_curve(f_abs, x_min=-2.2, x_max=2.2, label="|x³-3x|", color="#2563EB", width=2.0)
-            c.add_point_on_curve(cf, x=-1.0, label="극대(-1, 2)", color="#2563EB", drop_x=True, label_pos="above")
-            c.add_point_on_curve(cf, x=1.0, label="극대(1, 2)", color="#2563EB", drop_x=True, label_pos="above")
-            c.add_line((-2.2, 2.0), (2.2, 2.0), label="y=2", color="#2563EB", style="dashed")
+            cf = c.add_curve(f_abs, x_min=-2.2, x_max=2.2, label="|x³-3x|", color="#080908", width=2.0)
+            c.add_point_on_curve(cf, x=-1.0, label="극대(-1, 2)", color="#DC2626", drop_x=True, label_pos="above")
+            c.add_point_on_curve(cf, x=1.0, label="극대(1, 2)", color="#DC2626", drop_x=True, label_pos="above")
+            c.add_line((-2.2, 2.0), (2.2, 2.0), label="y=2", color="#2563EB", style="dashed", label_pt=(1.8, 2.3))
             return c.compile()
 
         # SET 7: 이차곡선 초점과 접선 (Q19, Q20, Q21)
@@ -321,13 +321,13 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         elif prob_num == 36:
             c = AnalyticalGeometryCompiler(x_range=(-3.5, 3.5), y_range=(-0.05, 0.48), width=460, height=155)
             norm_pdf = lambda x: (1.0 / math.sqrt(2.0 * math.pi)) * math.exp(-0.5 * x**2)
-            c.add_curve(norm_pdf, x_min=-3.2, x_max=3.2, label="N(m, σ²)", color="#2563EB", width=2.0)
-            c.add_line((0.0, 0.0), (0.0, norm_pdf(0.0)), color="#2563EB", style="dashed", label="평균 m")
+            c.add_curve(norm_pdf, x_min=-3.2, x_max=3.2, label="N(m, σ²)", color="#080908", width=2.0)
+            c.add_line((0.0, 0.0), (0.0, norm_pdf(0.0)), color="#DC2626", style="dashed", label="평균 m", label_pt=(0.0, 0.42))
             c.add_point(0.0, 0.0, label="m", color="#DC2626", label_pos="below")
             c.add_point(1.0, norm_pdf(1.0), label="m+σ", color="#2563EB", drop_x=True, label_pos="above_right")
             c.add_point(-1.0, norm_pdf(-1.0), label="m-σ", color="#2563EB", drop_x=True, label_pos="above_left")
             c.add_shaded_region(fn_top=norm_pdf, x_range=(-1.0, 1.0), color="rgba(37, 99, 235, 0.12)")
-            c.add_annotation(0.0, 0.16, "68.3%", color="#1E40AF", size=9.0)
+            c.add_annotation(0.0, 0.16, "68.3%", color="#080908", size=9.0)
             return c.compile()
 
         # =========================================================================
@@ -372,11 +372,11 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
             # f'(x) = 3x^2 - 8x + 4, roots x=2/3, 2, min at x=4/3, y=-4/3
             c = AnalyticalGeometryCompiler(x_range=(-0.5, 3.0), y_range=(-2.5, 5.5), width=460, height=155)
             f_prime = lambda x: 3.0*x**2 - 8.0*x + 4.0
-            c.add_curve(f_prime, x_min=-0.2, x_max=2.8, label="f'(x)=3x²-8x+4", color="#2563EB", width=2.0)
+            c.add_curve(f_prime, x_min=-0.2, x_max=2.8, label="f'(x)=3x²-8x+4", color="#080908", width=2.0)
             c.add_point(2.0/3.0, 0.0, label="2/3", color="#DC2626", label_pos="above_left")
             c.add_point(2.0, 0.0, label="2", color="#DC2626", label_pos="above_right")
             c.add_point(4.0/3.0, -4.0/3.0, label="최소(4/3, -4/3)", color="#2563EB", drop_x=True, label_pos="below")
-            c.add_line((-0.2, 1.0), (2.8, 1.0), label="y=K", color="#2563EB", style="dashed")
+            c.add_line((-0.2, 1.0), (2.8, 1.0), label="y=K", color="#2563EB", style="dashed", label_pt=(2.5, 1.3))
             return c.compile()
 
         elif prob_num == 41:
@@ -404,11 +404,11 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         # SET 16: 지수·로그 곡선과 직선 교점 (Q46, Q47, Q48) -> DECOUPLED!
         elif prob_num == 46:
             c = AnalyticalGeometryCompiler(x_range=(-2.0, 3.0), y_range=(-1.0, 5.0), width=460, height=155)
-            c.add_curve(lambda x: 2.0**x, x_min=-1.8, x_max=2.2, label="y=2ˣ", color="#2563EB", width=2.0)
+            c.add_curve(lambda x: 2.0**x, x_min=-1.8, x_max=2.2, label="y=2ˣ", color="#080908", width=2.0)
             c.add_curve(lambda x: 2.0**(x-1.0), x_min=-1.5, x_max=2.5, label="y=2ˣ⁻¹", color="#2563EB", width=1.6)
-            c.add_line((-1.5, 2.0), (2.5, 2.0), label="y=t", color="#2563EB", style="dashed")
-            c.add_point(1.0, 2.0, label="P(1, 2)", color="#2563EB", label_pos="above_left")
-            c.add_point(2.0, 2.0, label="Q(2, 2)", color="#2563EB", label_pos="above_right")
+            c.add_line((-1.5, 2.0), (2.5, 2.0), label="y=t", color="#DC2626", style="dashed", label_pt=(2.2, 2.3))
+            c.add_point(1.0, 2.0, label="P(1, 2)", color="#DC2626", label_pos="above_left")
+            c.add_point(2.0, 2.0, label="Q(2, 2)", color="#DC2626", label_pos="above_right")
             return c.compile()
 
         elif prob_num == 47:
@@ -481,12 +481,12 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
         elif prob_num == 57:
             # Hyperbola x^2/9 - y^2/16 = 1 (a=3, b=4, c=5)
             c = AnalyticalGeometryCompiler(x_range=(-6.5, 6.5), y_range=(-5.0, 5.0), width=460, height=155, preserve_aspect_ratio=True)
-            c.add_curve(lambda x: 4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=3.0, x_max=6.2, label="x²/9 - y²/16 = 1", color="#2563EB")
-            c.add_curve(lambda x: -4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=3.0, x_max=6.2, color="#2563EB")
-            c.add_curve(lambda x: 4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=-6.2, x_max=-3.0, color="#2563EB")
-            c.add_curve(lambda x: -4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=-6.2, x_max=-3.0, color="#2563EB")
+            c.add_curve(lambda x: 4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=3.0, x_max=6.2, label="x²/9 - y²/16 = 1", color="#080908")
+            c.add_curve(lambda x: -4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=3.0, x_max=6.2, color="#080908")
+            c.add_curve(lambda x: 4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=-6.2, x_max=-3.0, color="#080908")
+            c.add_curve(lambda x: -4.0 * math.sqrt(max(0.0, (x/3.0)**2 - 1.0)), x_min=-6.2, x_max=-3.0, color="#080908")
             # Asymptotes y = +/- 4/3 x
-            c.add_line((-6.0, -8.0), (6.0, 8.0), color="#64748B", style="dashed", label="점근선 y=±(4/3)x")
+            c.add_line((-6.0, -8.0), (6.0, 8.0), color="#64748B", style="dashed", label="점근선 y=±(4/3)x", label_pt=(4.5, 5.8))
             c.add_line((-6.0, 8.0), (6.0, -8.0), color="#64748B", style="dashed")
             c.add_point(-5.0, 0.0, label="F'(-5,0)", color="#DC2626", label_pos="below")
             c.add_point(5.0, 0.0, label="F(5,0)", color="#DC2626", label_pos="below")
@@ -555,23 +555,27 @@ def get_diagram_for_108(prob_num: int) -> Optional[str]:
             c = AnalyticalGeometryCompiler(x_range=(0.2, 5.5), y_range=(-1.0, 5.0), width=460, height=155)
             c.add_curve(lambda x: math.log2(x), x_min=0.3, x_max=5.2, label="y=log₂x", color="#2563EB", width=2.0)
             p_down = lambda x: -(x - 3.0)**2 + 4.0
-            c.add_curve(p_down, x_min=0.8, x_max=5.2, label="y=-(x-3)²+4", color="#2563EB", width=2.0)
+            c.add_curve(p_down, x_min=0.8, x_max=5.2, label="y=-(x-3)²+4", color="#080908", width=2.0)
             c.add_point(1.0, 0.0, label="A(1, 0)", color="#DC2626", label_pos="below")
-            c.add_point(3.0, 4.0, label="꼭짓점(3, 4)", color="#2563EB", drop_x=True, label_pos="above")
+            c.add_point(3.0, 4.0, label="꼭짓점(3, 4)", color="#080908", drop_x=True, label_pos="above")
             c.add_point(4.0, 2.0, label="B(4, 2)", color="#DC2626", drop_x=True, label_pos="above_right")
             return c.compile()
 
         elif prob_num == 81:
-            # y = 2^x and inverse y = log2 x with symmetry line y=x, parallel lines y=-x+4, y=-x+6
-            c = AnalyticalGeometryCompiler(x_range=(-0.5, 6.5), y_range=(-0.5, 6.5), width=460, height=155, preserve_aspect_ratio=True)
-            c.add_curve(lambda x: 2.0**x, x_min=0.0, x_max=2.5, label="y=2ˣ", color="#2563EB", width=2.0)
-            c.add_curve(lambda x: math.log2(x), x_min=0.2, x_max=6.0, label="y=log₂x", color="#2563EB", width=2.0)
-            c.add_line((0.0, 0.0), (6.0, 6.0), color="#64748B", style="dashed", label="대칭축 y=x")
-            c.add_line((0.0, 4.0), (4.0, 0.0), color="#2563EB", style="solid", width=1.5, label="y=-x+4")
-            c.add_line((0.0, 6.0), (6.0, 0.0), color="#2563EB", style="solid", width=1.5, label="y=-x+6")
-            c.add_point(1.0, 3.0, label="A", color="#2563EB", label_pos="above_left")
-            c.add_point(3.0, 1.0, label="B", color="#2563EB", label_pos="below_right")
-            c.add_annotation(4.5, 4.5, "사다리꼴 ABDC 넓이", color="#1E40AF")
+            # y = 2^x (Black #080908) and inverse y = log2 x (Blue #2563EB)
+            # Parallel orthogonal lines y = -x + 4, y = -x + 6 (Slate #475569)
+            # Symmetry line y = x (Dashed Slate #64748B)
+            c = AnalyticalGeometryCompiler(x_range=(-0.5, 6.5), y_range=(-0.5, 6.5), width=340, height=220, preserve_aspect_ratio=True)
+            c.add_curve(lambda x: 2.0**x, x_min=0.0, x_max=2.5, label="y=2ˣ", color="#080908", width=2.0)
+            c.add_curve(lambda x: math.log2(x), x_min=0.2, x_max=6.2, label="y=log₂x", color="#2563EB", width=2.0)
+            c.add_line((0.0, 0.0), (6.2, 6.2), color="#64748B", style="dashed", label="대칭축 y=x", label_pt=(5.2, 5.5))
+            c.add_line((0.0, 4.0), (4.0, 0.0), color="#475569", style="solid", width=1.4, label="y=-x+4", label_pt=(0.4, 4.0))
+            c.add_line((0.0, 6.0), (6.0, 0.0), color="#475569", style="solid", width=1.4, label="y=-x+6", label_pt=(0.4, 5.9))
+            c.add_point(1.0, 3.0, label="A(1, 3)", color="#DC2626", label_pos="above_left")
+            c.add_point(3.0, 1.0, label="B(3, 1)", color="#DC2626", label_pos="below_right")
+            c.add_point(2.0, 4.0, label="C(2, 4)", color="#2563EB", label_pos="above_left")
+            c.add_point(4.0, 2.0, label="D(4, 2)", color="#2563EB", label_pos="below_right")
+            c.add_annotation(4.2, 3.6, "사다리꼴 ABDC", color="#080908", size=9.5)
             return c.compile()
 
         # SET 28: 삼각함수 도형의 극한 (Q82, Q83, Q84) -> DECOUPLED!
