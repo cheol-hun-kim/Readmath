@@ -32,6 +32,38 @@ PARTICLE_REGEX = re.compile(
     r'(\$[^\$]+\$)\s+(' + '|'.join(KOREAN_PARTICLES) + r')(?=[\s\.,\?!~]|$)'
 )
 
+def deverticalize_hwp_math(text: str) -> str:
+    r"""
+    Reconstructs vertical text-extraction artifacts from Korean HWP equation editor:
+    - Vertical fractions: /{denom}\n{num} -> \frac{num}{denom}
+    - Vertical square roots: \sqrt/{expr} or \sqrt/\n{expr} -> \sqrt{expr}
+    - Vertical summations: \sum\n{lower}\n{upper} -> \sum\limits_{lower}^{upper}
+    - Vertical integrals: \int\n{lower}\n{upper} -> \int_{lower}^{upper}
+    - Vertical limits: lim\n{var}→{val} -> \lim\limits_{var \to val}
+    """
+    if not text:
+        return ""
+    res = text
+    # 1. Vertical summations
+    res = re.sub(r'\\sum\s*\n\s*([a-zA-Z]\s*=\s*[0-9a-zA-Z]+)\s*\n\s*∞', r'\\sum\\limits_{\1}^{\\infty} ', res)
+    res = re.sub(r'\\sum\s*\n\s*([a-zA-Z]\s*=\s*[0-9a-zA-Z]+)\s*\n\s*([0-9a-zA-Z]+)', r'\\sum\\limits_{\1}^{\2} ', res)
+    
+    # 2. Vertical integrals
+    res = re.sub(r'\\int\s*\n\s*([0-9a-zA-Z\-\+]+)\s*\n\s*([0-9a-zA-Z\-\+]+)', r'\\int_{\1}^{\2} ', res)
+    
+    # 3. Vertical limits
+    res = re.sub(r'lim\s*\n\s*([a-zA-Z])\s*→\s*([0-9a-zA-Z∞\-]+)', r'\\lim\\limits_{\1 \\to \2} ', res)
+    
+    # 4. Vertical square roots
+    res = re.sub(r'\\sqrt\s*/\s*\n?\s*([a-zA-Z0-9\+\-]+)', r'\\sqrt{\1}', res)
+    
+    # 5. Vertical fractions: /{denom}\n{num}{var}
+    res = re.sub(r'/\s*\n?\s*([a-zA-Z0-9\+\-]+)\s*\n\s*([0-9]+)\s*([a-zA-Z]*)', r'\\frac{\2}{\1}\3', res)
+    # Also handle variable in denominator or numerator: e.g. /p\nq
+    res = re.sub(r'/\s*\n?\s*([a-zA-Z0-9\+\-]+)\s*\n\s*([a-zA-Z])\b', r'\\frac{\2}{\1}', res)
+    
+    return res
+
 def normalize_csat_text(raw_text: str) -> str:
     """
     Transforms any raw problem or explanation text into authentic CSAT typographic format.
@@ -40,7 +72,8 @@ def normalize_csat_text(raw_text: str) -> str:
     if not raw_text:
         return ""
     
-    text = raw_text
+    # Step 0: De-verticalize raw HWP equation extractions into clean mathematical LaTeX
+    text = deverticalize_hwp_math(raw_text)
 
     # 1. Standardize operator replacements (<=, >=, != to KaTeX standards)
     text = text.replace('<=', r'\le ').replace('>=', r'\ge ').replace('!=', r'\neq ')

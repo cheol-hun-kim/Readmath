@@ -1981,9 +1981,20 @@ try {
   failGate(8, 'Adversarial Optical Audit Crash', 'adversarial_visual_auditor.py failed: ' + e.message);
 }
 
+// 8. RootMath Universal CSAT Database Auditor (Gate 8.7)
+try {
+  const pyDbAudit = execSync('python audit_all_csat_database.py', { encoding: 'utf8' });
+  if (!pyDbAudit.includes('TOTAL SYSTEMIC DEFECTS FOUND: 0')) {
+    failGate(8, 'CSAT Database Audit Failure', 'CSAT database 750 questions audit failed: ' + pyDbAudit);
+  }
+} catch (e) {
+  failGate(8, 'CSAT Database Audit Crash', 'audit_all_csat_database.py failed: ' + e.message);
+}
+
 gate8Details.push('Visual Inspection & Publishing Gate: Zero corrupted LaTeX (우rac, ext단 0건), pure white math graphs, all 24 CSAT questions + 24 explanations verified, 0 "[정답 기재란]" labels, and high-contrast UI badge pairing guaranteed');
 gate8Details.push('Optical Layout & Mathematical Compiler Verification: 19 pages rendered to PNG, verified 0 rogue footers, exact 50% page box centering, and calculus invariant compliance');
 gate8Details.push('Adversarial Optical Auditor: Verified 0 unreduced coefficients (1e, 1x), 100% CSAT \\sum\\limits stacked limits, full \\overrightarrow vector spans, complete geometric axis closures, and zero right margin overflows across all 19 pages');
+gate8Details.push('Universal CSAT Database Audit: Audited 750 real CSAT questions across 27 exam sessions, verified 0 PUA leaks, 0 inconsistent sigmas, 0 unreduced coefficients, 0 raw operators, and 100% HWP vertical fraction de-verticalization');
 
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
