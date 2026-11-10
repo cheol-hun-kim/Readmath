@@ -57,7 +57,7 @@ for p_idx in range(TOTAL_PROB_PAGES):
             c_items = "".join([f'<span class="choice-item"><span class="choice-num">{c[:1]}</span> {c[2:]}</span>' for c in q["choices"]])
             choices_html = f'<div class="choices-row">{c_items}</div>'
         else:
-            choices_html = '<div class="short-ans-box">[ 단답형 주관식 답안 기재란 ]</div>'
+            choices_html = ''
             
         q_item = f'''<div class="prob-card">
           <div class="prob-meta-row">
@@ -680,7 +680,7 @@ full_html = f'''<!DOCTYPE html>
     .sol-diagram-box svg {{
       max-width: 100%;
       height: auto;
-      max-height: 115px;
+      max-height: 155px;
       display: block;
     }}
     

@@ -62,7 +62,7 @@ class AnalyticalGeometryCompiler:
             return label
         import re
         # 1. Purge unreduced coefficient 1 before letters or symbols (e.g. 1eᵗ -> eᵗ, 1x -> x, 1eˣ -> eˣ)
-        cleaned = re.sub(r'(?<![0-9\.a-zA-Z])1([a-zA-Z\])(?![0-9])', r'\1', label)
+        cleaned = re.sub(r'(?<![0-9\.a-zA-Z])1([xyzXYZ]|e\b|\\ln|\\exp)', r'\1', label)
         # 2. Ban and purge unicode emojis completely
         cleaned = re.sub(r'[\U00010000-\U0010ffff\u2600-\u26ff\u2700-\u27bf]', '', cleaned)
         return cleaned.strip()
