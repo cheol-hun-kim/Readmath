@@ -2069,6 +2069,16 @@ try {
   failGate(8, 'Diagram Audit Crash', 'audit_zero_duplicate_diagrams.py failed: ' + e.message);
 }
 
+// 12. RootMath Universal Design Token & Anti-Band-Aid Linter Gate (Gate 8.11)
+try {
+  const pyLintAudit = execSync('python lint_design_tokens.py', { encoding: 'utf8' });
+  if (!pyLintAudit.includes('[SUCCESS] 100% Repository-Wide Compliance')) {
+    failGate(8, 'Universal Design Token Linter Violation', 'Design token linter failed:\n' + pyLintAudit);
+  }
+  gate8Details.push('Universal Design Token Linter Gate: Zero emojis, zero rainbow pastel boxes, zero monochromatic blue graphs, zero label collisions, and strict 10% CTA orange restraint verified across all repository files');
+} catch (e) {
+  failGate(8, 'Design Token Linter Crash', 'lint_design_tokens.py failed: ' + e.message);
+}
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================

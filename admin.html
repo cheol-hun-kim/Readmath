@@ -1570,8 +1570,8 @@ p, .description, .explanation, .pretty-text {
           <div class="flex items-center gap-1.5 text-xs bg-slate-950 p-1 rounded-xl border border-slate-800">
             <button onclick="filterIntelReports('all')" id="rf-all" class="px-2.5 py-1 rounded-lg bg-[#EA580C] text-white font-bold transition">전체 보기</button>
             <button onclick="filterIntelReports('pending')" id="rf-pending" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">검토 대기</button>
-            <button onclick="filterIntelReports('needed_file')" id="rf-needed" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">⚠️ 파일확보 필요</button>
-            <button onclick="filterIntelReports('applied')" id="rf-applied" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">✅ DB 반영 완료</button>
+            <button onclick="filterIntelReports('needed_file')" id="rf-needed" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">[파일 대기]</button>
+            <button onclick="filterIntelReports('applied')" id="rf-applied" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">[반영 완료]</button>
           </div>
         </div>
 
@@ -1832,8 +1832,8 @@ p, .description, .explanation, .pretty-text {
             <div>
               <label class="text-[11px] font-bold text-slate-300 block mb-1">파일 확보 상태:</label>
               <select id="modal-intel-wb-status" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-[#EA580C]">
-                <option value="secured" selected>✅ 파일 확보 완료 &amp; DB 탑재 완료</option>
-                <option value="needed">⚠️ 파일 확보 대기 (수급 필요)</option>
+                <option value="secured" selected>[확보 완료] 파일 확보 및 DB 탑재</option>
+                <option value="needed">[대기] 파일 확보 대기 (수급 필요)</option>
               </select>
             </div>
           </div>
@@ -3889,9 +3889,9 @@ p, .description, .explanation, .pretty-text {
       tbody.innerHTML = filtered.map(r => {
         let statusBadgeHtml = '';
         if (r.status === 'applied') {
-          statusBadgeHtml = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 font-bold border border-emerald-500/30 text-[10px]">✅ DB 반영완료</span>';
+          statusBadgeHtml = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-emerald-300 font-bold border border-emerald-500/30 text-[10px]">[DB 반영완료]</span>';
         } else if (r.status === 'needed_file') {
-          statusBadgeHtml = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-500/30 text-[10px] animate-pulse">⚠️ 파일확보 필요</span>';
+          statusBadgeHtml = '<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-500/30 text-[10px] animate-pulse">[파일확보 필요]</span>';
         } else {
           statusBadgeHtml = '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-stone-200 font-bold border border-amber-500/30 text-[10px]">검토 대기</span>';
         }
@@ -3999,7 +3999,7 @@ p, .description, .explanation, .pretty-text {
       localStorage.setItem('readmath_school_intel', JSON.stringify(schoolIntelDB));
       localStorage.setItem('readmath_crowdsourced_reports', JSON.stringify(crowdsourcedReports));
 
-      alert(`⚡ [승인 완료]\n\n[${rep.school} ${rep.grade}학년] 제보가 공식 수학교사진 및 부교재 DB에 즉시 반영되었습니다!\n이제 학생들의 시험지 생성기에서 해당 정보가 연동됩니다.`);
+      alert(`[승인 완료]\n\n[${rep.school} ${rep.grade}학년] 제보가 공식 수학교사진 및 부교재 DB에 즉시 반영되었습니다!\n이제 학생들의 시험지 생성기에서 해당 정보가 연동됩니다.`);
 
       initSchoolIntelTab();
     }
@@ -4012,7 +4012,7 @@ p, .description, .explanation, .pretty-text {
       rep.admin_note = '부교재 파일 확보 완료 및 DB 탑재 완료';
       localStorage.setItem('readmath_crowdsourced_reports', JSON.stringify(crowdsourcedReports));
 
-      alert(`✅ [부교재 파일 확보 완료]\n\n[${rep.workbook_name}] 교재 파일이 안전하게 확보되어 DB화 큐에 등록되었습니다.`);
+      alert(`[부교재 파일 확보 완료]\n\n[${rep.workbook_name}] 교재 파일이 안전하게 확보되어 DB화 큐에 등록되었습니다.`);
       initSchoolIntelTab();
     }
 
@@ -4163,7 +4163,7 @@ p, .description, .explanation, .pretty-text {
             <div class="flex items-center justify-between">
               <span class="font-extrabold text-white truncate max-w-[180px]">${wb.title}</span>
               <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${isSecured ? 'bg-amber-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse'}">
-                ${isSecured ? '✅ 확보완료' : '⚠️ 파일확보 필요'}
+                ${isSecured ? '[확보완료]' : '[파일확보 필요]'}
               </span>
             </div>
             <div class="text-[11px] text-slate-400">
@@ -4171,7 +4171,7 @@ p, .description, .explanation, .pretty-text {
             </div>
             <div class="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
               <span class="text-orange-400 font-semibold">321회분 기출 연계 매칭</span>
-              <button onclick="alert('📘 [${wb.title}]\n\n현재 321회분 기출 데이터베이스에서 이 부교재와 일치하는 변형 문항 인덱스가 완벽히 생성되어 있습니다.')" class="text-slate-400 hover:text-white underline text-[10px]">
+              <button onclick="alert('[교재 정보] [${wb.title}]\n\n현재 321회분 기출 데이터베이스에서 이 부교재와 일치하는 변형 문항 인덱스가 완벽히 생성되어 있습니다.')" class="text-slate-400 hover:text-white underline text-[10px]">
                 연계 문항 보기
               </button>
             </div>
@@ -4280,7 +4280,7 @@ p, .description, .explanation, .pretty-text {
           style: style || '정규 수업 및 내신 출제'
         });
 
-        alert(`✅ [${schoolIntelDB.schools[schoolKey].name} ${grade}학년] ${name} 선생님이 등록되었습니다.`);
+        alert(`[등록 완료] [${schoolIntelDB.schools[schoolKey].name} ${grade}학년] ${name} 선생님이 등록되었습니다.`);
       } else {
         const wbName = document.getElementById('modal-intel-wb-name')?.value.trim();
         const wbStatus = document.getElementById('modal-intel-wb-status')?.value;
@@ -4294,7 +4294,7 @@ p, .description, .explanation, .pretty-text {
           gData.workbooks.push(wbName);
         }
 
-        alert(`✅ [${schoolIntelDB.schools[schoolKey].name} ${grade}학년] ${wbName} 부교재가 등록되었습니다.`);
+        alert(`[등록 완료] [${schoolIntelDB.schools[schoolKey].name} ${grade}학년] ${wbName} 부교재가 등록되었습니다.`);
       }
 
       localStorage.setItem('readmath_school_intel', JSON.stringify(schoolIntelDB));
@@ -4306,7 +4306,7 @@ p, .description, .explanation, .pretty-text {
       const wbName = prompt('신규 확보된 부교재 또는 학교 프린트명을 입력하세요:\n(예: 2026 학교 자체 심화 프린트 PDF)');
       if (!wbName) return;
 
-      alert(`📁 [파일 등록 완료]\n\n[${wbName}] 파일이 성공적으로 등록되었습니다.\n문항 자동 추출 파이프라인 대기열에 추가되었습니다.`);
+      alert(`[파일 등록 완료]\n\n[${wbName}] 파일이 성공적으로 등록되었습니다.\n문항 자동 추출 파이프라인 대기열에 추가되었습니다.`);
       refreshSchoolIntelTab();
     }
 

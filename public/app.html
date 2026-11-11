@@ -7097,7 +7097,7 @@ p, .description, .explanation, .pretty-text {
 
         if (cats.length === 0) {
           if (typeof showToastNotification === 'function') {
-            showToastNotification('⚠️ 문제 원인(그림/그래프, 식 세우기, 조건 놓침, 개념/공식)을 먼저 선택한 후 보관해주세요!');
+            showToastNotification('[안내] 문제 원인(그림/그래프, 식 세우기, 조건 놓침, 개념/공식)을 먼저 선택한 후 보관해주세요!');
           }
           alert('[오답 원인 선택 필요]\n\n내가 왜 이 문제를 틀렸는지 4가지 원인(그림/그래프, 식 세우기, 조건 놓침, 개념/공식) 중 하나를 먼저 선택한 후 [보관하기]를 눌러주세요.');
           return;
@@ -19822,20 +19822,20 @@ window.addEventListener('DOMContentLoaded', () => {
           <div class="relative">
             <select id="dag-problem-dropdown" onchange="switchDagInspectedProblem(Number(this.value))" class="w-full bg-slate-950 border border-slate-700 text-white text-xs rounded-xl p-2 font-bold cursor-pointer hover:border-orange-500/40 focus:border-orange-500/50 focus:outline-none transition shadow-sm">
               ${historyItems.length > 0 ? `
-                <optgroup label="🔥 최근 질문한 오답 문항 (실시간 역추적)">
+                <optgroup label="[오답 역추적] 최근 질문한 오답 문항">
                   ${historyItems.map(c => `<option value="${c.id}" ${c.id === activeId ? 'selected' : ''}>[${c.grade}] ${c.title}</option>`).join('')}
                 </optgroup>
               ` : ''}
-              <optgroup label="📚 수능·평가원 킬러 기출">
+              <optgroup label="[수능·평가원] 최고난도 킬러 기출">
                 ${csatItems.map(c => `<option value="${c.id}" ${c.id === activeId ? 'selected' : ''}>[${c.grade}] ${c.title}</option>`).join('')}
               </optgroup>
-              <optgroup label="📘 고2 수1·수2 일반선택 핵심">
+              <optgroup label="[수1·수2] 일반선택 핵심 기출">
                 ${high2Items.map(c => `<option value="${c.id}" ${c.id === activeId ? 'selected' : ''}>[${c.grade}] ${c.title}</option>`).join('')}
               </optgroup>
-              <optgroup label="📗 고1 공통수학 대표 문항">
+              <optgroup label="[공통수학] 고1 대표 문항">
                 ${high1Items.map(c => `<option value="${c.id}" ${c.id === activeId ? 'selected' : ''}>[${c.grade}] ${c.title}</option>`).join('')}
               </optgroup>
-              <optgroup label="📙 대입 수리논술 심화">
+              <optgroup label="[수리논술] 대입 심화 문항">
                 ${essayItems.map(c => `<option value="${c.id}" ${c.id === activeId ? 'selected' : ''}>[${c.grade}] ${c.title}</option>`).join('')}
               </optgroup>
             </select>
@@ -20106,11 +20106,11 @@ window.addEventListener('DOMContentLoaded', () => {
             <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80">
               <button onclick="createCustomConceptForDeficit(${currentInspectedProblemId}, '${currentSelectedNodeId}')" class="bg-[#EA580C] hover:bg-[#C2410C] text-white font-extrabold py-2 px-2 rounded-xl text-[10.5px] flex items-center justify-center gap-1 shadow-md shadow-orange-500/20 active:scale-95 transition">
                 <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                <span>📘 10분 개념서 생성 & 보관</span>
+                <span>10분 개념서 생성 & 보관</span>
               </button>
               <button onclick="createCustomClinicExamForDeficit(${currentInspectedProblemId}, '${currentSelectedNodeId}')" class="bg-amber-600 hover:bg-amber-500 text-white font-extrabold py-2 px-2 rounded-xl text-[10.5px] flex items-center justify-center gap-1 shadow-md shadow-emerald-600/30 active:scale-95 transition">
                 <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
-                <span>📝 클리닉 시험지 생성 & 보관</span>
+                <span>클리닉 시험지 생성 & 보관</span>
               </button>
             </div>
           </div>
@@ -23486,7 +23486,7 @@ window.addEventListener('DOMContentLoaded', () => {
       closeModal('crowdsource-intel');
 
       // Success notification
-      alert(`🎉 소중한 제보 감사합니다!\n\n[${schoolName} ${grade}학년 ${cls}] 제보가 ReadMath 연구팀(관리자 센터)에 즉시 전달되었습니다.\n부교재 파일 확보 및 출제진 분석 후 모의고사 맞춤 생성기에 최우선 반영됩니다.`);
+      alert(`[접수 완료] 소중한 제보 감사합니다!\n\n[${schoolName} ${grade}학년 ${cls}] 제보가 ReadMath 연구팀(관리자 센터)에 즉시 전달되었습니다.\n부교재 파일 확보 및 출제진 분석 후 모의고사 맞춤 생성기에 최우선 반영됩니다.`);
     }
 
     // ================= CURRICULUM TAXONOMY & SCOPE ENGINE (2022 REVISED CURRICULUM) =================
@@ -25185,7 +25185,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 개념서가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                문제원인 그물망에서 나의 시작 약점을 확인하고 <strong>[📘 10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
+                문제원인 그물망에서 나의 시작 약점을 확인하고 <strong>[10분 개념서 생성 & 보관]</strong> 버튼을 누르면 정밀 그래프와 실전 행동 강령이 수록된 나만의 핵심 개념서가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
@@ -25319,7 +25319,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <div>
               <h4 class="text-sm font-bold text-white">보관된 맞춤 시험지가 아직 없습니다</h4>
               <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-                문제원인 그물망이나 문제 풀이 화면에서 <strong>[📝 클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
+                문제원인 그물망이나 문제 풀이 화면에서 <strong>[클리닉 시험지 생성 & 보관]</strong>을 누르면 내 약점을 완치하기 위한 맞춤 시험지가 보관됩니다.
               </p>
             </div>
             <button onclick="openKnowledgeDagModal(304)" class="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-md transition">
@@ -25351,7 +25351,7 @@ window.addEventListener('DOMContentLoaded', () => {
             </button>
             <button onclick="openPrintableExamModal('${e.id}')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
               <i data-lucide="printer" class="w-3.5 h-3.5 text-[#EA580C]"></i>
-              <span>🖨️ 시험지/해설지 인쇄</span>
+              <span>시험지/해설지 인쇄</span>
             </button>
           </div>
         </div>
@@ -25438,7 +25438,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       const confirmBattle = confirm(
-        '⚔️ [1:1 공정 쌍둥이 배틀 룸 생성 완료]\n\n' +
+        '[1:1 공정 쌍둥이 배틀 룸 생성 완료]\n\n' +
         '배틀 룸 코드: ' + roomCode + '\n\n' +
         '※ 공정한 대결을 위해 저장하신 문제 그대로가 아닌, 원본의 수학적 개념을 바탕으로 수치와 조건이 변경된 [새로운 AI 쌍둥이 변형 문제]로 출제됩니다!\n\n' +
         '친구 초대 링크가 클립보드에 복사되었습니다.\n' + inviteUrl + '\n\n' +
@@ -25457,7 +25457,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const userAns = prompt('정답을 입력하세요:');
       if (userAns) {
-        alert('🎉 축하합니다! 새로운 변형 문제에 더 빠르게 정답을 도출하여 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
+        alert('[배틀 승리] 축하합니다! 새로운 변형 문제에 더 빠르게 정답을 도출하여 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
       }
     }
 
@@ -25916,7 +25916,7 @@ window.addEventListener('DOMContentLoaded', () => {
               <span style="font-size: 12px; color: #94A3B8; margin-left: 8px;">${exam.title} (${cleanGrade})</span>
             </div>
             <div style="display: flex; gap: 8px;">
-              <button onclick="window.print()">🖨️ 인쇄하기 (A4/B4 모의고사 규격)</button>
+              <button onclick="window.print()">인쇄하기 (A4/B4 모의고사 규격)</button>
               <button onclick="window.close()" style="background: #334155;">닫기</button>
             </div>
           </div>
@@ -25970,7 +25970,7 @@ window.addEventListener('DOMContentLoaded', () => {
       
       const userAns = prompt('정답(기울기와 절편)을 입력하세요:');
       if (userAns) {
-        alert('🎉 축하합니다! 상대보다 2.4초 빠르게 정답을 맞혀 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
+        alert('[배틀 승리] 축하합니다! 상대보다 2.4초 빠르게 정답을 맞혀 [1:1 쌍둥이 배틀]에서 승리하셨습니다!\n\n승리 보상: 인지 숙달도 +15% 포인트 획득!');
       }
     }
 
@@ -26302,7 +26302,7 @@ window.addEventListener('DOMContentLoaded', () => {
       saveVaultStorage();
       renderVaultExams();
 
-      alert(`🎉 [직전대비 맞춤 시험지 생성 완료!]\n\n시험지명: ${newExam.title}\n규격: 총 ${qCount}문항 (서술형 ${descCount}문항 포함)\n출제 범위: ${selectedScopes.slice(0, 3).join(', ')}${selectedScopes.length > 3 ? ' 외 ' + (selectedScopes.length - 3) + '단원' : ''}\n\n[내 보관함]에 영구 저장되었습니다. 지금 바로 [▶️ 실전 풀기] 또는 [🖨️ 인쇄]를 시작할 수 있습니다!`);
+      alert(`[생성 완료] 직전대비 맞춤 시험지 생성 완료!\n\n시험지명: ${newExam.title}\n규격: 총 ${qCount}문항 (서술형 ${descCount}문항 포함)\n출제 범위: ${selectedScopes.slice(0, 3).join(', ')}${selectedScopes.length > 3 ? ' 외 ' + (selectedScopes.length - 3) + '단원' : ''}\n\n[내 보관함]에 영구 저장되었습니다. 지금 바로 [실전 풀기] 또는 [인쇄]를 시작할 수 있습니다!`);
 
       if (window.lucide) lucide.createIcons();
     }
