@@ -29,3 +29,5 @@ test_*.js
 check_*.js
 inspect_*.js
 rendered_pages/
+
+scratch/

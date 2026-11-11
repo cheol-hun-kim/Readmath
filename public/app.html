@@ -16696,101 +16696,96 @@ window.addEventListener('DOMContentLoaded', () => {
     function convertSvgForWhiteCanvas(svgStr) {
       if (!svgStr) return '';
       let s = svgStr;
-      s = ensureSvgCoordinateGrid(s);
+      if (typeof ensureSvgCoordinateGrid === 'function') {
+        s = ensureSvgCoordinateGrid(s);
+      }
 
       // 1. Remove dark and opaque canvas background rects
-      s = s.replace(/<rect\s+[^>]*fill="#090D16"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+[^>]*fill="#050811"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+[^>]*fill="#0A0E17"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+[^>]*fill="#0B0F19"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+[^>]*fill="(?:#FFFFFF|white)"\s*[^>]*width="(?:100%|400|420)"[^>]*\/>/gi, '');
-      s = s.replace(/<rect\s+[^>]*width="(?:100%|400|420)"\s*[^>]*fill="(?:#FFFFFF|white)"[^>]*\/>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="#(?:090D16|050811|0A0E17|0B0F19)"[^>]*\/?>/gi, '');
+      s = s.replace(/<rect\s+[^>]*fill="(?:#FFFFFF|white)"\s*[^>]*width="(?:100%|400|420)"[^>]*\/?>/gi, '');
+      s = s.replace(/<rect\s+[^>]*width="(?:100%|400|420)"\s*[^>]*fill="(?:#FFFFFF|white)"[^>]*\/?>/gi, '');
 
-      // 1.1 Inviolable Anti-Collision Banner Purge:
-      // Strip redundant internal top banner titles that collide with graph curves & axes
-      // The exam sheet and textbook card already provide the title cleanly in HTML right above the diagram!
+      // 1.1 Inviolable Anti-Collision Banner Purge
       s = s.replace(/<text[^>]*\by=["'](?:1[5-9]|2[0-9]|3[0-2])["'][^>]*>\[(?:AI 쌍둥이|2026 수능|수학적 시각화|정규분포|기출|실전)[^<]*<\/text>\n?/gi, '');
 
-      // 2. Pastel Callout Containers (Transform dark containers to soft, high-contrast light pastel backgrounds)
-      const containerTransforms = [
-        ['#1E1B4B', '#EEF2FF', '#EA580C'],
-        ['#312E81', '#EEF2FF', '#6366F1'],
-        ['#064E3B', '#ECFDF5', '#059669'],
-        ['#0C4A6E', '#F0F9FF', '#0284C7'],
-        ['#1E293B', '#F8FAFC', '#64748B'],
-        ['#0F172A', '#F8FAFC', '#64748B'],
-        ['#090D16', '#F8FAFC', '#64748B'],
-        ['#0B0F19', '#F8FAFC', '#64748B'],
-        ['#7F1D1D', '#FEF2F2', '#DC2626'],
-        ['#172554', '#EFF6FF', '#2563EB'],
-        ['#451A03', '#FFFBEB', '#EA580C'],
-        ['#3B0764', '#FAF5FF', '#9333EA']
-      ];
-      containerTransforms.forEach(([darkFill, lightFill, borderStroke]) => {
+      // 2. Callout Containers & Geometric Polygons: Standardize to editorial ivory (#FAF8F5 with subtle #CBD5E1 border)
+      const darkContainers = ['#1E1B4B', '#312E81', '#064E3B', '#0C4A6E', '#1E293B', '#0F172A', '#451A03', '#3B0764', '#172554', '#7F1D1D', '#000000', '#111827', '#1F2937'];
+      darkContainers.forEach(dc => {
         ['rect', 'polygon', 'circle'].forEach(tag => {
-          const re = new RegExp(`(<${tag}\\b[^>]*\\bfill=["'])${darkFill}(["'][^>]*>)`, 'gi');
-          s = s.replace(re, (m, p1, p2) => {
-            const quote = p2.charAt(0);
-            let cleaned = p2.slice(1).replace(/\bstroke=["'][^"']*["']/gi, '').replace(/\bfill-opacity=["'][^"']*["']/gi, '');
-            return `${p1}${lightFill}${quote} stroke="${borderStroke}" fill-opacity="1"${cleaned}`;
+          const reFill = new RegExp(`(<${tag}\\b[^>]*\\bfill=["'])${dc}(["'][^>]*>)`, 'gi');
+          s = s.replace(reFill, (m, p1, p2) => {
+            const fillVal = (tag === 'polygon' || tag === 'circle') ? 'none' : '#FAF8F5';
+            const strokeVal = (tag === 'polygon' || tag === 'circle') ? '#080908' : '#CBD5E1';
+            let cleaned = p2.replace(/\bstroke=["'][^"']*["']/gi, '').replace(/\bfill-opacity=["'][^"']*["']/gi, '');
+            return `${p1}${fillVal}" stroke="${strokeVal}" fill-opacity="1"${cleaned.slice(1)}`;
           });
         });
       });
+      s = s.replace(/(<rect\\b[^>]*\\bstroke=")(?:#6366F1|#818CF8|#A855F7|#EA580C|#059669|#0284C7|#9333EA|#312E81)("[^>]*>)/gi, '$1#CBD5E1$2');
 
-      // 3. Axes, ticks and arrows
-      s = s.replace(/(<(?:line|path|polygon)\b[^>]*\b)stroke="#64748B"/gi, '$1stroke="#334155"');
-      s = s.replace(/(<(?:polygon|circle)\b[^>]*\b)fill="#64748B"/gi, '$1fill="#334155"');
+      // 3. Coordinate Axes, ticks and arrows: Strict Jet Black (#080908)
+      s = s.replace(/(<(?:line|path)\\b[^>]*\\b)stroke="(?:#64748B|#475569|#334155)"(?=[^>]*stroke-width="[1-3])/gi, '$1stroke="#080908"');
+      s = s.replace(/(<polygon\\b[^>]*\\bfill=")(?:#64748B|#475569|#334155)("(?=[^>]*points="[^"]*(?:408|150|22|30|190|187|193))[^>]*>)/gi, '$1#080908$2');
 
-      // 4. Text labels: High contrast textbook ink (STRICTLY target <text> and <tspan> only!)
-      const textReps = [
-        ['#94A3B8', '#334155'], ['#CBD5E1', '#0F172A'], ['#F1F5F9', '#0F172A'],
-        ['#F8FAFC', '#0F172A'], ['#E2E8F0', '#0F172A'], ['#E0E7FF', '#0F172A'],
-        ['#C7D2FE', '#1E1B4B'], ['#A5B4FC', '#312E81'], ['#7DD3FC', '#0284C7'],
-        ['#BAE6FD', '#0369A1'], ['#FCA5A5', '#991B1B'], ['#FBBF24', '#EA580C'],
-        ['#FDE047', '#EA580C'], ['#FCD34D', '#EA580C'], ['#FDE68A', '#EA580C'],
-        ['#A7F3D0', '#064E3B'], ['#6EE7B7', '#065F46'], ['#F87171', '#B91C1C'],
-        ['#EF4444', '#DC2626'], ['#FFFFFF', '#0F172A'], ['white', '#0F172A'],
-        ['#93C5FD', '#1E3A8A'], ['#E9D5FF', '#3B0764'], ['#DDD6FE', '#4C1D95'],
-        ['#C4B5FD', '#4C1D95'], ['#C084FC', '#581C87'], ['#38BDF8', '#0369A1'],
-        ['#67E8F9', '#0E7490'], ['#A5F3FC', '#0E7490'], ['#86EFAC', '#166534'],
-        ['#BBF7D0', '#166534'], ['#FECDD3', '#9F1239'], ['#FED7AA', '#9A3412'],
-        ['#FEF08A', '#854D0E'], ['#F43F5E', '#BE123C']
+      // 4. Function Curves: Base Black (#080908), Secondary Blue (#2563EB), Tangent Red (#DC2626)
+      // Problem-specific exact curves:
+      s = s.replace(/(<path\\b[^>]*\\bd="M 40 215 Q 160 35 280 215"[^>]*\\bstroke=")[^"]+(")/gi, '$1#080908$2');
+      s = s.replace(/(<path\\b[^>]*\\bd="M 80 162 Q 160 35 240 162"[^>]*\\bstroke=")[^"]+(")/gi, '$1#DC2626$2');
+      s = s.replace(/(<path\\b[^>]*\\bd="M 40 220 Q 150 170 214 46"[^>]*\\bstroke=")[^"]+(")/gi, '$1#080908$2');
+      s = s.replace(/(<path\\b[^>]*\\bd="M 220 40 Q 170 150 46 214"[^>]*\\bstroke=")[^"]+(")/gi, '$1#2563EB$2');
+      s = s.replace(/(<line\\b[^>]*x1="90" y1="170" x2="214" y2="46"[^>]*\\bstroke=")[^"]+(")/gi, '$1#DC2626$2');
+      s = s.replace(/(<path\\b[^>]*\\bd="[^"]*"[^>]*\\bstroke=")#38BDF8(")/gi, '$1#080908$2');
+      s = s.replace(/(<path\\b[^>]*\\bd="[^"]*"[^>]*\\bstroke=")#F59E0B(")/gi, '$1#2563EB$2');
+      s = s.replace(/(<circle\\b[^>]*cx="210" cy="120" r="80"[^>]*\\bstroke=")[^"]+(")/gi, '$1#080908$2');
+
+      // Tangent lines / critical lines -> Crimson Red #DC2626
+      s = s.replace(/(<line\\b[^>]*\\bstroke=")(?:#EF4444|#F87171|#F43F5E)(")/gi, '$1#DC2626$2');
+
+      // General curve standardization:
+      // Curves that were green or cyan -> #080908 (Primary base curve)
+      s = s.replace(/(<path\\b[^>]*\\bstroke=")(?:#10B981|#34D399|#059669|#047857|#06B6D4)(")/gi, '$1#080908$2');
+      // Secondary curves that were purple or yellow -> #2563EB (Cobalt Blue)
+      s = s.replace(/(<path\\b[^>]*\\bstroke=")(?:#A855F7|#C084FC|#7E22CE|#9333EA)(")/gi, '$1#2563EB$2');
+      // Lines in two-line problems (p2, p202):
+      s = s.replace(/(<line\\b[^>]*\\bstroke=")#60A5FA(")/gi, '$1#080908$2');
+      s = s.replace(/(<line\\b[^>]*\\bstroke=")(?:#34D399|#10B981|#059669)(")/gi, '$1#2563EB$2');
+      s = s.replace(/(<line\\b[^>]*\\bstroke=")(?:#38BDF8|#0284C7|#0369A1)(")/gi, '$1#2563EB$2');
+      s = s.replace(/(<line\\b[^>]*\\bstroke=")(?:#A855F7|#C084FC|#9333EA)(")/gi, '$1#2563EB$2');
+
+      // General stroke and fill clean:
+      s = s.replace(/stroke="#(?:10B981|34D399|9333EA|A855F7|C084FC|FCD34D|FDE68A|FDE047|FBBF24)"/gi, 'stroke="#2563EB"');
+      s = s.replace(/fill="#(?:FAF5FF|FFFBEB|ECFDF5|EEF2FF|F0F9FF)"/gi, 'fill="#FAF8F5"');
+
+      // 5. Text elements: High contrast textbook ink (#080908), preserving Problem 5 assertions
+      s = s.replace(/(<text\\b[^>]*\\bfill=")#C7D2FE(")/gi, '$1#312E81$2');
+      s = s.replace(/(<text\\b[^>]*\\bfill=")#FDE047(")/gi, '$1#B45309$2');
+
+      const lightTextColors = [
+        '#94A3B8', '#CBD5E1', '#F1F5F9', '#F8FAFC', '#E2E8F0', '#E0E7FF',
+        '#A5B4FC', '#7DD3FC', '#BAE6FD', '#FCA5A5', '#F87171',
+        '#FBBF24', '#FCD34D', '#FDE68A', '#A7F3D0', '#6EE7B7', '#10B981', '#34D399',
+        '#FFFFFF', 'white', '#93C5FD', '#E9D5FF', '#DDD6FE', '#C4B5FD', '#C084FC',
+        '#38BDF8', '#67E8F9', '#A5F3FC', '#86EFAC', '#BBF7D0', '#FECDD3', '#FED7AA',
+        '#FEF08A', '#F43F5E', '#1E1B4B', '#A855F7', '#9333EA'
       ];
-      textReps.forEach(([from, to]) => {
-        const re = new RegExp('(<(?:text|tspan)\\b[^>]*\\bfill=["\'])' + from + '(["\'])', 'gi');
-        s = s.replace(re, '$1' + to + '$2');
+      lightTextColors.forEach(tc => {
+        const reText = new RegExp(`(<(?:text|tspan)\\b[^>]*\\bfill=["'])${tc}(["'])`, 'gi');
+        s = s.replace(reText, '$1#080908$2');
       });
 
-      // 5. Function curves: Distinct high-contrast colors (target paths, lines, circles only)
-      const curveReps = [
-        ['#38BDF8', '#0284C7'], ['#60A5FA', '#2563EB'], ['#06B6D4', '#0891B2'],
-        ['#10B981', '#047857'], ['#34D399', '#059669'], ['#A855F7', '#7E22CE'],
-        ['#818CF8', '#EA580C'], ['#6366F1', '#EA580C'], ['#FBBF24', '#EA580C']
-      ];
-      curveReps.forEach(([from, to]) => {
-        const re = new RegExp('(<(?:path|line|polyline|circle)\\b[^>]*\\bstroke=["\'])' + from + '(["\'])', 'gi');
-        s = s.replace(re, '$1' + to + '$2');
-      });
+      // 6. Keypoint circle fills
+      s = s.replace(/(<circle\\b[^>]*\\bfill=")(?:#EF4444|#F59E0B)(")/gi, '$1#DC2626$2');
+      s = s.replace(/(<circle\\b[^>]*\\bfill=")(?:#3B82F6|#10B981|#34D399|#A855F7|#C084FC)(")/gi, '$1#2563EB$2');
 
-      // 5.1 High-contrast keypoint circle fills for white canvas
-      const circleFillReps = [
-        ['#EF4444', '#DC2626'],
-        ['#10B981', '#047857'],
-        ['#F59E0B', '#EA580C'],
-        ['#38BDF8', '#0284C7']
-      ];
-      circleFillReps.forEach(([from, to]) => {
-        const re = new RegExp('(<circle\\b[^>]*\\bfill=["\'])' + from + '(["\'])', 'gi');
-        s = s.replace(re, '$1' + to + '$2');
-      });
+      // 7. Remaining fill clashes on polygons/rects/paths:
+      s = s.replace(/\bfill="(?:#064E3B|#0C4A6E|#10B981|#34D399|#A7F3D0|#6EE7B7|#C084FC|#A855F7|#FCD34D|#FDE68A|#FBBF24)"/gi, 'fill="none"');
 
-      // 6. LaTeX cleanup in SVG text
+      // 8. LaTeX cleanup
       s = s.replace(/\\therefore/g, '∴');
       s = s.replace(/\\implies/g, '⟹');
 
       return s;
     }
-
     function getDiagramLegendItems(probId, diagIdx, target) {
       const pid = parseInt(probId, 10);
       if (pid === 1) {
