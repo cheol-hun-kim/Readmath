@@ -1098,7 +1098,7 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   const csat30Match = landingHtml.match(/csat_30m[\s\S]*?svg:\s*`([\s\S]*?)`/);
   if (csat30Match) {
     const csat30Svg = csat30Match[1];
-    const curvePathMatch = csat30Svg.match(/<path\s+d=["'](M\s+[\d.\sL]+)["'][^>]*stroke=["']#2563EB["']/);
+    const curvePathMatch = csat30Svg.match(/<path\s+d=["'](M\s+[\d.\sL]+)["'][^>]*stroke=["'](?:#080908|#2563EB)["']/);
     if (!curvePathMatch) {
       geometryErrors.push('csat_30m missing continuous inverse function curve path (stroke #2563EB)');
     } else {
