@@ -3622,7 +3622,7 @@ p, .description, .explanation, .pretty-text {
             <div class="pt-1.5 border-t border-slate-800/80">
               <span class="text-[11px] text-slate-400 font-semibold block mb-1">변형 포인트 분석:</span>
               <p id="source-transform-point" class="text-[11px] text-slate-300 leading-relaxed font-medium">
-                원형 문항의 부등식 조건 $2x + t \le f(x) + f(t)$의 계수를 변형하여 구간 $[t, \infty)$에서의 극값 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.
+                원형 문항의 부등식 조건 $2x + t \\le f(x) + f(t)$의 계수를 변형하여 구간 $[t, \infty)$에서의 극값 위치를 좌우 대칭 이동시킨 정밀 변형 문항입니다.
               </p>
             </div>
           </div>
@@ -11080,7 +11080,7 @@ p, .description, .explanation, .pretty-text {
           },
           {
             id: "clause_2",
-            text: "$P(X \le 4800+30a)$를 표준정규분포표로 구한 값",
+            text: "$P(X \\le 4800+30a)$를 표준정규분포표로 구한 값",
             meaning: "이항분포 $B(19200, 1/4)$를 정규분포 $N(4800, 60^2)$로 근사하고 $Z = 2.0$의 누적확률을 읽는 과정입니다.",
             trap: "표준편차 $\\sigma = \\sqrt{npq} = 60$ 계산 시 분산 $3600$에서 제곱근을 누락하는 실수.",
             prescriptions: {
@@ -11315,7 +11315,7 @@ p, .description, .explanation, .pretty-text {
         socratic_teaching_guide: {
           pro_tip: "원함수의 역함수를 직접 구하기 힘들 때는 $y=x$ 대칭을 적용해 정점과 직선의 관계로 시점을 뒤집으세요.",
           steps: [
-            { stage: "1단계 [관찰 발문]", prompt: "역함수가 증가함수라는 조건을 보면 $|x| \le 1$에서 제곱을 벗길 때 부호가 어떻게 결정될까?", goal: "f^-1(x)의 구간별 함수식 확정" },
+            { stage: "1단계 [관찰 발문]", prompt: "역함수가 증가함수라는 조건을 보면 $|x| \\le 1$에서 제곱을 벗길 때 부호가 어떻게 결정될까?", goal: "f^-1(x)의 구간별 함수식 확정" },
             { stage: "2단계 [유도 발문]", prompt: "점 (1, 0)을 지나는 직선과 y=f(x)의 교점을 y=x에 대칭이동하면 어떤 점과 y=f^-1(x)의 관계로 바뀌지?", goal: "(0, 1)에서의 접선으로의 전환 유도" },
             { stage: "3단계 [도출 발문]", prompt: "접선의 기울기 관계 (-t-1)e^(-t-1)=2와 b의 식을 연립하여 ln b / b의 값을 구하고 11을 도출해볼까?", goal: "불연속점과 식의 값 완성 (정답 11)" }
           ]
@@ -11911,7 +11911,48 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     // Mathematical Text Sanitizer & Multi-Pass LaTeX Auto-Wrapper (Zero-Defect Guaranteed)
+    
+            // =========================================================================
+    // [SYSTEMIC MANDATORY] Zero-Defect LaTeX Escape Repair Gateway
+    // Intercepts swallowed control chars (\x0c -> \frac, \t -> \times, \r -> \right)
+    // =========================================================================
+    function repairLatexEscapes(str) {
+      if (!str || typeof str !== 'string') return '';
+      let s = str;
+      // 1. Repair Form Feed (0x0C) and Unicode 
+      s = s.replace(new RegExp('[\\x0c\\u2640]rac', 'g'), '\\frac');
+      s = s.replace(new RegExp('[\\x0c\\u2640]', 'g'), '');
+      // 2. Repair swallowed tabs (0x09)
+      s = s.replace(/\x09imes/g, '\\times');
+      s = s.replace(/\x09heta/g, '\\theta');
+      s = s.replace(/\x09ext/g, '\\text');
+      s = s.replace(/\x09o\b/g, '\\to');
+      // 3. Repair swallowed carriage return (0x0D)
+      s = s.replace(/\x0dight/g, '\\right');
+      // 4. Repair swallowed backslash before implies
+      s = s.replace(/(?<!\\)\bimplies\b/g, '\\implies');
+      s = s.replace(/(?<=[a-zA-Z0-9)\]}])implies(?=[a-zA-Z0-9([{])/g, ' \\implies ');
+      // 5. Repair swallowed backslash before left/right
+      s = s.replace(/(?<!\\)\bleft(?=[(\[{|])/g, '\\left');
+      s = s.replace(/(?<!\\)\bright(?=[)\]}|.])/g, '\\right');
+      // 6. Repair bare 'imes'
+      s = s.replace(/(?<!\\)\bimes\b/g, '\\times ');
+      // 7. Repair bare 'heta'
+      s = s.replace(/(?<!\\)\bheta\b/g, '\\theta');
+      // 8. Repair bare 'ext' before Korean
+      s = s.replace(/(?<!\\)\bext([가-힣]+)/g, '\\text{$1}');
+      // 9. Repair bare 'le' and 'ge'
+      s = s.replace(/(?<!\\)\ble(\s*\d+)/g, '\\le$1');
+      s = s.replace(/(?<!\\)\bge(\s*\d+)/g, '\\ge$1');
+      // 10. Repair limlimits & swallowed 	o
+      s = s.replace(/(?<!\\)limlimits/g, '\\lim\\limits');
+      s = s.replace(/\\\\lim\\limits/g, '\\lim\\limits');
+      s = s.replace(/(?<=[a-zA-Z])\s+o\s+(?=[a-zA-Z0-9])/g, ' \\to ');
+      return s;
+    }
+
     function autoFormatMathText(text) {
+      text = repairLatexEscapes(text);
       if (!text || typeof text !== 'string') return text || '';
       // Defensive sanitization: Purge KaTeX engine error traces and syntax corruption
       text = text.replace(/Expected\s+[^,]+,\s+got\s+['"][^'"]*['"]\s+at\s+position\s+\d+:\s*/gi, '');
@@ -24696,7 +24737,7 @@ window.addEventListener('DOMContentLoaded', () => {
       res = res.replace(/\\right\s*\)/g, (m, offset, full) => full.slice(0, offset).includes('\\left') ? '\\right)' : ')');
       res = res.replace(/(^|[^\\])\bleft\s*\(/g, '$1(');
 
-      // 1. Fix ASCII form-feed (\x0c) or unicode female symbol (♀) caused by \f -> form-feed
+      // 1. Fix ASCII form-feed (\x0c) or unicode female symbol () caused by \f -> form-feed
       res = res.replace(/([\x0c\u2640]|\\f)rac/g, '\\frac');
 
       // 2. Fix stripped backslashes before common LaTeX commands

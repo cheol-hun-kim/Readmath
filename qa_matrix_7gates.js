@@ -224,6 +224,21 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
   if (/1타\s*(?:강사)?/i.test(landingVisible) || /대치동\s*1타/i.test(landingVisible)) {
     failGate(1, 'Landing Page Private Education Jargon', 'Commercialized jargon "1타 강사" found in landing page visible text!');
   }
+
+  // 1.6 JavaScript String Literal LaTeX Escape & Control Character Armor
+  const landingScriptMatches = landingRaw.match(/<script[\s\S]*?>([\s\S]*?)<\/script>/gi) || [];
+  landingScriptMatches.forEach((sc, scIdx) => {
+    // Check for raw Form Feed (0x0C) or Unicode ♀
+    if (/[\x0c\u2640]/.test(sc)) {
+      failGate(1, 'Control Character Armor', `Raw form-feed or Unicode ♀ found in landing.html script #${scIdx + 1}!`);
+    }
+    // Check for single-escaped LaTeX keywords inside script strings (ignoring comments)
+    const codeNoComments = sc.replace(/\/\/[^\n\r]*/g, '').replace(/\/\*[\s\S]*?\*\//g, '');
+    const singleEscapes = codeNoComments.match(/(?<!\\)\\(?:frac|times|right|left|text|theta|to|le|ge|implies|alpha|beta|pi|phi|sqrt|ln|log|lim|approx|cdot)\b/g);
+    if (singleEscapes && singleEscapes.length > 0) {
+      failGate(1, 'LaTeX String Escape Integrity', `Found ${singleEscapes.length} single-escaped LaTeX commands (${singleEscapes.slice(0, 5).join(', ')}) in landing.html script #${scIdx + 1}! Must use double backslashes (\\frac, \\times) in JS string literals!`);
+    }
+  });
   if (/소크라테스/i.test(landingVisible)) {
     failGate(1, 'Landing Page Cliché Term', 'Cliché term "소크라테스" found in landing page visible text! (Must use "출제자 AI 튜터")');
   }
@@ -529,6 +544,62 @@ if (htmlContent.includes('\x0c') || htmlContent.includes('♀rac') || htmlConten
 }
 if (!htmlContent.includes('buildComprehensiveConceptBook')) {
   failGate(2, 'Authoritative Concept Book', 'Missing buildComprehensiveConceptBook engine in preview.html');
+}
+
+// Gate 2.5: Landing Page DEMO_CASES Evaluated LaTeX Purity & Zero Swallowed Escapes Audit
+if (fs.existsSync(LANDING_HTML_PATH)) {
+  const lRaw = fs.readFileSync(LANDING_HTML_PATH, 'utf8');
+  const dMatch = lRaw.match(/const\s+DEMO_CASES\s*=\s*(\{[\s\S]*?\n\s*\};)/);
+  const repMatch = lRaw.match(/function\s+repairLatexEscapes\s*\([\s\S]*?\n\s{4}\}/);
+  if (!dMatch) {
+    failGate(2, 'Landing Demo Database', 'DEMO_CASES declaration not found in landing.html!');
+  }
+  const lSandbox = { window: {}, console: { log: () => {} } };
+  vm.createContext(lSandbox);
+  if (repMatch) {
+    vm.runInContext(repMatch[0], lSandbox);
+  }
+  vm.runInContext('var DEMO_CASES = ' + dMatch[1], lSandbox);
+  
+  const cases = lSandbox.DEMO_CASES || {};
+  const caseKeys = Object.keys(cases);
+  if (caseKeys.length < 15) {
+    failGate(2, 'Landing Demo Cases Completeness', `Expected at least 15 demo cases in DEMO_CASES, found only ${caseKeys.length}`);
+  }
+
+  caseKeys.forEach(k => {
+    const c = cases[k];
+    ['problem', 'translation', 'socratic', 'subtitle'].forEach(field => {
+      let val = c[field] || '';
+      if (typeof lSandbox.repairLatexEscapes === 'function') {
+        val = lSandbox.repairLatexEscapes(val);
+      }
+      if (/[\x0c\u2640]/.test(val) || /♀rac/.test(val) || /우rac/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Form-feed or ♀rac/우rac corruption found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/(?<!\\)\bimes\b/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed \\times (bare 'imes') found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/(?<!\\)\bight[)\]}|.]/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed \\right (bare 'ight') found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/(?<!\\)\bheta\b/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed \\theta (bare 'heta') found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/(?<!\\)\bext[가-힣]/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed \\text (bare 'ext[가-힣]') found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/impliesy/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `'impliesy' unseparated arrow leak found in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/\$[^$]*?(?<!\\)\ble\s*\d+/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed \\le (bare 'le [0-9]') found inside math in DEMO_CASES['${k}'].${field}!`);
+      }
+      if (/(?<!\\)limlimits/.test(val) || /m\s+o\s+a/.test(val)) {
+        failGate(2, 'Swallowed Escape Corruption', `Swallowed limit command or arrow found in DEMO_CASES['${k}'].${field}!`);
+      }
+    });
+  });
 }
 
 passGate(2, 'Database Mathematical Purity & Zero Exposed Jargon', [
