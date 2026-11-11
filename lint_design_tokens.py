@@ -38,10 +38,12 @@ BANNED_RAINBOW_BOXES = [
 ]
 
 BANNED_DIAGRAM_RAINBOW_COLORS = {
-    '#10B981', '#34D399', '#047857', '#059669',
-    '#A855F7', '#C084FC', '#7E22CE', '#9333EA',
+    '#10B981', '#34D399', '#047857', '#059669', '#16A34A', '#15803D',
+    '#A855F7', '#C084FC', '#7E22CE', '#9333EA', '#7C3AED', '#6D28D9', '#8B5CF6',
     '#090D16', '#1E1B4B', '#064E3B',
-    '#FDE047', '#FBBF24', '#FCD34D', '#FDE68A'
+    '#0284C7', '#38BDF8', '#0891B2',
+    '#FDE047', '#FBBF24', '#FCD34D', '#FDE68A', '#FEF3C7',
+    '#4338CA', '#4F46E5', '#3730A3'
 }
 
 def simulate_convert_svg_for_white_canvas(svg_str):
@@ -96,7 +98,7 @@ def simulate_convert_svg_for_white_canvas(svg_str):
     s = re.sub(r'(<line\b[^>]*\bstroke=")(?:#A855F7|#C084FC|#9333EA|#FBBF24)(")', r'\1#2563EB\2', s, flags=re.IGNORECASE)
 
     # General stroke and fill clean
-    s = re.sub(r'stroke="#(?:10B981|34D399|9333EA|A855F7|C084FC|FCD34D|FDE68A|FDE047|FBBF24)"', 'stroke="#2563EB"', s, flags=re.IGNORECASE)
+    s = re.sub(r'stroke="#(?:10B981|34D399|9333EA|A855F7|C084FC|FCD34D|FDE68A|FDE047|FBBF24|38BDF8|0284C7)"', 'stroke="#2563EB"', s, flags=re.IGNORECASE)
     s = re.sub(r'fill="#(?:FAF5FF|FFFBEB|ECFDF5|EEF2FF|F0F9FF)"', 'fill="#FAF8F5"', s, flags=re.IGNORECASE)
 
     # 5. Text elements: High contrast textbook ink (#080908), preserving Problem 5 assertions
@@ -115,8 +117,9 @@ def simulate_convert_svg_for_white_canvas(svg_str):
         s = re.sub(r'(<(?:text|tspan)\b[^>]*\bfill=["\'])' + tc + r'(["\'])', r'\1#080908\2', s, flags=re.IGNORECASE)
 
     # 6. Keypoint circle fills
+    s = re.sub(r'fill="#(?:0284C7|38BDF8|0891B2)"', 'fill="#2563EB"', s, flags=re.IGNORECASE)
     s = re.sub(r'(<circle\b[^>]*\bfill=")(?:#EF4444|#F59E0B)(")', r'\1#DC2626\2', s, flags=re.IGNORECASE)
-    s = re.sub(r'(<circle\b[^>]*\bfill=")(?:#3B82F6|#10B981|#34D399|#A855F7|#C084FC)(")', r'\1#2563EB\2', s, flags=re.IGNORECASE)
+    s = re.sub(r'(<circle\b[^>]*\bfill=")(?:#3B82F6|#10B981|#34D399|#A855F7|#C084FC|#38BDF8|#0284C7)(")', r'\1#2563EB\2', s, flags=re.IGNORECASE)
 
     # 7. Remaining fill clashes on polygons/rects/paths
     s = re.sub(r'\bfill="(?:#064E3B|#0C4A6E|#10B981|#34D399|#A7F3D0|#6EE7B7|#C084FC|#A855F7|#FCD34D|#FDE68A|#FBBF24)"', 'fill="none"', s, flags=re.IGNORECASE)
@@ -241,8 +244,33 @@ def run_universal_lint():
         violations.append(f"[GRADE SVG AUDIT ERROR] {e}")
 
     # =========================================================================
+    # 6. Landing Page DEMO_CASES (초1 ~ 고3 17개 전시 문항) Editorial Palette & Rainbow Ban Check
+    # =========================================================================
+    try:
+        landing_path = os.path.join(ROOT_DIR, 'landing.html')
+        content = open(landing_path, 'r', encoding='utf-8').read()
+        demo_start = content.find('const DEMO_CASES = {')
+        if demo_start == -1:
+            demo_start = content.find('DEMO_CASES = {')
+        demo_end = content.find('function selectGrade', demo_start)
+        if demo_start != -1 and demo_end != -1:
+            demo_code = content[demo_start:demo_end]
+            svg_matches = re.findall(r'(\b[a-zA-Z0-9_]+)\s*:\s*\{[\s\S]*?svg:\s*`([\s\S]*?)`', demo_code)
+            for case_id, svg in svg_matches:
+                colors = set(re.findall(r'#(?:[0-9a-fA-F]{3}){1,2}\b', svg))
+                clashes = colors.intersection(BANNED_DIAGRAM_RAINBOW_COLORS)
+                has_black = '#080908' in colors or '#0F172A' in colors or '#334155' in colors
+                if clashes:
+                    violations.append(f"[LANDING DEMO SVG RAINBOW VIOLATION] DEMO_CASES['{case_id}'] contains banned colors: {clashes}")
+                if not has_black:
+                    violations.append(f"[LANDING DEMO SVG BLACK BASE VIOLATION] DEMO_CASES['{case_id}'] missing Black base element (#080908)")
+    except Exception as e:
+        violations.append(f"[LANDING DEMO SVG AUDIT ERROR] {e}")
+
+    # =========================================================================
     # REPORT
     # =========================================================================
+
     print("=" * 80)
     print("[ROOTMATH REPOSITORY-WIDE UNIVERSAL DESIGN TOKEN & LINTER AUDIT]")
     print(f"Total Violations Found: {len(violations)}")
