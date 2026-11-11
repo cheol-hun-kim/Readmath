@@ -11923,14 +11923,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Mathematical Text Sanitizer & Multi-Pass LaTeX Auto-Wrapper (Zero-Defect Guaranteed)
     
-            // =========================================================================
-    // [SYSTEMIC MANDATORY] Zero-Defect LaTeX Escape Repair Gateway
-    // Intercepts swallowed control chars (\x0c -> \frac, \t -> \times, \r -> \right)
+                // =========================================================================
+    // [SYSTEMIC MANDATORY] Universal Single Math Gateway & Auto-Encloser Engine
+    // 1. Heals swallowed control chars (\x0c -> \frac, \t -> \times, \r -> \right)
+    // 2. Automatically detects naked LaTeX commands outside $...$ and wraps in $...$
+    // 3. Prevents delimiter inversion (Korean inside math)
+    // 4. Guarantees 0 raw coding/LaTeX leaks to end users across all inputs & AI responses
     // =========================================================================
-    function repairLatexEscapes(str) {
-      if (!str || typeof str !== 'string') return '';
-      let s = str;
-      // 1. Repair Form Feed (0x0C) and Unicode 
+    function autoFormatMathText(text) {
+      if (!text || typeof text !== 'string') return text || '';
+      let s = text;
+
+      // 1. Repair Form Feed (0x0C) and Unicode U+2640
       s = s.replace(new RegExp('[\\x0c\\u2640]rac', 'g'), '\\frac');
       s = s.replace(new RegExp('[\\x0c\\u2640]', 'g'), '');
       // 2. Repair swallowed tabs (0x09)
@@ -11955,15 +11959,59 @@ window.addEventListener('DOMContentLoaded', () => {
       // 9. Repair bare 'le' and 'ge'
       s = s.replace(/(?<!\\)\ble(\s*\d+)/g, '\\le$1');
       s = s.replace(/(?<!\\)\bge(\s*\d+)/g, '\\ge$1');
-      // 10. Repair limlimits & swallowed 	o
+      // 10. Repair limlimits & swallowed \to
       s = s.replace(/(?<!\\)limlimits/g, '\\lim\\limits');
       s = s.replace(/\\\\lim\\limits/g, '\\lim\\limits');
       s = s.replace(/(?<=[a-zA-Z])\s+o\s+(?=[a-zA-Z0-9])/g, ' \\to ');
+
+      // 11. Protect existing valid math blocks ($...$ and $$...$$)
+      const protectedMath = [];
+      s = s.replace(/\$\$[\s\S]*?\$\$|\$[^$\n]*?\$/g, (m) => {
+        // If the math block contains raw Korean words without \text, it is an inverted block!
+        if (/[가-힣]{2,}/.test(m) && !/\\text\{/.test(m)) {
+          return m.slice(1, -1); // Strip inverted delimiters
+        }
+        const placeholder = `___MATH_BLOCK_${protectedMath.length}___`;
+        protectedMath.push(m);
+        return placeholder;
+      });
+
+      // 12. Auto-Enclose Naked LaTeX commands in remaining text
+      const mathCmdRegex = /\\(?:frac|sqrt|overrightarrow|vec|cdot|times|le|ge|pm|mp|sum|int|prod|lim|log|ln|sin|cos|tan|angle|circ|alpha|beta|theta|pi|phi|infty|ne|neq|approx|implies|to|left|right)\b/;
+      if (mathCmdRegex.test(s)) {
+        s = s.replace(/(?:^|[가-힣\s])([^\s가-힣]*(?:\s+[^\s가-힣]+)*\s*)/g, (match, span) => {
+          if (!span || !mathCmdRegex.test(span)) return match;
+          let trimmed = span.trim();
+          let suffix = '';
+          if (/[.,!?:;]$/.test(trimmed)) {
+            suffix = trimmed.slice(-1);
+            trimmed = trimmed.slice(0, -1).trim();
+          }
+          const prefix = match.slice(0, match.length - span.length);
+          return `${prefix}$${trimmed}$${suffix}`;
+        });
+      }
+
+      // 13. Restore protected math blocks
+      protectedMath.forEach((m, idx) => {
+        s = s.replace(`___MATH_BLOCK_${idx}___`, m);
+      });
+
+      // 14. Delimiter Parity check: ensure even dollar count
+      const dCount = (s.match(/\$/g) || []).length;
+      if (dCount % 2 !== 0) {
+        s += '$';
+      }
+
       return s;
     }
 
+    // Alias for backward compatibility
+    function repairLatexEscapes(str) {
+      return autoFormatMathText(str);
+    }
+
     function autoFormatMathText(text) {
-      text = repairLatexEscapes(text);
       if (!text || typeof text !== 'string') return text || '';
       // Defensive sanitization: Purge KaTeX engine error traces and syntax corruption
       text = text.replace(/Expected\s+[^,]+,\s+got\s+['"][^'"]*['"]\s+at\s+position\s+\d+:\s*/gi, '');

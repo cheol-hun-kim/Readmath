@@ -550,14 +550,14 @@ if (!htmlContent.includes('buildComprehensiveConceptBook')) {
 if (fs.existsSync(LANDING_HTML_PATH)) {
   const lRaw = fs.readFileSync(LANDING_HTML_PATH, 'utf8');
   const dMatch = lRaw.match(/const\s+DEMO_CASES\s*=\s*(\{[\s\S]*?\n\s*\};)/);
-  const repMatch = lRaw.match(/function\s+repairLatexEscapes\s*\([\s\S]*?\n\s{4}\}/);
+  const autoMatch = lRaw.match(/function\s+autoFormatMathText\s*\([\s\S]*?\n\s{4}\}/);
   if (!dMatch) {
     failGate(2, 'Landing Demo Database', 'DEMO_CASES declaration not found in landing.html!');
   }
   const lSandbox = { window: {}, console: { log: () => {} } };
   vm.createContext(lSandbox);
-  if (repMatch) {
-    vm.runInContext(repMatch[0], lSandbox);
+  if (autoMatch) {
+    vm.runInContext(autoMatch[0], lSandbox);
   }
   vm.runInContext('var DEMO_CASES = ' + dMatch[1], lSandbox);
   
@@ -572,7 +572,7 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
     ['problem', 'translation', 'socratic', 'subtitle'].forEach(field => {
       let val = c[field] || '';
       if (typeof lSandbox.repairLatexEscapes === 'function') {
-        val = lSandbox.repairLatexEscapes(val);
+        val = lSandbox.autoFormatMathText ? lSandbox.autoFormatMathText(val) : val;
       }
       if (/[\x0c\u2640]/.test(val) || /♀rac/.test(val) || /우rac/.test(val)) {
         failGate(2, 'Swallowed Escape Corruption', `Form-feed or ♀rac/우rac corruption found in DEMO_CASES['${k}'].${field}!`);
