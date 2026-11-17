@@ -527,16 +527,7 @@
 
     /* ================= UNIVERSAL INVIOLABLE DAY MODE CONTRAST ARMOR ================= */
     /* 1. Eliminate White-on-White text completely */
-    body.theme-day .text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
-    body.theme-day strong.text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
-    body.theme-day span.text-white:not(.btn-solid-accent):not([class*="bg-[#"]):not([class*="bg-orange"]):not([class*="bg-rose"]):not([class*="bg-emerald"]):not([class*="bg-blue"]):not(.badge-solid):not(.word-chip.active-chip),
-    body.theme-day h1.text-white,
-    body.theme-day h2.text-white,
-    body.theme-day h3.text-white,
-    body.theme-day h4.text-white,
-    body.theme-day p.text-white {
-      color: #0F172A !important; /* Crisp dark slate / black, NEVER white */
-    }
+    /* [PURGED] Charter Art. 2 Banned .text-white override */
 
     /* 2. Slate text contrast normalization: Inviolable Pitch Black Ink */
     body.theme-day .text-slate-100,
@@ -594,9 +585,7 @@
       background-color: #F8FAFC !important;
       border: 1px solid #E2E8F0 !important;
     }
-    body.theme-day #vault-panel-battle strong.text-white {
-      color: #0F172A !important;
-    }
+    /* [PURGED] */
     body.theme-day #vault-panel-battle strong.text-[#EA580C],
     body.theme-day #vault-panel-battle strong.text-stone-300 {
       color: #312E81 !important; /* Deep Indigo Navy, NEVER faint lavender */
@@ -846,10 +835,7 @@
       background-color: #EEF2FF !important;
       border-color: #6366F1 !important;
     }
-    body.theme-day .cat-btn[class*="border-orange-500/50"] span.text-white,
-    body.theme-day .cat-btn[class*="border-2"] span.text-white {
-      color: #312E81 !important;
-    }
+    /* [PURGED] */
 
     /* Prescription Card & Clause Meaning in Day Mode */
     body.theme-day #prescription-card {
@@ -946,9 +932,7 @@
     body.theme-day #report-dynamic-container .text-[#EA580C] {
       color: #EA580C !important;
     }
-    body.theme-day #report-dynamic-container h3.text-white {
-      color: #1E1B4B !important;
-    }
+    /* [PURGED] */
 
     /* Preemptive Root-Cause Radar Card in Day Mode */
     body.theme-day #preemptive-radar-card {
@@ -1165,13 +1149,7 @@
       border-color: #6366F1 !important;
     }
 
-    /* Typography in Day Mode: High Contrast Ink Armor (Charter Art. 2: Strict Isolation from Buttons, Badges & Dark Surfaces) */
-    body.theme-day .text-white:not(button):not(button *):not([role="button"]):not([role="button"] *):not(.btn-solid-accent):not(.btn-solid-accent *):not([class*="bg-[#"]):not([class*="bg-[#"] *):not([class*="bg-orange"]):not([class*="bg-orange"] *):not([class*="bg-rose"]):not([class*="bg-rose"] *):not([class*="bg-emerald"]):not([class*="bg-emerald"] *):not([class*="bg-blue"]):not([class*="bg-blue"] *):not([class*="bg-indigo"]):not([class*="bg-indigo"] *):not([data-surface="dark"]):not([data-surface="dark"] *):not(.badge-solid):not(.badge-solid *),
-    body.theme-day .text-slate-100:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]),
-    body.theme-day .text-slate-200:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]),
-    body.theme-day .text-slate-300:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]) {
-      color: #0F172A !important; /* Pitch Black Ink */
-    }
+    /* [PURGED] Charter Art. 2 Banned .text-white override */
     body.theme-day .text-slate-400 {
       color: #1E293B !important; /* Deep Dark Charcoal */
     }
@@ -2115,10 +2093,7 @@
       border-color: #CBD5E1 !important;
       color: #0F172A !important;
     }
-    body.theme-day .admin-subcard strong,
-    body.theme-day .admin-subcard span.text-white {
-      color: #0F172A !important;
-    }
+    /* [PURGED] */
     body.theme-day .admin-subcard div.bg-slate-950\/70 {
       background-color: #FFFFFF !important;
       border-color: #E2E8F0 !important;
@@ -2155,9 +2130,7 @@
       background-color: #F8FAFC !important;
       border-color: #E2E8F0 !important;
     }
-    body.theme-day #modal-account-mgmt span.text-white {
-      color: #0F172A !important;
-    }
+    /* [PURGED] */
     body.theme-day #modal-account-mgmt p.text-slate-400,
     body.theme-day #modal-account-mgmt span.text-slate-400 {
       color: #64748B !important;
@@ -2523,81 +2496,6 @@ p, .description, .explanation, .pretty-text {
 
 </style>
 
-  <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial) -->
-  <style>
-    /* =========================================================================
-       [MANDATORY] Genuine CSAT Exam Typography & Math Input Suite
-       - Korean Body: KoPubWorld 바탕체 (평가원 수능 공식 신명조 100% 일치)
-       - Math Variables & Formulas: KaTeX Math Italic / Times New Roman
-       ========================================================================= */
-    .font-csat-exam, 
-    .csat-exam-paper, 
-    .csat-problem-text, 
-    .csat-formula-input,
-    .problem-statement,
-    .exam-sheet-page,
-    #chat-input,
-    .solution-step-paragraph,
-    #solution-steps-container p,
-    .step-formula-box,
-    .font-serif {
-      font-family: 'KoPubWorld Batang', 'Noto Serif KR', 'Batang', 'Times New Roman', serif !important;
-      word-break: keep-all !important;
-      overflow-wrap: break-word !important;
-      text-wrap: pretty !important;
-      letter-spacing: -0.015em !important;
-    }
-    #chat-input {
-      font-family: 'KoPubWorld Batang', 'Noto Serif KR', 'Times New Roman', serif !important;
-      letter-spacing: -0.01em;
-    }
-
-    :root {
-      --accent-primary: #EA580C;
-      --math-highlight: rgba(251, 146, 60, 0.15);
-      --bg-main: #141210;
-      --bg-surface: #1F1C18;
-      --bg-elevated: #292520;
-      --border-subtle: rgba(255, 247, 237, 0.07);
-      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
-      --text-primary: #F5F5F4;
-      --text-secondary: #A8A29E;
-      --text-muted: #57534E;
-      --radius-card: 20px;
-      --radius-btn: 12px;
-    }
-    body.day-mode, body.theme-day, html.day-mode, [data-theme="day"] {
-      --accent-primary: #EA580C;
-      --math-highlight: rgba(234, 88, 12, 0.10);
-      --bg-main: #F7F5F0;
-      --bg-surface: #FFFFFF;
-      --bg-elevated: #EFECE6;
-      --border-subtle: #E7E5E4;
-      --shadow-card: 0 4px 24px rgba(28, 25, 23, 0.04);
-      --text-primary: #1C1917;
-      --text-secondary: #44403C;
-      --text-muted: #A8A29E;
-      background-color: var(--bg-main) !important;
-      color: var(--text-primary) !important;
-    }
-    /* 수식 및 해설 줄간격 1.75배 강제 적용 */
-    .solution-step-card, .math-render-target, .math-explanation, p.leading-relaxed, .step-content {
-      line-height: 1.75 !important;
-    }
-    /* 블록 수식 여백 및 elevated 배경 */
-    .step-formula-box, .katex-display {
-      margin: 18px 0 !important;
-      padding: 14px 18px !important;
-      background-color: var(--bg-elevated) !important;
-      border-radius: var(--radius-btn) !important;
-    }
-    /* 카드 곡률 20px 단일화 */
-    .card, .solution-step-card, [class*="rounded-3xl"], [class*="rounded-2xl"] {
-      border-radius: var(--radius-card) !important;
-    }
-  </style>
-
-
   <!-- 👑 READMATH MASTER DESIGN SYSTEM (Warm Paper & Terracotta Coral Editorial - Full Visual Override) -->
   <!-- 👑 READMATH ZERO-CLASH WARM EDITORIAL ENGINE (Purged All Purple/Green/Blue) -->
   <style id="readmath-warm-editorial-engine">
@@ -2700,8 +2598,6 @@ p, .description, .explanation, .pretty-text {
     body.theme-day, body.day-mode {
       color: #090D16 !important;
     }
-    body.theme-day .text-white:not(button):not(button *):not([role="button"]):not([role="button"] *):not(.btn-solid-accent):not(.btn-solid-accent *):not([class*="bg-[#"]):not([class*="bg-[#"] *):not([class*="bg-orange"]):not([class*="bg-orange"] *):not([class*="bg-rose"]):not([class*="bg-rose"] *):not([class*="bg-emerald"]):not([class*="bg-emerald"] *):not([class*="bg-blue"]):not([class*="bg-blue"] *):not([class*="bg-indigo"]):not([class*="bg-indigo"] *):not([data-surface="dark"]):not([data-surface="dark"] *):not(.badge-solid):not(.badge-solid *),
-    body.day-mode .text-white:not(button):not(button *):not([role="button"]):not([role="button"] *):not(.btn-solid-accent):not(.btn-solid-accent *):not([class*="bg-[#"]):not([class*="bg-[#"] *):not([class*="bg-orange"]):not([class*="bg-orange"] *):not([class*="bg-rose"]):not([class*="bg-rose"] *):not([class*="bg-emerald"]):not([class*="bg-emerald"] *):not([class*="bg-blue"]):not([class*="bg-blue"] *):not([class*="bg-indigo"]):not([class*="bg-indigo"] *):not([data-surface="dark"]):not([data-surface="dark"] *):not(.badge-solid):not(.badge-solid *),
     body.theme-day .text-slate-100:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]),
     body.day-mode .text-slate-100:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]),
     body.theme-day .text-slate-200:not(button):not(button *):not([role="button"]):not([role="button"] *):not([class*="bg-"]),
@@ -3235,10 +3131,8 @@ p, .description, .explanation, .pretty-text {
       font-weight: 800 !important;
     }
 
-        body.theme-day p:not(button *):not(a *):not(.btn-solid-accent *),
+    body.theme-day p:not(button *):not(a *):not(.btn-solid-accent *),
     body.day-mode p:not(button *):not(a *):not(.btn-solid-accent *),
-    body.theme-day span:not(button *):not(button):not(a *):not(a):not(.btn-solid-accent *):not([class*="bg-"] *):not([data-surface="dark"] *):not([class*="text-white"]):not(.text-white):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-indigo"]),
-    body.day-mode span:not(button *):not(button):not(a *):not(a):not(.btn-solid-accent *):not([class*="bg-"] *):not([data-surface="dark"] *):not([class*="text-white"]):not(.text-white):not([class*="text-amber"]):not([class*="text-orange"]):not([class*="text-emerald"]):not([class*="text-rose"]):not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-indigo"]),
     body.theme-day label:not(button *), body.day-mode label:not(button *) {
       color: #0F172A !important;
     }
@@ -3421,6 +3315,36 @@ p, .description, .explanation, .pretty-text {
       color: #FFFFFF !important;
       stroke: #FFFFFF !important;
     }
+  
+    /* ==========================================================================
+       [MANDATORY CHARTER ART. 2] UNIVERSAL SURFACE-LUMINANCE ABSOLUTE LAW
+       Any element with background luminance < 0.5 (such as orange, indigo,
+       emerald, rose, red, dark slate, charcoal) is locked to pure white #FFFFFF
+       text and stroke on itself and ALL of its children (*) in all themes.
+       ========================================================================== */
+    button[class*="bg-[#EA580C]"], button[class*="bg-[#FF5A1F]"], button[class*="bg-orange"],
+    button[class*="bg-indigo"], button[class*="bg-emerald"], button[class*="bg-rose"],
+    button[class*="bg-red"], button[class*="bg-blue"], button[class*="bg-amber-6"],
+    .btn-solid-accent, .badge-solid, [data-surface="dark"],
+    span[class*="bg-[#EA580C]"], span[class*="bg-[#FF5A1F]"], span[class*="bg-orange"],
+    span[class*="bg-indigo"], span[class*="bg-emerald"], span[class*="bg-rose"],
+    span[class*="bg-red"], span[class*="bg-amber-950"],
+    div[class*="bg-[#EA580C]"], div[class*="bg-orange"], a[class*="bg-[#EA580C]"], a[class*="bg-orange"] {
+      color: #FFFFFF !important;
+    }
+    button[class*="bg-[#EA580C]"] *, button[class*="bg-[#FF5A1F]"] *, button[class*="bg-orange"] *,
+    button[class*="bg-indigo"] *, button[class*="bg-emerald"] *, button[class*="bg-rose"] *,
+    button[class*="bg-red"] *, button[class*="bg-blue"] *, button[class*="bg-amber-6"] *,
+    .btn-solid-accent *, .badge-solid *, [data-surface="dark"] *,
+    span[class*="bg-[#EA580C]"] *, span[class*="bg-[#FF5A1F]"] *, span[class*="bg-orange"] *,
+    span[class*="bg-indigo"] *, span[class*="bg-emerald"] *, span[class*="bg-rose"] *,
+    span[class*="bg-red"] *, span[class*="bg-amber-950"] *,
+    div[class*="bg-[#EA580C]"] *, div[class*="bg-orange"] *, a[class*="bg-[#EA580C]"] *, a[class*="bg-orange"] * {
+      color: #FFFFFF !important;
+      stroke: #FFFFFF !important;
+      fill: currentColor !important;
+    }
+
   </style>
 
 </head>
@@ -3477,7 +3401,7 @@ p, .description, .explanation, .pretty-text {
             <div class="min-w-0 flex flex-col justify-center">
               <div class="flex items-center gap-1.5">
                 <h2 class="text-sm font-black text-white leading-tight shrink-0 whitespace-nowrap">
-                  <span id="app-brand-title" class="text-base font-black tracking-tight text-white">ReadMath</span>
+                  <span id="app-brand-title" class="text-base font-black tracking-tight text-stone-900 dark:text-white">ReadMath</span>
                 </h2>
                 <span id="app-brand-vip-badge" class="hidden bg-orange-500/20 text-stone-300 border border-orange-500/40 text-[8.5px] font-extrabold px-1.5 py-0.2 rounded-full shrink-0">공식인증</span>
               </div>
@@ -3640,11 +3564,11 @@ p, .description, .explanation, .pretty-text {
           <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2 text-xs">
             <div class="flex items-center justify-between">
               <span class="text-slate-400 font-bold">출처 특정:</span>
-              <strong id="source-matched-title" class="text-white font-extrabold text-right">2026학년도 수능 15번 킬러 원형 변형</strong>
+              <strong id="source-matched-title" class="text-stone-900 dark:text-white font-extrabold text-right">2026학년도 수능 15번 킬러 원형 변형</strong>
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-400 font-bold">연계 교재:</span>
-              <span id="source-matched-book" class="text-white font-bold text-right">EBS 수능특강 / 전국연합 학력평가 기출 총괄서 수능기출 고난도</span>
+              <span id="source-matched-book" class="text-stone-700 dark:text-stone-300 font-bold text-right">EBS 수능특강 / 전국연합 학력평가 기출 총괄서 수능기출 고난도</span>
             </div>
             <div class="pt-1.5 border-t border-slate-800/80">
               <span class="text-[11px] text-slate-400 font-semibold block mb-1">변형 포인트 분석:</span>

@@ -44,9 +44,7 @@
       color: #FFFFFF !important;
       stroke: #FFFFFF !important;
     }
-    body.theme-day .text-white:not([class*="bg-"]):not(button) {
-      color: #0F172A !important;
-    }
+    /* [PURGED] Banned .text-white override */
     body.theme-day {
       background-color: #F8FAFC !important;
       color: #0F172A !important;
@@ -92,9 +90,7 @@
     body.theme-day .text-slate-300 {
       color: #475569 !important;
     }
-    body.theme-day .text-white {
-      color: #0F172A !important;
-    }
+    /* [PURGED] Banned .text-white override */
     .katex-display {
       display: block !important;
       margin: 0.6em 0 !important;
@@ -189,34 +185,31 @@
     }
 
   
-    /* Universal Day Mode Solid Action Button High Contrast Protection */
-    body.theme-day button[class*="bg-indigo-6"],
-    body.theme-day button[class*="bg-indigo-5"],
-    body.theme-day button[class*="bg-emerald-6"],
-    body.theme-day button[class*="bg-emerald-5"],
-    body.theme-day button[class*="bg-amber-6"],
-    body.theme-day button[class*="bg-amber-5"],
-    body.theme-day button[class*="bg-rose-6"],
-    body.theme-day button[class*="bg-rose-7"],
-    body.theme-day button[class*="bg-rose-8"],
-    body.theme-day button[class*="bg-purple-6"],
-    body.theme-day button[class*="bg-purple-7"],
-    body.theme-day a[class*="bg-indigo-6"],
-    body.theme-day a[class*="bg-emerald-6"],
-    body.theme-day .btn-primary,
-    body.theme-day .btn-action {
-      color: #FFFFFF !important;
-    }
-    body.theme-day button[class*="bg-indigo-6"] *,
-    body.theme-day button[class*="bg-indigo-5"] *,
-    body.theme-day button[class*="bg-emerald-6"] *,
-    body.theme-day button[class*="bg-emerald-5"] *,
-    body.theme-day button[class*="bg-amber-6"] *,
-    body.theme-day button[class*="bg-amber-5"] *,
-    body.theme-day button[class*="bg-rose-6"] *,
-    body.theme-day button[class*="bg-purple-6"] * {
-      color: #FFFFFF !important;
-    }
+    /* ==========================================================================
+   [INVIOLABLE CHARTER ART. 2] UNIVERSAL SURFACE-LUMINANCE ABSOLUTE LAW
+   ========================================================================== */
+button[class*="bg-indigo-6"], button[class*="bg-indigo-5"],
+button[class*="bg-emerald-6"], button[class*="bg-emerald-5"],
+button[class*="bg-amber-6"], button[class*="bg-amber-5"],
+button[class*="bg-rose-6"], button[class*="bg-rose-7"], button[class*="bg-rose-8"],
+button[class*="bg-purple-6"], button[class*="bg-purple-7"],
+button[class*="bg-[#EA580C]"], button[class*="bg-[#FF5A1F]"], button[class*="bg-blue-600"],
+a[class*="bg-indigo-6"], a[class*="bg-emerald-6"], a[class*="bg-[#EA580C]"],
+.btn-primary, .btn-action, [data-surface="dark"], .badge-solid {
+  color: #FFFFFF !important;
+}
+button[class*="bg-indigo-6"] *, button[class*="bg-indigo-5"] *,
+button[class*="bg-emerald-6"] *, button[class*="bg-emerald-5"] *,
+button[class*="bg-amber-6"] *, button[class*="bg-amber-5"] *,
+button[class*="bg-rose-6"] *, button[class*="bg-rose-7"] *, button[class*="bg-rose-8"] *,
+button[class*="bg-purple-6"] *, button[class*="bg-purple-7"] *,
+button[class*="bg-[#EA580C]"] *, button[class*="bg-[#FF5A1F]"] *, button[class*="bg-blue-600"] *,
+a[class*="bg-indigo-6"] *, a[class*="bg-emerald-6"] *, a[class*="bg-[#EA580C]"] *,
+.btn-primary *, .btn-action *, [data-surface="dark"] *, .badge-solid * {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: currentColor !important;
+}
   
 /* ==========================================================================
    GLOBAL SYSTEMIC TYPOGRAPHY & ORPHAN WORD DEFENSE (Systemic Charter Art. 3)

@@ -1901,10 +1901,19 @@ if (htmlContent.includes('body.theme-day span:not([class*="bg-"]):not([class*="t
 if (!htmlContent.includes('body.theme-day button[class*="bg-[#EA580C]"] span') || !htmlContent.includes('stroke: #FFFFFF !important')) {
   failGate(8, 'Accent Button High Specificity Armor', 'preview.html must enforce explicit high-specificity white text & stroke for button spans/icons in Day Mode');
 }
-const unshieldedTextWhite = htmlContent.match(/body\.(?:theme-day|day-mode)\s+\.text-white\s*,\s*body\.(?:theme-day|day-mode)\s+\.text-slate-100/g);
-if (unshieldedTextWhite) {
-  failGate(8, 'Unshielded Day Mode Text-White Rule', 'preview.html contains unshielded body.theme-day .text-white selector that overrides button/badge text to black!');
+// [CHARTER ART. 1 & 2] PERMANENT REPOSITORY-WIDE BAN ON OVERRIDING .text-white IN DAY MODE
+const filesToCheckForBannedRules = ['preview.html', 'landing.html', 'admin.html', 'grant_proposal.html'];
+for (const fName of filesToCheckForBannedRules) {
+  if (fs.existsSync(fName)) {
+    const fContent = fs.readFileSync(fName, 'utf-8');
+    // Match any CSS rule targeting .text-white in day mode that sets color to dark ink
+    const bannedRules = fContent.match(/(?:body|html)?\.(?:theme-day|day-mode)[^{}]*?\.text-white(?::not\([^)]*\))*[^{}]*?\{[^}]*?color:\s*(?:#090D16|#0F172A|#1E293B|#080908|#000|black)/gi);
+    if (bannedRules && bannedRules.length > 0) {
+      failGate(8, `Banned .text-white Override in ${fName}`, `${fName} contains banned rule attempting to override .text-white to dark text: ${bannedRules[0]}`);
+    }
+  }
 }
+gate8Details.push('Repository-Wide Inviolable .text-white Ban: 0 instances of overriding .text-white to dark text verified across all files');
 if (!htmlContent.includes('#solution-same-recipe-card button') || !htmlContent.includes('#solution-same-recipe-card span[class*="bg-[#EA580C]"]')) {
   failGate(8, 'Same Recipe Solid Surface Armor Missing', 'preview.html must explicitly enforce #FFFFFF on #solution-same-recipe-card button and accent badge!');
 }
