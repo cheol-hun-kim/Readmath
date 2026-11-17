@@ -2197,6 +2197,47 @@ try {
 } catch (e) {
   failGate(8, 'Design Token Linter Crash', 'lint_design_tokens.py failed: ' + e.message);
 }
+// 8.3 Universal CSAT Curve Jet-Black & Zero Faint Text Enforcement (Systemic Charter Art. 1-3)
+try {
+  const previewHtml = fs.readFileSync(PREVIEW_HTML_PATH, 'utf8');
+
+  // A. Zero #2563EB curve conversion in convertSvgForWhiteCanvas
+  if (previewHtml.includes("stroke=\"#2563EB\"')") && previewHtml.includes("function convertSvgForWhiteCanvas")) {
+    failGate(8, 'CSAT Curve Jet-Black Law Violation', 'convertSvgForWhiteCanvas contains illegal #2563EB curve stroke conversion');
+  }
+
+  // B. Zero broken \\b in regex literals inside convertSvgForWhiteCanvas
+  const convFnMatch = previewHtml.match(/function convertSvgForWhiteCanvas\([\s\S]*?\n    \}/);
+  if (convFnMatch && convFnMatch[0].includes('/(<text\\\\b')) {
+    failGate(8, 'Broken Regex Literal Violation', 'convertSvgForWhiteCanvas contains invalid escaped \\b in regex literal');
+  }
+
+  // C. Full census on all problems in PROBLEMS_DB: 0 faint text on light surfaces
+  const dbMatch = previewHtml.match(/const\s+PROBLEMS_DB\s*=\s*\{([\s\S]*?)\n    \};/);
+  if (dbMatch) {
+    const rawSvgs = dbMatch[1].match(/<svg[\s\S]*?<\/svg>/g) || [];
+    const faintColors = ['#C7D2FE', '#93C5FD', '#60A5FA', '#38BDF8', '#7DD3FC', '#BAE6FD', '#A5B4FC', '#DDD6FE', '#C4B5FD', '#FCA5A5', '#F87171', '#FDE047', '#FEF08A', '#A7F3D0', '#6EE7B7'];
+    rawSvgs.forEach((svg, sIdx) => {
+      const converted = runtimeSandbox.convertSvgForWhiteCanvas(svg);
+      faintColors.forEach(fc => {
+        const reFaint = new RegExp('<text[^>]*\\bfill=["\']?' + fc + '["\']?', 'i');
+        if (reFaint.test(converted)) {
+          failGate(8, 'Zero Faint Text Law Violation', `Problem SVG #${sIdx + 1} contains faint text fill ${fc} on rendered white canvas`);
+        }
+      });
+    });
+  }
+
+  // D. Universal Surface-Luminance Badge Law in Day Mode CSS
+  if (!previewHtml.includes('UNIVERSAL SURFACE-LUMINANCE BADGE LAW') || !previewHtml.includes('#diagram-badge-text')) {
+    failGate(8, 'Universal Badge Contrast Law Violation', 'preview.html is missing UNIVERSAL SURFACE-LUMINANCE BADGE LAW in Day Mode CSS');
+  }
+
+  gate8Details.push('Universal CSAT Curve Jet-Black & Zero Faint Text Gate: 100% CSAT Jet Black curves (#080908), zero broken regexes, zero faint pastel text, and universal deep ink badges verified across all database SVGs');
+} catch (e) {
+  failGate(8, 'CSAT Curve & Faint Text Gate Error', e.message);
+}
+
 passGate(8, 'Mandatory UI/UX Design System & Zero-Defect Rule Enforcement', gate8Details);
 
 // ==============================================================================

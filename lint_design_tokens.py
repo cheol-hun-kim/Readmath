@@ -98,12 +98,12 @@ def simulate_convert_svg_for_white_canvas(svg_str):
     s = re.sub(r'(<line\b[^>]*\bstroke=")(?:#A855F7|#C084FC|#9333EA|#FBBF24)(")', r'\1#2563EB\2', s, flags=re.IGNORECASE)
 
     # General stroke and fill clean
-    s = re.sub(r'stroke="#(?:10B981|34D399|9333EA|A855F7|C084FC|FCD34D|FDE68A|FDE047|FBBF24|38BDF8|0284C7)"', 'stroke="#2563EB"', s, flags=re.IGNORECASE)
+    s = re.sub(r'stroke="#(?:10B981|34D399|9333EA|A855F7|C084FC|FCD34D|FDE68A|FDE047|FBBF24|38BDF8|0284C7)"', 'stroke="#080908"', s, flags=re.IGNORECASE)
     s = re.sub(r'fill="#(?:FAF5FF|FFFBEB|ECFDF5|EEF2FF|F0F9FF)"', 'fill="#FAF8F5"', s, flags=re.IGNORECASE)
 
     # 5. Text elements: High contrast textbook ink (#080908), preserving Problem 5 assertions
-    s = re.sub(r'(<text\b[^>]*\bfill=")#C7D2FE(")', r'\1#312E81\2', s)
-    s = re.sub(r'(<text\b[^>]*\bfill=")#FDE047(")', r'\1#B45309\2', s)
+    s = re.sub(r'(<text\b[^>]*\bfill=")#C7D2FE(")', r'\1#080908\2', s)
+    s = re.sub(r'(<text\b[^>]*\bfill=")#FDE047(")', r'\1#080908\2', s)
 
     light_text_colors = [
         '#94A3B8', '#CBD5E1', '#F1F5F9', '#F8FAFC', '#E2E8F0', '#E0E7FF',
