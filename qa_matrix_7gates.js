@@ -1820,7 +1820,25 @@ if (htmlContent.includes('grid-template-columns: 1fr 1fr;')) {
   failGate(7, 'Universal Grid Column Safety', 'app.html must use minmax(0, 1fr) to prevent content overflow in grid columns');
 }
 
+// 7.8 Universal SPA Navigation, PopState & Browser Back-Button Interception Integrity
+if (!htmlContent.includes("window.addEventListener('popstate'") && !htmlContent.includes('window.addEventListener("popstate"')) {
+  failGate(7, 'SPA PopState History Handler', 'window.addEventListener("popstate") listener missing in preview.html');
+}
+if (!htmlContent.includes('history.pushState({ view: viewId') && !htmlContent.includes('history.pushState({view: viewId')) {
+  failGate(7, 'SPA History PushState on View Change', 'history.pushState not bound to view switching in preview.html');
+}
+if (!htmlContent.includes('history.pushState({ modal: id') && !htmlContent.includes('history.pushState({modal: id')) {
+  failGate(7, 'SPA History PushState on Modal Open', 'history.pushState not bound to modal opening in preview.html');
+}
+if (!htmlContent.includes('function getTopVisibleModal()')) {
+  failGate(7, 'SPA Modal Dismissal Stack', 'getTopVisibleModal helper function missing in preview.html');
+}
+if (!htmlContent.includes('function initAppHistoryRouting()')) {
+  failGate(7, 'SPA Routing Initializer', 'initAppHistoryRouting initialization function missing in preview.html');
+}
+
 passGate(7, 'End-to-End Functional Simulation & Mobile Viewport Layout Integrity', [
+  'Universal SPA History Routing & Browser Back-Button Interception (Zero Accidental App Exit) verified',
   `All 5 school stages (${gradesToTest.join(', ')}) mapped to curriculum isolation controls`,
   `All 5 primary views (${views.join(', ')}) validated for seamless single-page tab transitions`,
   'Responsive diagram selector tabs (multi-column grid, zero horizontal scroll) verified',

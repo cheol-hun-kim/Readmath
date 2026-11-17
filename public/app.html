@@ -12003,6 +12003,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (studentProfile && studentProfile.name) {
         restoreStudentQuestionsFromRemoteDB();
       }
+      initAppHistoryRouting();
     });
 
     // ==============================================================================
@@ -19585,9 +19586,42 @@ window.addEventListener('DOMContentLoaded', () => {
       alert('모든 오답, 가입 회원, 건의사항 데이터가 삭제되어 [출시용 클린 초기 상태(0건)]로 초기화되었습니다.');
     }
 
-    // ================= NAVIGATION & MODALS =================
-    function goToView(viewId) {
+    // ================= UNIVERSAL SPA NAVIGATION & HISTORY ENGINE =================
+    let currentAppView = 'camera';
+    const appModalStack = [];
+    let isInternalHistoryNavigating = false;
+    window._isClosingModalViaButton = false;
+
+    function getTopVisibleModal() {
+      const visibleModals = Array.from(document.querySelectorAll('[id^="modal-"]:not(.hidden)'));
+      return visibleModals.length > 0 ? visibleModals[visibleModals.length - 1] : null;
+    }
+    window.getTopVisibleModal = getTopVisibleModal;
+
+    function goToView(viewId, pushHistory = true) {
       const views = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
+      if (!views.includes(viewId)) {
+        console.warn('[SPA Navigation] Invalid viewId requested:', viewId);
+        viewId = 'camera';
+      }
+
+      // Inviolable Modal Dismissal on Explicit View Change: Close any open modals cleanly
+      if (!isInternalHistoryNavigating) {
+        const visibleModals = Array.from(document.querySelectorAll('[id^="modal-"]:not(.hidden)'));
+        visibleModals.forEach(m => m.classList.add('hidden'));
+        appModalStack.length = 0;
+      }
+
+      // HTML5 History API State Push (Only when viewId actually changes)
+      if (pushHistory && viewId !== currentAppView) {
+        try {
+          history.pushState({ view: viewId, type: 'view' }, '', '#' + viewId);
+        } catch(e) {
+          console.warn('[SPA History] pushState error:', e);
+        }
+      }
+      currentAppView = viewId;
+
       views.forEach(v => {
         const el = document.getElementById('view-' + v);
         if (el) el.classList.add('hidden');
@@ -19631,10 +19665,11 @@ window.addEventListener('DOMContentLoaded', () => {
         switchVaultSubTab('exams');
       }
 
-      document.getElementById('screen-container').scrollTop = 0;
-      lucide.createIcons();
-      renderMathElements();
+      if (sc) sc.scrollTop = 0;
+      if (window.lucide) lucide.createIcons();
+      if (typeof renderMathElements === 'function') renderMathElements();
     }
+    window.goToView = goToView;
 
     // ================= MATHEMATICAL COGNITIVE KNOWLEDGE DAG ENGINE =================
     const KNOWLEDGE_NODES_DATA = {
@@ -20904,7 +20939,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    function openModal(id, initialTab) {
+    function openModal(id, initialTab, pushHistory = true) {
       if (id === 'account-mgmt') {
         updateUserProfileDisplay();
         updateQuotaUI();
@@ -20938,13 +20973,107 @@ window.addEventListener('DOMContentLoaded', () => {
         const codeInput = document.getElementById('input-academy-modal-code');
         if (codeInput) codeInput.value = '';
       }
-      document.getElementById('modal-' + id)?.classList.remove('hidden');
-      lucide.createIcons();
-    }
 
-    function closeModal(id) {
-      document.getElementById('modal-' + id)?.classList.add('hidden');
+      const modalEl = document.getElementById('modal-' + id);
+      if (modalEl) {
+        modalEl.classList.remove('hidden');
+        if (!appModalStack.includes(id)) {
+          appModalStack.push(id);
+        }
+        if (pushHistory) {
+          try {
+            history.pushState({ modal: id, view: currentAppView, type: 'modal' }, '', window.location.hash);
+          } catch(e) {
+            console.warn('[SPA History] pushState modal error:', e);
+          }
+        }
+      }
+      if (window.lucide) lucide.createIcons();
     }
+    window.openModal = openModal;
+
+    function closeModal(id, syncHistory = true) {
+      const modalEl = document.getElementById('modal-' + id);
+      if (modalEl) {
+        modalEl.classList.add('hidden');
+      }
+      const idx = appModalStack.indexOf(id);
+      if (idx !== -1) {
+        appModalStack.splice(idx, 1);
+      }
+
+      // If user closed modal via UI button click and history state is at this modal, pop state cleanly
+      if (syncHistory && history.state && history.state.type === 'modal' && history.state.modal === id) {
+        window._isClosingModalViaButton = true;
+        try {
+          history.back();
+        } catch(e) {
+          console.warn('[SPA History] closeModal history.back error:', e);
+        }
+      }
+    }
+    window.closeModal = closeModal;
+
+    // ================= SPA POPSTATE & BROWSER BACK-BUTTON ENGINE =================
+    window.addEventListener('popstate', function(event) {
+      // 0. If closed via UI button history.back(), consume and skip
+      if (window._isClosingModalViaButton) {
+        window._isClosingModalViaButton = false;
+        return;
+      }
+
+      isInternalHistoryNavigating = true;
+      try {
+        // 1. TOP PRIORITY: Intercept open modal if present
+        const topModal = getTopVisibleModal();
+        if (topModal) {
+          const modalId = topModal.id.replace('modal-', '');
+          closeModal(modalId, false);
+          topModal.classList.add('hidden');
+          const idx = appModalStack.indexOf(modalId);
+          if (idx !== -1) appModalStack.splice(idx, 1);
+          return; // Modal closed! User stays on current view without navigating away.
+        }
+
+        // 2. SUB-VIEW / TAB NAVIGATION
+        if (event.state && event.state.view) {
+          goToView(event.state.view, false);
+        } else {
+          const hash = window.location.hash.replace('#', '').split('?')[0];
+          const validViews = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
+          if (validViews.includes(hash)) {
+            goToView(hash, false);
+          } else {
+            goToView('camera', false);
+          }
+        }
+      } finally {
+        isInternalHistoryNavigating = false;
+      }
+    });
+
+    function initAppHistoryRouting() {
+      const hash = window.location.hash.replace('#', '').split('?')[0];
+      const validViews = ['camera', 'solution', 'diagnosis', 'chat', 'history', 'report', 'vault', 'settings', 'teacher'];
+      
+      if (hash && hash !== 'camera' && validViews.includes(hash)) {
+        // Seed root camera view so back button from deep-linked subview returns to camera
+        try {
+          history.replaceState({ view: 'camera', type: 'view' }, '', '#camera');
+          history.pushState({ view: hash, type: 'view' }, '', '#' + hash);
+        } catch(e) {}
+        currentAppView = hash;
+        goToView(hash, false);
+      } else {
+        const initialView = validViews.includes(hash) ? hash : 'camera';
+        try {
+          history.replaceState({ view: initialView, type: 'view' }, '', '#' + initialView);
+        } catch(e) {}
+        currentAppView = initialView;
+        goToView(initialView, false);
+      }
+    }
+    window.initAppHistoryRouting = initAppHistoryRouting;
 
     // ================= PWA HOME SCREEN SHORTCUT & INSTALLATION ENGINE =================
     let deferredPrompt = null;
@@ -23833,11 +23962,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (gradeSelect) gradeSelect.value = grade;
       if (classInput) classInput.value = `${cls}반`;
 
-      const modal = document.getElementById('modal-crowdsource-intel');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
+      openModal('crowdsource-intel');
       lucide.createIcons();
     }
 
