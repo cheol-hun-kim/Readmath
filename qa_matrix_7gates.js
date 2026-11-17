@@ -239,6 +239,11 @@ if (fs.existsSync(LANDING_HTML_PATH)) {
       failGate(1, 'LaTeX String Escape Integrity', `Found ${singleEscapes.length} single-escaped LaTeX commands (${singleEscapes.slice(0, 5).join(', ')}) in landing.html script #${scIdx + 1}! Must use double backslashes (\\frac, \\times) in JS string literals!`);
     }
   });
+  // 1.5b HTML Body Zero-Escaped-Quote & Anti-Backslash-Leak Armor (Systemic Charter Art. 4)
+  if (/\\['"]/.test(landingClean)) {
+    failGate(1, 'HTML Literal Escape Quote Armor', 'Found raw escaped quotes (\\\' or \\\") in landing.html HTML body! All math must be enclosed in standard KaTeX delimiters ($...$) without literal backslash quotes.');
+  }
+
   if (/소크라테스/i.test(landingVisible)) {
     failGate(1, 'Landing Page Cliché Term', 'Cliché term "소크라테스" found in landing page visible text! (Must use "출제자 AI 튜터")');
   }

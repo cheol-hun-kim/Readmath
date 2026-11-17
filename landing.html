@@ -1562,66 +1562,39 @@ p, .description, .explanation, .pretty-text {
 
 
 
-        <div class="space-y-3 text-xs leading-relaxed">
-
+        <div id="tutor-dialogue-container" class="space-y-3 text-xs leading-relaxed">
           <!-- Student -->
-
           <div class="flex items-start gap-2.5">
-
             <span class="w-7 h-7 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-
             <div class="bg-white border border-stone-200 p-3 rounded-2xl rounded-tl-sm text-stone-800 break-keep shadow-xs">
-
-              선생님, 삼차함수 접선 기울기가 9라고 하는데 접점 x좌표를 어떻게 찾나요?
-
+              선생님, 삼차함수 접선 기울기가 9라고 하는데 접점 <span data-math="x" class="font-serif italic font-bold text-stone-900 tracking-wide">x</span>좌표를 어떻게 찾나요?
             </div>
-
           </div>
 
           <!-- Tutor -->
-
           <div class="flex items-start gap-2.5 flex-row-reverse">
-
             <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-
             <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs" style="background-color: #FFF7ED !important; color: #1C1917 !important;">
-
               좋은 질문이야! 곡선 위의 한 점에서 <strong class="text-[#EA580C] font-extrabold underline decoration-orange-400 underline-offset-4" style="color: #EA580C !important;">접선의 기울기</strong>는 수학적으로 무엇을 의미할까? 
-
-              함수 <span class="font-serif italic font-bold text-stone-900 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
-
+              함수 <span data-math="f(x)" class="font-serif italic font-bold text-stone-900 tracking-wide">f(x)</span>를 어떻게 해주면 기울기를 구할 수 있는 도함수가 나올까?
             </div>
-
           </div>
 
           <!-- Student -->
-
           <div class="flex items-start gap-2.5">
-
             <span class="w-7 h-7 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-[11px] shrink-0">학</span>
-
             <div class="bg-white border border-stone-200 p-3 rounded-2xl rounded-tl-sm text-stone-800 break-keep shadow-xs">
-
-              아! 미분해서 <span class="font-serif italic font-bold text-stone-900 tracking-wide">f\'(x) = 9</span> 라고 두면 되나요?
-
+              아! 미분해서 <span data-math="f'(x) = 9" class="font-serif italic font-bold text-stone-900 tracking-wide">f'(x) = 9</span> 라고 두면 되나요?
             </div>
-
           </div>
 
           <!-- Tutor -->
-
           <div class="flex items-start gap-2.5 flex-row-reverse">
-
             <span class="w-7 h-7 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[11px] shrink-0">AI</span>
-
             <div class="bg-orange-50 border border-orange-200 p-3 rounded-2xl rounded-tr-sm text-stone-900 break-keep shadow-xs" style="background-color: #FFF7ED !important; color: #1C1917 !important;">
-
-              정답! 바로 그거야! 그럼 <span class="font-serif italic font-bold text-orange-900 tracking-wide">f\'(x) = 3x² - 3 = 9</span> 가 되니까 <span class="font-serif italic font-bold text-orange-900 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
-
+              정답! 바로 그거야! 그럼 <span data-math="f'(x) = 3x^2 - 3 = 9" class="font-serif italic font-bold text-orange-900 tracking-wide">f'(x) = 3x² - 3 = 9</span> 가 되니까 <span data-math="x^2 = 4" class="font-serif italic font-bold text-orange-900 tracking-wide">x² = 4</span> 가 나오겠지? 접점 후보 2개를 직접 찾아보자!
             </div>
-
           </div>
-
         </div>
 
       </div>
@@ -5637,29 +5610,30 @@ p, .description, .explanation, .pretty-text {
 
 
       function triggerMathRender() {
+        if (window.katex) {
+          // 1. Render dialogue mock box data-math elements with pure KaTeX (zero raw backslashes)
+          document.querySelectorAll('#tutor-dialogue-container [data-math]').forEach(el => {
+            const expr = el.getAttribute('data-math');
+            if (expr) {
+              try {
+                katex.render(expr, el, { throwOnError: false });
+              } catch (e) {}
+            }
+          });
 
-        if (window.renderMathInElement) {
-
-          const demoLeft = document.getElementById('demo-content-left') || document.getElementById('demo-raw-problem')?.parentElement;
-
-          if (demoLeft) {
-
-            renderMathInElement(demoLeft, {
-
-              delimiters: [
-
-                { left: '$$', right: '$$', display: true },
-
-                { left: '$', right: '$', display: false }
-
-              ],
-
-              throwOnError: false
-
-            });
-
+          // 2. Render demo left column with delimiter auto-render
+          if (window.renderMathInElement) {
+            const demoLeft = document.getElementById('demo-content-left') || document.getElementById('demo-raw-problem')?.parentElement;
+            if (demoLeft) {
+              renderMathInElement(demoLeft, {
+                delimiters: [
+                  { left: '$$', right: '$$', display: true },
+                  { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false
+              });
+            }
           }
-
         } else {
 
           setTimeout(triggerMathRender, 50);
@@ -5707,9 +5681,10 @@ p, .description, .explanation, .pretty-text {
     // Initialize Showcase on DOM ready
 
     document.addEventListener('DOMContentLoaded', () => {
-
       selectGrade('high_2');
-
+      if (typeof triggerMathRender === 'function') {
+        triggerMathRender();
+      }
     });
 
 
