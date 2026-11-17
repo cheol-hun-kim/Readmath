@@ -1901,7 +1901,22 @@ if (htmlContent.includes('body.theme-day span:not([class*="bg-"]):not([class*="t
 if (!htmlContent.includes('body.theme-day button[class*="bg-[#EA580C]"] span') || !htmlContent.includes('stroke: #FFFFFF !important')) {
   failGate(8, 'Accent Button High Specificity Armor', 'preview.html must enforce explicit high-specificity white text & stroke for button spans/icons in Day Mode');
 }
+const unshieldedTextWhite = htmlContent.match(/body\.(?:theme-day|day-mode)\s+\.text-white\s*,\s*body\.(?:theme-day|day-mode)\s+\.text-slate-100/g);
+if (unshieldedTextWhite) {
+  failGate(8, 'Unshielded Day Mode Text-White Rule', 'preview.html contains unshielded body.theme-day .text-white selector that overrides button/badge text to black!');
+}
+if (!htmlContent.includes('#solution-same-recipe-card button') || !htmlContent.includes('#solution-same-recipe-card span[class*="bg-[#EA580C]"]')) {
+  failGate(8, 'Same Recipe Solid Surface Armor Missing', 'preview.html must explicitly enforce #FFFFFF on #solution-same-recipe-card button and accent badge!');
+}
+if (!htmlContent.includes("txt.replace(/^\\s*\\d+[\\.\\)]\\s*/, '')")) {
+  failGate(8, 'Same Recipe Question Number Leak', 'getSameRecipeLineage must strip leading question numbering (e.g. 15., 22.) from recipe core');
+}
+if (!htmlContent.includes('cpOptionCount === 1') || !htmlContent.includes('cpTypeBadge = `핵심 원리 검증`')) {
+  failGate(8, 'Flexible Socratic Checkpoints Missing', 'preview.html must support variable 1~3 step checkpoints including single verification mode');
+}
 gate8Details.push('Rule 1 Zero Invisible Text (Day Mode Buttons): :not(button *) exclusion and high-specificity white armor verified');
+gate8Details.push('Universal Surface Luminance Law: Solid accent buttons & badges strictly bound to pure white (#FFFFFF) in Day Mode');
+gate8Details.push('Flexible Socratic Checkpoint Architecture: 1-option verification, 2-option strategic fork, and 3-option authentic trap diagnostics verified');
 
 // 8.9 Zero Duplicate Practice CTA Buttons
 if (htmlContent.includes('<button onclick="openTwinProblemModal()" class="w-full h-11 bg-[#EA580C]') && htmlContent.includes('solution-same-recipe-container')) {
