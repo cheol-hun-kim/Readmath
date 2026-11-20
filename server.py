@@ -5,7 +5,9 @@ ReadMath (리드매스) - 실시간 Gmail SMTP 이메일 인증 발송 서버
 """
 
 import os
+import re
 import sys
+import time
 import json
 import smtplib
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -15,11 +17,17 @@ from email.mime.multipart import MIMEMultipart
 PORT = 8765
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SMTP_USER = "1286orbital21@gmail.com"
-SMTP_PW = "adiuvotwzlqhhmol"
+SMTP_USER = os.getenv("READMATH_SMTP_USER", "1286orbital21@gmail.com")
+SMTP_PW = os.getenv("READMATH_SMTP_PW", "adiuvotwzlqhhmol")
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
 FROM_NAME = "리드매스 (ReadMath)"
+
+_OTP_RATE_STORE = {}
+_OTP_WINDOW_SEC = 60
+_OTP_MAX_REQ = 5
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+_ALLOWED_ORIGIN_RE = re.compile(r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.(onrender\.com|vercel\.app|readmath\.kr)$")
 
 def send_smtp_email(to_email: str, code: str) -> tuple[bool, str]:
     """
@@ -98,53 +106,78 @@ class ReadMathHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=BASE_DIR, **kwargs)
 
     def end_headers(self):
-        # Enable CORS for seamless fetch calls from preview.html or web views
-        self.send_header("Access-Control-Allow-Origin", "*")
+        origin = self.headers.get("Origin", "") if hasattr(self, "headers") else ""
+        if origin and _ALLOWED_ORIGIN_RE.match(origin):
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         super().end_headers()
 
     def do_OPTIONS(self):
         self.send_response(200)
         self.end_headers()
 
+    def _send_json(self, code: int, payload: dict):
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.end_headers()
+        self.wfile.write(json.dumps(payload, ensure_ascii=False).encode("utf-8"))
+
     def do_POST(self):
         if self.path == "/api/send-email-otp":
-            content_length = int(self.headers.get("Content-Length", 0))
-            body = self.rfile.read(content_length).decode("utf-8")
             try:
-                data = json.loads(body)
-                email = data.get("email", "").strip()
-                code = data.get("code", "").strip()
-
-                if not email or not code:
-                    self.send_response(400)
-                    self.send_header("Content-Type", "application/json; charset=utf-8")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": "이메일과 인증번호가 필요합니다."}).encode("utf-8"))
+                content_length = int(self.headers.get("Content-Length", 0))
+                if content_length <= 0 or content_length > 16384:
+                    self._send_json(400, {"success": False, "error": "유효하지 않은 요청 크기입니다."})
                     return
+
+                body = self.rfile.read(content_length).decode("utf-8")
+                data = json.loads(body)
+                email = str(data.get("email", "")).strip()
+                code = str(data.get("code", "")).strip()
+
+                if not _EMAIL_RE.match(email) or not re.match(r"^\d{4,8}$", code):
+                    self._send_json(400, {"success": False, "error": "올바른 이메일과 숫자 인증번호 형식이 필요합니다."})
+                    return
+
+                # Rate limit per client IP + email (max 5 requests per 60s)
+                client_ip = self.client_address[0] if self.client_address else "unknown"
+                rate_key = f"{client_ip}:{email.lower()}"
+                now = time.time()
+                hits = [t for t in _OTP_RATE_STORE.get(rate_key, []) if now - t < _OTP_WINDOW_SEC]
+                if len(hits) >= _OTP_MAX_REQ:
+                    self._send_json(429, {"success": False, "error": "인증번호 요청이 너무 많습니다. 1분 후 다시 시도해 주세요."})
+                    return
+                hits.append(now)
+                _OTP_RATE_STORE[rate_key] = hits
 
                 ok, msg = send_smtp_email(email, code)
                 if ok:
-                    self.send_response(200)
-                    self.send_header("Content-Type", "application/json; charset=utf-8")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": True, "message": msg}).encode("utf-8"))
+                    self._send_json(200, {"success": True, "message": msg})
                 else:
-                    self.send_response(500)
-                    self.send_header("Content-Type", "application/json; charset=utf-8")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": msg}).encode("utf-8"))
-            except Exception as e:
-                self.send_response(500)
-                self.send_header("Content-Type", "application/json; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                    self._send_json(500, {"success": False, "error": "이메일 발송 중 오류가 발생했습니다."})
+            except Exception:
+                self._send_json(500, {"success": False, "error": "요청 처리 중 오류가 발생했습니다."})
         else:
             self.send_response(404)
             self.end_headers()
 
     def do_GET(self):
+        # Block sensitive config, source, and hidden files from static serving
+        clean_path = self.path.split("?", 1)[0].lower()
+        if (
+            ".." in clean_path
+            or "/." in clean_path
+            or clean_path.endswith((".env", ".py", ".db", ".sqlite", ".sql", ".log", ".bak", ".bat", ".md", "package.json", "package-lock.json", "gemini_raw_out.json"))
+        ):
+            self.send_response(403)
+            self.end_headers()
+            return
+
         # Default root request to preview.html if index.html is requested or root
         if self.path == "/" or self.path == "/index.html":
             self.path = "/preview.html"
